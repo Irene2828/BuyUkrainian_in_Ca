@@ -1,5 +1,5 @@
 import { Store } from "@/lib/data";
-import { X, MapPin, Copy, Mail, MessageSquare, ChevronDown } from "lucide-react";
+import { X, MapPin, Copy, Mail, MessageSquare, ChevronDown, Facebook, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,12 +22,18 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
     });
   };
 
-  const handleShare = (method: 'email' | 'sms') => {
+  const handleShare = (method: 'email' | 'sms' | 'facebook' | 'twitter') => {
     const text = `Check out ${store.name} on BlueYellow.ca! They sell: ${store.products.join(', ')}. Address: ${store.address}`;
+    const url = "https://blueyellow.ca";
+    
     if (method === 'email') {
       window.open(`mailto:?subject=Check out ${store.name}&body=${encodeURIComponent(text)}`);
-    } else {
+    } else if (method === 'sms') {
       window.open(`sms:?body=${encodeURIComponent(text)}`);
+    } else if (method === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`);
+    } else if (method === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
     }
   };
 
@@ -129,19 +135,55 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
               </div>
 
               {/* Actions */}
-              <div className="grid grid-cols-3 gap-3 pt-2">
-                <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={handleCopyAddress}>
-                  <Copy className="w-4 h-4 mb-1" />
-                  Copy
-                </Button>
-                <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={() => handleShare('email')}>
-                  <Mail className="w-4 h-4 mb-1" />
-                  Email
-                </Button>
-                <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={() => handleShare('sms')}>
-                  <MessageSquare className="w-4 h-4 mb-1" />
-                  Text
-                </Button>
+              <div className="space-y-4 pt-2">
+                <div className="grid grid-cols-3 gap-3">
+                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={handleCopyAddress}>
+                    <Copy className="w-4 h-4 mb-1" />
+                    Copy
+                  </Button>
+                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={() => handleShare('email')}>
+                    <Mail className="w-4 h-4 mb-1" />
+                    Email
+                  </Button>
+                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={() => handleShare('sms')}>
+                    <MessageSquare className="w-4 h-4 mb-1" />
+                    Text
+                  </Button>
+                </div>
+
+                {/* Social Media Share */}
+                <div>
+                  <h3 className="text-xs font-semibold mb-2 text-foreground/80 uppercase tracking-wider">Share</h3>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 h-9 rounded-lg hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                      onClick={() => handleShare('facebook')}
+                      title="Share on Facebook"
+                    >
+                      <Facebook className="w-4 h-4" />
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 h-9 rounded-lg hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
+                      onClick={() => handleShare('twitter')}
+                      title="Share on Twitter"
+                    >
+                      <Twitter className="w-4 h-4" />
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 h-9 rounded-lg hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200"
+                      onClick={() => window.open('https://www.instagram.com')}
+                      title="Share on Instagram"
+                    >
+                      <Instagram className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
