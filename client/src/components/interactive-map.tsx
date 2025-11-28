@@ -37,7 +37,12 @@ const createFlagIcon = (isSelected: boolean) => {
 function MapController({ center }: { center: [number, number] }) {
   const map = useMap();
   useEffect(() => {
-    map.flyTo(center, 13, { duration: 2 });
+    // Only fly if coordinates are valid numbers
+    if (Array.isArray(center) && center.length === 2 && !isNaN(center[0]) && !isNaN(center[1])) {
+      if (center[0] > 40 && center[0] < 85 && center[1] > -140 && center[1] < -50) {
+        map.flyTo(center, 13, { duration: 2 });
+      }
+    }
   }, [center, map]);
   return null;
 }

@@ -19,16 +19,24 @@ export interface ApiStore {
 export function apiStoreToStore(apiStore: ApiStore): Store {
   const createdAtString = apiStore.created_at || apiStore.createdAt || new Date().toISOString();
   
+  // Parse coordinates with validation
+  let lat = parseFloat(String(apiStore.latitude));
+  let lng = parseFloat(String(apiStore.longitude));
+  
+  // Validate coordinates are valid numbers and within reasonable range
+  if (isNaN(lat) || isNaN(lng) || lat < 40 || lat > 85 || lng > -50 || lng < -140) {
+    // Use Toronto as fallback if coordinates are invalid
+    lat = 43.6532;
+    lng = -79.3832;
+  }
+  
   return {
     id: apiStore.id.toString(),
     name: apiStore.name,
     description: apiStore.description,
     products: Array.isArray(apiStore.products) ? apiStore.products : [],
     address: apiStore.address,
-    coordinates: [
-      parseFloat(String(apiStore.latitude)), 
-      parseFloat(String(apiStore.longitude))
-    ],
+    coordinates: [lat, lng],
     category: apiStore.category,
     image: apiStore.image || undefined,
     status: apiStore.status,
