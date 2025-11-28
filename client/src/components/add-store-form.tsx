@@ -18,6 +18,7 @@ import { Store } from "@/lib/data";
 import { X, Upload, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { createStore } from "@/lib/api";
 
 const formSchema = z.object({
   name: z.string().min(2, "Store name must be at least 2 characters"),
@@ -26,6 +27,29 @@ const formSchema = z.object({
   address: z.string().min(5, "Address is required"),
   category: z.enum(["retail", "food", "other"]),
 });
+
+// Simple geocoding function using Nominatim API (free, no API key needed)
+async function geocodeAddress(address: string): Promise<[number, number]> {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)},Canada&format=json&limit=1`,
+      { headers: { 'Accept': 'application/json' } }
+    );
+    const results = await response.json();
+    if (results && results[0]) {
+      const lat = parseFloat(results[0].lat);
+      const lng = parseFloat(results[0].lon);
+      // Validate coordinates are in Canada
+      if (lat > 40 && lat < 85 && lng > -140 && lng < -50) {
+        return [lat, lng];
+      }
+    }
+  } catch (error) {
+    console.error("Geocoding error:", error);
+  }
+  // Fallback to Toronto
+  return [43.6532, -79.3832];
+}
 
 interface AddStoreFormProps {
   onAdd: (store: Store) => void;
@@ -48,34 +72,40 @@ export function AddStoreForm({ onAdd, onClose }: AddStoreFormProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     
-    // Simulate geocoding and submission
-    setTimeout(() => {
-      const newStore: Store = {
-        id: Math.random().toString(36).substr(2, 9),
+    try {
+      // Geocode the address
+      const [latitude, longitude] = await geocodeAddress(values.address);
+      
+      // Submit to API
+      const newStore = await createStore({
         name: values.name,
         description: values.description,
         products: values.products.split(",").map(p => p.trim()),
         address: values.address,
-        coordinates: [
-          43.6532 + (Math.random() - 0.5) * 0.1, 
-          -79.3832 + (Math.random() - 0.5) * 0.1
-        ], // Random Toronto-ish coords
+        latitude,
+        longitude,
         category: values.category as any,
-        status: "pending", // All new submissions are pending
-        createdAt: new Date().toISOString().split('T')[0]
-      };
+      });
       
       onAdd(newStore);
       toast({
         title: "Submitted for Review",
         description: "Once approved, you will see your product pin on the map. Thanks for supporting #madeinUkraine 🇺🇦",
       });
-      setIsSubmitting(false);
+      form.reset();
       onClose();
-    }, 1000);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to submit store",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -143,7 +173,6 @@ export function AddStoreForm({ onAdd, onClose }: AddStoreFormProps) {
                           >
                             <option value="retail">Retail Store</option>
                             <option value="food">Food & Dining</option>
-                            <option value="services">Services</option>
                             <option value="other">Other</option>
                           </select>
                         </FormControl>
