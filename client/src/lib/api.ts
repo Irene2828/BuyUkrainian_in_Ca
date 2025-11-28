@@ -6,27 +6,33 @@ export interface ApiStore {
   description: string;
   products: string[];
   address: string;
-  latitude: string;
-  longitude: string;
+  latitude: string | number;
+  longitude: string | number;
   category: "retail" | "food" | "services" | "other";
-  image?: string;
+  image?: string | null;
   status: "approved" | "pending" | "rejected";
-  createdAt: string;
+  created_at?: string;
+  createdAt?: string;
 }
 
 // Convert API store to frontend Store format
 export function apiStoreToStore(apiStore: ApiStore): Store {
+  const createdAtString = apiStore.created_at || apiStore.createdAt || new Date().toISOString();
+  
   return {
     id: apiStore.id.toString(),
     name: apiStore.name,
     description: apiStore.description,
-    products: apiStore.products,
+    products: Array.isArray(apiStore.products) ? apiStore.products : [],
     address: apiStore.address,
-    coordinates: [parseFloat(apiStore.latitude), parseFloat(apiStore.longitude)],
+    coordinates: [
+      parseFloat(String(apiStore.latitude)), 
+      parseFloat(String(apiStore.longitude))
+    ],
     category: apiStore.category,
-    image: apiStore.image,
+    image: apiStore.image || undefined,
     status: apiStore.status,
-    createdAt: apiStore.createdAt,
+    createdAt: createdAtString,
   };
 }
 
