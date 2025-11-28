@@ -19,11 +19,12 @@ export function StoreList({ stores, onSelectStore }: StoreListProps) {
 
   return (
     <div className="space-y-4">
-      {stores.map((store) => (
+      {stores.map((store, idx) => (
         <motion.div
           key={store.id}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut", delay: idx * 0.05 }}
           className="border rounded-lg p-4 hover:border-blue-accent hover:bg-blue-50/50 transition-all cursor-pointer"
           onClick={() => onSelectStore(store)}
           data-testid={`list-item-store-${store.id}`}

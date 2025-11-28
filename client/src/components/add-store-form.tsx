@@ -24,7 +24,7 @@ const formSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   products: z.string().min(2, "List at least one product"),
   address: z.string().min(5, "Address is required"),
-  category: z.enum(["retail", "food", "services", "other"]),
+  category: z.enum(["retail", "food", "other"]),
 });
 
 interface AddStoreFormProps {
