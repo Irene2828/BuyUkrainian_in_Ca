@@ -9,7 +9,7 @@ import { Footer } from "@/components/footer";
 import { Store } from "@/lib/data";
 import { getApprovedStores, createStore as apiCreateStore } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
@@ -22,6 +22,8 @@ export default function MapPage() {
   const { data: stores = [] } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 
   const createStoreMutation = useMutation({
@@ -30,7 +32,7 @@ export default function MapPage() {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       toast({
         title: "Store Submitted",
-        description: "Your submission will be reviewed and appear on the map once approved.",
+        description: "Once approved, you will see your product pin on the map. Thanks for supporting #madeinUkraine 🇺🇦",
       });
     },
   });
@@ -52,6 +54,11 @@ export default function MapPage() {
       console.error("Failed to create store:", error);
     }
   };
+
+  // Get recently added stores (last 6, sorted by date)
+  const recentStores = [...stores]
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+    .slice(0, 6);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -173,6 +180,46 @@ export default function MapPage() {
               </AnimatePresence>
             </div>
           </div>
+        </div>
+
+        {/* Recently Added Section */}
+        <div className="container mx-auto px-4 max-w-7xl mt-12 pt-8 border-t">
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Recently Added</h2>
+            <p className="text-muted-foreground text-sm">Click on any product to see location details</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+            {recentStores.map((store) => (
+              <div key={store.id} className="space-y-3">
+                {store.products.map((product, idx) => (
+                  <motion.button
+                    key={`${store.id}-${idx}`}
+                    onClick={() => setSelectedStore(store)}
+                    whileHover={{ scale: 1.02 }}
+                    className="w-full text-left p-4 rounded-lg border border-gray-200 hover:border-blue-accent hover:bg-blue-50/50 transition-all group"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1">
+                        <MapPin className="w-4 h-4 text-blue-accent shrink-0" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-foreground group-hover:text-blue-700 truncate">{product}</p>
+                        <p className="text-sm text-muted-foreground truncate">{store.name}</p>
+                        <p className="text-xs text-gray-500 mt-1">{store.address.split(",")[0]}</p>
+                      </div>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {recentStores.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              <p>No approved locations yet. Be the first to add one!</p>
+            </div>
+          )}
         </div>
       </section>
 
