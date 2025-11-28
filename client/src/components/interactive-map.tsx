@@ -77,6 +77,18 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
   const defaultCenter: [number, number] = [56.1304, -106.3468];
   const defaultZoom = 4;
 
+  // Validate coordinates
+  const hasValidCoordinates = (coords: any) => {
+    if (!Array.isArray(coords) || coords.length !== 2) return false;
+    
+    const lat = parseFloat(String(coords[0]));
+    const lng = parseFloat(String(coords[1]));
+    
+    return !isNaN(lat) && !isNaN(lng) && 
+           lat > 40 && lat < 85 && 
+           lng > -140 && lng < -50;
+  };
+
   return (
     <div className="w-full h-full bg-slate-100 relative z-0">
       <MapContainer 
@@ -95,19 +107,24 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         
-        {stores.map((store) => (
-          <Marker 
-            key={store.id} 
-            position={store.coordinates}
-            icon={createFlagIcon(selectedStore?.id === store.id)}
-            eventHandlers={{
-              click: () => onSelectStore(store),
-            }}
-          />
-        ))}
+        {stores.map((store) => {
+          if (hasValidCoordinates(store.coordinates)) {
+            return (
+              <Marker 
+                key={store.id} 
+                position={store.coordinates}
+                icon={createFlagIcon(selectedStore?.id === store.id)}
+                eventHandlers={{
+                  click: () => onSelectStore(store),
+                }}
+              />
+            );
+          }
+          return null;
+        })}
         
-        {selectedStore && (
-          <MapController center={selectedStore.coordinates} />
+        {selectedStore && hasValidCoordinates(selectedStore.coordinates) && (
+          <MapController center={selectedStore.coordinates as [number, number]} />
         )}
       </MapContainer>
     </div>
