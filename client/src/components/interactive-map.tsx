@@ -90,7 +90,7 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
   };
 
   return (
-    <div className="w-full h-full bg-slate-100 relative z-0">
+    <div className="w-full h-full bg-white relative z-0">
       <MapContainer 
         center={defaultCenter} 
         zoom={defaultZoom} 
