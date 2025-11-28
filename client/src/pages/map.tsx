@@ -9,19 +9,17 @@ import { Footer } from "@/components/footer";
 import { Store } from "@/lib/data";
 import { getApprovedStores, createStore as apiCreateStore } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 
 export default function MapPage() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isAdding, setIsAdding] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data: stores = [], isLoading } = useQuery({
+  const { data: stores = [] } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
   });
@@ -36,11 +34,6 @@ export default function MapPage() {
       });
     },
   });
-
-  const filteredStores = stores.filter(store => 
-    store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
 
   const handleAddStore = async (newStore: Store) => {
     try {
@@ -72,131 +65,108 @@ export default function MapPage() {
           <p className="text-muted-foreground max-w-2xl">
             Find Ukrainian products and businesses across Canada. Click on any pin to see details, or add a new location to help grow our community.
           </p>
-          
-          {/* Search and Add Bar */}
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-              <Input 
-                placeholder="Search stores or products..." 
-                className="pl-9 rounded-lg"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Button 
-              className="rounded-lg bg-black text-white hover:bg-black/80 px-6"
-              onClick={() => {
-                setIsAdding(true);
-                setSelectedStore(null);
-              }}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Location
-            </Button>
-          </div>
         </div>
 
-        {/* Map Container */}
+        {/* Map + Form Layout */}
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="relative">
-            {/* Desktop Sidebar + Map Layout */}
-            <div className="flex gap-4 h-[500px] md:h-[600px]">
+            {/* Desktop Layout: Map (Left, Wider) + Form (Right) */}
+            <div className="grid lg:grid-cols-3 gap-6 h-[500px] md:h-[600px]">
               
-              {/* Sidebar (Desktop) */}
-              <div className="hidden md:flex w-[350px] flex-col border rounded-xl bg-white shrink-0 shadow-sm overflow-hidden">
-                <AnimatePresence mode="wait">
-                  {isAdding ? (
-                    <motion.div 
-                      key="add-form"
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{ x: -20, opacity: 0 }}
-                      className="h-full"
-                    >
-                      <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
-                    </motion.div>
-                  ) : selectedStore ? (
-                    <motion.div 
-                      key="info-card"
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{ x: -20, opacity: 0 }}
-                      className="h-full"
-                    >
-                      <StoreInfoCard store={selectedStore} onClose={() => setSelectedStore(null)} />
-                    </motion.div>
-                  ) : (
-                    <motion.div 
-                      key="list"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="flex flex-col h-full"
-                    >
-                      <div className="p-4 border-b bg-gray-50">
-                        <h2 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">
-                          {filteredStores.length} Locations
-                        </h2>
-                      </div>
-                      <div className="flex-1 overflow-y-auto p-2 space-y-2">
-                        {isLoading ? (
-                          <div className="p-4 text-center text-sm text-muted-foreground">Loading...</div>
-                        ) : filteredStores.length === 0 ? (
-                          <div className="p-4 text-center text-xs text-muted-foreground">
-                            No locations found
-                          </div>
-                        ) : (
-                          filteredStores.map(store => (
-                            <div 
-                              key={store.id}
-                              onClick={() => setSelectedStore(store)}
-                              className="p-3 rounded-lg border hover:border-blue-accent hover:bg-blue-50/50 cursor-pointer transition-all group"
-                            >
-                              <h3 className="font-bold text-sm text-foreground group-hover:text-blue-700 line-clamp-1">{store.name}</h3>
-                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{store.description}</p>
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Map */}
-              <div className="flex-1 relative rounded-xl overflow-hidden border shadow-sm">
+              {/* Map Container (Left - 2 columns) */}
+              <div className="lg:col-span-2 relative rounded-xl overflow-hidden border shadow-sm">
                 <InteractiveMap 
-                  stores={filteredStores} 
+                  stores={stores} 
                   selectedStore={selectedStore} 
                   onSelectStore={(store) => {
                     setSelectedStore(store);
                     setIsAdding(false);
                   }} 
                 />
+
+                {/* Store Info Card Overlay */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <AnimatePresence>
+                    {selectedStore && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        className="absolute bottom-4 left-4 right-4 pointer-events-auto max-w-xs bg-white rounded-lg shadow-xl"
+                      >
+                        <StoreInfoCard store={selectedStore} onClose={() => setSelectedStore(null)} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Form Container (Right - 1 column) */}
+              <div className="hidden lg:flex flex-col">
+                <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
               </div>
             </div>
 
-            {/* Mobile Sheet Overlay */}
-            <div className="md:hidden">
+            {/* Mobile: Map and Form Stack */}
+            <div className="lg:hidden space-y-6">
+              {/* Mobile Map */}
+              <div className="relative h-[400px] rounded-xl overflow-hidden border shadow-sm">
+                <InteractiveMap 
+                  stores={stores} 
+                  selectedStore={selectedStore} 
+                  onSelectStore={(store) => {
+                    setSelectedStore(store);
+                    setIsAdding(false);
+                  }} 
+                />
+
+                {/* Store Info Card Overlay for Mobile */}
+                <AnimatePresence>
+                  {selectedStore && (
+                    <motion.div 
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "100%" }}
+                      transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                      className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl max-h-[70vh] overflow-hidden"
+                    >
+                      <div className="w-full flex justify-center pt-3 pb-1">
+                        <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
+                      </div>
+                      <div className="overflow-y-auto max-h-[calc(70vh-20px)]">
+                        <StoreInfoCard store={selectedStore} onClose={() => setSelectedStore(null)} />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Mobile Form Button */}
+              {!selectedStore && (
+                <Button 
+                  className="w-full h-12 rounded-lg bg-black text-white hover:bg-black/80 text-base font-semibold"
+                  onClick={() => setIsAdding(true)}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Location
+                </Button>
+              )}
+
+              {/* Mobile Form Modal */}
               <AnimatePresence>
-                {(selectedStore || isAdding) && (
+                {isAdding && (
                   <motion.div 
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     exit={{ y: "100%" }}
                     transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                    className="fixed bottom-0 left-0 right-0 z-[1000] bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] overflow-hidden flex flex-col"
+                    className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl max-h-[85vh] overflow-hidden z-[1000]"
                   >
                     <div className="w-full flex justify-center pt-3 pb-1">
                       <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
                     </div>
-                    <div className="overflow-y-auto flex-1">
-                      {isAdding ? (
-                        <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
-                      ) : selectedStore && (
-                        <StoreInfoCard store={selectedStore} onClose={() => setSelectedStore(null)} />
-                      )}
+                    <div className="overflow-y-auto max-h-[calc(85vh-20px)]">
+                      <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
                     </div>
                   </motion.div>
                 )}
