@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { InteractiveMap } from "@/components/interactive-map";
 import { StoreInfoCard } from "@/components/store-info-card";
 import { AddStoreForm } from "@/components/add-store-form";
-import { INITIAL_STORES, Store } from "@/lib/data";
+import { Store } from "@/lib/data";
+import { getApprovedStores, createStore as apiCreateStore } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Plus, Search, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,27 +12,47 @@ import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 
 export default function MapPage() {
-  const [stores, setStores] = useState<Store[]>(INITIAL_STORES);
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const queryClient = useQueryClient();
 
-  // Filter: Show only approved stores on the public map
-  // AND match search query
-  const publicStores = stores.filter(store => store.status === 'approved');
-  
-  const filteredStores = publicStores.filter(store => 
+  // Fetch approved stores from API
+  const { data: stores = [], isLoading } = useQuery({
+    queryKey: ["stores"],
+    queryFn: getApprovedStores,
+  });
+
+  // Mutation for creating new store
+  const createStoreMutation = useMutation({
+    mutationFn: apiCreateStore,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+    },
+  });
+
+  // Filter stores based on search query
+  const filteredStores = stores.filter(store => 
     store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  const handleAddStore = (newStore: Store) => {
-    // Add to local state (simulating backend)
-    // It will have 'pending' status, so it won't show on map immediately
-    // But we might want to show a success state or redirect user
-    setStores([...stores, newStore]);
-    // Do not select it immediately since it is not approved
-    setIsAdding(false);
+  const handleAddStore = async (newStore: Store) => {
+    try {
+      await createStoreMutation.mutateAsync({
+        name: newStore.name,
+        description: newStore.description,
+        products: newStore.products,
+        address: newStore.address,
+        latitude: newStore.coordinates[0],
+        longitude: newStore.coordinates[1],
+        category: newStore.category,
+        image: newStore.image,
+      });
+      setIsAdding(false);
+    } catch (error) {
+      console.error("Failed to create store:", error);
+    }
   };
 
   return (
@@ -114,20 +136,9 @@ export default function MapPage() {
                   </h2>
                 </div>
                 <div className="flex-1 overflow-y-auto p-2 space-y-2">
-                  {filteredStores.map(store => (
-                    <div 
-                      key={store.id}
-                      onClick={() => setSelectedStore(store)}
-                      className="p-4 rounded-xl border hover:border-blue-accent hover:bg-blue-50/50 cursor-pointer transition-all group"
-                    >
-                      <h3 className="font-bold text-foreground group-hover:text-blue-700">{store.name}</h3>
-                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{store.description}</p>
-                      <div className="flex items-center gap-2 mt-3">
-                        <span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] uppercase font-bold">{store.category}</span>
-                      </div>
-                    </div>
-                  ))}
-                  {filteredStores.length === 0 && (
+                  {isLoading ? (
+                    <div className="p-8 text-center text-muted-foreground">Loading...</div>
+                  ) : filteredStores.length === 0 ? (
                     <div className="p-8 text-center text-muted-foreground">
                       <p>No locations found.</p>
                       <Button 
@@ -141,6 +152,20 @@ export default function MapPage() {
                         Add a missing place
                       </Button>
                     </div>
+                  ) : (
+                    filteredStores.map(store => (
+                      <div 
+                        key={store.id}
+                        onClick={() => setSelectedStore(store)}
+                        className="p-4 rounded-xl border hover:border-blue-accent hover:bg-blue-50/50 cursor-pointer transition-all group"
+                      >
+                        <h3 className="font-bold text-foreground group-hover:text-blue-700">{store.name}</h3>
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{store.description}</p>
+                        <div className="flex items-center gap-2 mt-3">
+                          <span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] uppercase font-bold">{store.category}</span>
+                        </div>
+                      </div>
+                    ))
                   )}
                 </div>
               </motion.div>
@@ -171,11 +196,8 @@ export default function MapPage() {
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
                   className="pointer-events-auto bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] overflow-hidden flex flex-col"
                 >
-                  {/* Drag Handle Area - now part of the collapsible component internally for better control, 
-                      but keeping a grab area here for general drag feel if needed */}
-                  <div className="w-full flex justify-center pt-3 pb-1 bg-transparent" onClick={() => {
-                    // Optional: collapse logic could go here
-                  }}>
+                  {/* Drag Handle Area */}
+                  <div className="w-full flex justify-center pt-3 pb-1 bg-transparent">
                     <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
                   </div>
                   

@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { INITIAL_STORES, Store } from "@/lib/data";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Store } from "@/lib/data";
+import { getAllStores, updateStoreStatus } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check, X, MapPin, Search, LogOut } from "lucide-react";
@@ -7,23 +8,46 @@ import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AdminDashboard() {
-  const [stores, setStores] = useState<Store[]>(INITIAL_STORES);
   const { toast } = useToast();
   const [_, setLocation] = useLocation();
+  const queryClient = useQueryClient();
+
+  // Fetch all stores
+  const { data: stores = [], isLoading } = useQuery({
+    queryKey: ["admin-stores"],
+    queryFn: getAllStores,
+  });
+
+  // Mutation for updating store status
+  const updateStatusMutation = useMutation({
+    mutationFn: ({ id, status }: { id: number; status: "approved" | "rejected" }) => 
+      updateStoreStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+    },
+  });
 
   // Stats
   const pendingStores = stores.filter(s => s.status === 'pending');
   const approvedStores = stores.filter(s => s.status === 'approved');
   const rejectedStores = stores.filter(s => s.status === 'rejected');
 
-  const handleApprove = (id: string) => {
-    setStores(stores.map(s => s.id === id ? { ...s, status: 'approved' } : s));
-    toast({ title: "Store Approved", description: "The location is now live on the map." });
+  const handleApprove = async (id: string) => {
+    try {
+      await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
+      toast({ title: "Store Approved", description: "The location is now live on the map." });
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to approve store", variant: "destructive" });
+    }
   };
 
-  const handleReject = (id: string) => {
-    setStores(stores.map(s => s.id === id ? { ...s, status: 'rejected' } : s));
-    toast({ title: "Store Rejected", variant: "destructive" });
+  const handleReject = async (id: string) => {
+    try {
+      await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
+      toast({ title: "Store Rejected", variant: "destructive" });
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to reject store", variant: "destructive" });
+    }
   };
 
   return (
@@ -65,70 +89,76 @@ export default function AdminDashboard() {
         </div>
 
         {/* Main Content */}
-        <Tabs defaultValue="pending" className="w-full">
-          <TabsList className="mb-6 bg-white border p-1 h-12 rounded-lg w-full md:w-auto justify-start">
-            <TabsTrigger value="pending" className="px-6 py-2 h-10 data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700">
-              Pending ({pendingStores.length})
-            </TabsTrigger>
-            <TabsTrigger value="approved" className="px-6 py-2 h-10 data-[state=active]:bg-green-50 data-[state=active]:text-green-700">
-              Approved ({approvedStores.length})
-            </TabsTrigger>
-            <TabsTrigger value="rejected" className="px-6 py-2 h-10 data-[state=active]:bg-red-50 data-[state=active]:text-red-700">
-              Rejected ({rejectedStores.length})
-            </TabsTrigger>
-          </TabsList>
+        {isLoading ? (
+          <div className="text-center py-12 bg-white rounded-xl border">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        ) : (
+          <Tabs defaultValue="pending" className="w-full">
+            <TabsList className="mb-6 bg-white border p-1 h-12 rounded-lg w-full md:w-auto justify-start">
+              <TabsTrigger value="pending" className="px-6 py-2 h-10 data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700">
+                Pending ({pendingStores.length})
+              </TabsTrigger>
+              <TabsTrigger value="approved" className="px-6 py-2 h-10 data-[state=active]:bg-green-50 data-[state=active]:text-green-700">
+                Approved ({approvedStores.length})
+              </TabsTrigger>
+              <TabsTrigger value="rejected" className="px-6 py-2 h-10 data-[state=active]:bg-red-50 data-[state=active]:text-red-700">
+                Rejected ({rejectedStores.length})
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="pending">
-            {pendingStores.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-xl border border-dashed">
-                <p className="text-muted-foreground">No pending submissions.</p>
-              </div>
-            ) : (
+            <TabsContent value="pending">
+              {pendingStores.length === 0 ? (
+                <div className="text-center py-12 bg-white rounded-xl border border-dashed">
+                  <p className="text-muted-foreground">No pending submissions.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {pendingStores.map(store => (
+                    <SubmissionCard 
+                      key={store.id} 
+                      store={store} 
+                      onApprove={() => handleApprove(store.id)} 
+                      onReject={() => handleReject(store.id)} 
+                    />
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+            
+            <TabsContent value="approved">
               <div className="space-y-4">
-                {pendingStores.map(store => (
-                  <SubmissionCard 
-                    key={store.id} 
-                    store={store} 
-                    onApprove={() => handleApprove(store.id)} 
-                    onReject={() => handleReject(store.id)} 
-                  />
-                ))}
+                 {approvedStores.map(store => (
+                    <div key={store.id} className="bg-white p-6 rounded-xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                      <div>
+                        <h3 className="font-bold text-lg">{store.name}</h3>
+                        <p className="text-sm text-muted-foreground">{store.address}</p>
+                      </div>
+                      <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold uppercase">
+                        Live
+                      </div>
+                    </div>
+                 ))}
               </div>
-            )}
-          </TabsContent>
-          
-          <TabsContent value="approved">
-            <div className="space-y-4">
-               {approvedStores.map(store => (
-                  <div key={store.id} className="bg-white p-6 rounded-xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div>
-                      <h3 className="font-bold text-lg">{store.name}</h3>
-                      <p className="text-sm text-muted-foreground">{store.address}</p>
-                    </div>
-                    <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold uppercase">
-                      Live
-                    </div>
-                  </div>
-               ))}
-            </div>
-          </TabsContent>
+            </TabsContent>
 
-           <TabsContent value="rejected">
-            <div className="space-y-4">
-               {rejectedStores.map(store => (
-                  <div key={store.id} className="bg-white p-6 rounded-xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-4 opacity-60">
-                    <div>
-                      <h3 className="font-bold text-lg">{store.name}</h3>
-                      <p className="text-sm text-muted-foreground">{store.address}</p>
+             <TabsContent value="rejected">
+              <div className="space-y-4">
+                 {rejectedStores.map(store => (
+                    <div key={store.id} className="bg-white p-6 rounded-xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-4 opacity-60">
+                      <div>
+                        <h3 className="font-bold text-lg">{store.name}</h3>
+                        <p className="text-sm text-muted-foreground">{store.address}</p>
+                      </div>
+                      <div className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold uppercase">
+                        Rejected
+                      </div>
                     </div>
-                    <div className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold uppercase">
-                      Rejected
-                    </div>
-                  </div>
-               ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+                 ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        )}
       </main>
     </div>
   );
@@ -158,7 +188,7 @@ function SubmissionCard({ store, onApprove, onReject }: { store: Store, onApprov
                 {store.category}
               </span>
             </div>
-            <span className="text-xs text-muted-foreground">Submitted: {store.createdAt || 'Today'}</span>
+            <span className="text-xs text-muted-foreground">Submitted: {store.createdAt ? new Date(store.createdAt).toLocaleDateString() : 'Today'}</span>
           </div>
           
           <p className="text-sm text-gray-600 leading-relaxed">{store.description}</p>
