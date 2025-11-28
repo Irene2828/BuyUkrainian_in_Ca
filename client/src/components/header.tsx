@@ -24,14 +24,18 @@ export function Header() {
         {/* CTA / Mobile Menu */}
         <div className="flex items-center gap-4">
           <div className="hidden md:block">
-            <Button className="rounded-full px-6 h-10 bg-yellow-accent text-black hover:bg-yellow-400 border-none font-medium">
-              Add a New Product
-            </Button>
+            <Link href="/map">
+              <Button className="rounded-full px-6 h-10 bg-yellow-accent text-black hover:bg-yellow-400 border-none font-medium">
+                Add a New Product
+              </Button>
+            </Link>
           </div>
           <div className="hidden md:block">
-             <Button variant="outline" className="rounded-full px-6 h-10 border-border">
-              Explore the Map
-            </Button>
+             <Link href="/map">
+               <Button variant="outline" className="rounded-full px-6 h-10 border-border">
+                Explore the Map
+              </Button>
+             </Link>
           </div>
           
           {/* Mobile Actions - Spec says "3 text links: About, FAQ, Add Product" in top bar for mobile? 
@@ -43,7 +47,7 @@ export function Header() {
           <div className="flex md:hidden items-center gap-4">
              <a href="#about" className="text-xs font-medium text-foreground/80">About</a>
              <a href="#faq" className="text-xs font-medium text-foreground/80">FAQ</a>
-             <a href="#add" className="text-xs font-bold text-blue-accent">Add Product</a>
+             <Link href="/map" className="text-xs font-bold text-blue-accent">Add Product</Link>
           </div>
         </div>
       </div>

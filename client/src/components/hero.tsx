@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, Plus } from "lucide-react";
 import heroBg from "@assets/generated_images/subtle_ukrainian_pattern_background.png";
+import { Link } from "wouter";
 
 export function Hero() {
   return (
@@ -28,14 +29,18 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col md:flex-row w-full md:w-auto gap-3 md:gap-4 pt-2">
-              <Button className="w-full md:w-auto h-12 rounded-full bg-black text-white hover:bg-black/80 text-base font-medium px-8 shadow-lg shadow-black/5">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Product
-              </Button>
-              <Button variant="outline" className="w-full md:w-auto h-12 rounded-full border-1.5 border-black/10 hover:bg-black/5 text-base font-medium px-8 bg-white">
-                <MapPin className="w-4 h-4 mr-2" />
-                Explore Map
-              </Button>
+              <Link href="/map" className="w-full md:w-auto">
+                <Button className="w-full h-12 rounded-full bg-black text-white hover:bg-black/80 text-base font-medium px-8 shadow-lg shadow-black/5">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Product
+                </Button>
+              </Link>
+              <Link href="/map" className="w-full md:w-auto">
+                <Button variant="outline" className="w-full h-12 rounded-full border-1.5 border-black/10 hover:bg-black/5 text-base font-medium px-8 bg-white">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Explore Map
+                </Button>
+              </Link>
             </div>
           </div>
 
