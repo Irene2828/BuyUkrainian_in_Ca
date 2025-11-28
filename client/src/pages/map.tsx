@@ -77,45 +77,27 @@ export default function MapPage() {
 
         {/* Map + Form Layout */}
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="relative">
-            {/* Desktop Layout: Map (Left, Wider) + Form (Right) */}
-            <div className="grid lg:grid-cols-3 gap-6 h-[500px] md:h-[600px]">
-              
-              {/* Map Container (Left - 2 columns) */}
-              <div className="lg:col-span-2 relative rounded-xl overflow-hidden border shadow-sm">
-                <InteractiveMap 
-                  stores={stores} 
-                  selectedStore={selectedStore} 
-                  onSelectStore={(store) => {
-                    setSelectedStore(store);
-                    setIsModalOpen(true);
-                    setIsAdding(false);
-                  }} 
-                />
-              </div>
-
-              {/* Form Container (Right - 1 column) */}
-              <div className="hidden lg:flex flex-col">
-                <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Map Container */}
+            <div className="lg:col-span-2 relative rounded-xl overflow-hidden border shadow-sm h-[400px] md:h-[600px]">
+              <InteractiveMap 
+                stores={stores} 
+                selectedStore={selectedStore} 
+                onSelectStore={(store) => {
+                  setSelectedStore(store);
+                  setIsModalOpen(true);
+                  setIsAdding(false);
+                }} 
+              />
             </div>
 
-            {/* Mobile: Map and Form Stack */}
-            <div className="lg:hidden space-y-6">
-              {/* Mobile Map */}
-              <div className="relative h-[400px] rounded-xl overflow-hidden border shadow-sm">
-                <InteractiveMap 
-                  stores={stores} 
-                  selectedStore={selectedStore} 
-                  onSelectStore={(store) => {
-                    setSelectedStore(store);
-                    setIsModalOpen(true);
-                    setIsAdding(false);
-                  }} 
-                />
-              </div>
+            {/* Form Container */}
+            <div className="hidden lg:flex flex-col">
+              <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
+            </div>
 
-              {/* Mobile Form Button */}
+            {/* Mobile Add Button */}
+            <div className="lg:hidden">
               {!selectedStore && (
                 <Button 
                   className="w-full h-12 rounded-lg bg-black text-white hover:bg-black/80 text-base font-semibold"
@@ -125,28 +107,28 @@ export default function MapPage() {
                   Add Location
                 </Button>
               )}
-
-              {/* Mobile Form Modal */}
-              <AnimatePresence>
-                {isAdding && (
-                  <motion.div 
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "100%" }}
-                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                    className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl max-h-[85vh] overflow-hidden z-[1000]"
-                  >
-                    <div className="w-full flex justify-center pt-3 pb-1">
-                      <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
-                    </div>
-                    <div className="overflow-y-auto max-h-[calc(85vh-20px)]">
-                      <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </div>
+
+          {/* Mobile Form Modal */}
+          <AnimatePresence>
+            {isAdding && (
+              <motion.div 
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl max-h-[85vh] overflow-hidden z-[1000]"
+              >
+                <div className="w-full flex justify-center pt-3 pb-1">
+                  <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
+                </div>
+                <div className="overflow-y-auto max-h-[calc(85vh-20px)]">
+                  <AddStoreForm onAdd={handleAddStore} onClose={() => setIsAdding(false)} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Recently Added Section - Show last 3 items */}
