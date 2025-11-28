@@ -3,9 +3,8 @@ import { InteractiveMap } from "@/components/interactive-map";
 import { StoreInfoCard } from "@/components/store-info-card";
 import { AddStoreForm } from "@/components/add-store-form";
 import { INITIAL_STORES, Store } from "@/lib/data";
-import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, ArrowLeft, Map as MapIcon, List } from "lucide-react";
+import { Plus, Search, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
@@ -15,16 +14,23 @@ export default function MapPage() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [mobileView, setMobileView] = useState<"map" | "list">("map");
 
-  const filteredStores = stores.filter(store => 
+  // Filter: Show only approved stores on the public map
+  // AND match search query
+  const publicStores = stores.filter(store => store.status === 'approved');
+  
+  const filteredStores = publicStores.filter(store => 
     store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const handleAddStore = (newStore: Store) => {
+    // Add to local state (simulating backend)
+    // It will have 'pending' status, so it won't show on map immediately
+    // But we might want to show a success state or redirect user
     setStores([...stores, newStore]);
-    setSelectedStore(newStore);
+    // Do not select it immediately since it is not approved
+    setIsAdding(false);
   };
 
   return (
@@ -121,6 +127,21 @@ export default function MapPage() {
                       </div>
                     </div>
                   ))}
+                  {filteredStores.length === 0 && (
+                    <div className="p-8 text-center text-muted-foreground">
+                      <p>No locations found.</p>
+                      <Button 
+                        variant="link" 
+                        className="text-blue-accent" 
+                        onClick={() => {
+                          setIsAdding(true);
+                          setSelectedStore(null);
+                        }}
+                      >
+                        Add a missing place
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             )}
@@ -150,12 +171,12 @@ export default function MapPage() {
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
                   className="pointer-events-auto bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] overflow-hidden flex flex-col"
                 >
-                  {/* Drag Handle */}
-                  <div className="w-full flex justify-center pt-3 pb-1" onClick={() => {
-                    setSelectedStore(null);
-                    setIsAdding(false);
+                  {/* Drag Handle Area - now part of the collapsible component internally for better control, 
+                      but keeping a grab area here for general drag feel if needed */}
+                  <div className="w-full flex justify-center pt-3 pb-1 bg-transparent" onClick={() => {
+                    // Optional: collapse logic could go here
                   }}>
-                    <div className="w-12 h-1.5 rounded-full bg-gray-300" />
+                    <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
                   </div>
                   
                   <div className="overflow-y-auto flex-1">
