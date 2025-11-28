@@ -1,0 +1,127 @@
+Design a mobile-first responsive UI for an app/website called “BlueYellow.ca” — a platform for discovering Ukrainian-made products sold in Canada.
+The design must match the structure, spacing, hierarchy, and visual style of the provided reference draft, but converted into polished product UI.
+Deliverables:
+– Mobile version (primary)
+– Desktop version (responsive adaptation of the same layout)
+🌟 GLOBAL STYLE & SYSTEM
+Color palette:
+– White (#FFFFFF) background
+– Black (#000000) primary text
+– Light grey (#EAEAEA) separators
+– Accent yellow (#FFD700) for icons, stats, pin highlights
+– Minimal blue accents (#1E90FF)
+Typography:
+– Mobile headings: 26–30px
+– Desktop headings: 34–40px
+– Body text: 14–16px
+– Section titles: 18–20px
+– Footer text: 12–14px
+– Font: Inter / SF Pro / geometric sans
+Spacing system (mobile-first):
+– 24px section top padding
+– 16px horizontal padding
+– 12–16px vertical spacing between text blocks
+– 24–32px spacing between major sections
+Buttons:
+– Height: 44–48px
+– Full rounded corners (pill shape)
+– Primary: solid black / white text
+– Secondary: white / 1.5px black stroke
+Icons:
+– Line icons with yellow accents
+– Size: 28–32px (mobile)
+– Size: 32–36px (desktop)
+📱 MOBILE-FIRST LAYOUT — EXACT STRUCTURE
+1. Header (mobile)
+– Left: “BlueYellow.ca” small text logo + tiny blue/yellow circular marker
+– Right: 3 text links: About · FAQ · Add Product
+– All in a single top bar, height ~56px
+– Padding: 16px left/right
+– Sticky top
+2. Hero Section (mobile)
+A full-width hero card with a soft vertical gradient: #FFFDEE → #EEF7FF
+very faint background image (10–15% opacity).
+Content (center aligned):
+– Title (28–30px): Discover Ukrainian Products in Canada
+– Subtitle (14–16px): 2–3 lines
+– Two equal-width buttons stacked vertically with 12px gap:
+• Add Product (solid black)
+• Explore Map (outline)
+Height: ~380–420px
+Padding: 24–32px internal
+3. How It Works (mobile)
+Center-aligned section.
+Elements:
+– Section title: “How It Works”
+– Subtitle: “Three simple steps to help build our community map”
+– Three steps stacked vertically (NOT horizontal):
+Step item layout (mobile):
+– Icon (32px yellow-accent outline)
+– Step title (16–18px)
+– Body text (14–15px), centered
+– Spacing: 16px between icon → title, 8px title → text, 24px between steps
+Steps are:
+Find Products
+Add to the Map
+Spread the Word
+4. Interactive Map (mobile)
+– Section title: “Explore the Map”
+– Subtitle: “Interactive map showing Ukrainian products across Canada”
+Map container (mobile):
+– Dark background (#111)
+– Rounded corners: 24px
+– Height: 300–340px
+– Canada-only map (exclude US + world)
+– Pins MUST be small Ukrainian flags (12–16px)
+– 6–8 flag pins placed across provinces
+Stats row (mobile):
+Displayed in three equal columns:
+– Locations: 124
+– Products: 347
+– Stores: 89
+Stats include:
+– Yellow icon
+– Number (18px bold)
+– Label (12–14px)
+5. FAQ (mobile)
+Accordion list with 1px #EAEAEA dividers.
+Questions:
+– How do I add a product to the map?
+– Is the service free?
+– How do you verify products are Ukrainian-made?
+– Can I suggest stores?
+– Do you have a mobile app?
+Chevron icon on the right.
+6. Footer (mobile)
+Light grey background (#F8F8F8).
+Sections stacked vertically:
+– About BlueYellow.ca
+– Quick Links
+– Support
+Each with small headings (14–16px) + list links (12–14px).
+Bottom note:
+“Made with love for the Ukrainian community in Canada.”
+🖥️ DESKTOP RESPONSIVE RULES
+The desktop layout should adapt the same sections but with:
+Grid:
+– Max width: 1200–1280px
+– Centered content
+– Use a 12-column responsive grid
+Hero:
+– Text left-aligned
+– Buttons side-by-side (not stacked)
+– Increase image/gradient height
+How It Works:
+– Steps displayed horizontally in 3 equal-width columns
+Map section:
+– Map card centered
+– Increase map height to 420–480px
+– Stats row stays as a 3-column horizontal layout
+FAQ:
+– Accordion full-width but centered
+– Larger gutters (32–48px)
+Footer:
+– 3 columns side-by-side (About / Quick Links / Support)
+– Balanced spacing, 24px gutters
+🎯 Goal
+Generate a responsive design system where the mobile layout is the master, and desktop is a clean, expanded version of the same visual hierarchy — matching the original draft but optimized and polished.
