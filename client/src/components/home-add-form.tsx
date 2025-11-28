@@ -49,7 +49,7 @@ export function HomeAddForm() {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       toast({
         title: "Location Submitted!",
-        description: "Your location will appear on the map after admin review.",
+        description: "Once approved, you will see your product pin on the map. Thanks for supporting #madeinUkraine 🇺🇦",
       });
       form.reset();
     },

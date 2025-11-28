@@ -71,7 +71,7 @@ export function AddStoreForm({ onAdd, onClose }: AddStoreFormProps) {
       onAdd(newStore);
       toast({
         title: "Submitted for Review",
-        description: "Your location has been submitted and will appear on the map after admin approval.",
+        description: "Once approved, you will see your product pin on the map. Thanks for supporting #madeinUkraine 🇺🇦",
       });
       setIsSubmitting(false);
       onClose();
