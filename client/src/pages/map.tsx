@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { InteractiveMap } from "@/components/interactive-map";
-import { StoreInfoCard } from "@/components/store-info-card";
+import { StoreModal } from "@/components/store-modal";
 import { AddStoreForm } from "@/components/add-store-form";
 import { HowItWorks } from "@/components/how-it-works";
 import { Header } from "@/components/header";
@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function MapPage() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -87,25 +88,10 @@ export default function MapPage() {
                   selectedStore={selectedStore} 
                   onSelectStore={(store) => {
                     setSelectedStore(store);
+                    setIsModalOpen(true);
                     setIsAdding(false);
                   }} 
                 />
-
-                {/* Store Info Card Overlay */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <AnimatePresence>
-                    {selectedStore && (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="absolute bottom-4 left-4 right-4 pointer-events-auto max-w-xs bg-white rounded-lg shadow-xl"
-                      >
-                        <StoreInfoCard store={selectedStore} onClose={() => setSelectedStore(null)} />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
               </div>
 
               {/* Form Container (Right - 1 column) */}
@@ -123,29 +109,10 @@ export default function MapPage() {
                   selectedStore={selectedStore} 
                   onSelectStore={(store) => {
                     setSelectedStore(store);
+                    setIsModalOpen(true);
                     setIsAdding(false);
                   }} 
                 />
-
-                {/* Store Info Card Overlay for Mobile */}
-                <AnimatePresence>
-                  {selectedStore && (
-                    <motion.div 
-                      initial={{ y: "100%" }}
-                      animate={{ y: 0 }}
-                      exit={{ y: "100%" }}
-                      transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                      className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl max-h-[70vh] overflow-hidden"
-                    >
-                      <div className="w-full flex justify-center pt-3 pb-1">
-                        <div className="w-12 h-1.5 rounded-full bg-gray-300/50" />
-                      </div>
-                      <div className="overflow-y-auto max-h-[calc(70vh-20px)]">
-                        <StoreInfoCard store={selectedStore} onClose={() => setSelectedStore(null)} />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
 
               {/* Mobile Form Button */}
@@ -197,10 +164,12 @@ export default function MapPage() {
                   onClick={() => {
                     if (store.coordinates && store.coordinates[0] && store.coordinates[1]) {
                       setSelectedStore(store);
+                      setIsModalOpen(true);
                     }
                   }}
                   whileHover={{ scale: 1.02 }}
                   className="text-left p-4 rounded-lg border border-gray-200 hover:border-blue-accent hover:bg-blue-50/50 transition-all group"
+                  data-testid={`card-recent-store-${store.id}`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="mt-1">
@@ -218,6 +187,16 @@ export default function MapPage() {
           </div>
         )}
       </section>
+
+      {/* Store Details Modal */}
+      <StoreModal 
+        store={selectedStore} 
+        isOpen={isModalOpen} 
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedStore(null);
+        }} 
+      />
 
       {/* How It Works Section */}
       <HowItWorks />
