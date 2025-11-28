@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Store } from '@/lib/data';
-import { motion, AnimatePresence } from 'framer-motion';
 
 // Fix Leaflet icon issue in React
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -43,6 +42,25 @@ function MapController({ center }: { center: [number, number] }) {
   return null;
 }
 
+function CanadaBounds() {
+  const map = useMap();
+  useEffect(() => {
+    // Canada bounding box: [min_lat, min_lon, max_lat, max_lon]
+    const canadaBounds = L.latLngBounds(
+      [41.7, -141.0],  // Southwest corner
+      [84.0, -52.6]    // Northeast corner
+    );
+    
+    // Set max bounds to Canada
+    map.setMaxBounds(canadaBounds);
+    
+    // Fit bounds with some padding
+    map.fitBounds(canadaBounds, { padding: [50, 50] });
+  }, [map]);
+  
+  return null;
+}
+
 interface InteractiveMapProps {
   stores: Store[];
   selectedStore: Store | null;
@@ -50,7 +68,7 @@ interface InteractiveMapProps {
 }
 
 export function InteractiveMap({ stores, selectedStore, onSelectStore }: InteractiveMapProps) {
-  // Default center: Canada (roughly)
+  // Default center: Canada center
   const defaultCenter: [number, number] = [56.1304, -106.3468];
   const defaultZoom = 4;
 
@@ -62,7 +80,11 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
         scrollWheelZoom={true} 
         className="w-full h-full"
         zoomControl={false}
+        maxZoom={8}
+        minZoom={3}
       >
+        <CanadaBounds />
+        
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -83,9 +105,6 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
           <MapController center={selectedStore.coordinates} />
         )}
       </MapContainer>
-
-      {/* Mobile Overlay Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/10 to-transparent pointer-events-none md:hidden" />
     </div>
   );
 }
