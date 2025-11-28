@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { InteractiveMap } from "@/components/interactive-map";
 import { StoreModal } from "@/components/store-modal";
+import { StoreList } from "@/components/store-list";
 import { AddStoreForm } from "@/components/add-store-form";
 import { HowItWorks } from "@/components/how-it-works";
 import { Header } from "@/components/header";
@@ -9,7 +10,8 @@ import { Footer } from "@/components/footer";
 import { Store } from "@/lib/data";
 import { getApprovedStores, createStore as apiCreateStore } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { Plus, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Plus, MapPin, Map, List, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,6 +19,9 @@ export default function MapPage() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [viewMode, setViewMode] = useState<"map" | "list">("map");
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -56,10 +61,30 @@ export default function MapPage() {
     }
   };
 
+  // Filter stores based on search and categories
+  const filteredStores = stores.filter((store) => {
+    const matchesSearch = store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         store.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(store.category);
+    return matchesSearch && matchesCategory;
+  });
+
   // Get recently added stores (last 3, sorted by date)
   const recentStores = [...stores]
     .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
     .slice(0, 3);
+
+  // Get unique categories
+  const categories = Array.from(new Set(stores.map(s => s.category)));
+
+  const handleCategoryToggle = (category: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -75,20 +100,110 @@ export default function MapPage() {
           </p>
         </div>
 
-        {/* Map + Form Layout */}
+        {/* Filter Section */}
+        <div className="container mx-auto px-4 max-w-7xl mb-6 space-y-4">
+          {/* Search Bar */}
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Search stores, products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-4 pr-10 py-2"
+              data-testid="input-search-stores"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                data-testid="button-clear-search"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Categories Filter */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                onClick={() => handleCategoryToggle(category)}
+                variant={selectedCategories.includes(category) ? "default" : "outline"}
+                className="capitalize"
+                size="sm"
+                data-testid={`filter-category-${category}`}
+              >
+                {category}
+              </Button>
+            ))}
+            {selectedCategories.length > 0 && (
+              <Button
+                onClick={() => setSelectedCategories([])}
+                variant="ghost"
+                size="sm"
+                className="text-xs"
+                data-testid="button-clear-filters"
+              >
+                Clear filters
+              </Button>
+            )}
+          </div>
+
+          {/* View Mode Toggle */}
+          <div className="flex gap-2">
+            <Button
+              onClick={() => setViewMode("map")}
+              variant={viewMode === "map" ? "default" : "outline"}
+              size="sm"
+              data-testid="button-view-map"
+            >
+              <Map className="w-4 h-4 mr-2" />
+              Map View
+            </Button>
+            <Button
+              onClick={() => setViewMode("list")}
+              variant={viewMode === "list" ? "default" : "outline"}
+              size="sm"
+              data-testid="button-view-list"
+            >
+              <List className="w-4 h-4 mr-2" />
+              List View
+            </Button>
+          </div>
+
+          {/* Results count */}
+          <p className="text-sm text-muted-foreground">
+            Showing {filteredStores.length} {filteredStores.length === 1 ? "store" : "stores"}
+          </p>
+        </div>
+
+        {/* Map/List + Form Layout */}
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Map Container */}
-            <div className="lg:col-span-2 relative rounded-xl overflow-hidden border shadow-sm h-[400px] md:h-[600px]">
-              <InteractiveMap 
-                stores={stores} 
-                selectedStore={selectedStore} 
-                onSelectStore={(store) => {
-                  setSelectedStore(store);
-                  setIsModalOpen(true);
-                  setIsAdding(false);
-                }} 
-              />
+            {/* View Container */}
+            <div className="lg:col-span-2 relative rounded-xl overflow-hidden border shadow-sm h-[400px] md:h-[600px] bg-white">
+              {viewMode === "map" ? (
+                <InteractiveMap 
+                  stores={filteredStores} 
+                  selectedStore={selectedStore} 
+                  onSelectStore={(store) => {
+                    setSelectedStore(store);
+                    setIsModalOpen(true);
+                    setIsAdding(false);
+                  }} 
+                />
+              ) : (
+                <div className="overflow-y-auto h-full p-4">
+                  <StoreList
+                    stores={filteredStores}
+                    onSelectStore={(store) => {
+                      setSelectedStore(store);
+                      setIsModalOpen(true);
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             {/* Form Container */}
