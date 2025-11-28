@@ -95,9 +95,12 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
         center={defaultCenter} 
         zoom={defaultZoom} 
         scrollWheelZoom={true} 
+        dragging={true}
+        touchZoom={true}
+        doubleClickZoom={true}
         className="w-full h-full"
-        zoomControl={false}
-        maxZoom={8}
+        zoomControl={true}
+        maxZoom={10}
         minZoom={3}
       >
         <CanadaBounds />
