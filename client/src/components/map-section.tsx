@@ -1,4 +1,4 @@
-import mapBg from "@assets/generated_images/dark_mode_map_of_canada.png";
+import mapBg from "@assets/generated_images/light_cream_white_map_of_canada.png";
 import { MapPin, ShoppingBag, Store } from "lucide-react";
 import { Link } from "wouter";
 import { HomeAddForm } from "./home-add-form";
