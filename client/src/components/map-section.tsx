@@ -24,7 +24,7 @@ export function MapSection() {
           {/* Left: Map Preview (3 columns on lg) */}
           <div className="lg:col-span-3">
             <Link href="/map">
-              <div className="relative w-full bg-[#111] rounded-[24px] overflow-hidden shadow-2xl shadow-black/20 group cursor-pointer transition-transform duration-500 hover:scale-[1.01] h-full min-h-[450px]">
+              <div className="relative w-full bg-white rounded-[24px] overflow-hidden shadow-2xl shadow-black/20 group cursor-pointer transition-transform duration-500 hover:scale-[1.01] h-full min-h-[450px]">
                 {/* Map Container */}
                 <div className="relative w-full h-full">
                   <img 
@@ -54,7 +54,7 @@ export function MapSection() {
                   </div>
                   
                   {/* Gradient overlay for text readability at bottom */}
-                  <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/60 to-transparent"></div>
                   
                   {/* Call to Action Overlay on Hover */}
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -65,7 +65,7 @@ export function MapSection() {
                 </div>
 
                 {/* Stats Row */}
-                <div className="absolute bottom-0 left-0 w-full bg-black/40 backdrop-blur-sm border-t border-white/10 pointer-events-none">
+                <div className="absolute bottom-0 left-0 w-full bg-black/50 backdrop-blur-sm border-t border-white/10 pointer-events-none">
                   <div className="grid grid-cols-3 divide-x divide-white/10">
                     {stats.map((stat, i) => (
                       <div key={i} className="flex flex-col items-center justify-center py-4 md:py-6">
