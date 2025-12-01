@@ -36,7 +36,7 @@ export function SpreadTheWord() {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-blue-50 to-yellow-50/30 border-t border-b border-blue-100/50">
+    <section className="py-12 md:py-16 bg-gradient-to-r from-sky-200/70 via-sky-100/60 to-sky-50/50 backdrop-blur-md border-t border-b border-sky-300/60">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center space-y-6">
           <div className="space-y-2">
