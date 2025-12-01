@@ -46,13 +46,13 @@ export function MapSection() {
                 />
 
                 {/* Stats Row Overlay */}
-                <div className="absolute bottom-0 left-0 w-full bg-black/50 backdrop-blur-sm border-t border-white/10 pointer-events-none">
-                  <div className="grid grid-cols-3 divide-x divide-white/10">
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-50 backdrop-blur-md border-t border-yellow-300 pointer-events-none">
+                  <div className="grid grid-cols-3 divide-x divide-yellow-300">
                     {stats.map((stat, i) => (
                       <div key={i} className="flex flex-col items-center justify-center py-4 md:py-6">
-                        <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-yellow-accent mb-1 md:mb-2" />
-                        <span className="text-lg md:text-2xl font-bold text-white">{stat.count}</span>
-                        <span className="text-[11px] md:text-sm text-gray-400 uppercase tracking-wider font-medium">{stat.label}</span>
+                        <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-black mb-1 md:mb-2" />
+                        <span className="text-lg md:text-2xl font-bold text-black">{stat.count}</span>
+                        <span className="text-[11px] md:text-sm text-gray-700 uppercase tracking-wider font-medium">{stat.label}</span>
                       </div>
                     ))}
                   </div>
