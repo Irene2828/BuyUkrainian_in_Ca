@@ -14,8 +14,8 @@ export default function Home() {
         <Hero />
         <HowItWorks />
         <MapSection />
-        <SpreadTheWord />
         <FAQ />
+        <SpreadTheWord />
       </main>
       <Footer />
     </div>
