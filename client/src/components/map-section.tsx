@@ -49,10 +49,10 @@ export function MapSection() {
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-50 backdrop-blur-md border-t border-yellow-300 pointer-events-none">
                   <div className="grid grid-cols-3 divide-x divide-yellow-300">
                     {stats.map((stat, i) => (
-                      <div key={i} className="flex flex-col items-center justify-center py-4 md:py-6">
-                        <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-black mb-1 md:mb-2" />
-                        <span className="text-lg md:text-2xl font-bold text-black">{stat.count}</span>
-                        <span className="text-[11px] md:text-sm text-gray-700 uppercase tracking-wider font-medium">{stat.label}</span>
+                      <div key={i} className="flex flex-col items-center justify-center py-2 md:py-3">
+                        <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-black mb-1" />
+                        <span className="text-base md:text-lg font-bold text-black">{stat.count}</span>
+                        <span className="text-[10px] md:text-xs text-gray-700 uppercase tracking-wider font-medium">{stat.label}</span>
                       </div>
                     ))}
                   </div>
