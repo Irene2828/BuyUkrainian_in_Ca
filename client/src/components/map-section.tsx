@@ -46,8 +46,8 @@ export function MapSection() {
                 />
 
                 {/* Stats Row Overlay */}
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-50 backdrop-blur-md border-t border-yellow-300 pointer-events-none">
-                  <div className="grid grid-cols-3 divide-x divide-yellow-300">
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-sky-200/70 via-sky-100/60 to-sky-50/50 backdrop-blur-md border-t border-sky-300/60 pointer-events-none">
+                  <div className="grid grid-cols-3 divide-x divide-sky-300/50">
                     {stats.map((stat, i) => (
                       <div key={i} className="flex flex-col items-center justify-center py-2 md:py-3">
                         <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-black mb-1" />
