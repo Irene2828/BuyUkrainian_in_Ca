@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useI18n, generateLocalizedShareTexts } from "@/lib/i18n";
 
 interface StoreModalProps {
   store: Store | null;
@@ -13,24 +14,13 @@ interface StoreModalProps {
   onSeeOnMap?: (store: Store) => void;
 }
 
-function generateShareTexts(store: Store) {
-  const products = store.products.slice(0, 3).join(', ');
-  const emoji = store.category === 'food' ? '🍞' : store.category === 'retail' ? '🛍️' : '🇺🇦';
-  
-  return {
-    twitter: `${emoji} Just discovered ${store.name} - they sell authentic Ukrainian products like ${products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BlueYellow #SupportUkraine`,
-    facebook: `I found this amazing Ukrainian store called ${store.name}! 🇺🇦\n\nThey sell: ${products}\n📍 ${store.address}\n\n${store.description}\n\nSupport Ukrainian businesses in Canada! Find more at BlueYellow.ca 💙💛`,
-    instagram: `🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 ${store.name}\n\n${store.description}\n\n✨ Products: ${products}\n📍 Location: ${store.address.split(',')[0]}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BlueYellow #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛`,
-  };
-}
-
 export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalProps) {
   const { toast } = useToast();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { t, language } = useI18n();
   const [showShareTexts, setShowShareTexts] = useState(false);
   const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
 
-  const shareTexts = useMemo(() => store ? generateShareTexts(store) : null, [store]);
+  const shareTexts = useMemo(() => store ? generateLocalizedShareTexts(store, language) : null, [store, language]);
 
   if (!store) return null;
   
@@ -38,8 +28,8 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
     navigator.clipboard.writeText(text);
     setCopiedPlatform(platform);
     toast({
-      title: "Copied!",
-      description: `Share text for ${platform} copied to clipboard.`,
+      title: t("modal.copied"),
+      description: t("modal.shareTextCopied").replace("{platform}", platform),
     });
     setTimeout(() => setCopiedPlatform(null), 2000);
   };
@@ -47,8 +37,8 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(store.address);
     toast({
-      title: "Address Copied",
-      description: "The address has been copied to your clipboard.",
+      title: t("modal.addressCopied"),
+      description: t("modal.addressCopiedDesc"),
     });
   };
 
@@ -59,17 +49,24 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
   };
 
   const handleShare = (method: 'email' | 'facebook' | 'twitter') => {
-    const text = `Check out ${store.name} on BlueYellow.ca! They sell: ${store.products.join(', ')}. Address: ${store.address}`;
+    const text = language === 'ua' 
+      ? `Подивіться ${store.name} на BlueYellow.ca! Вони продають: ${store.products.join(', ')}. Адреса: ${store.address}`
+      : `Check out ${store.name} on BlueYellow.ca! They sell: ${store.products.join(', ')}. Address: ${store.address}`;
     const url = "https://blueyellow.ca";
     
     if (method === 'email') {
-      window.open(`mailto:?subject=Check out ${store.name}&body=${encodeURIComponent(text)}`);
+      const subject = language === 'ua' ? `Подивіться ${store.name}` : `Check out ${store.name}`;
+      window.open(`mailto:?subject=${subject}&body=${encodeURIComponent(text)}`);
     } else if (method === 'facebook') {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`);
     } else if (method === 'twitter') {
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
     }
   };
+
+  const categoryLabel = language === 'ua' 
+    ? (store.category === 'food' ? 'їжа' : store.category === 'retail' ? 'магазин' : 'інше')
+    : store.category;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -93,11 +90,11 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span data-testid="store-category" className="px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">
-                {store.category}
+                {categoryLabel}
               </span>
               {store.status === 'pending' && (
                 <span className="px-2 py-1 rounded-full bg-orange-100 text-orange-800 text-[10px] font-bold uppercase tracking-wider">
-                  Pending Review
+                  {t("modal.pendingReview")}
                 </span>
               )}
             </div>
@@ -109,7 +106,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
 
           <div className="space-y-4">
             <div>
-              <h3 className="text-sm font-semibold mb-2 text-foreground/80">Products</h3>
+              <h3 className="text-sm font-semibold mb-2 text-foreground/80">{t("modal.products")}</h3>
               <div className="flex flex-wrap gap-2">
                 {store.products.map((product, i) => (
                   <span key={i} data-testid={`product-${i}`} className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-md">
@@ -120,7 +117,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold mb-2 text-foreground/80">Location</h3>
+              <h3 className="text-sm font-semibold mb-2 text-foreground/80">{t("modal.location")}</h3>
               <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
                 <p data-testid="store-address" className="text-sm text-muted-foreground">{store.address}</p>
@@ -138,7 +135,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                 onClick={handleCopyAddress}
               >
                 <Copy className="w-4 h-4 mb-1" />
-                Copy
+                {t("modal.copy")}
               </Button>
               <Button 
                 data-testid="button-send-email"
@@ -147,7 +144,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                 onClick={() => handleShare('email')}
               >
                 <Mail className="w-4 h-4 mb-1" />
-                Email
+                {t("modal.email")}
               </Button>
               <Button 
                 data-testid="button-see-on-map"
@@ -156,14 +153,14 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                 onClick={handleSeeOnMap}
               >
                 <Map className="w-4 h-4 mb-1" />
-                See on Map
+                {t("modal.seeOnMap")}
               </Button>
             </div>
 
             {/* Social Media Share */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xs font-semibold text-foreground/80 uppercase tracking-wider">Share</h3>
+                <h3 className="text-xs font-semibold text-foreground/80 uppercase tracking-wider">{t("modal.share")}</h3>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -172,7 +169,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                   data-testid="button-toggle-share-texts"
                 >
                   <Sparkles className="w-3 h-3" />
-                  AI Share Text
+                  {t("modal.aiShareText")}
                   {showShareTexts ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                 </Button>
               </div>
@@ -214,7 +211,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                 <div className="mt-4 space-y-3 bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles className="w-4 h-4 text-yellow-500" />
-                    <span className="text-xs font-semibold text-foreground/80">Ready-to-post texts</span>
+                    <span className="text-xs font-semibold text-foreground/80">{t("modal.readyToPost")}</span>
                   </div>
                   
                   {/* X (Twitter) */}
@@ -228,10 +225,10 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                         variant="ghost"
                         size="sm"
                         className="h-6 px-2 text-xs"
-                        onClick={() => handleCopyShareText('twitter', shareTexts.twitter)}
+                        onClick={() => handleCopyShareText('Twitter', shareTexts.twitter)}
                         data-testid="button-copy-twitter-text"
                       >
-                        {copiedPlatform === 'twitter' ? (
+                        {copiedPlatform === 'Twitter' ? (
                           <Check className="w-3 h-3 text-green-500" />
                         ) : (
                           <Copy className="w-3 h-3" />
@@ -254,10 +251,10 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                         variant="ghost"
                         size="sm"
                         className="h-6 px-2 text-xs"
-                        onClick={() => handleCopyShareText('facebook', shareTexts.facebook)}
+                        onClick={() => handleCopyShareText('Facebook', shareTexts.facebook)}
                         data-testid="button-copy-facebook-text"
                       >
-                        {copiedPlatform === 'facebook' ? (
+                        {copiedPlatform === 'Facebook' ? (
                           <Check className="w-3 h-3 text-green-500" />
                         ) : (
                           <Copy className="w-3 h-3" />
@@ -280,10 +277,10 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
                         variant="ghost"
                         size="sm"
                         className="h-6 px-2 text-xs"
-                        onClick={() => handleCopyShareText('instagram', shareTexts.instagram)}
+                        onClick={() => handleCopyShareText('Instagram', shareTexts.instagram)}
                         data-testid="button-copy-instagram-text"
                       >
-                        {copiedPlatform === 'instagram' ? (
+                        {copiedPlatform === 'Instagram' ? (
                           <Check className="w-3 h-3 text-green-500" />
                         ) : (
                           <Copy className="w-3 h-3" />

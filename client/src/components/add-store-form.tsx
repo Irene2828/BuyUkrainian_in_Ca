@@ -18,6 +18,7 @@ import { X, Upload, ChevronRight, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { createStore } from "@/lib/api";
+import { useI18n } from "@/lib/i18n";
 
 const formSchema = z.object({
   name: z.string().min(2, "Store name must be at least 2 characters"),
@@ -58,6 +59,7 @@ interface AddStoreFormProps {
 
 export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleCollapse }: AddStoreFormProps) {
   const { toast } = useToast();
+  const { t } = useI18n();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -99,8 +101,8 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
       setIsSubmitted(true);
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to submit store",
+        title: t("form.error"),
+        description: error.message || t("form.submitFailed"),
         variant: "destructive",
       });
     } finally {
@@ -122,7 +124,7 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
       >
         <div className="py-6 px-3 flex items-center gap-2 text-sm font-medium text-gray-700">
           <ChevronRight className="w-4 h-4 rotate-180" />
-          <span>Add Location</span>
+          <span>{t("form.addLocation")}</span>
         </div>
       </div>
     );
@@ -132,7 +134,7 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
     return (
       <div className="bg-white rounded-2xl shadow-xl border border-border h-full flex flex-col overflow-hidden">
         <div className="p-4 border-b border-border flex items-center justify-between bg-gray-50">
-          <h2 className="text-lg font-bold">Add a Location</h2>
+          <h2 className="text-lg font-bold">{t("form.addLocation")}</h2>
           <div className="flex items-center gap-2">
             {onToggleCollapse && (
               <Button variant="ghost" size="icon" onClick={onToggleCollapse} className="h-8 w-8 rounded-full">
@@ -148,19 +150,19 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h3 className="text-xl font-bold mb-2">Submitted for Review!</h3>
+          <h3 className="text-xl font-bold mb-2">{t("form.submittedTitle")}</h3>
           <p className="text-sm text-muted-foreground mb-4 max-w-xs">
-            To prevent spam, your submission will be reviewed by fellow Ukrainian site managers. We'll notify you by email about the status.
+            {t("form.submittedMessage")}
           </p>
           <p className="text-xs text-muted-foreground mb-6">
-            Thanks for supporting #madeinUkraine 🇺🇦
+            {t("form.thanks")} 🇺🇦
           </p>
           <Button 
             onClick={handleReset}
             variant="outline"
             className="rounded-lg"
           >
-            Add Another Location
+            {t("form.addAnother")}
           </Button>
         </div>
       </div>
@@ -170,7 +172,7 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
   return (
     <div className="bg-white rounded-2xl shadow-xl border border-border h-full flex flex-col overflow-hidden">
       <div className="p-4 border-b border-border flex items-center justify-between bg-gray-50">
-        <h2 className="text-lg font-bold">Add a Location</h2>
+        <h2 className="text-lg font-bold">{t("form.addLocation")}</h2>
         <div className="flex items-center gap-2">
           {onToggleCollapse && (
             <Button variant="ghost" size="icon" onClick={onToggleCollapse} className="h-8 w-8 rounded-full">
@@ -192,8 +194,8 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 <div className="p-2 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
                   <Upload className="w-5 h-5 text-gray-500 group-hover:text-blue-500" />
                 </div>
-                <p className="text-xs font-medium text-gray-500 group-hover:text-blue-600">Click to upload a photo</p>
-                <p className="text-[10px] text-gray-400 mt-1">JPG, PNG up to 5MB</p>
+                <p className="text-xs font-medium text-gray-500 group-hover:text-blue-600">{t("form.uploadPhoto")}</p>
+                <p className="text-[10px] text-gray-400 mt-1">{t("form.uploadHint")}</p>
               </div>
 
               <FormField
@@ -201,9 +203,9 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Store Name</FormLabel>
+                    <FormLabel>{t("form.storeName")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Kyiv Market" {...field} data-testid="input-store-name" />
+                      <Input placeholder={t("form.storeNamePlaceholder")} {...field} data-testid="input-store-name" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -215,16 +217,16 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>{t("form.category")}</FormLabel>
                     <FormControl>
                       <select 
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         {...field}
                         data-testid="select-store-category"
                       >
-                        <option value="retail">Retail Store</option>
-                        <option value="food">Food & Dining</option>
-                        <option value="other">Other</option>
+                        <option value="retail">{t("form.categoryRetail")}</option>
+                        <option value="food">{t("form.categoryFood")}</option>
+                        <option value="other">{t("form.categoryOther")}</option>
                       </select>
                     </FormControl>
                     <FormMessage />
@@ -237,9 +239,9 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>{t("form.description")}</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Tell us about this place..." className="resize-none" {...field} data-testid="input-store-description" />
+                      <Textarea placeholder={t("form.descriptionPlaceholder")} className="resize-none" {...field} data-testid="input-store-description" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -251,9 +253,9 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 name="products"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Products (comma separated)</FormLabel>
+                    <FormLabel>{t("form.products")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Varenyky, Honey, Ceramics" {...field} data-testid="input-store-products" />
+                      <Input placeholder={t("form.productsPlaceholder")} {...field} data-testid="input-store-products" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -265,9 +267,9 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>{t("form.address")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Full street address" {...field} data-testid="input-store-address" />
+                      <Input placeholder={t("form.addressPlaceholder")} {...field} data-testid="input-store-address" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -279,9 +281,9 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email (optional)</FormLabel>
+                    <FormLabel>{t("form.email")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Get notified when approved" {...field} data-testid="input-store-email" />
+                      <Input placeholder={t("form.emailPlaceholder")} {...field} data-testid="input-store-email" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -304,7 +306,7 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
               </div>
 
               <Button type="submit" className="w-full bg-black hover:bg-black/80 text-white" disabled={isSubmitting} data-testid="button-store-submit">
-                {isSubmitting ? "Submitting..." : "Submit for Review"}
+                {isSubmitting ? t("form.submitting") : t("form.submitForReview")}
               </Button>
             </form>
           </Form>

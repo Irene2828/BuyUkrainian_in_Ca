@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Lock, AlertCircle } from "lucide-react";
 import { login } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [_, setLocation] = useLocation();
+  const { t } = useI18n();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,15 +40,15 @@ export default function AdminLogin() {
           <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-6 h-6 text-blue-600" />
           </div>
-          <CardTitle className="text-2xl">Admin Login</CardTitle>
-          <CardDescription>Enter your credentials to access the dashboard</CardDescription>
+          <CardTitle className="text-2xl">{t("admin.login.title")}</CardTitle>
+          <CardDescription>{t("admin.login.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Input 
                 type="password" 
-                placeholder="Password" 
+                placeholder={t("admin.login.passwordPlaceholder")} 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={error ? "border-red-500" : ""}
@@ -66,7 +68,7 @@ export default function AdminLogin() {
               disabled={isLoading}
               data-testid="button-admin-login"
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? t("admin.login.loggingIn") : t("admin.login.submit")}
             </Button>
           </form>
         </CardContent>

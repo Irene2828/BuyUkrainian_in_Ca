@@ -14,8 +14,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, MapPin, Map, List, X, Search, Navigation, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 
-const suggestedSearches = ["Honey", "Candies", "Shoes", "Food", "Ceramics"];
+const suggestedSearchesEN = ["Honey", "Candies", "Shoes", "Food", "Ceramics"];
+const suggestedSearchesUA = ["Мед", "Цукерки", "Взуття", "Їжа", "Кераміка"];
 
 export default function MapPage() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
@@ -30,6 +32,9 @@ export default function MapPage() {
   const [focusStore, setFocusStore] = useState<Store | null>(null);
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { t, language } = useI18n();
+  
+  const suggestedSearches = language === 'ua' ? suggestedSearchesUA : suggestedSearchesEN;
 
   const handleSeeOnMap = (store: Store) => {
     setIsModalOpen(false);
@@ -85,8 +90,8 @@ export default function MapPage() {
   const handleFindNearMe = () => {
     if (!navigator.geolocation) {
       toast({
-        title: "Location Not Supported",
-        description: "Your browser doesn't support geolocation.",
+        title: t("toast.locationNotSupported"),
+        description: t("toast.locationNotSupportedDesc"),
         variant: "destructive",
       });
       return;
@@ -99,13 +104,13 @@ export default function MapPage() {
         if (latitude > 40 && latitude < 85 && longitude > -140 && longitude < -50) {
           setUserLocation([latitude, longitude]);
           toast({
-            title: "Location Found",
-            description: "Showing stores near your location.",
+            title: t("toast.locationFound"),
+            description: t("toast.locationFoundDesc"),
           });
         } else {
           toast({
-            title: "Location Outside Canada",
-            description: "We currently only show stores in Canada.",
+            title: t("toast.locationOutside"),
+            description: t("toast.locationOutsideDesc"),
             variant: "destructive",
           });
         }
@@ -114,8 +119,8 @@ export default function MapPage() {
       (error) => {
         setIsLocating(false);
         toast({
-          title: "Location Error",
-          description: "Unable to get your location. Please try again.",
+          title: t("toast.locationError"),
+          description: t("toast.locationErrorDesc"),
           variant: "destructive",
         });
       },
@@ -129,9 +134,9 @@ export default function MapPage() {
 
       <section className="w-full py-8 md:py-12 bg-white border-b">
         <div className="container mx-auto px-4 max-w-7xl space-y-4 mb-6">
-          <h1 className="text-3xl md:text-4xl font-bold">Explore the Map</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">{t("map.title")}</h1>
           <p className="text-muted-foreground max-w-2xl">
-            Find Ukrainian products and businesses across Canada. Click on any pin to see details, or add a new location to help grow our community.
+            {t("map.subtitle")}
           </p>
         </div>
 
@@ -140,7 +145,7 @@ export default function MapPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search stores, products, locations..."
+              placeholder={t("map.search.placeholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-10 py-2"
@@ -158,7 +163,7 @@ export default function MapPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <span className="text-sm text-muted-foreground mr-2">Try:</span>
+            <span className="text-sm text-muted-foreground mr-2">{t("map.search.try")}</span>
             {suggestedSearches.map((term) => (
               <button
                 key={term}
@@ -196,7 +201,7 @@ export default function MapPage() {
                 className="text-xs"
                 data-testid="button-clear-filters"
               >
-                Clear filters
+                {t("map.clearFilters")}
               </Button>
             )}
           </div>
@@ -209,7 +214,7 @@ export default function MapPage() {
               data-testid="button-view-map"
             >
               <Map className="w-4 h-4 mr-2" />
-              Map View
+              {t("map.viewMap")}
             </Button>
             <Button
               onClick={() => setViewMode("list")}
@@ -218,7 +223,7 @@ export default function MapPage() {
               data-testid="button-view-list"
             >
               <List className="w-4 h-4 mr-2" />
-              List View
+              {t("map.viewList")}
             </Button>
             <Button
               onClick={handleFindNearMe}
@@ -233,7 +238,7 @@ export default function MapPage() {
               ) : (
                 <Navigation className="w-4 h-4 mr-2" />
               )}
-              {isLocating ? "Finding..." : "Find Near Me"}
+              {isLocating ? t("map.finding") : t("map.findNearMe")}
             </Button>
             {userLocation && (
               <Button
@@ -244,15 +249,15 @@ export default function MapPage() {
                 data-testid="button-clear-location"
               >
                 <X className="w-3 h-3 mr-1" />
-                Clear location
+                {t("map.clearLocation")}
               </Button>
             )}
           </div>
 
           <p className="text-sm text-muted-foreground">
             {filteredStores.length === 0 
-              ? "No results found. Try adjusting your filters or search terms."
-              : `Showing ${filteredStores.length} ${filteredStores.length === 1 ? "store" : "stores"}`}
+              ? t("map.noResults")
+              : `${t("map.showing")} ${filteredStores.length} ${filteredStores.length === 1 ? t("map.store") : t("map.stores")}`}
           </p>
         </div>
 
@@ -313,7 +318,7 @@ export default function MapPage() {
                     {filteredStores.length === 0 ? (
                       <div className="flex flex-col items-center justify-center h-full text-center">
                         <MapPin className="w-12 h-12 text-gray-300 mb-4" />
-                        <p className="text-muted-foreground">No stores found matching your criteria</p>
+                        <p className="text-muted-foreground">{t("map.noStoresFound")}</p>
                       </div>
                     ) : (
                       <div className="space-y-4">
@@ -385,7 +390,7 @@ export default function MapPage() {
                   onClick={() => setIsAdding(true)}
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Location
+                  {t("map.addLocation")}
                 </Button>
               )}
             </div>
@@ -435,8 +440,8 @@ export default function MapPage() {
         ) : recentStores.length > 0 && (
           <div className="container mx-auto px-4 max-w-7xl mt-12 pt-8 border-t">
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Recently Added</h2>
-              <p className="text-muted-foreground text-sm">Click on any product to see location details on the map</p>
+              <h2 className="text-2xl font-bold">{t("map.recentlyAdded")}</h2>
+              <p className="text-muted-foreground text-sm">{t("map.recentlyAddedSubtitle")}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">

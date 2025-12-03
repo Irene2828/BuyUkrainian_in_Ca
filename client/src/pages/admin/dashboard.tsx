@@ -8,6 +8,7 @@ import { Check, X, MapPin, Search, LogOut, Trash2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { verifySession, logout, isAuthenticated } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,7 @@ import {
 
 export default function AdminDashboard() {
   const { toast } = useToast();
+  const { t } = useI18n();
   const [_, setLocation] = useLocation();
   const queryClient = useQueryClient();
 
@@ -33,11 +35,11 @@ export default function AdminDashboard() {
     
     verifySession().then((valid) => {
       if (!valid) {
-        toast({ title: "Session expired", description: "Please log in again.", variant: "destructive" });
+        toast({ title: t("admin.dashboard.sessionExpired"), description: t("admin.dashboard.pleaseLogin"), variant: "destructive" });
         setLocation("/admin/login");
       }
     });
-  }, [setLocation, toast]);
+  }, [setLocation, toast, t]);
 
   const { data: stores = [], isLoading, error } = useQuery({
     queryKey: ["admin-stores"],
@@ -65,10 +67,10 @@ export default function AdminDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
       queryClient.invalidateQueries({ queryKey: ["stores"] });
-      toast({ title: "Store Deleted", description: "The location has been removed from the platform." });
+      toast({ title: t("admin.dashboard.storeDeleted"), description: t("admin.dashboard.storeDeletedDesc") });
     },
     onError: () => {
-      toast({ title: "Error", description: "Failed to delete store", variant: "destructive" });
+      toast({ title: t("toast.error"), description: t("form.submitFailed"), variant: "destructive" });
     },
   });
 
@@ -79,18 +81,18 @@ export default function AdminDashboard() {
   const handleApprove = async (id: string) => {
     try {
       await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
-      toast({ title: "Store Approved", description: "The location is now live on the map." });
+      toast({ title: t("admin.dashboard.storeApproved"), description: t("admin.dashboard.storeApprovedDesc") });
     } catch (error) {
-      toast({ title: "Error", description: "Failed to approve store", variant: "destructive" });
+      toast({ title: t("toast.error"), description: t("form.submitFailed"), variant: "destructive" });
     }
   };
 
   const handleReject = async (id: string) => {
     try {
       await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
-      toast({ title: "Store Rejected", variant: "destructive" });
+      toast({ title: t("admin.dashboard.storeRejected"), variant: "destructive" });
     } catch (error) {
-      toast({ title: "Error", description: "Failed to reject store", variant: "destructive" });
+      toast({ title: t("toast.error"), description: t("form.submitFailed"), variant: "destructive" });
     }
   };
 
@@ -105,11 +107,11 @@ export default function AdminDashboard() {
           <div className="relative w-6 h-6 rounded-full bg-blue-accent flex items-center justify-center overflow-hidden">
             <div className="absolute bottom-0 w-full h-1/2 bg-yellow-accent"></div>
           </div>
-          <span className="font-bold text-lg">Admin Dashboard</span>
+          <span className="font-bold text-lg">{t("admin.dashboard.title")}</span>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/">
-            <Button variant="ghost" size="sm">View Live Site</Button>
+            <Button variant="ghost" size="sm">{t("admin.dashboard.viewLive")}</Button>
           </Link>
           <Button 
             variant="outline" 
@@ -121,7 +123,7 @@ export default function AdminDashboard() {
             data-testid="button-admin-logout"
           >
             <LogOut className="w-4 h-4 mr-2" />
-            Logout
+            {t("admin.dashboard.logout")}
           </Button>
         </div>
       </header>
@@ -129,41 +131,41 @@ export default function AdminDashboard() {
       <main className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Pending Review</h3>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{t("admin.dashboard.pendingReview")}</h3>
             <p className="text-3xl font-bold mt-2 text-orange-600">{pendingStores.length}</p>
           </div>
           <div className="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Live Locations</h3>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{t("admin.dashboard.liveLocations")}</h3>
             <p className="text-3xl font-bold mt-2 text-green-600">{approvedStores.length}</p>
           </div>
           <div className="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Submissions</h3>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{t("admin.dashboard.totalSubmissions")}</h3>
             <p className="text-3xl font-bold mt-2 text-gray-900">{stores.length}</p>
           </div>
         </div>
 
         {isLoading ? (
           <div className="text-center py-12 bg-white rounded-xl border">
-            <p className="text-muted-foreground">Loading...</p>
+            <p className="text-muted-foreground">{t("admin.dashboard.loading")}</p>
           </div>
         ) : (
           <Tabs defaultValue="pending" className="w-full">
             <TabsList className="mb-6 bg-white border p-1 h-12 rounded-lg w-full md:w-auto justify-start">
               <TabsTrigger value="pending" className="px-6 py-2 h-10 data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700">
-                Pending ({pendingStores.length})
+                {t("admin.dashboard.pending")} ({pendingStores.length})
               </TabsTrigger>
               <TabsTrigger value="approved" className="px-6 py-2 h-10 data-[state=active]:bg-green-50 data-[state=active]:text-green-700">
-                Approved ({approvedStores.length})
+                {t("admin.dashboard.approved")} ({approvedStores.length})
               </TabsTrigger>
               <TabsTrigger value="rejected" className="px-6 py-2 h-10 data-[state=active]:bg-red-50 data-[state=active]:text-red-700">
-                Rejected ({rejectedStores.length})
+                {t("admin.dashboard.rejected")} ({rejectedStores.length})
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="pending">
               {pendingStores.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-xl border border-dashed">
-                  <p className="text-muted-foreground">No pending submissions.</p>
+                  <p className="text-muted-foreground">{t("admin.dashboard.noPending")}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -174,6 +176,7 @@ export default function AdminDashboard() {
                       onApprove={() => handleApprove(store.id)} 
                       onReject={() => handleReject(store.id)}
                       onDelete={() => handleDelete(store.id)}
+                      t={t}
                     />
                   ))}
                 </div>
@@ -183,7 +186,7 @@ export default function AdminDashboard() {
             <TabsContent value="approved">
               {approvedStores.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-xl border border-dashed">
-                  <p className="text-muted-foreground">No approved stores yet.</p>
+                  <p className="text-muted-foreground">{t("admin.dashboard.noApproved")}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -192,6 +195,7 @@ export default function AdminDashboard() {
                       key={store.id} 
                       store={store}
                       onDelete={() => handleDelete(store.id)}
+                      t={t}
                     />
                   ))}
                 </div>
@@ -201,7 +205,7 @@ export default function AdminDashboard() {
             <TabsContent value="rejected">
               {rejectedStores.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-xl border border-dashed">
-                  <p className="text-muted-foreground">No rejected submissions.</p>
+                  <p className="text-muted-foreground">{t("admin.dashboard.noRejected")}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -213,9 +217,9 @@ export default function AdminDashboard() {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold uppercase">
-                          Rejected
+                          {t("admin.dashboard.rejected")}
                         </span>
-                        <DeleteButton onDelete={() => handleDelete(store.id)} storeName={store.name} />
+                        <DeleteButton onDelete={() => handleDelete(store.id)} storeName={store.name} t={t} />
                       </div>
                     </div>
                   ))}
@@ -229,7 +233,7 @@ export default function AdminDashboard() {
   );
 }
 
-function DeleteButton({ onDelete, storeName }: { onDelete: () => void; storeName: string }) {
+function DeleteButton({ onDelete, storeName, t }: { onDelete: () => void; storeName: string; t: (key: string) => string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -239,15 +243,15 @@ function DeleteButton({ onDelete, storeName }: { onDelete: () => void; storeName
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Store</AlertDialogTitle>
+          <AlertDialogTitle>{t("admin.dashboard.deleteStore")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to permanently delete "{storeName}"? This action cannot be undone and the store will be removed from the platform.
+            {t("admin.dashboard.deleteConfirm").replace("{name}", storeName)}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("admin.dashboard.cancel")}</AlertDialogCancel>
           <AlertDialogAction onClick={onDelete} className="bg-red-600 hover:bg-red-700">
-            Delete
+            {t("admin.dashboard.delete")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -255,7 +259,7 @@ function DeleteButton({ onDelete, storeName }: { onDelete: () => void; storeName
   );
 }
 
-function ApprovedStoreCard({ store, onDelete }: { store: Store; onDelete: () => void }) {
+function ApprovedStoreCard({ store, onDelete, t }: { store: Store; onDelete: () => void; t: (key: string) => string }) {
   return (
     <div className="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row gap-6">
@@ -282,7 +286,7 @@ function ApprovedStoreCard({ store, onDelete }: { store: Store; onDelete: () => 
             </div>
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold uppercase">
-                Live
+                {t("admin.dashboard.live")}
               </span>
             </div>
           </div>
@@ -302,14 +306,14 @@ function ApprovedStoreCard({ store, onDelete }: { store: Store; onDelete: () => 
         </div>
 
         <div className="flex items-center shrink-0 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6">
-          <DeleteButton onDelete={onDelete} storeName={store.name} />
+          <DeleteButton onDelete={onDelete} storeName={store.name} t={t} />
         </div>
       </div>
     </div>
   );
 }
 
-function SubmissionCard({ store, onApprove, onReject, onDelete }: { store: Store; onApprove: () => void; onReject: () => void; onDelete: () => void }) {
+function SubmissionCard({ store, onApprove, onReject, onDelete, t }: { store: Store; onApprove: () => void; onReject: () => void; onDelete: () => void; t: (key: string) => string }) {
   return (
     <div className="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row gap-6">
@@ -331,7 +335,7 @@ function SubmissionCard({ store, onApprove, onReject, onDelete }: { store: Store
                 {store.category}
               </span>
             </div>
-            <span className="text-xs text-muted-foreground">Submitted: {store.createdAt ? new Date(store.createdAt).toLocaleDateString() : 'Today'}</span>
+            <span className="text-xs text-muted-foreground">{t("admin.dashboard.submitted")} {store.createdAt ? new Date(store.createdAt).toLocaleDateString() : t("admin.dashboard.today")}</span>
           </div>
           
           <p className="text-sm text-gray-600 leading-relaxed">{store.description}</p>
@@ -351,13 +355,13 @@ function SubmissionCard({ store, onApprove, onReject, onDelete }: { store: Store
         <div className="flex flex-row md:flex-col gap-2 justify-end shrink-0 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6">
           <Button className="bg-green-600 hover:bg-green-700 text-white w-full" onClick={onApprove}>
             <Check className="w-4 h-4 mr-2" />
-            Approve
+            {t("admin.dashboard.approve")}
           </Button>
           <Button variant="outline" className="text-red-600 hover:text-red-700 hover:bg-red-50 w-full" onClick={onReject}>
             <X className="w-4 h-4 mr-2" />
-            Reject
+            {t("admin.dashboard.reject")}
           </Button>
-          <DeleteButton onDelete={onDelete} storeName={store.name} />
+          <DeleteButton onDelete={onDelete} storeName={store.name} t={t} />
         </div>
       </div>
     </div>

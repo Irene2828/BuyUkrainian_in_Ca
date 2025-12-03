@@ -1,30 +1,33 @@
 import { Search, MapPin, Users } from "lucide-react";
-
-const steps = [
-  {
-    icon: Search,
-    title: "Find Products",
-    description: "Discover Ukrainian-made products in stores across Canada."
-  },
-  {
-    icon: MapPin,
-    title: "Add to Products to the Map",
-    description: "Share locations by adding pins with product details."
-  },
-  {
-    icon: Users,
-    title: "Spread the Word",
-    description: "Help others find and support Ukrainian businesses."
-  }
-];
+import { useI18n } from "@/lib/i18n";
 
 export function HowItWorks() {
+  const { language } = useI18n();
+  
+  const steps = [
+    {
+      icon: Search,
+      title: language === 'ua' ? "Знайдіть товари" : "Find Products",
+      description: language === 'ua' ? "Відкривайте українські товари в магазинах по всій Канаді." : "Discover Ukrainian-made products in stores across Canada."
+    },
+    {
+      icon: MapPin,
+      title: language === 'ua' ? "Додайте на карту" : "Add to Products to the Map",
+      description: language === 'ua' ? "Діліться локаціями, додаючи мітки з деталями товарів." : "Share locations by adding pins with product details."
+    },
+    {
+      icon: Users,
+      title: language === 'ua' ? "Розкажіть іншим" : "Spread the Word",
+      description: language === 'ua' ? "Допоможіть іншим знайти та підтримати український бізнес." : "Help others find and support Ukrainian businesses."
+    }
+  ];
+
   return (
     <section id="how-it-works" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12 md:mb-16 space-y-3">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">How It Works</h2>
-          <p className="text-muted-foreground text-[15px]">Three simple steps to help build our community map</p>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">{language === 'ua' ? 'Як це працює' : 'How It Works'}</h2>
+          <p className="text-muted-foreground text-[15px]">{language === 'ua' ? 'Три прості кроки для побудови нашої карти спільноти' : 'Three simple steps to help build our community map'}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 max-w-4xl mx-auto">
