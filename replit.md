@@ -99,16 +99,43 @@ Preferred communication style: Simple, everyday language.
 
 ### Security & Validation
 
-**Input Validation**
-- Zod schemas for runtime type validation
+**Input Validation & Sanitization**
+- Zod schemas for runtime type validation with max length limits
+- Input sanitization stripping HTML tags, script tags, and dangerous patterns
 - Drizzle-Zod integration for database-aligned validation
 - Server-side validation on all API endpoints
 - Coordinate validation (ensures locations are within Canada bounds: lat 40-85, lng -140 to -50)
 
+**Authentication & Sessions**
+- Server-side session management with cryptographically secure tokens (crypto.randomBytes)
+- Bcrypt password hashing for admin credentials (hash stored in ADMIN_PASSWORD_HASH env var)
+- 24-hour session expiration with automatic cleanup
+- requireAdmin middleware for protected admin routes
+
+**Rate Limiting**
+- General API limit: 100 requests per minute per IP
+- Store submission limit: 3 submissions per minute per IP
+- Admin login limit: 10 attempts per 15 minutes per IP
+
+**Security Headers**
+- Helmet.js for HTTP security headers in production
+- Content Security Policy (CSP) configured for application needs
+- XSS protection, frame options, and other security headers enabled
+
+**Spam & Bot Protection**
+- Honeypot field ("website") in submission forms - must be empty or submission is rejected
+- Spam pattern detection (casino, bitcoin, suspicious URLs, repeated characters, etc.)
+- Duplicate submission detection (blocks same name/address within 24 hours, same coordinates within 1 hour)
+
 **Error Handling**
+- Stack traces hidden in production environment
 - Custom error messages using zod-validation-error for user-friendly feedback
 - Graceful fallbacks for geocoding failures (defaults to Toronto coordinates)
 - Request logging middleware for debugging
+
+**Data Privacy**
+- Self-deletion endpoint for store owners (DELETE /api/stores/:id/delete-request)
+- Email addresses stored securely and not exposed in public API responses
 
 ## External Dependencies
 
