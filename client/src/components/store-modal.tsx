@@ -1,8 +1,8 @@
 import { Store } from "@/lib/data";
-import { X, MapPin, Copy, Mail, MessageSquare, Facebook, Twitter, Instagram } from "lucide-react";
+import { X, MapPin, Copy, Mail, MessageSquare, Facebook, Twitter, Instagram, Sparkles, Check, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
@@ -12,11 +12,36 @@ interface StoreModalProps {
   onClose: () => void;
 }
 
+function generateShareTexts(store: Store) {
+  const products = store.products.slice(0, 3).join(', ');
+  const emoji = store.category === 'food' ? '🍞' : store.category === 'retail' ? '🛍️' : '🇺🇦';
+  
+  return {
+    twitter: `${emoji} Just discovered ${store.name} - they sell authentic Ukrainian products like ${products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BlueYellow #SupportUkraine`,
+    facebook: `I found this amazing Ukrainian store called ${store.name}! 🇺🇦\n\nThey sell: ${products}\n📍 ${store.address}\n\n${store.description}\n\nSupport Ukrainian businesses in Canada! Find more at BlueYellow.ca 💙💛`,
+    instagram: `🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 ${store.name}\n\n${store.description}\n\n✨ Products: ${products}\n📍 Location: ${store.address.split(',')[0]}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BlueYellow #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛`,
+  };
+}
+
 export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
   const { toast } = useToast();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showShareTexts, setShowShareTexts] = useState(false);
+  const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
+
+  const shareTexts = useMemo(() => store ? generateShareTexts(store) : null, [store]);
 
   if (!store) return null;
+  
+  const handleCopyShareText = (platform: string, text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedPlatform(platform);
+    toast({
+      title: "Copied!",
+      description: `Share text for ${platform} copied to clipboard.`,
+    });
+    setTimeout(() => setCopiedPlatform(null), 2000);
+  };
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(store.address);
@@ -132,7 +157,21 @@ export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
 
             {/* Social Media Share */}
             <div>
-              <h3 className="text-xs font-semibold mb-2 text-foreground/80 uppercase tracking-wider">Share</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-xs font-semibold text-foreground/80 uppercase tracking-wider">Share</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 text-xs text-blue-600 hover:text-blue-800 gap-1"
+                  onClick={() => setShowShareTexts(!showShareTexts)}
+                  data-testid="button-toggle-share-texts"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  AI Share Text
+                  {showShareTexts ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                </Button>
+              </div>
+              
               <div className="flex gap-2">
                 <Button 
                   data-testid="button-share-facebook"
@@ -150,7 +189,7 @@ export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
                   size="sm" 
                   className="flex-1 h-9 rounded-lg hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
                   onClick={() => handleShare('twitter')}
-                  title="Share on Twitter"
+                  title="Share on X (Twitter)"
                 >
                   <Twitter className="w-4 h-4" />
                 </Button>
@@ -165,6 +204,93 @@ export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
                   <Instagram className="w-4 h-4" />
                 </Button>
               </div>
+
+              {showShareTexts && shareTexts && (
+                <div className="mt-4 space-y-3 bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-4 h-4 text-yellow-500" />
+                    <span className="text-xs font-semibold text-foreground/80">Ready-to-post texts</span>
+                  </div>
+                  
+                  {/* X (Twitter) */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Twitter className="w-3 h-3 text-sky-500" />
+                        <span className="text-[10px] font-semibold uppercase text-sky-600">X (Twitter)</span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 text-xs"
+                        onClick={() => handleCopyShareText('twitter', shareTexts.twitter)}
+                        data-testid="button-copy-twitter-text"
+                      >
+                        {copiedPlatform === 'twitter' ? (
+                          <Check className="w-3 h-3 text-green-500" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                      </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground bg-white dark:bg-gray-900 p-2 rounded border line-clamp-3">
+                      {shareTexts.twitter}
+                    </p>
+                  </div>
+
+                  {/* Facebook */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Facebook className="w-3 h-3 text-blue-600" />
+                        <span className="text-[10px] font-semibold uppercase text-blue-600">Facebook</span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 text-xs"
+                        onClick={() => handleCopyShareText('facebook', shareTexts.facebook)}
+                        data-testid="button-copy-facebook-text"
+                      >
+                        {copiedPlatform === 'facebook' ? (
+                          <Check className="w-3 h-3 text-green-500" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                      </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground bg-white dark:bg-gray-900 p-2 rounded border line-clamp-3 whitespace-pre-line">
+                      {shareTexts.facebook}
+                    </p>
+                  </div>
+
+                  {/* Instagram */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Instagram className="w-3 h-3 text-pink-500" />
+                        <span className="text-[10px] font-semibold uppercase text-pink-600">Instagram</span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 text-xs"
+                        onClick={() => handleCopyShareText('instagram', shareTexts.instagram)}
+                        data-testid="button-copy-instagram-text"
+                      >
+                        {copiedPlatform === 'instagram' ? (
+                          <Check className="w-3 h-3 text-green-500" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                      </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground bg-white dark:bg-gray-900 p-2 rounded border line-clamp-4 whitespace-pre-line">
+                      {shareTexts.instagram}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
