@@ -27,8 +27,19 @@ export default function MapPage() {
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [isLocating, setIsLocating] = useState(false);
+  const [focusStore, setFocusStore] = useState<Store | null>(null);
   const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  const handleSeeOnMap = (store: Store) => {
+    setIsModalOpen(false);
+    setViewMode("map");
+    setFocusStore(store);
+  };
+
+  const handleResetView = () => {
+    setFocusStore(null);
+  };
 
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
@@ -246,8 +257,8 @@ export default function MapPage() {
         </div>
 
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="flex gap-6">
-            <div className={`relative rounded-xl overflow-hidden border shadow-sm h-[400px] md:h-[600px] bg-white dark:bg-gray-900 transition-all duration-300 flex-1`}>
+          <div className="flex gap-6 items-stretch">
+            <div className={`relative rounded-xl overflow-hidden border shadow-sm h-[450px] md:h-[550px] bg-white dark:bg-gray-900 transition-all duration-300 flex-1`}>
               {viewMode === "map" ? (
                 isLoading ? (
                   <div className="h-full w-full p-4 flex flex-col">
@@ -272,6 +283,8 @@ export default function MapPage() {
                       setIsAdding(false);
                     }}
                     userLocation={userLocation}
+                    focusStore={focusStore}
+                    onResetView={handleResetView}
                   />
                 )
               ) : (
@@ -352,15 +365,17 @@ export default function MapPage() {
               )}
             </div>
 
-            <div className={`hidden lg:block transition-all duration-300 shrink-0 ${
+            <div className={`hidden lg:flex flex-col transition-all duration-300 shrink-0 h-[450px] md:h-[550px] ${
               isFormCollapsed ? "w-12" : "w-[350px]"
             }`}>
-              <AddStoreForm 
-                onAdd={handleAddStore} 
-                onClose={() => {}} 
-                isCollapsed={isFormCollapsed}
-                onToggleCollapse={() => setIsFormCollapsed(!isFormCollapsed)}
-              />
+              <div className="flex-1 overflow-hidden rounded-xl border shadow-sm bg-white dark:bg-gray-900">
+                <AddStoreForm 
+                  onAdd={handleAddStore} 
+                  onClose={() => {}} 
+                  isCollapsed={isFormCollapsed}
+                  onToggleCollapse={() => setIsFormCollapsed(!isFormCollapsed)}
+                />
+              </div>
             </div>
 
             <div className="lg:hidden">
@@ -462,7 +477,8 @@ export default function MapPage() {
         onClose={() => {
           setIsModalOpen(false);
           setSelectedStore(null);
-        }} 
+        }}
+        onSeeOnMap={handleSeeOnMap}
       />
 
       <HowItWorks />

@@ -1,5 +1,5 @@
 import { Store } from "@/lib/data";
-import { X, MapPin, Copy, Mail, MessageSquare, Facebook, Twitter, Instagram, Sparkles, Check, ChevronDown, ChevronUp } from "lucide-react";
+import { X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, Check, ChevronDown, ChevronUp, Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useMemo } from "react";
@@ -10,6 +10,7 @@ interface StoreModalProps {
   store: Store | null;
   isOpen: boolean;
   onClose: () => void;
+  onSeeOnMap?: (store: Store) => void;
 }
 
 function generateShareTexts(store: Store) {
@@ -23,7 +24,7 @@ function generateShareTexts(store: Store) {
   };
 }
 
-export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
+export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalProps) {
   const { toast } = useToast();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showShareTexts, setShowShareTexts] = useState(false);
@@ -51,14 +52,18 @@ export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
     });
   };
 
-  const handleShare = (method: 'email' | 'sms' | 'facebook' | 'twitter') => {
+  const handleSeeOnMap = () => {
+    if (onSeeOnMap && store) {
+      onSeeOnMap(store);
+    }
+  };
+
+  const handleShare = (method: 'email' | 'facebook' | 'twitter') => {
     const text = `Check out ${store.name} on BlueYellow.ca! They sell: ${store.products.join(', ')}. Address: ${store.address}`;
     const url = "https://blueyellow.ca";
     
     if (method === 'email') {
       window.open(`mailto:?subject=Check out ${store.name}&body=${encodeURIComponent(text)}`);
-    } else if (method === 'sms') {
-      window.open(`sms:?body=${encodeURIComponent(text)}`);
     } else if (method === 'facebook') {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`);
     } else if (method === 'twitter') {
@@ -145,13 +150,13 @@ export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
                 Email
               </Button>
               <Button 
-                data-testid="button-send-sms"
+                data-testid="button-see-on-map"
                 variant="outline" 
-                className="flex flex-col h-auto py-3 gap-1 text-xs" 
-                onClick={() => handleShare('sms')}
+                className="flex flex-col h-auto py-3 gap-1 text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100" 
+                onClick={handleSeeOnMap}
               >
-                <MessageSquare className="w-4 h-4 mb-1" />
-                Text
+                <Map className="w-4 h-4 mb-1" />
+                See on Map
               </Button>
             </div>
 

@@ -122,14 +122,55 @@ function MarkerClusterGroup({ stores, selectedStore, onSelectStore }: {
   return null;
 }
 
+function ResetViewButton({ onReset }: { onReset: () => void }) {
+  const map = useMap();
+  
+  const handleReset = () => {
+    const canadaBounds = L.latLngBounds(
+      [41.7, -141.0],
+      [84.0, -52.6]
+    );
+    map.fitBounds(canadaBounds, { padding: [20, 20] });
+    onReset();
+  };
+  
+  return (
+    <button
+      onClick={handleReset}
+      className="absolute top-3 right-3 z-[1000] bg-white dark:bg-gray-800 shadow-lg rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 flex items-center gap-2 transition-colors"
+      data-testid="button-reset-canada-view"
+      title="Show all of Canada"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+        <path d="M8 11h6"/>
+      </svg>
+      Full Canada
+    </button>
+  );
+}
+
+function FocusOnStore({ coordinates }: { coordinates: [number, number] }) {
+  const map = useMap();
+  useEffect(() => {
+    if (coordinates && coordinates[0] && coordinates[1]) {
+      map.flyTo(coordinates, 14, { duration: 1.5 });
+    }
+  }, [coordinates, map]);
+  return null;
+}
+
 interface InteractiveMapProps {
   stores: Store[];
   selectedStore: Store | null;
   onSelectStore: (store: Store) => void;
   userLocation?: [number, number] | null;
+  focusStore?: Store | null;
+  onResetView?: () => void;
 }
 
-export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation }: InteractiveMapProps) {
+export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation, focusStore, onResetView }: InteractiveMapProps) {
   const defaultCenter: [number, number] = [56.1304, -106.3468];
   const defaultZoom = 4;
 
@@ -194,6 +235,12 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocat
         {selectedStore && hasValidCoordinates(selectedStore.coordinates) && (
           <MapController center={selectedStore.coordinates as [number, number]} />
         )}
+        
+        {focusStore && hasValidCoordinates(focusStore.coordinates) && (
+          <FocusOnStore coordinates={focusStore.coordinates as [number, number]} />
+        )}
+        
+        <ResetViewButton onReset={onResetView || (() => {})} />
       </MapContainer>
     </div>
   );
