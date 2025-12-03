@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLocation, useSearch } from "wouter";
 import { InteractiveMap } from "@/components/interactive-map";
 import { StoreModal } from "@/components/store-modal";
 import { AddStoreForm } from "@/components/add-store-form";
@@ -20,9 +21,19 @@ const suggestedSearchesEN = ["Honey", "Candies", "Shoes", "Food", "Ceramics"];
 const suggestedSearchesUA = ["Мед", "Цукерки", "Взуття", "Їжа", "Кераміка"];
 
 export default function MapPage() {
+  const searchString = useSearch();
+  const [, navigate] = useLocation();
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchString);
+    if (params.get('add') === 'true') {
+      setIsAdding(true);
+      navigate('/map', { replace: true });
+    }
+  }, [searchString, navigate]);
   const [isFormCollapsed, setIsFormCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);

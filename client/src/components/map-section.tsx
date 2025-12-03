@@ -1,16 +1,29 @@
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { MapPin, ShoppingBag, Store as StoreIcon } from "lucide-react";
+import { Search, UtensilsCrossed, ShoppingBag, Store as StoreIcon, Sparkles, MapPin } from "lucide-react";
 import { HomeAddForm } from "./home-add-form";
+import { StoreModal } from "./store-modal";
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18n } from "@/lib/i18n";
 
 export function MapSection() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
-  const [currentStoreIndex, setCurrentStoreIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const mapRef = useRef<InteractiveMapRef>(null);
+  const { t } = useI18n();
+
+  const handleSelectStore = (store: Store) => {
+    setSelectedStore(store);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
@@ -18,20 +31,20 @@ export function MapSection() {
     staleTime: 0,
   });
 
-  const handleStatsClick = () => {
-    if (stores.length === 0) return;
-    const store = stores[currentStoreIndex];
-    setSelectedStore(store);
-    mapRef.current?.focusOnStore(store);
-    setCurrentStoreIndex((currentStoreIndex + 1) % stores.length);
-  };
+  const filteredStores = selectedCategory 
+    ? stores.filter(s => {
+        if (selectedCategory === "clothes") {
+          return s.category === "clothes" || s.category === "retail";
+        }
+        return s.category === selectedCategory;
+      })
+    : stores;
 
-  // Calculate stats
-  const uniqueProducts = new Set(stores.flatMap(s => s.products));
-  const stats = [
-    { icon: MapPin, count: stores.length, label: "Locations" },
-    { icon: ShoppingBag, count: uniqueProducts.size, label: "Products" },
-    { icon: StoreIcon, count: stores.length, label: "Stores" },
+  const categories = [
+    { id: null, icon: Sparkles, label: "All" },
+    { id: "food", icon: UtensilsCrossed, label: "Food" },
+    { id: "clothes", icon: ShoppingBag, label: "Shopping" },
+    { id: "other", icon: StoreIcon, label: "Other" },
   ];
 
   return (
@@ -74,29 +87,45 @@ export function MapSection() {
                   <>
                     <InteractiveMap 
                       ref={mapRef}
-                      stores={stores} 
+                      stores={filteredStores} 
                       selectedStore={selectedStore} 
-                      onSelectStore={setSelectedStore}
+                      onSelectStore={handleSelectStore}
                     />
 
-                    {/* Stats Row Overlay - Clickable to cycle through stores */}
-                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-gray-100/90 via-gray-50/85 to-white/80 dark:from-gray-800/90 dark:via-gray-700/85 dark:to-gray-600/80 backdrop-blur-md border-t border-gray-200/60 dark:border-gray-600/60">
-                      <button 
-                        onClick={handleStatsClick}
-                        className="w-full cursor-pointer hover:bg-white/20 transition-colors"
-                        disabled={stores.length === 0}
-                        data-testid="button-stats-overlay"
-                      >
-                        <div className="grid grid-cols-3 divide-x divide-gray-300/50 dark:divide-gray-600/50">
-                          {stats.map((stat, i) => (
-                            <div key={i} className="flex flex-col items-center justify-center py-2 md:py-3">
-                              <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-black dark:text-white mb-1" />
-                              <span className="text-base md:text-lg font-bold text-black dark:text-white">{stat.count}</span>
-                              <span className="text-[10px] md:text-xs text-gray-700 dark:text-gray-300 uppercase tracking-wider font-medium">{stat.label}</span>
-                            </div>
+                    {/* Category Filter Bar - Airbnb Style */}
+                    <div className="absolute bottom-0 left-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/60 dark:border-gray-700/60 px-3 py-2">
+                      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+                        <button
+                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shrink-0"
+                          data-testid="button-search-map"
+                        >
+                          <Search className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                        </button>
+                        
+                        <div className="flex items-center gap-1.5">
+                          {categories.map((category) => (
+                            <button
+                              key={category.label}
+                              onClick={() => setSelectedCategory(category.id)}
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                                selectedCategory === category.id
+                                  ? 'bg-black text-white dark:bg-white dark:text-black'
+                                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                              }`}
+                              data-testid={`button-category-${category.label.toLowerCase()}`}
+                            >
+                              <category.icon className="w-3.5 h-3.5" />
+                              <span>{category.label}</span>
+                            </button>
                           ))}
                         </div>
-                      </button>
+
+                        {/* Store count badge */}
+                        <div className="ml-auto shrink-0 flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-full text-xs font-medium text-blue-700 dark:text-blue-300">
+                          <MapPin className="w-3 h-3" />
+                          <span>{filteredStores.length}</span>
+                        </div>
+                      </div>
                     </div>
                   </>
                 )}
@@ -110,6 +139,13 @@ export function MapSection() {
           </div>
         </div>
       </div>
+
+      {/* Store Modal */}
+      <StoreModal 
+        store={selectedStore}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </section>
   );
 }

@@ -34,7 +34,7 @@ export function Header() {
           <div className="hidden md:block">
             <Button 
               className="rounded-full px-6 h-10 bg-yellow-accent text-black hover:bg-yellow-400 border-none font-medium"
-              onClick={() => navigate("/map")}
+              onClick={() => navigate("/map?add=true")}
               data-testid="button-add-product-header"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -60,7 +60,7 @@ export function Header() {
              <Button 
                variant="ghost"
                className="text-xs font-bold text-blue-accent p-0 h-auto"
-               onClick={() => navigate("/map")}
+               onClick={() => navigate("/map?add=true")}
                data-testid="button-add-product-mobile"
              >
                {t("header.addProductShort")}
