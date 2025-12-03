@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,9 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createStore as apiCreateStore } from "@/lib/api";
+import { createStore as apiCreateStore, getApprovedStores } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, MapPin, Loader2 } from "lucide-react";
+import { Store } from "@/lib/data";
+import { useI18n } from "@/lib/i18n";
 
 const formSchema = z.object({
   name: z.string().min(2, "Store name is required"),
@@ -27,6 +29,26 @@ const formSchema = z.object({
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   website: z.string().optional(),
 });
+
+interface AddressSuggestion {
+  display_name: string;
+  lat: string;
+  lon: string;
+}
+
+async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
+  if (query.length < 3) return [];
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=ca&format=json&limit=5&addressdetails=1`,
+      { headers: { 'Accept': 'application/json' } }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Address search error:", error);
+    return [];
+  }
+}
 
 async function geocodeAddress(address: string): Promise<[number, number]> {
   try {
@@ -50,9 +72,21 @@ async function geocodeAddress(address: string): Promise<[number, number]> {
 
 export function HomeAddForm() {
   const { toast } = useToast();
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
+  const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
+  const [isSearchingAddress, setIsSearchingAddress] = useState(false);
+  const [existingStores, setExistingStores] = useState<Store[]>([]);
+  const [storeSuggestions, setStoreSuggestions] = useState<Store[]>([]);
+  const [showStoreSuggestions, setShowStoreSuggestions] = useState(false);
+  const addressDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    getApprovedStores().then((stores: Store[]) => setExistingStores(stores)).catch(() => {});
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,6 +101,57 @@ export function HomeAddForm() {
     },
   });
 
+  const handleAddressChange = (value: string) => {
+    if (addressDebounceRef.current) {
+      clearTimeout(addressDebounceRef.current);
+    }
+    
+    if (value.length >= 3) {
+      setIsSearchingAddress(true);
+      addressDebounceRef.current = setTimeout(async () => {
+        const suggestions = await searchAddresses(value);
+        setAddressSuggestions(suggestions);
+        setShowAddressSuggestions(suggestions.length > 0);
+        setIsSearchingAddress(false);
+      }, 300);
+    } else {
+      setAddressSuggestions([]);
+      setShowAddressSuggestions(false);
+    }
+  };
+
+  const handleAddressSelect = (suggestion: AddressSuggestion) => {
+    form.setValue("address", suggestion.display_name);
+    setShowAddressSuggestions(false);
+    setAddressSuggestions([]);
+  };
+
+  const handleNameChange = (value: string) => {
+    if (value.length >= 2) {
+      const matches = existingStores.filter(store => 
+        store.name.toLowerCase().includes(value.toLowerCase())
+      ).slice(0, 3);
+      setStoreSuggestions(matches);
+      setShowStoreSuggestions(matches.length > 0);
+    } else {
+      setStoreSuggestions([]);
+      setShowStoreSuggestions(false);
+    }
+  };
+
+  const handleStoreSelect = (store: Store) => {
+    form.setValue("name", store.name);
+    form.setValue("address", store.address);
+    form.setValue("description", store.description);
+    form.setValue("products", store.products.join(", "));
+    form.setValue("category", store.category as "retail" | "food" | "other");
+    setShowStoreSuggestions(false);
+    toast({
+      title: t("form.storeExists") || "Store already exists",
+      description: t("form.storeExistsDesc") || "This store is already on our map. You can view it there.",
+    });
+  };
+
   const createStoreMutation = useMutation({
     mutationFn: apiCreateStore,
     onSuccess: () => {
@@ -75,8 +160,8 @@ export function HomeAddForm() {
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to submit location. Please try again.",
+        title: t("form.error") || "Error",
+        description: t("form.submitFailed") || "Failed to submit location. Please try again.",
         variant: "destructive",
       });
     },
@@ -116,19 +201,19 @@ export function HomeAddForm() {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
           <CheckCircle className="w-8 h-8 text-green-600" />
         </div>
-        <h3 className="text-xl font-bold mb-2">Submitted for Review!</h3>
+        <h3 className="text-xl font-bold mb-2">{t("form.submittedTitle") || "Submitted for Review!"}</h3>
         <p className="text-sm text-muted-foreground mb-4 max-w-xs">
-          To prevent spam, your submission will be reviewed by fellow Ukrainian site managers. We'll notify you by email about the status.
+          {t("form.submittedMessage") || "To prevent spam, your submission will be reviewed by fellow Ukrainian site managers. We'll notify you by email about the status."}
         </p>
         <p className="text-xs text-muted-foreground mb-6">
-          Thanks for supporting #madeinUkraine 🇺🇦
+          {t("form.thanks") || "Thanks for supporting #madeinUkraine"} 🇺🇦
         </p>
         <Button 
           onClick={handleReset}
           variant="outline"
           className="rounded-lg"
         >
-          Add Another Location
+          {t("form.addAnother") || "Add Another Location"}
         </Button>
       </div>
     );
@@ -136,9 +221,9 @@ export function HomeAddForm() {
 
   return (
     <div className="bg-white rounded-2xl border border-border p-6 md:p-8 h-full flex flex-col">
-      <h3 className="text-2xl font-bold mb-2">Add Your Location</h3>
+      <h3 className="text-2xl font-bold mb-2">{t("form.addLocation") || "Add Your Location"}</h3>
       <p className="text-sm text-muted-foreground mb-6">
-        Help grow our community by sharing Ukrainian stores and products
+        {t("form.helperText") || "Help grow our community by sharing Ukrainian stores and products"}
       </p>
 
       <Form {...form}>
@@ -147,11 +232,43 @@ export function HomeAddForm() {
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">Business Name</FormLabel>
+              <FormItem className="relative">
+                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.storeName") || "Business Name"}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter store name" {...field} className="rounded-lg h-10" data-testid="input-home-name" />
+                  <Input 
+                    placeholder={t("form.storeNamePlaceholder") || "Enter store name"} 
+                    {...field} 
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleNameChange(e.target.value);
+                    }}
+                    onFocus={() => handleNameChange(field.value)}
+                    onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
+                    className="rounded-lg h-10" 
+                    data-testid="input-home-name" 
+                  />
                 </FormControl>
+                {showStoreSuggestions && storeSuggestions.length > 0 && (
+                  <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    <div className="p-2 text-xs text-gray-500 border-b bg-yellow-50">
+                      {t("form.existingStores") || "Similar stores already on map:"}
+                    </div>
+                    {storeSuggestions.map((store, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-start gap-2 border-b last:border-b-0"
+                        onClick={() => handleStoreSelect(store)}
+                      >
+                        <MapPin className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium truncate">{store.name}</p>
+                          <p className="text-xs text-gray-500 truncate">{store.address}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <FormMessage className="text-xs" />
               </FormItem>
             )}
@@ -161,11 +278,46 @@ export function HomeAddForm() {
             control={form.control}
             name="address"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">Address</FormLabel>
+              <FormItem className="relative">
+                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.address") || "Address"}</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., 123 Main St, Toronto, ON" {...field} className="rounded-lg h-10" data-testid="input-home-address" />
+                  <div className="relative">
+                    <Input 
+                      placeholder={t("form.addressPlaceholder") || "e.g., 123 Main St, Toronto, ON"} 
+                      {...field} 
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleAddressChange(e.target.value);
+                      }}
+                      onFocus={() => {
+                        if (addressSuggestions.length > 0) {
+                          setShowAddressSuggestions(true);
+                        }
+                      }}
+                      onBlur={() => setTimeout(() => setShowAddressSuggestions(false), 200)}
+                      className="rounded-lg h-10" 
+                      data-testid="input-home-address" 
+                    />
+                    {isSearchingAddress && (
+                      <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-gray-400" />
+                    )}
+                  </div>
                 </FormControl>
+                {showAddressSuggestions && addressSuggestions.length > 0 && (
+                  <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    {addressSuggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-start gap-2 border-b last:border-b-0"
+                        onClick={() => handleAddressSelect(suggestion)}
+                      >
+                        <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+                        <span className="text-sm text-gray-700 line-clamp-2">{suggestion.display_name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <FormMessage className="text-xs" />
               </FormItem>
             )}
@@ -176,12 +328,12 @@ export function HomeAddForm() {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">Category</FormLabel>
+                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.category") || "Category"}</FormLabel>
                 <FormControl>
                   <select {...field} className="w-full h-10 px-3 rounded-lg border border-input bg-background" data-testid="select-home-category">
-                    <option value="retail">Retail Store</option>
-                    <option value="food">Food & Cafe</option>
-                    <option value="other">Other</option>
+                    <option value="retail">{t("form.categoryRetail") || "Retail Store"}</option>
+                    <option value="food">{t("form.categoryFood") || "Food & Cafe"}</option>
+                    <option value="other">{t("form.categoryOther") || "Other"}</option>
                   </select>
                 </FormControl>
                 <FormMessage className="text-xs" />
@@ -194,9 +346,9 @@ export function HomeAddForm() {
             name="products"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">Products (comma-separated)</FormLabel>
+                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.products") || "Products (comma-separated)"}</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., Pysanky, Embroidery, Bread" {...field} className="rounded-lg h-10" data-testid="input-home-products" />
+                  <Input placeholder={t("form.productsPlaceholder") || "e.g., Pysanky, Embroidery, Bread"} {...field} className="rounded-lg h-10" data-testid="input-home-products" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -208,9 +360,9 @@ export function HomeAddForm() {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">Description</FormLabel>
+                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.description") || "Description"}</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Tell us about this location..." {...field} className="rounded-lg resize-none h-20" data-testid="input-home-description" />
+                  <Textarea placeholder={t("form.descriptionPlaceholder") || "Tell us about this location..."} {...field} className="rounded-lg resize-none h-20" data-testid="input-home-description" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -222,9 +374,9 @@ export function HomeAddForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">Email (optional)</FormLabel>
+                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.email") || "Email"} ({t("form.optional") || "optional"})</FormLabel>
                 <FormControl>
-                  <Input placeholder="Get notified when approved" {...field} className="rounded-lg h-10" data-testid="input-home-email" />
+                  <Input placeholder={t("form.emailPlaceholder") || "Get notified when approved"} {...field} className="rounded-lg h-10" data-testid="input-home-email" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -254,9 +406,9 @@ export function HomeAddForm() {
             disabled={isSubmitting}
             data-testid="button-home-submit"
           >
-            {isSubmitting ? "Submitting..." : (
+            {isSubmitting ? t("form.submitting") || "Submitting..." : (
               <>
-                Submit Location
+                {t("form.submitForReview") || "Submit Location"}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </>
             )}

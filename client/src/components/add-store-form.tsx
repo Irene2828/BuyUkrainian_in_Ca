@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,10 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Store } from "@/lib/data";
-import { X, Upload, ChevronRight, CheckCircle } from "lucide-react";
+import { X, Upload, ChevronRight, CheckCircle, MapPin, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
-import { createStore } from "@/lib/api";
+import { createStore, getApprovedStores } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
 
 const formSchema = z.object({
@@ -29,6 +28,26 @@ const formSchema = z.object({
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   website: z.string().optional(),
 });
+
+interface AddressSuggestion {
+  display_name: string;
+  lat: string;
+  lon: string;
+}
+
+async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
+  if (query.length < 3) return [];
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=ca&format=json&limit=5&addressdetails=1`,
+      { headers: { 'Accept': 'application/json' } }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Address search error:", error);
+    return [];
+  }
+}
 
 async function geocodeAddress(address: string): Promise<[number, number]> {
   try {
@@ -62,6 +81,19 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
   const { t } = useI18n();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
+  const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
+  const [isSearchingAddress, setIsSearchingAddress] = useState(false);
+  const [existingStores, setExistingStores] = useState<Store[]>([]);
+  const [storeSuggestions, setStoreSuggestions] = useState<Store[]>([]);
+  const [showStoreSuggestions, setShowStoreSuggestions] = useState(false);
+  const addressInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const addressDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    getApprovedStores().then((stores: Store[]) => setExistingStores(stores)).catch(() => {});
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,6 +107,57 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
       website: "",
     },
   });
+
+  const handleAddressChange = (value: string) => {
+    if (addressDebounceRef.current) {
+      clearTimeout(addressDebounceRef.current);
+    }
+    
+    if (value.length >= 3) {
+      setIsSearchingAddress(true);
+      addressDebounceRef.current = setTimeout(async () => {
+        const suggestions = await searchAddresses(value);
+        setAddressSuggestions(suggestions);
+        setShowAddressSuggestions(suggestions.length > 0);
+        setIsSearchingAddress(false);
+      }, 300);
+    } else {
+      setAddressSuggestions([]);
+      setShowAddressSuggestions(false);
+    }
+  };
+
+  const handleAddressSelect = (suggestion: AddressSuggestion) => {
+    form.setValue("address", suggestion.display_name);
+    setShowAddressSuggestions(false);
+    setAddressSuggestions([]);
+  };
+
+  const handleNameChange = (value: string) => {
+    if (value.length >= 2) {
+      const matches = existingStores.filter(store => 
+        store.name.toLowerCase().includes(value.toLowerCase())
+      ).slice(0, 3);
+      setStoreSuggestions(matches);
+      setShowStoreSuggestions(matches.length > 0);
+    } else {
+      setStoreSuggestions([]);
+      setShowStoreSuggestions(false);
+    }
+  };
+
+  const handleStoreSelect = (store: Store) => {
+    form.setValue("name", store.name);
+    form.setValue("address", store.address);
+    form.setValue("description", store.description);
+    form.setValue("products", store.products.join(", "));
+    form.setValue("category", store.category as "retail" | "food" | "other");
+    setShowStoreSuggestions(false);
+    toast({
+      title: t("form.storeExists") || "Store already exists",
+      description: t("form.storeExistsDesc") || "This store is already on our map. You can view it there.",
+    });
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.website) {
@@ -190,23 +273,55 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               
-              <div className="w-full h-32 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center bg-gray-50 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer group">
-                <div className="p-2 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
-                  <Upload className="w-5 h-5 text-gray-500 group-hover:text-blue-500" />
+              <div className="w-full h-24 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group">
+                <div className="p-2 bg-white rounded-full shadow-sm mb-1 group-hover:scale-110 transition-transform">
+                  <Upload className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
                 </div>
-                <p className="text-xs font-medium text-gray-500 group-hover:text-blue-600">{t("form.uploadPhoto")}</p>
-                <p className="text-[10px] text-gray-400 mt-1">{t("form.uploadHint")}</p>
+                <p className="text-xs text-gray-500">{t("form.uploadPhoto")}</p>
+                <p className="text-[10px] text-gray-400">{t("form.uploadHint")}</p>
               </div>
 
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative">
                     <FormLabel>{t("form.storeName")}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t("form.storeNamePlaceholder")} {...field} data-testid="input-store-name" />
+                      <Input 
+                        placeholder={t("form.storeNamePlaceholder")} 
+                        {...field} 
+                        ref={nameInputRef}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleNameChange(e.target.value);
+                        }}
+                        onFocus={() => handleNameChange(field.value)}
+                        onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
+                        data-testid="input-store-name" 
+                      />
                     </FormControl>
+                    {showStoreSuggestions && storeSuggestions.length > 0 && (
+                      <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                        <div className="p-2 text-xs text-gray-500 border-b bg-yellow-50">
+                          {t("form.existingStores") || "Similar stores already on map:"}
+                        </div>
+                        {storeSuggestions.map((store, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-start gap-2 border-b last:border-b-0"
+                            onClick={() => handleStoreSelect(store)}
+                          >
+                            <MapPin className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium truncate">{store.name}</p>
+                              <p className="text-xs text-gray-500 truncate">{store.address}</p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -266,11 +381,46 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                 control={form.control}
                 name="address"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative">
                     <FormLabel>{t("form.address")}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t("form.addressPlaceholder")} {...field} data-testid="input-store-address" />
+                      <div className="relative">
+                        <Input 
+                          placeholder={t("form.addressPlaceholder")} 
+                          {...field} 
+                          ref={addressInputRef}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleAddressChange(e.target.value);
+                          }}
+                          onFocus={() => {
+                            if (addressSuggestions.length > 0) {
+                              setShowAddressSuggestions(true);
+                            }
+                          }}
+                          onBlur={() => setTimeout(() => setShowAddressSuggestions(false), 200)}
+                          data-testid="input-store-address" 
+                        />
+                        {isSearchingAddress && (
+                          <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-gray-400" />
+                        )}
+                      </div>
                     </FormControl>
+                    {showAddressSuggestions && addressSuggestions.length > 0 && (
+                      <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                        {addressSuggestions.map((suggestion, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-start gap-2 border-b last:border-b-0"
+                            onClick={() => handleAddressSelect(suggestion)}
+                          >
+                            <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+                            <span className="text-sm text-gray-700 line-clamp-2">{suggestion.display_name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}

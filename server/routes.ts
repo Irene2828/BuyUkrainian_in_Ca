@@ -101,7 +101,9 @@ export async function registerRoutes(
         });
       }
 
-      const existingStores = await storage.getAllStores();
+      // Only check for duplicates against APPROVED stores, not pending ones
+      // This allows users to submit new stores even if similar ones are pending review
+      const approvedStores = await storage.getApprovedStores();
       const isDuplicate = checkDuplicateSubmission(
         {
           name: storeData.name,
@@ -109,7 +111,7 @@ export async function registerRoutes(
           latitude: storeData.latitude,
           longitude: storeData.longitude,
         },
-        existingStores.map(s => ({
+        approvedStores.map(s => ({
           name: s.name,
           address: s.address,
           latitude: String(s.latitude),
@@ -119,7 +121,7 @@ export async function registerRoutes(
 
       if (isDuplicate) {
         return res.status(400).json({ 
-          error: "A store with this name or location already exists in our system." 
+          error: "A store with this name or location is already live on our map." 
         });
       }
 
