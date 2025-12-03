@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { InteractiveMap } from "@/components/interactive-map";
+import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
 import { MapPin, ShoppingBag, Store as StoreIcon } from "lucide-react";
 import { HomeAddForm } from "./home-add-form";
 import { getApprovedStores } from "@/lib/api";
@@ -9,12 +9,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function MapSection() {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
+  const [currentStoreIndex, setCurrentStoreIndex] = useState(0);
+  const mapRef = useRef<InteractiveMapRef>(null);
   
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
     staleTime: 0,
   });
+
+  const handleStatsClick = () => {
+    if (stores.length === 0) return;
+    const store = stores[currentStoreIndex];
+    setSelectedStore(store);
+    mapRef.current?.focusOnStore(store);
+    setCurrentStoreIndex((currentStoreIndex + 1) % stores.length);
+  };
 
   // Calculate stats
   const uniqueProducts = new Set(stores.flatMap(s => s.products));
@@ -63,22 +73,30 @@ export function MapSection() {
                 ) : (
                   <>
                     <InteractiveMap 
+                      ref={mapRef}
                       stores={stores} 
                       selectedStore={selectedStore} 
                       onSelectStore={setSelectedStore}
                     />
 
-                    {/* Stats Row Overlay */}
-                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-gray-100/90 via-gray-50/85 to-white/80 dark:from-gray-800/90 dark:via-gray-700/85 dark:to-gray-600/80 backdrop-blur-md border-t border-gray-200/60 dark:border-gray-600/60 pointer-events-none">
-                      <div className="grid grid-cols-3 divide-x divide-gray-300/50 dark:divide-gray-600/50">
-                        {stats.map((stat, i) => (
-                          <div key={i} className="flex flex-col items-center justify-center py-2 md:py-3">
-                            <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-black dark:text-white mb-1" />
-                            <span className="text-base md:text-lg font-bold text-black dark:text-white">{stat.count}</span>
-                            <span className="text-[10px] md:text-xs text-gray-700 dark:text-gray-300 uppercase tracking-wider font-medium">{stat.label}</span>
-                          </div>
-                        ))}
-                      </div>
+                    {/* Stats Row Overlay - Clickable to cycle through stores */}
+                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-gray-100/90 via-gray-50/85 to-white/80 dark:from-gray-800/90 dark:via-gray-700/85 dark:to-gray-600/80 backdrop-blur-md border-t border-gray-200/60 dark:border-gray-600/60">
+                      <button 
+                        onClick={handleStatsClick}
+                        className="w-full cursor-pointer hover:bg-white/20 transition-colors"
+                        disabled={stores.length === 0}
+                        data-testid="button-stats-overlay"
+                      >
+                        <div className="grid grid-cols-3 divide-x divide-gray-300/50 dark:divide-gray-600/50">
+                          {stats.map((stat, i) => (
+                            <div key={i} className="flex flex-col items-center justify-center py-2 md:py-3">
+                              <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-black dark:text-white mb-1" />
+                              <span className="text-base md:text-lg font-bold text-black dark:text-white">{stat.count}</span>
+                              <span className="text-[10px] md:text-xs text-gray-700 dark:text-gray-300 uppercase tracking-wider font-medium">{stat.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </button>
                     </div>
                   </>
                 )}

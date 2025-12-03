@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, Circle } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,6 +6,10 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
+
+export interface InteractiveMapRef {
+  focusOnStore: (store: Store) => void;
+}
 
 // Fix Leaflet icon issue in React
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -165,6 +169,16 @@ function FocusOnStore({ coordinates }: { coordinates: [number, number] }) {
   return null;
 }
 
+function MapFocusHandler({ focusCoordinates }: { focusCoordinates: [number, number] | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (focusCoordinates && focusCoordinates[0] && focusCoordinates[1]) {
+      map.flyTo(focusCoordinates, 13, { duration: 1 });
+    }
+  }, [focusCoordinates, map]);
+  return null;
+}
+
 interface InteractiveMapProps {
   stores: Store[];
   selectedStore: Store | null;
@@ -174,7 +188,17 @@ interface InteractiveMapProps {
   onResetView?: () => void;
 }
 
-export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation, focusStore, onResetView }: InteractiveMapProps) {
+export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation, focusStore, onResetView }, ref) {
+  const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    focusOnStore: (store: Store) => {
+      if (store.coordinates && Array.isArray(store.coordinates) && store.coordinates.length === 2) {
+        setFocusCoordinates(store.coordinates as [number, number]);
+      }
+    }
+  }), []);
+  
   const defaultCenter: [number, number] = [52.0, -95.0];
   const defaultZoom = 4;
 
@@ -244,8 +268,12 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocat
           <FocusOnStore coordinates={focusStore.coordinates as [number, number]} />
         )}
         
+        {focusCoordinates && hasValidCoordinates(focusCoordinates) && (
+          <MapFocusHandler focusCoordinates={focusCoordinates} />
+        )}
+        
         <ResetViewButton onReset={onResetView || (() => {})} />
       </MapContainer>
     </div>
   );
-}
+});

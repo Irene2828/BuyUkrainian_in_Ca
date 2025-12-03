@@ -226,12 +226,13 @@ export function HomeAddForm() {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-border p-6 md:p-8 h-full flex flex-col">
-      <h3 className="text-2xl font-bold mb-2">{t("form.addLocation") || "Add Your Location"}</h3>
-      <p className="text-sm text-muted-foreground mb-6">
-        {t("form.helperText") || "Help grow our community by sharing Ukrainian stores and products"}
-      </p>
+    <div className="bg-white rounded-2xl border border-border h-full flex flex-col overflow-hidden">
+      {/* Gray header like explore page */}
+      <div className="p-4 border-b border-border bg-gray-100 rounded-t-2xl">
+        <h3 className="text-lg font-bold">{t("form.addLocation") || "Add a Location"}</h3>
+      </div>
 
+      <div className="p-6 md:p-8 flex-1 flex flex-col">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-1 flex flex-col">
           <FormField
@@ -425,6 +426,7 @@ export function HomeAddForm() {
           </Button>
         </form>
       </Form>
+      </div>
     </div>
   );
 }
