@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer, Marker, useMap, Circle } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
 
 // Fix Leaflet icon issue in React
@@ -50,19 +53,72 @@ function MapController({ center }: { center: [number, number] }) {
 function CanadaBounds() {
   const map = useMap();
   useEffect(() => {
-    // Canada bounding box: [min_lat, min_lon, max_lat, max_lon]
     const canadaBounds = L.latLngBounds(
-      [41.7, -141.0],  // Southwest corner
-      [84.0, -52.6]    // Northeast corner
+      [41.7, -141.0],
+      [84.0, -52.6]
     );
-    
-    // Set max bounds to Canada
     map.setMaxBounds(canadaBounds);
-    
-    // Fit bounds with some padding
     map.fitBounds(canadaBounds, { padding: [50, 50] });
   }, [map]);
   
+  return null;
+}
+
+function MarkerClusterGroup({ stores, selectedStore, onSelectStore }: {
+  stores: Store[];
+  selectedStore: Store | null;
+  onSelectStore: (store: Store) => void;
+}) {
+  const map = useMap();
+  const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
+
+  const hasValidCoordinates = (coords: any) => {
+    if (!Array.isArray(coords) || coords.length !== 2) return false;
+    const lat = parseFloat(String(coords[0]));
+    const lng = parseFloat(String(coords[1]));
+    return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -140 && lng < -50;
+  };
+
+  useEffect(() => {
+    if (clusterRef.current) {
+      map.removeLayer(clusterRef.current);
+    }
+
+    const cluster = L.markerClusterGroup({
+      maxClusterRadius: 50,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      iconCreateFunction: (cluster) => {
+        const count = cluster.getChildCount();
+        return L.divIcon({
+          html: `<div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-accent/80 border-3 border-yellow-accent text-white font-bold text-sm shadow-lg">${count}</div>`,
+          className: 'custom-cluster-icon',
+          iconSize: L.point(40, 40),
+        });
+      }
+    });
+
+    stores.forEach((store) => {
+      if (hasValidCoordinates(store.coordinates)) {
+        const marker = L.marker(store.coordinates as [number, number], {
+          icon: createFlagIcon(selectedStore?.id === store.id)
+        });
+        marker.on('click', () => onSelectStore(store));
+        cluster.addLayer(marker);
+      }
+    });
+
+    map.addLayer(cluster);
+    clusterRef.current = cluster;
+
+    return () => {
+      if (clusterRef.current) {
+        map.removeLayer(clusterRef.current);
+      }
+    };
+  }, [stores, selectedStore, map, onSelectStore]);
+
   return null;
 }
 
@@ -70,27 +126,22 @@ interface InteractiveMapProps {
   stores: Store[];
   selectedStore: Store | null;
   onSelectStore: (store: Store) => void;
+  userLocation?: [number, number] | null;
 }
 
-export function InteractiveMap({ stores, selectedStore, onSelectStore }: InteractiveMapProps) {
-  // Default center: Canada center
+export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation }: InteractiveMapProps) {
   const defaultCenter: [number, number] = [56.1304, -106.3468];
   const defaultZoom = 4;
 
-  // Validate coordinates
   const hasValidCoordinates = (coords: any) => {
     if (!Array.isArray(coords) || coords.length !== 2) return false;
-    
     const lat = parseFloat(String(coords[0]));
     const lng = parseFloat(String(coords[1]));
-    
-    return !isNaN(lat) && !isNaN(lng) && 
-           lat > 40 && lat < 85 && 
-           lng > -140 && lng < -50;
+    return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -140 && lng < -50;
   };
 
   return (
-    <div className="w-full h-full bg-white relative z-0">
+    <div className="w-full h-full bg-white dark:bg-gray-900 relative z-0">
       <MapContainer 
         center={defaultCenter} 
         zoom={defaultZoom} 
@@ -100,7 +151,7 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
         doubleClickZoom={true}
         className="w-full h-full"
         zoomControl={true}
-        maxZoom={10}
+        maxZoom={18}
         minZoom={3}
       >
         <CanadaBounds />
@@ -110,21 +161,35 @@ export function InteractiveMap({ stores, selectedStore, onSelectStore }: Interac
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         
-        {stores.map((store) => {
-          if (hasValidCoordinates(store.coordinates)) {
-            return (
-              <Marker 
-                key={store.id} 
-                position={store.coordinates}
-                icon={createFlagIcon(selectedStore?.id === store.id)}
-                eventHandlers={{
-                  click: () => onSelectStore(store),
-                }}
-              />
-            );
-          }
-          return null;
-        })}
+        <MarkerClusterGroup 
+          stores={stores}
+          selectedStore={selectedStore}
+          onSelectStore={onSelectStore}
+        />
+        
+        {userLocation && hasValidCoordinates(userLocation) && (
+          <>
+            <Circle
+              center={userLocation}
+              radius={1000}
+              pathOptions={{
+                color: '#1E90FF',
+                fillColor: '#1E90FF',
+                fillOpacity: 0.15,
+                weight: 2
+              }}
+            />
+            <Marker
+              position={userLocation}
+              icon={L.divIcon({
+                className: 'user-location-marker',
+                html: `<div class="w-4 h-4 rounded-full bg-blue-500 border-2 border-white shadow-lg animate-pulse"></div>`,
+                iconSize: [16, 16],
+                iconAnchor: [8, 8],
+              })}
+            />
+          </>
+        )}
         
         {selectedStore && hasValidCoordinates(selectedStore.coordinates) && (
           <MapController center={selectedStore.coordinates as [number, number]} />

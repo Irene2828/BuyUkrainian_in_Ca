@@ -10,8 +10,9 @@ import { Store } from "@/lib/data";
 import { getApprovedStores } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, MapPin, Map, List, X, Search } from "lucide-react";
+import { Plus, MapPin, Map, List, X, Search, Navigation, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 
 const suggestedSearches = ["Honey", "Candies", "Shoes", "Food", "Ceramics"];
 
@@ -23,7 +24,10 @@ export default function MapPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { data: stores = [] } = useQuery({
     queryKey: ["stores"],
@@ -64,6 +68,47 @@ export default function MapPage() {
 
   const handleSuggestedSearch = (term: string) => {
     setSearchQuery(term);
+  };
+
+  const handleFindNearMe = () => {
+    if (!navigator.geolocation) {
+      toast({
+        title: "Location Not Supported",
+        description: "Your browser doesn't support geolocation.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        if (latitude > 40 && latitude < 85 && longitude > -140 && longitude < -50) {
+          setUserLocation([latitude, longitude]);
+          toast({
+            title: "Location Found",
+            description: "Showing stores near your location.",
+          });
+        } else {
+          toast({
+            title: "Location Outside Canada",
+            description: "We currently only show stores in Canada.",
+            variant: "destructive",
+          });
+        }
+        setIsLocating(false);
+      },
+      (error) => {
+        setIsLocating(false);
+        toast({
+          title: "Location Error",
+          description: "Unable to get your location. Please try again.",
+          variant: "destructive",
+        });
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   };
 
   return (
@@ -144,7 +189,7 @@ export default function MapPage() {
             )}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button
               onClick={() => setViewMode("map")}
               variant={viewMode === "map" ? "default" : "outline"}
@@ -163,6 +208,33 @@ export default function MapPage() {
               <List className="w-4 h-4 mr-2" />
               List View
             </Button>
+            <Button
+              onClick={handleFindNearMe}
+              variant="outline"
+              size="sm"
+              disabled={isLocating}
+              className="bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100"
+              data-testid="button-find-near-me"
+            >
+              {isLocating ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Navigation className="w-4 h-4 mr-2" />
+              )}
+              {isLocating ? "Finding..." : "Find Near Me"}
+            </Button>
+            {userLocation && (
+              <Button
+                onClick={() => setUserLocation(null)}
+                variant="ghost"
+                size="sm"
+                className="text-xs text-muted-foreground"
+                data-testid="button-clear-location"
+              >
+                <X className="w-3 h-3 mr-1" />
+                Clear location
+              </Button>
+            )}
           </div>
 
           <p className="text-sm text-muted-foreground">
@@ -183,7 +255,8 @@ export default function MapPage() {
                     setSelectedStore(store);
                     setIsModalOpen(true);
                     setIsAdding(false);
-                  }} 
+                  }}
+                  userLocation={userLocation}
                 />
               ) : (
                 <div className="overflow-y-auto h-full p-4">

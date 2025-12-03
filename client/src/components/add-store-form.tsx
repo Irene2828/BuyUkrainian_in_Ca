@@ -26,6 +26,7 @@ const formSchema = z.object({
   address: z.string().min(5, "Address is required"),
   category: z.enum(["retail", "food", "other"]),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
+  website: z.string().optional(),
 });
 
 async function geocodeAddress(address: string): Promise<[number, number]> {
@@ -69,10 +70,15 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
       address: "",
       category: "retail",
       email: "",
+      website: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.website) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -281,6 +287,21 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                   </FormItem>
                 )}
               />
+
+              <div className="hidden" aria-hidden="true">
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Website</FormLabel>
+                      <FormControl>
+                        <Input tabIndex={-1} autoComplete="off" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <Button type="submit" className="w-full bg-black hover:bg-black/80 text-white" disabled={isSubmitting} data-testid="button-store-submit">
                 {isSubmitting ? "Submitting..." : "Submit for Review"}

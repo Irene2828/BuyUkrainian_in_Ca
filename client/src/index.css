@@ -89,12 +89,33 @@
 }
 
 .dark {
-  /* Dark mode support if needed later, but spec focuses on white bg */
-  --background: var(--grey-dark);
-  --foreground: var(--white);
+  --background: 220 20% 10%;
+  --foreground: 0 0% 95%;
+  
+  --card: 220 20% 12%;
+  --card-foreground: 0 0% 95%;
+  
+  --popover: 220 20% 12%;
+  --popover-foreground: 0 0% 95%;
+  
   --primary: var(--white);
   --primary-foreground: var(--black);
-  --border: 0 0% 20%;
+  
+  --secondary: 220 20% 18%;
+  --secondary-foreground: 0 0% 95%;
+  
+  --muted: 220 15% 20%;
+  --muted-foreground: 0 0% 65%;
+  
+  --accent: var(--yellow);
+  --accent-foreground: var(--black);
+  
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 95%;
+  
+  --border: 220 15% 25%;
+  --input: 220 15% 25%;
+  --ring: var(--blue);
 }
 
 @layer base {
@@ -108,4 +129,26 @@
   .leaflet-container {
     background-color: white !important;
   }
+  
+  .dark .leaflet-container {
+    background-color: #1a1a2e !important;
+  }
+  
+  .dark .leaflet-tile-pane {
+    filter: brightness(0.8) contrast(1.1) saturate(0.9);
+  }
+}
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: rgba(30, 144, 255, 0.4) !important;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: rgba(255, 215, 0, 0.9) !important;
+  color: #000 !important;
+  font-weight: 600;
 }

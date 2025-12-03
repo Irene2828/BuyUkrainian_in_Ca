@@ -25,6 +25,7 @@ const formSchema = z.object({
   description: z.string().min(10, "Description is required"),
   category: z.enum(["retail", "food", "other"]),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
+  website: z.string().optional(),
 });
 
 async function geocodeAddress(address: string): Promise<[number, number]> {
@@ -62,6 +63,7 @@ export function HomeAddForm() {
       description: "",
       category: "retail",
       email: "",
+      website: "",
     },
   });
 
@@ -81,6 +83,10 @@ export function HomeAddForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.website) {
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
       const [latitude, longitude] = await geocodeAddress(values.address);
@@ -224,6 +230,21 @@ export function HomeAddForm() {
               </FormItem>
             )}
           />
+
+          <div className="hidden" aria-hidden="true">
+            <FormField
+              control={form.control}
+              name="website"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Website</FormLabel>
+                  <FormControl>
+                    <Input tabIndex={-1} autoComplete="off" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="flex-1" />
           
