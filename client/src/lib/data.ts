@@ -7,7 +7,7 @@ export interface Store {
   products: string[];
   address: string;
   coordinates: [number, number];
-  category: "retail" | "food" | "other";
+  category: "food" | "clothes" | "other" | "retail";
   image?: string;
   email?: string;
   status: "approved" | "pending" | "rejected";
@@ -34,7 +34,7 @@ export const INITIAL_STORES: Store[] = [
     products: ["Roshen Chocolates", "Kvas", "Buckwheat", "Preserves"],
     address: "1390 Major Mackenzie Dr W, Maple, ON L6A 4H6",
     coordinates: [43.8755, -79.4964], // Toronto area
-    category: "retail",
+    category: "clothes",
     image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000",
     status: "approved",
     createdAt: "2024-02-20"
@@ -58,7 +58,7 @@ export const INITIAL_STORES: Store[] = [
     products: ["Embroidery", "Pottery", "Folk Art"],
     address: "405 The West Mall, Etobicoke, ON M9C 5J1",
     coordinates: [43.6441, -79.5653],
-    category: "retail",
+    category: "other",
     status: "approved",
     createdAt: "2024-01-05"
   },
@@ -80,7 +80,7 @@ export const INITIAL_STORES: Store[] = [
     products: ["Sausage", "Perogies", "Local Crafts"],
     address: "201 33rd St W, Saskatoon, SK S7L 0V1",
     coordinates: [52.1465, -106.6735],
-    category: "retail",
+    category: "food",
     status: "approved",
     createdAt: "2024-05-01"
   },

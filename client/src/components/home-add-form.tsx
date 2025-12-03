@@ -16,7 +16,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createStore as apiCreateStore, getApprovedStores } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle, MapPin, Loader2 } from "lucide-react";
+import { ArrowRight, CheckCircle, MapPin, Loader2, Store as StoreIcon } from "lucide-react";
 import { Store } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
 
@@ -25,7 +25,7 @@ const formSchema = z.object({
   products: z.string().min(2, "List at least one product"),
   address: z.string().min(5, "Address is required"),
   description: z.string().min(10, "Description is required"),
-  category: z.enum(["retail", "food", "other"]),
+  category: z.enum(["food", "clothes", "other"]),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   website: z.string().optional(),
 });
@@ -95,7 +95,7 @@ export function HomeAddForm() {
       products: "",
       address: "",
       description: "",
-      category: "retail",
+      category: "food",
       email: "",
       website: "",
     },
@@ -144,7 +144,13 @@ export function HomeAddForm() {
     form.setValue("address", store.address);
     form.setValue("description", store.description);
     form.setValue("products", store.products.join(", "));
-    form.setValue("category", store.category as "retail" | "food" | "other");
+    const categoryMap: Record<string, "food" | "clothes" | "other"> = {
+      "retail": "clothes",
+      "food": "food",
+      "clothes": "clothes",
+      "other": "other"
+    };
+    form.setValue("category", categoryMap[store.category] || "other");
     setShowStoreSuggestions(false);
     toast({
       title: t("form.storeExists") || "Store already exists",
@@ -182,7 +188,7 @@ export function HomeAddForm() {
         address: values.address,
         latitude,
         longitude,
-        category: values.category,
+        category: values.category as "food" | "clothes" | "other",
         email: values.email || undefined,
       });
     } finally {
@@ -235,18 +241,21 @@ export function HomeAddForm() {
               <FormItem className="relative">
                 <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.storeName") || "Business Name"}</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder={t("form.storeNamePlaceholder") || "Enter store name"} 
-                    {...field} 
-                    onChange={(e) => {
-                      field.onChange(e);
-                      handleNameChange(e.target.value);
-                    }}
-                    onFocus={() => handleNameChange(field.value)}
-                    onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
-                    className="rounded-lg h-10" 
-                    data-testid="input-home-name" 
-                  />
+                  <div className="relative">
+                    <StoreIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input 
+                      placeholder={t("form.storeNamePlaceholder") || "Enter store name"} 
+                      {...field} 
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleNameChange(e.target.value);
+                      }}
+                      onFocus={() => handleNameChange(field.value)}
+                      onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
+                      className="rounded-lg h-10 pl-10" 
+                      data-testid="input-home-name" 
+                    />
+                  </div>
                 </FormControl>
                 {showStoreSuggestions && storeSuggestions.length > 0 && (
                   <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
@@ -282,6 +291,7 @@ export function HomeAddForm() {
                 <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.address") || "Address"}</FormLabel>
                 <FormControl>
                   <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input 
                       placeholder={t("form.addressPlaceholder") || "e.g., 123 Main St, Toronto, ON"} 
                       {...field} 
@@ -295,7 +305,7 @@ export function HomeAddForm() {
                         }
                       }}
                       onBlur={() => setTimeout(() => setShowAddressSuggestions(false), 200)}
-                      className="rounded-lg h-10" 
+                      className="rounded-lg h-10 pl-10" 
                       data-testid="input-home-address" 
                     />
                     {isSearchingAddress && (
@@ -331,8 +341,8 @@ export function HomeAddForm() {
                 <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.category") || "Category"}</FormLabel>
                 <FormControl>
                   <select {...field} className="w-full h-10 px-3 rounded-lg border border-input bg-background" data-testid="select-home-category">
-                    <option value="retail">{t("form.categoryRetail") || "Retail Store"}</option>
-                    <option value="food">{t("form.categoryFood") || "Food & Cafe"}</option>
+                    <option value="food">{t("form.categoryFood") || "Food"}</option>
+                    <option value="clothes">{t("form.categoryClothes") || "Clothes"}</option>
                     <option value="other">{t("form.categoryOther") || "Other"}</option>
                   </select>
                 </FormControl>

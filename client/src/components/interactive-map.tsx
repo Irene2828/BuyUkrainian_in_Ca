@@ -53,12 +53,16 @@ function MapController({ center }: { center: [number, number] }) {
 function CanadaBounds() {
   const map = useMap();
   useEffect(() => {
-    const canadaBounds = L.latLngBounds(
+    const fullCanadaBounds = L.latLngBounds(
       [41.7, -141.0],
-      [84.0, -52.6]
+      [83.0, -52.0]
     );
-    map.setMaxBounds(canadaBounds);
-    map.fitBounds(canadaBounds, { padding: [50, 50] });
+    map.setMaxBounds(fullCanadaBounds.pad(0.1));
+    const initialViewBounds = L.latLngBounds(
+      [42.0, -130.0],
+      [62.0, -55.0]
+    );
+    map.fitBounds(initialViewBounds, { padding: [20, 20] });
   }, [map]);
   
   return null;
@@ -126,11 +130,11 @@ function ResetViewButton({ onReset }: { onReset: () => void }) {
   const map = useMap();
   
   const handleReset = () => {
-    const canadaBounds = L.latLngBounds(
+    const fullCanadaBounds = L.latLngBounds(
       [41.7, -141.0],
-      [84.0, -52.6]
+      [83.0, -52.0]
     );
-    map.fitBounds(canadaBounds, { padding: [20, 20] });
+    map.fitBounds(fullCanadaBounds, { padding: [30, 30] });
     onReset();
   };
   
@@ -171,7 +175,7 @@ interface InteractiveMapProps {
 }
 
 export function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation, focusStore, onResetView }: InteractiveMapProps) {
-  const defaultCenter: [number, number] = [56.1304, -106.3468];
+  const defaultCenter: [number, number] = [52.0, -95.0];
   const defaultZoom = 4;
 
   const hasValidCoordinates = (coords: any) => {

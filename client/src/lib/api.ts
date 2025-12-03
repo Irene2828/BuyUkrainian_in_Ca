@@ -9,7 +9,7 @@ export interface ApiStore {
   address: string;
   latitude: string | number;
   longitude: string | number;
-  category: "retail" | "food" | "other";
+  category: "food" | "clothes" | "other" | "retail";
   image?: string | null;
   email?: string | null;
   status: "approved" | "pending" | "rejected";
@@ -73,7 +73,7 @@ export async function createStore(store: {
   address: string;
   latitude: number;
   longitude: number;
-  category: "retail" | "food" | "other";
+  category: "food" | "clothes" | "other";
   image?: string;
   email?: string;
 }): Promise<Store> {

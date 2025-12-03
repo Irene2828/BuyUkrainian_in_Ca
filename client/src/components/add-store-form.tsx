@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Store } from "@/lib/data";
-import { X, Upload, ChevronRight, CheckCircle, MapPin, Loader2 } from "lucide-react";
+import { X, Upload, ChevronRight, CheckCircle, MapPin, Loader2, Store as StoreIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { createStore, getApprovedStores } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
@@ -24,7 +24,7 @@ const formSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   products: z.string().min(2, "List at least one product"),
   address: z.string().min(5, "Address is required"),
-  category: z.enum(["retail", "food", "other"]),
+  category: z.enum(["food", "clothes", "other"]),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   website: z.string().optional(),
 });
@@ -102,7 +102,7 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
       description: "",
       products: "",
       address: "",
-      category: "retail",
+      category: "food",
       email: "",
       website: "",
     },
@@ -151,7 +151,13 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
     form.setValue("address", store.address);
     form.setValue("description", store.description);
     form.setValue("products", store.products.join(", "));
-    form.setValue("category", store.category as "retail" | "food" | "other");
+    const categoryMap: Record<string, "food" | "clothes" | "other"> = {
+      "retail": "clothes",
+      "food": "food",
+      "clothes": "clothes",
+      "other": "other"
+    };
+    form.setValue("category", categoryMap[store.category] || "other");
     setShowStoreSuggestions(false);
     toast({
       title: t("form.storeExists") || "Store already exists",
@@ -288,18 +294,22 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                   <FormItem className="relative">
                     <FormLabel>{t("form.storeName")}</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder={t("form.storeNamePlaceholder")} 
-                        {...field} 
-                        ref={nameInputRef}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleNameChange(e.target.value);
-                        }}
-                        onFocus={() => handleNameChange(field.value)}
-                        onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
-                        data-testid="input-store-name" 
-                      />
+                      <div className="relative">
+                        <StoreIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input 
+                          placeholder={t("form.storeNamePlaceholder")} 
+                          {...field} 
+                          ref={nameInputRef}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleNameChange(e.target.value);
+                          }}
+                          onFocus={() => handleNameChange(field.value)}
+                          onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
+                          className="pl-10"
+                          data-testid="input-store-name" 
+                        />
+                      </div>
                     </FormControl>
                     {showStoreSuggestions && storeSuggestions.length > 0 && (
                       <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
@@ -339,8 +349,8 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                         {...field}
                         data-testid="select-store-category"
                       >
-                        <option value="retail">{t("form.categoryRetail")}</option>
                         <option value="food">{t("form.categoryFood")}</option>
+                        <option value="clothes">{t("form.categoryClothes")}</option>
                         <option value="other">{t("form.categoryOther")}</option>
                       </select>
                     </FormControl>
@@ -385,10 +395,12 @@ export function AddStoreForm({ onAdd, onClose, isCollapsed = false, onToggleColl
                     <FormLabel>{t("form.address")}</FormLabel>
                     <FormControl>
                       <div className="relative">
+                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <Input 
                           placeholder={t("form.addressPlaceholder")} 
                           {...field} 
                           ref={addressInputRef}
+                          className="pl-10"
                           onChange={(e) => {
                             field.onChange(e);
                             handleAddressChange(e.target.value);
