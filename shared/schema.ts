@@ -17,7 +17,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
-// Stores table for Ukrainian product locations
+// Stores table for Ukrainian product locations (products only, no services)
 export const stores = pgTable("stores", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -28,6 +28,7 @@ export const stores = pgTable("stores", {
   longitude: decimal("longitude", { precision: 10, scale: 7 }).notNull(),
   category: text("category").notNull(),
   image: text("image"),
+  email: text("email"), // Optional email for notifications
   status: text("status").notNull().default("pending"), // pending, approved, rejected
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -39,8 +40,9 @@ export const insertStoreSchema = createInsertSchema(stores, {
   address: z.string().min(5, "Address is required"),
   latitude: z.string().refine((val) => !isNaN(parseFloat(val)), "Invalid latitude"),
   longitude: z.string().refine((val) => !isNaN(parseFloat(val)), "Invalid longitude"),
-  category: z.enum(["retail", "food", "services", "other"]),
+  category: z.enum(["retail", "food", "other"]), // Products only - no services
   image: z.string().optional(),
+  email: z.string().email().optional().or(z.literal("")),
   status: z.enum(["pending", "approved", "rejected"]).optional(),
 }).omit({ id: true, createdAt: true });
 

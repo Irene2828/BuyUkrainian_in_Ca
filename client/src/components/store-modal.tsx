@@ -3,7 +3,8 @@ import { X, MapPin, Copy, Mail, MessageSquare, Facebook, Twitter, Instagram } fr
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface StoreModalProps {
   store: Store | null;
@@ -42,7 +43,10 @@ export function StoreModal({ store, isOpen, onClose }: StoreModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent data-testid="store-modal" className="max-w-md p-0 max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent data-testid="store-modal" className="max-w-md p-0 max-h-[90vh] overflow-hidden flex flex-col" aria-describedby={undefined}>
+        <VisuallyHidden>
+          <DialogTitle>{store.name}</DialogTitle>
+        </VisuallyHidden>
         {/* Image Area */}
         <div className="relative bg-gray-100 w-full h-48">
           {store.image ? (

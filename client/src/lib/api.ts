@@ -8,8 +8,9 @@ export interface ApiStore {
   address: string;
   latitude: string | number;
   longitude: string | number;
-  category: "retail" | "food" | "services" | "other";
+  category: "retail" | "food" | "other";
   image?: string | null;
+  email?: string | null;
   status: "approved" | "pending" | "rejected";
   created_at?: string;
   createdAt?: string;
@@ -65,8 +66,9 @@ export async function createStore(store: {
   address: string;
   latitude: number;
   longitude: number;
-  category: "retail" | "food" | "services" | "other";
+  category: "retail" | "food" | "other";
   image?: string;
+  email?: string;
 }): Promise<Store> {
   const response = await fetch("/api/stores", {
     method: "POST",
@@ -85,6 +87,19 @@ export async function createStore(store: {
   
   const data: ApiStore = await response.json();
   return apiStoreToStore(data);
+}
+
+export async function deleteStore(id: number): Promise<boolean> {
+  const response = await fetch(`/api/admin/stores/${id}`, {
+    method: "DELETE",
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to delete store");
+  }
+  
+  return true;
 }
 
 export async function updateStoreStatus(id: number, status: "approved" | "rejected"): Promise<Store> {

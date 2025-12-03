@@ -15,6 +15,7 @@ export interface IStorage {
   getStore(id: number): Promise<Store | undefined>;
   createStore(store: InsertStore): Promise<Store>;
   updateStoreStatus(id: number, status: "pending" | "approved" | "rejected"): Promise<Store | undefined>;
+  deleteStore(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -63,6 +64,11 @@ export class DatabaseStorage implements IStorage {
       .where(eq(stores.id, id))
       .returning();
     return result[0];
+  }
+
+  async deleteStore(id: number): Promise<boolean> {
+    const result = await db.delete(stores).where(eq(stores.id, id)).returning();
+    return result.length > 0;
   }
 }
 

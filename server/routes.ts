@@ -72,5 +72,22 @@ export async function registerRoutes(
     }
   });
 
+  // Delete store (admin only)
+  app.delete("/api/admin/stores/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteStore(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ error: "Store not found" });
+      }
+
+      res.json({ success: true, message: "Store deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting store:", error);
+      res.status(500).json({ error: "Failed to delete store" });
+    }
+  });
+
   return httpServer;
 }

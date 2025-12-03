@@ -7,8 +7,9 @@ export interface Store {
   products: string[];
   address: string;
   coordinates: [number, number];
-  category: "retail" | "food" | "services" | "other";
+  category: "retail" | "food" | "other";
   image?: string;
+  email?: string;
   status: "approved" | "pending" | "rejected";
   createdAt?: string;
 }
@@ -52,12 +53,12 @@ export const INITIAL_STORES: Store[] = [
   },
   {
     id: "4",
-    name: "Ukrainian Credit Union",
-    description: "Financial institution supporting the Ukrainian community across Canada.",
-    products: ["Banking", "Mortgages", "Community Support"],
+    name: "Ukrainian Gift Shop",
+    description: "Traditional Ukrainian gifts, crafts, and cultural items.",
+    products: ["Embroidery", "Pottery", "Folk Art"],
     address: "405 The West Mall, Etobicoke, ON M9C 5J1",
     coordinates: [43.6441, -79.5653],
-    category: "services",
+    category: "retail",
     status: "approved",
     createdAt: "2024-01-05"
   },
