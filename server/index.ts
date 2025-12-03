@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { securityMiddleware } from "./security";
 
 const app = express();
 const httpServer = createServer(app);
@@ -12,15 +13,22 @@ declare module "http" {
   }
 }
 
+if (process.env.NODE_ENV === "production") {
+  app.use(securityMiddleware.helmet);
+}
+
+app.use(securityMiddleware.generalRateLimit);
+
 app.use(
   express.json({
+    limit: "100kb",
     verify: (req, _res, buf) => {
       req.rawBody = buf;
     },
   }),
 );
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: "100kb" }));
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -64,10 +72,16 @@ app.use((req, res, next) => {
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
+    
+    if (process.env.NODE_ENV === "production") {
+      log(`Error: ${err.message}`, "error");
+      res.status(status).json({ 
+        error: status >= 500 ? "An unexpected error occurred. Please try again later." : err.message 
+      });
+    } else {
+      console.error("Error:", err);
+      res.status(status).json({ error: err.message || "Internal Server Error" });
+    }
   });
 
   // importantly only setup vite in development and after
