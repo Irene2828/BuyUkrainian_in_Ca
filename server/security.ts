@@ -2,6 +2,7 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import type { Express, Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 function getAdminPasswordHash(): string {
   const hash = process.env.ADMIN_PASSWORD_HASH;
@@ -112,16 +113,20 @@ export function checkDuplicateSubmission(
   });
 }
 
-let adminSessions: Map<string, { expires: number }> = new Map();
+const adminSessions: Map<string, { expires: number }> = new Map();
 
 function generateSessionId(): string {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < 64; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
+  return crypto.randomBytes(32).toString("hex");
 }
+
+setInterval(() => {
+  const now = Date.now();
+  Array.from(adminSessions.entries()).forEach(([id, session]) => {
+    if (session.expires < now) {
+      adminSessions.delete(id);
+    }
+  });
+}, 60 * 60 * 1000);
 
 export async function verifyAdminPassword(password: string): Promise<boolean> {
   const hash = getAdminPasswordHash();
@@ -133,16 +138,6 @@ export function createAdminSession(): string {
   const sessionId = generateSessionId();
   const expires = Date.now() + 24 * 60 * 60 * 1000;
   adminSessions.set(sessionId, { expires });
-  
-  setInterval(() => {
-    const now = Date.now();
-    Array.from(adminSessions.entries()).forEach(([id, session]) => {
-      if (session.expires < now) {
-        adminSessions.delete(id);
-      }
-    });
-  }, 60 * 60 * 1000);
-  
   return sessionId;
 }
 

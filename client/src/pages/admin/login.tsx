@@ -3,19 +3,31 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Lock } from "lucide-react";
+import { Lock, AlertCircle } from "lucide-react";
+import { login } from "@/lib/auth";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [_, setLocation] = useLocation();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "admin123") { // Mock authentication
-      setLocation("/admin/dashboard");
-    } else {
-      setError("Invalid password");
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const result = await login(password);
+      if (result.success) {
+        setLocation("/admin/dashboard");
+      } else {
+        setError(result.error || "Invalid credentials");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -38,15 +50,24 @@ export default function AdminLogin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={error ? "border-red-500" : ""}
+                disabled={isLoading}
+                data-testid="input-admin-password"
               />
-              {error && <p className="text-xs text-red-500">{error}</p>}
+              {error && (
+                <div className="flex items-center gap-2 text-xs text-red-500">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>{error}</span>
+                </div>
+              )}
             </div>
-            <Button type="submit" className="w-full bg-black hover:bg-black/80 text-white">
-              Sign In
+            <Button 
+              type="submit" 
+              className="w-full bg-black hover:bg-black/80 text-white"
+              disabled={isLoading}
+              data-testid="button-admin-login"
+            >
+              {isLoading ? "Signing in..." : "Sign In"}
             </Button>
-            <div className="text-center text-xs text-muted-foreground mt-4">
-              Hint: use 'admin123'
-            </div>
           </form>
         </CardContent>
       </Card>

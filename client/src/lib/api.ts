@@ -1,4 +1,5 @@
 import { Store } from "@/lib/data";
+import { getAuthHeaders, clearAdminSession } from "@/lib/auth";
 
 export interface ApiStore {
   id: number;
@@ -53,7 +54,13 @@ export async function getApprovedStores(): Promise<Store[]> {
 }
 
 export async function getAllStores(): Promise<Store[]> {
-  const response = await fetch("/api/admin/stores");
+  const response = await fetch("/api/admin/stores", {
+    headers: getAuthHeaders(),
+  });
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
   if (!response.ok) throw new Error("Failed to fetch all stores");
   const data: ApiStore[] = await response.json();
   return data.map(apiStoreToStore);
@@ -92,7 +99,13 @@ export async function createStore(store: {
 export async function deleteStore(id: number): Promise<boolean> {
   const response = await fetch(`/api/admin/stores/${id}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
   
   if (!response.ok) {
     const error = await response.json();
@@ -105,9 +118,17 @@ export async function deleteStore(id: number): Promise<boolean> {
 export async function updateStoreStatus(id: number, status: "approved" | "rejected"): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}/status`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
     body: JSON.stringify({ status }),
   });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
   
   if (!response.ok) {
     const error = await response.json();

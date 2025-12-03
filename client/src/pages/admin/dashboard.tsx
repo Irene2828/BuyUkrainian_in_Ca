@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Store } from "@/lib/data";
 import { getAllStores, updateStoreStatus, deleteStore } from "@/lib/api";
@@ -6,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check, X, MapPin, Search, LogOut, Trash2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { verifySession, logout, isAuthenticated } from "@/lib/auth";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,10 +25,31 @@ export default function AdminDashboard() {
   const [_, setLocation] = useLocation();
   const queryClient = useQueryClient();
 
-  const { data: stores = [], isLoading } = useQuery({
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      setLocation("/admin/login");
+      return;
+    }
+    
+    verifySession().then((valid) => {
+      if (!valid) {
+        toast({ title: "Session expired", description: "Please log in again.", variant: "destructive" });
+        setLocation("/admin/login");
+      }
+    });
+  }, [setLocation, toast]);
+
+  const { data: stores = [], isLoading, error } = useQuery({
     queryKey: ["admin-stores"],
     queryFn: getAllStores,
+    retry: false,
   });
+
+  useEffect(() => {
+    if (error?.message?.includes("Session expired")) {
+      setLocation("/admin/login");
+    }
+  }, [error, setLocation]);
 
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: number; status: "approved" | "rejected" }) => 
@@ -88,7 +111,15 @@ export default function AdminDashboard() {
           <Link href="/">
             <Button variant="ghost" size="sm">View Live Site</Button>
           </Link>
-          <Button variant="outline" size="sm" onClick={() => setLocation("/admin/login")}>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={async () => {
+              await logout();
+              setLocation("/admin/login");
+            }}
+            data-testid="button-admin-logout"
+          >
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </Button>
