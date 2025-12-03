@@ -34,6 +34,19 @@ Preferred communication style: Simple, everyday language.
 - OpenStreetMap tile layer as the base map
 - Nominatim API for geocoding addresses to coordinates
 - Custom Ukrainian flag-themed map markers (blue/yellow circular icons)
+- Marker clustering via leaflet.markercluster when zoomed out
+- "Find Near Me" geolocation feature with Canada bounds validation
+
+**UX Features**
+- Dark/light mode toggle with system preference detection (next-themes)
+- Loading skeleton states for map and store cards during data fetch
+- Collapsible store submission forms
+- AI-generated share text with platform-specific copy (X/Twitter, Facebook, Instagram)
+- Social sharing buttons with native share API fallback
+- Error pages (404, 500) with Ukrainian-themed styling
+
+**Anti-Bot Protection**
+- Honeypot field ("website") in submission forms - must be empty or submission is rejected
 
 ### Backend Architecture
 
