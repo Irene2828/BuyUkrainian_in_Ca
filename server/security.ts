@@ -3,11 +3,11 @@ import helmet from "helmet";
 import type { Express, Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import { storage } from "./storage";
 
 function getAdminPasswordHash(): string {
   const hash = process.env.ADMIN_PASSWORD_HASH;
   if (!hash) {
-    console.warn("WARNING: ADMIN_PASSWORD_HASH not set. Admin login is disabled.");
     return "";
   }
   return hash;
@@ -128,10 +128,36 @@ setInterval(() => {
   });
 }, 60 * 60 * 1000);
 
-export async function verifyAdminPassword(password: string): Promise<boolean> {
+export async function verifyAdminPassword(password: string, username?: string): Promise<{ valid: boolean; adminId?: number; username?: string }> {
+  // If username is provided, check database first
+  if (username) {
+    try {
+      const adminUser = await storage.getAdminUserByUsername(username);
+      if (adminUser) {
+        const isValid = await bcrypt.compare(password, adminUser.passwordHash);
+        if (isValid) {
+          return { valid: true, adminId: adminUser.id, username: adminUser.username };
+        }
+      }
+    } catch (error) {
+      console.error("Database admin check error:", error);
+    }
+  }
+  
+  // Fallback to environment variable for backward compatibility
   const hash = getAdminPasswordHash();
-  if (!hash) return false;
-  return bcrypt.compare(password, hash);
+  if (hash) {
+    const isValid = await bcrypt.compare(password, hash);
+    if (isValid) {
+      return { valid: true, username: "admin" };
+    }
+  }
+  
+  return { valid: false };
+}
+
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
 }
 
 export function createAdminSession(): string {

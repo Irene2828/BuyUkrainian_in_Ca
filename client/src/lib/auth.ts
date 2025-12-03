@@ -36,14 +36,14 @@ export async function verifySession(): Promise<boolean> {
   }
 }
 
-export async function login(password: string): Promise<{ success: boolean; error?: string }> {
+export async function login(password: string, username?: string): Promise<{ success: boolean; error?: string }> {
   try {
     const response = await fetch("/api/admin/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ password, username: username || undefined }),
     });
 
     const data = await response.json();

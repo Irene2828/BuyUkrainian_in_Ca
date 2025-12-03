@@ -11,15 +11,30 @@ import {
   verifyAdminPassword,
   createAdminSession,
   destroyAdminSession,
-  requireAdmin
+  requireAdmin,
+  hashPassword
 } from "./security";
 
 const loginSchema = z.object({
+  username: z.string().min(1).max(50).optional(),
   password: z.string().min(1, "Password is required").max(100, "Password too long"),
 });
 
 const statusSchema = z.object({
   status: z.enum(["pending", "approved", "rejected"]),
+});
+
+const imageSchema = z.object({
+  image: z.string().url("Invalid image URL").max(500, "URL too long").nullable(),
+});
+
+const createAdminSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters").max(50, "Username too long"),
+  password: z.string().min(8, "Password must be at least 8 characters").max(100, "Password too long"),
+});
+
+const changePasswordSchema = z.object({
+  newPassword: z.string().min(8, "Password must be at least 8 characters").max(100, "Password too long"),
 });
 
 export async function registerRoutes(
@@ -44,13 +59,13 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid request" });
       }
 
-      const isValid = await verifyAdminPassword(validation.data.password);
-      if (!isValid) {
+      const result = await verifyAdminPassword(validation.data.password, validation.data.username);
+      if (!result.valid) {
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
       const sessionId = createAdminSession();
-      res.json({ success: true, sessionId });
+      res.json({ success: true, sessionId, username: result.username });
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).json({ error: "Login failed" });
@@ -207,6 +222,126 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error processing deletion request:", error);
       res.status(500).json({ error: "Failed to process deletion request" });
+    }
+  });
+
+  // Update store image
+  app.patch("/api/admin/stores/:id/image", requireAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: "Invalid store ID" });
+      }
+
+      const validation = imageSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ error: "Invalid image URL" });
+      }
+
+      const updatedStore = await storage.updateStoreImage(id, validation.data.image);
+      
+      if (!updatedStore) {
+        return res.status(404).json({ error: "Store not found" });
+      }
+
+      res.json(updatedStore);
+    } catch (error) {
+      console.error("Error updating store image:", error);
+      res.status(500).json({ error: "Failed to update store image" });
+    }
+  });
+
+  // Admin user management routes
+  app.get("/api/admin/users", requireAdmin, async (req, res) => {
+    try {
+      const admins = await storage.getAllAdminUsers();
+      // Don't expose password hashes
+      const safeAdmins = admins.map(({ passwordHash, ...rest }) => rest);
+      res.json(safeAdmins);
+    } catch (error) {
+      console.error("Error fetching admin users:", error);
+      res.status(500).json({ error: "Failed to fetch admin users" });
+    }
+  });
+
+  app.post("/api/admin/users", requireAdmin, async (req, res) => {
+    try {
+      const validation = createAdminSchema.safeParse(req.body);
+      if (!validation.success) {
+        const readableError = fromZodError(validation.error);
+        return res.status(400).json({ error: readableError.message });
+      }
+
+      // Check if username already exists
+      const existing = await storage.getAdminUserByUsername(validation.data.username);
+      if (existing) {
+        return res.status(400).json({ error: "Username already exists" });
+      }
+
+      const passwordHash = await hashPassword(validation.data.password);
+      const newAdmin = await storage.createAdminUser({
+        username: validation.data.username,
+        passwordHash,
+      });
+
+      // Don't expose password hash
+      const { passwordHash: _, ...safeAdmin } = newAdmin;
+      res.status(201).json(safeAdmin);
+    } catch (error) {
+      console.error("Error creating admin user:", error);
+      res.status(500).json({ error: "Failed to create admin user" });
+    }
+  });
+
+  app.patch("/api/admin/users/:id/password", requireAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: "Invalid user ID" });
+      }
+
+      const validation = changePasswordSchema.safeParse(req.body);
+      if (!validation.success) {
+        const readableError = fromZodError(validation.error);
+        return res.status(400).json({ error: readableError.message });
+      }
+
+      const passwordHash = await hashPassword(validation.data.newPassword);
+      const updated = await storage.updateAdminPassword(id, passwordHash);
+
+      if (!updated) {
+        return res.status(404).json({ error: "Admin user not found" });
+      }
+
+      res.json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+      console.error("Error updating password:", error);
+      res.status(500).json({ error: "Failed to update password" });
+    }
+  });
+
+  app.delete("/api/admin/users/:id", requireAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: "Invalid user ID" });
+      }
+
+      // Prevent deleting the last admin
+      const admins = await storage.getAllAdminUsers();
+      if (admins.length <= 1) {
+        return res.status(400).json({ error: "Cannot delete the last admin user" });
+      }
+
+      const deleted = await storage.deleteAdminUser(id);
+      if (!deleted) {
+        return res.status(404).json({ error: "Admin user not found" });
+      }
+
+      res.json({ success: true, message: "Admin user deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting admin user:", error);
+      res.status(500).json({ error: "Failed to delete admin user" });
     }
   });
 

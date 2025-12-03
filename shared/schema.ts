@@ -3,19 +3,20 @@ import { pgTable, text, varchar, serial, timestamp, decimal } from "drizzle-orm/
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+export const adminUsers = pgTable("admin_users", {
+  id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  passwordHash: text("password_hash").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
+export const insertAdminUserSchema = createInsertSchema(adminUsers, {
+  username: z.string().min(3, "Username must be at least 3 characters").max(50, "Username too long"),
+  passwordHash: z.string(),
+}).omit({ id: true, createdAt: true });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
+export type AdminUser = typeof adminUsers.$inferSelect;
 
 // Stores table for Ukrainian product locations (products only, no services)
 export const stores = pgTable("stores", {

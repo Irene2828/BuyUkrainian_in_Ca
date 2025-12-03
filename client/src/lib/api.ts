@@ -138,3 +138,109 @@ export async function updateStoreStatus(id: number, status: "approved" | "reject
   const data: ApiStore = await response.json();
   return apiStoreToStore(data);
 }
+
+export async function updateStoreImage(id: number, image: string | null): Promise<Store> {
+  const response = await fetch(`/api/admin/stores/${id}/image`, {
+    method: "PATCH",
+    headers: { 
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+    body: JSON.stringify({ image }),
+  });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to update store image");
+  }
+  
+  const data: ApiStore = await response.json();
+  return apiStoreToStore(data);
+}
+
+// Admin user types
+export interface AdminUser {
+  id: number;
+  username: string;
+  createdAt: string;
+}
+
+export async function getAdminUsers(): Promise<AdminUser[]> {
+  const response = await fetch("/api/admin/users", {
+    headers: getAuthHeaders(),
+  });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  
+  if (!response.ok) throw new Error("Failed to fetch admin users");
+  return response.json();
+}
+
+export async function createAdminUser(username: string, password: string): Promise<AdminUser> {
+  const response = await fetch("/api/admin/users", {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to create admin user");
+  }
+  
+  return response.json();
+}
+
+export async function updateAdminPassword(id: number, newPassword: string): Promise<void> {
+  const response = await fetch(`/api/admin/users/${id}/password`, {
+    method: "PATCH",
+    headers: { 
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+    body: JSON.stringify({ newPassword }),
+  });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to update password");
+  }
+}
+
+export async function deleteAdminUser(id: number): Promise<void> {
+  const response = await fetch(`/api/admin/users/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to delete admin user");
+  }
+}
