@@ -66,16 +66,16 @@
   --shadow-float: 0px 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0px 6px 16px rgba(0, 0, 0, 0.12);
 
-  /* Spacing Tokens - Mobile-first (use responsive classes for larger screens) */
-  --spacing-section-top: 48px;
-  --spacing-section-bottom: 40px;
-  --spacing-section-gap: 32px;
+  /* Spacing Tokens - Mobile-first (40px mobile / 80px desktop) */
+  --spacing-section-top: 40px;
+  --spacing-section-bottom: 32px;
+  --spacing-section-gap: 24px;
 
   /* Desktop spacing overrides via media query */
   @media (min-width: 768px) {
     --spacing-section-top: 80px;
-    --spacing-section-bottom: 64px;
-    --spacing-section-gap: 48px;
+    --spacing-section-bottom: 56px;
+    --spacing-section-gap: 40px;
   }
 
   /* Typography */
