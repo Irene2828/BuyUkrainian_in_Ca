@@ -26,7 +26,7 @@ function NewlyAddedStores() {
           {newlyAdded.map((store) => (
             <div
               key={store.id}
-              className="flex flex-col gap-6 bg-white p-8 rounded-[40px] border border-[#D3E4FD] transition-all h-full shadow-sm hover:shadow-md hover:border-[#D3E4FD] group flicker-card-premium"
+              className="flex flex-col gap-6 bg-white p-8 rounded-[40px] border border-[#D3E4FD] transition-all h-full shadow-sm hover:shadow-md hover:border-[#D3E4FD] group"
             >
               <div className="flex items-center gap-4">
                 <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">

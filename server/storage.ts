@@ -25,6 +25,7 @@ export interface IStorage {
   createStore(store: InsertStore): Promise<Store>;
   updateStoreStatus(id: number, status: "pending" | "approved" | "rejected"): Promise<Store | undefined>;
   updateStoreImages(id: number, images: string[]): Promise<Store | undefined>;
+  updateStore(id: number, updates: { name?: string; address?: string }): Promise<Store | undefined>;
   deleteStore(id: number): Promise<boolean>;
 }
 
@@ -101,6 +102,14 @@ export class DatabaseStorage implements IStorage {
     const primaryImage = images.length > 0 ? images[0] : null;
     const result = await db.update(stores)
       .set({ images, image: primaryImage })
+      .where(eq(stores.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async updateStore(id: number, updates: { name?: string; address?: string }): Promise<Store | undefined> {
+    const result = await db.update(stores)
+      .set(updates)
       .where(eq(stores.id, id))
       .returning();
     return result[0];
@@ -415,6 +424,14 @@ export class MemStorage implements IStorage {
     if (!store) return undefined;
     const primaryImage = images.length > 0 ? images[0] : null;
     const updated = { ...store, images, image: primaryImage };
+    this.stores.set(id, updated);
+    return updated;
+  }
+
+  async updateStore(id: number, updates: { name?: string; address?: string }): Promise<Store | undefined> {
+    const store = this.stores.get(id);
+    if (!store) return undefined;
+    const updated = { ...store, ...updates };
     this.stores.set(id, updated);
     return updated;
   }

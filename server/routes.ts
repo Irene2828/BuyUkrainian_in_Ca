@@ -38,6 +38,11 @@ const changePasswordSchema = z.object({
   newPassword: z.string().min(8, "Password must be at least 8 characters").max(100, "Password too long"),
 });
 
+const updateStoreSchema = z.object({
+  name: z.string().min(1, "Name is required").max(200, "Name too long").optional(),
+  address: z.string().min(1, "Address is required").max(500, "Address too long").optional(),
+});
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -260,6 +265,33 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error updating store images:", error);
       res.status(500).json({ error: "Failed to update store images" });
+    }
+  });
+
+  // Update store details (name, address)
+  app.patch("/api/admin/stores/:id", requireAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: "Invalid store ID" });
+      }
+
+      const validation = updateStoreSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ error: "Invalid update data" });
+      }
+
+      const updatedStore = await storage.updateStore(id, validation.data);
+
+      if (!updatedStore) {
+        return res.status(404).json({ error: "Store not found" });
+      }
+
+      res.json(updatedStore);
+      broadcast("store_updated");
+    } catch (error) {
+      console.error("Error updating store:", error);
+      res.status(500).json({ error: "Failed to update store" });
     }
   });
 

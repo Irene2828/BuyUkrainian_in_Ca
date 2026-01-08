@@ -172,6 +172,30 @@ export async function updateStoreImages(id: number, images: string[]): Promise<S
   return apiStoreToStore(data);
 }
 
+export async function updateStore(id: number, updates: { name?: string; address?: string }): Promise<Store> {
+  const response = await fetch(`/api/admin/stores/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+    body: JSON.stringify(updates),
+  });
+
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to update store");
+  }
+
+  const data: ApiStore = await response.json();
+  return apiStoreToStore(data);
+}
+
 // Admin user types
 export interface AdminUser {
   id: number;

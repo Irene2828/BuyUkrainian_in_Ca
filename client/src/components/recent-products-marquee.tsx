@@ -47,7 +47,7 @@ export function RecentProductsMarquee() {
                             key={`${store.id}-${i}`}
                             onClick={() => handleStoreClick(store)}
                             /* Card: RESTORED TO AUDIT RADIUS [40px], WITH NEW STROKE #D3E4FD */
-                            className="inline-flex flex-row items-center justify-between gap-6 bg-white min-w-[340px] max-w-[420px] p-8 rounded-[40px] border border-[#D3E4FD] cursor-pointer transition-all shadow-sm flicker-card-premium group"
+                            className="inline-flex flex-row items-center justify-between gap-6 bg-white min-w-[340px] max-w-[420px] p-8 rounded-[40px] border border-[#D3E4FD] cursor-pointer transition-all shadow-sm group"
                         >
                             <div className="flex flex-col gap-6 flex-1 min-w-0">
                                 <div className="flex items-center gap-4">
