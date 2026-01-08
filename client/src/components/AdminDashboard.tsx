@@ -23,6 +23,8 @@ import {
     Image as ImageIcon,
     ChevronRight,
     ExternalLink,
+    Grid3X3,
+    List,
 } from "lucide-react";
 import {
     Dialog,
@@ -47,6 +49,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [editAddress, setEditAddress] = useState("");
     const [editImages, setEditImages] = useState<string[]>([]);
     const [localImagePreviews, setLocalImagePreviews] = useState<string[]>([]);
+    const [viewMode, setViewMode] = useState<"grid" | "list">("list");
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Auth check
@@ -238,8 +241,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <button
                                 onClick={() => setActiveFilter("pending")}
                                 className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-all ${activeFilter === "pending"
-                                        ? "bg-[#111] text-white"
-                                        : "text-gray-600 hover:bg-gray-50"
+                                    ? "bg-[#111] text-white"
+                                    : "text-gray-600 hover:bg-gray-50"
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -256,8 +259,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <button
                                 onClick={() => setActiveFilter("approved")}
                                 className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-all ${activeFilter === "approved"
-                                        ? "bg-[#111] text-white"
-                                        : "text-gray-600 hover:bg-gray-50"
+                                    ? "bg-[#111] text-white"
+                                    : "text-gray-600 hover:bg-gray-50"
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -322,13 +325,34 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 : "Manage live store listings"}
                         </p>
                     </div>
-                    <a
-                        href="/"
-                        target="_blank"
-                        className="flex items-center gap-2 text-[14px] text-gray-500 hover:text-[#3C93EA] transition-colors"
-                    >
-                        View Live Site <ExternalLink className="w-4 h-4" />
-                    </a>
+                    <div className="flex items-center gap-4">
+                        {/* View Toggle */}
+                        <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                            <button
+                                onClick={() => setViewMode("list")}
+                                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white shadow-sm text-[#111]" : "text-gray-400 hover:text-gray-600"
+                                    }`}
+                                title="List View"
+                            >
+                                <List className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode("grid")}
+                                className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-white shadow-sm text-[#111]" : "text-gray-400 hover:text-gray-600"
+                                    }`}
+                                title="Grid View"
+                            >
+                                <Grid3X3 className="w-4 h-4" />
+                            </button>
+                        </div>
+                        <a
+                            href="/"
+                            target="_blank"
+                            className="flex items-center gap-2 text-[14px] text-gray-500 hover:text-[#3C93EA] transition-colors"
+                        >
+                            View Live Site <ExternalLink className="w-4 h-4" />
+                        </a>
+                    </div>
                 </div>
 
                 {/* Store Grid */}
@@ -349,7 +373,80 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             {activeFilter === "pending" ? "No pending submissions" : "No approved stores yet"}
                         </p>
                     </div>
+                ) : viewMode === "list" ? (
+                    /* List View - Compact rows for scanning 100+ submissions */
+                    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div className="divide-y divide-gray-50">
+                            {displayedStores.map((store) => (
+                                <div
+                                    key={store.id}
+                                    className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors group"
+                                >
+                                    {/* Blue/Yellow Circle */}
+                                    <div
+                                        className="w-8 h-8 rounded-full shrink-0 border border-white shadow-sm"
+                                        style={{ background: 'linear-gradient(to bottom, #3C93EA 50%, #F3FF0A 50%)' }}
+                                    />
+
+                                    {/* Store Name */}
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="text-[14px] font-medium text-[#111] truncate">{store.name}</h3>
+                                        <p className="text-[12px] text-gray-400 truncate">{store.address}</p>
+                                    </div>
+
+                                    {/* Category Badge */}
+                                    <span className="shrink-0 text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-500 uppercase font-medium hidden md:inline">
+                                        {store.category}
+                                    </span>
+
+                                    {/* Status Badge */}
+                                    <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${store.status === "pending" ? "bg-orange-100 text-orange-600" :
+                                            store.status === "approved" ? "bg-green-100 text-green-600" :
+                                                "bg-red-100 text-red-600"
+                                        }`}>
+                                        {store.status}
+                                    </span>
+
+                                    {/* Actions */}
+                                    <div className="flex items-center gap-2 shrink-0">
+                                        {activeFilter === "pending" && (
+                                            <>
+                                                <button
+                                                    onClick={() => handleApprove(store.id)}
+                                                    className="w-7 h-7 rounded-lg bg-green-50 text-green-600 flex items-center justify-center hover:bg-green-100 transition-colors"
+                                                    title="Approve"
+                                                >
+                                                    <Check className="w-3.5 h-3.5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleReject(store.id)}
+                                                    className="w-7 h-7 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"
+                                                    title="Reject"
+                                                >
+                                                    <X className="w-3.5 h-3.5" />
+                                                </button>
+                                            </>
+                                        )}
+                                        <button
+                                            onClick={() => openEditModal(store)}
+                                            className="w-7 h-7 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center hover:bg-gray-200 hover:text-[#3C93EA] transition-colors"
+                                            title="Edit"
+                                        >
+                                            <Edit3 className="w-3.5 h-3.5" />
+                                        </button>
+                                        <ChevronRight className="w-4 h-4 text-gray-300" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Footer with count */}
+                        <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 text-[12px] text-gray-500">
+                            Showing {displayedStores.length} {activeFilter} submissions
+                        </div>
+                    </div>
                 ) : (
+                    /* Grid View - Card layout with images */
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {displayedStores.map((store) => (
                             <div
@@ -373,8 +470,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
                                     {/* Status Badge */}
                                     <div className={`absolute top-3 left-3 px-2 py-1 rounded-lg text-[11px] font-bold uppercase ${store.status === "pending" ? "bg-orange-100 text-orange-700" :
-                                            store.status === "approved" ? "bg-green-100 text-green-700" :
-                                                "bg-red-100 text-red-700"
+                                        store.status === "approved" ? "bg-green-100 text-green-700" :
+                                            "bg-red-100 text-red-700"
                                         }`}>
                                         {store.status}
                                     </div>
