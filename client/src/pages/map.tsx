@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MapExplorer } from "@/components/map-explorer";
 import { SpreadTheWord } from "@/components/spread-the-word";
+import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 import { PreFooter } from "@/components/pre-footer";
 
 function NewlyAddedStores() {
@@ -79,6 +80,7 @@ export default function MapPage() {
         </section>
 
         <MapExplorer />
+        <RecentProductsMarquee />
         <NewlyAddedStores />
         <SpreadTheWord />
         <PreFooter />

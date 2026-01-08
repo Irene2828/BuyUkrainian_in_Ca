@@ -47,20 +47,7 @@ const isWithinCanada = (lat: number, lng: number) => {
   return lat >= 41.67 && lat <= 83.11 && lng >= -141.03 && lng <= -52.62;
 };
 
-// ScrollWheelZoomController: Enables zoom only after user clicks on map
-function ScrollWheelZoomController({ isMapFocused }: { isMapFocused: boolean }) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (isMapFocused) {
-      map.scrollWheelZoom.enable();
-    } else {
-      map.scrollWheelZoom.disable();
-    }
-  }, [isMapFocused, map]);
-
-  return null;
-}
+// Scroll wheel zoom is permanently disabled - users can zoom using +/- buttons only
 
 function MapController({
   focusCoordinates,
@@ -137,7 +124,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 }, ref) {
   const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
   const [provinceView, setProvinceView] = useState<{ lat: number, lng: number, zoom: number } | null>(null);
-  const [isMapFocused, setIsMapFocused] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
 
   useImperativeHandle(ref, () => ({
@@ -145,28 +131,23 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       if (store.coordinates) {
         setFocusCoordinates(store.coordinates as [number, number]);
         setProvinceView(null);
-        setIsMapFocused(true); // Enable zoom when programmatically focusing
       }
     },
     flyToProvince: (lat: number, lng: number, zoom: number) => {
       setProvinceView({ lat, lng, zoom });
       setFocusCoordinates(null);
-      setIsMapFocused(true); // Enable zoom when programmatically flying
     },
     resetView: () => {
       setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 4 });
       setFocusCoordinates(null);
-      setIsMapFocused(true); // Enable zoom when resetting view
     },
     zoomIn: () => {
       if (mapRef.current) {
-        setIsMapFocused(true); // Enable zoom when using controls
         mapRef.current.zoomIn();
       }
     },
     zoomOut: () => {
       if (mapRef.current) {
-        setIsMapFocused(true); // Enable zoom when using controls
         mapRef.current.zoomOut();
       }
     }
@@ -221,9 +202,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           © CARTO, © OpenStreetMap contributors
         </div>
 
-        {/* Scroll Wheel Zoom Controller */}
-        <ScrollWheelZoomController isMapFocused={isMapFocused} />
-
         <MapController
           focusCoordinates={focusCoordinates}
           provinceView={provinceView}
@@ -231,12 +209,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onFlightEnd={() => onFlightChange?.(false)}
         />
 
-        {/* Click handler to enable scroll wheel zoom - DISABLED pointer-events to allow marker clicks */}
-        <div
-          onClick={() => setIsMapFocused(true)}
-          className="absolute inset-0 z-[400] pointer-events-none"
-          style={{ background: 'transparent' }}
-        />
 
         {stores.map((store) => (
           store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1]) && (
@@ -247,7 +219,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
               eventHandlers={{
                 click: () => {
                   onSelectStore(store);
-                  setIsMapFocused(true);
                 }
               }}
             />
@@ -287,7 +258,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       <div className="absolute right-4 top-1/2 -translate-y-1/2 z-[1000] flex flex-col gap-2">
         <button
           onClick={() => {
-            setIsMapFocused(true);
             mapRef.current?.zoomIn();
           }}
           className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
@@ -297,7 +267,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         </button>
         <button
           onClick={() => {
-            setIsMapFocused(true);
             mapRef.current?.zoomOut();
           }}
           className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
@@ -307,7 +276,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         </button>
         <button
           onClick={() => {
-            setIsMapFocused(true);
             setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 4 });
             setFocusCoordinates(null);
           }}
