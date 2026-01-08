@@ -8,20 +8,15 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AdminStoreCard, BrandCircle } from "@/components/AdminStoreCard";
 import {
-    LayoutDashboard,
     FileText,
     MapPin,
     Users,
-    Check,
     X,
     LogOut,
-    Settings,
     Upload,
     Trash2,
-    Edit3,
-    Image as ImageIcon,
-    ChevronRight,
     ExternalLink,
     Grid3X3,
     List,
@@ -374,69 +369,19 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         </p>
                     </div>
                 ) : viewMode === "list" ? (
-                    /* List View - Compact rows for scanning 100+ submissions */
+                    /* List View - Using AdminStoreCard component */
                     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                         <div className="divide-y divide-gray-50">
                             {displayedStores.map((store) => (
-                                <div
+                                <AdminStoreCard
                                     key={store.id}
-                                    className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors group"
-                                >
-                                    {/* Blue/Yellow Circle */}
-                                    <div
-                                        className="w-8 h-8 rounded-full shrink-0 border border-white shadow-sm"
-                                        style={{ background: 'linear-gradient(to bottom, #3C93EA 50%, #F3FF0A 50%)' }}
-                                    />
-
-                                    {/* Store Name */}
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-[14px] font-medium text-admin-text truncate">{store.name}</h3>
-                                        <p className="text-[12px] text-gray-400 truncate">{store.address}</p>
-                                    </div>
-
-                                    {/* Category Badge */}
-                                    <span className="shrink-0 text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-500 uppercase font-medium hidden md:inline">
-                                        {store.category}
-                                    </span>
-
-                                    {/* Status Badge */}
-                                    <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${store.status === "pending" ? "bg-orange-100 text-orange-600" :
-                                        store.status === "approved" ? "bg-green-100 text-green-600" :
-                                            "bg-red-100 text-red-600"
-                                        }`}>
-                                        {store.status}
-                                    </span>
-
-                                    {/* Actions */}
-                                    <div className="flex items-center gap-2 shrink-0">
-                                        {activeFilter === "pending" && (
-                                            <>
-                                                <button
-                                                    onClick={() => handleApprove(store.id)}
-                                                    className="w-7 h-7 rounded-lg bg-green-50 text-green-600 flex items-center justify-center hover:bg-green-100 transition-colors"
-                                                    title="Approve"
-                                                >
-                                                    <Check className="w-3.5 h-3.5" />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleReject(store.id)}
-                                                    className="w-7 h-7 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"
-                                                    title="Reject"
-                                                >
-                                                    <X className="w-3.5 h-3.5" />
-                                                </button>
-                                            </>
-                                        )}
-                                        <button
-                                            onClick={() => openEditModal(store)}
-                                            className="w-7 h-7 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center hover:bg-gray-200 hover:text-brand-blue-logo transition-colors"
-                                            title="Edit"
-                                        >
-                                            <Edit3 className="w-3.5 h-3.5" />
-                                        </button>
-                                        <ChevronRight className="w-4 h-4 text-gray-300" />
-                                    </div>
-                                </div>
+                                    store={store}
+                                    viewMode="list"
+                                    showActions={activeFilter === "pending"}
+                                    onApprove={handleApprove}
+                                    onReject={handleReject}
+                                    onEdit={openEditModal}
+                                />
                             ))}
                         </div>
 
@@ -446,94 +391,18 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         </div>
                     </div>
                 ) : (
-                    /* Grid View - Card layout with images */
+                    /* Grid View - Using AdminStoreCard component */
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {displayedStores.map((store) => (
-                            <div
+                            <AdminStoreCard
                                 key={store.id}
-                                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden group"
-                            >
-                                {/* Image */}
-                                <div className="relative h-36 bg-gray-50">
-                                    {store.images && store.images.length > 0 ? (
-                                        <img
-                                            src={store.images[0]}
-                                            alt={store.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <div className="w-12 h-12 rounded-full border-2 border-white shadow-md"
-                                                style={{ background: 'linear-gradient(to bottom, #3C93EA 50%, #F3FF0A 50%)' }} />
-                                        </div>
-                                    )}
-
-                                    {/* Status Badge */}
-                                    <div className={`absolute top-3 left-3 px-2 py-1 rounded-lg text-[11px] font-bold uppercase ${store.status === "pending" ? "bg-orange-100 text-orange-700" :
-                                        store.status === "approved" ? "bg-green-100 text-green-700" :
-                                            "bg-red-100 text-red-700"
-                                        }`}>
-                                        {store.status}
-                                    </div>
-
-                                    {/* Quick Edit Button */}
-                                    <button
-                                        onClick={() => openEditModal(store)}
-                                        className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-brand-blue-logo transition-all opacity-0 group-hover:opacity-100"
-                                    >
-                                        <Edit3 className="w-4 h-4" />
-                                    </button>
-                                </div>
-
-                                {/* Content */}
-                                <div className="p-5">
-                                    <h3 className="text-[16px] font-semibold text-admin-text mb-1 truncate">{store.name}</h3>
-                                    <p className="text-[13px] text-gray-400 truncate mb-1">{store.address}</p>
-                                    <span className="inline-block text-[11px] px-2 py-0.5 bg-gray-100 text-gray-500 rounded uppercase font-medium">
-                                        {store.category}
-                                    </span>
-
-                                    {/* Image Count */}
-                                    <div className="flex items-center gap-1 mt-3 text-[12px] text-gray-400">
-                                        <ImageIcon className="w-3.5 h-3.5" />
-                                        {(store.images?.length || 0)}/3 images
-                                    </div>
-                                </div>
-
-                                {/* Action Buttons */}
-                                {activeFilter === "pending" && (
-                                    <div className="px-5 pb-5 flex gap-2">
-                                        <Button
-                                            size="sm"
-                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                                            onClick={() => handleApprove(store.id)}
-                                        >
-                                            <Check className="w-4 h-4 mr-1" /> Approve
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            className="flex-1 text-red-600 border-red-200 hover:bg-red-50"
-                                            onClick={() => handleReject(store.id)}
-                                        >
-                                            <X className="w-4 h-4 mr-1" /> Reject
-                                        </Button>
-                                    </div>
-                                )}
-
-                                {activeFilter === "approved" && (
-                                    <div className="px-5 pb-5">
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            className="w-full"
-                                            onClick={() => openEditModal(store)}
-                                        >
-                                            <Edit3 className="w-4 h-4 mr-2" /> Edit Details
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
+                                store={store}
+                                viewMode="grid"
+                                showActions={activeFilter === "pending"}
+                                onApprove={handleApprove}
+                                onReject={handleReject}
+                                onEdit={openEditModal}
+                            />
                         ))}
                     </div>
                 )}
