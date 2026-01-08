@@ -23,13 +23,13 @@ function NewlyAddedStores() {
       className="bg-white text-center border-t border-gray-50"
       style={{ paddingTop: 'var(--spacing-section-top)', paddingBottom: 'var(--spacing-section-bottom)' }}
     >
-      <div className="container mx-auto px-[64px] max-w-[1440px]">
-        <h2 className="text-[42px] font-medium mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal">Newly added stores</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+      <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
+        <h2 className="text-[28px] md:text-[42px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal">Newly added stores</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div
               key={store.id}
-              className="flex flex-col gap-6 bg-white p-8 rounded-[40px] border border-brand-cyan transition-all h-full shadow-sm hover:shadow-md hover:border-brand-cyan group"
+              className="flex flex-col gap-4 md:gap-6 bg-white p-4 md:p-8 rounded-[24px] md:rounded-[40px] border border-brand-cyan transition-all h-full shadow-sm hover:shadow-md hover:border-brand-cyan group"
             >
               <div className="flex items-center gap-4">
                 <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">

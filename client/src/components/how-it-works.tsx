@@ -21,17 +21,17 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="pt-[200px] pb-[160px] bg-white font-sans overflow-hidden">
-      <div className="mx-auto px-[64px] max-w-[1440px] relative z-20">
-        <div className="text-center mb-24">
-          <h2 className="text-[42px] font-medium mb-6 text-[var(--color-section-headline)] font-header section-headline-reveal">How it works</h2>
-          <p className="text-[18px] text-gray-500 max-w-[700px] mx-auto font-ui">
+    <section id="how-it-works" className="py-12 md:py-24 bg-white font-sans overflow-hidden">
+      <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
+        <div className="text-center mb-10 md:mb-24">
+          <h2 className="text-[28px] md:text-[42px] font-medium mb-4 md:mb-6 text-[var(--color-section-headline)] font-header section-headline-reveal">How it works</h2>
+          <p className="text-[16px] md:text-[18px] text-gray-500 max-w-[700px] mx-auto font-ui">
             Our mission is to build a comprehensive map of Ukrainian products in Canada.
             Join our community-driven initiative in three simple steps.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col items-center text-center group">
               {/* Placeholder - White fill with grey stroke */}
@@ -40,7 +40,7 @@ export function HowItWorks() {
 
               {/* Icon Second */}
               <div className="mb-4 transition-transform group-hover:scale-110">
-                <step.icon className="w-8 h-8 text-black" />
+                <step.icon className="w-12 h-12 text-brand-blue-logo" />
               </div>
 
               <h3 className="text-[24px] font-medium mb-4 text-black font-header section-headline-reveal">{step.title}</h3>

@@ -18,6 +18,20 @@ export interface Store {
   createdAt?: string;
 }
 
+// Ukrainian food placeholder images - variety for realistic display
+export const PLACEHOLDER_IMAGES = [
+  "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800", // Fresh bread
+  "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=800", // Bakery items
+  "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&q=80&w=800", // Dumplings/pierogies
+  "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=800", // Eastern European food
+  "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=800", // Food spread
+];
+
+// Helper to get a rotated placeholder image based on index
+export const getPlaceholderImage = (index: number): string => {
+  return PLACEHOLDER_IMAGES[index % PLACEHOLDER_IMAGES.length];
+};
+
 export const INITIAL_STORES: Store[] = [
   {
     id: "1",
@@ -29,7 +43,7 @@ export const INITIAL_STORES: Store[] = [
     province: "British Columbia",
     coordinates: [49.2333, -123.0667],
     category: "food",
-    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1000",
+    images: [PLACEHOLDER_IMAGES[0]],
     status: "approved",
     createdAt: "2024-01-15"
   },
@@ -43,7 +57,7 @@ export const INITIAL_STORES: Store[] = [
     province: "Ontario",
     coordinates: [43.8755, -79.4964], // Toronto area
     category: "clothes",
-    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000",
+    images: [PLACEHOLDER_IMAGES[1]],
     status: "approved",
     createdAt: "2024-02-20"
   },
@@ -57,7 +71,7 @@ export const INITIAL_STORES: Store[] = [
     province: "Ontario",
     coordinates: [43.6156, -79.5572],
     category: "food",
-    image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=1000",
+    images: [PLACEHOLDER_IMAGES[2]],
     status: "approved",
     createdAt: "2024-03-10"
   },
@@ -71,6 +85,7 @@ export const INITIAL_STORES: Store[] = [
     province: "Ontario",
     coordinates: [43.6441, -79.5653],
     category: "other",
+    images: [PLACEHOLDER_IMAGES[3]],
     status: "approved",
     createdAt: "2024-01-05"
   },
@@ -84,6 +99,7 @@ export const INITIAL_STORES: Store[] = [
     province: "Alberta",
     coordinates: [53.6284, -113.4909],
     category: "food",
+    images: [PLACEHOLDER_IMAGES[4]],
     status: "approved",
     createdAt: "2024-04-12"
   },
@@ -97,6 +113,7 @@ export const INITIAL_STORES: Store[] = [
     province: "Saskatchewan",
     coordinates: [52.1465, -106.6735],
     category: "food",
+    images: [PLACEHOLDER_IMAGES[0]],
     status: "approved",
     createdAt: "2024-05-01"
   },
@@ -111,6 +128,7 @@ export const INITIAL_STORES: Store[] = [
     province: "Ontario",
     coordinates: [43.651070, -79.347015],
     category: "food",
+    images: [PLACEHOLDER_IMAGES[1]],
     status: "pending",
     createdAt: "2024-05-28"
   }
