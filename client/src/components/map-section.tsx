@@ -1,151 +1,235 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
+import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { Search, UtensilsCrossed, ShoppingBag, Store as StoreIcon, Sparkles, MapPin } from "lucide-react";
-import { HomeAddForm } from "./home-add-form";
-import { StoreModal } from "./store-modal";
+import { Search, MapPin, ArrowDown } from "lucide-react";
+import { StoreCard } from "./store-card";
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
-export function MapSection() {
+interface MapSectionProps {
+  mode?: "section" | "full";
+  className?: string;
+  searchQuery?: string;
+  category?: string | null;
+  viewMode?: "map" | "list";
+  selectedProvince?: string | null;
+  initialStoreId?: string | null;
+  onViewChange?: (mode: "map" | "list") => void;
+  onFlightChange?: (isFlying: boolean) => void;
+  extraControls?: React.ReactNode;
+}
+
+const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number }> = {
+  "Quebec": { lat: 52.0, lng: -71.0, zoom: 5 },
+  "Ontario": { lat: 50.0, lng: -85.0, zoom: 5 },
+  "Alberta": { lat: 55.0, lng: -115.0, zoom: 6 },
+  "British Columbia": { lat: 54.0, lng: -125.0, zoom: 6 },
+  "Manitoba": { lat: 55.0, lng: -97.0, zoom: 6 },
+  "Saskatchewan": { lat: 53.0, lng: -106.0, zoom: 6 },
+  "New Brunswick": { lat: 46.5, lng: -66.5, zoom: 7 },
+  "Nova Scotia": { lat: 45.0, lng: -63.0, zoom: 7 },
+  "Prince Edward Island": { lat: 46.5, lng: -63.0, zoom: 8.5 },
+  "Newfoundland and Labrador": { lat: 53.0, lng: -57.0, zoom: 5.5 },
+  "Yukon": { lat: 64.0, lng: -135.0, zoom: 5 },
+  "Northwest Territories": { lat: 65.0, lng: -120.0, zoom: 5 },
+  "Nunavut": { lat: 70.0, lng: -90.0, zoom: 4 },
+  "All Canada": { lat: 56.1304, lng: -106.3468, zoom: 4 }
+};
+
+export function MapSection({
+  mode = "section",
+  className = "",
+  searchQuery = "",
+  category = null,
+  viewMode = "map",
+  selectedProvince = null,
+  initialStoreId = null,
+  onViewChange,
+  onFlightChange,
+  extraControls
+}: MapSectionProps) {
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(4);
   const mapRef = useRef<InteractiveMapRef>(null);
-  const { t } = useI18n();
+
+  const { data: stores = [], isLoading } = useQuery({
+    queryKey: ["stores"],
+    queryFn: getApprovedStores,
+  });
+
+  // Handle Province Flight
+  useEffect(() => {
+    if (selectedProvince && PROVINCE_CENTERS[selectedProvince]) {
+      const { lat, lng, zoom } = PROVINCE_CENTERS[selectedProvince];
+      mapRef.current?.flyToProvince(lat, lng, zoom);
+    } else if (!selectedProvince && mode === "full") {
+      mapRef.current?.resetView();
+    }
+  }, [selectedProvince, mode]);
+
+  // Reset selected store when switching to map view
+  useEffect(() => {
+    if (viewMode === "map") {
+      setSelectedStore(null);
+      setIsModalOpen(false);
+    }
+  }, [viewMode]);
+
+  // Handle Focus Store
+  useEffect(() => {
+    const handleFocus = (e: any) => {
+      const store = e.detail as Store;
+      setSelectedStore(store);
+      if (viewMode === "map") {
+        mapRef.current?.focusOnStore(store);
+      } else {
+        setIsModalOpen(true);
+      }
+    };
+    window.addEventListener('focusStore', handleFocus);
+    return () => window.removeEventListener('focusStore', handleFocus);
+  }, [viewMode]);
+
+  const getFullProvince = (p: string) => {
+    const map: Record<string, string> = {
+      "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
+      "NL": "Newfoundland and Labrador", "NS": "Nova Scotia", "ON": "Ontario",
+      "PE": "Prince Edward Island", "QC": "Quebec", "SK": "Saskatchewan",
+      "NT": "Northwest Territories", "NU": "Nunavut", "YT": "Yukon"
+    };
+    return map[p] || p;
+  };
+
+  const filteredStores = stores.filter((store) => {
+    const matchesSearch = !searchQuery ||
+      store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesCategory = !category || store.category === category;
+    const storeProvinceFull = getFullProvince(store.province);
+    const matchesProvince = !selectedProvince || storeProvinceFull === selectedProvince;
+
+    return matchesSearch && matchesCategory && matchesProvince;
+  });
 
   const handleSelectStore = (store: Store) => {
     setSelectedStore(store);
     setIsModalOpen(true);
+    // Premium mode: No auto-zoom on pin click - map stays steady and calm
+    // Camera only moves on explicit actions (province select, "See on Map", etc.)
   };
 
-  const handleCloseModal = () => {
+  const handleCloseStore = () => {
+    setSelectedStore(null);
     setIsModalOpen(false);
   };
-  
-  const { data: stores = [], isLoading } = useQuery({
-    queryKey: ["stores"],
-    queryFn: getApprovedStores,
-    staleTime: 0,
-  });
 
-  const filteredStores = selectedCategory 
-    ? stores.filter(s => {
-        if (selectedCategory === "clothes") {
-          return s.category === "clothes" || s.category === "retail";
-        }
-        return s.category === selectedCategory;
-      })
-    : stores;
+  const handleSeeOnMap = (store: Store) => {
+    setIsModalOpen(false);
+    if (viewMode === "list" && onViewChange) {
+      onViewChange("map");
+      setTimeout(() => mapRef.current?.focusOnStore(store), 100);
+    } else {
+      mapRef.current?.focusOnStore(store);
+    }
+  };
 
-  const categories = [
-    { id: null, icon: Sparkles, label: "All" },
-    { id: "food", icon: UtensilsCrossed, label: "Food" },
-    { id: "clothes", icon: ShoppingBag, label: "Shopping" },
-    { id: "other", icon: StoreIcon, label: "Other" },
-  ];
+  if (isLoading) {
+    return (
+      <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className}`}>
+        <Skeleton className="w-full h-full rounded-2xl" />
+      </div>
+    );
+  }
 
-  return (
-    <section className="py-8 md:py-16 bg-white">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-8 md:mb-12 space-y-2">
-          <h2 className="text-xl md:text-2xl font-bold">Discover & Share</h2>
-          <p className="text-muted-foreground text-[15px]">Browse the interactive map or add your favorite locations</p>
-        </div>
-
-        {/* Two-Column Layout: Map Preview (Left, Wider) + Form (Right) */}
-        <div className="grid lg:grid-cols-5 gap-6 items-stretch">
-          
-          {/* Left: Interactive Map (3 columns on lg) */}
-          <div className="lg:col-span-3">
-            <div className="relative w-full bg-white dark:bg-gray-900 rounded-[24px] overflow-hidden shadow-2xl shadow-black/20 h-full min-h-[450px] border border-border">
-              {/* Map Container */}
-              <div className="relative w-full h-full">
-                {isLoading ? (
-                  <div className="h-full w-full flex flex-col">
-                    <div className="flex-1 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                      <div className="text-center space-y-3">
-                        <Skeleton className="w-16 h-16 rounded-full mx-auto" />
-                        <Skeleton className="h-4 w-32 mx-auto" />
-                      </div>
-                    </div>
-                    <div className="bg-gray-100 dark:bg-gray-800 py-3 border-t border-gray-200 dark:border-gray-700">
-                      <div className="grid grid-cols-3 divide-x divide-gray-300 dark:divide-gray-600">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="flex flex-col items-center justify-center py-1">
-                            <Skeleton className="w-5 h-5 rounded mb-1" />
-                            <Skeleton className="w-8 h-5 mb-1" />
-                            <Skeleton className="w-12 h-3" />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+  if (viewMode === "list") {
+    return (
+      <div className="flex flex-col h-full bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white content-start">
+          {filteredStores.slice(0, visibleCount).map((store) => (
+            <div
+              key={store.id}
+              className="bg-white rounded-[40px] p-6 cursor-pointer transition-all hover:shadow-md border border-[#D3E4FD] group flex items-center justify-between gap-6"
+              onClick={() => handleSelectStore(store)}
+            >
+              <div className="flex flex-col gap-6 flex-1 min-w-0">
+                <div className="flex items-center gap-4">
+                  {/* Blue/Yellow Pin - Matches Map Pins Exactly */}
+                  <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">
+                    <div className="absolute top-0 left-0 w-full h-1/2 bg-[#3C93EA]"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#F3FF0A]" style={{ opacity: 0.8 }}></div>
                   </div>
-                ) : (
-                  <>
-                    <InteractiveMap 
-                      ref={mapRef}
-                      stores={filteredStores} 
-                      selectedStore={selectedStore} 
-                      onSelectStore={handleSelectStore}
-                    />
+                  <h3 className="font-bold text-[22px] text-black tracking-tight font-header truncate section-headline-reveal">{store.name}</h3>
+                </div>
 
-                    {/* Category Filter Bar - Airbnb Style */}
-                    <div className="absolute bottom-0 left-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/60 dark:border-gray-700/60 px-3 py-2">
-                      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                        <button
-                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shrink-0"
-                          data-testid="button-search-map"
-                        >
-                          <Search className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-                        </button>
-                        
-                        <div className="flex items-center gap-1.5">
-                          {categories.map((category) => (
-                            <button
-                              key={category.label}
-                              onClick={() => setSelectedCategory(category.id)}
-                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                                selectedCategory === category.id
-                                  ? 'bg-black text-white dark:bg-white dark:text-black'
-                                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                              }`}
-                              data-testid={`button-category-${category.label.toLowerCase()}`}
-                            >
-                              <category.icon className="w-3.5 h-3.5" />
-                              <span>{category.label}</span>
-                            </button>
-                          ))}
-                        </div>
+                <div className="flex items-center gap-3 text-gray-400 font-normal font-ui min-w-0 transition-colors group-hover:text-black">
+                  <MapPin className="w-5 h-5 flex-shrink-0" />
+                  <span className="text-[16px] truncate">{store.address}</span>
+                </div>
+              </div>
 
-                        {/* Store count badge */}
-                        <div className="ml-auto shrink-0 flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-full text-xs font-medium text-blue-700 dark:text-blue-300">
-                          <MapPin className="w-3 h-3" />
-                          <span>{filteredStores.length}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
+              {/* Store Picture Placeholder - Using kyivcake.jpeg */}
+              <div className="w-[120px] h-[80px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-gray-100">
+                <img
+                  src="/assets/kyivcake.jpeg"
+                  alt="Store orientation"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
-          </div>
-
-          {/* Right: Add Form (2 columns on lg) */}
-          <div className="lg:col-span-2">
-            <HomeAddForm />
-          </div>
+          ))}
+          {filteredStores.length === 0 && (
+            <div className="col-span-full flex flex-col items-center justify-center py-20 text-gray-400">
+              <Search className="w-12 h-12 mb-4 opacity-20" />
+              <p className="text-lg font-medium font-ui">No stores found matching your filters</p>
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Store Modal */}
-      <StoreModal 
-        store={selectedStore}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        {viewMode === "list" && visibleCount < filteredStores.length && (
+          <div className="py-10 border-t border-gray-50 flex justify-center bg-white shadow-none">
+            <button
+              onClick={() => setVisibleCount(c => c + 12)}
+              className="text-[16px] font-bold text-black hover:text-[#D3E4FD] transition-colors flex items-center gap-2 font-ui"
+            >
+              See more stores <ArrowDown className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogContent className="max-w-[400px] p-0 border-none bg-transparent shadow-none" hideClose>
+            {selectedStore && (
+              <StoreCard
+                store={selectedStore}
+                onClose={() => setIsModalOpen(false)}
+                onSeeOnMap={handleSeeOnMap}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}>
+      <InteractiveMap
+        ref={mapRef}
+        stores={filteredStores}
+        selectedStore={selectedStore}
+        onSelectStore={handleSelectStore}
+        onCloseStore={handleCloseStore}
+        onFlightChange={onFlightChange}
+        extraControls={extraControls}
       />
-    </section>
+
+    </div>
   );
 }

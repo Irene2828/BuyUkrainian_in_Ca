@@ -1,0 +1,230 @@
+/* Global Theme and Typography - RESTORED TO AUDIT STATE */
+:root {
+    --font-serif: 'Lora', serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+
+    /* Vibrant Blue & Yellow Brand Colors */
+    --color-primary-yellow: #FFD700;
+    --color-primary-blue: #006CE4;
+    --color-text-primary: #111111;
+    --color-text-secondary: #6B6B6B;
+    --color-section-headline: #D3E4FD;
+}
+
+/* Global Section Headline Enforcement (Excluding Hero) */
+section h2,
+section h3,
+.map-page-headline {
+    color: var(--color-section-headline);
+}
+
+/* 
+   Decorative Interstitial Map Sections
+   RESTORED TO AUDIT SPACING: 24px margins, 240px height, 0.05 opacity
+*/
+.interstitial-map-section {
+    width: 100vw;
+    height: 240px;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+
+    /* Audit Spacing: 24px as confirmed in previous design system audit */
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    background-size: 1280px auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.05;
+    background-color: transparent;
+    pointer-events: none;
+}
+
+.bg-map-how-to-faq {
+    background-image: url('/assets/outlinedimage1.png');
+    /* Remove white space padding after outlinedimage1 bottom */
+    margin-bottom: 0 !important;
+    opacity: 0 !important;
+}
+
+/* Updated positioning for Map 2 to overlap FAQ */
+.bg-map-faq-to-spread {
+    /* background-image: url('/assets/outlinedimage2.png'); */
+    height: 480px;
+    /* Flipping horizontal and moving higher per request */
+    transform: scaleX(-1);
+    margin-top: -320px !important;
+    /* Pushing up into the FAQ section */
+    position: relative;
+    z-index: 0;
+    /* Keep behind the FAQ text */
+    opacity: 0.07 !important;
+}
+
+/* Pre-Footer Specific Design - Restored to Audit Centered Aesthetics */
+.pre-footer-new-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    width: 100%;
+    margin-top: 0px;
+}
+
+.pre-footer-visual-wrapper {
+    width: 1280px;
+    max-width: 100%;
+    height: 480px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.pre-footer-outlined-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.slogan-container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.pre-footer-main-slogan {
+    font-family: var(--font-header, 'Lora', serif);
+    font-size: 42px;
+    font-weight: 500;
+    color: #000000;
+    letter-spacing: -0.01em;
+}
+
+.pre-footer-italic-slogan {
+    font-family: var(--font-header, 'Lora', serif);
+    font-style: italic;
+    font-size: 42px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+/* Premium Card Style - UPDATED WITH #D3E4FD STROKE ONLY */
+.flicker-card-premium {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+    border: 1px solid #D3E4FD !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+    background: #ffffff !important;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.flicker-card-premium:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04) !important;
+    border-color: #D3E4FD !important;
+    transform: translateY(-1px);
+}
+
+/* New Hover Colors */
+.header-link-modern {
+    color: #D3E4FD !important;
+}
+
+.card-link-hover:hover {
+    color: #D3E4FD !important;
+}
+
+.footer-link-modern:hover {
+    color: #D3E4FD !important;
+}
+
+/* Mobile Adjustments - Restored to Audit patterns */
+@media (max-width: 767px) {
+    .pre-footer-new-container {
+        margin-top: 40px;
+    }
+
+    .pre-footer-main-slogan {
+        font-size: 32px;
+        padding: 0 20px;
+    }
+
+    .pre-footer-italic-slogan {
+        font-size: 28px;
+        padding: 0 20px;
+    }
+
+    .interstitial-map-section {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        left: 0;
+        right: 0;
+        background-size: cover;
+        height: 200px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+}
+
+/* Apple-Style Map Pin Animations */
+.unified-marker-icon {
+    cursor: pointer;
+}
+
+.marker-container {
+    width: 28px;
+    height: 28px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.marker-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+    z-index: 1000;
+}
+
+.marker-container.selected {
+    transform: scale(1.08);
+    box-shadow: 0 3px 12px rgba(0, 108, 228, 0.25);
+}
+
+.marker-pin-top,
+.marker-pin-bottom {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+}
+
+.marker-pin-top {
+    top: 0;
+    left: 0;
+    background: #3C93EA;
+    /* Blue */
+}
+
+.marker-pin-bottom {
+    bottom: 0;
+    left: 0;
+    background: #F3FF0A;
+    /* Yellow */
+    opacity: 0.8;
+}
+
+/* Pulse animation removed for premium calm interactions */

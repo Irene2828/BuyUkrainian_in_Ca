@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface StoreInfoCardProps {
   store: Store;
@@ -25,7 +32,7 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
   const handleShare = (method: 'email' | 'sms' | 'facebook' | 'twitter') => {
     const text = `Check out ${store.name} on BlueYellow.ca! They sell: ${store.products.join(', ')}. Address: ${store.address}`;
     const url = "https://blueyellow.ca";
-    
+
     if (method === 'email') {
       window.open(`mailto:?subject=Check out ${store.name}&body=${encodeURIComponent(text)}`);
     } else if (method === 'sms') {
@@ -38,7 +45,7 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -47,37 +54,57 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
     >
       {/* Header / Image Area */}
       <div className={`relative bg-gray-100 w-full transition-all duration-300 ${isCollapsed ? 'h-16' : 'h-48'}`}>
-        {store.image ? (
-          <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
+        {store.images && store.images.length > 0 ? (
+          isCollapsed ? (
+            <img src={store.images[0]} alt={store.name} className="w-full h-full object-cover" />
+          ) : (
+            <Carousel className="w-full h-full">
+              <CarouselContent>
+                {store.images.map((img, index) => (
+                  <CarouselItem key={index}>
+                    <div className="w-full h-48">
+                      <img src={img} alt={`${store.name} - ${index}`} className="w-full h-full object-cover" />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              {store.images.length > 1 && (
+                <>
+                  <CarouselPrevious className="left-2" />
+                  <CarouselNext className="right-2" />
+                </>
+              )}
+            </Carousel>
+          )
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-blue-50 text-blue-accent/20">
             <MapPin className="w-12 h-12" />
           </div>
         )}
-        
+
         {/* Overlay Gradient for Collapsed State Text Readability */}
         {isCollapsed && <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />}
 
         {/* Collapsed Title */}
         {isCollapsed && (
           <div className="absolute inset-0 flex items-center px-4 pointer-events-none">
-             <h3 className="text-white font-bold text-lg drop-shadow-md truncate pr-16">{store.name}</h3>
+            <h3 className="text-white font-bold text-lg drop-shadow-md truncate pr-16">{store.name}</h3>
           </div>
         )}
 
         {/* Controls */}
         <div className="absolute top-4 right-4 flex gap-2 z-10">
-           <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`} />
           </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8"
             onClick={onClose}
           >
@@ -118,7 +145,7 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
                   <h3 className="text-sm font-semibold mb-2 text-foreground/80">Products</h3>
                   <div className="flex flex-wrap gap-2">
                     {store.products.map((product, i) => (
-                      <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-md">
+                      <span key={i} className="px-3 py-1 bg-gray-50 text-gray-700 text-xs font-medium rounded-md">
                         {product}
                       </span>
                     ))}
@@ -137,46 +164,52 @@ export function StoreInfoCard({ store, onClose }: StoreInfoCardProps) {
               {/* Actions */}
               <div className="space-y-4 pt-2">
                 <div className="grid grid-cols-3 gap-3">
-                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={handleCopyAddress}>
+                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs text-black border-gray-200 hover:bg-gray-50 hover:border-black" onClick={handleCopyAddress}>
                     <Copy className="w-4 h-4 mb-1" />
                     Copy
                   </Button>
-                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={() => handleShare('email')}>
+                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs text-black border-gray-200 hover:bg-gray-50 hover:border-black" onClick={() => handleShare('email')}>
                     <Mail className="w-4 h-4 mb-1" />
                     Email
                   </Button>
-                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs" onClick={() => handleShare('sms')}>
+                  <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs text-black border-gray-200 hover:bg-gray-50 hover:border-black" onClick={() => handleShare('sms')}>
                     <MessageSquare className="w-4 h-4 mb-1" />
                     Text
                   </Button>
+                  {store.website && (
+                    <Button variant="outline" className="flex flex-col h-auto py-3 gap-1 text-xs text-black border-gray-200 hover:bg-gray-50 hover:border-black" onClick={() => window.open(store.website, '_blank')}>
+                      <MapPin className="w-4 h-4 mb-1" />
+                      Website
+                    </Button>
+                  )}
                 </div>
 
                 {/* Social Media Share */}
                 <div>
                   <h3 className="text-xs font-semibold mb-2 text-foreground/80 uppercase tracking-wider">Share</h3>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 h-9 rounded-lg hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 h-9 rounded-lg hover:bg-gray-50 hover:text-black hover:border-black"
                       onClick={() => handleShare('facebook')}
                       title="Share on Facebook"
                     >
                       <Facebook className="w-4 h-4" />
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 h-9 rounded-lg hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 h-9 rounded-lg hover:bg-gray-50 hover:text-black hover:border-black"
                       onClick={() => handleShare('twitter')}
                       title="Share on Twitter"
                     >
                       <Twitter className="w-4 h-4" />
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 h-9 rounded-lg hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200"
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 h-9 rounded-lg hover:bg-gray-50 hover:text-black hover:border-black"
                       onClick={() => window.open('https://www.instagram.com')}
                       title="Share on Instagram"
                     >

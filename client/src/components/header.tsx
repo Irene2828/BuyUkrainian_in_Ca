@@ -1,70 +1,59 @@
 import { Link, useLocation } from "wouter";
-import { Plus, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { LanguageToggle } from "@/components/language-toggle";
-import { useI18n } from "@/lib/i18n";
+import { Search, Globe } from "lucide-react";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export function Header() {
-  const [, navigate] = useLocation();
-  const { t } = useI18n();
+  const [location] = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="container mx-auto px-4 h-14 flex items-center justify-between max-w-7xl">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <div className="relative w-4 h-4 rounded-full bg-blue-accent flex items-center justify-center overflow-hidden">
-            <div className="absolute bottom-0 w-full h-1/2 bg-yellow-accent"></div>
-          </div>
-          <span className="font-semibold text-lg tracking-tight">BlueYellow.ca</span>
-        </Link>
+    <header className="relative z-40 w-full h-[100px] bg-white border-none font-sans">
+      <div className="mx-auto px-[64px] max-w-[1440px] flex items-center h-full relative">
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/about" className="text-sm font-medium hover:text-blue-accent transition-colors">{t("header.about")}</Link>
-          <a href="/#how-it-works" className="text-sm font-medium hover:text-blue-accent transition-colors">{t("header.howItWorks")}</a>
-          <a href="/#faq" className="text-sm font-medium hover:text-blue-accent transition-colors">{t("header.faq")}</a>
-        </nav>
+        {/* Left: Logo & Branding - Stacked Layout with Text */}
+        <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
+          <Link href="/" className="flex flex-col items-center gap-0">
+            <img
+              src="/assets/logonew.png"
+              alt="BuyUkrainian.ca"
+              className="w-[124px] h-auto object-contain"
+            />
+            <span className="text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
+              BuyUkrainian.ca
+            </span>
+          </Link>
+        </div>
 
-        {/* CTA / Mobile Menu */}
-        <div className="flex items-center gap-2">
-          <LanguageToggle />
-          <ThemeToggle />
-          <div className="hidden md:block">
-            <Button 
-              className="rounded-full px-6 h-10 bg-yellow-accent text-black hover:bg-yellow-400 border-none font-medium"
-              onClick={() => navigate("/map?add=true")}
-              data-testid="button-add-product-header"
+        {/* Right: Navigation - Inter 16px Regular */}
+        <div className="flex-1 flex items-center justify-end gap-10">
+          <nav className="items-center gap-10 hidden lg:flex" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <button
+              onClick={() => {
+                const el = document.getElementById('how-it-works');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                else window.location.href = '/#how-it-works';
+              }}
+              className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              {t("header.addProduct")}
-            </Button>
-          </div>
-          <div className="hidden md:block">
-            <Button 
-              variant="outline" 
-              className="rounded-full px-6 h-10 border-border"
-              onClick={() => navigate("/map")}
-              data-testid="button-explore-map-header"
-            >
-              <MapPin className="w-4 h-4 mr-2" />
-              {t("header.exploreMap")}
-            </Button>
-          </div>
-          
-          {/* Mobile Actions */}
-          <div className="flex md:hidden items-center gap-3">
-             <Link href="/about" className="text-xs font-medium text-foreground/80">{t("header.about.short")}</Link>
-             <a href="/#faq" className="text-xs font-medium text-foreground/80">{t("header.faq")}</a>
-             <Button 
-               variant="ghost"
-               className="text-xs font-bold text-blue-accent p-0 h-auto"
-               onClick={() => navigate("/map?add=true")}
-               data-testid="button-add-product-mobile"
-             >
-               {t("header.addProductShort")}
-             </Button>
+              How it works
+            </button>
+            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">Project's mission</a>
+            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">Contacts</Link>
+          </nav>
+
+          {/* Globe Icon - Grey default, Black hover */}
+          <button className="text-gray-400 hover:text-black transition-all duration-300 ease-in-out">
+            <Globe className="w-6 h-6 stroke-[1.5]" />
+          </button>
+        </div>
+
+        {/* Center: Map view CTA - Inter 16px Bold - Baseline aligned */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center h-full z-[51] pointer-events-none">
+          <div className="pointer-events-auto">
+            <Link href="/map" className="flex items-center gap-3 py-2 px-4 rounded-full transition-all group">
+              <span className="text-[16px] font-bold text-black transition-colors tracking-[0px]" style={{ fontFamily: "'Inter', sans-serif" }}>Map view</span>
+              <Search className="w-5 h-5 text-black stroke-[3]" />
+            </Link>
           </div>
         </div>
       </div>

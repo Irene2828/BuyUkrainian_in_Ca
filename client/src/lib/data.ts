@@ -6,10 +6,14 @@ export interface Store {
   description: string;
   products: string[];
   address: string;
+  city: string;
+  province: string;
   coordinates: [number, number];
   category: "food" | "clothes" | "other" | "retail";
   image?: string;
+  images?: string[];
   email?: string;
+  website?: string;
   status: "approved" | "pending" | "rejected";
   createdAt?: string;
 }
@@ -21,6 +25,8 @@ export const INITIAL_STORES: Store[] = [
     description: "Authentic Ukrainian breads, pastries, and comfort foods made from scratch.",
     products: ["Borsch", "Varenyky", "Sourdough Bread", "Coffee"],
     address: "5077 Victoria Dr, Vancouver, BC V5P 3T9",
+    city: "Vancouver",
+    province: "British Columbia",
     coordinates: [49.2333, -123.0667],
     category: "food",
     image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1000",
@@ -33,6 +39,8 @@ export const INITIAL_STORES: Store[] = [
     description: "European grocery store with a vast selection of Ukrainian imported goods.",
     products: ["Roshen Chocolates", "Kvas", "Buckwheat", "Preserves"],
     address: "1390 Major Mackenzie Dr W, Maple, ON L6A 4H6",
+    city: "Maple",
+    province: "Ontario",
     coordinates: [43.8755, -79.4964], // Toronto area
     category: "clothes",
     image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000",
@@ -45,6 +53,8 @@ export const INITIAL_STORES: Store[] = [
     description: "Family-owned bakery serving traditional Eastern European recipes since 1991.",
     products: ["Rye Bread", "Poppy Seed Roll", "Cakes"],
     address: "106 N Queen St, Etobicoke, ON M8Z 2E2",
+    city: "Etobicoke",
+    province: "Ontario",
     coordinates: [43.6156, -79.5572],
     category: "food",
     image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=1000",
@@ -57,6 +67,8 @@ export const INITIAL_STORES: Store[] = [
     description: "Traditional Ukrainian gifts, crafts, and cultural items.",
     products: ["Embroidery", "Pottery", "Folk Art"],
     address: "405 The West Mall, Etobicoke, ON M9C 5J1",
+    city: "Etobicoke",
+    province: "Ontario",
     coordinates: [43.6441, -79.5653],
     category: "other",
     status: "approved",
@@ -68,6 +80,8 @@ export const INITIAL_STORES: Store[] = [
     description: "Edmonton staple for perogies and cabbage rolls.",
     products: ["Perogies", "Cabbage Rolls", "Nalysnyky"],
     address: "16520 95 St, Edmonton, AB T5Z 3L2",
+    city: "Edmonton",
+    province: "Alberta",
     coordinates: [53.6284, -113.4909],
     category: "food",
     status: "approved",
@@ -79,6 +93,8 @@ export const INITIAL_STORES: Store[] = [
     description: "Local cooperative featuring local Ukrainian producers.",
     products: ["Sausage", "Perogies", "Local Crafts"],
     address: "201 33rd St W, Saskatoon, SK S7L 0V1",
+    city: "Saskatoon",
+    province: "Saskatchewan",
     coordinates: [52.1465, -106.6735],
     category: "food",
     status: "approved",
@@ -91,6 +107,8 @@ export const INITIAL_STORES: Store[] = [
     description: "New cafe opening soon downtown.",
     products: ["Coffee", "Pastries"],
     address: "123 Queen St W, Toronto, ON",
+    city: "Toronto",
+    province: "Ontario",
     coordinates: [43.651070, -79.347015],
     category: "food",
     status: "pending",

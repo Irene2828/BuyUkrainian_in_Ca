@@ -1,0 +1,312 @@
+/* PREMIUM MICRO-INTERACTIONS & PARALLAX — INVISIBLE MODE */
+/* Philosophy: If it's noticeable, it's too strong. If it feels impressive, it's wrong. */
+
+/* ========================================
+   1. REDUCED MOTION PREFERENCES
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .premium-parallax {
+        transform: none !important;
+    }
+}
+
+/* ========================================
+   2. SUBTLE PARALLAX — HERO & REVEAL
+   ======================================== */
+.premium-parallax-hero {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+@keyframes heroTextReveal {
+    from {
+        opacity: 0;
+        transform: translateY(var(--reveal-offset, 8px)) translateZ(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+.hero-reveal-subtext {
+    --reveal-offset: 5px;
+    animation: heroTextReveal 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+}
+
+.hero-reveal-headline {
+    --reveal-offset: 8px;
+    animation: heroTextReveal 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 150ms forwards;
+    opacity: 0;
+    /* Lock typography to parent h1 specs */
+    font-size: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: inherit !important;
+    font-family: inherit !important;
+    display: inline-block;
+}
+
+.hero-reveal-headline.font-bold {
+    font-weight: 700 !important;
+}
+
+.hero-reveal-cta {
+    --reveal-offset: 5px;
+    animation: heroTextReveal 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 300ms forwards;
+    opacity: 0;
+}
+
+.premium-parallax-text {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+.hero-phrase-hover {
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease-out;
+}
+
+.hero-phrase-hover:hover {
+    transform: translateY(-2px);
+    color: #1a1a1a;
+    /* Subtle shift from pure black */
+}
+
+/* ========================================
+   3. SECTION HEADLINE REVEAL
+   ======================================== */
+.section-headline-reveal {
+    opacity: 0;
+    will-change: transform, opacity;
+    transform: translateY(2px) translateZ(0);
+    /* Subtle initial offset */
+}
+
+.section-headline-reveal.active {
+    animation: simpleHeadlineReveal 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes simpleHeadlineReveal {
+    from {
+        opacity: 0;
+        transform: translateY(2px) translateZ(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+/* ========================================
+   4. APPLE-STYLE MAP PIN ANIMATIONS
+   ======================================== */
+.marker-container {
+    will-change: transform, opacity, box-shadow;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: pinEntranceStable 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+    transform: translateZ(0);
+}
+
+@keyframes pinEntranceStable {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateZ(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateZ(0);
+    }
+}
+
+.marker-container:hover {
+    transform: translateY(-1px) scale(1.1) translateZ(0) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+    z-index: 1000;
+}
+
+.marker-container.selected {
+    transform: scale(1.15) translateZ(0) !important;
+    box-shadow: 0 4px 15px rgba(0, 108, 228, 0.2) !important;
+}
+
+/* Override existing pulse or bouncy animations */
+.leaflet-marker-icon {
+    animation: none !important;
+}
+
+/* ========================================
+   5. PREMIUM BUTTON MICRO-INTERACTIONS
+   ======================================== */
+button,
+.btn-strict,
+a[role="button"],
+[class*="Button"] {
+    will-change: transform, box-shadow;
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out;
+}
+
+/* Hover: Subtle elevation, minimal shadow diffusion */
+button:hover:not(:disabled),
+.btn-strict:hover,
+a[role="button"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Active/Click: Gentle compression */
+button:active:not(:disabled),
+.btn-strict:active,
+a[role="button"]:active {
+    transform: scale(0.98);
+    transition-duration: 0.05s;
+}
+
+/* ========================================
+   4. CARD HOVER STATES — MAGNETIC FEEL
+   ======================================== */
+/* Card styles are defined in App.css (.flicker-card-premium) */
+/* Generic card fallback for components without specific class */
+[class*="card"]:not(.no-hover):not(.flicker-card-premium) {
+    will-change: transform, box-shadow;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+[class*="card"]:not(.no-hover):not(.flicker-card-premium):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* ========================================
+   5. LINK HOVER — COLOR TEMPERATURE SHIFT
+   ======================================== */
+a:not([class*="Button"]):not(.no-premium-hover) {
+    transition: color 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+a:hover:not([class*="Button"]):not(.no-premium-hover) {
+    opacity: 0.85;
+}
+
+/* ========================================
+   6. INPUT FOCUS — MAGNETIC FEEL
+   ======================================== */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+    will-change: border-color, box-shadow;
+    transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+input:focus:not([type="checkbox"]):not([type="radio"]),
+textarea:focus,
+select:focus {
+    box-shadow: 0 0 0 1px rgba(211, 228, 253, 0.3);
+}
+
+/* ========================================
+   7. SMOOTH WEIGHTED SCROLLING
+   ======================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: background 0.2s ease-out;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   8. IMAGE LOADING — CALM APPEARANCE
+   ======================================== */
+img {
+    transition: opacity 0.2s ease-out;
+}
+
+img[loading="lazy"] {
+    opacity: 0;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* ========================================
+   9. INTERACTIVE ELEMENTS — STOP ON SCROLL
+   ======================================== */
+/* Hover effects disabled during scroll (added via JS) */
+body.is-scrolling button:hover,
+body.is-scrolling a:hover,
+body.is-scrolling [class*="card"]:hover {
+    transform: none !important;
+}
+
+/* ========================================
+   10. PREMIUM FOCUS STATES
+   ======================================== */
+:focus-visible {
+    outline: 2px solid rgba(211, 228, 253, 0.4);
+    outline-offset: 2px;
+    border-radius: 4px;
+    transition: outline 0.1s ease-out;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline-color: rgba(211, 228, 253, 0.6);
+}
+
+/* ========================================
+   11. PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+/* Use GPU acceleration for transforms */
+.premium-parallax-hero,
+.premium-parallax-text,
+button,
+a[role="button"] {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* ========================================
+   12. DISABLED STATE — INSTANT, NO MOTION
+   ======================================== */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+[aria-disabled="true"] {
+    transition: none !important;
+    transform: none !important;
+    cursor: not-allowed;
+    opacity: 0.5;
+}

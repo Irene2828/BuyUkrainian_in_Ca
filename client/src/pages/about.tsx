@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
+
       <main className="flex-1">
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -17,13 +17,13 @@ export default function AboutPage() {
                 <Flag className="w-4 h-4" />
                 About BlueYellow.ca
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6" data-testid="about-title">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 section-headline-reveal" data-testid="about-title">
                 Connecting Canadians with{" "}
                 <span className="text-blue-accent">Ukrainian</span>{" "}
                 <span className="text-yellow-accent">Products</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                BlueYellow.ca is a community-driven platform that helps Canadians discover 
+                BlueYellow.ca is a community-driven platform that helps Canadians discover
                 authentic Ukrainian products and support Ukrainian-owned businesses across the country.
               </p>
             </div>
@@ -31,27 +31,27 @@ export default function AboutPage() {
             <div className="grid md:grid-cols-2 gap-8 mb-16">
               <div className="bg-card border rounded-2xl p-8">
                 <Heart className="w-10 h-10 text-blue-accent mb-4" />
-                <h3 className="text-xl font-semibold mb-3">Our Mission</h3>
+                <h3 className="text-xl font-semibold mb-3 section-headline-reveal">Our Mission</h3>
                 <p className="text-muted-foreground">
-                  We believe in the power of community. Our mission is to create a comprehensive 
-                  directory that makes it easy to find Ukrainian products across Canada, from 
+                  We believe in the power of community. Our mission is to create a comprehensive
+                  directory that makes it easy to find Ukrainian products across Canada, from
                   traditional foods and crafts to modern Ukrainian-made goods.
                 </p>
               </div>
-              
+
               <div className="bg-card border rounded-2xl p-8">
                 <Users className="w-10 h-10 text-yellow-accent mb-4" />
-                <h3 className="text-xl font-semibold mb-3">Community-Powered</h3>
+                <h3 className="text-xl font-semibold mb-3 section-headline-reveal">Community-Powered</h3>
                 <p className="text-muted-foreground">
-                  Every pin on our map comes from community members like you. Submit your 
-                  favorite Ukrainian stores and products, and help others discover the 
+                  Every pin on our map comes from community members like you. Submit your
+                  favorite Ukrainian stores and products, and help others discover the
                   treasures of Ukrainian culture.
                 </p>
               </div>
             </div>
 
             <div className="bg-gradient-to-br from-blue-50 to-yellow-50 dark:from-blue-950/50 dark:to-yellow-950/50 rounded-3xl p-8 md:p-12 mb-16">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Why BlueYellow?</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-[var(--color-section-headline)] section-headline-reveal">Why BlueYellow?</h2>
               <div className="grid sm:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-blue-accent/10 flex items-center justify-center mx-auto mb-4">
@@ -84,7 +84,7 @@ export default function AboutPage() {
             </div>
 
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-4">Ready to Explore?</h2>
+              <h2 className="text-2xl font-bold mb-4 text-[var(--color-section-headline)] section-headline-reveal">Ready to Explore?</h2>
               <p className="text-muted-foreground mb-6">
                 Discover Ukrainian products in your area or add a location you know about.
               </p>
@@ -105,7 +105,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );

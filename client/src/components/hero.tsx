@@ -1,56 +1,109 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Plus } from "lucide-react";
-import heroBg from "@assets/generated_images/subtle_ukrainian_pattern_background.png";
+import { ArrowRight, HelpCircle } from "lucide-react";
 import { Link } from "wouter";
 
 export function Hero() {
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b from-[#FFFDEE] to-[#EEF7FF] py-12 md:py-24 lg:py-32">
-      {/* Background Image Overlay */}
-      <div 
-        className="absolute inset-0 z-0 opacity-[0.15] mix-blend-multiply pointer-events-none"
-        style={{ 
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
-      
-      <div className="container relative z-10 mx-auto px-6 max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 max-w-2xl mx-auto lg:mx-0">
-            <h1 className="text-[28px] leading-tight md:text-[40px] lg:text-[56px] font-bold tracking-tight text-foreground">
-              Discover Ukrainian Products in Canada
+    <section className="premium-parallax-hero relative w-full bg-[#FDFFD7] h-[606px] mt-[24px] mb-[16px] overflow-hidden font-sans border-b border-[#E6E6E6]/10">
+      {/* Container with Figma-exact 32px left padding - Centered vertically via flex */}
+      <div className="mx-auto px-[32px] md:px-[64px] max-w-[1440px] h-full flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+
+          {/* Left Content - Vertically Centered Group */}
+          <div className="relative flex flex-col justify-center h-full">
+            {/* Main Headline - Figma Exact - Centered in left section */}
+            <h1
+              className="font-sans premium-parallax-text"
+              style={{
+                width: '637px',
+                height: 'auto',
+                minHeight: '112px',
+                fontFamily: 'Inter',
+                fontStyle: 'normal',
+                fontWeight: 500,
+                fontSize: '48px',
+                lineHeight: '56px',
+                letterSpacing: '-2.2px',
+                color: '#000000',
+                marginBottom: '35px'
+              }}
+            >
+              <span className="hero-reveal-headline">Find and Share</span>{" "}
+              <span
+                className="hero-reveal-headline font-bold hero-phrase-hover"
+                style={{ animationDelay: '250ms' }}
+              >
+                Ukrainian
+              </span>
+              <br />
+              <span
+                className="hero-reveal-headline font-bold hero-phrase-hover"
+                style={{ animationDelay: '250ms' }}
+              >
+                Products
+              </span>{" "}
+              <span className="hero-reveal-headline" style={{ animationDelay: '300ms' }}>sold</span>{" "}
+              <span
+                className="hero-reveal-headline font-bold"
+                style={{ animationDelay: '350ms' }}
+              >
+                in Canada
+              </span>
             </h1>
-            
-            <p className="text-[15px] md:text-lg text-muted-foreground max-w-[500px] leading-relaxed">
-              Find and share Ukrainian-made products sold across Canada. 
-              Build a community map of local businesses supporting Ukraine.
+            {/* Subtext - Figma Exact */}
+            <p
+              className="font-sans hero-reveal-subtext premium-parallax-text"
+              style={{
+                width: '557px',
+                height: '56px',
+                fontFamily: 'Inter',
+                fontStyle: 'normal',
+                fontWeight: 500,
+                fontSize: '20px',
+                lineHeight: '28px',
+                letterSpacing: '-0.3125px',
+                color: '#727272',
+                marginBottom: '32px' // Spacing before buttons
+              }}
+            >
+              Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
             </p>
 
-            <div className="flex flex-col md:flex-row w-full md:w-auto gap-3 md:gap-4 pt-2">
-              <Link href="/map" className="w-full md:w-auto">
-                <Button className="w-full h-12 rounded-full bg-black text-white hover:bg-black/80 text-base font-medium px-8 shadow-lg shadow-black/5">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Product
+            {/* CTA Buttons - Flowing naturally in the centered group */}
+            <div className="flex items-center gap-8 hero-reveal-cta">
+              <Link href="/map">
+                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] px-8 text-[16px] font-semibold flex items-center gap-2 border border-transparent hover:border-black/10 transition-all focus-within:ring-0">
+                  Explore the Map
+                  <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="/map" className="w-full md:w-auto">
-                <Button variant="outline" className="w-full h-12 rounded-full border-1.5 border-black/10 hover:bg-black/5 text-base font-medium px-8 bg-white">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  Explore Map
-                </Button>
+
+              <Link href="/#how-it-works">
+                <button className="flex items-center gap-2 text-[16px] font-semibold text-black hover:opacity-70 transition-opacity">
+                  How it works
+                  <HelpCircle className="w-5 h-5" />
+                </button>
               </Link>
             </div>
           </div>
 
-          {/* Desktop visual (optional, maybe a floating card or illustration if needed, but spec focuses on center content for mobile, left for desktop) */}
-          <div className="hidden lg:block relative h-[400px] w-full">
-             {/* We can put a decorative element here or just leave it as whitespace/gradient 
-                 Spec says: "Increase image/gradient height" for desktop. 
-                 Let's leave it clean or maybe add a floating element later.
-             */}
+          {/* Right Video Container - RESTORED TO AUDIT RADIUS [40px] */}
+          <div className="relative">
+            <div className="rounded-[40px] overflow-hidden aspect-[4/3] shadow-2xl relative bg-white">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/hero-shopping-girl.png"
+              >
+                <source src="/hero-video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
+
         </div>
       </div>
     </section>

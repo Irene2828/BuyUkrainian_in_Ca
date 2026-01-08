@@ -5,34 +5,28 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0" +
-" hover-elevate active-elevate-2",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transition-all duration-150 active:scale-[0.98]",
   {
     variants: {
       variant: {
         default:
-           // @replit: no hover, and add primary border
-           "bg-primary text-primary-foreground border border-primary-border",
+          "bg-[var(--color-text-primary)] text-white hover:bg-black/95 shadow-sm hover:shadow-md",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm border-destructive-border",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/95 shadow-sm hover:shadow-md",
         outline:
-          // @replit Shows the background color of whatever card / sidebar / accent background it is inside of.
-          // Inherits the current text color. Uses shadow-xs. no shadow on active
-          // No hover state
-          " border [border-color:var(--button-outline)] shadow-xs active:shadow-none ",
+          "border border-[var(--color-primary-blue)] text-[var(--color-primary-blue)] bg-white hover:bg-[var(--color-info-blue)]/5 hover:border-[var(--color-primary-blue)]/80 shadow-sm",
         secondary:
-          // @replit border, no hover, no shadow, secondary border.
-          "border bg-secondary text-secondary-foreground border border-secondary-border ",
-        // @replit no hover, transparent border
-        ghost: "border border-transparent",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-[var(--color-bg-gray)] text-[var(--color-text-primary)] hover:bg-gray-200/80 shadow-sm",
+        accent:
+          "bg-[var(--color-accent-yellow)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)]/90 border border-[var(--color-accent-yellow)] shadow-sm hover:shadow-md font-semibold",
+        ghost: "hover:bg-[var(--color-bg-gray)]/50 text-[var(--color-text-primary)]",
+        link: "text-[var(--color-primary-blue)] underline-offset-4 hover:underline hover:opacity-85",
       },
       size: {
-        // @replit changed sizes
-        default: "min-h-9 px-4 py-2",
-        sm: "min-h-8 rounded-md px-3 text-xs",
-        lg: "min-h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "h-12 px-6 py-3 rounded-full text-base", // 48px height, 32px radius
+        sm: "h-9 rounded-full px-3 text-sm",
+        lg: "h-14 rounded-full px-8 text-lg",
+        icon: "h-10 w-10 rounded-full",
       },
     },
     defaultVariants: {
@@ -44,7 +38,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 

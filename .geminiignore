@@ -1,0 +1,21 @@
+# Gemini Ignore List
+node_modules/
+dist/
+build/
+.git/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+attached_assets/
+data/
+db/
+scripts/
+script/
+latest_state.json

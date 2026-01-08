@@ -13,27 +13,40 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { DialogClose } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createStore as apiCreateStore, getApprovedStores } from "@/lib/api";
+import { createStore as apiCreateStore } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle, MapPin, Loader2, Store as StoreIcon } from "lucide-react";
-import { Store } from "@/lib/data";
+import { ArrowRight, CheckCircle, MapPin, Loader2, Store as StoreIcon, X, Plus, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(2, "Store name is required"),
   products: z.string().min(2, "List at least one product"),
   address: z.string().min(5, "Address is required"),
+  city: z.string().min(2, "City is required"),
+  province: z.string().min(2, "Province is required"),
   description: z.string().min(10, "Description is required"),
-  category: z.enum(["food", "clothes", "other"]),
+  category: z.enum(["food", "clothes", "retail", "other"]),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
-  website: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 });
 
 interface AddressSuggestion {
   display_name: string;
   lat: string;
   lon: string;
+  address?: {
+    road?: string;
+    house_number?: string;
+    city?: string;
+    town?: string;
+    village?: string;
+    state?: string;
+    postcode?: string;
+  };
 }
 
 async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
@@ -50,27 +63,7 @@ async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
   }
 }
 
-async function geocodeAddress(address: string): Promise<[number, number]> {
-  try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)},Canada&format=json&limit=1`,
-      { headers: { 'Accept': 'application/json' } }
-    );
-    const results = await response.json();
-    if (results && results[0]) {
-      const lat = parseFloat(results[0].lat);
-      const lng = parseFloat(results[0].lon);
-      if (lat > 40 && lat < 85 && lng > -140 && lng < -50) {
-        return [lat, lng];
-      }
-    }
-  } catch (error) {
-    console.error("Geocoding error:", error);
-  }
-  return [43.6532, -79.3832];
-}
-
-export function HomeAddForm() {
+export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   const { toast } = useToast();
   const { t } = useI18n();
   const queryClient = useQueryClient();
@@ -79,14 +72,7 @@ export function HomeAddForm() {
   const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
   const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
   const [isSearchingAddress, setIsSearchingAddress] = useState(false);
-  const [existingStores, setExistingStores] = useState<Store[]>([]);
-  const [storeSuggestions, setStoreSuggestions] = useState<Store[]>([]);
-  const [showStoreSuggestions, setShowStoreSuggestions] = useState(false);
   const addressDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    getApprovedStores().then((stores: Store[]) => setExistingStores(stores)).catch(() => {});
-  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -94,18 +80,16 @@ export function HomeAddForm() {
       name: "",
       products: "",
       address: "",
+      city: "",
+      province: "",
       description: "",
       category: "food",
       email: "",
-      website: "",
     },
   });
 
   const handleAddressChange = (value: string) => {
-    if (addressDebounceRef.current) {
-      clearTimeout(addressDebounceRef.current);
-    }
-    
+    if (addressDebounceRef.current) clearTimeout(addressDebounceRef.current);
     if (value.length >= 3) {
       setIsSearchingAddress(true);
       addressDebounceRef.current = setTimeout(async () => {
@@ -121,41 +105,17 @@ export function HomeAddForm() {
   };
 
   const handleAddressSelect = (suggestion: AddressSuggestion) => {
-    form.setValue("address", suggestion.display_name);
+    const street = suggestion.address?.road || "";
+    const houseNum = suggestion.address?.house_number || "";
+    const fullAddress = houseNum ? `${houseNum} ${street}` : street;
+
+    form.setValue("address", fullAddress || suggestion.display_name.split(',')[0]);
+    form.setValue("city", suggestion.address?.city || suggestion.address?.town || suggestion.address?.village || "");
+    form.setValue("province", suggestion.address?.state || "");
+    form.setValue("latitude", parseFloat(suggestion.lat));
+    form.setValue("longitude", parseFloat(suggestion.lon));
+
     setShowAddressSuggestions(false);
-    setAddressSuggestions([]);
-  };
-
-  const handleNameChange = (value: string) => {
-    if (value.length >= 2) {
-      const matches = existingStores.filter(store => 
-        store.name.toLowerCase().includes(value.toLowerCase())
-      ).slice(0, 3);
-      setStoreSuggestions(matches);
-      setShowStoreSuggestions(matches.length > 0);
-    } else {
-      setStoreSuggestions([]);
-      setShowStoreSuggestions(false);
-    }
-  };
-
-  const handleStoreSelect = (store: Store) => {
-    form.setValue("name", store.name);
-    form.setValue("address", store.address);
-    form.setValue("description", store.description);
-    form.setValue("products", store.products.join(", "));
-    const categoryMap: Record<string, "food" | "clothes" | "other"> = {
-      "retail": "clothes",
-      "food": "food",
-      "clothes": "clothes",
-      "other": "other"
-    };
-    form.setValue("category", categoryMap[store.category] || "other");
-    setShowStoreSuggestions(false);
-    toast({
-      title: t("form.storeExists") || "Store already exists",
-      description: t("form.storeExistsDesc") || "This store is already on our map. You can view it there.",
-    });
   };
 
   const createStoreMutation = useMutation({
@@ -164,268 +124,217 @@ export function HomeAddForm() {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       setIsSubmitted(true);
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
-        title: t("form.error") || "Error",
-        description: t("form.submitFailed") || "Failed to submit location. Please try again.",
+        title: "Submission Error",
+        description: error.message,
         variant: "destructive",
       });
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.website) {
-      return;
-    }
-    
     setIsSubmitting(true);
     try {
-      const [latitude, longitude] = await geocodeAddress(values.address);
       await createStoreMutation.mutateAsync({
-        name: values.name,
-        description: values.description,
+        ...values,
         products: values.products.split(",").map(p => p.trim()),
-        address: values.address,
-        latitude,
-        longitude,
-        category: values.category as "food" | "clothes" | "other",
-        email: values.email || undefined,
+        latitude: values.latitude || 45.4215, // Default Ottawa if not found
+        longitude: values.longitude || -75.6972,
+        category: values.category as any,
       });
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  const handleReset = () => {
-    setIsSubmitted(false);
-    form.reset();
-  };
-
   if (isSubmitted) {
     return (
-      <div className="bg-white rounded-2xl border border-border p-6 md:p-8 h-full flex flex-col items-center justify-center text-center">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-          <CheckCircle className="w-8 h-8 text-green-600" />
+      <div className="bg-white rounded-[var(--radius-brand)] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl border border-blue-50">
+        <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
+          <CheckCircle className="w-12 h-12 text-green-500" />
         </div>
-        <h3 className="text-xl font-bold mb-2">{t("form.submittedTitle") || "Submitted for Review!"}</h3>
-        <p className="text-sm text-muted-foreground mb-4 max-w-xs">
-          {t("form.submittedMessage") || "To prevent spam, your submission will be reviewed by fellow Ukrainian site managers. We'll notify you by email about the status."}
+        <h3 className="text-2xl font-bold mb-4 font-sans text-[var(--color-section-headline)]">Successfully Added!</h3>
+        <p className="text-gray-500 text-sm mb-8 max-w-[280px] font-sans">
+          Your location has been submitted for review. It will appear on the map once approved by our team.
         </p>
-        <p className="text-xs text-muted-foreground mb-6">
-          {t("form.thanks") || "Thanks for supporting #madeinUkraine"} 🇺🇦
-        </p>
-        <Button 
-          onClick={handleReset}
-          variant="outline"
-          className="rounded-lg"
+        <Button
+          onClick={onClose}
+          className="w-full h-12 rounded-full bg-black text-white hover:bg-black/90 font-bold font-sans"
         >
-          {t("form.addAnother") || "Add Another Location"}
+          Back to Map
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-border h-full flex flex-col overflow-hidden">
-      {/* Gray header like explore page */}
-      <div className="p-4 border-b border-border bg-gray-100 rounded-t-2xl">
-        <h3 className="text-lg font-bold">{t("form.addLocation") || "Add a Location"}</h3>
+    <div className="bg-white rounded-[var(--radius-brand)] shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-w-xl w-full mx-auto">
+      {/* Header */}
+      <div className="bg-[#F8F9FA] px-10 py-6 border-b border-gray-100 flex items-center justify-between">
+        <div>
+          <h3 className="text-[20px] font-bold text-[var(--color-section-headline)] font-sans">Add a New Store</h3>
+          <p className="text-[13px] text-gray-400 font-medium font-ui">Add a business to our Ukrainian map</p>
+        </div>
+        {onClose && (
+          <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
+            <X className="w-5 h-5 text-gray-400" />
+          </button>
+        )}
       </div>
 
-      <div className="p-6 md:p-8 flex-1 flex flex-col">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-1 flex flex-col">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="relative">
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.storeName") || "Business Name"}</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <StoreIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <Input 
-                      placeholder={t("form.storeNamePlaceholder") || "Enter store name"} 
-                      {...field} 
-                      onChange={(e) => {
-                        field.onChange(e);
-                        handleNameChange(e.target.value);
-                      }}
-                      onFocus={() => handleNameChange(field.value)}
-                      onBlur={() => setTimeout(() => setShowStoreSuggestions(false), 200)}
-                      className="rounded-lg h-10 pl-10" 
-                      data-testid="input-home-name" 
-                    />
-                  </div>
-                </FormControl>
-                {showStoreSuggestions && storeSuggestions.length > 0 && (
-                  <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-                    <div className="p-2 text-xs text-gray-500 border-b bg-yellow-50">
-                      {t("form.existingStores") || "Similar stores already on map:"}
-                    </div>
-                    {storeSuggestions.map((store, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-start gap-2 border-b last:border-b-0"
-                        onClick={() => handleStoreSelect(store)}
-                      >
-                        <MapPin className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium truncate">{store.name}</p>
-                          <p className="text-xs text-gray-500 truncate">{store.address}</p>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
+      <div className="px-10 py-8 overflow-y-auto max-h-[70vh] custom-scrollbar">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Business Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="European Deli..." {...field} className="h-12 rounded-[var(--radius-brand)] border-gray-100 font-sans focus:border-[#D3E4FD] transition-all font-ui" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
+              />
 
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem className="relative">
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.address") || "Address"}</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <Input 
-                      placeholder={t("form.addressPlaceholder") || "e.g., 123 Main St, Toronto, ON"} 
-                      {...field} 
-                      onChange={(e) => {
-                        field.onChange(e);
-                        handleAddressChange(e.target.value);
-                      }}
-                      onFocus={() => {
-                        if (addressSuggestions.length > 0) {
-                          setShowAddressSuggestions(true);
-                        }
-                      }}
-                      onBlur={() => setTimeout(() => setShowAddressSuggestions(false), 200)}
-                      className="rounded-lg h-10 pl-10" 
-                      data-testid="input-home-address" 
-                    />
-                    {isSearchingAddress && (
-                      <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-gray-400" />
-                    )}
-                  </div>
-                </FormControl>
-                {showAddressSuggestions && addressSuggestions.length > 0 && (
-                  <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-                    {addressSuggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-start gap-2 border-b last:border-b-0"
-                        onClick={() => handleAddressSelect(suggestion)}
-                      >
-                        <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
-                        <span className="text-sm text-gray-700 line-clamp-2">{suggestion.display_name}</span>
-                      </button>
-                    ))}
-                  </div>
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Category</FormLabel>
+                    <FormControl>
+                      <select {...field} className="w-full h-12 px-4 rounded-[var(--radius-brand)] border border-gray-100 bg-white font-sans text-sm outline-none focus:border-[#D3E4FD] transition-all font-ui">
+                        <option value="food">Food</option>
+                        <option value="clothes">Clothing</option>
+                        <option value="retail">Retail</option>
+                        <option value="other">Gifts/Other</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
+              />
+            </div>
 
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.category") || "Category"}</FormLabel>
-                <FormControl>
-                  <select {...field} className="w-full h-10 px-3 rounded-lg border border-input bg-background" data-testid="select-home-category">
-                    <option value="food">{t("form.categoryFood") || "Food"}</option>
-                    <option value="clothes">{t("form.categoryClothes") || "Clothes"}</option>
-                    <option value="other">{t("form.categoryOther") || "Other"}</option>
-                  </select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="products"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.products") || "Products (comma-separated)"}</FormLabel>
-                <FormControl>
-                  <Input placeholder={t("form.productsPlaceholder") || "e.g., Pysanky, Embroidery, Bread"} {...field} className="rounded-lg h-10" data-testid="input-home-products" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.description") || "Description"}</FormLabel>
-                <FormControl>
-                  <Textarea placeholder={t("form.descriptionPlaceholder") || "Tell us about this location..."} {...field} className="rounded-lg resize-none h-20" data-testid="input-home-description" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs uppercase font-semibold text-muted-foreground">{t("form.email") || "Email"} ({t("form.optional") || "optional"})</FormLabel>
-                <FormControl>
-                  <Input placeholder={t("form.emailPlaceholder") || "Get notified when approved"} {...field} className="rounded-lg h-10" data-testid="input-home-email" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-
-          <div className="hidden" aria-hidden="true">
             <FormField
               control={form.control}
-              name="website"
+              name="address"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Website</FormLabel>
+                <FormItem className="relative">
+                  <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Address Autocomplete</FormLabel>
                   <FormControl>
-                    <Input tabIndex={-1} autoComplete="off" {...field} />
+                    <div className="relative group">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#D3E4FD] transition-colors" />
+                      <Input
+                        placeholder="Start typing your Canadian address..."
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleAddressChange(e.target.value);
+                        }}
+                        onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
+                        onBlur={() => setTimeout(() => setShowAddressSuggestions(false), 200)}
+                        className="h-12 pl-12 rounded-[var(--radius-brand)] border-gray-100 font-sans focus:border-[#D3E4FD] transition-all font-ui"
+                      />
+                      {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-[#D3E4FD]" />}
+                    </div>
                   </FormControl>
+                  {showAddressSuggestions && (
+                    <div className="absolute z-[100] w-full mt-2 bg-white border border-gray-100 rounded-[var(--radius-brand)] shadow-2xl overflow-hidden animate-in slide-in-from-top-2 duration-300">
+                      {addressSuggestions.map((s, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleAddressSelect(s)}
+                          className="w-full px-5 py-4 text-left hover:bg-blue-50 border-b border-gray-50 flex items-start gap-3 transition-colors last:border-0 font-ui"
+                        >
+                          <MapPin className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
+                          <span className="text-sm text-black font-medium line-clamp-2">{s.display_name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  <FormMessage />
                 </FormItem>
               )}
             />
-          </div>
 
-          <div className="flex-1" />
-          
-          <Button 
-            type="submit" 
-            className="w-full h-11 rounded-lg bg-black text-white hover:bg-black/80 font-semibold mt-6"
-            disabled={isSubmitting}
-            data-testid="button-home-submit"
-          >
-            {isSubmitting ? t("form.submitting") || "Submitting..." : (
-              <>
-                {t("form.submitForReview") || "Submit Location"}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </>
-            )}
-          </Button>
-        </form>
-      </Form>
+            <div className="grid grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Auto-filled" {...field} className="h-12 rounded-[var(--radius-brand)] border-gray-100 font-sans font-ui focus:border-[#D3E4FD]" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="province"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Province</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Auto-filled" {...field} className="h-12 rounded-[var(--radius-brand)] border-gray-100 font-sans font-ui focus:border-[#D3E4FD]" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="products"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Products Sold</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Pysanky, Embroidery, Pierogi..." {...field} className="h-12 rounded-[var(--radius-brand)] border-gray-100 font-sans font-ui focus:border-[#D3E4FD]" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us what makes this place special..."
+                      {...field}
+                      className="min-h-[100px] rounded-[var(--radius-brand)] border-gray-100 font-sans resize-none font-ui focus:border-[#D3E4FD]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full h-12 rounded-full bg-black text-white hover:bg-black/90 font-bold text-[16px] transition-all flex items-center justify-center gap-3 mt-4"
+            >
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Submit store <ArrowRight className="w-5 h-5" /></>}
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );

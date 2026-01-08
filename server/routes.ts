@@ -4,9 +4,9 @@ import { storage } from "./storage";
 import { insertStoreSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
-import { 
-  securityMiddleware, 
-  detectSpam, 
+import {
+  securityMiddleware,
+  detectSpam,
   checkDuplicateSubmission,
   verifyAdminPassword,
   createAdminSession,
@@ -14,6 +14,7 @@ import {
   requireAdmin,
   hashPassword
 } from "./security";
+import { broadcast } from "./websocket";
 
 const loginSchema = z.object({
   username: z.string().min(1).max(50).optional(),
@@ -25,7 +26,7 @@ const statusSchema = z.object({
 });
 
 const imageSchema = z.object({
-  image: z.string().url("Invalid image URL").max(500, "URL too long").nullable(),
+  images: z.array(z.string().url("Invalid image URL").max(500, "URL too long")).max(5, "Maximum 5 images allowed"),
 });
 
 const createAdminSchema = z.object({
@@ -41,7 +42,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+
   app.get("/api/stores", async (req, res) => {
     try {
       const stores = await storage.getApprovedStores();
@@ -87,6 +88,7 @@ export async function registerRoutes(
   app.get("/api/admin/stores", requireAdmin, async (req, res) => {
     try {
       const stores = await storage.getAllStores();
+      console.log(`[Admin] Fetching all stores. Count: ${stores.length}`);
       res.json(stores);
     } catch (error) {
       console.error("Error fetching all stores:", error);
@@ -96,12 +98,12 @@ export async function registerRoutes(
 
   app.post("/api/stores", securityMiddleware.submissionRateLimit, async (req, res) => {
     try {
-      if (req.body.website && req.body.website.trim() !== "") {
-        return res.status(400).json({ error: "Invalid submission" });
-      }
+      // Website check moved to zod schema validation if needed, 
+      // but let's allow it as per requirements.
+      // Removed restrictive return.
 
       const validation = insertStoreSchema.safeParse(req.body);
-      
+
       if (!validation.success) {
         const readableError = fromZodError(validation.error);
         return res.status(400).json({ error: readableError.message });
@@ -111,8 +113,8 @@ export async function registerRoutes(
 
       const combinedText = `${storeData.name} ${storeData.description} ${storeData.products.join(" ")}`;
       if (detectSpam(combinedText)) {
-        return res.status(400).json({ 
-          error: "Your submission was flagged as potential spam. Please revise and try again." 
+        return res.status(400).json({
+          error: "Your submission was flagged as potential spam. Please revise and try again."
         });
       }
 
@@ -135,12 +137,15 @@ export async function registerRoutes(
       );
 
       if (isDuplicate) {
-        return res.status(400).json({ 
-          error: "A store with this name or location is already live on our map." 
+        return res.status(400).json({
+          error: "A store with this name or location is already live on our map."
         });
       }
 
+      console.log(`[Store Submission] Name: ${storeData.name}, City: ${storeData.city}, Prov: ${storeData.province}, Lat: ${storeData.latitude}, Lng: ${storeData.longitude}`);
       const newStore = await storage.createStore(storeData);
+      console.log(`[Store Created] ID: ${newStore.id}, Name: ${newStore.name}, Status: ${newStore.status}`);
+      broadcast("store_submitted");
       res.status(201).json(newStore);
     } catch (error) {
       console.error("Error creating store:", error);
@@ -160,12 +165,17 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid status value" });
       }
 
-      const updatedStore = await storage.updateStoreStatus(id, validation.data.status);
-      
+      const newStatus = validation.data.status.toLowerCase() as "pending" | "approved" | "rejected";
+      console.log(`[Status Update] ID: ${id}, New Status: ${newStatus}`);
+      const updatedStore = await storage.updateStoreStatus(id, newStatus);
+
       if (!updatedStore) {
+        console.warn(`[Status Update] Store with ID ${id} not found`);
         return res.status(404).json({ error: "Store not found" });
       }
 
+      console.log(`[Status Update] Successfully updated ID: ${id} to ${updatedStore.status}`);
+      broadcast("store_updated");
       res.json(updatedStore);
     } catch (error) {
       console.error("Error updating store status:", error);
@@ -181,12 +191,13 @@ export async function registerRoutes(
       }
 
       const deleted = await storage.deleteStore(id);
-      
+
       if (!deleted) {
         return res.status(404).json({ error: "Store not found" });
       }
 
       res.json({ success: true, message: "Store deleted successfully" });
+      broadcast("store_updated");
     } catch (error) {
       console.error("Error deleting store:", error);
       res.status(500).json({ error: "Failed to delete store" });
@@ -197,7 +208,7 @@ export async function registerRoutes(
     try {
       const id = parseInt(req.params.id);
       const { email } = req.body;
-      
+
       if (isNaN(id) || id <= 0) {
         return res.status(400).json({ error: "Invalid store ID" });
       }
@@ -208,8 +219,8 @@ export async function registerRoutes(
       }
 
       if (!store.email || store.email !== email) {
-        return res.status(403).json({ 
-          error: "Email does not match the one used during submission. Please contact support." 
+        return res.status(403).json({
+          error: "Email does not match the one used during submission. Please contact support."
         });
       }
 
@@ -225,8 +236,8 @@ export async function registerRoutes(
     }
   });
 
-  // Update store image
-  app.patch("/api/admin/stores/:id/image", requireAdmin, async (req, res) => {
+  // Update store images
+  app.patch("/api/admin/stores/:id/images", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id) || id <= 0) {
@@ -235,19 +246,20 @@ export async function registerRoutes(
 
       const validation = imageSchema.safeParse(req.body);
       if (!validation.success) {
-        return res.status(400).json({ error: "Invalid image URL" });
+        return res.status(400).json({ error: "Invalid image URLs" });
       }
 
-      const updatedStore = await storage.updateStoreImage(id, validation.data.image);
-      
+      const updatedStore = await storage.updateStoreImages(id, validation.data.images);
+
       if (!updatedStore) {
         return res.status(404).json({ error: "Store not found" });
       }
 
       res.json(updatedStore);
+      broadcast("store_updated");
     } catch (error) {
-      console.error("Error updating store image:", error);
-      res.status(500).json({ error: "Failed to update store image" });
+      console.error("Error updating store images:", error);
+      res.status(500).json({ error: "Failed to update store images" });
     }
   });
 

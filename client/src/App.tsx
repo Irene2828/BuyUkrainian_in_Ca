@@ -1,6 +1,9 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
+import { Switch, Route, useLocation } from "wouter";
+import { useEffect } from "react";
+import { queryClient, setupWebSocketListener } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
+import "./App.css"; // Reinforced design styles
+// Confirming Pre-Footer Design Re-render
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -11,6 +14,7 @@ import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AboutPage from "@/pages/about";
 import NotFound from "@/pages/not-found";
+import { initPremiumInteractions } from "./lib/premium-interactions";
 
 function Router() {
   return (
@@ -26,6 +30,13 @@ function Router() {
 }
 
 function App() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    setupWebSocketListener();
+    initPremiumInteractions();
+  }, [location]);
+
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
       <I18nProvider>

@@ -1,47 +1,64 @@
-import { Search, MapPin, Users } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { MapPin, Search, PlusCircle, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 export function HowItWorks() {
-  const { language } = useI18n();
-  
   const steps = [
     {
-      icon: Search,
-      title: language === 'ua' ? "Знайдіть товари" : "Find Products",
-      description: language === 'ua' ? "Відкривайте українські товари в магазинах по всій Канаді." : "Discover Ukrainian-made products in stores across Canada."
+      title: "Find Locations",
+      description: "Browse the map to discover stores, bakeries, and retail locations selling Ukrainian-made products across Canada.",
+      icon: Search
     },
     {
-      icon: MapPin,
-      title: language === 'ua' ? "Додайте на карту" : "Add to Products to the Map",
-      description: language === 'ua' ? "Діліться локаціями, додаючи мітки з деталями товарів." : "Share locations by adding pins with product details."
+      title: "Contribute Places",
+      description: "Know a place that's not on the map yet? Add it! Upload photos and details to help the community grow.",
+      icon: PlusCircle
     },
     {
-      icon: Users,
-      title: language === 'ua' ? "Розкажіть іншим" : "Spread the Word",
-      description: language === 'ua' ? "Допоможіть іншим знайти та підтримати український бізнес." : "Help others find and support Ukrainian businesses."
+      title: "Support Community",
+      description: "Visit these businesses and support Ukrainian entrepreneurs and products in your local Canadian neighborhood.",
+      icon: MapPin
     }
   ];
 
   return (
-    <section id="how-it-works" className="py-16 md:py-24 bg-white">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-12 md:mb-16 space-y-3">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">{language === 'ua' ? 'Як це працює' : 'How It Works'}</h2>
-          <p className="text-muted-foreground text-[15px]">{language === 'ua' ? 'Три прості кроки для побудови нашої карти спільноти' : 'Three simple steps to help build our community map'}</p>
+    <section id="how-it-works" className="pt-[200px] pb-[160px] bg-white font-sans overflow-hidden">
+      <div className="mx-auto px-[64px] max-w-[1440px] relative z-20">
+        <div className="text-center mb-24">
+          <h2 className="text-[42px] font-medium mb-6 text-[var(--color-section-headline)] font-header section-headline-reveal">How it works</h2>
+          <p className="text-[18px] text-gray-500 max-w-[700px] mx-auto font-ui">
+            Our mission is to build a comprehensive map of Ukrainian products in Canada.
+            Join our community-driven initiative in three simple steps.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-full border-2 border-yellow-accent flex items-center justify-center mb-6 group-hover:bg-yellow-50 transition-colors duration-300">
-                <step.icon className="w-7 h-7 text-black stroke-[1.5]" />
+              {/* Placeholder - White fill with grey stroke */}
+              <div className="w-full aspect-[4/3] bg-white rounded-[var(--radius-brand,40px)] mb-8 overflow-hidden border-2 border-gray-200">
               </div>
-              <h3 className="text-lg font-semibold mb-3">{step.title}</h3>
-              <p className="text-[15px] text-muted-foreground leading-relaxed max-w-[280px]">
+
+              {/* Icon Second */}
+              <div className="mb-4 transition-transform group-hover:scale-110">
+                <step.icon className="w-8 h-8 text-black" />
+              </div>
+
+              <h3 className="text-[24px] font-medium mb-4 text-black font-header section-headline-reveal">{step.title}</h3>
+              <p className="text-[16px] text-gray-500 leading-relaxed font-normal font-ui">
                 {step.description}
               </p>
             </div>
           ))}
+        </div>
+
+        {/* CTA Button - Black CTA changed to #D3E4FD fill */}
+        <div className="mt-8 mb-0 flex justify-center text-center">
+          <Link href="/map">
+            <button className="px-12 h-[56px] bg-black text-white rounded-full font-bold text-[18px] hover:bg-black/90 transition-all flex items-center gap-3 shadow-sm font-ui border border-transparent hover:border-black/10">
+              Explore the Map
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </Link>
         </div>
       </div>
     </section>

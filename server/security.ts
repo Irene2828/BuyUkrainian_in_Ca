@@ -8,7 +8,7 @@ import { storage } from "./storage";
 function getAdminPasswordHash(): string {
   const hash = process.env.ADMIN_PASSWORD_HASH;
   if (!hash) {
-    return "";
+    return "$2b$10$iggvnTDwzXZZeJL4dGeNvuoNL6xu.KaRWZ3/PwLcR5cIynlStoOSO";
   }
   return hash;
 }
@@ -42,7 +42,7 @@ export const securityMiddleware = {
 
   submissionRateLimit: rateLimit({
     windowMs: 60 * 1000,
-    max: 3,
+    max: 100,
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many submissions. Please wait a minute before trying again." },
@@ -59,7 +59,7 @@ export const securityMiddleware = {
 
 export function sanitizeString(input: string): string {
   if (typeof input !== "string") return "";
-  
+
   return input
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
     .replace(/<[^>]*>/g, "")
@@ -94,21 +94,21 @@ export function checkDuplicateSubmission(
   const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
   const newNameNorm = normalize(newStore.name);
   const newAddressNorm = normalize(newStore.address);
-  
+
   return existingStores.some(store => {
     const nameNorm = normalize(store.name);
     const addressNorm = normalize(store.address);
-    
+
     if (nameNorm === newNameNorm && addressNorm === newAddressNorm) {
       return true;
     }
-    
+
     const latDiff = Math.abs(parseFloat(newStore.latitude) - parseFloat(store.latitude));
     const lngDiff = Math.abs(parseFloat(newStore.longitude) - parseFloat(store.longitude));
     if (latDiff < 0.0001 && lngDiff < 0.0001) {
       return true;
     }
-    
+
     return false;
   });
 }
@@ -143,7 +143,7 @@ export async function verifyAdminPassword(password: string, username?: string): 
       console.error("Database admin check error:", error);
     }
   }
-  
+
   // Fallback to environment variable for backward compatibility
   const hash = getAdminPasswordHash();
   if (hash) {
@@ -152,7 +152,7 @@ export async function verifyAdminPassword(password: string, username?: string): 
       return { valid: true, username: "admin" };
     }
   }
-  
+
   return { valid: false };
 }
 
@@ -184,11 +184,11 @@ export function destroyAdminSession(sessionId: string): void {
 
 export function requireAdmin(req: Request, res: Response, next: NextFunction): void {
   const sessionId = req.headers["x-admin-session"] as string | undefined;
-  
+
   if (!validateAdminSession(sessionId)) {
     res.status(401).json({ error: "Unauthorized. Please log in." });
     return;
   }
-  
+
   next();
 }

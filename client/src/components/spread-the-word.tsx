@@ -1,79 +1,62 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Facebook, Instagram } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function SpreadTheWord() {
-  const socialLinks = [
-    {
-      icon: Facebook,
-      label: "Facebook",
-      color: "hover:text-blue-600 hover:bg-blue-50",
-      url: "https://www.facebook.com"
-    },
-    {
-      icon: Twitter,
-      label: "Twitter",
-      color: "hover:text-sky-500 hover:bg-sky-50",
-      url: "https://www.twitter.com"
-    },
-    {
-      icon: Instagram,
-      label: "Instagram",
-      color: "hover:text-pink-600 hover:bg-pink-50",
-      url: "https://www.instagram.com"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      color: "hover:text-blue-700 hover:bg-blue-50",
-      url: "https://www.linkedin.com"
-    },
-    {
-      icon: Mail,
-      label: "Email",
-      color: "hover:text-gray-700 hover:bg-gray-100",
-      url: "mailto:hello@blueyellow.ca"
-    }
-  ];
-
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-r from-sky-200/70 via-sky-100/60 to-sky-50/50 backdrop-blur-md border-t border-b border-sky-300/60">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-2xl md:text-3xl font-bold">Spread the Word</h2>
-            <p className="text-muted-foreground text-sm md:text-base">
-              Help grow the Ukrainian community in Canada by sharing BlueYellow.ca
+    <section className="relative pt-[12px] pb-0 bg-white overflow-hidden px-[64px]">
+      {/* Updated padding for breathing space and frame alignment */}
+      <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
+
+        <div className="text-center mb-12">
+          <h2 className="text-[42px] font-medium text-[var(--color-section-headline)] mb-4 tracking-tight font-header section-headline-reveal">
+            Spread the word
+          </h2>
+          <p className="text-[18px] font-normal text-gray-400 max-w-[700px] mx-auto leading-relaxed font-ui">
+            Help grow our vibrant community by sharing this project with your friends!
+            Choose a message or just share the map.
+          </p>
+        </div>
+
+        {/* Black Card Section - RESTORED TO AUDIT SIZE 790x272px, RADIUS 40px */}
+        <div className="w-[790px] h-[272px] max-w-full bg-black rounded-[40px] flex flex-col items-center justify-center text-center shadow-2xl mx-auto p-8">
+
+          {/* Message Pill Layout */}
+          <div className="px-10 py-4 mb-8 w-full max-w-[650px] mx-auto">
+            <p className="text-[18px] font-normal text-white leading-relaxed font-ui">
+              Proud to support Ukrainian products sold in Canada! 🇺🇦🇨🇦 — Let's support the economy together!
             </p>
           </div>
 
-          {/* Social Media Icons */}
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            {socialLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-all duration-300"
-                >
-                  <Button 
-                    variant="outline"
-                    size="lg"
-                    className={`rounded-full w-14 h-14 p-0 border-gray-200 text-gray-600 ${link.color}`}
-                    title={link.label}
-                  >
-                    <Icon className="w-6 h-6" />
-                  </Button>
-                </a>
-              );
-            })}
+          {/* Social Buttons - WITH NEW HOVER COLOR #D3E4FD */}
+          <div className="flex flex-row flex-nowrap justify-center gap-4 w-full">
+            <Button
+              variant="outline"
+              className="border-white text-white rounded-full h-[48px] px-6 text-[14px] font-semibold hover:bg-transparent hover:text-[#D3E4FD] hover:border-[#D3E4FD] transition-all flex items-center gap-2 bg-transparent shrink-0 font-ui"
+            >
+              <Facebook className="w-4 h-4 fill-current" />
+              Share on Facebook
+            </Button>
+            <Button
+              variant="outline"
+              className="border-white text-white rounded-full h-[48px] px-6 text-[14px] font-semibold hover:bg-transparent hover:text-[#D3E4FD] hover:border-[#D3E4FD] transition-all flex items-center gap-2 bg-transparent shrink-0 font-ui"
+            >
+              < Instagram className="w-4 h-4" />
+              Share on Instagram
+            </Button>
+            <Button
+              variant="outline"
+              className="border-white text-white rounded-full h-[48px] px-6 text-[14px] font-semibold hover:bg-transparent hover:text-[#D3E4FD] hover:border-[#D3E4FD] transition-all flex items-center gap-2 bg-transparent shrink-0 font-ui"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="w-3.5 h-3.5 fill-current"
+                aria-hidden="true"
+              >
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
+              Share on X
+            </Button>
           </div>
-
-          <p className="text-xs text-muted-foreground pt-4">
-            Follow us and share BlueYellow.ca with your network
-          </p>
         </div>
       </div>
     </section>

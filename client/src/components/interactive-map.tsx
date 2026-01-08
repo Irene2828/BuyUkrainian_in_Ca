@@ -1,181 +1,118 @@
 import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
-import { MapContainer, TileLayer, Marker, useMap, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap, GeoJSON, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
+import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { StoreCard } from "./store-card";
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
+  flyToProvince: (lat: number, lng: number, zoom: number) => void;
+  resetView: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
 }
 
-// Fix Leaflet icon issue in React
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+const CANADA_BOUNDS: L.LatLngBoundsExpression = [
+  [41.67, -141.03],
+  [83.11, -52.62]
+];
 
-let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
-});
-L.Marker.prototype.options.icon = DefaultIcon;
+const CANADA_CENTER: [number, number] = [56.1304, -106.3468];
 
-// Custom Flag Icon using L.DivIcon
-const createFlagIcon = (isSelected: boolean) => {
+// Unified Blue/Yellow Pin Marker
+const createUnifiedMarker = (isSelected: boolean) => {
   return L.divIcon({
-    className: 'custom-icon',
+    className: 'unified-marker-icon',
     html: `
-      <div class="relative group transition-transform duration-300 ${isSelected ? 'scale-125 z-50' : 'scale-100 hover:scale-110 z-10'}">
-        <div class="w-8 h-8 rounded-full shadow-lg border-2 border-white overflow-hidden relative transform transition-all duration-300">
-          <div class="absolute top-0 left-0 w-full h-1/2 bg-[#1E90FF]"></div>
-          <div class="absolute bottom-0 left-0 w-full h-1/2 bg-[#FFD700]"></div>
-        </div>
-        ${isSelected ? '<div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>' : ''}
+      <div class="marker-container ${isSelected ? 'selected' : ''}">
+        <div class="marker-pin-top"></div>
+        <div class="marker-pin-bottom"></div>
       </div>
     `,
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor: [0, -14],
   });
 };
 
-function MapController({ center }: { center: [number, number] }) {
+const isWithinCanada = (lat: number, lng: number) => {
+  return lat >= 41.67 && lat <= 83.11 && lng >= -141.03 && lng <= -52.62;
+};
+
+// ScrollWheelZoomController: Enables zoom only after user clicks on map
+function ScrollWheelZoomController({ isMapFocused }: { isMapFocused: boolean }) {
   const map = useMap();
+
   useEffect(() => {
-    // Only fly if coordinates are valid numbers
-    if (Array.isArray(center) && center.length === 2 && !isNaN(center[0]) && !isNaN(center[1])) {
-      if (center[0] > 40 && center[0] < 85 && center[1] > -140 && center[1] < -50) {
-        map.flyTo(center, 13, { duration: 2 });
-      }
+    if (isMapFocused) {
+      map.scrollWheelZoom.enable();
+    } else {
+      map.scrollWheelZoom.disable();
     }
-  }, [center, map]);
+  }, [isMapFocused, map]);
+
   return null;
 }
 
-function CanadaBounds() {
-  const map = useMap();
-  useEffect(() => {
-    const fullCanadaBounds = L.latLngBounds(
-      [41.7, -141.0],
-      [83.0, -52.0]
-    );
-    map.setMaxBounds(fullCanadaBounds.pad(0.1));
-    const initialViewBounds = L.latLngBounds(
-      [42.0, -130.0],
-      [62.0, -55.0]
-    );
-    map.fitBounds(initialViewBounds, { padding: [20, 20] });
-  }, [map]);
-  
-  return null;
-}
-
-function MarkerClusterGroup({ stores, selectedStore, onSelectStore }: {
-  stores: Store[];
-  selectedStore: Store | null;
-  onSelectStore: (store: Store) => void;
+function MapController({
+  focusCoordinates,
+  provinceView,
+  onFlightStart,
+  onFlightEnd
+}: {
+  focusCoordinates: [number, number] | null;
+  provinceView: { lat: number, lng: number, zoom: number } | null;
+  onFlightStart?: () => void;
+  onFlightEnd?: () => void;
 }) {
   const map = useMap();
-  const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
-
-  const hasValidCoordinates = (coords: any) => {
-    if (!Array.isArray(coords) || coords.length !== 2) return false;
-    const lat = parseFloat(String(coords[0]));
-    const lng = parseFloat(String(coords[1]));
-    return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -140 && lng < -50;
-  };
 
   useEffect(() => {
-    if (clusterRef.current) {
-      map.removeLayer(clusterRef.current);
-    }
-
-    const cluster = L.markerClusterGroup({
-      maxClusterRadius: 50,
-      spiderfyOnMaxZoom: true,
-      showCoverageOnHover: false,
-      zoomToBoundsOnClick: true,
-      iconCreateFunction: (cluster) => {
-        const count = cluster.getChildCount();
-        return L.divIcon({
-          html: `<div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-accent/80 border-3 border-yellow-accent text-white font-bold text-sm shadow-lg">${count}</div>`,
-          className: 'custom-cluster-icon',
-          iconSize: L.point(40, 40),
-        });
-      }
-    });
-
-    stores.forEach((store) => {
-      if (hasValidCoordinates(store.coordinates)) {
-        const marker = L.marker(store.coordinates as [number, number], {
-          icon: createFlagIcon(selectedStore?.id === store.id)
-        });
-        marker.on('click', () => onSelectStore(store));
-        cluster.addLayer(marker);
-      }
-    });
-
-    map.addLayer(cluster);
-    clusterRef.current = cluster;
-
-    return () => {
-      if (clusterRef.current) {
-        map.removeLayer(clusterRef.current);
-      }
-    };
-  }, [stores, selectedStore, map, onSelectStore]);
-
-  return null;
-}
-
-function ResetViewButton({ onReset }: { onReset: () => void }) {
-  const map = useMap();
-  
-  const handleReset = () => {
-    const fullCanadaBounds = L.latLngBounds(
-      [41.7, -141.0],
-      [83.0, -52.0]
-    );
-    map.fitBounds(fullCanadaBounds, { padding: [30, 30] });
-    onReset();
-  };
-  
-  return (
-    <button
-      onClick={handleReset}
-      className="absolute top-3 right-3 z-[1000] bg-white dark:bg-gray-800 shadow-lg rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 flex items-center gap-2 transition-colors"
-      data-testid="button-reset-canada-view"
-      title="Show all of Canada"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.3-4.3"/>
-        <path d="M8 11h6"/>
-      </svg>
-      Full Canada
-    </button>
-  );
-}
-
-function FocusOnStore({ coordinates }: { coordinates: [number, number] }) {
-  const map = useMap();
-  useEffect(() => {
-    if (coordinates && coordinates[0] && coordinates[1]) {
-      map.flyTo(coordinates, 14, { duration: 1.5 });
-    }
-  }, [coordinates, map]);
-  return null;
-}
-
-function MapFocusHandler({ focusCoordinates }: { focusCoordinates: [number, number] | null }) {
-  const map = useMap();
-  useEffect(() => {
-    if (focusCoordinates && focusCoordinates[0] && focusCoordinates[1]) {
-      map.flyTo(focusCoordinates, 13, { duration: 1 });
+    if (focusCoordinates) {
+      if (onFlightStart) onFlightStart();
+      map.flyTo(focusCoordinates, 15, {
+        duration: 2.2,
+        easeLinearity: 0.25,
+        animate: true
+      });
+      const timer = setTimeout(() => {
+        if (onFlightEnd) onFlightEnd();
+      }, 2200);
+      return () => clearTimeout(timer);
     }
   }, [focusCoordinates, map]);
+
+  useEffect(() => {
+    if (provinceView) {
+      // Skip flight if we're already at the center of Canada at zoom 4 (initial load stability)
+      const isCanadaReset = provinceView.lat === CANADA_CENTER[0] &&
+        provinceView.lng === CANADA_CENTER[1] &&
+        provinceView.zoom === 4;
+
+      if (isCanadaReset && map.getZoom() === 4) return;
+
+      if (onFlightStart) onFlightStart();
+      map.flyTo([provinceView.lat, provinceView.lng], provinceView.zoom, {
+        duration: 2.2,
+        easeLinearity: 0.25,
+        animate: true,
+        padding: [50, 50]
+      });
+      const timer = setTimeout(() => {
+        if (onFlightEnd) onFlightEnd();
+      }, 2200);
+      return () => clearTimeout(timer);
+    }
+  }, [provinceView, map]);
+
   return null;
 }
 
@@ -183,97 +120,203 @@ interface InteractiveMapProps {
   stores: Store[];
   selectedStore: Store | null;
   onSelectStore: (store: Store) => void;
+  onCloseStore: () => void;
   userLocation?: [number, number] | null;
-  focusStore?: Store | null;
-  onResetView?: () => void;
+  onFlightChange?: (isFlying: boolean) => void;
+  extraControls?: React.ReactNode;
 }
 
-export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(function InteractiveMap({ stores, selectedStore, onSelectStore, userLocation, focusStore, onResetView }, ref) {
+export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(function InteractiveMap({
+  stores,
+  selectedStore,
+  onSelectStore,
+  onCloseStore,
+  userLocation,
+  onFlightChange,
+  extraControls
+}, ref) {
   const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
+  const [provinceView, setProvinceView] = useState<{ lat: number, lng: number, zoom: number } | null>(null);
+  const [isMapFocused, setIsMapFocused] = useState(false);
+  const mapRef = useRef<L.Map | null>(null);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
-      if (store.coordinates && Array.isArray(store.coordinates) && store.coordinates.length === 2) {
+      if (store.coordinates) {
         setFocusCoordinates(store.coordinates as [number, number]);
+        setProvinceView(null);
+        setIsMapFocused(true); // Enable zoom when programmatically focusing
+      }
+    },
+    flyToProvince: (lat: number, lng: number, zoom: number) => {
+      setProvinceView({ lat, lng, zoom });
+      setFocusCoordinates(null);
+      setIsMapFocused(true); // Enable zoom when programmatically flying
+    },
+    resetView: () => {
+      setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 4 });
+      setFocusCoordinates(null);
+      setIsMapFocused(true); // Enable zoom when resetting view
+    },
+    zoomIn: () => {
+      if (mapRef.current) {
+        setIsMapFocused(true); // Enable zoom when using controls
+        mapRef.current.zoomIn();
+      }
+    },
+    zoomOut: () => {
+      if (mapRef.current) {
+        setIsMapFocused(true); // Enable zoom when using controls
+        mapRef.current.zoomOut();
       }
     }
   }), []);
-  
-  const defaultCenter: [number, number] = [52.0, -95.0];
-  const defaultZoom = 4;
 
-  const hasValidCoordinates = (coords: any) => {
-    if (!Array.isArray(coords) || coords.length !== 2) return false;
-    const lat = parseFloat(String(coords[0]));
-    const lng = parseFloat(String(coords[1]));
-    return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -140 && lng < -50;
-  };
+
 
   return (
-    <div className="w-full h-full bg-white dark:bg-gray-900 relative z-0">
-      <MapContainer 
-        center={defaultCenter} 
-        zoom={defaultZoom} 
-        scrollWheelZoom={true} 
-        dragging={true}
-        touchZoom={true}
-        doubleClickZoom={true}
-        className="w-full h-full"
-        zoomControl={true}
+    <div
+      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#D4E7F5] passport-map-container"
+    >
+      <MapContainer
+        center={CANADA_CENTER}
+        zoom={4}
+        minZoom={4}
         maxZoom={18}
-        minZoom={3}
+        scrollWheelZoom={false}
+        className="w-full h-full"
+        zoomControl={false}
+        attributionControl={false}
+        bounceAtZoomLimits={true}
+        maxBounds={CANADA_BOUNDS}
+        markerZoomAnimation={true}
+        zoomAnimation={true}
+        fadeAnimation={true}
+        ref={(m) => { if (m) mapRef.current = m; }}
       >
-        <CanadaBounds />
-        
+        {/* Base Map Tiles - No Labels - Instant load, no fade */}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
+          maxZoom={20}
+          attribution='© CARTO © OpenStreetMap contributors'
+          subdomains='abcd'
+          updateWhenIdle={false}
+          updateWhenZooming={false}
+          keepBuffer={2}
         />
-        
-        <MarkerClusterGroup 
-          stores={stores}
-          selectedStore={selectedStore}
-          onSelectStore={onSelectStore}
+
+        {/* Canadian City Labels Only - CARTO Labels Layer - Instant load */}
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png"
+          maxZoom={20}
+          subdomains='abcd'
+          bounds={CANADA_BOUNDS}
+          className="city-labels-layer"
+          updateWhenIdle={false}
+          updateWhenZooming={false}
+          keepBuffer={2}
         />
-        
-        {userLocation && hasValidCoordinates(userLocation) && (
-          <>
-            <Circle
-              center={userLocation}
-              radius={1000}
-              pathOptions={{
-                color: '#1E90FF',
-                fillColor: '#1E90FF',
-                fillOpacity: 0.15,
-                weight: 2
+
+        <div className="absolute bottom-1 right-2 z-[1000] text-[10px] text-gray-500 font-medium font-ui">
+          © CARTO, © OpenStreetMap contributors
+        </div>
+
+        {/* Scroll Wheel Zoom Controller */}
+        <ScrollWheelZoomController isMapFocused={isMapFocused} />
+
+        <MapController
+          focusCoordinates={focusCoordinates}
+          provinceView={provinceView}
+          onFlightStart={() => onFlightChange?.(true)}
+          onFlightEnd={() => onFlightChange?.(false)}
+        />
+
+        {/* Click handler to enable scroll wheel zoom - DISABLED pointer-events to allow marker clicks */}
+        <div
+          onClick={() => setIsMapFocused(true)}
+          className="absolute inset-0 z-[400] pointer-events-none"
+          style={{ background: 'transparent' }}
+        />
+
+        {stores.map((store) => (
+          store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1]) && (
+            <Marker
+              key={store.id}
+              position={store.coordinates as [number, number]}
+              icon={createUnifiedMarker(selectedStore?.id === store.id)}
+              eventHandlers={{
+                click: () => {
+                  onSelectStore(store);
+                  setIsMapFocused(true);
+                }
               }}
             />
-            <Marker
-              position={userLocation}
-              icon={L.divIcon({
-                className: 'user-location-marker',
-                html: `<div class="w-4 h-4 rounded-full bg-blue-500 border-2 border-white shadow-lg animate-pulse"></div>`,
-                iconSize: [16, 16],
-                iconAnchor: [8, 8],
-              })}
-            />
-          </>
+          )
+        ))}
+
+        {userLocation && isWithinCanada(userLocation[0], userLocation[1]) && (
+          <Marker
+            position={userLocation}
+            icon={L.divIcon({
+              className: 'user-location-marker',
+              html: `<div class="w-3 h-3 rounded-full bg-blue-500 border-2 border-white shadow-lg"></div>`,
+              iconSize: [12, 12],
+              iconAnchor: [6, 6],
+            })}
+          />
         )}
-        
-        {selectedStore && hasValidCoordinates(selectedStore.coordinates) && (
-          <MapController center={selectedStore.coordinates as [number, number]} />
-        )}
-        
-        {focusStore && hasValidCoordinates(focusStore.coordinates) && (
-          <FocusOnStore coordinates={focusStore.coordinates as [number, number]} />
-        )}
-        
-        {focusCoordinates && hasValidCoordinates(focusCoordinates) && (
-          <MapFocusHandler focusCoordinates={focusCoordinates} />
-        )}
-        
-        <ResetViewButton onReset={onResetView || (() => {})} />
       </MapContainer>
+
+      {/* Centered Store Card Popup via Dialog */}
+      <Dialog open={!!selectedStore} onOpenChange={(open) => !open && onCloseStore()}>
+        <DialogContent className="max-w-[400px] p-0 border-none bg-transparent shadow-none" hideClose>
+          {selectedStore && (
+            <StoreCard
+              store={selectedStore}
+              onClose={onCloseStore}
+              onSeeOnMap={(s) => {
+                onCloseStore();
+                mapRef.current?.flyTo(s.coordinates as [number, number], 15);
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Airbnb-style Floating Navigation Controls - Right Side */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-[1000] flex flex-col gap-2">
+        <button
+          onClick={() => {
+            setIsMapFocused(true);
+            mapRef.current?.zoomIn();
+          }}
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
+          title="Zoom In"
+        >
+          <Plus className="w-4 h-4 stroke-[2.5]" />
+        </button>
+        <button
+          onClick={() => {
+            setIsMapFocused(true);
+            mapRef.current?.zoomOut();
+          }}
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
+          title="Zoom Out"
+        >
+          <Minus className="w-4 h-4 stroke-[2.5]" />
+        </button>
+        <button
+          onClick={() => {
+            setIsMapFocused(true);
+            setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 4 });
+            setFocusCoordinates(null);
+          }}
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
+          title="Reset to Full Canada"
+        >
+          <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+        </button>
+      </div>
     </div>
   );
 });

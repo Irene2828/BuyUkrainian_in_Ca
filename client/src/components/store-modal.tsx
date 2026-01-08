@@ -1,11 +1,9 @@
 import { Store } from "@/lib/data";
-import { X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, Check, ChevronDown, ChevronUp, Map } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, Map as MapIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useMemo } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useI18n, generateLocalizedShareTexts } from "@/lib/i18n";
+import { useState } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface StoreModalProps {
   store: Store | null;
@@ -16,283 +14,173 @@ interface StoreModalProps {
 
 export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalProps) {
   const { toast } = useToast();
-  const { t, language } = useI18n();
-  const [showShareTexts, setShowShareTexts] = useState(false);
-  const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
-
-  const shareTexts = useMemo(() => store ? generateLocalizedShareTexts(store, language) : null, [store, language]);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   if (!store) return null;
-  
-  const handleCopyShareText = (platform: string, text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedPlatform(platform);
-    toast({
-      title: t("modal.copied"),
-      description: t("modal.shareTextCopied").replace("{platform}", platform),
-    });
-    setTimeout(() => setCopiedPlatform(null), 2000);
-  };
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(store.address);
-    toast({
-      title: t("modal.addressCopied"),
-      description: t("modal.addressCopiedDesc"),
-    });
+    toast({ title: "Address Copied", description: "Store location is now on your clipboard." });
+  };
+
+  const handleEmailAddress = () => {
+    const text = `Check out ${store.name} at ${store.address}`;
+    window.open(`mailto:?subject=Check out ${store.name}&body=${encodeURIComponent(text)}`);
   };
 
   const handleSeeOnMap = () => {
     if (onSeeOnMap && store) {
       onSeeOnMap(store);
+      onClose();
     }
   };
 
-  const handleShare = (method: 'email' | 'facebook' | 'twitter') => {
-    const text = language === 'ua' 
-      ? `Подивіться ${store.name} на BlueYellow.ca! Вони продають: ${store.products.join(', ')}. Адреса: ${store.address}`
-      : `Check out ${store.name} on BlueYellow.ca! They sell: ${store.products.join(', ')}. Address: ${store.address}`;
-    const url = "https://blueyellow.ca";
-    
-    if (method === 'email') {
-      const subject = language === 'ua' ? `Подивіться ${store.name}` : `Check out ${store.name}`;
-      window.open(`mailto:?subject=${subject}&body=${encodeURIComponent(text)}`);
-    } else if (method === 'facebook') {
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`);
-    } else if (method === 'twitter') {
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+  const handleShare = (platform: 'facebook' | 'twitter' | 'instagram') => {
+    const text = `Check out ${store.name} - ${store.description}`;
+    if (platform === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`);
+    } else if (platform === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`);
+    } else if (platform === 'instagram') {
+      navigator.clipboard.writeText(text);
+      toast({ title: "Share Text Copied", description: "Paste this in your Instagram post!" });
     }
   };
 
-  const categoryLabel = language === 'ua' 
-    ? (store.category === 'food' ? 'їжа' : store.category === 'retail' ? 'магазин' : 'інше')
-    : store.category;
+  const categoryLabel = store.category === 'food' ? 'FOOD' :
+    store.category === 'clothes' ? 'CLOTHING' :
+      store.category === 'retail' ? 'RETAIL' : 'MIXED';
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent data-testid="store-modal" className="max-w-md p-0 max-h-[90vh] overflow-hidden flex flex-col" aria-describedby={undefined}>
-        <VisuallyHidden>
-          <DialogTitle>{store.name}</DialogTitle>
-        </VisuallyHidden>
-        {/* Image Area */}
-        <div className="relative bg-gray-100 w-full h-48">
-          {store.image ? (
-            <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-blue-50 text-blue-accent/20">
-              <MapPin className="w-12 h-12" />
-            </div>
-          )}
-        </div>
+      <DialogContent
+        className="max-w-[680px] p-0 overflow-hidden border-none bg-white rounded-[40px] shadow-2xl font-sans"
+        hideClose
+        onClick={(e) => {
+          // Close when clicking the backdrop
+          if (e.target === e.currentTarget) {
+            onClose();
+          }
+        }}
+      >
+        <div className="px-12 py-12 animate-in fade-in zoom-in-95 duration-300">
+          {/* Store Name */}
+          <h2 className="text-[48px] font-bold leading-[1.1] text-black mb-2 font-header">
+            {store.name}
+          </h2>
 
-        {/* Content */}
-        <div className="p-6 space-y-6 overflow-y-auto flex-1">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span data-testid="store-category" className="px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">
-                {categoryLabel}
-              </span>
-              {store.status === 'pending' && (
-                <span className="px-2 py-1 rounded-full bg-orange-100 text-orange-800 text-[10px] font-bold uppercase tracking-wider">
-                  {t("modal.pendingReview")}
-                </span>
+          {/* Category Badge */}
+          <div className="flex items-center gap-2 mb-8">
+            <span className="text-[14px] font-bold uppercase tracking-wider text-gray-500 font-ui">
+              {categoryLabel}
+            </span>
+            <span className="text-gray-400">•</span>
+            <span className="text-[14px] font-bold uppercase tracking-wider text-gray-500 font-ui">
+              MIXED
+            </span>
+          </div>
+
+          {/* Description Card */}
+          <div className="bg-gray-50 rounded-[24px] p-8 mb-8 flex items-start gap-6">
+            {/* Image Placeholder */}
+            <div className="w-[120px] h-[120px] bg-gray-200 rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden">
+              {store.images?.[0] ? (
+                <img src={store.images[0]} alt={store.name} className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-[10px] font-bold uppercase text-gray-400">Img</span>
               )}
             </div>
-            <h2 data-testid="store-name" className="text-2xl font-bold leading-tight mb-2">{store.name}</h2>
-            <p data-testid="store-description" className="text-muted-foreground text-sm leading-relaxed">
-              {store.description}
+
+            {/* Description Text */}
+            <div className="flex-1">
+              <p className="text-[16px] text-gray-700 leading-relaxed mb-3 font-ui">
+                {showFullDescription ? store.description : store.description.slice(0, 100) + (store.description.length > 100 ? '...' : '')}
+              </p>
+              {store.description.length > 100 && (
+                <button
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                  className="text-black text-[14px] font-bold hover:underline font-ui"
+                >
+                  {showFullDescription ? 'See less' : 'See more'}
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Address */}
+          <div className="flex items-start gap-4 mb-8">
+            <MapPin className="w-6 h-6 text-gray-400 flex-shrink-0 mt-1" />
+            <p className="text-[18px] text-gray-700 leading-relaxed font-ui">
+              {store.address}
             </p>
           </div>
 
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-semibold mb-2 text-foreground/80">{t("modal.products")}</h3>
-              <div className="flex flex-wrap gap-2">
-                {store.products.map((product, i) => (
-                  <span key={i} data-testid={`product-${i}`} className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-md">
-                    {product}
-                  </span>
-                ))}
-              </div>
-            </div>
+          {/* Action Buttons */}
+          <div className="grid grid-cols-3 gap-4 mb-10">
+            <button
+              onClick={handleCopyAddress}
+              className="flex flex-col items-center justify-center gap-3 bg-white border-2 border-gray-100 rounded-[20px] py-6 hover:border-black hover:bg-gray-50 transition-all group"
+            >
+              <Copy className="w-6 h-6 text-black" />
+              <span className="text-[14px] font-semibold text-gray-700 group-hover:text-black font-ui">
+                Copy Address
+              </span>
+            </button>
 
-            <div>
-              <h3 className="text-sm font-semibold mb-2 text-foreground/80">{t("modal.location")}</h3>
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                <p data-testid="store-address" className="text-sm text-muted-foreground">{store.address}</p>
-              </div>
-            </div>
+            <button
+              onClick={handleEmailAddress}
+              className="flex flex-col items-center justify-center gap-3 bg-white border-2 border-gray-100 rounded-[20px] py-6 hover:border-black hover:bg-gray-50 transition-all group"
+            >
+              <Mail className="w-6 h-6 text-black" />
+              <span className="text-[14px] font-semibold text-gray-700 group-hover:text-black font-ui">
+                Email Address
+              </span>
+            </button>
+
+            <button
+              onClick={handleSeeOnMap}
+              className="flex flex-col items-center justify-center gap-3 bg-white border-2 border-gray-100 rounded-[20px] py-6 hover:border-black hover:bg-gray-50 transition-all group"
+            >
+              <MapIcon className="w-6 h-6 text-black" />
+              <span className="text-[14px] font-semibold text-gray-700 group-hover:text-black font-ui">
+                Map
+              </span>
+            </button>
           </div>
 
-          {/* Actions */}
-          <div className="space-y-4 pt-2">
-            <div className="grid grid-cols-3 gap-3">
-              <Button 
-                data-testid="button-copy-address"
-                variant="outline" 
-                className="flex flex-col h-auto py-3 gap-1 text-xs" 
-                onClick={handleCopyAddress}
+          {/* Share Section */}
+          <div className="flex items-center justify-between pt-6 border-t border-gray-100">
+            <button
+              onClick={() => {
+                const shareText = `Check out ${store.name} - ${store.description}`;
+                navigator.clipboard.writeText(shareText);
+                toast({ title: "Share Text Copied", description: "Ready to share!" });
+              }}
+              className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors"
+            >
+              <Sparkles className="w-5 h-5" />
+              <span className="text-[14px] font-bold font-ui">AI Share Text</span>
+            </button>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => handleShare('facebook')}
+                className="w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100 rounded-full transition-all"
               >
-                <Copy className="w-4 h-4 mb-1" />
-                {t("modal.copy")}
-              </Button>
-              <Button 
-                data-testid="button-send-email"
-                variant="outline" 
-                className="flex flex-col h-auto py-3 gap-1 text-xs" 
-                onClick={() => handleShare('email')}
+                <Facebook className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => handleShare('twitter')}
+                className="w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100 rounded-full transition-all"
               >
-                <Mail className="w-4 h-4 mb-1" />
-                {t("modal.email")}
-              </Button>
-              <Button 
-                data-testid="button-see-on-map"
-                variant="outline" 
-                className="flex flex-col h-auto py-3 gap-1 text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100" 
-                onClick={handleSeeOnMap}
+                <Twitter className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => handleShare('instagram')}
+                className="w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100 rounded-full transition-all"
               >
-                <Map className="w-4 h-4 mb-1" />
-                {t("modal.seeOnMap")}
-              </Button>
-            </div>
-
-            {/* Social Media Share */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xs font-semibold text-foreground/80 uppercase tracking-wider">{t("modal.share")}</h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 text-xs text-blue-600 hover:text-blue-800 gap-1"
-                  onClick={() => setShowShareTexts(!showShareTexts)}
-                  data-testid="button-toggle-share-texts"
-                >
-                  <Sparkles className="w-3 h-3" />
-                  {t("modal.aiShareText")}
-                  {showShareTexts ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                </Button>
-              </div>
-              
-              <div className="flex gap-2">
-                <Button 
-                  data-testid="button-share-facebook"
-                  variant="outline" 
-                  size="sm" 
-                  className="flex-1 h-9 rounded-lg hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
-                  onClick={() => handleShare('facebook')}
-                  title="Share on Facebook"
-                >
-                  <Facebook className="w-4 h-4" />
-                </Button>
-                <Button 
-                  data-testid="button-share-twitter"
-                  variant="outline" 
-                  size="sm" 
-                  className="flex-1 h-9 rounded-lg hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
-                  onClick={() => handleShare('twitter')}
-                  title="Share on X (Twitter)"
-                >
-                  <Twitter className="w-4 h-4" />
-                </Button>
-                <Button 
-                  data-testid="button-share-instagram"
-                  variant="outline" 
-                  size="sm" 
-                  className="flex-1 h-9 rounded-lg hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200"
-                  onClick={() => window.open('https://www.instagram.com')}
-                  title="Share on Instagram"
-                >
-                  <Instagram className="w-4 h-4" />
-                </Button>
-              </div>
-
-              {showShareTexts && shareTexts && (
-                <div className="mt-4 space-y-3 bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="w-4 h-4 text-yellow-500" />
-                    <span className="text-xs font-semibold text-foreground/80">{t("modal.readyToPost")}</span>
-                  </div>
-                  
-                  {/* X (Twitter) */}
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <Twitter className="w-3 h-3 text-sky-500" />
-                        <span className="text-[10px] font-semibold uppercase text-sky-600">X (Twitter)</span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 px-2 text-xs"
-                        onClick={() => handleCopyShareText('Twitter', shareTexts.twitter)}
-                        data-testid="button-copy-twitter-text"
-                      >
-                        {copiedPlatform === 'Twitter' ? (
-                          <Check className="w-3 h-3 text-green-500" />
-                        ) : (
-                          <Copy className="w-3 h-3" />
-                        )}
-                      </Button>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground bg-white dark:bg-gray-900 p-2 rounded border line-clamp-3">
-                      {shareTexts.twitter}
-                    </p>
-                  </div>
-
-                  {/* Facebook */}
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <Facebook className="w-3 h-3 text-blue-600" />
-                        <span className="text-[10px] font-semibold uppercase text-blue-600">Facebook</span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 px-2 text-xs"
-                        onClick={() => handleCopyShareText('Facebook', shareTexts.facebook)}
-                        data-testid="button-copy-facebook-text"
-                      >
-                        {copiedPlatform === 'Facebook' ? (
-                          <Check className="w-3 h-3 text-green-500" />
-                        ) : (
-                          <Copy className="w-3 h-3" />
-                        )}
-                      </Button>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground bg-white dark:bg-gray-900 p-2 rounded border line-clamp-3 whitespace-pre-line">
-                      {shareTexts.facebook}
-                    </p>
-                  </div>
-
-                  {/* Instagram */}
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <Instagram className="w-3 h-3 text-pink-500" />
-                        <span className="text-[10px] font-semibold uppercase text-pink-600">Instagram</span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 px-2 text-xs"
-                        onClick={() => handleCopyShareText('Instagram', shareTexts.instagram)}
-                        data-testid="button-copy-instagram-text"
-                      >
-                        {copiedPlatform === 'Instagram' ? (
-                          <Check className="w-3 h-3 text-green-500" />
-                        ) : (
-                          <Copy className="w-3 h-3" />
-                        )}
-                      </Button>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground bg-white dark:bg-gray-900 p-2 rounded border line-clamp-4 whitespace-pre-line">
-                      {shareTexts.instagram}
-                    </p>
-                  </div>
-                </div>
-              )}
+                <Instagram className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Store } from "@/lib/data";
-import { getAllStores, updateStoreStatus, deleteStore, updateStoreImage, getAdminUsers, createAdminUser, updateAdminPassword, deleteAdminUser, AdminUser } from "@/lib/api";
+import { getAllStores, updateStoreStatus, deleteStore, updateStoreImages, getAdminUsers, createAdminUser, updateAdminPassword, deleteAdminUser, AdminUser } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,7 +44,7 @@ export default function AdminDashboard() {
       setLocation("/admin/login");
       return;
     }
-    
+
     verifySession().then((valid) => {
       if (!valid) {
         toast({ title: t("admin.dashboard.sessionExpired"), description: t("admin.dashboard.pleaseLogin"), variant: "destructive" });
@@ -57,6 +57,8 @@ export default function AdminDashboard() {
     queryKey: ["admin-stores"],
     queryFn: getAllStores,
     retry: false,
+    staleTime: 0, // Ensure we always fetch fresh data on mount
+    refetchOnMount: true
   });
 
   const { data: adminUsers = [] } = useQuery({
@@ -72,21 +74,22 @@ export default function AdminDashboard() {
   }, [error, setLocation]);
 
   const updateStatusMutation = useMutation({
-    mutationFn: ({ id, status }: { id: number; status: "approved" | "rejected" }) => 
+    mutationFn: ({ id, status }: { id: number; status: "approved" | "rejected" }) =>
       updateStoreStatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      // Use refetchQueries for more aggressive update
+      queryClient.refetchQueries({ queryKey: ["admin-stores"] });
+      queryClient.refetchQueries({ queryKey: ["stores"] });
     },
   });
 
-  const updateImageMutation = useMutation({
-    mutationFn: ({ id, image }: { id: number; image: string | null }) => 
-      updateStoreImage(id, image),
+  const updateImagesMutation = useMutation({
+    mutationFn: ({ id, images }: { id: number; images: string[] }) =>
+      updateStoreImages(id, images),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-      queryClient.invalidateQueries({ queryKey: ["stores"] });
-      toast({ title: "Image Updated", description: "Store image has been updated successfully." });
+      queryClient.refetchQueries({ queryKey: ["admin-stores"] });
+      queryClient.refetchQueries({ queryKey: ["stores"] });
+      toast({ title: "Images Updated", description: "Store images have been updated successfully." });
     },
     onError: (error: Error) => {
       toast({ title: t("toast.error"), description: error.message, variant: "destructive" });
@@ -96,8 +99,8 @@ export default function AdminDashboard() {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => deleteStore(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      queryClient.refetchQueries({ queryKey: ["admin-stores"] });
+      queryClient.refetchQueries({ queryKey: ["stores"] });
       toast({ title: t("admin.dashboard.storeDeleted"), description: t("admin.dashboard.storeDeletedDesc") });
     },
     onError: () => {
@@ -106,7 +109,7 @@ export default function AdminDashboard() {
   });
 
   const createAdminMutation = useMutation({
-    mutationFn: ({ username, password }: { username: string; password: string }) => 
+    mutationFn: ({ username, password }: { username: string; password: string }) =>
       createAdminUser(username, password),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
@@ -118,7 +121,7 @@ export default function AdminDashboard() {
   });
 
   const updatePasswordMutation = useMutation({
-    mutationFn: ({ id, newPassword }: { id: number; newPassword: string }) => 
+    mutationFn: ({ id, newPassword }: { id: number; newPassword: string }) =>
       updateAdminPassword(id, newPassword),
     onSuccess: () => {
       toast({ title: "Password Updated", description: "Password has been updated successfully." });
@@ -175,8 +178,8 @@ export default function AdminDashboard() {
           <span className="font-bold text-lg">{t("admin.dashboard.title")}</span>
         </div>
         <div className="flex items-center gap-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => setShowAdminPanel(!showAdminPanel)}
             data-testid="button-manage-admins"
@@ -187,9 +190,9 @@ export default function AdminDashboard() {
           <Link href="/">
             <Button variant="ghost" size="sm">{t("admin.dashboard.viewLive")}</Button>
           </Link>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             onClick={async () => {
               await logout();
               setLocation("/admin/login");
@@ -203,7 +206,7 @@ export default function AdminDashboard() {
       </header>
 
       {showAdminPanel && (
-        <AdminManagementPanel 
+        <AdminManagementPanel
           adminUsers={adminUsers}
           onCreateAdmin={(username, password) => createAdminMutation.mutate({ username, password })}
           onUpdatePassword={(id, newPassword) => updatePasswordMutation.mutate({ id, newPassword })}
@@ -255,10 +258,10 @@ export default function AdminDashboard() {
               ) : (
                 <div className="space-y-4">
                   {pendingStores.map(store => (
-                    <SubmissionCard 
-                      key={store.id} 
-                      store={store} 
-                      onApprove={() => handleApprove(store.id)} 
+                    <SubmissionCard
+                      key={store.id}
+                      store={store}
+                      onApprove={() => handleApprove(store.id)}
                       onReject={() => handleReject(store.id)}
                       onDelete={() => handleDelete(store.id)}
                       t={t}
@@ -267,7 +270,7 @@ export default function AdminDashboard() {
                 </div>
               )}
             </TabsContent>
-            
+
             <TabsContent value="approved">
               {approvedStores.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-xl border border-dashed">
@@ -276,11 +279,11 @@ export default function AdminDashboard() {
               ) : (
                 <div className="space-y-4">
                   {approvedStores.map(store => (
-                    <ApprovedStoreCard 
-                      key={store.id} 
+                    <ApprovedStoreCard
+                      key={store.id}
                       store={store}
                       onDelete={() => handleDelete(store.id)}
-                      onUpdateImage={(image) => updateImageMutation.mutate({ id: parseInt(store.id), image })}
+                      onUpdateImages={(images) => updateImagesMutation.mutate({ id: parseInt(store.id), images })}
                       t={t}
                     />
                   ))}
@@ -345,24 +348,51 @@ function DeleteButton({ onDelete, storeName, t }: { onDelete: () => void; storeN
   );
 }
 
-function ApprovedStoreCard({ store, onDelete, onUpdateImage, t }: { store: Store; onDelete: () => void; onUpdateImage: (image: string | null) => void; t: (key: string) => string }) {
-  const [imageUrl, setImageUrl] = useState(store.image || "");
+function ApprovedStoreCard({ store, onDelete, onUpdateImages, t }: { store: Store; onDelete: () => void; onUpdateImages: (images: string[]) => void; t: (key: string) => string }) {
+  const [images, setImages] = useState<string[]>(store.images && store.images.length > 0 ? store.images : (store.image ? [store.image] : []));
   const [isEditingImage, setIsEditingImage] = useState(false);
 
-  const handleSaveImage = () => {
-    onUpdateImage(imageUrl.trim() || null);
+  // Sync state if prop changes (e.g. after mutation)
+  useEffect(() => {
+    setImages(store.images && store.images.length > 0 ? store.images : (store.image ? [store.image] : []));
+  }, [store.images, store.image]);
+
+  const handleSaveImages = () => {
+    // Filter out empty strings
+    const validImages = images.map(i => i.trim()).filter(i => i.length > 0);
+    onUpdateImages(validImages);
     setIsEditingImage(false);
   };
+
+  const handleAddImage = () => {
+    if (images.length < 5) {
+      setImages([...images, ""]);
+    }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+  };
+
+  const handleImageChange = (index: number, value: string) => {
+    const newImages = [...images];
+    newImages[index] = value;
+    setImages(newImages);
+  };
+
+  const primaryImage = store.images && store.images.length > 0 ? store.images[0] : store.image;
 
   return (
     <div className="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-48 h-32 bg-gray-100 rounded-lg overflow-hidden shrink-0 relative group">
-          {store.image ? (
-            <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
+          {primaryImage ? (
+            <img src={primaryImage} alt={store.name} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">
-              <div 
+              <div
                 className="w-12 h-12 rounded-full border-2 border-white shadow-md"
                 style={{ background: 'linear-gradient(to bottom, #1E90FF 50%, #FFD700 50%)' }}
               />
@@ -372,33 +402,46 @@ function ApprovedStoreCard({ store, onDelete, onUpdateImage, t }: { store: Store
             <DialogTrigger asChild>
               <button className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                 <Image className="w-6 h-6" />
+                <span className="ml-2 text-xs font-semibold">Edit Images ({images.length}/5)</span>
               </button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Edit Store Image</DialogTitle>
-                <DialogDescription>Enter an image URL for this store listing.</DialogDescription>
+                <DialogTitle>Edit Store Images</DialogTitle>
+                <DialogDescription>Manage up to 5 images for this store listing.</DialogDescription>
               </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="imageUrl">Image URL</Label>
-                  <Input
-                    id="imageUrl"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    placeholder="https://example.com/image.jpg"
-                    data-testid="input-store-image-url"
-                  />
-                </div>
-                {imageUrl && (
-                  <div className="border rounded-lg overflow-hidden">
-                    <img src={imageUrl} alt="Preview" className="w-full h-32 object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+              <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
+                {images.map((url, index) => (
+                  <div key={index} className="space-y-2 border p-3 rounded-lg relative bg-gray-50">
+                    <div className="flex items-center justify-between mb-1">
+                      <Label className="text-xs font-medium">Image {index + 1}</Label>
+                      <Button variant="ghost" size="icon" className="h-6 w-6 text-red-500" onClick={() => handleRemoveImage(index)}>
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                    <Input
+                      value={url}
+                      onChange={(e) => handleImageChange(index, e.target.value)}
+                      placeholder="https://example.com/image.jpg"
+                      className="h-8 text-sm"
+                    />
+                    {url && (
+                      <div className="mt-2 h-20 w-full rounded overflow-hidden bg-gray-200">
+                        <img src={url} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                      </div>
+                    )}
                   </div>
+                ))}
+
+                {images.length < 5 && (
+                  <Button variant="outline" className="w-full border-dashed" onClick={handleAddImage}>
+                    <Plus className="w-4 h-4 mr-2" /> Add Image URL
+                  </Button>
                 )}
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsEditingImage(false)}>Cancel</Button>
-                <Button onClick={handleSaveImage} data-testid="button-save-image">Save Image</Button>
+                <Button onClick={handleSaveImages}>Save Changes</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -418,9 +461,9 @@ function ApprovedStoreCard({ store, onDelete, onUpdateImage, t }: { store: Store
               </span>
             </div>
           </div>
-          
+
           <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">{store.description}</p>
-          
+
           <div className="pt-2 flex flex-wrap gap-4 text-sm">
             <div className="flex items-center text-gray-500">
               <MapPin className="w-4 h-4 mr-1" />
@@ -442,12 +485,14 @@ function ApprovedStoreCard({ store, onDelete, onUpdateImage, t }: { store: Store
 }
 
 function SubmissionCard({ store, onApprove, onReject, onDelete, t }: { store: Store; onApprove: () => void; onReject: () => void; onDelete: () => void; t: (key: string) => string }) {
+  const primaryImage = store.images && store.images.length > 0 ? store.images[0] : store.image;
+
   return (
     <div className="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-48 h-32 bg-gray-100 rounded-lg overflow-hidden shrink-0">
-          {store.image ? (
-            <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
+          {primaryImage ? (
+            <img src={primaryImage} alt={store.name} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">
               <MapPin className="w-8 h-8" />
@@ -465,9 +510,9 @@ function SubmissionCard({ store, onApprove, onReject, onDelete, t }: { store: St
             </div>
             <span className="text-xs text-muted-foreground">{t("admin.dashboard.submitted")} {store.createdAt ? new Date(store.createdAt).toLocaleDateString() : t("admin.dashboard.today")}</span>
           </div>
-          
+
           <p className="text-sm text-gray-600 leading-relaxed">{store.description}</p>
-          
+
           <div className="pt-2 flex flex-wrap gap-4 text-sm">
             <div className="flex items-center text-gray-500">
               <MapPin className="w-4 h-4 mr-1" />
@@ -496,14 +541,14 @@ function SubmissionCard({ store, onApprove, onReject, onDelete, t }: { store: St
   );
 }
 
-function AdminManagementPanel({ 
-  adminUsers, 
-  onCreateAdmin, 
-  onUpdatePassword, 
+function AdminManagementPanel({
+  adminUsers,
+  onCreateAdmin,
+  onUpdatePassword,
   onDeleteAdmin,
   isCreating,
-  t 
-}: { 
+  t
+}: {
   adminUsers: AdminUser[];
   onCreateAdmin: (username: string, password: string) => void;
   onUpdatePassword: (id: number, newPassword: string) => void;
@@ -541,7 +586,7 @@ function AdminManagementPanel({
           <Users className="w-5 h-5" />
           Admin User Management
         </h2>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Create New Admin */}
           <div className="bg-white p-4 rounded-lg border shadow-sm">
@@ -580,8 +625,8 @@ function AdminManagementPanel({
                   </button>
                 </div>
               </div>
-              <Button 
-                onClick={handleCreateAdmin} 
+              <Button
+                onClick={handleCreateAdmin}
                 disabled={newUsername.length < 3 || newPassword.length < 8 || isCreating}
                 className="w-full"
                 data-testid="button-create-admin"
@@ -643,7 +688,7 @@ function AdminManagementPanel({
                           </div>
                           <DialogFooter>
                             <Button variant="outline" onClick={() => setChangePasswordId(null)}>Cancel</Button>
-                            <Button 
+                            <Button
                               onClick={() => handleChangePassword(admin.id)}
                               disabled={changedPassword.length < 8}
                               data-testid="button-confirm-change-password"
@@ -653,7 +698,7 @@ function AdminManagementPanel({
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
-                      
+
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-700 hover:bg-red-50">

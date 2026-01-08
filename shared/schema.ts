@@ -25,13 +25,18 @@ export const stores = pgTable("stores", {
   description: text("description").notNull(),
   products: text("products").array().notNull(),
   address: text("address").notNull(),
+  city: text("city").notNull().default(""),
+  province: text("province").notNull().default(""),
   latitude: decimal("latitude", { precision: 10, scale: 7 }).notNull(),
   longitude: decimal("longitude", { precision: 10, scale: 7 }).notNull(),
   category: text("category").notNull(),
-  image: text("image"),
+  website: text("website"), // Optional website link
+  image: text("image"), // Deprecated: keeping for backward compatibility
+  images: text("images").array().notNull().default(sql`ARRAY[]::text[]`),
   email: text("email"), // Optional email for notifications
   status: text("status").notNull().default("pending"), // pending, approved, rejected
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  approvedAt: timestamp("approved_at"),
 });
 
 const MAX_NAME_LENGTH = 100;
@@ -41,6 +46,8 @@ const MAX_PRODUCT_LENGTH = 50;
 const MAX_PRODUCTS_COUNT = 20;
 const MAX_EMAIL_LENGTH = 100;
 const MAX_IMAGE_URL_LENGTH = 500;
+const MAX_IMAGES_COUNT = 5;
+const MAX_WEBSITE_LENGTH = 200;
 
 const sanitizedString = z.string().transform((val) => {
   return val
@@ -62,6 +69,8 @@ export const insertStoreSchema = createInsertSchema(stores, {
   ).min(1, "At least one product is required").max(MAX_PRODUCTS_COUNT, `Maximum ${MAX_PRODUCTS_COUNT} products allowed`),
   address: sanitizedString
     .pipe(z.string().min(5, "Address is required").max(MAX_ADDRESS_LENGTH, `Address must be at most ${MAX_ADDRESS_LENGTH} characters`)),
+  city: sanitizedString.pipe(z.string().min(2, "City is required")),
+  province: sanitizedString.pipe(z.string().min(2, "Province is required")),
   latitude: z.string()
     .refine((val) => !isNaN(parseFloat(val)), "Invalid latitude")
     .refine((val) => {
@@ -75,7 +84,9 @@ export const insertStoreSchema = createInsertSchema(stores, {
       return lng >= -140 && lng <= -50;
     }, "Location must be within Canada (longitude -140 to -50)"),
   category: z.enum(["food", "clothes", "other"]),
+  website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").optional().or(z.literal("")),
   image: z.string().max(MAX_IMAGE_URL_LENGTH, "Image URL too long").url("Invalid image URL").optional().or(z.literal("")),
+  images: z.array(z.string().url("Invalid image URL").max(MAX_IMAGE_URL_LENGTH, "Image URL too long")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
   email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
   status: z.enum(["pending", "approved", "rejected"]).optional(),
 }).omit({ id: true, createdAt: true });
