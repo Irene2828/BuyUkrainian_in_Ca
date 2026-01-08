@@ -67,23 +67,17 @@
   --shadow-hover: 0px 6px 16px rgba(0, 0, 0, 0.12);
 
   /* Spacing Tokens - Mobile-first (40px mobile / 80px desktop) */
+  /* Note: Desktop values handled via responsive utility classes in components */
   --spacing-section-top: 40px;
   --spacing-section-bottom: 32px;
   --spacing-section-gap: 24px;
 
-  /* Desktop spacing overrides via media query */
-  @media (min-width: 768px) {
-    --spacing-section-top: 80px;
-    --spacing-section-bottom: 56px;
-    --spacing-section-gap: 40px;
-  }
-
   /* Typography */
   --font-sans: 'Inter',
-  system-ui,
-  sans-serif;
+    system-ui,
+    sans-serif;
   --font-serif: 'Lora',
-  serif;
+    serif;
 
   --animate-marquee: marquee 33s linear infinite;
 
@@ -102,6 +96,15 @@
   --white: #FFFFFF;
   --black: #000000;
   --radius: 0.5rem;
+}
+
+/* Desktop spacing overrides */
+@media (min-width: 768px) {
+  :root {
+    --spacing-section-top: 80px;
+    --spacing-section-bottom: 56px;
+    --spacing-section-gap: 40px;
+  }
 }
 
 @layer base {
