@@ -214,18 +214,18 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     };
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] flex">
+        <div className="min-h-screen bg-admin-bg flex">
             {/* Left Sidebar */}
             <aside className="w-[240px] bg-white border-r border-gray-100 flex flex-col fixed h-full z-10">
                 {/* Logo */}
                 <div className="p-6 border-b border-gray-50">
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-sm overflow-hidden relative">
-                            <div className="absolute top-0 left-0 w-full h-1/2 bg-[#3C93EA]"></div>
-                            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#F3FF0A]"></div>
+                            <div className="absolute top-0 left-0 w-full h-1/2 bg-brand-blue-logo"></div>
+                            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-brand-yellow-logo"></div>
                         </div>
                         <div>
-                            <span className="font-bold text-[15px] text-[#111]">BuyUkrainian.ca</span>
+                            <span className="font-bold text-[15px] text-admin-text">BuyUkrainian.ca</span>
                             <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Admin Console</p>
                         </div>
                     </div>
@@ -241,7 +241,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <button
                                 onClick={() => setActiveFilter("pending")}
                                 className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-all ${activeFilter === "pending"
-                                    ? "bg-[#111] text-white"
+                                    ? "bg-admin-text text-white"
                                     : "text-gray-600 hover:bg-gray-50"
                                     }`}
                             >
@@ -259,7 +259,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <button
                                 onClick={() => setActiveFilter("approved")}
                                 className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-all ${activeFilter === "approved"
-                                    ? "bg-[#111] text-white"
+                                    ? "bg-admin-text text-white"
                                     : "text-gray-600 hover:bg-gray-50"
                                     }`}
                             >
@@ -282,11 +282,11 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <div className="space-y-3 px-4">
                             <div className="flex items-center justify-between">
                                 <span className="text-[13px] text-gray-500">Total Submissions</span>
-                                <span className="text-[15px] font-bold text-[#111]">{allStores.length}</span>
+                                <span className="text-[15px] font-bold text-admin-text">{allStores.length}</span>
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-[13px] text-gray-500">Team Members</span>
-                                <span className="text-[15px] font-bold text-[#111]">{adminUsers.length || 1}</span>
+                                <span className="text-[15px] font-bold text-admin-text">{adminUsers.length || 1}</span>
                             </div>
                         </div>
                     </div>
@@ -316,7 +316,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 {/* Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div>
-                        <h1 className="text-[28px] font-semibold text-[#111] tracking-tight">
+                        <h1 className="text-[28px] font-semibold text-admin-text tracking-tight">
                             {activeFilter === "pending" ? "Pending Submissions" : "Approved Stores"}
                         </h1>
                         <p className="text-[15px] text-gray-500 mt-1">
@@ -330,7 +330,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <div className="flex items-center bg-gray-100 rounded-lg p-1">
                             <button
                                 onClick={() => setViewMode("list")}
-                                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white shadow-sm text-[#111]" : "text-gray-400 hover:text-gray-600"
+                                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white shadow-sm text-admin-text" : "text-gray-400 hover:text-gray-600"
                                     }`}
                                 title="List View"
                             >
@@ -338,7 +338,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             </button>
                             <button
                                 onClick={() => setViewMode("grid")}
-                                className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-white shadow-sm text-[#111]" : "text-gray-400 hover:text-gray-600"
+                                className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-white shadow-sm text-admin-text" : "text-gray-400 hover:text-gray-600"
                                     }`}
                                 title="Grid View"
                             >
@@ -348,7 +348,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <a
                             href="/"
                             target="_blank"
-                            className="flex items-center gap-2 text-[14px] text-gray-500 hover:text-[#3C93EA] transition-colors"
+                            className="flex items-center gap-2 text-[14px] text-gray-500 hover:text-brand-blue-logo transition-colors"
                         >
                             View Live Site <ExternalLink className="w-4 h-4" />
                         </a>
@@ -390,7 +390,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
                                     {/* Store Name */}
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-[14px] font-medium text-[#111] truncate">{store.name}</h3>
+                                        <h3 className="text-[14px] font-medium text-admin-text truncate">{store.name}</h3>
                                         <p className="text-[12px] text-gray-400 truncate">{store.address}</p>
                                     </div>
 
@@ -401,8 +401,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
                                     {/* Status Badge */}
                                     <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${store.status === "pending" ? "bg-orange-100 text-orange-600" :
-                                            store.status === "approved" ? "bg-green-100 text-green-600" :
-                                                "bg-red-100 text-red-600"
+                                        store.status === "approved" ? "bg-green-100 text-green-600" :
+                                            "bg-red-100 text-red-600"
                                         }`}>
                                         {store.status}
                                     </span>
@@ -429,7 +429,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                         )}
                                         <button
                                             onClick={() => openEditModal(store)}
-                                            className="w-7 h-7 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center hover:bg-gray-200 hover:text-[#3C93EA] transition-colors"
+                                            className="w-7 h-7 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center hover:bg-gray-200 hover:text-brand-blue-logo transition-colors"
                                             title="Edit"
                                         >
                                             <Edit3 className="w-3.5 h-3.5" />
@@ -479,7 +479,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                     {/* Quick Edit Button */}
                                     <button
                                         onClick={() => openEditModal(store)}
-                                        className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-[#3C93EA] transition-all opacity-0 group-hover:opacity-100"
+                                        className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-brand-blue-logo transition-all opacity-0 group-hover:opacity-100"
                                     >
                                         <Edit3 className="w-4 h-4" />
                                     </button>
@@ -487,7 +487,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
                                 {/* Content */}
                                 <div className="p-5">
-                                    <h3 className="text-[16px] font-semibold text-[#111] mb-1 truncate">{store.name}</h3>
+                                    <h3 className="text-[16px] font-semibold text-admin-text mb-1 truncate">{store.name}</h3>
                                     <p className="text-[13px] text-gray-400 truncate mb-1">{store.address}</p>
                                     <span className="inline-block text-[11px] px-2 py-0.5 bg-gray-100 text-gray-500 rounded uppercase font-medium">
                                         {store.category}
@@ -608,7 +608,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 {editImages.length + localImagePreviews.length < 3 && (
                                     <button
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="aspect-square bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-[#3C93EA] hover:text-[#3C93EA] transition-colors"
+                                        className="aspect-square bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-brand-blue-logo hover:text-brand-blue-logo transition-colors"
                                     >
                                         <Upload className="w-6 h-6 mb-1" />
                                         <span className="text-[11px] font-medium">Upload</span>

@@ -21,6 +21,11 @@
   --color-brand-blue-logo: #3C93EA;
   --color-brand-yellow-logo: #F3FF0A;
 
+  /* Admin Dashboard Colors */
+  --color-admin-bg: #F8FAFC;
+  --color-admin-text: #111111;
+  --color-admin-text-dark: #1A1A1A;
+
   /* Semantic Re-mapping */
   --color-background: var(--white);
   --color-foreground: var(--color-text-primary);

@@ -26,15 +26,15 @@ function NewlyAddedStores() {
           {newlyAdded.map((store) => (
             <div
               key={store.id}
-              className="flex flex-col gap-6 bg-white p-8 rounded-[40px] border border-[#D3E4FD] transition-all h-full shadow-sm hover:shadow-md hover:border-[#D3E4FD] group"
+              className="flex flex-col gap-6 bg-white p-8 rounded-[40px] border border-brand-cyan transition-all h-full shadow-sm hover:shadow-md hover:border-brand-cyan group"
             >
               <div className="flex items-center gap-4">
                 <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">
-                  <div className="absolute top-0 left-0 w-full h-1/2 bg-[#3C93EA]"></div>
-                  <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#F3FF0A]" style={{ opacity: 0.8 }}></div>
+                  <div className="absolute top-0 left-0 w-full h-1/2 bg-brand-blue-logo"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-1/2 bg-brand-yellow-logo" style={{ opacity: 0.8 }}></div>
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[20px] font-medium text-[#1A1A1A] truncate font-header">{store.name}</span>
+                  <span className="text-[20px] font-medium text-admin-text-dark truncate font-header">{store.name}</span>
                   <span className="text-[14px] text-gray-400 font-bold truncate font-ui tracking-tight">Local store</span>
                 </div>
               </div>
@@ -47,7 +47,7 @@ function NewlyAddedStores() {
                 />
               </div>
 
-              <div className="flex items-center gap-2 text-gray-400 text-[14px] font-bold mt-auto font-ui group cursor-pointer transition-colors hover:text-[#D3E4FD]">
+              <div className="flex items-center gap-2 text-gray-400 text-[14px] font-bold mt-auto font-ui group cursor-pointer transition-colors hover:text-brand-cyan">
                 <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 <span>See location</span>
               </div>
