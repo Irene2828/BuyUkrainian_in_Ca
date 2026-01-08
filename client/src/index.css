@@ -66,6 +66,11 @@
   --shadow-float: 0px 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0px 6px 16px rgba(0, 0, 0, 0.12);
 
+  /* Spacing Tokens - Section spacing */
+  --spacing-section-top: 160px;
+  --spacing-section-bottom: 120px;
+  --spacing-section-gap: 80px;
+
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-serif: 'Lora', serif;

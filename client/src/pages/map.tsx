@@ -19,7 +19,10 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section className="pt-[160px] pb-[120px] bg-white text-center border-t border-gray-50">
+    <section
+      className="bg-white text-center border-t border-gray-50"
+      style={{ paddingTop: 'var(--spacing-section-top)', paddingBottom: 'var(--spacing-section-bottom)' }}
+    >
       <div className="container mx-auto px-[64px] max-w-[1440px]">
         <h2 className="text-[42px] font-medium mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal">Newly added stores</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
