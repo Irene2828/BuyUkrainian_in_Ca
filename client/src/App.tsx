@@ -15,6 +15,7 @@ import AdminDashboard from "@/pages/admin/dashboard";
 import AboutPage from "@/pages/about";
 import NotFound from "@/pages/not-found";
 import { initPremiumInteractions } from "./lib/premium-interactions";
+import { Cursor } from "@/components/Cursor";
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function App() {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+      <Cursor />
       <I18nProvider>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>

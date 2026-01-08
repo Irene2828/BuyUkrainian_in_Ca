@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, HelpCircle } from "lucide-react";
 import { Link } from "wouter";
 
 export function Hero() {
+  const [videoReady, setVideoReady] = useState(false);
+
   return (
     <section className="premium-parallax-hero relative w-full bg-[#FDFFD7] h-[606px] mt-[24px] mb-[16px] overflow-hidden font-sans border-b border-[#E6E6E6]/10">
       {/* Container with Figma-exact 32px left padding - Centered vertically via flex */}
@@ -87,16 +90,26 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Video Container - RESTORED TO AUDIT RADIUS [40px] */}
+          {/* Right Video Container - No flash loading with opacity transition */}
           <div className="relative">
-            <div className="rounded-[40px] overflow-hidden aspect-[4/3] shadow-2xl relative bg-white">
+            <div
+              className="rounded-[40px] overflow-hidden shadow-2xl relative"
+              style={{
+                aspectRatio: '4 / 3',
+                backgroundColor: '#FDFFD7' // Match section background - no contrast flash
+              }}
+            >
               <video
                 className="w-full h-full object-cover"
+                style={{
+                  opacity: videoReady ? 1 : 0,
+                  transition: 'opacity 0.4s ease-in-out'
+                }}
                 autoPlay
                 muted
                 loop
                 playsInline
-                poster="/hero-shopping-girl.png"
+                onCanPlay={() => setVideoReady(true)}
               >
                 <source src="/hero-video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
