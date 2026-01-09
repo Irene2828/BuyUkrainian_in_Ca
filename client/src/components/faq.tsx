@@ -30,7 +30,7 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-white font-sans overflow-hidden py-12 md:py-24 px-4 md:px-16">
+    <section id="faq" className="bg-white font-sans overflow-hidden py-12 md:py-20 px-4 md:px-16">
       <div className="mx-auto max-w-[1200px] relative z-10">
         <div className="text-center mb-8 md:mb-16">
           <h2 className="text-[28px] md:text-[42px] font-medium mb-4 text-[var(--color-section-headline)] tracking-tight font-header section-headline-reveal">Project's mission</h2>
@@ -57,20 +57,14 @@ export function FAQ() {
           ))}
         </div>
 
-        {/* Mobile: Accordion with CENTER aligned headers, gap-6 */}
-        <div className="md:hidden">
-          <Accordion type="single" collapsible className="w-full space-y-3">
-            {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border-none shadow-none bg-gray-50 rounded-xl overflow-hidden">
-                <AccordionTrigger className="text-left text-[16px] font-medium px-4 py-4 text-black hover:text-gray-600 hover:no-underline transition-colors [&>svg]:text-black font-ui justify-between">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-[14px] font-normal text-gray-600 leading-relaxed px-4 pb-4 font-ui text-left">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+        {/* Mobile: Vertically stacked cards (same as desktop style) */}
+        <div className="md:hidden flex flex-col gap-4">
+          {faqs.map((faq, i) => (
+            <div key={i} className="bg-gray-50 rounded-2xl p-5 text-left border border-gray-100">
+              <h3 className="text-[16px] font-semibold mb-2 text-black font-ui">{faq.question}</h3>
+              <p className="text-[14px] font-normal text-gray-600 leading-relaxed font-ui">{faq.answer}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
