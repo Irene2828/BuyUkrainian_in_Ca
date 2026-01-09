@@ -150,238 +150,240 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             setIsEditModalOpen(false);
             setSelectedStore(null);
         },
-        // User Management Mutations
-        const updatePasswordMutation = useMutation({
-            mutationFn: ({ id, password }: { id: number; password: string }) =>
-                updateAdminPassword(id, password),
-            onSuccess: () => {
-                toast({ title: "Password Updated", description: "The password has been changed successfully." });
-                setIsPasswordModalOpen(false);
-                setNewPassword("");
-                setConfirmPassword("");
-                setTargetUserId(null);
-            },
-            onError: (error: Error) => {
-                toast({ title: "Error", description: error.message, variant: "destructive" });
-            },
-        });
+    });
 
-        const createUserMutation = useMutation({
-            mutationFn: ({ username, password }: { username: string; password: string }) =>
-                createAdminUser(username, password),
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ["admin-users"] });
-                toast({ title: "User Created", description: "New admin user has been added." });
-                setIsNewUserModalOpen(false);
-                setNewUsername("");
-                setNewPassword("");
-            },
-            onError: (error: Error) => {
-                toast({ title: "Error", description: error.message, variant: "destructive" });
-            },
-        });
+    // User Management Mutations
+    const updatePasswordMutation = useMutation({
+        mutationFn: ({ id, password }: { id: number; password: string }) =>
+            updateAdminPassword(id, password),
+        onSuccess: () => {
+            toast({ title: "Password Updated", description: "The password has been changed successfully." });
+            setIsPasswordModalOpen(false);
+            setNewPassword("");
+            setConfirmPassword("");
+            setTargetUserId(null);
+        },
+        onError: (error: Error) => {
+            toast({ title: "Error", description: error.message, variant: "destructive" });
+        },
+    });
 
-        const deleteUserMutation = useMutation({
-            mutationFn: (id: number) => deleteAdminUser(id),
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ["admin-users"] });
-                toast({ title: "User Deleted", description: "Admin user has been removed." });
-            },
-            onError: (error: Error) => {
-                toast({ title: "Error", description: error.message, variant: "destructive" });
-            },
-        });
+    const createUserMutation = useMutation({
+        mutationFn: ({ username, password }: { username: string; password: string }) =>
+            createAdminUser(username, password),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+            toast({ title: "User Created", description: "New admin user has been added." });
+            setIsNewUserModalOpen(false);
+            setNewUsername("");
+            setNewPassword("");
+        },
+        onError: (error: Error) => {
+            toast({ title: "Error", description: error.message, variant: "destructive" });
+        },
+    });
 
-        // Data
-        const allStores = propSubmissions || stores;
-        const pendingStores = allStores.filter((s) => s.status === "pending");
-        const liveStores = allStores.filter((s) => s.status === "approved");
-        const trashedStores = allStores.filter((s) => s.status === "rejected");
+    const deleteUserMutation = useMutation({
+        mutationFn: (id: number) => deleteAdminUser(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+            toast({ title: "User Deleted", description: "Admin user has been removed." });
+        },
+        onError: (error: Error) => {
+            toast({ title: "Error", description: error.message, variant: "destructive" });
+        },
+    });
 
-        const getDisplayedStores = () => {
-            let items: any[] = [];
-            switch (activeTab) {
-                case "pending": items = pendingStores; break;
-                case "live": items = liveStores; break;
-                case "trash": items = trashedStores; break;
-                case "drafts": items = drafts; break;
-                case "settings": items = []; break;
-                default: items = [];
-            }
-            // Apply category filter
-            if (categoryFilter) {
-                items = items.filter((s: any) => s.category === categoryFilter);
-            }
-            // Apply city filter
-            if (cityFilter.trim()) {
-                const query = cityFilter.toLowerCase();
-                items = items.filter((s: any) =>
-                    s.address?.toLowerCase().includes(query) ||
-                    s.city?.toLowerCase().includes(query)
-                );
-            }
-            // Sort
-            if (sortBy === "name") {
-                items = [...items].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-            }
-            return items;
-        };
+    // Data
+    const allStores = propSubmissions || stores;
+    const pendingStores = allStores.filter((s) => s.status === "pending");
+    const liveStores = allStores.filter((s) => s.status === "approved");
+    const trashedStores = allStores.filter((s) => s.status === "rejected");
 
-        const displayedStores = getDisplayedStores();
+    const getDisplayedStores = () => {
+        let items: any[] = [];
+        switch (activeTab) {
+            case "pending": items = pendingStores; break;
+            case "live": items = liveStores; break;
+            case "trash": items = trashedStores; break;
+            case "drafts": items = drafts; break;
+            case "settings": items = []; break;
+            default: items = [];
+        }
+        // Apply category filter
+        if (categoryFilter) {
+            items = items.filter((s: any) => s.category === categoryFilter);
+        }
+        // Apply city filter
+        if (cityFilter.trim()) {
+            const query = cityFilter.toLowerCase();
+            items = items.filter((s: any) =>
+                s.address?.toLowerCase().includes(query) ||
+                s.city?.toLowerCase().includes(query)
+            );
+        }
+        // Sort
+        if (sortBy === "name") {
+            items = [...items].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+        }
+        return items;
+    };
 
-        // Get unique cities for filter
-        const allCities = [...new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean))];
+    const displayedStores = getDisplayedStores();
 
-        // Handlers
-        const handleApprove = async (id: string) => {
-            try {
-                await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
-                toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
-            } catch {
-                toast({ title: "Error", description: "Failed to approve store.", variant: "destructive" });
-            }
-        };
+    // Get unique cities for filter
+    const allCities = [...new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean))];
 
-        const handleReject = async (id: string) => {
-            try {
-                await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
-                toast({ title: "Moved to Trash", variant: "destructive" });
-            } catch {
-                toast({ title: "Error", description: "Failed to reject store.", variant: "destructive" });
-            }
-        };
+    // Handlers
+    const handleApprove = async (id: string) => {
+        try {
+            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
+            toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
+        } catch {
+            toast({ title: "Error", description: "Failed to approve store.", variant: "destructive" });
+        }
+    };
 
-        const handleRestore = async (id: string) => {
-            try {
-                await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "pending" });
-                toast({ title: "Store Restored", description: "Moved back to pending review." });
-            } catch {
-                toast({ title: "Error", description: "Failed to restore store.", variant: "destructive" });
-            }
-        };
+    const handleReject = async (id: string) => {
+        try {
+            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
+            toast({ title: "Moved to Trash", variant: "destructive" });
+        } catch {
+            toast({ title: "Error", description: "Failed to reject store.", variant: "destructive" });
+        }
+    };
 
-        const handlePermanentDelete = async (id: string) => {
-            if (confirm("Permanently delete this store? This cannot be undone.")) {
-                await deleteMutation.mutateAsync(parseInt(id));
-            }
-        };
+    const handleRestore = async (id: string) => {
+        try {
+            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "pending" });
+            toast({ title: "Store Restored", description: "Moved back to pending review." });
+        } catch {
+            toast({ title: "Error", description: "Failed to restore store.", variant: "destructive" });
+        }
+    };
 
-        const openEditModal = (store: Store) => {
-            setSelectedStore(store);
-            setEditName(store.name);
-            setEditAddress(store.address);
-            setEditImages(store.images || []);
-            setLocalImagePreviews([]);
-            setIsEditModalOpen(true);
-        };
+    const handlePermanentDelete = async (id: string) => {
+        if (confirm("Permanently delete this store? This cannot be undone.")) {
+            await deleteMutation.mutateAsync(parseInt(id));
+        }
+    };
 
-        const handleSaveEdit = async () => {
-            if (!selectedStore) return;
-            if (editName !== selectedStore.name || editAddress !== selectedStore.address) {
-                await updateStoreMutation.mutateAsync({
-                    id: parseInt(selectedStore.id),
-                    updates: { name: editName, address: editAddress },
-                });
-            }
-            const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
-            if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
-                await updateImagesMutation.mutateAsync({
-                    id: parseInt(selectedStore.id),
-                    images: allImages,
-                });
-            }
-            setIsEditModalOpen(false);
-            setSelectedStore(null);
-        };
+    const openEditModal = (store: Store) => {
+        setSelectedStore(store);
+        setEditName(store.name);
+        setEditAddress(store.address);
+        setEditImages(store.images || []);
+        setLocalImagePreviews([]);
+        setIsEditModalOpen(true);
+    };
 
-        const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-            const files = e.target.files;
-            if (!files) return;
-            const currentTotal = editImages.length + localImagePreviews.length;
-            const remaining = 3 - currentTotal;
-            Array.from(files).slice(0, remaining).forEach((file) => {
-                const previewUrl = URL.createObjectURL(file);
-                setLocalImagePreviews((prev) => [...prev, previewUrl].slice(0, 3 - editImages.length));
+    const handleSaveEdit = async () => {
+        if (!selectedStore) return;
+        if (editName !== selectedStore.name || editAddress !== selectedStore.address) {
+            await updateStoreMutation.mutateAsync({
+                id: parseInt(selectedStore.id),
+                updates: { name: editName, address: editAddress },
             });
-        }, [editImages.length, localImagePreviews.length]);
+        }
+        const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
+        if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
+            await updateImagesMutation.mutateAsync({
+                id: parseInt(selectedStore.id),
+                images: allImages,
+            });
+        }
+        setIsEditModalOpen(false);
+        setSelectedStore(null);
+    };
 
-        // Bulk Import Handler
-        const handleBulkImport = useCallback((files: FileList) => {
-            const file = files[0];
-            if (!file) return;
+    const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files) return;
+        const currentTotal = editImages.length + localImagePreviews.length;
+        const remaining = 3 - currentTotal;
+        Array.from(files).slice(0, remaining).forEach((file) => {
+            const previewUrl = URL.createObjectURL(file);
+            setLocalImagePreviews((prev) => [...prev, previewUrl].slice(0, 3 - editImages.length));
+        });
+    }, [editImages.length, localImagePreviews.length]);
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const text = e.target?.result as string;
-                const lines = text.split('\n').slice(1); // Skip header
-                const newDrafts = lines.filter(line => line.trim()).map((line, index) => {
-                    const [name, address, category] = line.split(',').map(s => s.trim().replace(/"/g, ''));
-                    return {
-                        id: `draft-${Date.now()}-${index}`,
-                        name: name || 'Unknown Store',
-                        address: address || '',
-                        category: category || 'food',
-                        status: 'draft',
-                        products: [],
-                        description: '',
-                        images: [],
-                    };
-                });
-                setDrafts(prev => [...prev, ...newDrafts]);
-                toast({ title: "Import Complete", description: `${newDrafts.length} stores added to Drafts.` });
-            };
-            reader.readAsText(file);
-        }, []);
+    // Bulk Import Handler
+    const handleBulkImport = useCallback((files: FileList) => {
+        const file = files[0];
+        if (!file) return;
 
-        const handleDragOver = (e: React.DragEvent) => {
-            e.preventDefault();
-            setIsDragOver(true);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const text = e.target?.result as string;
+            const lines = text.split('\n').slice(1); // Skip header
+            const newDrafts = lines.filter(line => line.trim()).map((line, index) => {
+                const [name, address, category] = line.split(',').map(s => s.trim().replace(/"/g, ''));
+                return {
+                    id: `draft-${Date.now()}-${index}`,
+                    name: name || 'Unknown Store',
+                    address: address || '',
+                    category: category || 'food',
+                    status: 'draft',
+                    products: [],
+                    description: '',
+                    images: [],
+                };
+            });
+            setDrafts(prev => [...prev, ...newDrafts]);
+            toast({ title: "Import Complete", description: `${newDrafts.length} stores added to Drafts.` });
         };
+        reader.readAsText(file);
+    }, []);
 
-        const handleDragLeave = () => setIsDragOver(false);
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragOver(true);
+    };
 
-        const handleDrop = (e: React.DragEvent) => {
-            e.preventDefault();
-            setIsDragOver(false);
-            if (e.dataTransfer.files.length > 0) {
-                handleBulkImport(e.dataTransfer.files);
-            }
-        };
+    const handleDragLeave = () => setIsDragOver(false);
 
-        const removeImage = (index: number, isLocal: boolean) => {
-            if (isLocal) {
-                setLocalImagePreviews((prev) => prev.filter((_, i) => i !== index));
-            } else {
-                setEditImages((prev) => prev.filter((_, i) => i !== index));
-            }
-        };
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragOver(false);
+        if (e.dataTransfer.files.length > 0) {
+            handleBulkImport(e.dataTransfer.files);
+        }
+    };
 
-        const handlePasswordUpdate = () => {
-            if (!targetUserId || !newPassword) return;
-            if (newPassword !== confirmPassword) {
-                toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
-                return;
-            }
-            updatePasswordMutation.mutate({ id: targetUserId, password: newPassword });
-        };
+    const removeImage = (index: number, isLocal: boolean) => {
+        if (isLocal) {
+            setLocalImagePreviews((prev) => prev.filter((_, i) => i !== index));
+        } else {
+            setEditImages((prev) => prev.filter((_, i) => i !== index));
+        }
+    };
 
-        const handleCreateUser = () => {
-            if (!newUsername || !newPassword) return;
-            createUserMutation.mutate({ username: newUsername, password: newPassword });
-        };
+    const handlePasswordUpdate = () => {
+        if (!targetUserId || !newPassword) return;
+        if (newPassword !== confirmPassword) {
+            toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
+            return;
+        }
+        updatePasswordMutation.mutate({ id: targetUserId, password: newPassword });
+    };
 
-        const handleLogout = async () => {
-            await logout();
-            setLocation("/admin/login");
-        };
+    const handleCreateUser = () => {
+        if (!newUsername || !newPassword) return;
+        createUserMutation.mutate({ username: newUsername, password: newPassword });
+    };
 
-        const tabs: { id: TabType; label: string; icon: any; count: number; color: string }[] = [
-            { id: "pending", label: "Pending", icon: FileText, count: pendingStores.length, color: "orange" },
-            { id: "live", label: "Live", icon: MapPin, count: liveStores.length, color: "green" },
-            { id: "trash", label: "Trash", icon: Trash2, count: trashedStores.length, color: "red" },
-            { id: "drafts", label: "Drafts", icon: FileSpreadsheet, count: drafts.length, color: "blue" },
-            { id: "settings", label: "Settings", icon: Settings, count: adminUsers.length, color: "gray" },
-        ];
+    const handleLogout = async () => {
+        await logout();
+        setLocation("/admin/login");
+    };
+
+    const tabs: { id: TabType; label: string; icon: any; count: number; color: string }[] = [
+        { id: "pending", label: "Pending", icon: FileText, count: pendingStores.length, color: "orange" },
+        { id: "live", label: "Live", icon: MapPin, count: liveStores.length, color: "green" },
+        { id: "trash", label: "Trash", icon: Trash2, count: trashedStores.length, color: "red" },
+        { id: "drafts", label: "Drafts", icon: FileSpreadsheet, count: drafts.length, color: "blue" },
+        { id: "settings", label: "Settings", icon: Settings, count: adminUsers.length, color: "gray" },
+    ];
 
     return (
         <div className="min-h-screen bg-gray-50 flex font-sans">
