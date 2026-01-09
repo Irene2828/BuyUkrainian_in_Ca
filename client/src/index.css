@@ -107,6 +107,38 @@
   }
 }
 
+/* LOCKED: Hero Title Typography System */
+.hero-title {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 500;
+  letter-spacing: -2.2px;
+  color: #000000;
+}
+
+.hero-title strong,
+.hero-title b,
+.hero-title .hero-bold {
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 800;
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

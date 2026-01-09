@@ -12,39 +12,21 @@ export function Hero() {
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] py-8 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
-          {/* Left Content - Text and CTAs - FULL WIDTH on mobile, auto on desktop */}
+          {/* Left Content - Text and CTAs */}
           <div className="w-full lg:w-1/2 flex flex-col justify-center order-1">
-            {/* Main Headline - Responsive sizing with explicit font sizes on all spans */}
-            <h1
-              className="font-sans premium-parallax-text w-full text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px] font-medium mb-8"
-              style={{
-                fontFamily: 'Inter',
-                letterSpacing: '-2.2px',
-                color: '#000000',
-              }}
-            >
+            {/* Main Headline - LOCKED typography via .hero-title */}
+            <h1 className="hero-title premium-parallax-text w-full mb-8">
               <span className="hero-reveal-headline">
-                Find and Share{" "}
-                <span className="font-extrabold hero-phrase-hover text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '250ms' }}>
-                  Ukrainian
-                </span>
+                Find and Share <strong className="hero-phrase-hover">Ukrainian</strong>
               </span>
               <br />
-              <span
-                className="hero-reveal-headline font-extrabold hero-phrase-hover text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]"
-                style={{ animationDelay: '250ms' }}
-              >
-                Products
-              </span>{" "}
-              <span className="hero-reveal-headline text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '300ms' }}>
-                sold{" "}
-                <span className="font-extrabold text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '350ms' }}>
-                  in Canada
-                </span>
+              <strong className="hero-reveal-headline hero-phrase-hover">Products</strong>{" "}
+              <span className="hero-reveal-headline">
+                sold <strong>in Canada</strong>
               </span>
             </h1>
 
-            {/* Subtext - Responsive sizing, full width - 24px below headline (mb-6) */}
+            {/* Subtext - 24px below headline (mb-6) */}
             <p
               className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
               style={{
@@ -79,9 +61,7 @@ export function Hero() {
           <div className="w-full lg:w-1/2 order-2">
             <div
               className="rounded-[24px] md:rounded-[40px] overflow-hidden shadow-2xl relative aspect-[4/3] max-h-[300px] lg:max-h-none"
-              style={{
-                backgroundColor: '#FDFFD7'
-              }}
+              style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
                 className="w-full h-full object-cover"
