@@ -534,48 +534,50 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 </div>
 
                 {/* Filter Bar */}
-                <div className="mb-6 flex flex-wrap items-center gap-3">
-                    {/* Category Chips */}
-                    <div className="flex items-center gap-2">
-                        {[
-                            { id: null, label: "All" },
-                            { id: "food", label: "Food" },
-                            { id: "clothes", label: "Clothing" },
-                            { id: "retail", label: "Retail" },
-                            { id: "other", label: "Gifts" },
-                        ].map((cat) => (
-                            <button
-                                key={cat.id || "all"}
-                                onClick={() => setCategoryFilter(cat.id)}
-                                className={cn(
-                                    "px-4 py-2 rounded-full text-[13px] font-medium transition-all font-ui",
-                                    categoryFilter === cat.id
-                                        ? "bg-[#D3E4FD] text-black"
-                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                )}
-                            >
-                                {cat.label}
-                            </button>
-                        ))}
+                {activeTab !== "settings" && (
+                    <div className="mb-6 flex flex-wrap items-center gap-3">
+                        {/* Category Chips */}
+                        <div className="flex items-center gap-2">
+                            {[
+                                { id: null, label: "All" },
+                                { id: "food", label: "Food" },
+                                { id: "clothes", label: "Clothing" },
+                                { id: "retail", label: "Retail" },
+                                { id: "other", label: "Gifts" },
+                            ].map((cat) => (
+                                <button
+                                    key={cat.id || "all"}
+                                    onClick={() => setCategoryFilter(cat.id)}
+                                    className={cn(
+                                        "px-4 py-2 rounded-full text-[13px] font-medium transition-all font-ui",
+                                        categoryFilter === cat.id
+                                            ? "bg-[#D3E4FD] text-black"
+                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    )}
+                                >
+                                    {cat.label}
+                                </button>
+                            ))}
+                        </div>
+                        {/* City Search */}
+                        <input
+                            type="text"
+                            placeholder="Filter by city..."
+                            value={cityFilter}
+                            onChange={(e) => setCityFilter(e.target.value)}
+                            className="px-4 py-2 rounded-full border border-gray-200 text-[13px] w-[180px] font-ui focus:border-[#D3E4FD] outline-none"
+                        />
+                        {/* Sort */}
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value as "date" | "name")}
+                            className="px-4 py-2 rounded-full border border-gray-200 text-[13px] font-ui bg-white outline-none focus:border-[#D3E4FD]"
+                        >
+                            <option value="date">Sort: Date Added</option>
+                            <option value="name">Sort: Name</option>
+                        </select>
                     </div>
-                    {/* City Search */}
-                    <input
-                        type="text"
-                        placeholder="Filter by city..."
-                        value={cityFilter}
-                        onChange={(e) => setCityFilter(e.target.value)}
-                        className="px-4 py-2 rounded-full border border-gray-200 text-[13px] w-[180px] font-ui focus:border-[#D3E4FD] outline-none"
-                    />
-                    {/* Sort */}
-                    <select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value as "date" | "name")}
-                        className="px-4 py-2 rounded-full border border-gray-200 text-[13px] font-ui bg-white outline-none focus:border-[#D3E4FD]"
-                    >
-                        <option value="date">Sort: Date Added</option>
-                        <option value="name">Sort: Name</option>
-                    </select>
-                </div>
+                )}
 
                 {/* Bulk Import Drop Zone (visible on Drafts tab) */}
                 {activeTab === "drafts" && (
@@ -595,118 +597,122 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 )}
 
                 {/* Store Grid/List */}
-                {isLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6 animate-pulse">
-                                <div className="h-32 bg-gray-100 rounded-xl mb-4"></div>
-                                <div className="h-4 bg-gray-100 rounded w-3/4 mb-2"></div>
-                                <div className="h-3 bg-gray-100 rounded w-1/2"></div>
+                {activeTab !== "settings" && (
+                    <>
+                        {isLoading ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {[1, 2, 3].map((i) => (
+                                    <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6 animate-pulse">
+                                        <div className="h-32 bg-gray-100 rounded-xl mb-4"></div>
+                                        <div className="h-4 bg-gray-100 rounded w-3/4 mb-2"></div>
+                                        <div className="h-3 bg-gray-100 rounded w-1/2"></div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                ) : displayedStores.length === 0 ? (
-                    <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
-                        {activeTab === "drafts" ? <FileSpreadsheet className="w-16 h-16 mx-auto text-gray-200 mb-4" /> :
-                            activeTab === "trash" ? <Trash2 className="w-16 h-16 mx-auto text-gray-200 mb-4" /> :
-                                <FileText className="w-16 h-16 mx-auto text-gray-200 mb-4" />}
-                        <p className="text-gray-400 text-lg font-ui">
-                            {activeTab === "pending" ? "No pending submissions" :
-                                activeTab === "live" ? "No live stores yet" :
-                                    activeTab === "trash" ? "Trash is empty" : "No drafts yet"}
-                        </p>
-                    </div>
-                ) : viewMode === "list" ? (
-                    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-                        <div className="divide-y divide-gray-50">
-                            {displayedStores.map((store: any) => (
-                                <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
-                                    <div className="flex items-center gap-4 flex-1 min-w-0">
-                                        <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
-                                            {store.images?.[0] ? (
-                                                <img src={store.images[0]} className="w-full h-full object-cover" alt="" />
-                                            ) : (
-                                                <Image className="w-5 h-5 text-gray-300" />
-                                            )}
+                        ) : displayedStores.length === 0 ? (
+                            <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
+                                {activeTab === "drafts" ? <FileSpreadsheet className="w-16 h-16 mx-auto text-gray-200 mb-4" /> :
+                                    activeTab === "trash" ? <Trash2 className="w-16 h-16 mx-auto text-gray-200 mb-4" /> :
+                                        <FileText className="w-16 h-16 mx-auto text-gray-200 mb-4" />}
+                                <p className="text-gray-400 text-lg font-ui">
+                                    {activeTab === "pending" ? "No pending submissions" :
+                                        activeTab === "live" ? "No live stores yet" :
+                                            activeTab === "trash" ? "Trash is empty" : "No drafts yet"}
+                                </p>
+                            </div>
+                        ) : viewMode === "list" ? (
+                            <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                                <div className="divide-y divide-gray-50">
+                                    {displayedStores.map((store: any) => (
+                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                            <div className="flex items-center gap-4 flex-1 min-w-0">
+                                                <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                                                    {store.images?.[0] ? (
+                                                        <img src={store.images[0]} className="w-full h-full object-cover" alt="" />
+                                                    ) : (
+                                                        <Image className="w-5 h-5 text-gray-300" />
+                                                    )}
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="font-bold text-[15px] text-black truncate font-ui">{store.name}</p>
+                                                    <p className="text-[13px] text-gray-400 truncate font-ui">{store.address || store.category}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                {activeTab === "pending" && (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleApprove(store.id)}
+                                                            className="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
+                                                        >
+                                                            <CheckCircle className="w-5 h-5" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleReject(store.id)}
+                                                            className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                                                        >
+                                                            <XCircle className="w-5 h-5" />
+                                                        </button>
+                                                    </>
+                                                )}
+                                                {activeTab === "trash" && (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleRestore(store.id)}
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors font-ui"
+                                                        >
+                                                            <RotateCcw className="w-3.5 h-3.5" /> Restore
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handlePermanentDelete(store.id)}
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-red-600 border border-red-200 rounded-full hover:bg-red-50 transition-colors font-ui"
+                                                        >
+                                                            <AlertTriangle className="w-3.5 h-3.5" /> Purge
+                                                        </button>
+                                                    </>
+                                                )}
+                                                {activeTab === "live" && (
+                                                    <button
+                                                        onClick={() => openEditModal(store)}
+                                                        className="text-[13px] font-medium text-gray-500 hover:text-black transition-colors font-ui"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                )}
+                                                {activeTab === "drafts" && (
+                                                    <button
+                                                        onClick={() => handleApprove(store.id)}
+                                                        className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium bg-black text-white rounded-full hover:bg-black/90 transition-colors font-ui"
+                                                    >
+                                                        Publish
+                                                    </button>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="font-bold text-[15px] text-black truncate font-ui">{store.name}</p>
-                                            <p className="text-[13px] text-gray-400 truncate font-ui">{store.address || store.category}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        {activeTab === "pending" && (
-                                            <>
-                                                <button
-                                                    onClick={() => handleApprove(store.id)}
-                                                    className="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
-                                                >
-                                                    <CheckCircle className="w-5 h-5" />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleReject(store.id)}
-                                                    className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-                                                >
-                                                    <XCircle className="w-5 h-5" />
-                                                </button>
-                                            </>
-                                        )}
-                                        {activeTab === "trash" && (
-                                            <>
-                                                <button
-                                                    onClick={() => handleRestore(store.id)}
-                                                    className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors font-ui"
-                                                >
-                                                    <RotateCcw className="w-3.5 h-3.5" /> Restore
-                                                </button>
-                                                <button
-                                                    onClick={() => handlePermanentDelete(store.id)}
-                                                    className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-red-600 border border-red-200 rounded-full hover:bg-red-50 transition-colors font-ui"
-                                                >
-                                                    <AlertTriangle className="w-3.5 h-3.5" /> Purge
-                                                </button>
-                                            </>
-                                        )}
-                                        {activeTab === "live" && (
-                                            <button
-                                                onClick={() => openEditModal(store)}
-                                                className="text-[13px] font-medium text-gray-500 hover:text-black transition-colors font-ui"
-                                            >
-                                                Edit
-                                            </button>
-                                        )}
-                                        {activeTab === "drafts" && (
-                                            <button
-                                                onClick={() => handleApprove(store.id)}
-                                                className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium bg-black text-white rounded-full hover:bg-black/90 transition-colors font-ui"
-                                            >
-                                                Publish
-                                            </button>
-                                        )}
-                                    </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 text-[12px] text-gray-500 font-ui">
-                            Showing {displayedStores.length} items
-                        </div>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {displayedStores.map((store: any) => (
-                            <AdminStoreCard
-                                key={store.id}
-                                store={store}
-                                viewMode="grid"
-                                showActions={activeTab === "pending"}
-                                onApprove={handleApprove}
-                                onReject={handleReject}
-                                onEdit={openEditModal}
-                            />
-                        ))}
-                    </div>
-                )}
+                                <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 text-[12px] text-gray-500 font-ui">
+                                    Showing {displayedStores.length} items
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {displayedStores.map((store: any) => (
+                                    <AdminStoreCard
+                                        key={store.id}
+                                        store={store}
+                                        viewMode="grid"
+                                        showActions={activeTab === "pending"}
+                                        onApprove={handleApprove}
+                                        onReject={handleReject}
+                                        onEdit={openEditModal}
+                                    />
+                                ))}
+                            </div>
+                        )}
 
+                    </>
+                )}
                 {/* Settings View */}
                 {activeTab === "settings" && (
                     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
