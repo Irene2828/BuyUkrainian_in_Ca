@@ -22,9 +22,9 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section className="bg-white border-t border-gray-50 py-12 md:py-20 px-6 md:px-16">
+    <section className="bg-white border-t border-gray-50 py-12 md:py-[100px] px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold mb-4 block font-header">Recently added</span>
+        <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold mb-4 block">Recently added</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div

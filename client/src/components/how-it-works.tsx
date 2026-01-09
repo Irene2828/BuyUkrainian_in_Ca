@@ -21,7 +21,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-12 md:py-20 bg-white font-sans overflow-hidden">
+    <section id="how-it-works" className="py-12 md:py-[100px] bg-white font-sans overflow-hidden">
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
         <div className="text-center mb-8">
           <h2 className="text-[28px] md:text-[32px] font-medium mb-4 md:mb-6 text-[var(--color-section-headline)] font-header section-headline-reveal">How it works</h2>
