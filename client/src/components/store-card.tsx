@@ -125,20 +125,31 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                     </div>
                 </div>
 
-                {/* Action Buttons: Gap-6 separation */}
-                <div className="grid grid-cols-2 gap-3 mt-auto pt-2">
-                    <button
-                        onClick={onSeeOnMap ? () => onSeeOnMap(store) : undefined}
+                {/* Action Buttons: Directions Primary, others Secondary */}
+                <div className="flex flex-col gap-3 mt-auto pt-2">
+                    <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 h-12 bg-black text-white rounded-full font-bold text-[14px] shadow-sm hover:bg-black/90 active:scale-95 transition-all font-ui"
                     >
-                        <Map className="w-4 h-4" /> Go to Map
-                    </button>
-                    <button
-                        onClick={handleShare}
-                        className="flex items-center justify-center gap-2 h-12 bg-gray-100 text-black rounded-full font-bold text-[14px] hover:bg-gray-200 active:scale-95 transition-all font-ui"
-                    >
-                        <Sparkles className="w-4 h-4" /> Share
-                    </button>
+                        <MapPin className="w-4 h-4" /> Get Directions
+                    </a>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                        <button
+                            onClick={onSeeOnMap ? () => onSeeOnMap(store) : undefined}
+                            className="flex items-center justify-center gap-2 h-12 bg-gray-100 text-black rounded-full font-bold text-[14px] hover:bg-gray-200 active:scale-95 transition-all font-ui"
+                        >
+                            <Map className="w-4 h-4" /> See on Map
+                        </button>
+                        <button
+                            onClick={handleShare}
+                            className="flex items-center justify-center gap-2 h-12 bg-gray-100 text-black rounded-full font-bold text-[14px] hover:bg-gray-200 active:scale-95 transition-all font-ui"
+                        >
+                             <Sparkles className="w-4 h-4" /> Share
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

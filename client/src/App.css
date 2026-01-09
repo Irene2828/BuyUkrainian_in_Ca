@@ -162,7 +162,8 @@ section h3,
     }
 
     .pre-footer-visual-wrapper {
-        height: 240px;
+        height: 300px;
+        /* Increased for breathability */
         /* Smaller on mobile */
     }
 

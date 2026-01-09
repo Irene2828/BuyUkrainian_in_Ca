@@ -14,6 +14,9 @@ export default function Home() {
       <main>
         <Hero />
 
+        {/* Products Marquee - Social Proof for user flow */}
+        <RecentProductsMarquee />
+
         {/* How It Works Content */}
         <HowItWorks />
 
@@ -24,9 +27,6 @@ export default function Home() {
         <SpreadTheWord />
 
         <PreFooter />
-
-        {/* Products Marquee - above Footer */}
-        <RecentProductsMarquee />
       </main>
       <Footer />
     </div>
