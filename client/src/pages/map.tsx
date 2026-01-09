@@ -60,42 +60,50 @@ function NewlyAddedStores() {
 
 export default function MapPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
-      <Header />
-
-      {/* Mobile: Full screen map experience, Desktop: Regular layout with sections */}
-      <main className="flex-1 flex flex-col">
-        {/* Map Page Headline Section - Responsive spacing with vertical rhythm */}
-        <section className="pt-6 md:pt-20 bg-white text-center px-4 md:px-16">
-          <div className="container mx-auto max-w-[1440px]">
-            <div className="mb-6 md:mb-8">
-              <h1 className="text-[24px] md:text-[42px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
-                Find Ukrainian Products Across Canada
-              </h1>
-              <p className="text-[14px] md:text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-4 md:mb-6">
-                Browse the map or add places selling products made in Ukraine
-              </p>
-            </div>
+    <>
+      {/* Mobile: Full screen map experience with h-screen and overflow-hidden */}
+      <div className="md:hidden h-screen overflow-hidden bg-background flex flex-col font-sans selection:bg-blue-100">
+        <Header />
+        <main className="flex-1 flex flex-col overflow-hidden">
+          {/* Compact Headline - Mobile */}
+          <div className="bg-white text-center px-4 py-4">
+            <h1 className="text-[20px] font-medium text-[var(--color-section-headline)] leading-tight tracking-tight font-header">
+              Find Ukrainian Products
+            </h1>
           </div>
-        </section>
 
-        {/* Map Explorer - Mobile: fills remaining viewport height */}
-        <div className="flex-1 min-h-[calc(100vh-200px)] md:min-h-0 md:flex-none">
+          {/* Map fills remaining space */}
+          <div className="flex-1 min-h-0">
+            <MapExplorer />
+          </div>
+        </main>
+      </div>
+
+      {/* Desktop: Regular layout with all sections */}
+      <div className="hidden md:flex min-h-screen bg-background flex-col font-sans selection:bg-blue-100">
+        <Header />
+        <main className="flex-1 flex flex-col">
+          {/* Map Page Headline Section - Desktop */}
+          <section className="pt-20 bg-white text-center px-16">
+            <div className="container mx-auto max-w-[1440px]">
+              <div className="mb-8">
+                <h1 className="text-[42px] font-medium mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+                  Find Ukrainian Products Across Canada
+                </h1>
+                <p className="text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-6">
+                  Browse the map or add places selling products made in Ukraine
+                </p>
+              </div>
+            </div>
+          </section>
+
           <MapExplorer />
-        </div>
-
-        {/* Below-the-fold sections - Hidden on mobile map view for focused experience */}
-        <div className="hidden md:block">
           <NewlyAddedStores />
           <SpreadTheWord />
           <PreFooter />
-        </div>
-      </main>
-
-      {/* Footer - Desktop only on map page for cleaner mobile experience */}
-      <div className="hidden md:block">
+        </main>
         <Footer />
       </div>
-    </div>
+    </>
   );
 }

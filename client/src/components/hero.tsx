@@ -14,43 +14,41 @@ export function Hero() {
 
           {/* Left Content - Text and CTAs - FULL WIDTH on mobile, auto on desktop */}
           <div className="w-full lg:w-1/2 flex flex-col justify-center order-1">
-            {/* Main Headline - Responsive sizing, no fixed widths */}
+            {/* Main Headline - Responsive sizing with explicit font sizes on all spans */}
             <h1
-              className="font-sans premium-parallax-text w-full"
+              className="font-sans premium-parallax-text w-full text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px] font-medium mb-8"
               style={{
                 fontFamily: 'Inter',
-                fontStyle: 'normal',
-                fontWeight: 500,
                 letterSpacing: '-2.2px',
                 color: '#000000',
-                marginBottom: '24px'
               }}
             >
-              <span
-                className="hero-reveal-headline block text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]"
-              >
+              <span className="hero-reveal-headline">
                 Find and Share{" "}
-                <span className="font-bold hero-phrase-hover" style={{ animationDelay: '250ms' }}>
+                <span className="font-extrabold hero-phrase-hover text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '250ms' }}>
                   Ukrainian
                 </span>
               </span>
+              <br />
               <span
-                className="hero-reveal-headline block text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px] font-bold hero-phrase-hover"
+                className="hero-reveal-headline font-extrabold hero-phrase-hover text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]"
                 style={{ animationDelay: '250ms' }}
               >
                 Products
-              </span>
-              <span className="hero-reveal-headline block text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '300ms' }}>
-                sold <span className="font-bold" style={{ animationDelay: '350ms' }}>in Canada</span>
+              </span>{" "}
+              <span className="hero-reveal-headline text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '300ms' }}>
+                sold{" "}
+                <span className="font-extrabold text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '350ms' }}>
+                  in Canada
+                </span>
               </span>
             </h1>
 
-            {/* Subtext - Responsive sizing, full width */}
+            {/* Subtext - Responsive sizing, full width - 24px below headline (mb-6) */}
             <p
               className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
               style={{
                 fontFamily: 'Inter',
-                fontStyle: 'normal',
                 fontWeight: 500,
                 letterSpacing: '-0.3125px',
                 color: '#727272',

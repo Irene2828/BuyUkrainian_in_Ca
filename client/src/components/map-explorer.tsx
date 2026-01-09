@@ -51,7 +51,7 @@ export function MapExplorer() {
     ];
 
     return (
-        <div className="w-full bg-white flex flex-col md:block">
+        <div className="w-full h-full bg-white flex flex-col md:block">
 
             {/* Mobile: Horizontal scrolling filter bar */}
             <div className="md:hidden w-full bg-white border-b border-gray-100 sticky top-[80px] z-40">
