@@ -296,10 +296,7 @@ export function MapExplorer() {
                     />
                 </div>
             </div>
-            <DialogContent className="max-w-xl p-0 overflow-y-auto max-h-[90vh] flex flex-col border-none bg-transparent shadow-none" hideClose>
-                <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-            </DialogContent>
-        </Dialog>
+
         </div >
     );
 }
