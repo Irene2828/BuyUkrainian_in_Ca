@@ -66,21 +66,21 @@ export default function MapPage() {
   return (
     <div className="bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
-      <main className="flex-1 flex flex-col gap-16">
-        {/* Map Page Headline Section */}
-        <section className="pt-6 md:pt-16 bg-white text-center px-6 md:px-16 section-reveal">
+      <main className="flex-1 flex flex-col">
+        {/* Map Page Headline Section - mb-6 (24px) to chips per design system */}
+        <section className="pt-6 md:pt-12 pb-6 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
-            <h1 className="text-[32px] md:text-[48px] font-medium mb-4 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+            <h1 className="text-[32px] md:text-[48px] font-medium mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
               Find Ukrainian Products Across Canada
             </h1>
-            <p className="hidden md:block text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <p className="hidden md:block text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
               Browse the map or add places selling products made in Ukraine
             </p>
           </div>
         </section>
 
-        {/* Map Explorer - Fixed height with mt-8 gap from headline */}
-        <div className="relative z-0 section-reveal mt-8">
+        {/* Map Explorer - NO gap, directly follows headline */}
+        <div className="relative z-0 section-reveal">
           <MapExplorer />
         </div>
 
