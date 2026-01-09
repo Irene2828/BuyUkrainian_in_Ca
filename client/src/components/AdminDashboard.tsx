@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Store } from "@/lib/data";
-import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, AdminUser } from "@/lib/api";
+import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, updateAdminPassword, createAdminUser, deleteAdminUser, AdminUser } from "@/lib/api";
 import { logout, isAuthenticated, verifySession } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -27,6 +27,10 @@ import {
     CheckCircle,
     XCircle,
     Image,
+    Settings,
+    Plus,
+    User,
+    Key,
 } from "lucide-react";
 import {
     Dialog,
@@ -41,7 +45,7 @@ interface AdminDashboardProps {
     submissions?: Store[];
 }
 
-type TabType = "pending" | "live" | "trash" | "drafts";
+type TabType = "pending" | "live" | "trash" | "drafts" | "settings";
 
 export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardProps) {
     const { toast } = useToast();
@@ -62,6 +66,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [sortBy, setSortBy] = useState<"date" | "name">("date");
     const fileInputRef = useRef<HTMLInputElement>(null);
     const bulkInputRef = useRef<HTMLInputElement>(null);
+
+    // Settings State
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+    const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
+    const [targetUserId, setTargetUserId] = useState<number | null>(null);
+    const [newUsername, setNewUsername] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     // Auth check
     useEffect(() => {
@@ -138,182 +150,238 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             setIsEditModalOpen(false);
             setSelectedStore(null);
         },
-    });
-
-    // Data
-    const allStores = propSubmissions || stores;
-    const pendingStores = allStores.filter((s) => s.status === "pending");
-    const liveStores = allStores.filter((s) => s.status === "approved");
-    const trashedStores = allStores.filter((s) => s.status === "rejected");
-
-    const getDisplayedStores = () => {
-        let items: any[] = [];
-        switch (activeTab) {
-            case "pending": items = pendingStores; break;
-            case "live": items = liveStores; break;
-            case "trash": items = trashedStores; break;
-            case "drafts": items = drafts; break;
-            default: items = [];
-        }
-        // Apply category filter
-        if (categoryFilter) {
-            items = items.filter((s: any) => s.category === categoryFilter);
-        }
-        // Apply city filter
-        if (cityFilter.trim()) {
-            const query = cityFilter.toLowerCase();
-            items = items.filter((s: any) =>
-                s.address?.toLowerCase().includes(query) ||
-                s.city?.toLowerCase().includes(query)
-            );
-        }
-        // Sort
-        if (sortBy === "name") {
-            items = [...items].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-        }
-        return items;
-    };
-
-    const displayedStores = getDisplayedStores();
-
-    // Get unique cities for filter
-    const allCities = [...new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean))];
-
-    // Handlers
-    const handleApprove = async (id: string) => {
-        try {
-            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
-            toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
-        } catch {
-            toast({ title: "Error", description: "Failed to approve store.", variant: "destructive" });
-        }
-    };
-
-    const handleReject = async (id: string) => {
-        try {
-            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
-            toast({ title: "Moved to Trash", variant: "destructive" });
-        } catch {
-            toast({ title: "Error", description: "Failed to reject store.", variant: "destructive" });
-        }
-    };
-
-    const handleRestore = async (id: string) => {
-        try {
-            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "pending" });
-            toast({ title: "Store Restored", description: "Moved back to pending review." });
-        } catch {
-            toast({ title: "Error", description: "Failed to restore store.", variant: "destructive" });
-        }
-    };
-
-    const handlePermanentDelete = async (id: string) => {
-        if (confirm("Permanently delete this store? This cannot be undone.")) {
-            await deleteMutation.mutateAsync(parseInt(id));
-        }
-    };
-
-    const openEditModal = (store: Store) => {
-        setSelectedStore(store);
-        setEditName(store.name);
-        setEditAddress(store.address);
-        setEditImages(store.images || []);
-        setLocalImagePreviews([]);
-        setIsEditModalOpen(true);
-    };
-
-    const handleSaveEdit = async () => {
-        if (!selectedStore) return;
-        if (editName !== selectedStore.name || editAddress !== selectedStore.address) {
-            await updateStoreMutation.mutateAsync({
-                id: parseInt(selectedStore.id),
-                updates: { name: editName, address: editAddress },
-            });
-        }
-        const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
-        if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
-            await updateImagesMutation.mutateAsync({
-                id: parseInt(selectedStore.id),
-                images: allImages,
-            });
-        }
-        setIsEditModalOpen(false);
-        setSelectedStore(null);
-    };
-
-    const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (!files) return;
-        const currentTotal = editImages.length + localImagePreviews.length;
-        const remaining = 3 - currentTotal;
-        Array.from(files).slice(0, remaining).forEach((file) => {
-            const previewUrl = URL.createObjectURL(file);
-            setLocalImagePreviews((prev) => [...prev, previewUrl].slice(0, 3 - editImages.length));
+        // User Management Mutations
+        const updatePasswordMutation = useMutation({
+            mutationFn: ({ id, password }: { id: number; password: string }) =>
+                updateAdminPassword(id, password),
+            onSuccess: () => {
+                toast({ title: "Password Updated", description: "The password has been changed successfully." });
+                setIsPasswordModalOpen(false);
+                setNewPassword("");
+                setConfirmPassword("");
+                setTargetUserId(null);
+            },
+            onError: (error: Error) => {
+                toast({ title: "Error", description: error.message, variant: "destructive" });
+            },
         });
-    }, [editImages.length, localImagePreviews.length]);
 
-    // Bulk Import Handler
-    const handleBulkImport = useCallback((files: FileList) => {
-        const file = files[0];
-        if (!file) return;
+        const createUserMutation = useMutation({
+            mutationFn: ({ username, password }: { username: string; password: string }) =>
+                createAdminUser(username, password),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+                toast({ title: "User Created", description: "New admin user has been added." });
+                setIsNewUserModalOpen(false);
+                setNewUsername("");
+                setNewPassword("");
+            },
+            onError: (error: Error) => {
+                toast({ title: "Error", description: error.message, variant: "destructive" });
+            },
+        });
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const text = e.target?.result as string;
-            const lines = text.split('\n').slice(1); // Skip header
-            const newDrafts = lines.filter(line => line.trim()).map((line, index) => {
-                const [name, address, category] = line.split(',').map(s => s.trim().replace(/"/g, ''));
-                return {
-                    id: `draft-${Date.now()}-${index}`,
-                    name: name || 'Unknown Store',
-                    address: address || '',
-                    category: category || 'food',
-                    status: 'draft',
-                    products: [],
-                    description: '',
-                    images: [],
-                };
-            });
-            setDrafts(prev => [...prev, ...newDrafts]);
-            toast({ title: "Import Complete", description: `${newDrafts.length} stores added to Drafts.` });
+        const deleteUserMutation = useMutation({
+            mutationFn: (id: number) => deleteAdminUser(id),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+                toast({ title: "User Deleted", description: "Admin user has been removed." });
+            },
+            onError: (error: Error) => {
+                toast({ title: "Error", description: error.message, variant: "destructive" });
+            },
+        });
+
+        // Data
+        const allStores = propSubmissions || stores;
+        const pendingStores = allStores.filter((s) => s.status === "pending");
+        const liveStores = allStores.filter((s) => s.status === "approved");
+        const trashedStores = allStores.filter((s) => s.status === "rejected");
+
+        const getDisplayedStores = () => {
+            let items: any[] = [];
+            switch (activeTab) {
+                case "pending": items = pendingStores; break;
+                case "live": items = liveStores; break;
+                case "trash": items = trashedStores; break;
+                case "drafts": items = drafts; break;
+                case "settings": items = []; break;
+                default: items = [];
+            }
+            // Apply category filter
+            if (categoryFilter) {
+                items = items.filter((s: any) => s.category === categoryFilter);
+            }
+            // Apply city filter
+            if (cityFilter.trim()) {
+                const query = cityFilter.toLowerCase();
+                items = items.filter((s: any) =>
+                    s.address?.toLowerCase().includes(query) ||
+                    s.city?.toLowerCase().includes(query)
+                );
+            }
+            // Sort
+            if (sortBy === "name") {
+                items = [...items].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+            }
+            return items;
         };
-        reader.readAsText(file);
-    }, []);
 
-    const handleDragOver = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragOver(true);
-    };
+        const displayedStores = getDisplayedStores();
 
-    const handleDragLeave = () => setIsDragOver(false);
+        // Get unique cities for filter
+        const allCities = [...new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean))];
 
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragOver(false);
-        if (e.dataTransfer.files.length > 0) {
-            handleBulkImport(e.dataTransfer.files);
-        }
-    };
+        // Handlers
+        const handleApprove = async (id: string) => {
+            try {
+                await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
+                toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
+            } catch {
+                toast({ title: "Error", description: "Failed to approve store.", variant: "destructive" });
+            }
+        };
 
-    const removeImage = (index: number, isLocal: boolean) => {
-        if (isLocal) {
-            setLocalImagePreviews((prev) => prev.filter((_, i) => i !== index));
-        } else {
-            setEditImages((prev) => prev.filter((_, i) => i !== index));
-        }
-    };
+        const handleReject = async (id: string) => {
+            try {
+                await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
+                toast({ title: "Moved to Trash", variant: "destructive" });
+            } catch {
+                toast({ title: "Error", description: "Failed to reject store.", variant: "destructive" });
+            }
+        };
 
-    const handleLogout = async () => {
-        await logout();
-        setLocation("/admin/login");
-    };
+        const handleRestore = async (id: string) => {
+            try {
+                await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "pending" });
+                toast({ title: "Store Restored", description: "Moved back to pending review." });
+            } catch {
+                toast({ title: "Error", description: "Failed to restore store.", variant: "destructive" });
+            }
+        };
 
-    const tabs: { id: TabType; label: string; icon: any; count: number; color: string }[] = [
-        { id: "pending", label: "Pending", icon: FileText, count: pendingStores.length, color: "orange" },
-        { id: "live", label: "Live", icon: MapPin, count: liveStores.length, color: "green" },
-        { id: "trash", label: "Trash", icon: Trash2, count: trashedStores.length, color: "red" },
-        { id: "drafts", label: "Drafts", icon: FileSpreadsheet, count: drafts.length, color: "blue" },
-    ];
+        const handlePermanentDelete = async (id: string) => {
+            if (confirm("Permanently delete this store? This cannot be undone.")) {
+                await deleteMutation.mutateAsync(parseInt(id));
+            }
+        };
+
+        const openEditModal = (store: Store) => {
+            setSelectedStore(store);
+            setEditName(store.name);
+            setEditAddress(store.address);
+            setEditImages(store.images || []);
+            setLocalImagePreviews([]);
+            setIsEditModalOpen(true);
+        };
+
+        const handleSaveEdit = async () => {
+            if (!selectedStore) return;
+            if (editName !== selectedStore.name || editAddress !== selectedStore.address) {
+                await updateStoreMutation.mutateAsync({
+                    id: parseInt(selectedStore.id),
+                    updates: { name: editName, address: editAddress },
+                });
+            }
+            const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
+            if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
+                await updateImagesMutation.mutateAsync({
+                    id: parseInt(selectedStore.id),
+                    images: allImages,
+                });
+            }
+            setIsEditModalOpen(false);
+            setSelectedStore(null);
+        };
+
+        const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+            const files = e.target.files;
+            if (!files) return;
+            const currentTotal = editImages.length + localImagePreviews.length;
+            const remaining = 3 - currentTotal;
+            Array.from(files).slice(0, remaining).forEach((file) => {
+                const previewUrl = URL.createObjectURL(file);
+                setLocalImagePreviews((prev) => [...prev, previewUrl].slice(0, 3 - editImages.length));
+            });
+        }, [editImages.length, localImagePreviews.length]);
+
+        // Bulk Import Handler
+        const handleBulkImport = useCallback((files: FileList) => {
+            const file = files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const text = e.target?.result as string;
+                const lines = text.split('\n').slice(1); // Skip header
+                const newDrafts = lines.filter(line => line.trim()).map((line, index) => {
+                    const [name, address, category] = line.split(',').map(s => s.trim().replace(/"/g, ''));
+                    return {
+                        id: `draft-${Date.now()}-${index}`,
+                        name: name || 'Unknown Store',
+                        address: address || '',
+                        category: category || 'food',
+                        status: 'draft',
+                        products: [],
+                        description: '',
+                        images: [],
+                    };
+                });
+                setDrafts(prev => [...prev, ...newDrafts]);
+                toast({ title: "Import Complete", description: `${newDrafts.length} stores added to Drafts.` });
+            };
+            reader.readAsText(file);
+        }, []);
+
+        const handleDragOver = (e: React.DragEvent) => {
+            e.preventDefault();
+            setIsDragOver(true);
+        };
+
+        const handleDragLeave = () => setIsDragOver(false);
+
+        const handleDrop = (e: React.DragEvent) => {
+            e.preventDefault();
+            setIsDragOver(false);
+            if (e.dataTransfer.files.length > 0) {
+                handleBulkImport(e.dataTransfer.files);
+            }
+        };
+
+        const removeImage = (index: number, isLocal: boolean) => {
+            if (isLocal) {
+                setLocalImagePreviews((prev) => prev.filter((_, i) => i !== index));
+            } else {
+                setEditImages((prev) => prev.filter((_, i) => i !== index));
+            }
+        };
+
+        const handlePasswordUpdate = () => {
+            if (!targetUserId || !newPassword) return;
+            if (newPassword !== confirmPassword) {
+                toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
+                return;
+            }
+            updatePasswordMutation.mutate({ id: targetUserId, password: newPassword });
+        };
+
+        const handleCreateUser = () => {
+            if (!newUsername || !newPassword) return;
+            createUserMutation.mutate({ username: newUsername, password: newPassword });
+        };
+
+        const handleLogout = async () => {
+            await logout();
+            setLocation("/admin/login");
+        };
+
+        const tabs: { id: TabType; label: string; icon: any; count: number; color: string }[] = [
+            { id: "pending", label: "Pending", icon: FileText, count: pendingStores.length, color: "orange" },
+            { id: "live", label: "Live", icon: MapPin, count: liveStores.length, color: "green" },
+            { id: "trash", label: "Trash", icon: Trash2, count: trashedStores.length, color: "red" },
+            { id: "drafts", label: "Drafts", icon: FileSpreadsheet, count: drafts.length, color: "blue" },
+            { id: "settings", label: "Settings", icon: Settings, count: adminUsers.length, color: "gray" },
+        ];
 
     return (
         <div className="min-h-screen bg-gray-50 flex font-sans">
@@ -428,12 +496,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <h1 className="text-[32px] font-medium text-black tracking-tight font-header">
                             {activeTab === "pending" ? "Pending Submissions" :
                                 activeTab === "live" ? "Live Stores" :
-                                    activeTab === "trash" ? "Trash" : "Bulk Drafts"}
+                                    activeTab === "trash" ? "Trash" :
+                                        activeTab === "settings" ? "Settings" : "Bulk Drafts"}
                         </h1>
                         <p className="text-[16px] text-gray-400 mt-1 font-ui">
                             {activeTab === "pending" ? "Review and approve store submissions" :
                                 activeTab === "live" ? "Manage live store listings" :
-                                    activeTab === "trash" ? "Restore or permanently delete stores" : "Import and review bulk uploads"}
+                                    activeTab === "trash" ? "Restore or permanently delete stores" :
+                                        activeTab === "settings" ? "Manage admin users and passwords" : "Import and review bulk uploads"}
                         </p>
                     </div>
                     <div className="flex items-center gap-4">
@@ -634,6 +704,57 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         ))}
                     </div>
                 )}
+
+                {/* Settings View */}
+                {activeTab === "settings" && (
+                    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+                            <h3 className="font-semibold text-lg font-header">Admin Users</h3>
+                            <Button onClick={() => setIsNewUserModalOpen(true)} className="gap-2">
+                                <Plus className="w-4 h-4" /> Add User
+                            </Button>
+                        </div>
+                        <div className="divide-y divide-gray-50">
+                            {adminUsers.map((user: AdminUser) => (
+                                <div key={user.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                            <User className="w-5 h-5 text-gray-500" />
+                                        </div>
+                                        <div>
+                                            <p className="font-medium text-black font-ui">{user.username}</p>
+                                            <p className="text-xs text-gray-400 font-ui">Created: {new Date(user.createdAt).toLocaleDateString()}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => {
+                                                setTargetUserId(user.id);
+                                                setNewPassword("");
+                                                setConfirmPassword("");
+                                                setIsPasswordModalOpen(true);
+                                            }}
+                                            className="gap-2"
+                                        >
+                                            <Key className="w-4 h-4" /> Change Password
+                                        </Button>
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            onClick={() => {
+                                                if (confirm("Delete this user?")) deleteUserMutation.mutate(user.id);
+                                            }}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </main>
 
             {/* Edit Modal */}
@@ -701,6 +822,71 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <div className="flex-1" />
                         <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
                         <Button onClick={handleSaveEdit}>Save Changes</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Password Change Modal */}
+            <Dialog open={isPasswordModalOpen} onOpenChange={setIsPasswordModalOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Change Password</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="newPass">New Password</Label>
+                            <Input
+                                id="newPass"
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="confirmPass">Confirm Password</Label>
+                            <Input
+                                id="confirmPass"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsPasswordModalOpen(false)}>Cancel</Button>
+                        <Button onClick={handlePasswordUpdate}>Update Password</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* New User Modal */}
+            <Dialog open={isNewUserModalOpen} onOpenChange={setIsNewUserModalOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Create New Admin User</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="newUsername">Username</Label>
+                            <Input
+                                id="newUsername"
+                                value={newUsername}
+                                onChange={(e) => setNewUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="newUserPass">Password</Label>
+                            <Input
+                                id="newUserPass"
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsNewUserModalOpen(false)}>Cancel</Button>
+                        <Button onClick={handleCreateUser}>Create User</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
