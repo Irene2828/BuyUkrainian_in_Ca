@@ -46,7 +46,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                 <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
             </div>
 
-            <div className="p-4 md:p-6 overflow-y-auto max-h-[85vh] md:max-h-[90vh] custom-scrollbar scrollbar-hide">
+            <div className="p-6 flex flex-col">
                 {/* Close Button - Desktop Only */}
                 <button
                     onClick={onClose}
@@ -74,9 +74,9 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                         {store.name}
                     </h2>
 
-                    {/* Description */}
-                    <p className="text-[15px] text-[#717171] leading-relaxed font-ui line-clamp-2">
-                        {store.description || "Carries Ukrainian products"}
+                    {/* Description - Show products */}
+                    <p className="text-[14px] text-gray-500 leading-relaxed font-ui">
+                        This store sells: <span className="font-medium text-gray-700">{store.products.length > 0 ? store.products.join(', ') : store.description || 'Ukrainian products'}</span>
                     </p>
                 </div>
 
@@ -102,28 +102,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                     </div>
                 </div>
 
-                {/* Store Images Preview */}
-                <div className="mb-6">
-                    <div className="bg-[#F8F9FA] rounded-[20px] p-3 flex items-center justify-between cursor-pointer hover:bg-gray-100/50 transition-all border border-transparent hover:border-gray-100">
-                        <div className="flex items-center gap-3 w-full">
-                            <div className="w-[60px] h-[60px] bg-white rounded-[16px] border border-gray-100 flex-shrink-0 flex items-center justify-center relative overflow-hidden">
-                                {store.images?.[0] ?
-                                    <img src={store.images[0]} className="w-full h-full object-cover" alt={store.name} /> :
-                                    <div className="w-full h-full bg-gray-50 flex items-center justify-center text-[10px] text-gray-300">PHOTO</div>
-                                }
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-[13px] font-medium text-[#1A1A1A] line-clamp-1 font-ui">
-                                    Photos & Products
-                                </p>
-                                <p className="text-[12px] text-gray-400 font-ui truncate">
-                                    View {store.products.length}+ items
-                                </p>
-                            </div>
-                            <ChevronRight className="w-4 h-4 text-gray-300" />
-                        </div>
-                    </div>
-                </div>
+
 
                 {/* Action Buttons: Directions Primary, others Secondary */}
                 <div className="flex flex-col gap-3 mt-auto pt-2">

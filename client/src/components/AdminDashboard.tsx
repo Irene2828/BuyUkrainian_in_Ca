@@ -57,6 +57,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [viewMode, setViewMode] = useState<"grid" | "list">("list");
     const [isDragOver, setIsDragOver] = useState(false);
     const [drafts, setDrafts] = useState<any[]>([]);
+    const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+    const [cityFilter, setCityFilter] = useState<string>("");
+    const [sortBy, setSortBy] = useState<"date" | "name">("date");
     const fileInputRef = useRef<HTMLInputElement>(null);
     const bulkInputRef = useRef<HTMLInputElement>(null);
 
@@ -144,16 +147,37 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const trashedStores = allStores.filter((s) => s.status === "rejected");
 
     const getDisplayedStores = () => {
+        let items: any[] = [];
         switch (activeTab) {
-            case "pending": return pendingStores;
-            case "live": return liveStores;
-            case "trash": return trashedStores;
-            case "drafts": return drafts;
-            default: return [];
+            case "pending": items = pendingStores; break;
+            case "live": items = liveStores; break;
+            case "trash": items = trashedStores; break;
+            case "drafts": items = drafts; break;
+            default: items = [];
         }
+        // Apply category filter
+        if (categoryFilter) {
+            items = items.filter((s: any) => s.category === categoryFilter);
+        }
+        // Apply city filter
+        if (cityFilter.trim()) {
+            const query = cityFilter.toLowerCase();
+            items = items.filter((s: any) =>
+                s.address?.toLowerCase().includes(query) ||
+                s.city?.toLowerCase().includes(query)
+            );
+        }
+        // Sort
+        if (sortBy === "name") {
+            items = [...items].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+        }
+        return items;
     };
 
     const displayedStores = getDisplayedStores();
+
+    // Get unique cities for filter
+    const allCities = [...new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean))];
 
     // Handlers
     const handleApprove = async (id: string) => {
@@ -427,27 +451,6 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             accept=".csv,.xlsx"
                             className="hidden"
                         />
-                        {/* View Toggle */}
-                        <div className="flex items-center bg-gray-100 rounded-lg p-1">
-                            <button
-                                onClick={() => setViewMode("list")}
-                                className={cn(
-                                    "p-2 rounded-md transition-all",
-                                    viewMode === "list" ? "bg-white shadow-sm text-black" : "text-gray-400 hover:text-gray-600"
-                                )}
-                            >
-                                <List className="w-4 h-4" />
-                            </button>
-                            <button
-                                onClick={() => setViewMode("grid")}
-                                className={cn(
-                                    "p-2 rounded-md transition-all",
-                                    viewMode === "grid" ? "bg-white shadow-sm text-black" : "text-gray-400 hover:text-gray-600"
-                                )}
-                            >
-                                <Grid3X3 className="w-4 h-4" />
-                            </button>
-                        </div>
                         <a
                             href="/"
                             target="_blank"
@@ -456,6 +459,50 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             View Site <ExternalLink className="w-4 h-4" />
                         </a>
                     </div>
+                </div>
+
+                {/* Filter Bar */}
+                <div className="mb-6 flex flex-wrap items-center gap-3">
+                    {/* Category Chips */}
+                    <div className="flex items-center gap-2">
+                        {[
+                            { id: null, label: "All" },
+                            { id: "food", label: "Food" },
+                            { id: "clothes", label: "Clothing" },
+                            { id: "retail", label: "Retail" },
+                            { id: "other", label: "Gifts" },
+                        ].map((cat) => (
+                            <button
+                                key={cat.id || "all"}
+                                onClick={() => setCategoryFilter(cat.id)}
+                                className={cn(
+                                    "px-4 py-2 rounded-full text-[13px] font-medium transition-all font-ui",
+                                    categoryFilter === cat.id
+                                        ? "bg-[#D3E4FD] text-black"
+                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                )}
+                            >
+                                {cat.label}
+                            </button>
+                        ))}
+                    </div>
+                    {/* City Search */}
+                    <input
+                        type="text"
+                        placeholder="Filter by city..."
+                        value={cityFilter}
+                        onChange={(e) => setCityFilter(e.target.value)}
+                        className="px-4 py-2 rounded-full border border-gray-200 text-[13px] w-[180px] font-ui focus:border-[#D3E4FD] outline-none"
+                    />
+                    {/* Sort */}
+                    <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as "date" | "name")}
+                        className="px-4 py-2 rounded-full border border-gray-200 text-[13px] font-ui bg-white outline-none focus:border-[#D3E4FD]"
+                    >
+                        <option value="date">Sort: Date Added</option>
+                        <option value="name">Sort: Name</option>
+                    </select>
                 </div>
 
                 {/* Bulk Import Drop Zone (visible on Drafts tab) */}
