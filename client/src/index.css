@@ -101,7 +101,7 @@
 /* Desktop spacing overrides */
 @media (min-width: 768px) {
   :root {
-    --spacing-section-top: 80px;
+    --spacing-section-top: 100px;
     --spacing-section-bottom: 56px;
     --spacing-section-gap: 40px;
   }
@@ -160,11 +160,11 @@
   }
 
   h2 {
-    @apply text-[42px] leading-[1.2] font-medium tracking-tight;
+    @apply text-[32px] leading-[1.2] font-medium tracking-tight;
   }
 
   h3 {
-    @apply text-[24px] font-semibold tracking-tight;
+    @apply text-[26px] font-semibold tracking-tight;
   }
 
   p,

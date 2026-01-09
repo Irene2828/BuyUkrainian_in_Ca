@@ -65,7 +65,7 @@ export function StoreModal({ store, isOpen, onClose, onSeeOnMap }: StoreModalPro
       >
         <div className="px-12 py-12 animate-in fade-in zoom-in-95 duration-300">
           {/* Store Name */}
-          <h2 className="text-[48px] font-bold leading-[1.1] text-black mb-2 font-header">
+          <h2 className="text-[32px] font-bold leading-[1.1] text-black mb-2 font-header">
             {store.name}
           </h2>
 

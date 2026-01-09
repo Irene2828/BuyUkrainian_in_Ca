@@ -70,7 +70,7 @@ export default function MapPage() {
         {/* Map Page Headline Section - mb-6 (24px) to chips per design system */}
         <section className="pt-6 md:pt-12 pb-6 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
-            <h2 className="text-[32px] md:text-[48px] font-medium mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+            <h2 className="text-[28px] md:text-[32px] font-medium mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
               Find Ukrainian Products Across Canada
             </h2>
             <p className="hidden md:block text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>

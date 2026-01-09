@@ -33,7 +33,7 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden py-12 md:py-20 px-4 md:px-16">
       <div className="mx-auto max-w-[1200px] relative z-10">
         <div className="text-center mb-8 md:mb-16">
-          <h2 className="text-[28px] md:text-[42px] font-medium mb-4 text-[var(--color-section-headline)] tracking-tight font-header section-headline-reveal">Project's mission</h2>
+          <h2 className="text-[28px] md:text-[32px] font-medium mb-4 text-[var(--color-section-headline)] tracking-tight font-header section-headline-reveal">Project's mission</h2>
           <p className="text-[16px] md:text-[18px] font-normal text-gray-500 font-ui">More about the initiative</p>
         </div>
 

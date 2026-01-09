@@ -8,7 +8,7 @@ export function SpreadTheWord() {
       <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
 
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-[28px] md:text-[42px] font-medium text-[var(--color-section-headline)] mb-4 tracking-tight font-header section-headline-reveal">
+          <h2 className="text-[28px] md:text-[32px] font-medium text-[var(--color-section-headline)] mb-4 tracking-tight font-header section-headline-reveal">
             Spread the word
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal text-gray-400 max-w-[700px] mx-auto leading-relaxed font-ui px-4">
