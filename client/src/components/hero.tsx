@@ -7,16 +7,16 @@ export function Hero() {
   const [videoReady, setVideoReady] = useState(false);
 
   return (
-    <section className="premium-parallax-hero relative w-full bg-[#FDFFD7] min-h-[500px] md:h-[606px] mt-0 md:mt-[24px] mb-[16px] overflow-hidden font-sans border-b border-[#E6E6E6]/10">
-      {/* Container with responsive padding */}
-      <div className="mx-auto px-4 md:px-[64px] max-w-[1440px] h-full flex items-center py-12 md:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center w-full">
+    <section className="premium-parallax-hero relative w-full bg-[#FDFFD7] overflow-hidden font-sans border-b border-[#E6E6E6]/10">
+      {/* Container with Auto Layout: flex-col on mobile, flex-row on desktop */}
+      <div className="mx-auto px-4 md:px-16 max-w-[1440px] py-8 md:py-16">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
-          {/* Left Content - Text and CTAs */}
-          <div className="relative flex flex-col justify-center order-1">
-            {/* Main Headline - Responsive sizing */}
+          {/* Left Content - Text and CTAs - FULL WIDTH on mobile, auto on desktop */}
+          <div className="w-full lg:w-1/2 flex flex-col justify-center order-1">
+            {/* Main Headline - Responsive sizing, no fixed widths */}
             <h1
-              className="font-sans premium-parallax-text w-full md:w-[637px]"
+              className="font-sans premium-parallax-text w-full"
               style={{
                 fontFamily: 'Inter',
                 fontStyle: 'normal',
@@ -27,7 +27,7 @@ export function Hero() {
               }}
             >
               <span
-                className="hero-reveal-headline block text-[32px] md:text-[48px] leading-[40px] md:leading-[56px]"
+                className="hero-reveal-headline block text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]"
               >
                 Find and Share{" "}
                 <span className="font-bold hero-phrase-hover" style={{ animationDelay: '250ms' }}>
@@ -35,19 +35,19 @@ export function Hero() {
                 </span>
               </span>
               <span
-                className="hero-reveal-headline block text-[32px] md:text-[48px] leading-[40px] md:leading-[56px] font-bold hero-phrase-hover"
+                className="hero-reveal-headline block text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px] font-bold hero-phrase-hover"
                 style={{ animationDelay: '250ms' }}
               >
                 Products
               </span>
-              <span className="hero-reveal-headline block text-[32px] md:text-[48px] leading-[40px] md:leading-[56px]" style={{ animationDelay: '300ms' }}>
+              <span className="hero-reveal-headline block text-[28px] sm:text-[36px] md:text-[48px] leading-[36px] sm:leading-[44px] md:leading-[56px]" style={{ animationDelay: '300ms' }}>
                 sold <span className="font-bold" style={{ animationDelay: '350ms' }}>in Canada</span>
               </span>
             </h1>
 
-            {/* Subtext - Responsive sizing */}
+            {/* Subtext - Responsive sizing, full width */}
             <p
-              className="font-sans hero-reveal-subtext premium-parallax-text w-full md:w-[557px] text-[16px] md:text-[20px] leading-[24px] md:leading-[28px] mb-6 md:mb-8"
+              className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
               style={{
                 fontFamily: 'Inter',
                 fontStyle: 'normal',
@@ -59,17 +59,17 @@ export function Hero() {
               Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
             </p>
 
-            {/* CTA Buttons - Stack on mobile */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 hero-reveal-cta">
-              <Link href="/map">
-                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] px-8 text-[16px] font-semibold flex items-center gap-2 border border-transparent hover:border-black/10 transition-all focus-within:ring-0 w-full sm:w-auto justify-center">
+            {/* CTA Buttons - Stack on mobile, row on larger screens */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 hero-reveal-cta">
+              <Link href="/map" className="w-full sm:w-auto">
+                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] px-6 md:px-8 text-[15px] md:text-[16px] font-semibold flex items-center gap-2 border border-transparent hover:border-black/10 transition-all focus-within:ring-0 w-full sm:w-auto justify-center">
                   Explore the Map
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
 
               <Link href="/#how-it-works">
-                <button className="flex items-center gap-2 text-[16px] font-semibold text-black hover:opacity-70 transition-opacity">
+                <button className="flex items-center gap-2 text-[15px] md:text-[16px] font-semibold text-black hover:opacity-70 transition-opacity">
                   How it works
                   <HelpCircle className="w-5 h-5" />
                 </button>
@@ -77,13 +77,12 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Video Container - Below text on mobile, reduced height */}
-          <div className="relative order-2">
+          {/* Right Video Container - Below text on mobile, beside on desktop */}
+          <div className="w-full lg:w-1/2 order-2">
             <div
-              className="rounded-[24px] md:rounded-[40px] overflow-hidden shadow-2xl relative h-[300px] md:h-auto"
+              className="rounded-[24px] md:rounded-[40px] overflow-hidden shadow-2xl relative aspect-[4/3] max-h-[300px] lg:max-h-none"
               style={{
-                aspectRatio: window.innerWidth >= 768 ? '4 / 3' : undefined,
-                backgroundColor: '#FDFFD7' // Match section background - no contrast flash
+                backgroundColor: '#FDFFD7'
               }}
             >
               <video
