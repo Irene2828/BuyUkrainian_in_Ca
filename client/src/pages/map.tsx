@@ -20,7 +20,7 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 py-12 md:py-20 px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <span className="text-xs text-gray-500 font-medium mb-4 block font-ui uppercase tracking-wide">Recently added</span>
+        <span className="text-sm text-gray-500 font-medium mb-4 block font-ui">Recently added</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div
@@ -73,7 +73,7 @@ export default function MapPage() {
             <h1 className="text-[32px] md:text-[48px] font-medium mb-4 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
               Find Ukrainian Products Across Canada
             </h1>
-            <p className="hidden md:block text-[18px] font-normal text-gray-400 max-w-[700px] mx-auto font-ui">
+            <p className="hidden md:block text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
               Browse the map or add places selling products made in Ukraine
             </p>
           </div>

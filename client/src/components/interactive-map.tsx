@@ -25,7 +25,7 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
   [83.11, -52.62]
 ];
 
-const CANADA_CENTER: [number, number] = [52.0, -96.0];
+const CANADA_CENTER: [number, number] = [56.1304, -106.3468];
 
 // Unified Blue/Yellow Pin Marker
 const createUnifiedMarker = (isSelected: boolean) => {

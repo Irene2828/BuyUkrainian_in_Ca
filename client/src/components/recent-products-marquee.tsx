@@ -35,7 +35,7 @@ export function RecentProductsMarquee() {
     return (
         <div className="w-full bg-white overflow-hidden py-8 md:py-12 border-b border-gray-50 font-sans">
             <div className="mx-auto px-6 md:px-[64px] max-w-[1440px] flex items-center justify-between mb-8">
-                <h2 className="text-sm md:text-base text-gray-500 font-medium tracking-tight font-ui">Added this month</h2>
+                <h2 className="text-[14px] md:text-[16px] text-gray-500 font-medium font-ui">Added this month</h2>
                 <Link href="/map" className="text-[14px] md:text-[16px] font-semibold text-[#006CE4] hover:opacity-70 flex items-center gap-2 transition-all font-header">
                     View all <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                 </Link>

@@ -46,7 +46,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                 <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
             </div>
 
-            <div className="p-6 flex flex-col">
+            <div className="p-6 flex flex-col min-h-[300px]">
                 {/* Close Button - Desktop Only */}
                 <button
                     onClick={onClose}
