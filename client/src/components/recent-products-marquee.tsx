@@ -33,8 +33,8 @@ export function RecentProductsMarquee() {
     };
 
     return (
-        <div className="w-full bg-white overflow-hidden pt-[84px] pb-16 border-b border-gray-50 font-sans">
-            <div className="mx-auto px-[64px] max-w-[1440px] flex items-center justify-end mb-12">
+        <div className="w-full bg-white overflow-hidden py-12 md:py-16 border-b border-gray-50 font-sans">
+            <div className="mx-auto px-6 md:px-[64px] max-w-[1440px] flex items-center justify-end mb-8">
                 <Link href="/map" className="text-[16px] font-semibold text-[#D3E4FD] hover:opacity-70 flex items-center gap-2 transition-all font-header">
                     View all <ArrowRight className="w-5 h-5" />
                 </Link>
