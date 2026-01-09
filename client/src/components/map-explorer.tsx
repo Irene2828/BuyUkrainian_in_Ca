@@ -51,7 +51,10 @@ export function MapExplorer() {
     ];
 
     return (
-        <div className="w-full h-full bg-white flex flex-col md:block">
+        <div className={cn(
+            "w-full bg-white flex flex-col md:block transition-[height] duration-300 ease-in-out",
+            viewMode === "map" ? "h-[500px] md:h-[65vh]" : "min-h-[500px] h-auto"
+        )}>
 
             {/* Mobile: Horizontal scrolling filter bar */}
             {/* Mobile: Map Controls Refactored - 2 Rows */}
@@ -198,8 +201,11 @@ export function MapExplorer() {
                 </div>
             </div>
 
-            {/* Map Area - Mobile: flex-1 fills remaining space, Desktop: clamped height */}
-            <div className="flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 pt-4 md:pt-8 md:h-[clamp(520px,65vh,760px)]">
+            {/* Map Area - Mobile: flex-1 fills remaining space, Desktop: clamped height only in Map mode */}
+            <div className={cn(
+                "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 pt-4 md:pt-8",
+                viewMode === "map" ? "md:h-[clamp(520px,65vh,760px)]" : "h-auto"
+            )}>
 
                 {/* Left Sidebar - Desktop only */}
                 <aside className="hidden md:flex w-[300px] flex-shrink-0 flex-col gap-8 map-sidebar-white p-8 rounded-[var(--radius-brand)]">

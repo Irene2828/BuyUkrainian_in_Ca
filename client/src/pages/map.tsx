@@ -18,9 +18,9 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section className="bg-white text-center border-t border-gray-50 py-12 md:py-24 px-6 md:px-16">
+    <section className="bg-white border-t border-gray-50 py-12 md:py-24 px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <h3 className="text-[24px] md:text-[32px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal tracking-tight">Recently Added Stores</h3>
+        <span className="text-sm text-gray-500 font-medium mb-4 block font-ui">Recently added</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div
@@ -64,9 +64,9 @@ export default function MapPage() {
   useScrollReveal();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
+    <div className="bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col gap-16">
         {/* Map Page Headline Section */}
         <section className="pt-6 md:pt-20 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
@@ -81,8 +81,8 @@ export default function MapPage() {
           </div>
         </section>
 
-        {/* Map Explorer - responsive height: 70vh for Map-First Utility */}
-        <div className="h-[70vh] md:h-[70vh] relative z-0 section-reveal">
+        {/* Map Explorer - Height handled internally relative to View Mode */}
+        <div className="relative z-0 section-reveal">
           <MapExplorer />
         </div>
 
