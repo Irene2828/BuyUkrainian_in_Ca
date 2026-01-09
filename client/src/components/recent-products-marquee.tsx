@@ -67,8 +67,8 @@ export function RecentProductsMarquee() {
                                 </div>
                             </div>
 
-                            {/* Store Image */}
-                            <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-gray-100">
+                            {/* Store Image - Ive's Materiality Audit */}
+                            <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-[#006CE4]/10">
                                 <img
                                     src="/assets/kyivcake.jpeg"
                                     alt="Store preview"

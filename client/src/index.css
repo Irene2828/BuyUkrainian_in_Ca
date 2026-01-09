@@ -120,7 +120,7 @@
 .hero-title strong,
 .hero-title b,
 .hero-title .hero-bold {
-  font-size: inherit;
+  font-size: inherit !important;
   line-height: inherit;
   font-weight: 800;
 }

@@ -77,8 +77,8 @@ export default function MapPage() {
           </div>
         </section>
 
-        {/* Map Explorer - responsive height */}
-        <div className="h-[60vh] md:h-[70vh]">
+        {/* Map Explorer - responsive height: 70vh for Map-First Utility */}
+        <div className="h-[70vh] md:h-[70vh] relative z-0">
           <MapExplorer />
         </div>
 
