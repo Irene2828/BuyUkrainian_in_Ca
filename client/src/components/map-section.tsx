@@ -151,11 +151,12 @@ export function MapSection({
   if (viewMode === "list") {
     return (
       <div className="flex flex-col h-full bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white content-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white content-start">
           {filteredStores.slice(0, visibleCount).map((store) => (
             <div
               key={store.id}
-              className="bg-white rounded-[40px] p-6 cursor-pointer transition-all hover:shadow-md border border-[#D3E4FD] group flex items-center justify-between gap-6"
+              className="bg-white rounded-[40px] p-6 cursor-pointer transition-all hover:shadow-md border border-[#D3E4FD] group flex items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+              style={{ animationFillMode: 'both' }}
               onClick={() => handleSelectStore(store)}
             >
               <div className="flex flex-col gap-6 flex-1 min-w-0">

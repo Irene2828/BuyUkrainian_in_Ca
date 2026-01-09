@@ -20,7 +20,7 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white text-center border-t border-gray-50 py-12 md:py-24 px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <h3 className="text-[32px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal tracking-tight">Recently Added Stores</h3>
+        <h3 className="text-[24px] md:text-[32px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal tracking-tight">Recently Added Stores</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div
@@ -71,7 +71,7 @@ export default function MapPage() {
         <section className="pt-6 md:pt-20 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
             <div className="mb-6 md:mb-8">
-              <h1 className="text-[24px] md:text-[42px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+              <h1 className="text-[32px] md:text-[48px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
                 Find Ukrainian Products Across Canada
               </h1>
               <p className="hidden md:block text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-6">
