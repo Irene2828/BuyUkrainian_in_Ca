@@ -6,12 +6,16 @@ import { Footer } from "@/components/footer";
 import { MapExplorer } from "@/components/map-explorer";
 import { SpreadTheWord } from "@/components/spread-the-word";
 import { PreFooter } from "@/components/pre-footer";
+import { StoreCard } from "@/components/store-card";
+import { Store } from "@/lib/data";
+import { useState } from "react";
 
 function NewlyAddedStores() {
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
   });
+  const [selectedStore, setSelectedStore] = useState<Store | null>(null);
 
   if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-secondary)]" /></div>;
 
@@ -20,12 +24,13 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 py-12 md:py-20 px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <span className="text-sm text-gray-500 font-medium mb-4 block font-ui">Recently added</span>
+        <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold mb-4 block font-header">Recently added</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div
               key={store.id}
-              className="flex flex-col gap-4 md:gap-6 bg-white p-4 md:p-8 rounded-2xl md:rounded-[32px] border border-gray-100 transition-all h-full shadow-sm hover:shadow-md group"
+              onClick={() => setSelectedStore(store)}
+              className="flex flex-col gap-4 md:gap-6 bg-white p-4 md:p-8 rounded-2xl md:rounded-[32px] border border-gray-100 transition-all h-full shadow-sm hover:shadow-md group cursor-pointer"
             >
               <div className="flex items-center gap-4">
                 <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">
@@ -54,6 +59,15 @@ function NewlyAddedStores() {
           ))}
         </div>
       </div>
+
+      {/* Store Card Popup - Same as map pin */}
+      {selectedStore && (
+        <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setSelectedStore(null)}>
+          <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <StoreCard store={selectedStore} onClose={() => setSelectedStore(null)} />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

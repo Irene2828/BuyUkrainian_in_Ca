@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { ArrowRight, MapPin, ExternalLink } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { StoreModal } from "./store-modal";
+import { StoreCard } from "./store-card";
 import { Store } from "@/lib/data";
 
 export function RecentProductsMarquee() {
@@ -24,7 +24,6 @@ export function RecentProductsMarquee() {
 
     const handleStoreClick = (store: Store) => {
         setSelectedStore(store);
-        setIsModalOpen(true);
     };
 
     const handleSeeOnMap = (store: Store) => {
@@ -35,7 +34,7 @@ export function RecentProductsMarquee() {
     return (
         <div className="w-full bg-white overflow-hidden py-8 md:py-12 font-sans">
             <div className="mx-auto px-6 md:px-[64px] max-w-[1440px] flex items-center justify-between mb-8">
-                <h2 className="text-[14px] md:text-[16px] text-gray-500 font-medium font-ui">Added this month</h2>
+                <h2 className="text-[14px] md:text-[16px] text-gray-500 font-semibold font-header">Added this month</h2>
                 <Link href="/map" className="text-[14px] md:text-[16px] font-semibold text-[#006CE4] hover:opacity-70 flex items-center gap-2 transition-all font-header">
                     View all <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                 </Link>
@@ -81,12 +80,14 @@ export function RecentProductsMarquee() {
                 </div>
             </div>
 
-            <StoreModal
-                store={selectedStore}
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onSeeOnMap={handleSeeOnMap}
-            />
+            {/* Store Card Popup - Same as map pin */}
+            {selectedStore && (
+                <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setSelectedStore(null)}>
+                    <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+                        <StoreCard store={selectedStore} onClose={() => setSelectedStore(null)} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
