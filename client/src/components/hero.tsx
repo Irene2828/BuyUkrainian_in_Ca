@@ -12,8 +12,8 @@ export function Hero() {
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] py-8 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
-          {/* Left Content - Text and CTAs */}
-          <div className="w-full lg:w-1/2 flex flex-col justify-center order-1">
+          {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
+          <div className="w-full lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left justify-center order-1">
             {/* Main Headline - LOCKED typography via .hero-title */}
             <h1 className="hero-title premium-parallax-text w-full mb-8">
               <span className="hero-reveal-headline">
@@ -26,9 +26,9 @@ export function Hero() {
               </span>
             </h1>
 
-            {/* Subtext - 24px below headline (mb-6) */}
+            {/* Subtext - 24px below headline (mb-6), centered on mobile */}
             <p
-              className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
+              className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-8"
               style={{
                 fontFamily: 'Inter',
                 fontWeight: 500,
@@ -39,17 +39,17 @@ export function Hero() {
               Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
             </p>
 
-            {/* CTA Buttons - Stack on mobile, row on larger screens */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 hero-reveal-cta">
-              <Link href="/map" className="w-full sm:w-auto">
-                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] px-6 md:px-8 text-[15px] md:text-[16px] font-semibold flex items-center gap-2 border border-transparent hover:border-black/10 transition-all focus-within:ring-0 w-full sm:w-auto justify-center">
+            {/* CTA Buttons - Stack vertically on mobile for cleaner thumb path */}
+            <div className="flex flex-col items-center md:flex-row md:items-center gap-4 md:gap-6 hero-reveal-cta">
+              <Link href="/map" className="w-fit">
+                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] px-8 py-4 text-[15px] md:text-[16px] font-semibold flex items-center gap-2 border border-transparent hover:border-black/10 transition-all focus-within:ring-0 w-fit max-w-[280px] mx-auto md:mx-0 justify-center">
                   Explore the Map
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
 
               <Link href="/#how-it-works">
-                <button className="flex items-center gap-2 text-[15px] md:text-[16px] font-semibold text-black hover:opacity-70 transition-opacity">
+                <button className="flex items-center gap-2 text-[15px] md:text-[16px] font-semibold text-black hover:opacity-70 transition-opacity mt-2 md:mt-0">
                   How it works
                   <HelpCircle className="w-5 h-5" />
                 </button>
