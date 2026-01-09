@@ -110,7 +110,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 h-12 bg-black text-white rounded-full font-bold text-[14px] shadow-sm hover:bg-black/90 active:scale-95 transition-all font-ui"
+                        className="flex items-center justify-center gap-2 h-12 bg-black text-white rounded-full font-medium text-[16px] shadow-sm hover:bg-black/90 active:scale-95 transition-all font-ui"
                     >
                         <MapPin className="w-4 h-4" /> Get Directions
                     </a>

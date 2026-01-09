@@ -54,7 +54,7 @@ export function HowItWorks() {
         {/* CTA Button - Black CTA changed to #D3E4FD fill */}
         <div className="mt-8 mb-0 flex justify-center text-center">
           <Link href="/map">
-            <button className="px-12 h-[56px] bg-black text-white rounded-full font-bold text-[18px] hover:bg-black/90 transition-all flex items-center gap-3 shadow-sm font-ui border border-transparent hover:border-black/10">
+            <button className="px-12 h-[56px] bg-black text-white rounded-full font-medium text-[16px] hover:bg-black/90 transition-all flex items-center gap-3 shadow-sm font-ui border border-transparent hover:border-black/10">
               Explore the Map
               <ArrowRight className="w-5 h-5" />
             </button>

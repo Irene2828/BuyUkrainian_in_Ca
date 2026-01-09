@@ -165,7 +165,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-full h-12 rounded-full bg-black text-white hover:bg-black/90 font-bold font-ui"
+          className="w-full h-12 rounded-full bg-black text-white hover:bg-black/90 font-medium text-[16px] font-ui"
         >
           Back to Map
         </Button>
@@ -376,7 +376,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 rounded-full bg-black text-white hover:bg-black/90 font-bold text-[15px] transition-all flex items-center justify-center gap-2 mt-6"
+              className="w-full h-12 rounded-full bg-black text-white hover:bg-black/90 font-medium text-[16px] transition-all flex items-center justify-center gap-2 mt-6 font-ui"
             >
               {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Submit Store <ArrowRight className="w-5 h-5" /></>}
             </Button>

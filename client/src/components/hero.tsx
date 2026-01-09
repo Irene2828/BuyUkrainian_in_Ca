@@ -42,7 +42,7 @@ export function Hero() {
             {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
             <div className="flex flex-col items-center md:flex-row md:items-center gap-4 hero-reveal-cta">
               <Link href="/map">
-                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] w-[240px] text-[15px] md:text-[16px] font-semibold flex items-center justify-center gap-2 border border-transparent hover:border-black/10 transition-all active:scale-95">
+                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] w-[240px] text-[16px] font-medium flex items-center justify-center gap-2 border border-transparent hover:border-black/10 transition-all active:scale-95 font-ui">
                   Explore the Map
                   <ArrowRight className="w-5 h-5" />
                 </Button>

@@ -72,7 +72,7 @@ export function MapExplorer() {
                     </div>
                     <button
                         onClick={() => setAddStoreDialogOpen(true)}
-                        className="flex items-center justify-center bg-black text-white h-10 px-4 rounded-full text-xs font-bold whitespace-nowrap shadow-sm active:scale-95 transition-all font-ui"
+                        className="flex items-center justify-center bg-black text-white h-10 px-4 rounded-full text-[14px] font-medium whitespace-nowrap shadow-sm active:scale-95 transition-all font-ui"
                     >
                         <Plus className="w-4 h-4 mr-1.5" /> Add New
                     </button>
@@ -187,7 +187,7 @@ export function MapExplorer() {
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                                 <DialogTrigger asChild>
-                                    <button className="flex items-center justify-center gap-2 bg-black text-white px-8 h-12 rounded-full font-bold text-[16px] shadow-sm hover:bg-black/90 transition-all font-ui whitespace-nowrap border border-transparent hover:border-black/10">
+                                    <button className="flex items-center justify-center gap-2 bg-black text-white px-8 h-12 rounded-full font-medium text-[16px] shadow-sm hover:bg-black/90 transition-all font-ui whitespace-nowrap border border-transparent hover:border-black/10">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
                                         Add a New Location
                                     </button>
