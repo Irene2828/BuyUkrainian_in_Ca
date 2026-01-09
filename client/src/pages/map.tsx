@@ -63,29 +63,39 @@ export default function MapPage() {
     <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
 
-      {/* Ghost div to prevent header overlap - adds spacing after sticky header */}
-      <main className="flex-1">
-        {/* Map Page Headline Section - Responsive padding */}
-        <section className="pt-8 md:pt-20 pb-8 bg-white text-center px-4 md:px-[64px]">
+      {/* Mobile: Full screen map experience, Desktop: Regular layout with sections */}
+      <main className="flex-1 flex flex-col">
+        {/* Map Page Headline Section - Responsive spacing with vertical rhythm */}
+        <section className="pt-6 md:pt-20 bg-white text-center px-4 md:px-16">
           <div className="container mx-auto max-w-[1440px]">
-            <div className="mb-8 md:mb-16">
-              <h1 className="text-[28px] md:text-[42px] font-medium mb-4 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+            <div className="mb-6 md:mb-8">
+              <h1 className="text-[24px] md:text-[42px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
                 Find Ukrainian Products Across Canada
               </h1>
-              <p className="text-[16px] md:text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui">
+              <p className="text-[14px] md:text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-4 md:mb-6">
                 Browse the map or add places selling products made in Ukraine
               </p>
             </div>
           </div>
         </section>
 
-        <MapExplorer />
-        <NewlyAddedStores />
-        <SpreadTheWord />
-        <PreFooter />
+        {/* Map Explorer - Mobile: fills remaining viewport height */}
+        <div className="flex-1 min-h-[calc(100vh-200px)] md:min-h-0 md:flex-none">
+          <MapExplorer />
+        </div>
+
+        {/* Below-the-fold sections - Hidden on mobile map view for focused experience */}
+        <div className="hidden md:block">
+          <NewlyAddedStores />
+          <SpreadTheWord />
+          <PreFooter />
+        </div>
       </main>
 
-      <Footer />
+      {/* Footer - Desktop only on map page for cleaner mobile experience */}
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </div>
   );
 }

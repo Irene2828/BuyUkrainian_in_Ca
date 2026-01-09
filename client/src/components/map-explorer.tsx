@@ -51,13 +51,72 @@ export function MapExplorer() {
     ];
 
     return (
-        <div className="w-full bg-white">
+        <div className="w-full bg-white flex flex-col md:block">
 
-            {/* Filter Section */}
-            <div className="w-full pt-0 pb-0 bg-white">
-                <div className="container mx-auto px-[64px] max-w-[1440px]">
+            {/* Mobile: Horizontal scrolling filter bar */}
+            <div className="md:hidden w-full bg-white border-b border-gray-100 sticky top-[80px] z-40">
+                <div className="overflow-x-auto scrollbar-hide">
+                    <div className="flex flex-row items-center gap-4 px-4 py-3 min-w-max">
+                        {/* Category Pills */}
+                        <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => setCategory(category === cat.id ? null : cat.id)}
+                                    className={cn(
+                                        "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all font-ui whitespace-nowrap",
+                                        category === cat.id
+                                            ? "bg-white text-black shadow-sm font-medium"
+                                            : "text-black hover:bg-white/50 font-normal"
+                                    )}
+                                >
+                                    <cat.icon className="w-3.5 h-3.5" />
+                                    {cat.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* View Toggle - Map/List */}
+                        <div className="flex items-center p-1 bg-[#D3E4FD] rounded-full">
+                            <button
+                                onClick={() => setViewMode("map")}
+                                className={cn(
+                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui",
+                                    viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
+                                )}
+                            >
+                                <MapIcon className="w-3.5 h-3.5" /> Map
+                            </button>
+                            <button
+                                onClick={() => setViewMode("list")}
+                                className={cn(
+                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui",
+                                    viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
+                                )}
+                            >
+                                <List className="w-3.5 h-3.5" /> List
+                            </button>
+                        </div>
+
+                        {/* Search Input - Mobile */}
+                        <div className="relative group w-[180px] flex-shrink-0">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                            <Input
+                                placeholder="Search..."
+                                className="pl-9 h-9 bg-gray-50 border-transparent rounded-full text-sm focus-visible:ring-1 focus-visible:ring-[#D3E4FD]/40 font-ui"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Desktop: Original Filter Section */}
+            <div className="hidden md:block w-full pt-0 pb-0 bg-white">
+                <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
                     {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) */}
-                    <div className="flex items-center justify-between py-4">
+                    <div className="flex items-center justify-between py-4 gap-4">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
                                 {categories.map((cat) => (
@@ -126,10 +185,11 @@ export function MapExplorer() {
                 </div>
             </div>
 
-            {/* Map Area - Clamped height for stable, premium framing */}
-            <div className="container mx-auto px-[64px] max-w-[1440px] flex gap-8 pt-8 h-[clamp(520px,65vh,760px)]">
-                {/* Left Sidebar - Province Filtering only (+ Status) */}
-                <aside className="w-[300px] flex-shrink-0 flex flex-col gap-8 map-sidebar-white p-8 rounded-[var(--radius-brand)]">
+            {/* Map Area - Mobile: flex-1 fills remaining space, Desktop: clamped height */}
+            <div className="flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 pt-4 md:pt-8 md:h-[clamp(520px,65vh,760px)]">
+
+                {/* Left Sidebar - Desktop only */}
+                <aside className="hidden md:flex w-[300px] flex-shrink-0 flex-col gap-8 map-sidebar-white p-8 rounded-[var(--radius-brand)]">
                     <div className="relative">
                         <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest block mb-2 font-ui">
                             Select Province
@@ -209,8 +269,8 @@ export function MapExplorer() {
                     </div>
                 </aside>
 
-                {/* Map Area */}
-                <div className="flex-1 relative">
+                {/* Map Area - flex-1 fills remaining space */}
+                <div className="flex-1 relative min-h-[400px] md:min-h-0">
                     <MapSection
                         mode="full"
                         className="h-full w-full"
@@ -223,6 +283,18 @@ export function MapExplorer() {
                     />
                 </div>
             </div>
+
+            {/* Mobile FAB - Add Location Button */}
+            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+                <DialogTrigger asChild>
+                    <button className="md:hidden fixed bottom-6 right-6 z-50 w-14 h-14 bg-black text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-black/90 transition-all active:scale-95">
+                        <Plus className="w-6 h-6 stroke-[2.5]" />
+                    </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-xl p-0 overflow-y-auto max-h-[90vh] flex flex-col border-none bg-transparent shadow-none" hideClose>
+                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
