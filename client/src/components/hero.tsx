@@ -28,13 +28,7 @@ export function Hero() {
 
             {/* Subtext - 32px below headline (mb-8) -> Tightened to mb-6 (24px) */}
             <p
-              className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
-              style={{
-                fontFamily: 'Inter',
-                fontWeight: 400,
-                letterSpacing: '-0.3125px',
-                color: '#727272',
-              }}
+              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[16px] md:text-[18px] text-gray-500 mb-6"
             >
               Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
             </p>
