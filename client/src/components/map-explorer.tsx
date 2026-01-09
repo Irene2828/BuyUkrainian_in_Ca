@@ -53,7 +53,7 @@ export function MapExplorer() {
     return (
         <div className={cn(
             "w-full bg-white flex flex-col md:block transition-[height] duration-300 ease-in-out",
-            viewMode === "map" ? "h-[500px] md:h-[65vh]" : "min-h-[500px] h-auto"
+            viewMode === "map" ? "h-[400px] md:h-[500px]" : "min-h-[400px] h-auto"
         )}>
 
             {/* Mobile: Horizontal scrolling filter bar */}
@@ -201,10 +201,10 @@ export function MapExplorer() {
                 </div>
             </div>
 
-            {/* Map Area - Mobile: flex-1 fills remaining space, Desktop: clamped height only in Map mode */}
+            {/* Map Area - Mobile: flex-1 fills remaining space, Desktop: fixed height only in Map mode */}
             <div className={cn(
                 "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 pt-4 md:pt-8",
-                viewMode === "map" ? "md:h-[clamp(520px,65vh,760px)]" : "h-auto"
+                viewMode === "map" ? "md:h-[450px]" : "h-auto"
             )}>
 
                 {/* Left Sidebar - Desktop only */}

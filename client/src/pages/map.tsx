@@ -68,26 +68,24 @@ export default function MapPage() {
       <Header />
       <main className="flex-1 flex flex-col gap-16">
         {/* Map Page Headline Section */}
-        <section className="pt-6 md:pt-20 bg-white text-center px-6 md:px-16 section-reveal">
+        <section className="pt-6 md:pt-16 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
-            <div className="mb-6 md:mb-8">
-              <h1 className="text-[32px] md:text-[48px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
-                Find Ukrainian Products Across Canada
-              </h1>
-              <p className="hidden md:block text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-6">
-                Browse the map or add places selling products made in Ukraine
-              </p>
-            </div>
+            <h1 className="text-[32px] md:text-[48px] font-medium mb-4 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+              Find Ukrainian Products Across Canada
+            </h1>
+            <p className="hidden md:block text-[18px] font-normal text-gray-400 max-w-[700px] mx-auto font-ui">
+              Browse the map or add places selling products made in Ukraine
+            </p>
           </div>
         </section>
 
-        {/* Map Explorer - Height handled internally relative to View Mode */}
-        <div className="relative z-0 section-reveal">
+        {/* Map Explorer - Fixed height with mt-8 gap from headline */}
+        <div className="relative z-0 section-reveal mt-8">
           <MapExplorer />
         </div>
 
-        {/* Below-the-fold sections */}
-        <div className="section-reveal">
+        {/* Below-the-fold sections - mt-16 gap from map */}
+        <div className="section-reveal mt-16">
           <NewlyAddedStores />
         </div>
         <div className="section-reveal">
