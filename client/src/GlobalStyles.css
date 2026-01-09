@@ -98,15 +98,8 @@ h4 {
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
-/* Section Spacing - Increased top padding by 30% for breathing space */
-section {
-    padding-top: 3.5rem !important;
-    /* 4rem * 1.3 ≈ 5.2rem, but using relative increase */
-}
-
-section[class*="pt-"] {
-    /* Most sections have tailwind pt classes, we will increase them via component edits or broad overlap */
-}
+/* Section Spacing - Now controlled by component Tailwind classes (100px on desktop) */
+/* Removed global !important override to allow md:py-[100px] to work */
 
 /* Base h2/h3 styling for section headlines */
 section h2,
