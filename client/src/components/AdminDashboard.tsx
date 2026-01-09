@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Store } from "@/lib/data";
 import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, updateAdminPassword, createAdminUser, deleteAdminUser, AdminUser } from "@/lib/api";
 import { logout, isAuthenticated, verifySession } from "@/lib/auth";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -390,17 +390,18 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             {/* Left Sidebar */}
             <aside className="w-[260px] bg-white border-r border-gray-100 flex flex-col fixed h-full z-10">
                 {/* Logo */}
-                <div className="p-6 border-b border-gray-50">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg overflow-hidden relative">
-                            <div className="absolute top-0 left-0 w-full h-1/2 bg-brand-blue-logo"></div>
-                            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-brand-yellow-logo"></div>
-                        </div>
-                        <div>
-                            <span className="font-bold text-[16px] text-black font-header">Command Center</span>
-                            <p className="text-[11px] text-gray-400 uppercase tracking-wider font-medium font-ui">Admin Console</p>
-                        </div>
-                    </div>
+                {/* Logo */}
+                <div className="p-6 border-b border-gray-50 flex justify-center">
+                    <Link href="/" className="flex flex-col items-center gap-0">
+                        <img
+                            src="/assets/logonew.png"
+                            alt="BuyUkrainian.ca"
+                            className="w-[124px] h-auto object-contain"
+                        />
+                        <span className="text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
+                            BuyUkrainian.ca
+                        </span>
+                    </Link>
                 </div>
 
                 {/* Traffic Pulse */}
@@ -495,14 +496,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 {/* Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div>
-                        <h1 className="text-[32px] font-medium text-black tracking-tight font-header">
-                            {activeTab === "pending" ? "Pending Submissions" :
+                        <h2 className="text-[32px] font-medium text-black tracking-tight font-header">
+                            {activeTab === "pending" ? "Admin Dashboard" :
                                 activeTab === "live" ? "Live Stores" :
                                     activeTab === "trash" ? "Trash" :
                                         activeTab === "settings" ? "Settings" : "Bulk Drafts"}
-                        </h1>
-                        <p className="text-[16px] text-gray-400 mt-1 font-ui">
-                            {activeTab === "pending" ? "Review and approve store submissions" :
+                        </h2>
+                        <p className="text-[18px] text-gray-400 mt-1 font-ui">
+                            {activeTab === "pending" ? "Hi, admin" :
                                 activeTab === "live" ? "Manage live store listings" :
                                     activeTab === "trash" ? "Restore or permanently delete stores" :
                                         activeTab === "settings" ? "Manage admin users and passwords" : "Import and review bulk uploads"}
