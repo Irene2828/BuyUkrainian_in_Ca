@@ -496,13 +496,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 {/* Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div>
-                        <h2 className="text-[32px] font-medium text-black tracking-tight font-header">
+                        <h2 className="font-medium tracking-tight font-header">
                             {activeTab === "pending" ? "Admin Dashboard" :
                                 activeTab === "live" ? "Live Stores" :
                                     activeTab === "trash" ? "Trash" :
                                         activeTab === "settings" ? "Settings" : "Bulk Drafts"}
                         </h2>
-                        <p className="text-[18px] text-gray-400 mt-1 font-ui">
+                        <p className="text-[18px] text-gray-600 mt-1 font-ui">
                             {activeTab === "pending" ? "Hi, admin" :
                                 activeTab === "live" ? "Manage live store listings" :
                                     activeTab === "trash" ? "Restore or permanently delete stores" :
