@@ -8,14 +8,14 @@ export function Hero() {
 
   return (
     <section className="premium-parallax-hero relative w-full bg-[#FDFFD7] overflow-hidden font-sans border-b border-[#E6E6E6]/10">
-      {/* Container with Auto Layout: flex-col on mobile, flex-row on desktop */}
-      <div className="mx-auto px-4 md:px-16 max-w-[1440px] py-8 md:py-16">
+      {/* Container with premium px-6 mobile padding */}
+      <div className="mx-auto px-6 md:px-16 max-w-[1440px] py-8 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
           {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left justify-center order-1">
-            {/* Main Headline - LOCKED typography via .hero-title */}
-            <h1 className="hero-title premium-parallax-text w-full mb-8">
+            {/* Main Headline - LOCKED typography + tracking-tight for editorial look */}
+            <h1 className="hero-title premium-parallax-text w-full mb-8 tracking-tight">
               <span className="hero-reveal-headline">
                 Find and Share <strong className="hero-phrase-hover">Ukrainian</strong>
               </span>
@@ -26,7 +26,7 @@ export function Hero() {
               </span>
             </h1>
 
-            {/* Subtext - 24px below headline (mb-6), centered on mobile */}
+            {/* Subtext - 32px below headline (mb-8) */}
             <p
               className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-8"
               style={{
@@ -39,19 +39,19 @@ export function Hero() {
               Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
             </p>
 
-            {/* CTA Buttons - Stack vertically on mobile for cleaner thumb path */}
-            <div className="flex flex-col items-center md:flex-row md:items-center gap-4 md:gap-6 hero-reveal-cta">
-              <Link href="/map" className="w-fit">
-                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] px-8 py-4 text-[15px] md:text-[16px] font-semibold flex items-center gap-2 border border-transparent hover:border-black/10 transition-all focus-within:ring-0 w-fit max-w-[280px] mx-auto md:mx-0 justify-center">
+            {/* CTA Stack - Fixed width button, 16px gap */}
+            <div className="flex flex-col items-center md:items-start gap-4 hero-reveal-cta">
+              <Link href="/map">
+                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] w-[240px] text-[15px] md:text-[16px] font-semibold flex items-center justify-center gap-2 border border-transparent hover:border-black/10 transition-all active:scale-95">
                   Explore the Map
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
 
               <Link href="/#how-it-works">
-                <button className="flex items-center gap-2 text-[15px] md:text-[16px] font-semibold text-black hover:opacity-70 transition-opacity mt-2 md:mt-0">
+                <button className="flex items-center gap-2 text-[14px] md:text-[15px] font-medium text-black/70 hover:text-black transition-colors">
                   How it works
-                  <HelpCircle className="w-5 h-5" />
+                  <HelpCircle className="w-4 h-4" />
                 </button>
               </Link>
             </div>
@@ -60,7 +60,7 @@ export function Hero() {
           {/* Right Video Container - Below text on mobile, beside on desktop */}
           <div className="w-full lg:w-1/2 order-2">
             <div
-              className="rounded-[24px] md:rounded-[40px] overflow-hidden shadow-2xl relative aspect-[4/3] max-h-[300px] lg:max-h-none"
+              className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:max-h-none"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video

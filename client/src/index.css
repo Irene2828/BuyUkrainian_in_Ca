@@ -173,13 +173,17 @@
     @apply text-[16px] leading-[1.6] font-normal;
   }
 
-  /* Global Button System - Restored with New Hover Stroke */
+  /* Global Button System - Premium with Tactile Press */
   .btn-strict {
     @apply h-[48px] px-6 text-[16px] font-medium rounded-full flex items-center justify-center transition-all bg-black text-white border border-transparent;
   }
 
   .btn-strict:hover {
     @apply border-[#D3E4FD] opacity-90;
+  }
+
+  .btn-strict:active {
+    transform: scale(0.95);
   }
 
   small,

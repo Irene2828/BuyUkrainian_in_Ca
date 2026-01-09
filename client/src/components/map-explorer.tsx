@@ -54,9 +54,9 @@ export function MapExplorer() {
         <div className="w-full h-full bg-white flex flex-col md:block">
 
             {/* Mobile: Horizontal scrolling filter bar */}
-            <div className="md:hidden w-full bg-white border-b border-gray-100 sticky top-[80px] z-40">
+            <div className="md:hidden w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-[80px] z-40">
                 <div className="overflow-x-auto scrollbar-hide">
-                    <div className="flex flex-row items-center gap-4 px-4 py-3 min-w-max">
+                    <div className="flex flex-row items-center gap-3 px-6 py-3 min-w-max">
                         {/* Category Pills */}
                         <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full">
                             {categories.map((cat) => (
@@ -64,7 +64,7 @@ export function MapExplorer() {
                                     key={cat.id}
                                     onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                     className={cn(
-                                        "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all font-ui whitespace-nowrap",
+                                        "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all font-ui whitespace-nowrap active:scale-95",
                                         category === cat.id
                                             ? "bg-white text-black shadow-sm font-medium"
                                             : "text-black hover:bg-white/50 font-normal"
@@ -81,7 +81,7 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui",
+                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
@@ -90,7 +90,7 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui",
+                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >

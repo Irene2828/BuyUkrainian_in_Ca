@@ -13,7 +13,7 @@ export function Header() {
   }, [location]);
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/95 backdrop-blur-md border-b border-gray-100 font-sans shadow-sm">
+    <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md border-b border-gray-100 font-sans shadow-sm">
       <div className="mx-auto px-4 md:px-[64px] max-w-[1440px] flex items-center h-full relative">
 
         {/* Left: Logo & Branding */}
@@ -55,7 +55,7 @@ export function Header() {
 
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
-          <Link href="/map" className="flex items-center gap-2 py-2 px-4 bg-black text-white rounded-full text-[14px] font-semibold">
+          <Link href="/map" className="flex items-center gap-2 py-2 px-4 bg-black text-white rounded-full text-[14px] font-semibold active:scale-95 transition-transform">
             <Search className="w-4 h-4" />
             Map
           </Link>

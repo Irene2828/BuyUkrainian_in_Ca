@@ -18,14 +18,14 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section className="bg-white text-center border-t border-gray-50 py-12 md:py-24 px-4 md:px-16">
+    <section className="bg-white text-center border-t border-gray-50 py-12 md:py-24 px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <h2 className="text-[28px] md:text-[42px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal">Newly added stores</h2>
+        <h2 className="text-[28px] md:text-[42px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal tracking-tight">Newly added stores</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
             <div
               key={store.id}
-              className="flex flex-col gap-4 md:gap-6 bg-white p-4 md:p-8 rounded-[24px] md:rounded-[40px] border border-brand-cyan transition-all h-full shadow-sm hover:shadow-md hover:border-brand-cyan group"
+              className="flex flex-col gap-4 md:gap-6 bg-white p-4 md:p-8 rounded-2xl md:rounded-[32px] border border-gray-100 transition-all h-full shadow-sm hover:shadow-md group"
             >
               <div className="flex items-center gap-4">
                 <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">
@@ -46,7 +46,7 @@ function NewlyAddedStores() {
                 />
               </div>
 
-              <div className="flex items-center gap-2 text-gray-400 text-[14px] font-bold mt-auto font-ui group cursor-pointer transition-colors hover:text-brand-cyan">
+              <div className="flex items-center gap-2 text-gray-400 text-[14px] font-bold mt-auto font-ui group cursor-pointer transition-colors hover:text-black">
                 <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 <span>See location</span>
               </div>
@@ -61,22 +61,26 @@ function NewlyAddedStores() {
 export default function MapPage() {
   return (
     <>
-      {/* Mobile: Full screen map experience with h-screen and overflow-hidden */}
-      <div className="md:hidden h-screen overflow-hidden bg-background flex flex-col font-sans selection:bg-blue-100">
+      {/* Mobile: Map with h-[65vh] so "Newly Added" peeks at bottom */}
+      <div className="md:hidden min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
         <Header />
-        <main className="flex-1 flex flex-col overflow-hidden">
-          {/* Compact Headline - Mobile */}
-          <div className="bg-white text-center px-4 py-4">
+        <main className="flex-1 flex flex-col">
+          {/* Compact Headline - Mobile with px-6 */}
+          <div className="bg-white text-center px-6 py-4">
             <h1 className="text-[20px] font-medium text-[var(--color-section-headline)] leading-tight tracking-tight font-header">
               Find Ukrainian Products
             </h1>
           </div>
 
-          {/* Map fills remaining space */}
-          <div className="flex-1 min-h-0">
+          {/* Map at exactly 65vh so content peeks below */}
+          <div className="h-[65vh] flex-shrink-0">
             <MapExplorer />
           </div>
+
+          {/* Newly Added section visible on scroll */}
+          <NewlyAddedStores />
         </main>
+        <Footer />
       </div>
 
       {/* Desktop: Regular layout with all sections */}
