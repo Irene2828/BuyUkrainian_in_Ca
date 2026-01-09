@@ -1,8 +1,6 @@
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
-import { MapExplorer } from "@/components/map-explorer";
-import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 import { SpreadTheWord } from "@/components/spread-the-word";
 import { FAQ } from "@/components/faq";
 import { PreFooter } from "@/components/pre-footer";
@@ -14,9 +12,6 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <RecentProductsMarquee />
-
-
 
         {/* How It Works Content */}
         <HowItWorks />
@@ -24,10 +19,9 @@ export default function Home() {
         {/* FAQ (Project's Mission) Content */}
         <FAQ />
 
-        {/* Full-Bleed Interstitial Map 2: Between FAQ and Spread the Word - REDUCED BY 50% */}
-        <section className="interstitial-map-section bg-map-faq-to-spread" style={{ paddingTop: 0, paddingBottom: 0, minHeight: "50px" }} />
-
+        {/* Spread the Word */}
         <SpreadTheWord />
+
         <PreFooter />
       </main>
       <Footer />

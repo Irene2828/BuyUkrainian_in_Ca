@@ -18,11 +18,8 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section
-      className="bg-white text-center border-t border-gray-50"
-      style={{ paddingTop: 'var(--spacing-section-top)', paddingBottom: 'var(--spacing-section-bottom)' }}
-    >
-      <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
+    <section className="bg-white text-center border-t border-gray-50 py-12 md:py-24 px-4 md:px-16">
+      <div className="container mx-auto max-w-[1440px]">
         <h2 className="text-[28px] md:text-[42px] font-medium mb-8 md:mb-12 text-[var(--color-section-headline)] font-header section-headline-reveal">Newly added stores</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => (
@@ -36,8 +33,8 @@ function NewlyAddedStores() {
                   <div className="absolute bottom-0 left-0 w-full h-1/2 bg-brand-yellow-logo" style={{ opacity: 0.8 }}></div>
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[20px] font-medium text-admin-text-dark truncate font-header">{store.name}</span>
-                  <span className="text-[14px] text-gray-400 font-bold truncate font-ui tracking-tight">Local store</span>
+                  <span className="text-[18px] md:text-[20px] font-medium text-admin-text-dark truncate font-header">{store.name}</span>
+                  <span className="text-[12px] md:text-[14px] text-gray-400 font-bold truncate font-ui tracking-tight">Local store</span>
                 </div>
               </div>
 
@@ -66,15 +63,16 @@ export default function MapPage() {
     <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
 
+      {/* Ghost div to prevent header overlap - adds spacing after sticky header */}
       <main className="flex-1">
-        {/* Map Page Headline Section */}
-        <section className="pt-20 bg-white text-center">
-          <div className="container mx-auto px-[64px] max-w-[1440px]">
-            <div className="mb-16">
-              <h1 className="text-[42px] font-medium mb-4 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+        {/* Map Page Headline Section - Responsive padding */}
+        <section className="pt-8 md:pt-20 pb-8 bg-white text-center px-4 md:px-[64px]">
+          <div className="container mx-auto max-w-[1440px]">
+            <div className="mb-8 md:mb-16">
+              <h1 className="text-[28px] md:text-[42px] font-medium mb-4 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
                 Find Ukrainian Products Across Canada
               </h1>
-              <p className="text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui">
+              <p className="text-[16px] md:text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui">
                 Browse the map or add places selling products made in Ukraine
               </p>
             </div>
