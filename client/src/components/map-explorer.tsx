@@ -131,8 +131,8 @@ export function MapExplorer() {
             {/* Desktop: Original Filter Section */}
             <div className="hidden md:block w-full pt-0 pb-0 bg-white">
                 <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
-                    {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) */}
-                    <div className="flex items-center justify-between py-4 gap-4">
+                    {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) - mb-6 strict */}
+                    <div className="flex items-center justify-between py-4 gap-4 mb-0">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
                                 {categories.map((cat) => (
@@ -201,9 +201,9 @@ export function MapExplorer() {
                 </div>
             </div>
 
-            {/* Map Area - Mobile: flex-1 fills remaining space, Desktop: fixed height only in Map mode */}
+            {/* Map Area - NO PADDING GAP - mt-0 strict lock */}
             <div className={cn(
-                "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 pt-4 md:pt-8",
+                "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
                 viewMode === "map" ? "md:h-[450px]" : "h-auto"
             )}>
 

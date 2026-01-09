@@ -25,7 +25,7 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
   [83.11, -52.62]
 ];
 
-const CANADA_CENTER: [number, number] = [56.1304, -106.3468];
+const CANADA_CENTER: [number, number] = [54.5, -106.0];
 
 // Unified Blue/Yellow Pin Marker
 const createUnifiedMarker = (isSelected: boolean) => {
@@ -79,12 +79,12 @@ function MapController({
 
   useEffect(() => {
     if (provinceView) {
-      // Skip flight if we're already at the center of Canada at zoom 4 (initial load stability)
+      // Skip flight if we're already at the center of Canada at zoom 3 (initial load stability)
       const isCanadaReset = provinceView.lat === CANADA_CENTER[0] &&
         provinceView.lng === CANADA_CENTER[1] &&
-        provinceView.zoom === 4;
+        provinceView.zoom === 3;
 
-      if (isCanadaReset && map.getZoom() === 4) return;
+      if (isCanadaReset && map.getZoom() === 3) return;
 
       if (onFlightStart) onFlightStart();
       map.flyTo([provinceView.lat, provinceView.lng], provinceView.zoom, {
@@ -138,7 +138,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       setFocusCoordinates(null);
     },
     resetView: () => {
-      setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 4 });
+      setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 3 });
       setFocusCoordinates(null);
     },
     zoomIn: () => {
@@ -161,8 +161,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     >
       <MapContainer
         center={CANADA_CENTER}
-        zoom={4}
-        minZoom={4}
+        zoom={3}
+        minZoom={3}
         maxZoom={18}
         scrollWheelZoom={false}
         className="w-full h-full"
