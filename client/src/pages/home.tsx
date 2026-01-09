@@ -5,6 +5,7 @@ import { SpreadTheWord } from "@/components/spread-the-word";
 import { FAQ } from "@/components/faq";
 import { PreFooter } from "@/components/pre-footer";
 import { Footer } from "@/components/footer";
+import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 
 export default function Home() {
   return (
@@ -23,6 +24,9 @@ export default function Home() {
         <SpreadTheWord />
 
         <PreFooter />
+
+        {/* Products Marquee - above Footer */}
+        <RecentProductsMarquee />
       </main>
       <Footer />
     </div>

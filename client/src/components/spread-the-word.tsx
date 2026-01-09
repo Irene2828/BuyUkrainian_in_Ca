@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 
 export function SpreadTheWord() {
   return (
-    <section className="relative py-12 md:py-24 bg-white overflow-hidden px-4 md:px-16">
+    <section className="relative py-12 md:py-24 bg-white overflow-hidden px-6 md:px-16">
       {/* Unified responsive padding */}
       <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
 

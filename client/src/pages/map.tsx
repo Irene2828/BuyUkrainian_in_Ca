@@ -60,54 +60,34 @@ function NewlyAddedStores() {
 
 export default function MapPage() {
   return (
-    <>
-      {/* Mobile: Map with h-[65vh] so "Newly Added" peeks at bottom */}
-      <div className="md:hidden min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
-        <Header />
-        <main className="flex-1 flex flex-col">
-          {/* Compact Headline - Mobile with px-6 */}
-          <div className="bg-white text-center px-6 py-4">
-            <h1 className="text-[20px] font-medium text-[var(--color-section-headline)] leading-tight tracking-tight font-header">
-              Find Ukrainian Products
-            </h1>
-          </div>
-
-          {/* Map at exactly 65vh so content peeks below */}
-          <div className="h-[65vh] flex-shrink-0">
-            <MapExplorer />
-          </div>
-
-          {/* Newly Added section visible on scroll */}
-          <NewlyAddedStores />
-        </main>
-        <Footer />
-      </div>
-
-      {/* Desktop: Regular layout with all sections */}
-      <div className="hidden md:flex min-h-screen bg-background flex-col font-sans selection:bg-blue-100">
-        <Header />
-        <main className="flex-1 flex flex-col">
-          {/* Map Page Headline Section - Desktop */}
-          <section className="pt-20 bg-white text-center px-16">
-            <div className="container mx-auto max-w-[1440px]">
-              <div className="mb-8">
-                <h1 className="text-[42px] font-medium mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
-                  Find Ukrainian Products Across Canada
-                </h1>
-                <p className="text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-6">
-                  Browse the map or add places selling products made in Ukraine
-                </p>
-              </div>
+    <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
+      <Header />
+      <main className="flex-1 flex flex-col">
+        {/* Map Page Headline Section */}
+        <section className="pt-6 md:pt-20 bg-white text-center px-6 md:px-16">
+          <div className="container mx-auto max-w-[1440px]">
+            <div className="mb-6 md:mb-8">
+              <h1 className="text-[24px] md:text-[42px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+                Find Ukrainian Products Across Canada
+              </h1>
+              <p className="hidden md:block text-[18px] font-normal text-gray-500 max-w-[700px] mx-auto font-ui mb-6">
+                Browse the map or add places selling products made in Ukraine
+              </p>
             </div>
-          </section>
+          </div>
+        </section>
 
+        {/* Map Explorer - responsive height */}
+        <div className="h-[60vh] md:h-[70vh]">
           <MapExplorer />
-          <NewlyAddedStores />
-          <SpreadTheWord />
-          <PreFooter />
-        </main>
-        <Footer />
-      </div>
-    </>
+        </div>
+
+        {/* Below-the-fold sections */}
+        <NewlyAddedStores />
+        <SpreadTheWord />
+        <PreFooter />
+      </main>
+      <Footer />
+    </div>
   );
 }
