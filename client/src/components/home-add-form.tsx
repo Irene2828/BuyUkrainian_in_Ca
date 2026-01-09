@@ -29,7 +29,6 @@ const formSchema = z.object({
   province: z.string().min(2, "Province is required"),
   description: z.string().min(10, "Description is required"),
   category: z.enum(["food", "clothes", "retail", "other"]),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
 });
@@ -84,7 +83,6 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       province: "",
       description: "",
       category: "food",
-      email: "",
     },
   });
 
@@ -227,7 +225,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="address"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Address Autocomplete</FormLabel>
+                  <FormLabel className="text-[12px] font-bold text-gray-400 uppercase tracking-wider font-ui">Address</FormLabel>
                   <FormControl>
                     <div className="relative group">
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#D3E4FD] transition-colors" />
@@ -333,6 +331,11 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             >
               {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Submit store <ArrowRight className="w-5 h-5" /></>}
             </Button>
+
+            {/* Privacy Note */}
+            <p className="text-[11px] text-gray-400 text-center mt-4 font-ui">
+              No personal data is collected. Submissions are reviewed by volunteers before going live.
+            </p>
           </form>
         </Form>
       </div>

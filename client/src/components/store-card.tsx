@@ -59,11 +59,11 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                 <div className="mb-4">
                     {/* Category Tags */}
                     <div className="flex gap-2 mb-3">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#006CE4]/10 text-[#006CE4]">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-normal uppercase tracking-wider bg-gray-100 text-gray-500 font-ui">
                             {store.category || "FOOD"}
                         </span>
                         {store.isOpen && (
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-green-100 text-green-700">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-normal uppercase tracking-wider bg-green-50 text-green-600 font-ui">
                                 Open
                             </span>
                         )}
@@ -88,7 +88,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                     >
                         <MapPin className="w-4 h-4 text-gray-400 mt-1 shrink-0 group-hover:text-black transition-colors" />
                         <div className="flex-1">
-                            <span className="text-sm text-[#4A4A4A] font-medium font-ui block group-hover:text-black transition-colors">
+                            <span className="text-[13px] text-gray-500 font-normal font-ui block group-hover:text-black transition-colors">
                                 {store.address}
                             </span>
                         </div>
@@ -96,7 +96,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                     </button>
                     <div className="flex items-center gap-3">
                         <Clock className="w-4 h-4 text-gray-400 shrink-0" />
-                        <span className="text-sm text-[#4A4A4A] font-medium font-ui">
+                        <span className="text-[13px] text-gray-500 font-normal font-ui">
                             Open today: 9:00 AM - 8:00 PM
                         </span>
                     </div>

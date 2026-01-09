@@ -66,13 +66,13 @@ function MapController({
     if (focusCoordinates) {
       if (onFlightStart) onFlightStart();
       map.flyTo(focusCoordinates, 15, {
-        duration: 2.2,
-        easeLinearity: 0.25,
+        duration: 0.6,
+        easeLinearity: 0.1,
         animate: true
       });
       const timer = setTimeout(() => {
         if (onFlightEnd) onFlightEnd();
-      }, 2200);
+      }, 600);
       return () => clearTimeout(timer);
     }
   }, [focusCoordinates, map]);
