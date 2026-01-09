@@ -13,7 +13,7 @@ export function Header() {
   }, [location]);
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md border-b border-gray-100 font-sans shadow-sm">
+    <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md font-sans">
       <div className="mx-auto px-4 md:px-[64px] max-w-[1440px] flex items-center h-full relative">
 
         {/* Left: Logo & Branding */}

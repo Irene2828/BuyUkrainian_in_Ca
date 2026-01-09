@@ -31,7 +31,7 @@ export function Hero() {
               className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
               style={{
                 fontFamily: 'Inter',
-                fontWeight: 500,
+                fontWeight: 400,
                 letterSpacing: '-0.3125px',
                 color: '#727272',
               }}
@@ -39,8 +39,8 @@ export function Hero() {
               Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
             </p>
 
-            {/* CTA Stack - Fixed width button, 16px gap */}
-            <div className="flex flex-col items-center md:items-start gap-4 hero-reveal-cta">
+            {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
+            <div className="flex flex-col items-center md:flex-row md:items-center gap-4 hero-reveal-cta">
               <Link href="/map">
                 <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] w-[240px] text-[15px] md:text-[16px] font-semibold flex items-center justify-center gap-2 border border-transparent hover:border-black/10 transition-all active:scale-95">
                   Explore the Map

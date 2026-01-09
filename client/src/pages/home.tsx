@@ -7,26 +7,42 @@ import { PreFooter } from "@/components/pre-footer";
 import { Footer } from "@/components/footer";
 import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
 export default function Home() {
+  useScrollReveal();
+
   return (
     <div className="min-h-screen bg-background font-sans text-foreground selection:bg-yellow-accent/30 overflow-x-hidden">
       <Header />
       <main>
-        <Hero />
+        <div className="section-reveal">
+          <Hero />
+        </div>
 
         {/* Products Marquee - Social Proof for user flow */}
-        <RecentProductsMarquee />
+        <div className="section-reveal">
+          <RecentProductsMarquee />
+        </div>
 
         {/* How It Works Content */}
-        <HowItWorks />
+        <div className="section-reveal">
+          <HowItWorks />
+        </div>
 
         {/* FAQ (Project's Mission) Content */}
-        <FAQ />
+        <div className="section-reveal">
+          <FAQ />
+        </div>
 
         {/* Spread the Word */}
-        <SpreadTheWord />
+        <div className="section-reveal">
+          <SpreadTheWord />
+        </div>
 
-        <PreFooter />
+        <div className="section-reveal">
+          <PreFooter />
+        </div>
       </main>
       <Footer />
     </div>

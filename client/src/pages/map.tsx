@@ -58,13 +58,17 @@ function NewlyAddedStores() {
   );
 }
 
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
 export default function MapPage() {
+  useScrollReveal();
+
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
       <main className="flex-1 flex flex-col">
         {/* Map Page Headline Section */}
-        <section className="pt-6 md:pt-20 bg-white text-center px-6 md:px-16">
+        <section className="pt-6 md:pt-20 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
             <div className="mb-6 md:mb-8">
               <h1 className="text-[24px] md:text-[42px] font-medium mb-4 md:mb-8 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
@@ -78,14 +82,20 @@ export default function MapPage() {
         </section>
 
         {/* Map Explorer - responsive height: 70vh for Map-First Utility */}
-        <div className="h-[70vh] md:h-[70vh] relative z-0">
+        <div className="h-[70vh] md:h-[70vh] relative z-0 section-reveal">
           <MapExplorer />
         </div>
 
         {/* Below-the-fold sections */}
-        <NewlyAddedStores />
-        <SpreadTheWord />
-        <PreFooter />
+        <div className="section-reveal">
+          <NewlyAddedStores />
+        </div>
+        <div className="section-reveal">
+          <SpreadTheWord />
+        </div>
+        <div className="section-reveal">
+          <PreFooter />
+        </div>
       </main>
       <Footer />
     </div>
