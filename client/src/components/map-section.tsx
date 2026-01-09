@@ -204,7 +204,10 @@ export function MapSection({
         )}
 
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent className="max-w-[400px] p-0 border-none bg-transparent shadow-none" hideClose>
+          <DialogContent
+            className="md:fixed md:left-[50%] md:top-[50%] md:translate-x-[-50%] md:translate-y-[-50%] md:max-w-[400px] md:w-full fixed left-0 bottom-0 top-auto translate-x-0 translate-y-0 w-full max-w-none p-0 border-none bg-transparent shadow-none rounded-none data-[state=open]:slide-in-from-bottom-full md:data-[state=open]:slide-in-from-top-[48%] md:data-[state=open]:zoom-in-95"
+            hideClose
+          >
             {selectedStore && (
               <StoreCard
                 store={selectedStore}
