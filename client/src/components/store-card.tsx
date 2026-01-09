@@ -40,7 +40,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
     };
 
     return (
-        <div className="w-full bg-white md:rounded-[32px] rounded-t-[32px] overflow-hidden font-sans border-0 md:border md:border-gray-100 flex flex-col relative md:shadow-2xl shadow-[0_-8px_30px_rgba(0,0,0,0.05)] animate-in fade-in slide-in-from-bottom-10 md:zoom-in-95 duration-300">
+        <div className="w-full bg-white md:rounded-[32px] rounded-t-[32px] overflow-hidden font-sans border-0 md:border md:border-gray-100 flex flex-col relative md:shadow-2xl shadow-[0_-8px_30px_rgba(0,0,0,0.05)] animate-in fade-in slide-in-from-bottom-10 md:zoom-in-95 duration-[400ms] ease-in-out">
             {/* Grab Handle - Mobile Only */}
             <div className="w-full flex justify-center pt-3 pb-1 md:hidden" onClick={onClose}>
                 <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
@@ -135,7 +135,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                     >
                         <MapPin className="w-4 h-4" /> Get Directions
                     </a>
-                    
+
                     <div className="grid grid-cols-2 gap-3">
                         <button
                             onClick={onSeeOnMap ? () => onSeeOnMap(store) : undefined}
@@ -147,7 +147,7 @@ export function StoreCard({ store, onClose, onSeeOnMap }: StoreCardProps) {
                             onClick={handleShare}
                             className="flex items-center justify-center gap-2 h-12 bg-gray-100 text-black rounded-full font-bold text-[14px] hover:bg-gray-200 active:scale-95 transition-all font-ui"
                         >
-                             <Sparkles className="w-4 h-4" /> Share
+                            <Sparkles className="w-4 h-4" /> Share
                         </button>
                     </div>
                 </div>

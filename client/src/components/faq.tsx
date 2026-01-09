@@ -62,10 +62,10 @@ export function FAQ() {
           <Accordion type="single" collapsible className="w-full space-y-3">
             {faqs.map((faq, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="border-none shadow-none bg-gray-50 rounded-xl overflow-hidden">
-                <AccordionTrigger className="text-center text-[16px] font-medium px-4 py-4 text-black hover:text-gray-600 hover:no-underline transition-colors [&>svg]:text-black font-ui justify-center [&>svg]:ml-2">
+                <AccordionTrigger className="text-left text-[16px] font-medium px-4 py-4 text-black hover:text-gray-600 hover:no-underline transition-colors [&>svg]:text-black font-ui justify-between">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-[14px] font-normal text-gray-600 leading-relaxed px-4 pb-4 font-ui text-center">
+                <AccordionContent className="text-[14px] font-normal text-gray-600 leading-relaxed px-4 pb-4 font-ui text-left">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

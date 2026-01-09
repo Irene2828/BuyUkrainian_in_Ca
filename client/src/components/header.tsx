@@ -55,7 +55,7 @@ export function Header() {
 
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
-          <Link href="/map" className="flex items-center gap-2 py-2 px-4 bg-black text-white rounded-full text-[14px] font-semibold active:scale-95 transition-transform">
+          <Link href="/map" className="flex items-center gap-2 py-2 px-4 border border-gray-200 bg-white text-black rounded-full text-[14px] font-semibold active:scale-95 transition-transform hover:bg-gray-50">
             <Search className="w-4 h-4" />
             Map
           </Link>

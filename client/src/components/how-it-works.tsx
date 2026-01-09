@@ -38,12 +38,12 @@ export function HowItWorks() {
               <div className="w-full aspect-[4/3] bg-white rounded-[var(--radius-brand,40px)] mb-8 overflow-hidden border-2 border-gray-200">
               </div>
 
-              {/* Icon Second */}
+              {/* Icon Second - Scaled down */}
               <div className="mb-4 transition-transform group-hover:scale-110">
-                <step.icon className="w-12 h-12 text-brand-blue-logo" />
+                <step.icon className="w-8 h-8 text-brand-blue-logo" />
               </div>
 
-              <h3 className="text-[24px] font-medium mb-4 text-black font-header section-headline-reveal">{step.title}</h3>
+              <h3 className="text-[22px] font-medium mb-4 text-black font-header section-headline-reveal">{step.title}</h3>
               <p className="text-[16px] text-gray-500 leading-relaxed font-normal font-ui">
                 {step.description}
               </p>

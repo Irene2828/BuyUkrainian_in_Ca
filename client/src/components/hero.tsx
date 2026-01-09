@@ -15,7 +15,7 @@ export function Hero() {
           {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left justify-center order-1">
             {/* Main Headline - LOCKED typography + tracking-tight for editorial look */}
-            <h1 className="hero-title premium-parallax-text w-full mb-8 tracking-tight">
+            <h1 className="hero-title premium-parallax-text w-full mb-4 tracking-tight">
               <span className="hero-reveal-headline">
                 Find and Share <strong className="hero-phrase-hover">Ukrainian</strong>
               </span>
@@ -26,9 +26,9 @@ export function Hero() {
               </span>
             </h1>
 
-            {/* Subtext - 32px below headline (mb-8) */}
+            {/* Subtext - 32px below headline (mb-8) -> Tightened to mb-6 (24px) */}
             <p
-              className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-8"
+              className="font-sans hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[15px] sm:text-[18px] md:text-[20px] leading-[22px] sm:leading-[26px] md:leading-[28px] mb-6"
               style={{
                 fontFamily: 'Inter',
                 fontWeight: 500,
@@ -57,10 +57,9 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Video Container - Below text on mobile, beside on desktop */}
-          <div className="w-full lg:w-1/2 order-2">
+          <div className="w-full lg:w-1/2 order-2 flex justify-center">
             <div
-              className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:max-h-none"
+              className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:max-h-none w-full max-w-[500px] lg:max-w-none mx-auto"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
