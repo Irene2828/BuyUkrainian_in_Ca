@@ -5,17 +5,6 @@ import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map"
 import { Search, MapPin, ArrowDown, X, RefreshCw } from "lucide-react";
 import { ListingCard } from "./listing-card";
 
-// ... inside render:
-
-<ListingCard
-  key={store.id}
-  store={store}
-  variant="list"
-  onClick={() => handleSelectStore(store)}
-  className="bg-white hover:bg-gray-50 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-  style={{ animationFillMode: 'both' }}
-/>
-                        ))}
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
 import { Button } from "@/components/ui/button";
