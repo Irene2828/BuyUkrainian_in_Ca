@@ -179,7 +179,7 @@ export class MemStorage implements IStorage {
     if (this.users.size === 0) {
       this.createAdminUser({
         username: "admin",
-        passwordHash: "$2b$10$iggvnTDwzXZZeJL4dGeNvuoNL6xu.KaRWZ3/PwLcR5cIynlStoOSO" // blueyellow2024
+        passwordHash: "$2b$10$oQh5MVXm5KgvMCdJXp2/b.5rbX0mAZq9885g4dIQqdnCdyfutv4B6" // admin
       });
     }
   }

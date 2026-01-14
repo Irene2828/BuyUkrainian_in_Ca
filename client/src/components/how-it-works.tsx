@@ -3,22 +3,25 @@ import { Link } from "wouter";
 import howItWorks1 from "@/assets/how-it-works-1.png";
 import howItWorks2 from "@/assets/how-it-works-2-v2.png";
 import howItWorks3 from "@/assets/how-it-works-3-v2.png";
+import { useI18n } from "@/lib/i18n";
 
 export function HowItWorks() {
+  const { t } = useI18n();
+
   const steps = [
     {
-      title: "Discover",
-      description: "Find authentic Ukrainian products at local Canadian retailers or online stores.",
+      title: t('howItWorks.card1.title'),
+      description: t('howItWorks.card1.desc'),
       icon: Search
     },
     {
-      title: "Add to Map",
-      description: "Submit your favorite Ukrainian stores and products, and help others discover the treasures of Ukrainian culture.",
+      title: t('howItWorks.card2.title'),
+      description: t('howItWorks.card2.desc'),
       icon: PlusCircle
     },
     {
-      title: "Spread the Word",
-      description: "Share this platform with your network and help others support the mission.",
+      title: t('howItWorks.card3.title'),
+      description: t('howItWorks.card3.desc'),
       icon: MapPin
     }
   ];
@@ -27,39 +30,41 @@ export function HowItWorks() {
     <section id="how-it-works" className="pt-12 pb-[100px] bg-white font-sans overflow-hidden">
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
         <div className="text-center mb-12">
-          <h2 className="text-[var(--color-section-headline)] font-header section-headline-reveal tracking-tight">How it works</h2>
+          <h2 className="text-[var(--color-section-headline)] font-header section-headline-reveal tracking-tight">{t('howItWorks.title')}</h2>
           <p className="text-[16px] md:text-[18px] text-gray-500 max-w-[900px] mx-auto font-ui mt-4 leading-relaxed">
-            Our mission is to make it easy to find Ukrainian products across Canada,<br />
-            from traditional foods and crafts to modern Ukrainian-made goods.
+            {t('howItWorks.description')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
           {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
-              {/* Image Container */}
+            <div
+              key={index}
+              className="flex flex-col items-center text-center bg-white rounded-[32px] p-8 transition-transform duration-[400ms] ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.02] transform-gpu h-full"
+            >
+              {/* Image Container - Fixed height for vertical alignment */}
               <div
-                className={`w-full aspect-[4/3] rounded-2xl mb-6 overflow-hidden border-2 border-gray-200 flex items-center justify-center relative bg-white`}
+                className="w-full h-[240px] mb-6 flex items-center justify-center relative"
               >
                 {index === 0 && (
                   <img
                     src={howItWorks1}
                     alt="Discover Map"
-                    className="w-[90%] h-auto object-contain"
+                    className="w-[90%] h-auto object-contain max-h-full"
                   />
                 )}
                 {index === 1 && (
                   <img
                     src={howItWorks2}
                     alt="Add to Map"
-                    className="w-[80%] h-auto object-contain"
+                    className="w-[80%] h-auto object-contain max-h-full"
                   />
                 )}
                 {index === 2 && (
                   <img
                     src={howItWorks3}
                     alt="Spread the Word"
-                    className="w-[80%] h-auto object-contain opacity-0"
+                    className="w-[80%] h-auto object-contain opacity-0 max-h-full"
                   />
                 )}
               </div>
@@ -83,7 +88,7 @@ export function HowItWorks() {
             href="/map"
             className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-lg"
           >
-            Explore the Map <ArrowRight className="w-5 h-5" />
+            {t('home.hero.explore')} <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </div>

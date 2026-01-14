@@ -1,11 +1,14 @@
 import { Link, useLocation } from "wouter";
-import { Search, Globe, Menu, X } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { LanguageSwitcher } from "./language-switcher";
 
 export function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useI18n();
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -41,23 +44,25 @@ export function Header() {
               }}
               className="no-invert-hover text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]"
             >
-              How it works
+              {t('header.howItWorks')}
             </button>
-            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">Project's mission</a>
-            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">Contacts</Link>
+            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">
+              {t('header.faq')}
+            </a>
+            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">
+              {t('header.about.short')}
+            </Link>
           </nav>
 
-          {/* Globe Icon - Grey default, Black hover */}
-          <button className="no-invert-hover text-gray-400 hover:text-black transition-all duration-300 ease-in-out">
-            <Globe className="w-6 h-6 stroke-[1.5]" />
-          </button>
+          {/* Language Switcher */}
+          <LanguageSwitcher />
         </div>
 
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
           <Link href="/map" className="no-invert-hover flex items-center gap-3 py-3 px-6 h-[48px] border border-gray-200 bg-white text-black rounded-full text-[14px] font-semibold transition-all duration-200 ease-out hover:bg-black hover:text-white hover:border-black">
             <Search className="w-4 h-4" />
-            Map
+            {t('map.viewMap')}
           </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -72,7 +77,9 @@ export function Header() {
         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center h-full z-[51] pointer-events-none">
           <div className="pointer-events-auto">
             <Link href="/map" className="flex items-center gap-3 py-2 px-4 rounded-full transition-all group">
-              <span className="text-[16px] font-bold text-black transition-colors tracking-[0px]" style={{ fontFamily: "'Inter', sans-serif" }}>Map view</span>
+              <span className="text-[16px] font-bold text-black transition-colors tracking-[0px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                {t('map.viewMap')}
+              </span>
               <Search className="w-5 h-5 text-black stroke-[3]" />
             </Link>
           </div>
@@ -92,13 +99,16 @@ export function Header() {
               }}
               className="no-invert-hover text-[16px] font-normal text-black/80 hover:text-black transition-colors text-left py-2"
             >
-              How it works
+              {t('header.howItWorks')}
             </button>
-            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors py-2">Project's mission</a>
-            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors py-2">Contacts</Link>
-            <div className="flex items-center gap-2 py-2 text-gray-400">
-              <Globe className="w-5 h-5" />
-              <span className="text-[14px]">English</span>
+            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors py-2">
+              {t('header.faq')}
+            </a>
+            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors py-2">
+              {t('header.about.short')}
+            </Link>
+            <div className="py-2">
+              <LanguageSwitcher />
             </div>
           </nav>
         </div>

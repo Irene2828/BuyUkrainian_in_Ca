@@ -21,7 +21,7 @@ export function PreFooter() {
                         Buy Ukrainian. Support Ukraine.
                     </div>
                     <div className="text-[42px] font-medium text-slate-500 tracking-tight leading-relaxed font-header section-headline-reveal">
-                        Every choice is a contribution to the mission.
+                        Every dollar spent right matters.
                     </div>
                     <Link
                         href="/map"

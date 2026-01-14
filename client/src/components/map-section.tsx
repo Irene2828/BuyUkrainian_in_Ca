@@ -3,7 +3,19 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
 import { Search, MapPin, ArrowDown, X, RefreshCw } from "lucide-react";
-import { StoreCard } from "./store-card";
+import { ListingCard } from "./listing-card";
+
+// ... inside render:
+
+<ListingCard
+  key={store.id}
+  store={store}
+  variant="list"
+  onClick={() => handleSelectStore(store)}
+  className="bg-white hover:bg-gray-50 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+  style={{ animationFillMode: 'both' }}
+/>
+                        ))}
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -43,6 +55,8 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
   "All Canada": { lat: 56.1304, lng: -106.3468, zoom: 4 }
 };
 
+import { useI18n } from "@/lib/i18n";
+
 export function MapSection({
   mode = "section",
   className = "",
@@ -55,6 +69,7 @@ export function MapSection({
   onFlightChange,
   extraControls
 }: MapSectionProps) {
+  const { t } = useI18n();
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
@@ -169,37 +184,14 @@ export function MapSection({
       <div className="flex flex-col h-full bg-white">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white content-start">
           {filteredStores.slice(0, visibleCount).map((store) => (
-            <div
+            <ListingCard
               key={store.id}
-              className="bg-white rounded-[40px] p-6 cursor-pointer transition-all hover:shadow-md border border-[#D3E4FD] group flex items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-              style={{ animationFillMode: 'both' }}
+              store={store}
+              variant="list"
               onClick={() => handleSelectStore(store)}
-            >
-              <div className="flex flex-col gap-6 flex-1 min-w-0">
-                <div className="flex items-center gap-4">
-                  {/* Blue/Yellow Pin - Matches Map Pins Exactly */}
-                  <div className="w-6 h-6 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">
-                    <div className="absolute top-0 left-0 w-full h-1/2 bg-[#3C93EA]"></div>
-                    <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#F3FF0A]" style={{ opacity: 0.8 }}></div>
-                  </div>
-                  <h3 className="font-bold text-[22px] text-black tracking-tight font-header truncate section-headline-reveal">{store.name}</h3>
-                </div>
-
-                <div className="flex items-center gap-3 text-gray-400 font-normal font-ui min-w-0 transition-colors group-hover:text-black">
-                  <MapPin className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-[16px] truncate">{store.address}</span>
-                </div>
-              </div>
-
-              {/* Store Picture */}
-              <div className="w-[120px] h-[80px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-gray-100">
-                <img
-                  src="/assets/kyivcake.jpeg"
-                  alt="Store preview"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+              className="bg-white hover:bg-gray-50 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+              style={{ animationFillMode: 'both' }}
+            />
           ))}
           {filteredStores.length === 0 && (
             <div className="col-span-full">
@@ -218,7 +210,7 @@ export function MapSection({
               onClick={() => setVisibleCount(c => c + 12)}
               className="text-[16px] font-bold text-black hover:text-[#D3E4FD] transition-colors flex items-center gap-2 font-ui"
             >
-              See more stores <ArrowDown className="w-4 h-4" />
+              {t('map.seeMore')} <ArrowDown className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -262,16 +254,16 @@ export function MapSection({
               <MapPin className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-[20px] font-bold text-gray-800 mb-2 font-header">
-              No stores in this area
+              {t('map.noStores')}
             </h3>
             <p className="text-[14px] text-gray-500 mb-4 max-w-xs font-ui">
-              Try adjusting your filters or searching a different location.
+              {t('map.adjustFilters')}
             </p>
             <button
               onClick={handleClearFilters}
               className="inline-flex items-center gap-2 h-10 px-5 bg-black text-white rounded-full font-medium text-[14px] hover:bg-black/90 transition-all font-ui"
             >
-              <X className="w-4 h-4" /> Clear Filters
+              <X className="w-4 h-4" /> {t('map.clearFilters')}
             </button>
           </div>
         </div>

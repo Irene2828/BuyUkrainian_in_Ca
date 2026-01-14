@@ -21,7 +21,10 @@ const PROVINCE_MAP: Record<string, string> = {
 
 const CANADIAN_PROVINCES = Object.values(PROVINCE_MAP).sort();
 
+import { useI18n } from "@/lib/i18n";
+
 export function MapExplorer() {
+    const { t } = useI18n();
     const [searchQuery, setSearchQuery] = useState("");
     const [category, setCategory] = useState<string | null>(null);
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
@@ -129,10 +132,10 @@ export function MapExplorer() {
 
 
             {/* Desktop: Original Filter Section */}
-            <div className="hidden md:block w-full pt-0 pb-0 bg-white">
+            <div className="hidden md:block w-full pt-0 pb-0 bg-white shadow-none">
                 <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
                     {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) - pb-6 for 50% more gap */}
-                    <div className="flex items-center justify-between pt-4 pb-6 gap-4 mb-0">
+                    <div className="flex items-center justify-between pt-4 pb-0 mb-12 gap-4">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
                                 {categories.map((cat) => (
@@ -147,7 +150,8 @@ export function MapExplorer() {
                                         )}
                                     >
                                         <cat.icon className="w-4 h-4" />
-                                        {cat.label}
+                                        {/* @ts-ignore */}
+                                        {t(`form.category${cat.label === 'Clothing' ? 'Clothes' : cat.label === 'Gifts' ? 'Other' : cat.label === 'Retail' ? 'Other' : cat.label}`)}
                                     </button>
                                 ))}
                             </div>
@@ -160,7 +164,7 @@ export function MapExplorer() {
                                         viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
                                     )}
                                 >
-                                    <MapIcon className="w-4 h-4" /> Map
+                                    <MapIcon className="w-4 h-4" /> {t('map.viewMap')}
                                 </button>
                                 <button
                                     onClick={() => setViewMode("list")}
@@ -169,7 +173,7 @@ export function MapExplorer() {
                                         viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
                                     )}
                                 >
-                                    <List className="w-4 h-4" /> List
+                                    <List className="w-4 h-4" /> {t('map.viewList')}
                                 </button>
                             </div>
                         </div>
@@ -178,7 +182,7 @@ export function MapExplorer() {
                             <div className="relative group w-[300px]">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
                                 <Input
-                                    placeholder="Search products or stores..."
+                                    placeholder={t('map.search.placeholder')}
                                     className="pl-12 h-12 bg-gray-50 border-transparent rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/20 font-ui"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -189,7 +193,7 @@ export function MapExplorer() {
                                 <DialogTrigger asChild>
                                     <button className="btn-cta flex items-center justify-center gap-2 bg-black text-white px-6 h-12 rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
-                                        Add a New Location
+                                        {t('map.addLocation')}
                                     </button>
                                 </DialogTrigger>
                                 <DialogContent className="max-w-xl p-0 overflow-y-auto max-h-[90vh] flex flex-col border-none bg-transparent shadow-none" hideClose>
@@ -201,7 +205,6 @@ export function MapExplorer() {
                 </div>
             </div>
 
-            {/* Map Area - NO PADDING GAP - mt-0 strict lock */}
             <div className={cn(
                 "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
                 viewMode === "map" ? "md:h-[450px]" : "h-auto"
