@@ -37,8 +37,8 @@ export function FAQ() {
   return (
     <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-4 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-[28px] md:text-[32px] font-medium text-[var(--color-section-headline)] mb-4 tracking-tight font-header section-headline-reveal">
+        <div className="text-center mb-[48px]">
+          <h2 className="text-[28px] md:text-[32px] font-bold text-black mb-4 tracking-tight font-header section-headline-reveal">
             {t('faq.title')}
           </h2>
         </div>
@@ -46,16 +46,16 @@ export function FAQ() {
         {/* Accordion - Clean design without borders and grey fills */}
         <div className="flex flex-col w-full">
           {faqs.map((faq, i) => (
-            <div key={i} className="border-b border-[rgba(0,0,0,0.08)] last:border-0 border-gray-100">
+            <div key={i} className="border-b border-[rgba(0,0,0,0.08)] last:border-0">
               {/* Question - Clickable */}
               <button
                 onClick={() => toggleItem(i)}
-                className="no-invert-hover w-full flex items-center justify-between py-6 text-left group transition-colors"
+                className="no-invert-hover w-full flex items-center justify-between py-8 text-left group transition-colors"
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[16px] md:text-[18px] font-semibold font-ui transition-colors pr-8",
-                  openIndex === i ? "text-black" : "text-gray-600 group-hover:text-black"
+                  "text-[16px] md:text-[18px] font-medium font-ui transition-colors pr-8",
+                  openIndex === i ? "text-black" : "text-[rgba(0,0,0,0.7)] group-hover:text-black"
                 )}>
                   {faq.question}
                 </span>
