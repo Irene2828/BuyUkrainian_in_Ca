@@ -39,7 +39,7 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]"
+              className="no-invert-hover text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]"
             >
               How it works
             </button>
@@ -48,20 +48,20 @@ export function Header() {
           </nav>
 
           {/* Globe Icon - Grey default, Black hover */}
-          <button className="text-gray-400 hover:text-black transition-all duration-300 ease-in-out">
+          <button className="no-invert-hover text-gray-400 hover:text-black transition-all duration-300 ease-in-out">
             <Globe className="w-6 h-6 stroke-[1.5]" />
           </button>
         </div>
 
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
-          <Link href="/map" className="flex items-center gap-2 py-2 px-4 border border-gray-200 bg-white text-black rounded-full text-[14px] font-semibold active:scale-95 transition-transform hover:bg-gray-50">
+          <Link href="/map" className="no-invert-hover flex items-center gap-3 py-3 px-6 h-[48px] border border-gray-200 bg-white text-black rounded-full text-[14px] font-semibold transition-all duration-200 ease-out hover:bg-black hover:text-white hover:border-black">
             <Search className="w-4 h-4" />
             Map
           </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-black"
+            className="no-invert-hover p-2 text-black"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -90,7 +90,7 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="text-[16px] font-normal text-black/80 hover:text-black transition-colors text-left py-2"
+              className="no-invert-hover text-[16px] font-normal text-black/80 hover:text-black transition-colors text-left py-2"
             >
               How it works
             </button>

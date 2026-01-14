@@ -118,8 +118,8 @@ const translations = {
 
     // FAQ
     "faq.title": "Frequently Asked Questions",
-    "faq.q1": "What is BlueYellow.ca?",
-    "faq.a1": "BlueYellow.ca is a community-driven platform that helps people discover Ukrainian-made products sold across Canada. We connect the Ukrainian diaspora with local businesses and authentic products from home.",
+    "faq.q1": "What is BuyUkrainian.ca?",
+    "faq.a1": "BuyUkrainian.ca is a community-driven platform that helps people discover Ukrainian-made products sold across Canada. We connect the Ukrainian diaspora with local businesses and authentic products from home.",
     "faq.q2": "How can I add a store?",
     "faq.a2": "Click the \"Add a Location\" button, fill in the store details including name, products, and address. Your submission will be reviewed by our community moderators before appearing on the map.",
     "faq.q3": "Why do submissions need review?",
@@ -127,7 +127,7 @@ const translations = {
     "faq.q4": "Can I suggest edits to existing listings?",
     "faq.a4": "Currently, you can contact us to suggest corrections. We're working on a feature to allow community edits in the future.",
     "faq.q5": "Is this service free?",
-    "faq.a5": "Yes! BlueYellow.ca is completely free to use. We're a community project dedicated to supporting Ukrainian businesses in Canada.",
+    "faq.a5": "Yes! BuyUkrainian.ca is completely free to use. We're a community project dedicated to supporting Ukrainian businesses in Canada.",
 
     // Footer
     "footer.tagline": "Connecting Ukrainians across Canada with authentic products from home.",
@@ -142,13 +142,13 @@ const translations = {
     "footer.legal": "Legal",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms of Use",
-    "footer.copyright": "© {year} BlueYellow.ca. Made with 💙💛 for the Ukrainian community.",
+    "footer.copyright": "© {year} BuyUkrainian.ca. Made with 💙💛 for the Ukrainian community.",
 
     // About page
-    "about.title": "About BlueYellow.ca",
+    "about.title": "About BuyUkrainian.ca",
     "about.subtitle": "Connecting Ukrainians across Canada with authentic products from home",
     "about.mission.title": "Our Mission",
-    "about.mission.text": "BlueYellow.ca was created to help the Ukrainian diaspora in Canada discover and support local businesses selling authentic Ukrainian products. Whether you're looking for traditional foods, crafts, or other products from home, our community-driven platform makes it easy to find what you need.",
+    "about.mission.text": "BuyUkrainian.ca was created to help the Ukrainian diaspora in Canada discover and support local businesses selling authentic Ukrainian products. Whether you're looking for traditional foods, crafts, or other products from home, our community-driven platform makes it easy to find what you need.",
     "about.how.title": "How It Works",
     "about.how.text": "Anyone can submit a location selling Ukrainian products. Our community of volunteers reviews each submission to ensure accuracy and quality. Once approved, the location appears on our interactive map for everyone to discover.",
     "about.community.title": "Community Driven",
@@ -220,9 +220,9 @@ const translations = {
     "toast.submitError": "Failed to submit store",
 
     // Share texts (AI generated)
-    "share.twitter": "Just discovered {name} - they sell authentic Ukrainian products like {products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BlueYellow #SupportUkraine",
-    "share.facebook": "I found this amazing Ukrainian store called {name}! 🇺🇦\n\nThey sell: {products}\n📍 {address}\n\n{description}\n\nSupport Ukrainian businesses in Canada! Find more at BlueYellow.ca 💙💛",
-    "share.instagram": "🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Products: {products}\n📍 Location: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BlueYellow #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛",
+    "share.twitter": "Just discovered {name} - they sell authentic Ukrainian products like {products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine",
+    "share.facebook": "I found this amazing Ukrainian store called {name}! 🇺🇦\n\nThey sell: {products}\n📍 {address}\n\n{description}\n\nSupport Ukrainian businesses in Canada! Find more at BuyUkrainian.ca 💙💛",
+    "share.instagram": "🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Products: {products}\n📍 Location: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛",
   },
   ua: {
     // Header
@@ -333,8 +333,8 @@ const translations = {
 
     // FAQ
     "faq.title": "Часті запитання",
-    "faq.q1": "Що таке BlueYellow.ca?",
-    "faq.a1": "BlueYellow.ca — це платформа спільноти, яка допомагає людям відкривати українські товари по всій Канаді. Ми з'єднуємо українську діаспору з місцевим бізнесом та автентичними товарами з дому.",
+    "faq.q1": "Що таке BuyUkrainian.ca?",
+    "faq.a1": "BuyUkrainian.ca — це платформа спільноти, яка допомагає людям відкривати українські товари по всій Канаді. Ми з'єднуємо українську діаспору з місцевим бізнесом та автентичними товарами з дому.",
     "faq.q2": "Як я можу додати магазин?",
     "faq.a2": "Натисніть кнопку \"Додати локацію\", заповніть деталі магазину, включаючи назву, товари та адресу. Вашу заявку перевірять модератори перед появою на карті.",
     "faq.q3": "Чому заявки потребують перевірки?",
@@ -342,7 +342,7 @@ const translations = {
     "faq.q4": "Чи можу я запропонувати виправлення?",
     "faq.a4": "Наразі ви можете зв'язатися з нами для пропозиції виправлень. Ми працюємо над функцією редагування спільнотою.",
     "faq.q5": "Чи це безкоштовно?",
-    "faq.a5": "Так! BlueYellow.ca повністю безкоштовний. Ми — проєкт спільноти для підтримки українського бізнесу в Канаді.",
+    "faq.a5": "Так! BuyUkrainian.ca повністю безкоштовний. Ми — проєкт спільноти для підтримки українського бізнесу в Канаді.",
 
     // Footer
     "footer.tagline": "З'єднуємо українців по всій Канаді з автентичними товарами з дому.",
@@ -357,13 +357,13 @@ const translations = {
     "footer.legal": "Правова інформація",
     "footer.privacy": "Політика конфіденційності",
     "footer.terms": "Умови використання",
-    "footer.copyright": "© {year} BlueYellow.ca. Створено з 💙💛 для української спільноти.",
+    "footer.copyright": "© {year} BuyUkrainian.ca. Створено з 💙💛 для української спільноти.",
 
     // About page
-    "about.title": "Про BlueYellow.ca",
+    "about.title": "Про BuyUkrainian.ca",
     "about.subtitle": "З'єднуємо українців по всій Канаді з автентичними товарами з дому",
     "about.mission.title": "Наша місія",
-    "about.mission.text": "BlueYellow.ca створено для допомоги українській діаспорі в Канаді відкривати та підтримувати місцевий бізнес з автентичними українськими товарами. Чи шукаєте традиційну їжу, ремесла чи інші товари з дому, наша платформа спільноти допоможе знайти потрібне.",
+    "about.mission.text": "BuyUkrainian.ca створено для допомоги українській діаспорі в Канаді відкривати та підтримувати місцевий бізнес з автентичними українськими товарами. Чи шукаєте традиційну їжу, ремесла чи інші товари з дому, наша платформа спільноти допоможе знайти потрібне.",
     "about.how.title": "Як це працює",
     "about.how.text": "Будь-хто може надіслати локацію з українськими товарами. Наша спільнота волонтерів перевіряє кожну заявку для забезпечення точності та якості. Після схвалення локація з'являється на інтерактивній карті.",
     "about.community.title": "Спільнотою для спільноти",
@@ -435,9 +435,9 @@ const translations = {
     "toast.submitError": "Не вдалося надіслати магазин",
 
     // Share texts (AI generated)
-    "share.twitter": "Щойно відкрив(ла) {name} — вони продають автентичні українські товари: {products}! Підтримуйте український бізнес в Канаді 🇺🇦💙💛 #MadeInUkraine #BlueYellow #SupportUkraine",
-    "share.facebook": "Знайшов(ла) чудовий український магазин {name}! 🇺🇦\n\nВони продають: {products}\n📍 {address}\n\n{description}\n\nПідтримуйте український бізнес в Канаді! Більше на BlueYellow.ca 💙💛",
-    "share.instagram": "🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Товари: {products}\n📍 Локація: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BlueYellow #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛",
+    "share.twitter": "Щойно відкрив(ла) {name} — вони продають автентичні українські товари: {products}! Підтримуйте український бізнес в Канаді 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine",
+    "share.facebook": "Знайшов(ла) чудовий український магазин {name}! 🇺🇦\n\nВони продають: {products}\n📍 {address}\n\n{description}\n\nПідтримуйте український бізнес в Канаді! Більше на BuyUkrainian.ca 💙💛",
+    "share.instagram": "🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Товари: {products}\n📍 Локація: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛",
   },
 };
 
@@ -485,18 +485,18 @@ export function generateLocalizedShareTexts(store: { name: string; products: str
   const products = store.products.slice(0, 3).join(', ');
   const emoji = store.category === 'food' ? '🍞' : store.category === 'retail' ? '🛍️' : '🇺🇦';
   const shortAddress = store.address.split(',')[0];
-  
+
   if (language === 'ua') {
     return {
-      twitter: `${emoji} Щойно відкрив(ла) ${store.name} — вони продають автентичні українські товари: ${products}! Підтримуйте український бізнес в Канаді 🇺🇦💙💛 #MadeInUkraine #BlueYellow #SupportUkraine`,
-      facebook: `Знайшов(ла) чудовий український магазин ${store.name}! 🇺🇦\n\nВони продають: ${products}\n📍 ${store.address}\n\n${store.description}\n\nПідтримуйте український бізнес в Канаді! Більше на BlueYellow.ca 💙💛`,
-      instagram: `🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 ${store.name}\n\n${store.description}\n\n✨ Товари: ${products}\n📍 Локація: ${shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BlueYellow #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛`,
+      twitter: `${emoji} Щойно відкрив(ла) ${store.name} — вони продають автентичні українські товари: ${products}! Підтримуйте український бізнес в Канаді 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine`,
+      facebook: `Знайшов(ла) чудовий український магазин ${store.name}! 🇺🇦\n\nВони продають: ${products}\n📍 ${store.address}\n\n${store.description}\n\nПідтримуйте український бізнес в Канаді! Більше на BuyUkrainian.ca 💙💛`,
+      instagram: `🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 ${store.name}\n\n${store.description}\n\n✨ Товари: ${products}\n📍 Локація: ${shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛`,
     };
   }
-  
+
   return {
-    twitter: `${emoji} Just discovered ${store.name} - they sell authentic Ukrainian products like ${products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BlueYellow #SupportUkraine`,
-    facebook: `I found this amazing Ukrainian store called ${store.name}! 🇺🇦\n\nThey sell: ${products}\n📍 ${store.address}\n\n${store.description}\n\nSupport Ukrainian businesses in Canada! Find more at BlueYellow.ca 💙💛`,
-    instagram: `🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 ${store.name}\n\n${store.description}\n\n✨ Products: ${products}\n📍 Location: ${shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BlueYellow #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛`,
+    twitter: `${emoji} Just discovered ${store.name} - they sell authentic Ukrainian products like ${products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine`,
+    facebook: `I found this amazing Ukrainian store called ${store.name}! 🇺🇦\n\nThey sell: ${products}\n📍 ${store.address}\n\n${store.description}\n\nSupport Ukrainian businesses in Canada! Find more at BuyUkrainian.ca 💙💛`,
+    instagram: `🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 ${store.name}\n\n${store.description}\n\n✨ Products: ${products}\n📍 Location: ${shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛`,
   };
 }

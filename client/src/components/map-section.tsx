@@ -2,14 +2,16 @@ import { useState, useRef, useEffect, forwardRef } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { Search, MapPin, ArrowDown } from "lucide-react";
+import { Search, MapPin, ArrowDown, X, RefreshCw } from "lucide-react";
 import { StoreCard } from "./store-card";
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { ErrorBoundary } from "@/components/error-boundary";
+import { MapSkeleton, StoreListItemSkeleton } from "@/components/skeleton-loaders";
+import { EmptyState } from "@/components/empty-state";
 
 interface MapSectionProps {
   mode?: "section" | "full";
@@ -140,10 +142,24 @@ export function MapSection({
     }
   };
 
+  // Clear filters handler for empty state
+  const handleClearFilters = () => {
+    // Reset to default view - trigger a page reload to clear all filters
+    window.dispatchEvent(new CustomEvent('clearFilters'));
+  };
+
   if (isLoading) {
     return (
       <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className}`}>
-        <Skeleton className="w-full h-full rounded-2xl" />
+        {viewMode === "map" ? (
+          <MapSkeleton />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <StoreListItemSkeleton key={i} />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -175,20 +191,23 @@ export function MapSection({
                 </div>
               </div>
 
-              {/* Store Picture Placeholder - Using kyivcake.jpeg */}
+              {/* Store Picture */}
               <div className="w-[120px] h-[80px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-gray-100">
                 <img
                   src="/assets/kyivcake.jpeg"
-                  alt="Store orientation"
+                  alt="Store preview"
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
           ))}
           {filteredStores.length === 0 && (
-            <div className="col-span-full flex flex-col items-center justify-center py-20 text-gray-400">
-              <Search className="w-12 h-12 mb-4 opacity-20" />
-              <p className="text-lg font-medium font-ui">No stores found matching your filters</p>
+            <div className="col-span-full">
+              <EmptyState
+                type="no-results"
+                searchQuery={searchQuery}
+                onClearFilters={handleClearFilters}
+              />
             </div>
           )}
         </div>
@@ -206,7 +225,7 @@ export function MapSection({
 
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogContent
-            className="md:fixed md:left-[50%] md:top-[50%] md:translate-x-[-50%] md:translate-y-[-50%] md:max-w-[400px] md:w-full fixed left-0 bottom-0 top-auto translate-x-0 translate-y-0 w-full max-w-none p-0 border-none bg-transparent shadow-none rounded-none data-[state=open]:slide-in-from-bottom-full md:data-[state=open]:slide-in-from-top-[48%] md:data-[state=open]:zoom-in-95"
+            className="md:fixed md:left-[50%] md:top-[50%] md:translate-x-[-50%] md:translate-y-[-50%] md:max-w-[400px] md:w-full md:max-h-[90vh] md:overflow-visible fixed left-0 bottom-0 top-auto translate-x-0 translate-y-0 w-full max-w-none max-h-[85vh] overflow-visible p-0 border-none bg-transparent shadow-none rounded-none data-[state=open]:slide-in-from-bottom-full md:data-[state=open]:slide-in-from-top-[48%] md:data-[state=open]:zoom-in-95"
             hideClose
           >
             {selectedStore && (
@@ -224,16 +243,39 @@ export function MapSection({
 
   return (
     <div className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}>
-      <InteractiveMap
-        ref={mapRef}
-        stores={filteredStores}
-        selectedStore={selectedStore}
-        onSelectStore={handleSelectStore}
-        onCloseStore={handleCloseStore}
-        onFlightChange={onFlightChange}
-        extraControls={extraControls}
-      />
-
+      <ErrorBoundary fallbackType="map">
+        <InteractiveMap
+          ref={mapRef}
+          stores={filteredStores}
+          selectedStore={selectedStore}
+          onSelectStore={handleSelectStore}
+          onCloseStore={handleCloseStore}
+          onFlightChange={onFlightChange}
+          extraControls={extraControls}
+        />
+      </ErrorBoundary>
+      {/* Empty state overlay when no stores match filters */}
+      {filteredStores.length === 0 && stores.length > 0 && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[32px]">
+          <div className="text-center p-8">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MapPin className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-[20px] font-bold text-gray-800 mb-2 font-header">
+              No stores in this area
+            </h3>
+            <p className="text-[14px] text-gray-500 mb-4 max-w-xs font-ui">
+              Try adjusting your filters or searching a different location.
+            </p>
+            <button
+              onClick={handleClearFilters}
+              className="inline-flex items-center gap-2 h-10 px-5 bg-black text-white rounded-full font-medium text-[14px] hover:bg-black/90 transition-all font-ui"
+            >
+              <X className="w-4 h-4" /> Clear Filters
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

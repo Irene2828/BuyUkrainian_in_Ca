@@ -22,7 +22,7 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section className="bg-white border-t border-gray-50 py-12 md:py-[100px] px-6 md:px-16">
+    <section className="bg-white border-t border-gray-50 pt-12 pb-[100px] px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
         <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold mb-4 block">Recently added</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
@@ -84,9 +84,9 @@ export default function MapPage() {
         {/* Map Page Headline Section - mb-6 (24px) to chips per design system */}
         <section className="pt-6 md:pt-12 pb-6 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
-            <h2 className="text-[28px] md:text-[32px] font-medium mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+            <h3 className="text-[28px] md:text-[32px] font-medium mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
               Find Ukrainian Products Across Canada
-            </h2>
+            </h3>
             <p className="hidden md:block text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
               Browse the map or add places selling products made in Ukraine
             </p>

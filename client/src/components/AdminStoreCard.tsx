@@ -15,6 +15,7 @@ interface AdminStoreCardProps {
     onApprove: (id: string) => void;
     onReject: (id: string) => void;
     onEdit: (store: Store) => void;
+    onView?: (store: Store) => void;
 }
 
 // Shared branded circle component
@@ -55,9 +56,13 @@ function ListViewRow({
     onApprove,
     onReject,
     onEdit,
+    onView,
 }: Omit<AdminStoreCardProps, "viewMode">) {
     return (
-        <div className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors group">
+        <div
+            className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors group cursor-pointer"
+            onClick={() => onView?.(store)}
+        >
             {/* Blue/Yellow Circle */}
             <BrandCircle size="md" />
 
@@ -80,14 +85,14 @@ function ListViewRow({
                 {showActions && (
                     <>
                         <button
-                            onClick={() => onApprove(store.id)}
+                            onClick={(e) => { e.stopPropagation(); onApprove(store.id); }}
                             className="w-7 h-7 rounded-lg bg-green-50 text-green-600 flex items-center justify-center hover:bg-green-100 transition-colors"
                             title="Approve"
                         >
                             <Check className="w-3.5 h-3.5" />
                         </button>
                         <button
-                            onClick={() => onReject(store.id)}
+                            onClick={(e) => { e.stopPropagation(); onReject(store.id); }}
                             className="w-7 h-7 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"
                             title="Reject"
                         >
@@ -96,7 +101,7 @@ function ListViewRow({
                     </>
                 )}
                 <button
-                    onClick={() => onEdit(store)}
+                    onClick={(e) => { e.stopPropagation(); onEdit(store); }}
                     className="w-7 h-7 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center hover:bg-gray-200 hover:text-brand-blue-logo transition-colors"
                     title="Edit"
                 >
@@ -115,9 +120,13 @@ function GridViewCard({
     onApprove,
     onReject,
     onEdit,
+    onView,
 }: Omit<AdminStoreCardProps, "viewMode">) {
     return (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden group">
+        <div
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden group cursor-pointer"
+            onClick={() => onView?.(store)}
+        >
             {/* Image */}
             <div className="relative h-36 bg-gray-50">
                 {store.images && store.images.length > 0 ? (
@@ -139,7 +148,7 @@ function GridViewCard({
 
                 {/* Quick Edit Button */}
                 <button
-                    onClick={() => onEdit(store)}
+                    onClick={(e) => { e.stopPropagation(); onEdit(store); }}
                     className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-brand-blue-logo transition-all opacity-0 group-hover:opacity-100"
                 >
                     <Edit3 className="w-4 h-4" />
@@ -167,7 +176,7 @@ function GridViewCard({
                     <Button
                         size="sm"
                         className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                        onClick={() => onApprove(store.id)}
+                        onClick={(e) => { e.stopPropagation(); onApprove(store.id); }}
                     >
                         <Check className="w-4 h-4 mr-1" /> Approve
                     </Button>
@@ -175,7 +184,7 @@ function GridViewCard({
                         size="sm"
                         variant="outline"
                         className="flex-1 text-red-600 border-red-200 hover:bg-red-50"
-                        onClick={() => onReject(store.id)}
+                        onClick={(e) => { e.stopPropagation(); onReject(store.id); }}
                     >
                         <X className="w-4 h-4 mr-1" /> Reject
                     </Button>
@@ -188,7 +197,7 @@ function GridViewCard({
                         size="sm"
                         variant="outline"
                         className="w-full"
-                        onClick={() => onEdit(store)}
+                        onClick={(e) => { e.stopPropagation(); onEdit(store); }}
                     >
                         <Edit3 className="w-4 h-4 mr-2" /> Edit Details
                     </Button>

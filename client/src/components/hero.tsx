@@ -15,35 +15,30 @@ export function Hero() {
           {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left justify-center order-1">
             {/* Main Headline - LOCKED typography + tracking-tight for editorial look */}
-            <h1 className="hero-title premium-parallax-text w-full mb-4 tracking-tight">
+            <h1 className="hero-title premium-parallax-text w-full mb-4 tracking-tight font-normal">
               <span className="hero-reveal-headline">
-                Find and Share <strong className="hero-phrase-hover">Ukrainian</strong>
-              </span>
-              <br />
-              <strong className="hero-reveal-headline hero-phrase-hover">Products</strong>{" "}
-              <span className="hero-reveal-headline">
-                sold <strong>in Canada</strong>
+                Find and Share Ukrainian Products in Canada
               </span>
             </h1>
 
-            {/* Subtext - 32px below headline (mb-8) -> Tightened to mb-6 (24px) */}
+            {/* Subtext - Discovery & Contribution */}
             <p
-              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[557px] text-[16px] md:text-[18px] text-gray-500 mb-6"
+              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[700px] text-[16px] md:text-[18px] text-black/70 mt-6 mb-10 leading-relaxed text-left"
             >
-              Support Ukraine's economy by purchasing & sharing #madeinUkraine products in Canada.
+              Find <strong>Ukrainian-made products</strong> at local stores or help the community-sourced map grow by adding new locations to the map.
             </p>
 
             {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
             <div className="flex flex-col items-center md:flex-row md:items-center gap-4 hero-reveal-cta">
               <Link href="/map">
-                <Button className="bg-black text-white hover:bg-black/90 rounded-full h-[48px] w-[240px] text-[16px] font-medium flex items-center justify-center gap-2 border border-transparent hover:border-black/10 transition-all active:scale-95 font-ui">
+                <Button className="btn-cta bg-black text-white rounded-full py-3 pl-6 pr-7 h-[50px] text-[16px] font-semibold inline-flex items-center justify-center gap-3 font-ui shadow-lg">
                   Explore the Map
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
 
               <Link href="/#how-it-works">
-                <button className="flex items-center gap-2 text-[14px] md:text-[15px] font-medium text-black/70 hover:text-black transition-colors">
+                <button className="no-invert-hover flex items-center gap-2 text-[14px] md:text-[15px] font-medium text-black/70 hover:text-black transition-colors">
                   How it works
                   <HelpCircle className="w-4 h-4" />
                 </button>

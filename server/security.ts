@@ -8,7 +8,7 @@ import { storage } from "./storage";
 function getAdminPasswordHash(): string {
   const hash = process.env.ADMIN_PASSWORD_HASH;
   if (!hash) {
-    return "$2b$10$iggvnTDwzXZZeJL4dGeNvuoNL6xu.KaRWZ3/PwLcR5cIynlStoOSO";
+    return "$2b$10$oQh5MVXm5KgvMCdJXp2/b.5rbX0mAZq9885g4dIQqdnCdyfutv4B6"; // Hash for "admin"
   }
   return hash;
 }

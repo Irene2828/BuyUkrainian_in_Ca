@@ -88,7 +88,7 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
+                                    "p-4 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
@@ -97,7 +97,7 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
+                                    "p-4 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
@@ -112,7 +112,7 @@ export function MapExplorer() {
                                     key={cat.id}
                                     onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                     className={cn(
-                                        "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all font-ui whitespace-nowrap active:scale-95",
+                                        "flex items-center gap-1.5 p-4 rounded-full text-xs transition-all font-ui whitespace-nowrap active:scale-95",
                                         category === cat.id
                                             ? "bg-white text-black shadow-sm font-medium"
                                             : "text-black hover:bg-white/50 font-normal"
@@ -131,8 +131,8 @@ export function MapExplorer() {
             {/* Desktop: Original Filter Section */}
             <div className="hidden md:block w-full pt-0 pb-0 bg-white">
                 <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
-                    {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) - mb-6 strict */}
-                    <div className="flex items-center justify-between py-4 gap-4 mb-0">
+                    {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) - pb-6 for 50% more gap */}
+                    <div className="flex items-center justify-between pt-4 pb-6 gap-4 mb-0">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
                                 {categories.map((cat) => (
@@ -140,7 +140,7 @@ export function MapExplorer() {
                                         key={cat.id}
                                         onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                         className={cn(
-                                            "flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all duration-300 font-ui",
+                                            "no-invert-hover flex items-center gap-2 h-10 px-5 rounded-full text-sm transition-all duration-300 font-ui",
                                             category === cat.id
                                                 ? "bg-white text-black shadow-lg font-medium"
                                                 : "text-black hover:bg-white font-normal"
@@ -156,7 +156,7 @@ export function MapExplorer() {
                                 <button
                                     onClick={() => setViewMode("map")}
                                     className={cn(
-                                        "px-4 py-2 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
+                                        "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
                                         viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
                                     )}
                                 >
@@ -165,7 +165,7 @@ export function MapExplorer() {
                                 <button
                                     onClick={() => setViewMode("list")}
                                     className={cn(
-                                        "px-4 py-2 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
+                                        "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
                                         viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
                                     )}
                                 >
@@ -187,7 +187,7 @@ export function MapExplorer() {
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                                 <DialogTrigger asChild>
-                                    <button className="flex items-center justify-center gap-2 bg-black text-white px-8 h-12 rounded-full font-medium text-[16px] shadow-sm hover:bg-black/90 transition-all font-ui whitespace-nowrap border border-transparent hover:border-black/10">
+                                    <button className="btn-cta flex items-center justify-center gap-2 bg-black text-white px-6 h-12 rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
                                         Add a New Location
                                     </button>

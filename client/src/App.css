@@ -64,15 +64,15 @@ section h3,
     opacity: 0.07 !important;
 }
 
-/* Pre-Footer Specific Design - Airbnb-style whitespace */
+/* Pre-Footer Specific Design - Consistent 40px padding */
 .pre-footer-new-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #ffffff;
     width: 100%;
-    padding: 48px 24px;
-    /* py-12 equivalent */
+    padding: 40px 24px;
+    /* 40px top/bottom padding */
     margin-top: 0px;
 }
 
@@ -105,8 +105,10 @@ section h3,
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    /* Tighter 16px gap for Airbnb aesthetic */
+    align-items: center;
+    gap: 24px;
+    /* 24px gap between texts and CTA */
+    pointer-events: auto;
 }
 
 .pre-footer-main-slogan {
@@ -245,6 +247,7 @@ section h3,
     transform: translateY(10px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
+
 .section-reveal.is-visible {
     opacity: 1;
     transform: translateY(0);

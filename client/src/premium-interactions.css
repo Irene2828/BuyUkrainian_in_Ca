@@ -150,22 +150,64 @@
 }
 
 /* ========================================
-   5. PREMIUM BUTTON MICRO-INTERACTIONS
+   5. SUBTRACTIVE ELEGANCE — BUTTON HOVER SYSTEM
+   Philosophy: The interaction should feel like a physical button 
+   being illuminated. Tactically satisfying, visually weightless.
    ======================================== */
+
+/* CSS Variables for Hover State */
+:root {
+    --btn-hover-bg: #FFFFFF;
+    --btn-hover-text: #000000;
+    --btn-hover-border: #000000;
+    --btn-hover-transition: 200ms ease-out;
+}
+
+/* Base Button Styling — Prepare for seamless hover */
 button,
 .btn-strict,
 a[role="button"],
-[class*="Button"] {
-    will-change: transform, box-shadow;
-    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out;
+[class*="Button"],
+.btn-cta {
+    will-change: background-color, color, border-color;
+    transition:
+        background-color var(--btn-hover-transition),
+        color var(--btn-hover-transition),
+        border-color var(--btn-hover-transition),
+        transform var(--btn-hover-transition);
+    /* Ensure 1px border at rest to prevent geometry jump on hover */
+    border: 1px solid transparent;
 }
 
-/* Hover: Subtle elevation, minimal shadow diffusion */
-button:hover:not(:disabled),
+/* Exception: Remove border override for no-invert-hover so Tailwind classes work */
+button.no-invert-hover,
+.no-invert-hover {
+    border: none;
+}
+
+/* HOVER STATE: Subtractive Elegance — White BG, Black Text/Border */
+button:hover:not(:disabled):not(.no-invert-hover),
 .btn-strict:hover,
-a[role="button"]:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+a[role="button"]:hover,
+[class*="Button"]:hover:not(:disabled),
+.btn-cta:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    border-color: var(--btn-hover-border);
+}
+
+/* Child Element Inheritance — Icons/Spans follow parent on hover */
+button:hover:not(:disabled):not(.no-invert-hover) svg,
+button:hover:not(:disabled):not(.no-invert-hover) span,
+a[role="button"]:hover svg,
+a[role="button"]:hover span,
+[class*="Button"]:hover:not(:disabled) svg,
+[class*="Button"]:hover:not(:disabled) span,
+.btn-cta:hover svg,
+.btn-cta:hover span {
+    color: var(--btn-hover-text);
+    fill: var(--btn-hover-text);
+    stroke: var(--btn-hover-text);
 }
 
 /* Active/Click: Gentle compression */
@@ -173,7 +215,7 @@ button:active:not(:disabled),
 .btn-strict:active,
 a[role="button"]:active {
     transform: scale(0.98);
-    transition-duration: 0.05s;
+    transition-duration: 100ms;
 }
 
 /* ========================================

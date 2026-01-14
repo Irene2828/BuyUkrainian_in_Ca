@@ -15,7 +15,7 @@ export default function AboutPage() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6">
                 <Flag className="w-4 h-4" />
-                About BlueYellow.ca
+                About BuyUkrainian.ca
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-6 section-headline-reveal" data-testid="about-title">
                 Connecting Canadians with{" "}
@@ -23,7 +23,7 @@ export default function AboutPage() {
                 <span className="text-yellow-accent">Products</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                BlueYellow.ca is a community-driven platform that helps Canadians discover
+                BuyUkrainian.ca is a community-driven platform that helps Canadians discover
                 authentic Ukrainian products and support Ukrainian-owned businesses across the country.
               </p>
             </div>
@@ -51,7 +51,7 @@ export default function AboutPage() {
             </div>
 
             <div className="bg-gradient-to-br from-blue-50 to-yellow-50 dark:from-blue-950/50 dark:to-yellow-950/50 rounded-3xl p-8 md:p-12 mb-16">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-[var(--color-section-headline)] section-headline-reveal">Why BlueYellow?</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-[var(--color-section-headline)] section-headline-reveal">Why BuyUkrainian?</h2>
               <div className="grid sm:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-blue-accent/10 flex items-center justify-center mx-auto mb-4">

@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import "./App.css"; // Reinforced design styles
 // Confirming Pre-Footer Design Re-render
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from "@/lib/i18n";
@@ -46,6 +47,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
+            <SonnerToaster />
             <Router />
           </TooltipProvider>
         </QueryClientProvider>

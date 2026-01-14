@@ -34,9 +34,9 @@ export function RecentProductsMarquee() {
     return (
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-12 md:pb-[100px] font-sans">
             <div className="mx-auto px-6 md:px-[64px] max-w-[1440px] flex items-center justify-between mb-8">
-                <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold">Added this month</span>
-                <Link href="/map" className="text-[14px] md:text-[16px] font-semibold text-[#006CE4] hover:opacity-70 flex items-center gap-2 transition-all font-header">
-                    View all <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold tracking-tight">New to the Map</span>
+                <Link href="/map" className="text-[13px] md:text-[15px] font-semibold text-[#006CE4] hover:opacity-70 flex items-center gap-1 transition-all hover:translate-x-1 font-header">
+                    View all stores →
                 </Link>
             </div>
 
@@ -67,7 +67,7 @@ export function RecentProductsMarquee() {
                                 </div>
                             </div>
 
-                            {/* Store Image - Ive's Materiality Audit */}
+                            {/* Store Image */}
                             <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-[#006CE4]/10">
                                 <img
                                     src="/assets/kyivcake.jpeg"

@@ -23,10 +23,10 @@ const buttonVariants = cva(
         link: "text-[var(--color-primary-blue)] underline-offset-4 hover:underline hover:opacity-85",
       },
       size: {
-        default: "h-12 px-6 py-3 rounded-full text-base", // 48px height, 32px radius
-        sm: "h-9 rounded-full px-3 text-sm",
-        lg: "h-14 rounded-full px-8 text-lg",
-        icon: "h-10 w-10 rounded-full",
+        default: "h-12 px-4 py-4 rounded-full text-base", // 48px height, 16px padding
+        sm: "h-9 rounded-full px-4 py-4 text-sm",
+        lg: "h-14 rounded-full px-4 py-4 text-lg",
+        icon: "h-10 w-10 rounded-full p-4",
       },
     },
     defaultVariants: {

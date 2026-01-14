@@ -172,7 +172,13 @@ export async function updateStoreImages(id: number, images: string[]): Promise<S
   return apiStoreToStore(data);
 }
 
-export async function updateStore(id: number, updates: { name?: string; address?: string }): Promise<Store> {
+export async function updateStore(id: number, updates: {
+  name?: string;
+  address?: string;
+  category?: string;
+  products?: string[];
+  description?: string;
+}): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}`, {
     method: "PATCH",
     headers: {

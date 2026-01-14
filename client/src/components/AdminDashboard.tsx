@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AdminStoreCard, BrandCircle } from "@/components/AdminStoreCard";
+import { StoreCard } from "@/components/store-card";
 import {
     FileText,
     MapPin,
@@ -39,6 +40,7 @@ import {
     DialogTitle,
     DialogFooter,
 } from "@/components/ui/dialog";
+import { ToastAction } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 interface AdminDashboardProps {
@@ -56,6 +58,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editName, setEditName] = useState("");
     const [editAddress, setEditAddress] = useState("");
+    const [editCategory, setEditCategory] = useState<"food" | "clothes" | "retail" | "other">("food");
+    const [editProducts, setEditProducts] = useState("");
+    const [editDescription, setEditDescription] = useState("");
     const [editImages, setEditImages] = useState<string[]>([]);
     const [localImagePreviews, setLocalImagePreviews] = useState<string[]>([]);
     const [viewMode, setViewMode] = useState<"grid" | "list">("list");
@@ -74,6 +79,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [newUsername, setNewUsername] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [storeToView, setStoreToView] = useState<Store | null>(null);
 
     // Auth check
     useEffect(() => {
@@ -116,11 +122,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     });
 
     const updateStoreMutation = useMutation({
-        mutationFn: ({ id, updates }: { id: number; updates: { name?: string; address?: string } }) =>
+        mutationFn: ({ id, updates }: { id: number; updates: { name?: string; address?: string; category?: string; products?: string[]; description?: string } }) =>
             updateStore(id, updates),
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.refetchQueries({ queryKey: ["admin-stores"] });
             queryClient.refetchQueries({ queryKey: ["stores"] });
+            if (selectedStore && selectedStore.id === data.id) {
+                setSelectedStore(data);
+            }
             toast({ title: "Store Updated", description: "Store details have been updated." });
         },
         onError: (error: Error) => {
@@ -244,13 +253,27 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         }
     };
 
-    const handleReject = async (id: string) => {
+    const handleMoveToTrash = async (id: string, fromStatus: "pending" | "approved") => {
         try {
             await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
-            toast({ title: "Moved to Trash", variant: "destructive" });
+            toast({
+                title: "Moved to Trash",
+                description: "Store removed from list.",
+                action: (
+                    <ToastAction altText="Undo" onClick={() =>
+                        updateStatusMutation.mutateAsync({ id: parseInt(id), status: fromStatus })
+                    }>
+                        Undo
+                    </ToastAction>
+                ),
+            });
         } catch {
-            toast({ title: "Error", description: "Failed to reject store.", variant: "destructive" });
+            toast({ title: "Error", description: "Failed to move to trash.", variant: "destructive" });
         }
+    };
+
+    const handleReject = async (id: string) => {
+        handleMoveToTrash(id, "pending");
     };
 
     const handleRestore = async (id: string) => {
@@ -272,19 +295,54 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         setSelectedStore(store);
         setEditName(store.name);
         setEditAddress(store.address);
+        setEditCategory(store.category || "food");
+        setEditProducts(store.products?.join(", ") || "");
+        setEditDescription(store.description || "");
         setEditImages(store.images || []);
         setLocalImagePreviews([]);
         setIsEditModalOpen(true);
     };
 
+    const handleResetChanges = () => {
+        if (!selectedStore) return;
+        setEditName(selectedStore.name);
+        setEditAddress(selectedStore.address);
+        setEditCategory(selectedStore.category || "food");
+        setEditProducts(selectedStore.products?.join(", ") || "");
+        setEditDescription(selectedStore.description || "");
+        setEditImages(selectedStore.images || []);
+        setLocalImagePreviews([]);
+    };
+
+    // Calculate hasChanges for UI state
+    const hasChanges = selectedStore ? (
+        editName !== selectedStore.name ||
+        editAddress !== selectedStore.address ||
+        editCategory !== (selectedStore.category || "food") ||
+        JSON.stringify(editProducts.split(',').map(p => p.trim()).filter(Boolean)) !== JSON.stringify(selectedStore.products || []) ||
+        editDescription !== (selectedStore.description || "") ||
+        JSON.stringify(editImages) !== JSON.stringify(selectedStore.images || []) ||
+        localImagePreviews.length > 0
+    ) : false;
+
     const handleSaveEdit = async () => {
         if (!selectedStore) return;
-        if (editName !== selectedStore.name || editAddress !== selectedStore.address) {
+
+        if (hasChanges) {
+            const productsArray = editProducts.split(',').map(p => p.trim()).filter(Boolean);
             await updateStoreMutation.mutateAsync({
                 id: parseInt(selectedStore.id),
-                updates: { name: editName, address: editAddress },
+                updates: {
+                    name: editName,
+                    address: editAddress,
+                    category: editCategory,
+                    products: productsArray,
+                    description: editDescription
+                },
             });
         }
+
+        // Handle images separately
         const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
         if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
             await updateImagesMutation.mutateAsync({
@@ -625,7 +683,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                                 <div className="divide-y divide-gray-50">
                                     {displayedStores.map((store: any) => (
-                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => setStoreToView(store)}>
                                             <div className="flex items-center gap-4 flex-1 min-w-0">
                                                 <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
                                                     {store.images?.[0] ? (
@@ -643,13 +701,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                 {activeTab === "pending" && (
                                                     <>
                                                         <button
-                                                            onClick={() => handleApprove(store.id)}
+                                                            onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }}
                                                             className="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
                                                         >
                                                             <CheckCircle className="w-5 h-5" />
                                                         </button>
                                                         <button
-                                                            onClick={() => handleReject(store.id)}
+                                                            onClick={(e) => { e.stopPropagation(); handleReject(store.id); }}
                                                             className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
                                                         >
                                                             <XCircle className="w-5 h-5" />
@@ -659,13 +717,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                 {activeTab === "trash" && (
                                                     <>
                                                         <button
-                                                            onClick={() => handleRestore(store.id)}
+                                                            onClick={(e) => { e.stopPropagation(); handleRestore(store.id); }}
                                                             className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors font-ui"
                                                         >
                                                             <RotateCcw className="w-3.5 h-3.5" /> Restore
                                                         </button>
                                                         <button
-                                                            onClick={() => handlePermanentDelete(store.id)}
+                                                            onClick={(e) => { e.stopPropagation(); handlePermanentDelete(store.id); }}
                                                             className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-red-600 border border-red-200 rounded-full hover:bg-red-50 transition-colors font-ui"
                                                         >
                                                             <AlertTriangle className="w-3.5 h-3.5" /> Purge
@@ -673,16 +731,25 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                     </>
                                                 )}
                                                 {activeTab === "live" && (
-                                                    <button
-                                                        onClick={() => openEditModal(store)}
-                                                        className="text-[13px] font-medium text-gray-500 hover:text-black transition-colors font-ui"
-                                                    >
-                                                        Edit
-                                                    </button>
+                                                    <>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); openEditModal(store); }}
+                                                            className="text-[13px] font-medium text-gray-500 hover:text-black transition-colors font-ui"
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }}
+                                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                                                            title="Move to Trash"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </>
                                                 )}
                                                 {activeTab === "drafts" && (
                                                     <button
-                                                        onClick={() => handleApprove(store.id)}
+                                                        onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }}
                                                         className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium bg-black text-white rounded-full hover:bg-black/90 transition-colors font-ui"
                                                     >
                                                         Publish
@@ -707,6 +774,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                         onApprove={handleApprove}
                                         onReject={handleReject}
                                         onEdit={openEditModal}
+                                        onView={setStoreToView}
                                     />
                                 ))}
                             </div>
@@ -770,19 +838,47 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
                 <DialogContent className="max-w-lg">
                     <DialogHeader>
-                        <DialogTitle className="text-[20px] font-semibold font-header">Edit Store Details</DialogTitle>
+                        <DialogTitle className="text-lg font-semibold font-header">Edit Store Details</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-5 py-4">
+                    <div className="space-y-5 py-4 max-h-[60vh] overflow-y-auto">
                         <div className="space-y-2">
-                            <Label htmlFor="editName" className="font-ui">Store Name</Label>
-                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" />
+                            <Label htmlFor="editName" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Store Name</Label>
+                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" className="h-11 rounded-xl" />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editAddress" className="font-ui">Address</Label>
-                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" />
+                            <Label htmlFor="editAddress" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Address</Label>
+                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className="h-11 rounded-xl" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="editCategory" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</Label>
+                            <select
+                                id="editCategory"
+                                value={editCategory}
+                                onChange={(e) => setEditCategory(e.target.value as any)}
+                                className="w-full h-11 px-4 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-[#D3E4FD] transition-all font-ui"
+                            >
+                                <option value="food">Food & Grocery</option>
+                                <option value="clothes">Clothing & Apparel</option>
+                                <option value="retail">Retail & Gifts</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="editProducts" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Products Sold</Label>
+                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="Pierogies, Bread, Sausages..." className="h-11 rounded-xl" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="editDescription" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Description</Label>
+                            <textarea
+                                id="editDescription"
+                                value={editDescription}
+                                onChange={(e) => setEditDescription(e.target.value)}
+                                placeholder="What makes this store special..."
+                                className="w-full min-h-[80px] px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-[#D3E4FD] transition-all font-ui resize-none"
+                            />
                         </div>
                         <div className="space-y-3">
-                            <Label className="font-ui">Images (max 3)</Label>
+                            <Label className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Images (max 3)</Label>
                             <div className="grid grid-cols-3 gap-3">
                                 {editImages.map((url, index) => (
                                     <div key={`url-${index}`} className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group">
@@ -820,17 +916,28 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" multiple className="hidden" />
                         </div>
                     </div>
-                    <DialogFooter className="flex gap-2">
+                    <DialogFooter className="flex gap-2 pt-4 border-t border-gray-100 sm:justify-end">
                         <Button
                             variant="destructive"
-                            size="sm"
-                            onClick={() => selectedStore && deleteMutation.mutate(parseInt(selectedStore.id))}
+                            size="default"
+                            onClick={() => {
+                                if (selectedStore) {
+                                    handleMoveToTrash(selectedStore.id, "approved");
+                                    setIsEditModalOpen(false);
+                                }
+                            }}
                         >
                             <Trash2 className="w-4 h-4 mr-1" /> Delete
                         </Button>
-                        <div className="flex-1" />
-                        <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-                        <Button onClick={handleSaveEdit}>Save Changes</Button>
+                        <Button
+                            variant="outline"
+                            onClick={handleResetChanges}
+                            disabled={!hasChanges}
+                            className={cn(hasChanges ? "text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700" : "")}
+                        >
+                            Undo Save
+                        </Button>
+                        <Button onClick={handleSaveEdit} className="bg-black hover:bg-black/90" disabled={!hasChanges}>Save Changes</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
@@ -899,6 +1006,55 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </div>
+
+            {/* Store Preview Modal */}
+            <Dialog open={!!storeToView} onOpenChange={(open) => !open && setStoreToView(null)}>
+                <DialogContent
+                    className="max-w-[400px] w-full p-0 border-none bg-transparent shadow-none"
+                    hideClose
+                >
+                    {storeToView && (
+                        <StoreCard
+                            store={storeToView}
+                            onClose={() => setStoreToView(null)}
+                            actionSlot={
+                                <div className="flex flex-col gap-3 w-full pt-2">
+                                    {activeTab === "pending" && (
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <Button className="h-12 bg-green-600 hover:bg-green-700 rounded-full font-medium" onClick={() => { handleApprove(storeToView.id); setStoreToView(null); }}>
+                                                <CheckCircle className="w-4 h-4 mr-2" /> Approve
+                                            </Button>
+                                            <Button variant="destructive" className="h-12 rounded-full font-medium" onClick={() => { handleReject(storeToView.id); setStoreToView(null); }}>
+                                                <XCircle className="w-4 h-4 mr-2" /> Reject
+                                            </Button>
+                                        </div>
+                                    )}
+                                    {activeTab === "live" && (
+                                        <Button className="h-12 w-full bg-black hover:bg-black/90 rounded-full font-medium" onClick={() => { openEditModal(storeToView); setStoreToView(null); }}>
+                                            Edit Details
+                                        </Button>
+                                    )}
+                                    {activeTab === "trash" && (
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <Button className="h-12 rounded-full font-medium" variant="outline" onClick={() => { handleRestore(storeToView.id); setStoreToView(null); }}>
+                                                <RotateCcw className="w-4 h-4 mr-2" /> Restore
+                                            </Button>
+                                            <Button className="h-12 rounded-full font-medium" variant="destructive" onClick={() => { handlePermanentDelete(storeToView.id); setStoreToView(null); }}>
+                                                <Trash2 className="w-4 h-4 mr-2" /> Purge
+                                            </Button>
+                                        </div>
+                                    )}
+                                    {activeTab === "drafts" && (
+                                        <Button className="h-12 w-full bg-black hover:bg-black/90 rounded-full font-medium" onClick={() => { handleApprove(storeToView.id); setStoreToView(null); }}>
+                                            Publish
+                                        </Button>
+                                    )}
+                                </div>
+                            }
+                        />
+                    )}
+                </DialogContent>
+            </Dialog>
+        </div >
     );
 }
