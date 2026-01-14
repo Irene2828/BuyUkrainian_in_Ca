@@ -4,13 +4,14 @@ import { getApprovedStores } from "@/lib/api";
 import {
     Plus, Search, List, Map as MapIcon,
     UtensilsCrossed, ShoppingBag, Gift, Store as StoreIcon,
-    Clock, ArrowUpDown, ChevronDown, Check
+    Clock, ArrowUpDown, ChevronDown, Check, Navigation
 } from "lucide-react";
 import { MapSection } from "@/components/map-section";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const PROVINCE_MAP: Record<string, string> = {
     "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
@@ -25,6 +26,7 @@ import { useI18n } from "@/lib/i18n";
 
 export function MapExplorer() {
     const { t } = useI18n();
+    const { toast } = useToast();
     const [searchQuery, setSearchQuery] = useState("");
     const [category, setCategory] = useState<string | null>(null);
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
@@ -35,12 +37,52 @@ export function MapExplorer() {
     const [sortMode, setSortMode] = useState<"newest" | "name">("newest");
     const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
     const [provinceSearch, setProvinceSearch] = useState("");
+    const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
     const { data: allStores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
         staleTime: Infinity,
     });
+
+    const handleUseLocation = () => {
+        if (!navigator.geolocation) {
+            toast({
+                title: "Error",
+                description: "Geolocation is not supported by your browser",
+                variant: "destructive"
+            });
+            return;
+        }
+
+        toast({ description: "Locating..." });
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                // Force update even if location is roughly same to trigger flyTo
+                setUserLocation([latitude, longitude]);
+            },
+            (error) => {
+                toast({
+                    title: "Location Error",
+                    description: "Unable to retrieve your location",
+                    variant: "destructive"
+                });
+            }
+        );
+    };
+
+    const filteredStoresCount = allStores.filter(store => {
+        const matchesSearch = !searchQuery ||
+            store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
+
+        const matchesCategory = !category || store.category === category;
+        const storeProvinceFull = PROVINCE_MAP[store.province] || store.province;
+        const matchesProvince = !selectedProvince || selectedProvince === "All Canada" || storeProvinceFull === selectedProvince;
+
+        return matchesSearch && matchesCategory && matchesProvince;
+    }).length;
 
     const provincesFiltered = ["All Canada", ...CANADIAN_PROVINCES].filter(p =>
         p.toLowerCase().includes(provinceSearch.toLowerCase())
@@ -68,10 +110,16 @@ export function MapExplorer() {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
                         <Input
                             placeholder="Search..."
-                            className="pl-9 h-10 bg-gray-50 border-transparent rounded-full text-sm focus-visible:ring-1 focus-visible:ring-[#D3E4FD]/40 font-ui"
+                            className="pl-9 pr-9 h-10 bg-gray-50 border-transparent rounded-full text-sm focus-visible:ring-1 focus-visible:ring-[#D3E4FD]/40 font-ui"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
+                        <button
+                            onClick={handleUseLocation}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-black transition-colors"
+                        >
+                            <Navigation className="w-3.5 h-3.5" />
+                        </button>
                     </div>
                     <button
                         onClick={() => setAddStoreDialogOpen(true)}
@@ -136,46 +184,56 @@ export function MapExplorer() {
                 <div className="container mx-auto px-4 md:px-16 max-w-[1440px]">
                     {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) - pb-6 for 50% more gap */}
                     <div className="flex items-center justify-between pt-4 pb-0 mb-12 gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
-                                {categories.map((cat) => (
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
+                                    {categories.map((cat) => (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => setCategory(category === cat.id ? null : cat.id)}
+                                            className={cn(
+                                                "no-invert-hover flex items-center gap-2 h-10 px-5 rounded-full text-sm transition-all duration-300 font-ui",
+                                                category === cat.id
+                                                    ? "bg-white text-black shadow-lg font-medium"
+                                                    : "text-black hover:bg-white font-normal"
+                                            )}
+                                        >
+                                            <cat.icon className="w-4 h-4" />
+                                            {/* @ts-ignore */}
+                                            {t(`form.category${cat.label === 'Clothing' ? 'Clothes' : cat.label === 'Gifts' ? 'Other' : cat.label === 'Retail' ? 'Other' : cat.label}`)}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="flex items-center p-1 bg-[#D3E4FD] rounded-full">
                                     <button
-                                        key={cat.id}
-                                        onClick={() => setCategory(category === cat.id ? null : cat.id)}
+                                        onClick={() => setViewMode("map")}
                                         className={cn(
-                                            "no-invert-hover flex items-center gap-2 h-10 px-5 rounded-full text-sm transition-all duration-300 font-ui",
-                                            category === cat.id
-                                                ? "bg-white text-black shadow-lg font-medium"
-                                                : "text-black hover:bg-white font-normal"
+                                            "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
+                                            viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
                                         )}
                                     >
-                                        <cat.icon className="w-4 h-4" />
-                                        {/* @ts-ignore */}
-                                        {t(`form.category${cat.label === 'Clothing' ? 'Clothes' : cat.label === 'Gifts' ? 'Other' : cat.label === 'Retail' ? 'Other' : cat.label}`)}
+                                        <MapIcon className="w-4 h-4" /> {t('map.viewMap')}
                                     </button>
-                                ))}
+                                    <button
+                                        onClick={() => setViewMode("list")}
+                                        className={cn(
+                                            "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
+                                            viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
+                                        )}
+                                    >
+                                        <List className="w-4 h-4" /> {t('map.viewList')}
+                                    </button>
+                                </div>
                             </div>
-
-                            <div className="flex items-center p-1 bg-[#D3E4FD] rounded-full">
-                                <button
-                                    onClick={() => setViewMode("map")}
-                                    className={cn(
-                                        "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
-                                        viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
-                                    )}
-                                >
-                                    <MapIcon className="w-4 h-4" /> {t('map.viewMap')}
-                                </button>
-                                <button
-                                    onClick={() => setViewMode("list")}
-                                    className={cn(
-                                        "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
-                                        viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
-                                    )}
-                                >
-                                    <List className="w-4 h-4" /> {t('map.viewList')}
-                                </button>
-                            </div>
+                            {/* Filter Count Feedback */}
+                            {(category || searchQuery) && (
+                                <div className="pl-2 animate-in fade-in slide-in-from-left-2 duration-300">
+                                    <span className="text-[13px] font-medium text-gray-500 font-ui">
+                                        {filteredStoresCount} {filteredStoresCount === 1 ? 'store' : 'stores'} found
+                                    </span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex items-center gap-4">
@@ -183,10 +241,17 @@ export function MapExplorer() {
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
                                 <Input
                                     placeholder={t('map.search.placeholder')}
-                                    className="pl-12 h-12 bg-gray-50 border-transparent rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/20 font-ui"
+                                    className="pl-12 pr-12 h-12 bg-gray-50 border-transparent rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/20 font-ui"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
+                                <button
+                                    onClick={handleUseLocation}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-black transition-colors"
+                                    title="Use my location"
+                                >
+                                    <Navigation className="w-4 h-4" />
+                                </button>
                             </div>
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
@@ -206,12 +271,12 @@ export function MapExplorer() {
             </div>
 
             <div className={cn(
-                "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
+                "flex-1 md:flex-none container mx-auto px-4 md:px-16 max-w-[1440px] flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0 items-stretch",
                 viewMode === "map" ? "md:h-[450px]" : "h-auto"
             )}>
 
-                {/* Left Sidebar - Desktop only */}
-                <aside className="hidden md:flex w-[300px] flex-shrink-0 flex-col gap-8 map-sidebar-white p-8 rounded-[var(--radius-brand)]">
+                {/* Left Sidebar - Desktop only, full height synchronized with map */}
+                <aside className="hidden md:flex w-[300px] flex-shrink-0 flex-col justify-between gap-8 map-sidebar-white p-8 rounded-[var(--radius-brand)] shadow-[0_0_0_1px_rgba(0,0,0,0.02)] h-full">
                     <div className="relative">
                         <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest block mb-2 font-ui">
                             Select Province
@@ -302,6 +367,7 @@ export function MapExplorer() {
                         selectedProvince={selectedProvince}
                         onFlightChange={setIsFlying}
                         onViewChange={setViewMode}
+                        userLocation={userLocation}
                     />
                 </div>
             </div>

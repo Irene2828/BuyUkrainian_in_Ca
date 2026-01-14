@@ -20,6 +20,8 @@
     "map.subtitle": "Знайдіть українські товари та бізнеси по всій Канаді. Натисніть на будь-яку мітку, щоб побачити деталі, або додайте нову локацію.",
     "map.search.placeholder": "Пошук магазинів, товарів, локацій...",
     "map.search.try": "Спробуйте:",
+    "map.headline": "Знаходьте товари, зроблені в Україні, по всій Канаді",
+    "map.subheadline": "Переглядайте карту або додавайте місця, де продаються товари, зроблені в Україні",
     "map.clearFilters": "Очистити фільтри",
     "map.viewMap": "Карта",
     "map.viewList": "Список",
@@ -195,5 +197,7 @@
     "toast.submitError": "Не вдалося надіслати магазин",
     "share.twitter": "Щойно відкрив(ла) {name} — вони продають автентичні українські товари: {products}! Підтримуйте український бізнес в Канаді 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine",
     "share.facebook": "Знайшов(ла) чудовий український магазин {name}! 🇺🇦\n\nВони продають: {products}\n📍 {address}\n\n{description}\n\nПідтримуйте український бізнес в Канаді! Більше на BuyUkrainian.ca 💙💛",
-    "share.instagram": "🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Товари: {products}\n📍 Локація: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛"
+    "share.instagram": "🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Товари: {products}\n📍 Локація: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛",
+    "prefooter.slogan1": "Купуй українське - підтримуй Україну",
+    "prefooter.slogan2": "Кожен долар, витрачений правильно, має значення"
 }

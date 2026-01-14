@@ -25,6 +25,7 @@ interface MapSectionProps {
   onViewChange?: (mode: "map" | "list") => void;
   onFlightChange?: (isFlying: boolean) => void;
   extraControls?: React.ReactNode;
+  userLocation?: [number, number] | null;
 }
 
 const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number }> = {
@@ -56,7 +57,8 @@ export function MapSection({
   initialStoreId = null,
   onViewChange,
   onFlightChange,
-  extraControls
+  extraControls,
+  userLocation
 }: MapSectionProps) {
   const { t } = useI18n();
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
@@ -78,6 +80,13 @@ export function MapSection({
       mapRef.current?.resetView();
     }
   }, [selectedProvince, mode]);
+
+  // Handle User Location Flight
+  useEffect(() => {
+    if (userLocation) {
+      mapRef.current?.flyToLocation(userLocation[0], userLocation[1], 13);
+    }
+  }, [userLocation]);
 
   // Reset selected store when switching to map view
   useEffect(() => {
@@ -171,7 +180,7 @@ export function MapSection({
   if (viewMode === "list") {
     return (
       <div className="flex flex-col h-full bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white content-start">
+        <div className="flex flex-col gap-0 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white">
           {filteredStores.slice(0, visibleCount).map((store) => (
             <ListingCard
               key={store.id}
@@ -183,7 +192,7 @@ export function MapSection({
             />
           ))}
           {filteredStores.length === 0 && (
-            <div className="col-span-full">
+            <div>
               <EmptyState
                 type="no-results"
                 searchQuery={searchQuery}
@@ -197,7 +206,7 @@ export function MapSection({
           <div className="py-10 border-t border-gray-50 flex justify-center bg-white shadow-none">
             <button
               onClick={() => setVisibleCount(c => c + 12)}
-              className="text-[16px] font-bold text-black hover:text-[#D3E4FD] transition-colors flex items-center gap-2 font-ui"
+              className="text-[16px] font-bold text-black/70 hover:text-black transition-colors flex items-center gap-2 font-ui no-underline focus:outline-none focus:ring-0"
             >
               {t('map.seeMore')} <ArrowDown className="w-4 h-4" />
             </button>
@@ -233,6 +242,7 @@ export function MapSection({
           onCloseStore={handleCloseStore}
           onFlightChange={onFlightChange}
           extraControls={extraControls}
+          userLocation={userLocation}
         />
       </ErrorBoundary>
       {/* Empty state overlay when no stores match filters */}

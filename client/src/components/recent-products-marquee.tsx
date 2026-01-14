@@ -5,6 +5,7 @@ import { Link, useLocation } from "wouter";
 import { StoreCard } from "./store-card";
 import { ListingCard } from "./listing-card";
 import { Store } from "@/lib/data";
+import { ChevronRight } from "lucide-react";
 
 export function RecentProductsMarquee() {
     const { data: stores = [], isLoading } = useQuery({
@@ -35,8 +36,9 @@ export function RecentProductsMarquee() {
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-12 md:pb-[100px] font-sans">
             <div className="mx-auto px-6 md:px-[64px] max-w-[1440px] flex items-center justify-between mb-12">
                 <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold tracking-tight">New to the Map</span>
-                <Link href="/map" className="text-[13px] md:text-[15px] font-semibold text-[#006CE4] hover:opacity-70 flex items-center gap-1 transition-all hover:translate-x-1 font-header">
-                    View all stores →
+                <Link href="/map" className="group text-[15px] font-medium tracking-tight text-slate-500 hover:text-black flex items-center gap-1.5 transition-colors font-sans mr-4 md:mr-8">
+                    View all stores
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-black transition-colors" />
                 </Link>
             </div>
 

@@ -85,6 +85,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     },
   });
 
+  const [isPinDropMode, setIsPinDropMode] = useState(false);
+
   const handleAddressChange = (value: string) => {
     if (addressDebounceRef.current) clearTimeout(addressDebounceRef.current);
     if (value.length >= 3) {
@@ -109,10 +111,28 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     form.setValue("address", fullAddress || suggestion.display_name.split(',')[0]);
     form.setValue("city", suggestion.address?.city || suggestion.address?.town || suggestion.address?.village || "");
     form.setValue("province", suggestion.address?.state || "");
-    form.setValue("latitude", parseFloat(suggestion.lat));
-    form.setValue("longitude", parseFloat(suggestion.lon));
+
+    const lat = parseFloat(suggestion.lat);
+    const lng = parseFloat(suggestion.lon);
+
+    form.setValue("latitude", lat);
+    form.setValue("longitude", lng);
 
     setShowAddressSuggestions(false);
+
+    // Fly to location on map
+    // dispatch custom event for map to listen to
+    window.dispatchEvent(new CustomEvent('mapFlyTo', { detail: { lat, lng } }));
+  };
+
+  // Mock Pin Drop Logic (since we can't easily attach to leaflet from here without context)
+  // In a real app we'd use a context or global event bus
+  const togglePinDrop = () => {
+    setIsPinDropMode(!isPinDropMode);
+    toast({
+      title: !isPinDropMode ? "Pin Drop Mode Active" : "Pin Drop Mode Cancelled",
+      description: !isPinDropMode ? "Click anywhere on the map to set location." : "Return to manual entry.",
+    });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,16 +194,28 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="bg-white rounded-[var(--radius-brand)] shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-w-xl w-full mx-auto">
+    <div className={cn(
+      "bg-white rounded-[var(--radius-brand)] shadow-2xl flex flex-col overflow-hidden border border-gray-100 transition-all duration-500 ease-in-out",
+      isPinDropMode ? "fixed bottom-6 right-6 w-[320px] h-auto z-[2000] scale-90 origin-bottom-right" : "max-w-xl w-full mx-auto relative z-[2000]"
+    )}>
       {/* Header */}
-      <div className="bg-[#F8F9FA] px-8 py-6 border-b border-gray-100 flex items-center justify-between">
+      <div className={cn("bg-[#F8F9FA] px-8 py-6 border-b border-gray-100 flex items-center justify-between transition-colors", isPinDropMode && "bg-blue-50")}>
         <div>
-          <h3 className="text-[20px] font-bold text-[var(--color-section-headline)] font-header">Add a New Store</h3>
-          <p className="text-[13px] text-gray-400 font-medium font-ui">Help us map Ukrainian businesses</p>
+          <h3 className="text-[20px] font-bold text-[var(--color-section-headline)] font-header">
+            {isPinDropMode ? "Click location on Map" : "Add a New Store"}
+          </h3>
+          <p className="text-[13px] text-gray-400 font-medium font-ui">
+            {isPinDropMode ? "Tap anywhere to set location" : "Help us map Ukrainian businesses"}
+          </p>
         </div>
-        {onClose && (
+        {onClose && !isPinDropMode && (
           <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
             <X className="w-5 h-5 text-gray-400" />
+          </button>
+        )}
+        {isPinDropMode && (
+          <button onClick={togglePinDrop} className="text-xs font-bold uppercase tracking-wider text-blue-600 hover:underline">
+            Cancel
           </button>
         )}
       </div>
@@ -228,35 +260,42 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="address"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui">Street Address</FormLabel>
+                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui flex justify-between items-center">
+                    <span>Street Address</span>
+                    <button type="button" onClick={togglePinDrop} className="text-[#3B82F6] hover:text-blue-700 flex items-center gap-1 transition-colors">
+                      <MapPin className="w-3 h-3" />
+                      <span className="text-[10px] font-bold uppercase tracking-wider">Set pin on map</span>
+                    </button>
+                  </FormLabel>
                   <FormControl>
                     <div className="relative group">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#D3E4FD] transition-colors" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#3B82F6] transition-colors" />
                       <Input
-                        placeholder="123 Main Street..."
+                        placeholder="Start typing address..."
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
                           handleAddressChange(e.target.value);
                         }}
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
-                        onBlur={() => setTimeout(() => setShowAddressSuggestions(false), 200)}
-                        className="h-11 pl-10 rounded-xl border-gray-100 font-ui focus:border-[#D3E4FD]"
+                        className="h-12 pl-10 rounded-[16px] bg-gray-50 border-transparent focus:bg-white focus:border-[#3B82F6] focus:ring-4 focus:ring-[#3B82F6]/10 transition-all font-ui shadow-sm"
                       />
-                      {isSearchingAddress && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-[#D3E4FD]" />}
+                      {isSearchingAddress && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-[#3B82F6]" />}
                     </div>
                   </FormControl>
                   {showAddressSuggestions && (
-                    <div className="absolute z-[100] w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden animate-in slide-in-from-top-2 duration-200">
+                    <div className="absolute z-[100] w-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                       {addressSuggestions.map((s, i) => (
                         <button
                           key={i}
                           type="button"
                           onClick={() => handleAddressSelect(s)}
-                          className="w-full px-4 py-3 text-left hover:bg-blue-50 border-b border-gray-50 flex items-start gap-2 transition-colors last:border-0 font-ui"
+                          className="w-full px-4 py-3.5 text-left hover:bg-blue-50 border-b border-gray-50 flex items-center gap-3 transition-colors last:border-0 font-ui group"
                         >
-                          <MapPin className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
-                          <span className="text-sm text-gray-700 line-clamp-2">{s.display_name}</span>
+                          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors">
+                            <MapPin className="w-4 h-4 text-gray-500 group-hover:text-[#3B82F6]" />
+                          </div>
+                          <span className="text-[14px] text-gray-700 font-medium line-clamp-1">{s.display_name}</span>
                         </button>
                       ))}
                     </div>
@@ -266,15 +305,45 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               )}
             />
 
+            {/* Hidden Auto-filled Fields if address selected, unless manual edit needed */}
+            <div className={cn("grid grid-cols-2 gap-4 transition-all duration-300", form.getValues("city") ? "opacity-50 hover:opacity-100" : "opacity-100")}>
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui">City</FormLabel>
+                    <FormControl>
+                      <Input {...field} className="h-12 rounded-[16px] bg-gray-50 border-transparent focus:bg-white focus:border-[#3B82F6] font-ui transition-all" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="province"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui">Province</FormLabel>
+                    <FormControl>
+                      <Input {...field} className="h-12 rounded-[16px] bg-gray-50 border-transparent focus:bg-white focus:border-[#3B82F6] font-ui transition-all" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             {/* 3. Business Name */}
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui">Business Name</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui">Business Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ukrainian Deli, Bakery..." {...field} className="h-11 rounded-xl border-gray-100 font-ui focus:border-[#D3E4FD]" />
+                    <Input placeholder="e.g. European Deli & Bakery" {...field} className="h-12 rounded-[16px] bg-gray-50 border-transparent focus:bg-white focus:border-[#3B82F6] focus:ring-4 focus:ring-[#3B82F6]/10 transition-all font-ui shadow-sm" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -287,14 +356,21 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui">Category</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui">Category</FormLabel>
                   <FormControl>
-                    <select {...field} className="w-full h-11 px-4 rounded-xl border border-gray-100 bg-white text-sm outline-none focus:border-[#D3E4FD] transition-all font-ui">
-                      <option value="food">Food & Grocery</option>
-                      <option value="clothes">Clothing & Apparel</option>
-                      <option value="retail">Retail & Gifts</option>
-                      <option value="other">Other</option>
-                    </select>
+                    <div className="relative">
+                      <select {...field} className="w-full h-12 px-4 rounded-[16px] bg-gray-50 border-transparent text-sm outline-none focus:bg-white focus:border-[#3B82F6] focus:ring-4 focus:ring-[#3B82F6]/10 transition-all font-ui appearance-none cursor-pointer">
+                        <option value="food">Food & Grocery</option>
+                        <option value="clothes">Clothing & Apparel</option>
+                        <option value="retail">Retail & Gifts</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -307,9 +383,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="products"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui">Products Sold</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui">Products Sold</FormLabel>
+                  <p className="text-[11px] text-gray-400 font-normal mb-2 mt-0">List main items separated by commas</p>
                   <FormControl>
-                    <Input placeholder="Pysanky, Pierogi, Embroidery..." {...field} className="h-11 rounded-xl border-gray-100 font-ui focus:border-[#D3E4FD]" />
+                    <Input placeholder="Kyiv Cake, Roshen, Kvass, Pierogi..." {...field} className="h-12 rounded-[16px] bg-gray-50 border-transparent focus:bg-white focus:border-[#3B82F6] focus:ring-4 focus:ring-[#3B82F6]/10 transition-all font-ui shadow-sm" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -322,12 +399,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui">Description</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui">Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="What makes this place special..."
+                      placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[80px] rounded-xl border-gray-100 resize-none font-ui focus:border-[#D3E4FD]"
+                      className="min-h-[100px] rounded-[16px] bg-gray-50 border-transparent resize-none font-ui focus:bg-white focus:border-[#3B82F6] focus:ring-4 focus:ring-[#3B82F6]/10 transition-all shadow-sm p-4"
                     />
                   </FormControl>
                   <FormMessage />
@@ -337,12 +414,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
             {/* 7. Image Upload Zone */}
             <div>
-              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui block mb-2">Store Photo (Optional)</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 font-ui block mb-3">Store Photo (Optional)</label>
               <div
                 onClick={() => imageInputRef.current?.click()}
                 className={cn(
-                  "border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all",
-                  imagePreview ? "border-green-300 bg-green-50" : "border-gray-200 hover:border-[#D3E4FD] hover:bg-blue-50/30"
+                  "border-2 border-dashed rounded-[20px] p-8 text-center cursor-pointer transition-all duration-300 group",
+                  imagePreview ? "border-green-300 bg-green-50" : "border-gray-200 hover:border-[#3B82F6] hover:bg-blue-50/50"
                 )}
               >
                 {imagePreview ? (

@@ -26,7 +26,7 @@ export function SpreadTheWord() {
   };
 
   return (
-    <section className="relative pt-12 pb-[100px] bg-[#D3E4FD]/20 overflow-hidden px-6 md:px-16 z-10">
+    <section className="relative pt-8 pb-12 md:pt-12 md:pb-[100px] bg-[#D3E4FD]/20 overflow-hidden px-6 md:px-16 z-10">
       {/* Consistent section padding */}
       <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
 

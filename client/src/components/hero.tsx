@@ -35,7 +35,7 @@ export function Hero() {
             </p>
 
             {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
-            <div className="flex flex-col items-center md:flex-row md:items-center gap-4 hero-reveal-cta">
+            <div className="flex flex-col items-center md:flex-row md:items-center gap-10 hero-reveal-cta">
               <Link href="/map">
                 <Button className="btn-cta bg-black text-white rounded-full py-3 pl-6 pr-7 h-[50px] text-[16px] font-semibold inline-flex items-center justify-center gap-3 font-ui shadow-lg">
                   {t('home.hero.explore')}
@@ -44,9 +44,9 @@ export function Hero() {
               </Link>
 
               <Link href="/#how-it-works">
-                <button className="no-invert-hover flex items-center gap-2 text-[14px] md:text-[15px] font-medium text-black/70 hover:text-black transition-colors">
+                <button className="no-invert-hover flex items-center gap-2 text-[14px] md:text-[15px] font-medium text-[#4B5563] hover:text-[#111827] transition-colors md:mr-8">
                   {t('header.howItWorks')}
-                  <HelpCircle className="w-4 h-4" />
+                  <HelpCircle className="w-4 h-4 translate-y-[0.5px]" />
                 </button>
               </Link>
             </div>

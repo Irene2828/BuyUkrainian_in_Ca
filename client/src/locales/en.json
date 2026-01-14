@@ -20,6 +20,8 @@
     "map.subtitle": "Find Ukrainian products and businesses across Canada. Click on any pin to see details, or add a new location to help grow our community.",
     "map.search.placeholder": "Search stores, products, locations...",
     "map.search.try": "Try:",
+    "map.headline": "Find Ukrainian Products Across Canada",
+    "map.subheadline": "Browse the map or add places selling products made in Ukraine",
     "map.clearFilters": "Clear filters",
     "map.viewMap": "Map View",
     "map.viewList": "List View",
@@ -195,5 +197,7 @@
     "toast.submitError": "Failed to submit store",
     "share.twitter": "Just discovered {name} - they sell authentic Ukrainian products like {products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine",
     "share.facebook": "I found this amazing Ukrainian store called {name}! 🇺🇦\n\nThey sell: {products}\n📍 {address}\n\n{description}\n\nSupport Ukrainian businesses in Canada! Find more at BuyUkrainian.ca 💙💛",
-    "share.instagram": "🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Products: {products}\n📍 Location: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛"
+    "share.instagram": "🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Products: {products}\n📍 Location: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛",
+    "prefooter.slogan1": "Buy Ukrainian - Support Ukraine",
+    "prefooter.slogan2": "Every dollar spent right matters"
 }

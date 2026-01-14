@@ -46,16 +46,16 @@ export function FAQ() {
         {/* Accordion - Clean design without borders and grey fills */}
         <div className="flex flex-col w-full">
           {faqs.map((faq, i) => (
-            <div key={i} className="border-b border-[rgba(0,0,0,0.08)] last:border-0">
+            <div key={i} className="border-b border-[rgba(0,0,0,0.05)] last:border-0">
               {/* Question - Clickable */}
               <button
                 onClick={() => toggleItem(i)}
-                className="no-invert-hover w-full flex items-center justify-between py-8 text-left group transition-colors"
+                className="no-invert-hover w-full flex items-center justify-between py-8 text-left group transition-colors duration-300"
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[16px] md:text-[18px] font-medium font-ui transition-colors pr-8",
-                  openIndex === i ? "text-black" : "text-[rgba(0,0,0,0.7)] group-hover:text-black"
+                  "text-[16px] md:text-[18px] font-medium font-ui transition-colors duration-300 pr-8",
+                  openIndex === i ? "text-[#111827]" : "text-[#6B7280] group-hover:text-[#111827]"
                 )}>
                   {faq.question}
                 </span>

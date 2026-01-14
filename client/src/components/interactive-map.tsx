@@ -15,6 +15,7 @@ import { StoreCard } from "./store-card";
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
   flyToProvince: (lat: number, lng: number, zoom: number) => void;
+  flyToLocation: (lat: number, lng: number, zoom?: number) => void;
   resetView: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
@@ -137,6 +138,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       setProvinceView({ lat, lng, zoom });
       setFocusCoordinates(null);
     },
+    flyToLocation: (lat: number, lng: number, zoom: number = 15) => {
+      setFocusCoordinates([lat, lng]);
+      setProvinceView(null);
+    },
     resetView: () => {
       setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 3 });
       setFocusCoordinates(null);
@@ -238,23 +243,23 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         )}
       </MapContainer>
 
-      <Dialog open={!!selectedStore} onOpenChange={(open) => !open && onCloseStore()}>
-        <DialogContent
-          className="md:fixed md:left-[50%] md:top-[50%] md:translate-x-[-50%] md:translate-y-[-50%] md:max-w-[400px] md:w-full md:max-h-[90vh] md:overflow-visible fixed left-0 bottom-0 top-auto translate-x-0 translate-y-0 w-full max-w-none max-h-[85vh] overflow-visible p-0 border-none bg-transparent shadow-none rounded-none data-[state=open]:slide-in-from-bottom-full md:data-[state=open]:slide-in-from-top-[48%] md:data-[state=open]:zoom-in-95"
-          hideClose
-        >
-          {selectedStore && (
-            <StoreCard
-              store={selectedStore}
-              onClose={onCloseStore}
-              onSeeOnMap={(s) => {
-                onCloseStore();
-                mapRef.current?.flyTo(s.coordinates as [number, number], 15);
-              }}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+      {/* Side Panel Overlay - No more Dialog */}
+      {selectedStore && (
+        <div className="absolute top-[24px] right-[24px] w-[400px] z-[2000] animate-in slide-in-from-right-4 duration-500 ease-out fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[32px] h-auto max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
+          <StoreCard
+            store={selectedStore}
+            onClose={() => {
+              const panel = document.querySelector('.side-panel-container');
+              if (panel) panel.classList.add('slide-out-to-right');
+              setTimeout(() => onCloseStore(), 200); // Wait for anim
+            }}
+            onSeeOnMap={(s) => {
+              // Zoom in effect
+              mapRef.current?.flyToLocation(s.coordinates[0], s.coordinates[1], 16);
+            }}
+          />
+        </div>
+      )}
 
       {/* Airbnb-style Floating Navigation Controls - Right Side */}
       <div className="absolute right-4 top-1/2 -translate-y-1/2 z-[1000] flex flex-col gap-2">
