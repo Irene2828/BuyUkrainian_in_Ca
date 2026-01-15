@@ -153,7 +153,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
                     {/* Right Column: Highlights Stack - CLEAN INVENTORY LIST */}
                     <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
-                        <ul className="text-[16px] font-normal text-slate-800 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
+                        <ul className="text-[16px] font-normal text-slate-900 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
                             {store.products && store.products.length > 0 ? (
                                 store.products.map((product, i) => (
                                     <li key={i} className="truncate">
@@ -178,13 +178,13 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 <div className="space-y-1.5 mt-auto mb-6 pl-1">
                     <div className="flex items-start gap-2">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 mt-[2px] shrink-0" />
-                        <span className="text-[14px] font-medium text-slate-700 leading-tight block">
+                        <span className="text-[14px] font-medium text-slate-500 leading-tight block">
                             {store.address}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-[14px] font-medium text-slate-700">
+                        <span className="text-[14px] font-medium text-slate-500">
                             Open today: 9:00 AM - 8:00 PM
                         </span>
                     </div>
@@ -211,7 +211,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
-                            "bg-transparent hover:bg-slate-50 text-slate-400 hover:text-black rounded-full px-4 py-2 transition-all border-none outline-none ring-0 flex items-center gap-1.5 text-[12px]",
+                            "bg-transparent hover:bg-slate-50 text-slate-700 hover:text-black rounded-full px-4 py-2 transition-all border-none outline-none ring-0 flex items-center gap-1.5 text-[13px] font-medium",
                             copied && "text-blue-600 hover:text-blue-700"
                         )}
                     >
@@ -220,10 +220,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : handleShare}
-                        className="bg-transparent hover:bg-slate-50 text-slate-400 hover:text-black rounded-full px-4 py-2 transition-all border-none outline-none ring-0 flex items-center gap-1.5 text-[12px]"
+                        className="bg-transparent hover:bg-slate-50 text-slate-700 hover:text-black rounded-full px-4 py-2 transition-all border-none outline-none ring-0 flex items-center gap-1.5 text-[13px] font-medium"
                     >
                         {onSeeOnMap ? <MapIcon className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}
-                        {onSeeOnMap ? "Show on Map" : "Share"}
+                        {onSeeOnMap ? "Show on the map" : "Share"}
                     </button>
                 </div>
 
