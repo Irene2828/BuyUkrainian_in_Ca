@@ -37,7 +37,7 @@ export function Hero() {
             {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
             <div className="flex flex-col items-center md:flex-row md:items-center gap-10 hero-reveal-cta">
               <Link href="/map">
-                <Button className="btn-cta bg-black text-white rounded-full py-3 pl-6 pr-7 h-[50px] text-[16px] font-semibold inline-flex items-center justify-center gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black">
+                <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                   {t('home.hero.explore') || 'Explore the Map'}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
