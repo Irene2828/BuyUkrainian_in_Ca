@@ -6,49 +6,46 @@ import { useI18n } from "@/lib/i18n";
 export function PreFooter() {
     const { t, language } = useI18n();
     return (
-        <section className="pre-footer-new-container">
-            {/* 100px gap from Spread the Word is handled by margin-top on the container in App.css */}
-
+        <section className="pre-footer-new-container px-6 md:px-20">
             {/* Slogans centered horizontally and vertically within the background image */}
-            <div className="pre-footer-visual-wrapper">
+            <div className="pre-footer-visual-wrapper relative">
                 <img
                     src="/assets/footer1.png"
                     alt=""
-                    className="pre-footer-outlined-image"
+                    className="pre-footer-outlined-image opacity-10"
                 />
 
-                {/* Mission Statement - Typographic Layering */}
-                <div className="flex flex-col items-center gap-2 py-32">
+                {/* Mission Statement - Editorial Typography */}
+                <div className="flex flex-col items-center gap-4 py-32 max-w-[1440px] mx-auto">
                     {/* Show appropriate slogan based on language */}
                     {language === 'en' ? (
-                        <div className="flex flex-col items-center text-center max-w-2xl gap-4">
-                            {/* Primary Line */}
-                            <h2 className="font-bold tracking-tight text-gray-900 font-header" style={{ fontSize: '24px' }}>
+                        <div className="flex flex-col items-center text-center max-w-2xl gap-3">
+                            {/* Primary Line - Deep Slate Editorial */}
+                            <h2 className="font-bold tracking-tight text-slate-900 font-header text-[24px]">
                                 Buy Ukrainian — Support Ukraine
                             </h2>
-                            {/* Secondary Line - Same size, 60% opacity */}
-                            <p className="font-normal tracking-tight text-gray-900/60 font-header" style={{ fontSize: '24px' }}>
-                                Every purchase, every share matters.
+                            {/* Secondary Line - Lowercase, 14px, slate-500 */}
+                            <p className="font-medium text-slate-500 font-ui text-[14px] lowercase">
+                                every purchase, every share matters.
                             </p>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center text-center max-w-2xl gap-4">
-                            {/* Primary Line */}
-                            <h2 className="font-bold tracking-tight text-gray-900 font-header whitespace-nowrap" style={{ fontSize: '24px' }}>
+                        <div className="flex flex-col items-center text-center max-w-2xl gap-3">
+                            {/* Primary Line - Deep Slate Editorial */}
+                            <h2 className="font-bold tracking-tight text-slate-900 font-header whitespace-nowrap text-[24px]">
                                 Купуй українське — Підтримуй Україну
                             </h2>
-                            {/* Secondary Line - Same size, 60% opacity */}
-                            <p className="font-normal tracking-tight text-gray-900/60 font-header" style={{ fontSize: '24px' }}>
-                                Every purchase, every share matters.
+                            {/* Secondary Line - Lowercase, 14px, slate-500 */}
+                            <p className="font-medium text-slate-500 font-ui text-[14px] lowercase">
+                                every purchase, every share matters.
                             </p>
                         </div>
                     )}
 
-
-                    {/* CTA Button */}
+                    {/* CTA Button - Solid True Black with tactile hover */}
                     <Link
                         href="/map"
-                        className="btn-cta inline-flex items-center justify-center rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none mt-6 hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
+                        className="btn-cta inline-flex items-center justify-center rounded-full h-[52px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none mt-8 transition-transform duration-200 hover:scale-[1.02] hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
                         style={{ backgroundColor: '#000000', color: '#ffffff' }}
                     >
                         {t('header.exploreMap') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
