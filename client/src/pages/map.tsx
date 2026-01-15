@@ -77,7 +77,7 @@ function NewlyAddedStores() {
           onClick={() => setSelectedStore(null)}
         >
           <div
-            className="w-full max-w-[400px] mx-4 animate-in zoom-in-[0.98] duration-200"
+            className="w-full max-w-[340px] mx-4 animate-in zoom-in-[0.98] duration-200"
             style={{ animationTimingFunction: 'cubic-bezier(0.2, 0, 0, 1)' }}
             onClick={(e) => e.stopPropagation()}
           >
