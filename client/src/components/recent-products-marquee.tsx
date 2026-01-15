@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { Link, useLocation } from "wouter";
 import { StoreCard } from "./store-card";
-import { ListingCard } from "./listing-card";
 import { Store } from "@/lib/data";
 import { ChevronRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
@@ -47,13 +46,32 @@ export function RecentProductsMarquee() {
             <div className="relative w-full overflow-hidden">
                 <div className="flex animate-marquee whitespace-nowrap gap-8 px-8 items-center min-h-[160px]">
                     {displayStores.map((store, i) => (
-                        <ListingCard
+                        <div
                             key={`${store.id}-${i}`}
-                            store={store}
-                            variant="marquee"
                             onClick={() => handleStoreClick(store)}
-                            className="min-w-[340px] max-w-[420px] inline-flex"
-                        />
+                            className="min-w-[340px] max-w-[420px] inline-flex bg-white p-8 rounded-[32px] border border-slate-100 cursor-pointer transition-all hover:border-slate-200 hover:shadow-sm group"
+                        >
+                            {/* Store Image */}
+                            <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-black/5">
+                                <img
+                                    src={store.image || "/assets/kyivcake.jpeg"}
+                                    alt={store.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+
+                            {/* Store Info - NO PINS, NO CATEGORY */}
+                            <div className="flex flex-col justify-center gap-1 flex-1 min-w-0 ml-6">
+                                <span className="text-[15px] font-semibold text-gray-900 truncate font-header">
+                                    {store.name}
+                                </span>
+                                <div className="flex items-center gap-2 text-slate-400 text-xs font-medium transition-colors group-hover:text-black font-ui">
+                                    <span className="no-underline">
+                                        {t ? t('modal.seeOnMap') : 'See on Map'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </div>
