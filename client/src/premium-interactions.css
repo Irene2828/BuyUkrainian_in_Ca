@@ -179,10 +179,10 @@ a[role="button"],
     border: 1px solid transparent;
 }
 
-/* Exception: Remove border override for no-invert-hover so Tailwind classes work */
+/* Exception: Allow Tailwind border classes to work on no-invert-hover elements */
 button.no-invert-hover,
 .no-invert-hover {
-    border: none;
+    /* Border is controlled by Tailwind classes, not overridden here */
 }
 
 /* HOVER STATE: Subtractive Elegance — White BG, Black Text/Border */
