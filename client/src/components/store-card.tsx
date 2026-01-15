@@ -174,17 +174,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 </div>
 
-                {/* Metadata Block (Address & Hours) - 14px for Legibility */}
+                {/* Metadata Block (Address & Hours) - Match Icon Color */}
                 <div className="space-y-1.5 mt-auto mb-6 pl-1">
                     <div className="flex items-start gap-2">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 mt-[2px] shrink-0" />
-                        <span className="text-[14px] font-medium text-slate-500 leading-tight block">
+                        <span className="text-[14px] font-medium text-slate-400 leading-tight block">
                             {store.address}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-[14px] font-medium text-slate-500">
+                        <span className="text-[14px] font-medium text-slate-400">
                             Open today: 9:00 AM - 8:00 PM
                         </span>
                     </div>
