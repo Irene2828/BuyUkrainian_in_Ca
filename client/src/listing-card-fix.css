@@ -1,34 +1,31 @@
-/* CRITICAL FIX: Nuclear option - remove ALL pseudo-elements and positioned children from cards */
+/* CRITICAL FIX: Remove pins ONLY from listing cards, NOT from the map */
+/* Target only listing card context */
 .listing-card-marquee::before,
 .listing-card-marquee::after,
-[class*="rounded-[32px]"]::before,
-[class*="rounded-[32px]"]::after,
-div[class*="p-8"]::before,
-div[class*="p-8"]::after {
+.listing-card-marquee *::before,
+.listing-card-marquee *::after {
     content: none !important;
     display: none !important;
 }
 
-/* Remove any absolutely positioned elements that aren't images or divs we explicitly created */
-.listing-card-marquee>*[style*="absolute"],
-.listing-card-marquee>*[class*="absolute"],
-[class*="rounded-[32px]"]>*[style*="absolute"]:not(img):not(.w-),
-[class*="rounded-[32px]"]>*[class*="absolute"]:not(img):not(.w-) {
+/* Remove any absolutely positioned children from listing cards only */
+.listing-card-marquee>*[style*="absolute"]:not(img),
+.listing-card-marquee>*[class*="absolute"]:not(img) {
     display: none !important;
 }
 
-/* Specifically target any pin-like elements */
-[class*="marker"],
-[class*="pin"],
+/* Remove circular badges ONLY from listing cards */
+.listing-card-marquee div[class*="w-6"][class*="h-6"][class*="rounded-full"],
+.listing-card-marquee div[class*="w-7"][class*="h-7"][class*="rounded-full"],
+.listing-card-marquee div[class*="w-8"][class*="h-8"][class*="rounded-full"] {
+    display: none !important;
+}
+
+/* DO NOT affect map markers - explicitly allow them */
+.leaflet-marker-icon,
+.leaflet-marker-icon *,
 .marker-container,
 .marker-pin-top,
 .marker-pin-bottom {
-    display: none !important;
-}
-
-/* Remove any circular badges */
-div[class*="w-6"][class*="h-6"][class*="rounded-full"],
-div[class*="w-7"][class*="h-7"][class*="rounded-full"],
-div[class*="w-8"][class*="h-8"][class*="rounded-full"] {
-    display: none !important;
+    display: block !important;
 }
