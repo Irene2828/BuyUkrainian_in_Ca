@@ -118,10 +118,10 @@ export default function MapPage() {
     <div className="bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
       <main className="flex-1 flex flex-col">
-        {/* Map Page Headline Section - mb-6 (24px) to chips per design system */}
-        <section className="pt-6 md:pt-12 pb-6 bg-white text-center px-6 md:px-16 section-reveal">
-          <div className="container mx-auto max-w-[1440px]">
-            <h2 className="text-[28px] md:text-[36px] font-semibold mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+        {/* Map Page Headline Section - Symmetrical Balance */}
+        <section className="bg-white text-center px-6 md:px-16 section-reveal">
+          <div className="container mx-auto max-w-[1440px] py-16 md:py-20 flex flex-col items-center justify-center text-center">
+            <h2 className="text-[28px] md:text-[36px] font-semibold mb-2 text-[#ADD0FE] leading-tight tracking-tight font-header section-headline-reveal">
               {t('map.headline') || 'Find Ukrainian Products Across Canada'}
             </h2>
             <p className="hidden md:block text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>

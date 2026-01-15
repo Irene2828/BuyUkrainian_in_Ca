@@ -18,7 +18,7 @@ export function PreFooter() {
                 />
 
                 {/* Mission Statement - Typographic Layering */}
-                <div className="flex flex-col items-center gap-2 py-20">
+                <div className="flex flex-col items-center gap-2 py-32">
                     {/* Show appropriate slogan based on language */}
                     {language === 'en' ? (
                         <div className="flex flex-col items-center text-center max-w-2xl gap-4">
@@ -48,7 +48,7 @@ export function PreFooter() {
                     {/* CTA Button */}
                     <Link
                         href="/map"
-                        className="btn-cta inline-flex items-center justify-center bg-black text-white border border-transparent rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-lg mt-6 hover:bg-white hover:text-black hover:border-black transition-all"
+                        className="btn-cta inline-flex items-center justify-center bg-black text-white border border-transparent rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none mt-6 hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
                     >
                         {t('header.exploreMap') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
                     </Link>

@@ -26,26 +26,26 @@ export function SpreadTheWord() {
   };
 
   return (
-    <section className="relative pt-8 pb-12 md:pt-12 md:pb-[100px] bg-[#D3E4FD]/20 overflow-hidden px-6 md:px-16 z-10">
+    <section className="relative py-24 bg-[#D3E4FD]/20 overflow-hidden px-6 md:px-16 z-10 w-full">
       {/* Consistent section padding */}
       <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
 
-        <div className="text-center mb-8">
-          {/* 32px gap to black container (mb-8) */}
-          <h2 className="text-[28px] md:text-[36px] font-semibold text-[var(--color-section-headline)] mb-4 tracking-tight font-header section-headline-reveal">
-            Spread the word
+        <div className="text-center mb-10">
+          {/* 40px gap to black container (mb-10) */}
+          <h2 className="text-[36px] font-bold tracking-tight text-gray-900 mb-4 font-header section-headline-reveal">
+            Spread the Word
           </h2>
-          <p className="text-[16px] md:text-[20px] font-normal text-slate-500 max-w-xl mx-auto leading-relaxed font-ui px-4">
+          <p className="text-[16px] text-slate-500 max-w-[500px] mx-auto leading-relaxed font-ui px-4">
             Help us reach more supporters. Share the map with your network and let others discover the best of Ukraine in Canada.
           </p>
         </div>
 
-        {/* Black Card Section - Responsive sizing */}
-        <div className="w-full md:w-[790px] max-w-full bg-black rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-2xl mx-auto pt-6 px-6 pb-10 md:pt-8 md:px-8 md:pb-12">
+        {/* Material Card Section */}
+        <div className="w-full md:w-[790px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
 
           {/* Message Pill Layout */}
           <div className="px-4 md:px-10 py-4 mb-6 md:mb-8 w-full max-w-[650px] mx-auto">
-            <p className="text-[16px] md:text-[18px] font-normal text-white leading-relaxed font-ui">
+            <p className="text-[16px] md:text-[18px] font-normal text-white/90 leading-relaxed font-ui">
               {shareMessage}
             </p>
           </div>
@@ -54,24 +54,21 @@ export function SpreadTheWord() {
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full">
             <button
               onClick={handleFacebookShare}
-              style={{ border: '1px solid white' }}
-              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] md:text-[14px] font-semibold bg-transparent hover:bg-white hover:text-black transition-all duration-300 ease-in-out flex items-center justify-center gap-3 font-ui w-full sm:w-auto"
+              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white/20 hover:bg-black hover:text-white hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-colors duration-300"
             >
               <Facebook className="w-4 h-4 fill-current" />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
-              style={{ border: '1px solid white' }}
-              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] md:text-[14px] font-semibold bg-transparent hover:bg-white hover:text-black transition-all duration-300 ease-in-out flex items-center justify-center gap-3 font-ui w-full sm:w-auto"
+              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white/20 hover:bg-black hover:text-white hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-colors duration-300"
             >
               <Instagram className="w-4 h-4" />
               Share on Instagram
             </button>
             <button
               onClick={handleXShare}
-              style={{ border: '1px solid white' }}
-              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] md:text-[14px] font-semibold bg-transparent hover:bg-white hover:text-black transition-all duration-300 ease-in-out flex items-center justify-center gap-3 font-ui w-full sm:w-auto"
+              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white/20 hover:bg-black hover:text-white hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-colors duration-300"
             >
               <svg
                 viewBox="0 0 24 24"

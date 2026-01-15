@@ -30,7 +30,7 @@ export function HowItWorks() {
     <section id="how-it-works" className="pt-12 pb-[100px] bg-white font-sans overflow-hidden">
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
         <div className="text-center mb-12">
-          <h2 className="text-[28px] md:text-[36px] text-[var(--color-section-headline)] font-header font-semibold section-headline-reveal tracking-tight">{t('howItWorks.title') || 'How It Works'}</h2>
+          <h2 className="text-[28px] md:text-[36px] text-gray-900 font-header font-bold section-headline-reveal tracking-tight">{t('howItWorks.title') || 'How It Works'}</h2>
           <p className="text-[16px] md:text-[20px] text-gray-500 max-w-[900px] mx-auto font-ui mt-4 leading-relaxed">
             {t('howItWorks.description') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
           </p>
@@ -86,7 +86,7 @@ export function HowItWorks() {
         <div className="mt-8 mb-0 flex justify-center text-center">
           <Link
             href="/map"
-            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-lg"
+            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
           >
             {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
           </Link>

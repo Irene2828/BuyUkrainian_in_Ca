@@ -82,188 +82,155 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
     }, [handleKeyDown]);
 
     return (
-        <div className="flex flex-col max-h-[600px] h-auto bg-white w-full font-sans relative shadow-[0_0_0_1px_rgba(0,0,0,0.02)] rounded-[32px] overflow-hidden transition-all duration-300">
+        <div className="flex flex-col h-auto w-full font-sans relative bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-[32px] overflow-hidden transition-all duration-300 animate-in fade-in zoom-in-95">
 
-            {/* Close Button - Conditional positioning */}
+            {/* Close Button */}
             {!isLightboxOpen && (
                 <button
                     onClick={onClose}
-                    className="absolute top-5 right-5 p-2 rounded-full text-gray-400 transition-all duration-200 hover:text-black hover:bg-gray-50 z-50"
+                    className="absolute top-5 right-5 p-2 text-slate-300 transition-colors duration-200 hover:text-black z-50 focus:outline-none focus-visible:ring-0"
                     title="Close"
                 >
                     <X className="w-4 h-4" />
                 </button>
             )}
 
-            {/* Gallery Inset - Floating smaller modal within the card */}
+            {/* Gallery Inset */}
             {isLightboxOpen && (
                 <div className="absolute inset-0 bg-white/10 backdrop-blur-sm z-40 flex items-center justify-center animate-in fade-in duration-300">
-                    {/* Inner Gallery Modal - 85% width, 70% max-height, centered */}
-                    <div
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] max-h-[70%] bg-white rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-black/5 flex flex-col overflow-hidden animate-in zoom-in-95 duration-300"
-                    >
-                        {/* Close Button - Absolute, Outside Content Flow */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] max-h-[70%] bg-white rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-black/5 flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
                         <button
                             onClick={() => setIsLightboxOpen(false)}
-                            className="absolute top-3 right-3 z-50 p-2 rounded-full hover:bg-gray-100 text-gray-400 transition-colors"
+                            className="absolute top-3 right-3 z-50 p-2 rounded-full hover:bg-gray-100 text-gray-400 transition-colors focus:outline-none focus-visible:ring-0"
                         >
                             <X className="w-4 h-4" />
                         </button>
-
-                        {/* Micro-Label Store Name */}
-                        <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100">
-                            <div className="px-4 py-3">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500 text-center font-ui">
-                                    {store.name}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Image Container - Scrollable for multiple images */}
                         <div className="flex-1 relative flex items-center justify-center bg-gray-50 p-6 min-h-0 overflow-auto">
-                            {/* Navigation Arrows */}
                             {uniqueImages.length > 1 && (
                                 <>
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-black transition-colors z-10 bg-white/80 hover:bg-white rounded-full shadow-sm"
-                                    >
+                                    <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-black transition-colors z-10 bg-white/80 hover:bg-white rounded-full shadow-sm focus:outline-none focus-visible:ring-0">
                                         <ChevronLeft className="w-4 h-4 stroke-[2]" />
                                     </button>
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-black transition-colors z-10 bg-white/80 hover:bg-white rounded-full shadow-sm"
-                                    >
+                                    <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-black transition-colors z-10 bg-white/80 hover:bg-white rounded-full shadow-sm focus:outline-none focus-visible:ring-0">
                                         <ChevronRight className="w-4 h-4 stroke-[2]" />
                                     </button>
                                 </>
                             )}
-
-                            <img
-                                key={currentImageIndex}
-                                src={uniqueImages[currentImageIndex]}
-                                alt={store.name}
-                                className="max-w-full max-h-[250px] object-contain select-none"
-                                loading="lazy"
-                            />
-                        </div>
-
-                        {/* Pagination */}
-                        <div className="px-6 pb-4 pt-2 flex items-center justify-center border-t border-gray-100 bg-white">
-                            {uniqueImages.length > 1 && (
-                                <span className="text-[10px] font-medium text-gray-400 font-ui tabular-nums tracking-wide">
-                                    {currentImageIndex + 1} / {uniqueImages.length}
-                                </span>
-                            )}
+                            <img src={uniqueImages[currentImageIndex]} alt={store.name} className="max-w-full max-h-[250px] object-contain select-none" loading="lazy" />
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* Store Details View - Dimmed when gallery is open */}
-            <div className={cn("flex flex-col h-full transition-opacity duration-300", isLightboxOpen && "opacity-10 pointer-events-none")}>
-                {/* --- FIXED TOP SECTION: Header & Actions --- */}
-                <div className="flex-none px-8 pt-8 pb-0 bg-white z-20">
+            {/* Main Content Area */}
+            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar p-6", isLightboxOpen && "opacity-10 pointer-events-none")}>
 
-                    {/* Header: Name (Left) + Image (Right) */}
-                    <div className="flex justify-between items-start gap-4 mb-4">
-                        <div className="flex-1 min-w-0">
-                            <h3 className="text-[18px] font-bold text-[#111111] leading-[1.2] font-header tracking-tight mb-2">
-                                {store.name}
-                            </h3>
-                            {matchedProduct && (
-                                <div className="text-[11px] text-blue-600 font-medium mb-1 font-ui">
-                                    Matches: {matchedProduct}
-                                </div>
+                {/* TIER 1: Identity Header (Div to avoid semantic conflicts) */}
+                <div className="mb-4">
+                    <div className="!text-[18px] !font-bold text-[#ADD0FE] tracking-tight leading-tight line-clamp-1 pr-8" title={store.name}>
+                        {store.name}
+                    </div>
+                </div>
+
+                {/* TIER 2: Category */}
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-4">
+                    {store.category}
+                </span>
+
+                {/* TIER 3: The "Shop Window" Split */}
+                <div className="flex flex-row items-stretch gap-6 mt-1 mb-4">
+                    {/* Left Column: Hero Icon */}
+                    <div
+                        className="w-24 h-24 bg-slate-50 border border-slate-100 rounded-2xl p-3 flex-shrink-0 cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
+                        onClick={() => { setCurrentImageIndex(0); setIsLightboxOpen(true); }}
+                    >
+                        <img
+                            src={uniqueImages[0]}
+                            alt={store.name}
+                            className="w-full h-full object-contain mix-blend-multiply"
+                        />
+                    </div>
+
+                    {/* Right Column: Highlights Stack - PURIST NO LABEL */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
+                        <ul className="text-[15px] font-medium text-slate-600 leading-relaxed max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5">
+                            {store.products && store.products.length > 0 ? (
+                                store.products.map((product, i) => (
+                                    <li key={i} className="truncate flex items-center gap-2">
+                                        <div className="w-1 h-1 rounded-full bg-slate-400 shrink-0" />
+                                        {product}
+                                    </li>
+                                ))
+                            ) : (
+                                <>
+                                    <li className="truncate flex items-center gap-2">
+                                        <div className="w-1 h-1 rounded-full bg-slate-400 shrink-0" />
+                                        Authentic Selection
+                                    </li>
+                                    <li className="truncate flex items-center gap-2">
+                                        <div className="w-1 h-1 rounded-full bg-slate-400 shrink-0" />
+                                        Fresh Imports
+                                    </li>
+                                </>
                             )}
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-start gap-1.5">
-                                    <MapPin className="w-3.5 h-3.5 text-gray-400 mt-[3px] shrink-0" />
-                                    <span className="text-[13px] text-[#6B7280] font-normal font-ui leading-tight">
-                                        {store.address}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-gray-400 pl-0.5">
-                                    <Clock className="w-3 h-3" />
-                                    <span className="text-[12px] font-ui">Open today: 9:00 AM - 8:00 PM</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Image: Compact 80x80 Rounded Square */}
-                        <div
-                            className="w-[80px] h-[80px] rounded-[14px] bg-white border border-gray-200 overflow-hidden relative group cursor-pointer shadow-sm hover:shadow-md transition-all shrink-0 p-1"
-                            onClick={() => {
-                                setCurrentImageIndex(0);
-                                setIsLightboxOpen(true);
-                            }}
-                        >
-                            <img
-                                src={uniqueImages[0]}
-                                alt={store.name}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-[10px]"
-                            />
-                        </div>
+                        </ul>
                     </div>
-
-                    {/* --- PRIMARY ACTIONS --- */}
-                    <div className="flex flex-col gap-3 mt-4 pb-2 border-b border-gray-100 mb-2">
-                        <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 h-[44px] bg-white text-gray-900 border border-black rounded-full font-semibold text-[14px] shadow-sm hover:bg-gray-50 active:scale-95 transition-all font-ui w-full"
-                        >
-                            <MapPin className="w-3.5 h-3.5 text-gray-900" /> Get Directions
-                        </a>
-
-                        <div className="grid grid-cols-2 gap-3">
-                            <button
-                                onClick={handleCopyAddress}
-                                className={cn(
-                                    "flex items-center justify-center gap-2 h-[38px] bg-white text-gray-500 rounded-full font-bold text-[12px] border border-gray-200 active:scale-95 transition-all duration-200 font-ui hover:border-transparent hover:text-black hover:bg-gray-50",
-                                    copied && "text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
-                                )}
-                            >
-                                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                {copied ? "Copied" : "Copy Info"}
-                            </button>
-
-                            <button
-                                onClick={onSeeOnMap ? () => onSeeOnMap(store) : handleShare}
-                                className="flex items-center justify-center gap-2 h-[38px] bg-white text-gray-500 rounded-full font-bold text-[12px] border border-gray-200 active:scale-95 transition-all duration-200 font-ui hover:border-transparent hover:text-black hover:bg-gray-50"
-                            >
-                                {onSeeOnMap ? <MapIcon className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
-                                {onSeeOnMap ? "Show on Map" : "Share"}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Inventory Title */}
-                    <span className="text-[12px] font-semibold text-gray-900 block mb-3 font-ui">
-                        {t ? t('store.whatsHere') : "Що тут можна купити:"}
-                    </span>
                 </div>
 
-                {/* --- SCROLLABLE INVENTORY LIST --- */}
-                <div className="flex-1 overflow-y-auto custom-scrollbar px-8 pb-6 pt-0 relative group">
-                    <ul className="flex flex-col gap-2">
-                        {store.products.length > 0 ? store.products.map((product, i) => (
-                            <li key={i} className="flex items-start gap-2.5 text-[14px] text-gray-600 font-ui leading-normal group/item hover:text-gray-900 transition-colors">
-                                <div className="w-1.5 h-1.5 rounded-full bg-blue-100 border border-blue-200 mt-1.5 shrink-0 group-hover/item:bg-blue-500 group-hover/item:border-blue-500 transition-colors"></div>
-                                {product}
-                            </li>
-                        )) : (
-                            <li className="text-[13px] text-gray-500 italic pl-1">
-                                Various Ukrainian products available at this location.
-                            </li>
+                {/* Metadata Block (Address & Hours) */}
+                <div className="space-y-1.5 mt-auto mb-6 pl-1">
+                    <div className="flex items-start gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400 mt-[2px] shrink-0" />
+                        <span className="text-[12px] text-slate-500 leading-tight block">
+                            {store.address}
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span className="text-[12px] text-slate-500">
+                            Open today: 9:00 AM - 8:00 PM
+                        </span>
+                    </div>
+                </div>
+
+                {matchedProduct && (
+                    <div className="text-[11px] text-blue-600 font-medium mb-3 font-ui bg-blue-50/50 inline-block px-2 py-1 rounded-md self-start">
+                        Matches: {matchedProduct}
+                    </div>
+                )}
+
+                {/* ANCHOR: Primary Action */}
+                <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-white text-black border border-black rounded-full py-4 text-[14px] font-bold mt-6 hover:bg-black hover:text-white transition-all duration-300 ease-in-out flex items-center justify-center gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
+                >
+                    Get Directions
+                </a>
+
+                {/* Secondary Actions Footer - NUCLEAR CLEANUP */}
+                <div className="flex items-center justify-center gap-4 pt-4 mt-2">
+                    <button
+                        onClick={handleCopyAddress}
+                        className={cn(
+                            "bg-transparent hover:bg-slate-50 text-slate-400 hover:text-black rounded-full px-4 py-2 transition-all border-none outline-none ring-0 flex items-center gap-1.5 text-[12px]",
+                            copied && "text-blue-600 hover:text-blue-700"
                         )}
-                    </ul>
-
-                    {/* Gradient Fade at Bottom */}
-                    <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+                    >
+                        {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        {copied ? "Address Copied" : "Copy Info"}
+                    </button>
+                    <button
+                        onClick={onSeeOnMap ? () => onSeeOnMap(store) : handleShare}
+                        className="bg-transparent hover:bg-slate-50 text-slate-400 hover:text-black rounded-full px-4 py-2 transition-all border-none outline-none ring-0 flex items-center gap-1.5 text-[12px]"
+                    >
+                        {onSeeOnMap ? <MapIcon className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}
+                        {onSeeOnMap ? "Show on Map" : "Share"}
+                    </button>
                 </div>
+
             </div>
-        </div >
+        </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -37,45 +37,56 @@ export function FAQ() {
   return (
     <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-4 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
-        <div className="text-center mb-[48px]">
-          <h2 className="text-[28px] md:text-[36px] font-semibold text-black mb-4 tracking-tight font-header section-headline-reveal">
+        <div className="text-center mb-10">
+          <h2 className="text-[36px] font-bold tracking-tight text-gray-900 mb-3 section-headline-reveal">
             {t('faq.title') || 'Frequently Asked Questions'}
           </h2>
+          <p className="text-[16px] text-slate-500 max-w-[500px] mx-auto leading-relaxed font-ui px-4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
         </div>
 
-        {/* Accordion - Clean design without borders and grey fills */}
-        <div className="flex flex-col w-full">
+        {/* Accordion - "Soft Card" Approach */}
+        <div className="flex flex-col w-full space-y-4">
           {faqs.map((faq, i) => (
-            <div key={i} className="border-b border-[rgba(0,0,0,0.05)] last:border-0">
+            <div
+              key={i}
+              className={cn(
+                "transition-all duration-300 rounded-2xl px-6",
+                openIndex === i ? "bg-slate-50/50" : ""
+              )}
+            >
               {/* Question - Clickable */}
               <button
                 onClick={() => toggleItem(i)}
-                className="no-invert-hover w-full flex items-center justify-between py-8 text-left group transition-colors duration-300"
+                className="no-invert-hover w-full flex items-center justify-between py-6 text-left group transition-colors duration-200"
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[16px] md:text-[20px] font-medium font-ui transition-colors duration-300 pr-8",
-                  openIndex === i ? "text-[#111827]" : "text-[#6B7280] group-hover:text-[#111827]"
+                  "text-[18px] font-semibold tracking-tight pr-8 transition-all duration-200",
+                  openIndex === i ? "text-gray-900" : "text-slate-600 group-hover:text-gray-900"
                 )}>
                   {faq.question}
                 </span>
-                <ChevronDown
+                <div
                   className={cn(
-                    "w-5 h-5 text-gray-400 transition-transform duration-300 shrink-0",
-                    openIndex === i && "rotate-180"
+                    "w-6 h-6 flex items-center justify-center text-slate-300 transition-transform duration-200 ease-out shrink-0",
+                    openIndex === i && "rotate-45 text-gray-900"
                   )}
-                />
+                >
+                  <Plus className="w-5 h-5" />
+                </div>
               </button>
 
               {/* Answer - Expandable */}
               <div
                 className={cn(
-                  "overflow-hidden transition-all duration-300 ease-out",
+                  "overflow-hidden transition-all duration-200 ease-out",
                   openIndex === i ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                 )}
               >
-                <div className="pb-6">
-                  <p className="text-[14px] md:text-[16px] font-normal text-slate-600 leading-relaxed font-ui">
+                <div className="pb-8">
+                  <p className="text-[15px] text-slate-500 leading-relaxed max-w-[600px] font-ui">
                     {faq.answer}
                   </p>
                 </div>

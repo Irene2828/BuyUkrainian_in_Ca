@@ -47,7 +47,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             {/* Airbnb-Style Micro-Modal */}
             <div
                 className={cn(
-                    "absolute top-12 right-0 w-48 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl z-50 overflow-hidden",
+                    "absolute top-12 right-0 bg-white/80 backdrop-blur-md rounded-xl shadow-2xl z-50 overflow-hidden",
                     "origin-top-right transition-all duration-200",
                     open
                         ? "opacity-100 scale-100"

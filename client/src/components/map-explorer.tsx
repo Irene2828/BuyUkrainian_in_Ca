@@ -241,7 +241,7 @@ export function MapExplorer() {
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
                                 <Input
                                     placeholder={t('map.search.placeholder') || 'Search stores, products, locations...'}
-                                    className="pl-12 pr-12 h-12 bg-gray-50 border-transparent rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/20 font-ui"
+                                    className="pl-12 pr-12 h-12 border-slate-100 bg-white/50 backdrop-blur-md shadow-sm rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/20 font-ui"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -256,7 +256,7 @@ export function MapExplorer() {
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                                 <DialogTrigger asChild>
-                                    <button className="btn-cta flex items-center justify-center gap-2 bg-black text-white px-6 h-12 rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap">
+                                    <button className="btn-cta flex items-center justify-center gap-2 bg-black text-white px-6 h-12 rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap hover:bg-white hover:text-black hover:ring-1 hover:ring-black">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
                                         {t('map.addLocation') || 'Add Location'}
                                     </button>
@@ -278,7 +278,7 @@ export function MapExplorer() {
                 {/* Left Sidebar - Desktop only, full height synchronized with map */}
                 <aside className="hidden md:flex w-[300px] flex-shrink-0 flex-col justify-start gap-6 map-sidebar-white p-6 rounded-[var(--radius-brand)] shadow-[0_0_0_1px_rgba(0,0,0,0.02)]">
                     <div className="relative">
-                        <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest block mb-2 font-ui">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 block mb-2 font-ui">
                             Select Province
                         </span>
                         <button
@@ -326,7 +326,7 @@ export function MapExplorer() {
                     </div>
 
                     <div className="flex flex-col gap-4">
-                        <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest block font-ui">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 block font-ui">
                             Status
                         </span>
                         <div className="flex flex-col gap-2">
