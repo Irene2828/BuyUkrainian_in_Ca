@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { Loader2, ExternalLink } from "lucide-react";
+import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MapExplorer } from "@/components/map-explorer";
@@ -24,9 +25,12 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 4);
 
   return (
-    <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-16">
+    <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
-        <span className="text-[13px] font-semibold uppercase tracking-[0.05em] text-slate-400 mb-4 block">{t('map.recentlyAdded') || 'Recently added'}</span>
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-[14px] font-medium text-slate-500 lowercase">added this month</span>
+          <Link href="/map" className="text-[14px] font-medium text-slate-500 hover:text-black transition-colors">View all stores →</Link>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => {
             const categoryLabels: Record<string, string> = {
@@ -77,7 +81,7 @@ function NewlyAddedStores() {
           onClick={() => setSelectedStore(null)}
         >
           <div
-            className="w-full max-w-[340px] mx-4 animate-in zoom-in-[0.98] duration-200"
+            className="w-full max-w-[450px] mx-4 animate-in zoom-in-[0.98] duration-200"
             style={{ animationTimingFunction: 'cubic-bezier(0.2, 0, 0, 1)' }}
             onClick={(e) => e.stopPropagation()}
           >

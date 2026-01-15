@@ -122,8 +122,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
             )}
 
-            {/* Main Content Area - SYMMETRICAL PADDING (py-8) */}
-            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar px-6 py-8", isLightboxOpen && "opacity-10 pointer-events-none")}>
+            {/* Main Content Area - SACRED SYMMETRY (p-10 = 40px) */}
+            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar p-10", isLightboxOpen && "opacity-10 pointer-events-none")}>
 
                 {/* TIER 1: Identity Header (Div to avoid semantic conflicts) - DEFINITIVE BLACK */}
                 <div className="mb-4">
@@ -156,7 +156,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
                     {/* Right Column: Highlights Stack - CLEAN INVENTORY LIST */}
                     <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
-                        <ul className="text-[16px] font-normal text-slate-900 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
+                        <ul className="text-[16px] font-bold text-slate-900 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
                             {store.products && store.products.length > 0 ? (
                                 store.products.map((product, i) => (
                                     <li key={i} className="truncate">
