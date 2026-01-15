@@ -17,7 +17,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
         return (
             <div
                 className={cn(
-                    "bg-white p-8 rounded-[32px] border border-[#D3E4FD] cursor-pointer transition-all hover:border-[#B8D4FB] hover:shadow-sm group selection-none flex items-center justify-between gap-6",
+                    "bg-white p-8 rounded-[32px] border border-slate-100 cursor-pointer transition-all hover:border-slate-200 hover:shadow-sm group selection-none flex items-center justify-between gap-6",
                     className
                 )}
                 {...props}

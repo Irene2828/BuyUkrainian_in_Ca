@@ -153,7 +153,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
                     {/* Right Column: Highlights Stack - CLEAN INVENTORY LIST */}
                     <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
-                        <ul className="text-[16px] font-normal text-slate-600 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
+                        <ul className="text-[16px] font-normal text-slate-800 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
                             {store.products && store.products.length > 0 ? (
                                 store.products.map((product, i) => (
                                     <li key={i} className="truncate">
@@ -174,17 +174,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 </div>
 
-                {/* Metadata Block (Address & Hours) */}
+                {/* Metadata Block (Address & Hours) - 14px for Legibility */}
                 <div className="space-y-1.5 mt-auto mb-6 pl-1">
                     <div className="flex items-start gap-2">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 mt-[2px] shrink-0" />
-                        <span className="text-[12px] text-slate-600 leading-tight block">
+                        <span className="text-[14px] font-medium text-slate-700 leading-tight block">
                             {store.address}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-[12px] text-slate-600">
+                        <span className="text-[14px] font-medium text-slate-700">
                             Open today: 9:00 AM - 8:00 PM
                         </span>
                     </div>
@@ -196,12 +196,12 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 )}
 
-                {/* ANCHOR: Primary Action */}
+                {/* ANCHOR: Primary Action - Reduced Dead Zone */}
                 <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center h-[46px] md:h-[52px] w-full bg-white text-black border border-black rounded-full text-[14px] font-bold mt-6 hover:bg-black hover:text-white transition-all duration-300 ease-in-out gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
+                    className="flex items-center justify-center h-[46px] md:h-[52px] w-full bg-white text-black border border-black rounded-full text-[14px] font-bold mt-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
                 >
                     Get Directions
                 </a>
