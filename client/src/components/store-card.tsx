@@ -122,12 +122,12 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
             )}
 
-            {/* Main Content Area */}
-            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar p-6", isLightboxOpen && "opacity-10 pointer-events-none")}>
+            {/* Main Content Area - SYMMETRICAL PADDING (py-8) */}
+            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar px-6 py-8", isLightboxOpen && "opacity-10 pointer-events-none")}>
 
-                {/* TIER 1: Identity Header (Div to avoid semantic conflicts) */}
+                {/* TIER 1: Identity Header (Div to avoid semantic conflicts) - DEFINITIVE BLACK */}
                 <div className="mb-4">
-                    <div className="!text-[18px] !font-bold text-[#ADD0FE] tracking-tight leading-tight line-clamp-1 pr-8" title={store.name}>
+                    <div className="!text-[18px] !font-bold text-slate-950 tracking-tight leading-tight line-clamp-1 pr-8" title={store.name}>
                         {store.name}
                     </div>
                 </div>
@@ -151,22 +151,22 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         />
                     </div>
 
-                    {/* Right Column: Highlights Stack - PURIST NO LABEL */}
+                    {/* Right Column: Highlights Stack - CLEAN INVENTORY LIST */}
                     <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
-                        <ul className="text-[16px] italic text-slate-600 leading-snug list-disc ml-4 max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
+                        <ul className="text-[16px] font-normal text-slate-600 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
                             {store.products && store.products.length > 0 ? (
                                 store.products.map((product, i) => (
                                     <li key={i} className="truncate">
-                                        {product}
+                                        - {product}
                                     </li>
                                 ))
                             ) : (
                                 <>
                                     <li className="truncate">
-                                        Authentic Selection
+                                        - Authentic Selection
                                     </li>
                                     <li className="truncate">
-                                        Fresh Imports
+                                        - Fresh Imports
                                     </li>
                                 </>
                             )}
@@ -206,8 +206,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     Get Directions
                 </a>
 
-                {/* Secondary Actions Footer - NUCLEAR CLEANUP */}
-                <div className="flex items-center justify-center gap-2 pt-4 mt-2">
+                {/* Secondary Actions Footer - ACTION CLUSTER (Tightened to Primary) */}
+                <div className="flex items-center justify-center gap-2 pt-3 mt-1">
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
