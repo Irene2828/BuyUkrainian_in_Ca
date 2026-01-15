@@ -45,7 +45,7 @@ function NewlyAddedStores() {
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col min-w-0">
                     <span className="text-base font-semibold text-black/75 truncate font-header leading-tight tracking-tight">{store.name}</span>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-400 truncate font-ui">{categoryLabel}</span>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-400 truncate font-ui mt-2">{categoryLabel}</span>
                   </div>
                 </div>
 
