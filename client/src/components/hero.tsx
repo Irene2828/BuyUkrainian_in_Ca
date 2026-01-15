@@ -23,7 +23,7 @@ export function Hero() {
               language === 'ua' ? "text-[32px] md:text-[56px]" : ""
             )}>
               <span className="hero-reveal-headline">
-                {t('home.hero.title') || 'Find & Share Ukrainian\nProducts sold in Canada'}
+                {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold in Canada'}
               </span>
             </h1>
 
