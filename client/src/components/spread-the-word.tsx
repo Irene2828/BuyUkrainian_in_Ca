@@ -54,21 +54,21 @@ export function SpreadTheWord() {
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full">
             <button
               onClick={handleFacebookShare}
-              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white/20 hover:bg-black hover:text-white hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-colors duration-300"
+              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white hover:bg-white hover:text-black hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-all duration-300"
             >
               <Facebook className="w-4 h-4 fill-current" />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
-              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white/20 hover:bg-black hover:text-white hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-colors duration-300"
+              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white hover:bg-white hover:text-black hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-all duration-300"
             >
               <Instagram className="w-4 h-4" />
               Share on Instagram
             </button>
             <button
               onClick={handleXShare}
-              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white/20 hover:bg-black hover:text-white hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-colors duration-300"
+              className="no-invert-hover text-white rounded-full h-[48px] py-3 px-6 text-[13px] font-medium tracking-wide bg-transparent border border-white hover:bg-white hover:text-black hover:border-white flex items-center justify-center gap-3 font-ui w-full sm:w-auto transition-all duration-300"
             >
               <svg
                 viewBox="0 0 24 24"

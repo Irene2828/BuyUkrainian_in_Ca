@@ -32,14 +32,9 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
                 </div>
 
                 <div className="flex flex-col justify-center gap-1 flex-1 min-w-0">
-                    {variant === 'marquee' && store.category && (
-                        <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-600 font-ui whitespace-normal">
-                            {store.category}
-                        </span>
-                    )}
                     <span className="text-[15px] font-semibold text-gray-900 truncate font-header mb-1">{store.name}</span>
 
-                    <div className="flex items-center gap-2 text-slate-400 text-xs font-medium transition-colors group-hover:!text-black font-ui">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs font-medium transition-colors group-hover:!text-black font-ui no-underline">
                         <span>{t ? t('modal.seeOnMap') : 'See on Map'}</span>
                     </div>
                 </div>
