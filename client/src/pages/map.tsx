@@ -43,10 +43,6 @@ function NewlyAddedStores() {
                 className="flex flex-col gap-4 bg-white p-4 rounded-[16px] transition-all h-full duration-200 cursor-pointer group border border-transparent hover:border-gray-100"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full overflow-hidden relative shrink-0 border border-white shadow-sm">
-                    <div className="absolute top-0 left-0 w-full h-1/2 bg-[#3C93EA]"></div>
-                    <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#F3FF0A]" style={{ opacity: 0.8 }}></div>
-                  </div>
                   <div className="flex flex-col min-w-0">
                     <span className="text-base font-semibold text-black/75 truncate font-header leading-tight tracking-tight">{store.name}</span>
                     <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-400 truncate font-ui">{categoryLabel}</span>
@@ -62,7 +58,7 @@ function NewlyAddedStores() {
                 </div>
 
                 <div className="flex items-center justify-between mt-auto pt-2">
-                  <div className="flex items-center gap-2 text-black/45 text-[13px] font-medium font-ui transition-all group-hover:text-black group-hover:-translate-y-[1px] underline decoration-1 underline-offset-2">
+                  <div className="flex items-center gap-2 text-black/45 text-[13px] font-medium font-ui transition-all group-hover:text-black group-hover:-translate-y-[1px] no-underline">
                     <span>{t('modal.seeDetails') || 'See details'}</span>
                     <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
                   </div>
