@@ -1,0 +1,13 @@
+/* CRITICAL FIX: Remove any pseudo-element pins from listing cards */
+.listing-card-marquee::before,
+.listing-card-marquee::after,
+[class*="rounded-[32px]"]::before,
+[class*="rounded-[32px]"]::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Ensure no absolute positioned children can appear */
+.listing-card-marquee>*:first-child:not(div):not(img) {
+    display: none !important;
+}

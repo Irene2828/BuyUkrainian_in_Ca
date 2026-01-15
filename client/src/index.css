@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "./GlobalStyles.css";
 @import "./premium-interactions.css";
+@import "./listing-card-fix.css";
 
 @custom-variant dark (&:is(.dark *));
 
