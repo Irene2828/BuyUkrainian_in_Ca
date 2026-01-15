@@ -1,5 +1,14 @@
 /* CRITICAL FIX: Remove pins ONLY from listing cards, NOT from the map */
-/* Target only listing card context */
+
+/* Hide marker elements that appear INSIDE listing cards */
+.listing-card-marquee .marker-container,
+.listing-card-marquee .marker-pin-top,
+.listing-card-marquee .marker-pin-bottom,
+.listing-card-marquee [class*="marker"] {
+    display: none !important;
+}
+
+/* Remove any pseudo-elements from listing cards */
 .listing-card-marquee::before,
 .listing-card-marquee::after,
 .listing-card-marquee *::before,
@@ -10,22 +19,32 @@
 
 /* Remove any absolutely positioned children from listing cards only */
 .listing-card-marquee>*[style*="absolute"]:not(img),
-.listing-card-marquee>*[class*="absolute"]:not(img) {
+.listing-card-marquee>*[class*="absolute"]:not(img),
+.listing-card-marquee *[style*="absolute"]:not(img) {
     display: none !important;
 }
 
 /* Remove circular badges ONLY from listing cards */
 .listing-card-marquee div[class*="w-6"][class*="h-6"][class*="rounded-full"],
 .listing-card-marquee div[class*="w-7"][class*="h-7"][class*="rounded-full"],
-.listing-card-marquee div[class*="w-8"][class*="h-8"][class*="rounded-full"] {
+.listing-card-marquee div[class*="w-8"][class*="h-8"][class*="rounded-full"],
+.listing-card-marquee div[class*="w-28"][class*="h-28"] {
     display: none !important;
 }
 
-/* DO NOT affect map markers - explicitly allow them */
-.leaflet-marker-icon,
-.leaflet-marker-icon *,
-.marker-container,
-.marker-pin-top,
-.marker-pin-bottom {
+/* Specifically target the Recently Added section to ensure no pins */
+[class*="marquee"] .marker-container,
+[class*="marquee"] .marker-pin-top,
+[class*="marquee"] .marker-pin-bottom {
+    display: none !important;
+}
+
+/* MAP PINS - Keep them visible on the actual Leaflet map */
+.leaflet-container .marker-container,
+.leaflet-container .marker-pin-top,
+.leaflet-container .marker-pin-bottom,
+.leaflet-marker-icon .marker-container,
+.leaflet-marker-icon .marker-pin-top,
+.leaflet-marker-icon .marker-pin-bottom {
     display: block !important;
 }
