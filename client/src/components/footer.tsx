@@ -16,19 +16,19 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <Link
                 href="/map"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Explore Map
               </Link>
               <Link
                 href="/map"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Add a Store
               </Link>
               <a
                 href="/#how-it-works"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 How it works
               </a>
@@ -43,19 +43,19 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <a
                 href="/#faq"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Our Mission
               </a>
               <Link
                 href="/about"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Contact us
               </Link>
               <Link
                 href="/privacy"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Privacy Policy
               </Link>
@@ -70,13 +70,13 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <a
                 href="/#spread-the-word"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Spread the Word
               </a>
               <Link
                 href="/about"
-                className="text-sm text-white/60 hover:text-white/90 transition-colors font-normal"
+                className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
               >
                 Volunteer
               </Link>
