@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
 
 function NewlyAddedStores() {
+  const { t } = useI18n();
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
@@ -25,7 +26,7 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-16">
       <div className="container mx-auto max-w-[1440px]">
-        <span className="text-[14px] md:text-[16px] text-gray-500 font-semibold mb-4 block">Recently added</span>
+        <span className="text-[13px] font-semibold uppercase tracking-[0.05em] text-slate-400 mb-4 block">{t('map.recentlyAdded') || 'Recently added'}</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => {
             const categoryLabels: Record<string, string> = {
@@ -62,7 +63,7 @@ function NewlyAddedStores() {
 
                 <div className="flex items-center justify-between mt-auto pt-2">
                   <div className="flex items-center gap-2 text-black/45 text-[13px] font-medium font-ui transition-all group-hover:text-black group-hover:-translate-y-[1px] underline decoration-1 underline-offset-2">
-                    <span>See details</span>
+                    <span>{t('modal.seeDetails') || 'See details'}</span>
                     <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
                   </div>
                 </div>
@@ -120,11 +121,11 @@ export default function MapPage() {
         {/* Map Page Headline Section - mb-6 (24px) to chips per design system */}
         <section className="pt-6 md:pt-12 pb-6 bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px]">
-            <h3 className="text-[28px] md:text-[32px] font-medium mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
-              {t('map.headline')}
-            </h3>
-            <p className="hidden md:block text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
-              {t('map.subheadline')}
+            <h2 className="text-[28px] md:text-[36px] font-semibold mb-2 text-[var(--color-section-headline)] leading-tight tracking-tight font-header section-headline-reveal">
+              {t('map.headline') || 'Find Ukrainian Products Across Canada'}
+            </h2>
+            <p className="hidden md:block text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
+              {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
             </p>
           </div>
         </section>

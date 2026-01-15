@@ -17,18 +17,30 @@ export function PreFooter() {
                     className="pre-footer-outlined-image"
                 />
 
-                {/* Mission Statement - Single Language */}
-                <div className="flex flex-col items-center gap-5 py-20">
+                {/* Mission Statement - Typographic Layering */}
+                <div className="flex flex-col items-center gap-2 py-20">
                     {/* Show appropriate slogan based on language */}
                     {language === 'en' ? (
-                        <div className="text-2xl font-semibold tracking-tight text-gray-900 leading-snug font-ui text-center max-w-2xl">
-                            Buy Ukrainian - Support Ukraine.<br />
-                            Every small action matters.
+                        <div className="flex flex-col items-center text-center max-w-2xl gap-4">
+                            {/* Primary Line */}
+                            <h2 className="font-bold tracking-tight text-gray-900 font-header" style={{ fontSize: '24px' }}>
+                                Buy Ukrainian — Support Ukraine
+                            </h2>
+                            {/* Secondary Line - Same size, 60% opacity */}
+                            <p className="font-normal tracking-tight text-gray-900/60 font-header" style={{ fontSize: '24px' }}>
+                                Every purchase, every share matters.
+                            </p>
                         </div>
                     ) : (
-                        <div className="text-2xl font-semibold tracking-tight text-gray-900 leading-snug font-ui text-center max-w-2xl">
-                            Купуй українське. Підтримуй Україну.<br />
-                            Це твій вклад у майбутнє - тут і зараз.
+                        <div className="flex flex-col items-center text-center max-w-2xl gap-4">
+                            {/* Primary Line */}
+                            <h2 className="font-bold tracking-tight text-gray-900 font-header whitespace-nowrap" style={{ fontSize: '24px' }}>
+                                Купуй українське — Підтримуй Україну
+                            </h2>
+                            {/* Secondary Line - Same size, 60% opacity */}
+                            <p className="font-normal tracking-tight text-gray-900/60 font-header" style={{ fontSize: '24px' }}>
+                                Every purchase, every share matters.
+                            </p>
                         </div>
                     )}
 
@@ -36,9 +48,9 @@ export function PreFooter() {
                     {/* CTA Button */}
                     <Link
                         href="/map"
-                        className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-lg mt-6"
+                        className="btn-cta inline-flex items-center justify-center bg-black text-white border border-transparent rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-lg mt-6 hover:bg-white hover:text-black hover:border-black transition-all"
                     >
-                        {t('header.exploreMap')} <ArrowRight className="w-5 h-5" />
+                        {t('header.exploreMap') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
                     </Link>
                 </div>
             </div>

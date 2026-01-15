@@ -9,24 +9,24 @@ export function FAQ() {
 
   const faqs = [
     {
-      question: t('faq.q1'),
-      answer: t('faq.a1')
+      question: t('faq.q1') || 'What is BuyUkrainian.ca?',
+      answer: t('faq.a1') || 'BuyUkrainian.ca is a community-driven platform that helps people discover Ukrainian-made products sold across Canada.'
     },
     {
-      question: t('faq.q2'),
-      answer: t('faq.a2')
+      question: t('faq.q2') || 'How can I add a store?',
+      answer: t('faq.a2') || 'Click the "Add a Location" button, fill in the store details including name, products, and address.'
     },
     {
-      question: t('faq.q3'),
-      answer: t('faq.a3')
+      question: t('faq.q3') || 'Why do submissions need review?',
+      answer: t('faq.a3') || 'To maintain quality and prevent spam, all submissions are reviewed by fellow Ukrainian community members.'
     },
     {
-      question: t('faq.q4'),
-      answer: t('faq.a4')
+      question: t('faq.q4') || 'Can I suggest edits to existing listings?',
+      answer: t('faq.a4') || 'Currently, you can contact us to suggest corrections. We\'re working on a feature to allow community edits in the future.'
     },
     {
-      question: t('faq.q5'),
-      answer: t('faq.a5')
+      question: t('faq.q5') || 'Is this service free?',
+      answer: t('faq.a5') || 'Yes! BuyUkrainian.ca is completely free to use.'
     }
   ];
 
@@ -38,8 +38,8 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-4 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
         <div className="text-center mb-[48px]">
-          <h2 className="text-[28px] md:text-[32px] font-bold text-black mb-4 tracking-tight font-header section-headline-reveal">
-            {t('faq.title')}
+          <h2 className="text-[28px] md:text-[36px] font-semibold text-black mb-4 tracking-tight font-header section-headline-reveal">
+            {t('faq.title') || 'Frequently Asked Questions'}
           </h2>
         </div>
 
@@ -54,7 +54,7 @@ export function FAQ() {
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[16px] md:text-[18px] font-medium font-ui transition-colors duration-300 pr-8",
+                  "text-[16px] md:text-[20px] font-medium font-ui transition-colors duration-300 pr-8",
                   openIndex === i ? "text-[#111827]" : "text-[#6B7280] group-hover:text-[#111827]"
                 )}>
                   {faq.question}

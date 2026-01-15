@@ -221,8 +221,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                             <button
                                 onClick={handleCopyAddress}
                                 className={cn(
-                                    "flex items-center justify-center gap-2 h-[38px] bg-white text-gray-700 rounded-full font-bold text-[12px] border border-gray-200 active:scale-95 transition-all duration-200 font-ui hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100",
-                                    copied && "text-blue-600 border-blue-200 bg-blue-50"
+                                    "flex items-center justify-center gap-2 h-[38px] bg-white text-gray-500 rounded-full font-bold text-[12px] border border-gray-200 active:scale-95 transition-all duration-200 font-ui hover:border-transparent hover:text-black hover:bg-gray-50",
+                                    copied && "text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
                                 )}
                             >
                                 {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -231,7 +231,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
                             <button
                                 onClick={onSeeOnMap ? () => onSeeOnMap(store) : handleShare}
-                                className="flex items-center justify-center gap-2 h-[38px] bg-white text-gray-700 rounded-full font-bold text-[12px] border border-gray-200 active:scale-95 transition-all duration-200 font-ui hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100"
+                                className="flex items-center justify-center gap-2 h-[38px] bg-white text-gray-500 rounded-full font-bold text-[12px] border border-gray-200 active:scale-95 transition-all duration-200 font-ui hover:border-transparent hover:text-black hover:bg-gray-50"
                             >
                                 {onSeeOnMap ? <MapIcon className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
                                 {onSeeOnMap ? "Show on Map" : "Share"}
@@ -264,6 +264,6 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none" />
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

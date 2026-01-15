@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { MapSkeleton, StoreListItemSkeleton } from "@/components/skeleton-loaders";
 import { EmptyState } from "@/components/empty-state";
+import { StoreCard } from "@/components/store-card";
 
 interface MapSectionProps {
   mode?: "section" | "full";
@@ -206,27 +207,32 @@ export function MapSection({
           <div className="py-10 border-t border-gray-50 flex justify-center bg-white shadow-none">
             <button
               onClick={() => setVisibleCount(c => c + 12)}
-              className="text-[16px] font-bold text-black/70 hover:text-black transition-colors flex items-center gap-2 font-ui no-underline focus:outline-none focus:ring-0"
+              className="text-[16px] font-bold text-black/70 hover:text-black transition-colors flex items-center gap-2 font-ui no-underline outline-none border-none focus:outline-none focus:ring-0 active:outline-none hover:outline-none bg-transparent hover:bg-transparent"
             >
-              {t('map.seeMore')} <ArrowDown className="w-4 h-4" />
+              {t('map.seeMore') || 'See more stores'} <ArrowDown className="w-4 h-4" />
             </button>
           </div>
         )}
 
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent
-            className="md:fixed md:left-[50%] md:top-[50%] md:translate-x-[-50%] md:translate-y-[-50%] md:max-w-[400px] md:w-full md:max-h-[90vh] md:overflow-visible fixed left-0 bottom-0 top-auto translate-x-0 translate-y-0 w-full max-w-none max-h-[85vh] overflow-visible p-0 border-none bg-transparent shadow-none rounded-none data-[state=open]:slide-in-from-bottom-full md:data-[state=open]:slide-in-from-top-[48%] md:data-[state=open]:zoom-in-95"
-            hideClose
+        {/* Custom Centered Modal Overlay - Identical to Recently Added */}
+        {isModalOpen && selectedStore && (
+          <div
+            className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/20 backdrop-blur-sm animate-in fade-in duration-200"
+            onClick={handleCloseStore}
           >
-            {selectedStore && (
+            <div
+              className="w-full max-w-[400px] mx-4 animate-in zoom-in-[0.98] duration-200"
+              style={{ animationTimingFunction: 'cubic-bezier(0.2, 0, 0, 1)' }}
+              onClick={(e) => e.stopPropagation()}
+            >
               <StoreCard
                 store={selectedStore}
-                onClose={() => setIsModalOpen(false)}
+                onClose={handleCloseStore}
                 onSeeOnMap={handleSeeOnMap}
               />
-            )}
-          </DialogContent>
-        </Dialog>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -253,16 +259,16 @@ export function MapSection({
               <MapPin className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-[20px] font-bold text-gray-800 mb-2 font-header">
-              {t('map.noStores')}
+              {t('map.noStores') || 'No stores in this area'}
             </h3>
             <p className="text-[14px] text-gray-500 mb-4 max-w-xs font-ui">
-              {t('map.adjustFilters')}
+              {t('map.adjustFilters') || 'Try adjusting your filters or searching a different location.'}
             </p>
             <button
               onClick={handleClearFilters}
               className="inline-flex items-center gap-2 h-10 px-5 bg-black text-white rounded-full font-medium text-[14px] hover:bg-black/90 transition-all font-ui"
             >
-              <X className="w-4 h-4" /> {t('map.clearFilters')}
+              <X className="w-4 h-4" /> {t('map.clearFilters') || 'Clear filters'}
             </button>
           </div>
         </div>

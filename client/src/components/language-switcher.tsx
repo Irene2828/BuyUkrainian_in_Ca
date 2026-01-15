@@ -1,71 +1,99 @@
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { useEffect, useState, useRef } from 'react';
-import { Globe, Check } from 'lucide-react';
-import * as Popover from '@radix-ui/react-popover';
+import { Globe } from 'lucide-react';
 
 export function LanguageSwitcher({ className }: { className?: string }) {
     const { language, setLanguage } = useI18n();
     const [mounted, setMounted] = useState(false);
     const [open, setOpen] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        }
+
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [open]);
+
     if (!mounted) return null;
 
     return (
-        <Popover.Root open={open} onOpenChange={setOpen}>
-            <Popover.Trigger asChild>
-                <button
-                    className={cn(
-                        "w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 hover:bg-black/5 text-[#4B5563] outline-none data-[state=open]:bg-black/5",
-                        className
-                    )}
-                    aria-label="Choose a language"
-                >
-                    <Globe className="w-5 h-5 stroke-[1.5]" />
-                </button>
-            </Popover.Trigger>
-            <Popover.Portal>
-                <Popover.Content
-                    className="z-50 w-[180px] rounded-[16px] border border-[#D3E4FD] bg-white/90 backdrop-blur-md p-2 shadow-sm outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
-                    sideOffset={8}
-                    align="end"
-                >
-                    <div className="flex flex-col gap-1">
-                        <Popover.Close asChild>
-                            <button
-                                onClick={() => setLanguage('en')}
-                                className={cn(
-                                    "flex items-center justify-between px-3 py-2.5 rounded-[10px] transition-colors text-[14px]",
-                                    language === 'en'
-                                        ? "bg-[#D3E4FD]/30 text-black font-medium"
-                                        : "text-gray-600 hover:bg-black/5 hover:text-black font-medium"
-                                )}
-                            >
-                                <span>English</span>
-                                {language === 'en' && <div className="w-1.5 h-1.5 rounded-full bg-[#006CE4]" />}
-                            </button>
-                        </Popover.Close>
-                        <Popover.Close asChild>
-                            <button
-                                onClick={() => setLanguage('ua')}
-                                className={cn(
-                                    "flex items-center justify-between px-3 py-2.5 rounded-[10px] transition-colors text-[14px]",
-                                    language === 'ua'
-                                        ? "bg-[#D3E4FD]/30 text-black font-medium"
-                                        : "text-gray-600 hover:bg-black/5 hover:text-black font-medium"
-                                )}
-                            >
-                                <span>Українська</span>
-                                {language === 'ua' && <div className="w-1.5 h-1.5 rounded-full bg-[#006CE4]" />}
-                            </button>
-                        </Popover.Close>
-                    </div>
-                </Popover.Content>
-            </Popover.Portal>
-        </Popover.Root>
+        <div ref={containerRef} className="relative">
+            {/* Trigger - Globe Button (no title attribute) */}
+            <button
+                onClick={() => setOpen(!open)}
+                className={cn(
+                    "no-invert-hover w-10 h-10 flex items-center justify-center text-black/65 hover:text-black transition-colors duration-200 outline-none focus:outline-none",
+                    className
+                )}
+                aria-label="Choose a language"
+                aria-expanded={open}
+            >
+                <Globe className="w-5 h-5 stroke-[1.5]" />
+            </button>
+
+            {/* Airbnb-Style Micro-Modal */}
+            <div
+                className={cn(
+                    "absolute top-12 right-0 w-48 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl z-50 overflow-hidden",
+                    "origin-top-right transition-all duration-200",
+                    open
+                        ? "opacity-100 scale-100"
+                        : "opacity-0 scale-95 pointer-events-none"
+                )}
+                style={{ animationTimingFunction: 'cubic-bezier(0.2, 0, 0, 1)' }}
+            >
+                {/* Header Label */}
+                <div className="text-[11px] font-bold uppercase tracking-widest text-slate-400 px-4 py-2 border-b border-gray-100">
+                    Language
+                </div>
+
+                {/* Language Options */}
+                <div className="py-1">
+                    <button
+                        onClick={() => {
+                            setLanguage('en');
+                            setOpen(false);
+                        }}
+                        className={cn(
+                            "no-invert-hover w-full px-4 py-3 text-[14px] font-medium hover:bg-gray-50 flex justify-between items-center transition-all text-left",
+                            language === 'en' ? "text-gray-900" : "text-gray-400"
+                        )}
+                    >
+                        <span>English</span>
+                        {language === 'en' && (
+                            <div className="w-2 h-2 rounded-full bg-[#3C93EA]" />
+                        )}
+                    </button>
+                    <button
+                        onClick={() => {
+                            setLanguage('ua');
+                            setOpen(false);
+                        }}
+                        className={cn(
+                            "no-invert-hover w-full px-4 py-3 text-[14px] font-medium hover:bg-gray-50 flex justify-between items-center transition-all text-left",
+                            language === 'ua' ? "text-gray-900" : "text-gray-400"
+                        )}
+                    >
+                        <span>Українська</span>
+                        {language === 'ua' && (
+                            <div className="w-2 h-2 rounded-full bg-[#F3FF0A]" style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.1)' }} />
+                        )}
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 }

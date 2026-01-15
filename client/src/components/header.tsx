@@ -42,15 +42,15 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="no-invert-hover text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]"
+              className="no-invert-hover text-[16px] font-normal text-black/65 hover:text-black transition-colors tracking-[0px]"
             >
-              {t('header.howItWorks')}
+              {t('header.howItWorks') || 'How It Works'}
             </button>
-            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">
-              {t('header.faq')}
+            <a href="/#faq" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors tracking-[0px]">
+              {t('header.faq') || 'FAQ'}
             </a>
-            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors tracking-[0px]">
-              {t('header.about.short')}
+            <Link href="/about" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors tracking-[0px]">
+              {t('header.about.short') || 'About'}
             </Link>
           </nav>
 
@@ -62,7 +62,7 @@ export function Header() {
         <div className="flex md:hidden items-center gap-3">
           <Link href="/map" className="no-invert-hover flex items-center gap-3 py-3 px-6 h-[48px] border border-gray-200 bg-white text-black rounded-full text-[14px] font-semibold transition-all duration-200 ease-out hover:bg-black hover:text-white hover:border-black">
             <Search className="w-4 h-4" />
-            {t('map.viewMap')}
+            {t('map.viewMap') || 'Map View'}
           </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -78,7 +78,7 @@ export function Header() {
           <div className="pointer-events-auto">
             <Link href="/map" className="flex items-center gap-3 py-2 px-4 rounded-full transition-all group">
               <span className="text-[16px] font-bold text-black transition-colors tracking-[0px]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                {t('map.viewMap')}
+                {t('map.viewMap') || 'Map View'}
               </span>
               <Search className="w-5 h-5 text-black stroke-[3]" />
             </Link>
@@ -97,15 +97,15 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="no-invert-hover text-[16px] font-normal text-black/80 hover:text-black transition-colors text-left py-2"
+              className="no-invert-hover text-[16px] font-normal text-black/65 hover:text-black transition-colors text-left py-2"
             >
-              {t('header.howItWorks')}
+              {t('header.howItWorks') || 'How It Works'}
             </button>
-            <a href="/#faq" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors py-2">
-              {t('header.faq')}
+            <a href="/#faq" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors py-2">
+              {t('header.faq') || 'FAQ'}
             </a>
-            <Link href="/about" className="text-[16px] font-normal text-black/80 hover:text-black transition-colors py-2">
-              {t('header.about.short')}
+            <Link href="/about" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors py-2">
+              {t('header.about.short') || 'About'}
             </Link>
             <div className="py-2">
               <LanguageSwitcher />
