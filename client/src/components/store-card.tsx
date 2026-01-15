@@ -134,14 +134,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
                 {/* TIER 2: Category */}
                 <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-4">
-                    {store.category}
+                    {store.category === 'food' ? 'FOOD & GROCERY' :
+                        store.category === 'clothes' ? 'CLOTHING' :
+                            store.category === 'retail' ? 'RETAIL & GIFTS' :
+                                store.category?.toUpperCase() || 'STORE'}
                 </span>
 
                 {/* TIER 3: The "Shop Window" Split */}
                 <div className="flex flex-row items-stretch gap-6 mt-1 mb-4">
                     {/* Left Column: Hero Icon */}
                     <div
-                        className="w-24 h-24 bg-slate-50 border border-slate-100 rounded-2xl p-3 flex-shrink-0 cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
+                        className="w-24 h-24 bg-slate-50 rounded-2xl p-3 flex-shrink-0 cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
                         onClick={() => { setCurrentImageIndex(0); setIsLightboxOpen(true); }}
                     >
                         <img
