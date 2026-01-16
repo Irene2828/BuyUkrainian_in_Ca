@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -39,7 +39,7 @@ export function FAQ() {
       <div className="mx-auto max-w-2xl relative z-10 w-full">
         <div className="text-center mb-10">
           <h2 className="text-[24px] md:text-[32px] font-medium tracking-tight text-slate-900 mb-3 section-headline-reveal">
-            {t('faq.title') || 'Frequently Asked Questions'}
+            {t('faq.title') || 'FAQ'}
           </h2>
           <p className="text-[16px] text-slate-500 max-w-[500px] mx-auto leading-relaxed font-ui px-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -71,10 +71,10 @@ export function FAQ() {
                 <div
                   className={cn(
                     "w-6 h-6 flex items-center justify-center text-slate-300 transition-transform duration-200 ease-out shrink-0",
-                    openIndex === i && "rotate-45 text-gray-900"
+                    openIndex === i && "rotate-180 text-gray-900"
                   )}
                 >
-                  <Plus className="w-5 h-5" />
+                  <ChevronDown className="w-5 h-5" />
                 </div>
               </button>
 
