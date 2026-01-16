@@ -36,41 +36,39 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-[-24px] md:mt-[-40px]">
           {steps.map((step, index) => (
             <div
               key={index}
               className="group flex flex-col items-center text-center bg-white rounded-[32px] p-8 h-full"
             >
-              {/* Image Container - Fixed height for vertical alignment */}
-              <div
-                className="w-full h-[240px] mb-6 flex items-center justify-center relative"
-              >
+              {/* Disciplined Image Frame */}
+              <div className="h-[200px] w-full flex items-center justify-center overflow-hidden mb-4">
                 {index === 0 && (
                   <img
                     src={howItWorks1}
                     alt="Discover Map"
-                    className="w-[100%] h-auto object-contain max-h-full"
+                    className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
                 {index === 1 && (
                   <img
                     src={howItWorks2}
                     alt="Add to Map"
-                    className="w-[90%] h-auto object-contain max-h-full"
+                    className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
                 {index === 2 && (
                   <img
                     src={howItWorks2}
                     alt="Spread the Word"
-                    className="w-[90%] h-auto object-contain opacity-100 max-h-full"
+                    className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
               </div>
 
-              {/* Technical Label */}
-              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-6 mb-3">{step.title}</h5>
+              {/* Technical Label - Tight Snap */}
+              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3">{step.title}</h5>
 
               <p className="text-[15px] leading-[1.6] text-slate-600 max-w-[280px] mx-auto">
                 {step.description}
