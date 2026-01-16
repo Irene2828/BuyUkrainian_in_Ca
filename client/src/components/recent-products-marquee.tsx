@@ -36,10 +36,10 @@ export function RecentProductsMarquee() {
     return (
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-20 md:pb-[100px] font-sans">
             <div className="flex justify-between items-baseline mb-10 px-6 md:px-20 max-w-[1440px] mx-auto">
-                <span className="text-[14px] font-medium text-slate-500 lowercase tracking-tight">
-                    added this month
+                <span className="text-[14px] font-medium text-slate-500 tracking-tight">
+                    Added this month
                 </span>
-                <Link href="/map" className="text-[14px] font-medium text-slate-500 flex items-center gap-1 hover:text-slate-900 transition-colors">
+                <Link href="/map" className="text-[14px] font-medium text-[#ADD0FE] flex items-center gap-1 hover:text-[#9bbce8] transition-colors">
                     View all stores <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
             </div>
@@ -50,7 +50,7 @@ export function RecentProductsMarquee() {
                         <div
                             key={`${store.id}-${i}`}
                             onClick={() => handleStoreClick(store)}
-                            className="min-w-[340px] max-w-[420px] inline-flex bg-white p-8 rounded-[32px] cursor-pointer transition-all hover:shadow-md group"
+                            className="min-w-[340px] max-w-[420px] inline-flex bg-white p-8 rounded-[32px] cursor-pointer transition-all group"
                         >
                             {/* Store Image */}
                             <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-black/5">
