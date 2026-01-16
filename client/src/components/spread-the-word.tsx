@@ -32,7 +32,7 @@ export function SpreadTheWord() {
 
         <div className="text-center mb-5">
           {/* 40px gap to black container (mb-10) */}
-          <h2 className="text-[32px] font-bold tracking-tight text-gray-900 mb-4 font-header section-headline-reveal">
+          <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight text-gray-900 mb-4 font-header section-headline-reveal">
             Spread the Word
           </h2>
           <p className="text-[16px] text-slate-500 max-w-[500px] mx-auto leading-relaxed font-ui px-4">
