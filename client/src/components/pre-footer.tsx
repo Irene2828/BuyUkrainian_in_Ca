@@ -45,7 +45,7 @@ export function PreFooter() {
                     {/* CTA Button - Solid True Black with tactile hover */}
                     <Link
                         href="/map"
-                        className="btn-cta inline-flex items-center justify-center rounded-full h-[52px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none mt-8 transition-transform duration-200 hover:scale-[1.02] hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
+                        className="relative z-10 bg-black !bg-opacity-100 text-white px-8 py-4 rounded-full font-medium hover:bg-slate-900 transition-all inline-flex items-center gap-2 mx-auto"
                         style={{ backgroundColor: '#000000', color: '#ffffff' }}
                     >
                         {t('header.exploreMap') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
