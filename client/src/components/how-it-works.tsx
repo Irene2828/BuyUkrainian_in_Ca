@@ -36,7 +36,7 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-20">
           {steps.map((step, index) => (
             <div
               key={index}
@@ -69,13 +69,10 @@ export function HowItWorks() {
                 )}
               </div>
 
-              {/* Icon + Title Row - Centered - 80% opacity default, 100% on hover */}
-              <div className="flex flex-row items-center justify-center gap-3 mb-3">
-                <step.icon className="w-7 h-7 text-black" />
-                <h5 className="text-black font-header">{step.title}</h5>
-              </div>
+              {/* Technical Label */}
+              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-6 mb-3">{step.title}</h5>
 
-              <p className="text-[16px] text-gray-500 leading-relaxed font-light font-ui max-w-[280px] mx-auto">
+              <p className="text-[15px] leading-[1.6] text-slate-600 max-w-[280px] mx-auto">
                 {step.description}
               </p>
             </div>
