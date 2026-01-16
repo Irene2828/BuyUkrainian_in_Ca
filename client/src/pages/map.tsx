@@ -28,10 +28,10 @@ function NewlyAddedStores() {
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight">
+          <h2 className="text-slate-950 font-bold tracking-tight text-4xl mb-3 leading-tight font-header section-headline-reveal">
             Recently Added Findings
           </h2>
-          <p className="mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto font-ui px-4">
+          <p className="mt-6 text-[16px] md:text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
             the map grows every time someone submits a new location!
           </p>
         </div>
@@ -50,12 +50,7 @@ function NewlyAddedStores() {
                 onClick={() => setSelectedStore(store)}
                 className="flex flex-col gap-4 bg-white p-4 rounded-[16px] transition-all h-full duration-200 cursor-pointer group border border-transparent hover:border-gray-100"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-base font-semibold text-black/75 truncate font-header leading-tight tracking-tight">{store.name}</span>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-400 truncate font-ui mt-2">{categoryLabel}</span>
-                  </div>
-                </div>
+
 
                 <div className="w-full aspect-[4/3] bg-gray-50 rounded-xl overflow-hidden relative">
                   <img
@@ -65,7 +60,7 @@ function NewlyAddedStores() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between mt-auto pt-2">
+                <div className="flex items-center justify-center mt-4 w-full">
                   <div className="flex items-center gap-2 text-black/45 text-[13px] font-medium font-ui transition-all group-hover:text-black group-hover:-translate-y-[1px] no-underline">
                     <span>{t('modal.seeDetails') || 'See details'}</span>
                     <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
