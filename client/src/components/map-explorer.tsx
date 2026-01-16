@@ -139,7 +139,7 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "p-4 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
+                                    "h-10 px-4 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
@@ -148,7 +148,7 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "p-4 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
+                                    "h-10 px-4 rounded-full text-xs flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
@@ -163,7 +163,7 @@ export function MapExplorer() {
                                     key={cat.id}
                                     onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                     className={cn(
-                                        "flex items-center gap-1.5 p-4 rounded-full text-xs transition-all font-ui whitespace-nowrap active:scale-95",
+                                        "flex items-center gap-1.5 h-10 px-4 rounded-full text-xs transition-all font-ui whitespace-nowrap active:scale-95",
                                         category === cat.id
                                             ? "bg-white text-black shadow-sm font-medium"
                                             : "text-black hover:bg-white/50 font-normal"
