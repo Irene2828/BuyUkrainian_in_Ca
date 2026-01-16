@@ -29,8 +29,8 @@ export function Hero() {
               {t('home.hero.subtitle') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
             </p>
 
-            {/* CTA Stack - Flush Left */}
-            <div className="flex flex-col md:flex-row items-start gap-10 hero-reveal-cta">
+            {/* Button Wrapper - Paired CTAs */}
+            <div className="flex flex-row items-center gap-8 mt-10">
               <Link href="/map">
                 <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                   {t('home.hero.explore') || 'Explore the Map'}
@@ -39,9 +39,9 @@ export function Hero() {
               </Link>
 
               <Link href="/#how-it-works">
-                <button className="no-invert-hover flex items-center gap-2 text-[14px] md:text-[15px] font-medium text-[#4B5563] hover:text-[#111827] transition-colors md:mr-8">
+                <button className="no-invert-hover text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
                   {t('header.howItWorks') || 'How It Works'}
-                  <HelpCircle className="w-4 h-4 translate-y-[0.5px]" />
+                  <HelpCircle className="w-4 h-4" />
                 </button>
               </Link>
             </div>
