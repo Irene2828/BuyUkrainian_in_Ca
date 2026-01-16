@@ -86,7 +86,7 @@ export function HowItWorks() {
         <div className="mt-8 mb-0 flex justify-center text-center">
           <Link
             href="/map"
-            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[50px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
+            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
           >
             {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
           </Link>

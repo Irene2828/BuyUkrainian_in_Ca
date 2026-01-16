@@ -45,7 +45,7 @@ export function PreFooter() {
                     {/* CTA Button - Solid True Black with tactile hover */}
                     <Link
                         href="/map"
-                        className="relative z-10 bg-black !bg-opacity-100 text-white px-8 py-4 rounded-full font-medium hover:bg-slate-900 transition-all inline-flex items-center gap-2 mx-auto"
+                        className="relative z-10 bg-black !bg-opacity-100 text-white h-[46px] md:h-[52px] px-8 rounded-full font-medium hover:bg-slate-900 transition-all inline-flex items-center justify-center gap-2 mx-auto"
                         style={{ backgroundColor: '#000000', color: '#ffffff' }}
                     >
                         {language === 'ua' ? 'Почати долучатися' : 'Start contributing'} <ArrowRight className="w-5 h-5" />
