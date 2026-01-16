@@ -72,7 +72,7 @@ export function HowItWorks() {
                 <h5 className="text-black font-header">{step.title}</h5>
               </div>
 
-              <p className="text-[16px] text-gray-500 leading-relaxed font-light font-ui">
+              <p className="text-[16px] text-gray-500 leading-relaxed font-light font-ui max-w-[280px] mx-auto">
                 {step.description}
               </p>
             </div>
