@@ -158,7 +158,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
                         <ul className="text-[16px] font-medium text-slate-700 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
                             {store.products && store.products.length > 0 ? (
-                                store.products.map((product, i) => (
+                                store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).map((product, i) => (
                                     <li key={i} className="truncate">
                                         - {product}
                                     </li>
