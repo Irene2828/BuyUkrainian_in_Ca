@@ -42,14 +42,7 @@ export function PreFooter() {
                         </div>
                     )}
 
-                    {/* CTA Button - Solid True Black with tactile hover */}
-                    <Link
-                        href="/map"
-                        className="relative z-10 bg-black !bg-opacity-100 text-white h-[46px] md:h-[52px] px-8 rounded-full font-medium hover:bg-slate-900 transition-all inline-flex items-center justify-center gap-2 mx-auto"
-                        style={{ backgroundColor: '#000000', color: '#ffffff' }}
-                    >
-                        {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
-                    </Link>
+
                 </div>
             </div>
         </section>
