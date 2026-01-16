@@ -35,13 +35,14 @@ export function RecentProductsMarquee() {
 
     return (
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-20 md:pb-[100px] font-sans">
-            <div className="flex justify-between items-baseline mb-10 px-6 md:px-20 max-w-[1440px] mx-auto">
-                <span className="text-[14px] font-medium text-slate-500 tracking-tight">
-                    Added this month
-                </span>
-                <Link href="/map" className="text-[14px] font-medium text-[#ADD0FE] flex items-center gap-1 hover:text-[#9bbce8] transition-colors">
-                    View all stores <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
+            {/* Premium Header */}
+            <div className="text-center mb-10 md:mb-16 px-4">
+                <h2 className="text-[24px] md:text-[32px] font-medium text-slate-900 tracking-tight">
+                    Recently Added Findings
+                </h2>
+                <p className="mt-4 text-[16px] text-slate-900/60 lowercase italic">
+                    the map grows every time someone submits a new location!
+                </p>
             </div>
 
             <div className="relative w-full overflow-hidden">
@@ -77,14 +78,24 @@ export function RecentProductsMarquee() {
                 </div>
             </div>
 
+            {/* Terminal CTA */}
+            <Link
+                href="/map"
+                className="mt-12 mx-auto w-fit flex items-center justify-center gap-2 bg-black text-white px-8 py-3 rounded-full hover:bg-slate-900 transition-all z-10 relative font-medium"
+            >
+                Submit a New Location
+            </Link>
+
             {/* Store Card Popup - Same as map pin */}
-            {selectedStore && (
-                <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setSelectedStore(null)}>
-                    <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
-                        <StoreCard store={selectedStore} onClose={() => setSelectedStore(null)} />
+            {
+                selectedStore && (
+                    <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setSelectedStore(null)}>
+                        <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+                            <StoreCard store={selectedStore!} onClose={() => setSelectedStore(null)} />
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
