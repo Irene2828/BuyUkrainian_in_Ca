@@ -75,7 +75,7 @@ export function HowItWorks() {
                 <h5 className="text-black font-header">{step.title}</h5>
               </div>
 
-              <p className="text-[16px] text-gray-500 leading-relaxed font-normal font-ui">
+              <p className="text-[16px] text-gray-500 leading-relaxed font-light font-ui">
                 {step.description}
               </p>
             </div>
