@@ -46,46 +46,43 @@ export function FAQ() {
           </p>
         </div>
 
-        {/* Accordion - "Soft Card" Approach */}
-        <div className="flex flex-col w-full space-y-4">
+        {/* Accordion - Clean Column Layout */}
+        <div className="max-w-[640px] mx-auto w-full px-6">
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className={cn(
-                "transition-all duration-300 rounded-2xl px-6",
-                openIndex === i ? "bg-slate-50/50" : ""
-              )}
+              className="border-b border-slate-100 last:border-0"
             >
               {/* Question - Clickable */}
               <button
                 onClick={() => toggleItem(i)}
-                className="no-invert-hover w-full flex items-center justify-start md:justify-between gap-4 py-6 text-left group transition-colors duration-200"
+                className="flex justify-between items-center w-full py-5 text-left group cursor-pointer no-invert-hover transition-colors"
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[16px] font-medium text-slate-700 leading-snug pr-8 transition-all duration-200",
-                  openIndex === i && "text-slate-900"
+                  "text-[16px] font-medium text-slate-700 leading-snug pr-4 transition-colors duration-200",
+                  openIndex === i ? "text-slate-900" : "group-hover:text-slate-900"
                 )}>
                   {faq.question}
                 </span>
                 <div
                   className={cn(
-                    "w-6 h-6 flex items-center justify-center text-slate-300 transition-transform duration-200 ease-out shrink-0",
-                    openIndex === i && "rotate-180 text-gray-900"
+                    "flex items-center justify-center text-slate-300 transition-all duration-200 ease-out shrink-0",
+                    openIndex === i ? "rotate-180 text-slate-900" : "group-hover:text-slate-500"
                   )}
                 >
-                  <ChevronDown className="w-5 h-5" />
+                  <ChevronDown className="w-5 h-5 stroke-[1.5]" />
                 </div>
               </button>
 
               {/* Answer - Expandable */}
               <div
                 className={cn(
-                  "overflow-hidden transition-all duration-200 ease-out",
+                  "overflow-hidden transition-all duration-300 ease-out",
                   openIndex === i ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                 )}
               >
-                <div className="pb-8">
+                <div className="pb-6">
                   <p className="text-[16px] text-slate-500 leading-relaxed max-w-[600px] font-light font-ui">
                     {faq.answer}
                   </p>
