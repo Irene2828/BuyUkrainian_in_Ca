@@ -59,7 +59,7 @@ export function HowItWorks() {
                 )}
                 {index === 2 && (
                   <img
-                    src={howItWorks3}
+                    src={howItWorks2}
                     alt="Spread the Word"
                     className="w-[90%] h-auto object-contain opacity-100 max-h-full"
                   />

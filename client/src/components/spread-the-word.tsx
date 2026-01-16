@@ -51,7 +51,7 @@ export function SpreadTheWord() {
           </div>
 
           {/* Social Buttons - Stack on mobile */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full">
+          <div className="flex flex-col md:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full">
             <button
               onClick={handleFacebookShare}
               className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
