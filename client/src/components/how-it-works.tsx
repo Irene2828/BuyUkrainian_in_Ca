@@ -31,6 +31,9 @@ export function HowItWorks() {
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-slate-950 font-bold tracking-tight text-4xl mb-3 leading-tight font-header section-headline-reveal">{t('howItWorks.title') || 'How It Works'}</h2>
+          <p className="mt-6 text-[16px] md:text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-4">
