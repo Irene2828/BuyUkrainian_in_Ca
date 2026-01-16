@@ -14,10 +14,10 @@ export function PreFooter() {
                 />
 
                 <div className="flex flex-col items-center text-center py-32 px-20 relative z-10">
-                    <h3 className="text-[28px] font-medium text-slate-900 tracking-tight leading-tight">
+                    <h3 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight">
                         {language === 'ua' ? 'Купуй українське — Підтримуй Україну' : 'Buy Ukrainian — Support Ukraine'}
                     </h3>
-                    <p className="mt-4 text-[16px] text-slate-900/60 lowercase tracking-wide italic leading-relaxed">
+                    <p className="mt-6 text-[16px] md:text-[20px] text-slate-900/60 lowercase tracking-wide italic leading-relaxed">
                         every purchase, every share matters.
                     </p>
                 </div>
