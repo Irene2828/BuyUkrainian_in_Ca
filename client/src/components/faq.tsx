@@ -59,7 +59,7 @@ export function FAQ() {
               {/* Question - Clickable */}
               <button
                 onClick={() => toggleItem(i)}
-                className="no-invert-hover w-full flex items-center justify-between py-6 text-left group transition-colors duration-200"
+                className="no-invert-hover w-full flex items-center justify-center md:justify-between gap-4 py-6 text-left group transition-colors duration-200"
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
