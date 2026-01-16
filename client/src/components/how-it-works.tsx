@@ -29,14 +29,11 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="pt-12 pb-[100px] bg-white font-sans overflow-hidden">
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
-        <div className="text-center mb-12">
+        <div className="text-center mb-6">
           <h2 className="!text-[24px] md:!text-[32px] font-medium text-slate-900 tracking-tight leading-tight section-headline-reveal">{t('howItWorks.title') || 'How It Works'}</h2>
-          <p className="text-[16px] md:text-[20px] text-gray-500 max-w-[900px] mx-auto font-ui mt-4 leading-relaxed">
-            {t('howItWorks.description') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-4">
           {steps.map((step, index) => (
             <div
               key={index}

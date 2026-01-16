@@ -20,15 +20,13 @@ export function Hero() {
             {/* Main Headline - Exact Typography */}
             <h1 className="hero-title premium-parallax-text w-full mb-4 text-[32px] md:text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-center md:text-left">
               <span className="hero-reveal-headline">
-                {t('home.hero.title') || 'Find and Share\nUkrainian Products\nsold across Canada'}
+                {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold across Canada'}
               </span>
             </h1>
 
             {/* Subtext - Discovery & Contribution */}
-            <p
-              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[480px] text-[16px] font-medium text-slate-600/90 mb-10 leading-relaxed text-center md:text-left antialiased"
-            >
-              {t('home.hero.subtitle') || 'Your go-to source to finding and sharing made in Ukraine products in Canada. Buy Ukrainian – strengthen Ukraine.'}
+            <p className="hero-subtitle mb-8 text-[18px] md:text-[20px] font-normal leading-[1.6] text-gray-600 max-w-xl mx-auto md:mx-0 font-ui text-center md:text-left">
+              {t('home.hero.subtitle') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
             </p>
 
             {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
