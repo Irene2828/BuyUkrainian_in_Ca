@@ -30,7 +30,7 @@ export function HowItWorks() {
     <section id="how-it-works" className="pt-12 pb-[100px] bg-white font-sans overflow-hidden">
       <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
         <div className="text-center mb-12">
-          <h2 className="text-[24px] md:text-[32px] text-gray-900 font-header font-bold section-headline-reveal tracking-tight">{t('howItWorks.title') || 'How It Works'}</h2>
+          <h2 className="!text-[24px] md:!text-[32px] font-medium text-slate-900 tracking-tight leading-tight section-headline-reveal">{t('howItWorks.title') || 'How It Works'}</h2>
           <p className="text-[16px] md:text-[20px] text-gray-500 max-w-[900px] mx-auto font-ui mt-4 leading-relaxed">
             {t('howItWorks.description') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
           </p>
