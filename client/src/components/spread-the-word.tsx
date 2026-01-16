@@ -30,12 +30,12 @@ export function SpreadTheWord() {
       {/* Consistent section padding */}
       <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
 
-        <div className="text-center mb-10 md:mb-16">
-          {/* 40px gap to black container (mb-10) */}
+        <div className="text-center mb-8 md:mb-12">
+          {/* 32px/48px gap */}
           <h2 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight section-headline-reveal">
             Spread the Word
           </h2>
-          <p className="mt-6 text-[16px] md:text-[20px] text-slate-900/60 lowercase italic tracking-wide max-w-[500px] mx-auto leading-relaxed">
+          <p className="mt-6 text-[16px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto font-ui px-4">
             Help us reach more supporters. Share the map with your network and let others discover the best of Ukraine in Canada.
           </p>
         </div>

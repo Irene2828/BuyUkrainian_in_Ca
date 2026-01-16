@@ -37,11 +37,11 @@ export function FAQ() {
   return (
     <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-4 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
-        <div className="text-center mb-10 md:mb-16">
+        <div className="text-center mb-8 md:mb-12">
           <h2 className="text-[28px] md:text-[42px] font-medium tracking-tight text-slate-900 leading-tight section-headline-reveal">
             {t('faq.title') || 'FAQ'}
           </h2>
-          <p className="mt-6 text-[16px] md:text-[20px] text-slate-900/60 lowercase italic tracking-wide max-w-[500px] mx-auto leading-relaxed">
+          <p className="mt-6 text-[16px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto font-ui px-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
