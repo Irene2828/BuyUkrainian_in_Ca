@@ -67,7 +67,7 @@ export function HowItWorks() {
               </div>
 
               {/* Icon + Title Row - Centered - 80% opacity default, 100% on hover */}
-              <div className="flex flex-row items-center justify-center gap-3 mb-3 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="flex flex-row items-center justify-center gap-3 mb-3">
                 <step.icon className="w-7 h-7 text-black" />
                 <h5 className="text-black font-header">{step.title}</h5>
               </div>
