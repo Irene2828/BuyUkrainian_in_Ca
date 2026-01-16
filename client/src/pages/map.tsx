@@ -31,7 +31,7 @@ function NewlyAddedStores() {
           <h2 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight">
             Recently Added Findings
           </h2>
-          <p className="mt-6 text-[16px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto font-ui px-4">
+          <p className="mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto font-ui px-4">
             the map grows every time someone submits a new location!
           </p>
         </div>
