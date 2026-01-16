@@ -35,7 +35,7 @@ export function RecentProductsMarquee() {
 
     return (
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-20 md:pb-[100px] font-sans">
-            <div className="flex justify-between items-baseline mb-6 px-6 md:px-20 max-w-[1440px] mx-auto">
+            <div className="flex justify-between items-baseline mb-10 px-6 md:px-20 max-w-[1440px] mx-auto">
                 <span className="text-[14px] font-medium text-slate-500 lowercase tracking-tight">
                     added this month
                 </span>

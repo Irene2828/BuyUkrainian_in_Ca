@@ -29,7 +29,7 @@ export function Hero() {
 
             {/* Subtext - Discovery & Contribution */}
             <p
-              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[480px] text-[16px] font-medium text-slate-600/90 mt-4 mb-8 leading-relaxed text-center md:text-left antialiased"
+              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[480px] text-[16px] font-medium text-slate-600/90 mb-10 leading-relaxed text-center md:text-left antialiased"
             >
               {t('home.hero.subtitle') || 'Your go-to source to finding and sharing made in Ukraine products in Canada. Buy Ukrainian – strengthen Ukraine.'}
             </p>
