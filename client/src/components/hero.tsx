@@ -15,10 +15,10 @@ export function Hero() {
       <div className="mx-auto px-6 md:px-16 max-w-[1440px] py-10">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
-          {/* Left Content - ALWAYS CENTERED */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center text-center justify-center order-1">
+          {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
+          <div className="w-full lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left justify-center order-1">
             {/* Main Headline - Exact Typography */}
-            <h1 className="hero-title premium-parallax-text w-full mb-4 text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-center">
+            <h1 className="hero-title premium-parallax-text w-full mb-4 text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-center md:text-left">
               <span className="hero-reveal-headline">
                 {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold in Canada'}
               </span>
@@ -26,7 +26,7 @@ export function Hero() {
 
             {/* Subtext - Discovery & Contribution */}
             <p
-              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[480px] text-[16px] font-medium text-slate-600/90 mb-10 leading-relaxed text-center antialiased"
+              className="font-ui hero-reveal-subtext premium-parallax-text w-full max-w-[480px] text-[16px] font-medium text-slate-600/90 mb-10 leading-relaxed text-center md:text-left antialiased"
             >
               {t('home.hero.subtitle') || 'Your go-to source to finding and sharing made in Ukraine products in Canada. Buy Ukrainian – strengthen Ukraine.'}
             </p>

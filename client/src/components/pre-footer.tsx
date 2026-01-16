@@ -48,7 +48,7 @@ export function PreFooter() {
                         className="relative z-10 bg-black !bg-opacity-100 text-white px-8 py-4 rounded-full font-medium hover:bg-slate-900 transition-all inline-flex items-center gap-2 mx-auto"
                         style={{ backgroundColor: '#000000', color: '#ffffff' }}
                     >
-                        {t('header.exploreMap') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
+                        {language === 'ua' ? 'Почати долучатися' : 'Start contributing'} <ArrowRight className="w-5 h-5" />
                     </Link>
                 </div>
             </div>
