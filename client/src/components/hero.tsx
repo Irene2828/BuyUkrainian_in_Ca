@@ -25,7 +25,7 @@ export function Hero() {
             </h1>
 
             {/* Subtext - Discovery & Contribution */}
-            <p className="hero-subtitle mb-8 text-[18px] md:text-[20px] font-normal leading-[1.6] text-gray-600 max-w-xl mx-auto md:mx-0 font-ui text-center md:text-left">
+            <p className="hero-subtitle mb-8 text-[16px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto md:mx-0 font-ui text-center md:text-left">
               {t('home.hero.subtitle') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
             </p>
 
