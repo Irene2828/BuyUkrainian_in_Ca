@@ -3,29 +3,30 @@ import { Link } from "wouter";
 export function Footer() {
   return (
     <footer className="bg-black text-[#fafafa] pb-10 font-sans overflow-hidden relative">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full max-w-[1440px] mx-auto px-20 pt-16 border-t border-white/5">
+      {/* Central Container - Tightened Grid */}
+      <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-12 px-8 pt-16 pb-24">
 
         {/* Column 1: Navigation (Action Links) */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]">
+          <h4 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
             NAVIGATION
           </h4>
           <div className="flex flex-col gap-3">
             <Link
               href="/map"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Explore Map
             </Link>
             <Link
               href="/map"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Add a Store
             </Link>
             <a
               href="/#how-it-works"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               How it works
             </a>
@@ -34,25 +35,25 @@ export function Footer() {
 
         {/* Column 2: About (Help) */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]">
+          <h4 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
             ABOUT
           </h4>
           <div className="flex flex-col gap-3">
             <a
               href="/#faq"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Our Mission
             </a>
             <Link
               href="/about"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Contact us
             </Link>
             <Link
               href="/privacy"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Privacy Policy
             </Link>
@@ -61,19 +62,19 @@ export function Footer() {
 
         {/* Column 3: Community (New) */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]">
+          <h4 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
             COMMUNITY
           </h4>
           <div className="flex flex-col gap-3">
             <a
               href="/#spread-the-word"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Spread the Word
             </a>
             <Link
               href="/about"
-              className="text-sm text-slate-300 hover:text-white transition-colors font-normal"
+              className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
             >
               Volunteer
             </Link>
@@ -81,9 +82,9 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Utility Row */}
-      <div className="max-w-[1440px] mx-auto px-20 pt-16 flex flex-col md:flex-row items-center justify-between">
-        <div className="text-xs text-slate-500 mb-4 md:mb-0">
+      {/* Bottom Bar - Legal/Copyright */}
+      <div className="max-w-4xl mx-auto px-8 border-t border-slate-800/50 mt-16 pt-8 flex justify-between items-center text-[12px] text-slate-500">
+        <div>
           © 2026 BuyUkrainian.ca. All rights reserved.
         </div>
 
