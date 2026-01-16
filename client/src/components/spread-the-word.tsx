@@ -50,25 +50,25 @@ export function SpreadTheWord() {
             </p>
           </div>
 
-          {/* Social Buttons - Stack on mobile */}
+          {/* Social Buttons - Full width on mobile, auto on desktop */}
           <div className="flex flex-col lg:flex-row flex-wrap items-center justify-center gap-4 w-full">
             <button
               onClick={handleFacebookShare}
-              className="w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full md:w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <Facebook className="w-[14px] h-[14px] fill-current" />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
-              className="w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full md:w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <Instagram className="w-[14px] h-[14px]" />
               Share on Instagram
             </button>
             <button
               onClick={handleXShare}
-              className="w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full md:w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <svg
                 viewBox="0 0 24 24"

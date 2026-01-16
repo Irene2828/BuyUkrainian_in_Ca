@@ -3,8 +3,8 @@ import { Link } from "wouter";
 export function Footer() {
   return (
     <footer className="bg-black text-[#fafafa] pb-10 font-sans overflow-hidden relative">
-      {/* Spanning Grid - Aligned with Header Frame */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-row justify-between pt-20 pb-24">
+      {/* Spanning Grid - Single column on mobile, row on desktop */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col md:flex-row md:justify-between pt-20 pb-24 gap-12">
 
         {/* Column 1: Navigation (Action Links) */}
         <div className="flex flex-col gap-4">

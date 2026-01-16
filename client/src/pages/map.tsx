@@ -130,10 +130,10 @@ export default function MapPage() {
         {/* Map Page Headline Section - Symmetrical Balance */}
         <section className="bg-white text-center px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px] py-16 md:py-20 flex flex-col items-center justify-center text-center">
-            <h2 className="text-slate-950 font-bold tracking-tight text-4xl mb-3 leading-tight font-header section-headline-reveal">
+            <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
               {t('map.headline') || 'Find Ukrainian Products Across Canada'}
             </h2>
-            <p className="hidden md:block text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
               {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
             </p>
           </div>
