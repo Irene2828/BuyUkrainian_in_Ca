@@ -18,7 +18,7 @@ export function RecentProductsMarquee() {
     const repeatedNames = Array(10).fill(storeNames).flat(); // Repeat plenty of times
 
     return (
-        <div className="w-full bg-white relative z-20 mt-[-32px] md:mt-[-40px] border-b border-gray-100/50 overflow-hidden font-sans">
+        <div className="w-full bg-white relative z-20 py-4 border-b border-slate-50 overflow-hidden font-sans">
             <div className="max-w-[1440px] mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
                 {/* Fixed Live Label */}

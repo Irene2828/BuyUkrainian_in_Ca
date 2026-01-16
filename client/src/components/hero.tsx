@@ -10,9 +10,9 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="premium-parallax-hero relative w-full bg-[#FDFFD7] overflow-hidden font-sans mt-3 md:mt-5">
-      {/* Container with premium px-6 mobile padding - CINEMATIC LETTERBOX (py-10) */}
-      <div className="mx-auto px-6 md:px-16 max-w-[1440px] py-10">
+    <section className="premium-parallax-hero relative bg-[#F9FCD4] overflow-hidden font-sans my-10 md:my-20 mx-4 md:mx-20 rounded-[32px] md:rounded-[40px] px-6 md:px-12 py-16 md:py-24">
+      {/* Container - constrained width */}
+      <div className="mx-auto max-w-[1440px]">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
           {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
