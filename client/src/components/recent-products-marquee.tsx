@@ -50,7 +50,7 @@ export function RecentProductsMarquee() {
                         <div
                             key={`${store.id}-${i}`}
                             onClick={() => handleStoreClick(store)}
-                            className="min-w-[340px] max-w-[420px] inline-flex bg-white p-8 rounded-[32px] border border-slate-100 cursor-pointer transition-all hover:border-slate-200 hover:shadow-sm group"
+                            className="min-w-[340px] max-w-[420px] inline-flex bg-white p-8 rounded-[32px] cursor-pointer transition-all hover:shadow-md group"
                         >
                             {/* Store Image */}
                             <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-black/5">

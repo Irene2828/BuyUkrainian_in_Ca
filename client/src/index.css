@@ -80,7 +80,7 @@
   --font-serif: 'Lora',
     serif;
 
-  --animate-marquee: marquee 25s linear infinite;
+  --animate-marquee: marquee 20s linear infinite;
 
   @keyframes marquee {
     from {
