@@ -37,7 +37,7 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group flex flex-col items-center text-center bg-white rounded-[32px] p-8 transition-transform duration-[400ms] ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.02] transform-gpu h-full"
+              className="group flex flex-col items-center text-center bg-white rounded-[32px] p-8 h-full"
             >
               {/* Image Container - Fixed height for vertical alignment */}
               <div
@@ -47,21 +47,21 @@ export function HowItWorks() {
                   <img
                     src={howItWorks1}
                     alt="Discover Map"
-                    className="w-[90%] h-auto object-contain max-h-full"
+                    className="w-[100%] h-auto object-contain max-h-full"
                   />
                 )}
                 {index === 1 && (
                   <img
                     src={howItWorks2}
                     alt="Add to Map"
-                    className="w-[80%] h-auto object-contain max-h-full"
+                    className="w-[90%] h-auto object-contain max-h-full"
                   />
                 )}
                 {index === 2 && (
                   <img
                     src={howItWorks3}
                     alt="Spread the Word"
-                    className="w-[80%] h-auto object-contain opacity-0 max-h-full"
+                    className="w-[90%] h-auto object-contain opacity-100 max-h-full"
                   />
                 )}
               </div>
