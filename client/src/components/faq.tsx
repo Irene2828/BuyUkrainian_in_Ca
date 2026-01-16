@@ -38,7 +38,7 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-4 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
         <div className="text-center mb-10">
-          <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight text-gray-900 mb-3 section-headline-reveal">
+          <h2 className="text-[24px] md:text-[32px] font-medium tracking-tight text-slate-900 mb-3 section-headline-reveal">
             {t('faq.title') || 'Frequently Asked Questions'}
           </h2>
           <p className="text-[16px] text-slate-500 max-w-[500px] mx-auto leading-relaxed font-ui px-4">
@@ -63,8 +63,8 @@ export function FAQ() {
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[18px] font-semibold tracking-tight pr-8 transition-all duration-200",
-                  openIndex === i ? "text-gray-900" : "text-slate-600 group-hover:text-gray-900"
+                  "text-[16px] font-medium text-slate-700 leading-snug pr-8 transition-all duration-200",
+                  openIndex === i && "text-slate-900"
                 )}>
                   {faq.question}
                 </span>
