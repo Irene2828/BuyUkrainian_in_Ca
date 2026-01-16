@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "wouter";
-import { ArrowRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export function PreFooter() {
@@ -15,35 +13,16 @@ export function PreFooter() {
                     className="pre-footer-outlined-image opacity-10"
                 />
 
-                {/* Mission Statement - Editorial Typography */}
-                <div className="flex flex-col items-center gap-4 py-32 max-w-[1440px] mx-auto">
-                    {/* Show appropriate slogan based on language */}
-                    {language === 'en' ? (
-                        <div className="flex flex-col items-center text-center max-w-2xl gap-3">
-                            {/* Primary Line - Deep Slate Editorial */}
-                            <h2 className="font-bold tracking-tight text-slate-900 font-header text-[24px]">
-                                Buy Ukrainian — Support Ukraine
-                            </h2>
-                            {/* Secondary Line - Lowercase, 14px, slate-500 */}
-                            <p className="font-medium text-slate-500 font-ui text-[14px] lowercase">
-                                every purchase, every share matters.
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="flex flex-col items-center text-center max-w-2xl gap-3">
-                            {/* Primary Line - Deep Slate Editorial */}
-                            <h2 className="font-bold tracking-tight text-slate-900 font-header whitespace-nowrap text-[24px]">
-                                Купуй українське — Підтримуй Україну
-                            </h2>
-                            {/* Secondary Line - Lowercase, 14px, slate-500 */}
-                            <p className="font-medium text-slate-500 font-ui text-[14px] lowercase">
-                                every purchase, every share matters.
-                            </p>
-                        </div>
-                    )}
-
-
+                <div className="flex flex-col items-center text-center py-32 px-20 relative z-10">
+                    <h3 className="text-[28px] font-medium text-slate-900 tracking-tight leading-tight">
+                        {language === 'ua' ? 'Купуй українське — Підтримуй Україну' : 'Buy Ukrainian — Support Ukraine'}
+                    </h3>
+                    <p className="mt-4 text-[16px] text-slate-900/60 lowercase tracking-wide italic leading-relaxed">
+                        every purchase, every share matters.
+                    </p>
                 </div>
+
+
             </div>
         </section>
     );
