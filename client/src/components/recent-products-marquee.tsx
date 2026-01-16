@@ -36,11 +36,11 @@ export function RecentProductsMarquee() {
     return (
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-20 md:pb-[100px] font-sans">
             {/* Premium Header */}
-            <div className="text-center mb-10 md:mb-16 px-4">
-                <h2 className="text-[24px] md:text-[32px] font-medium text-slate-900 tracking-tight">
+            <div className="text-center mb-20 md:mb-32 px-4">
+                <h2 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight">
                     Recently Added Findings
                 </h2>
-                <p className="mt-4 text-[16px] text-slate-900/60 lowercase italic">
+                <p className="mt-6 text-[16px] md:text-[20px] text-slate-900/60 lowercase italic tracking-wide">
                     the map grows every time someone submits a new location!
                 </p>
             </div>
