@@ -24,7 +24,7 @@ export function RecentProductsMarquee() {
                 {/* Fixed Live Label */}
                 <div className="sticky left-0 bg-white/90 backdrop-blur-md z-30 py-2 pr-6 pl-6 md:pl-20 flex items-center gap-3 h-full shadow-[10px_0_20px_-5px_rgba(255,255,255,1)]">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-fast shrink-0" />
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap">
+                    <span className="text-[12px] md:text-[13px] font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap">
                         Live Findings
                     </span>
                 </div>
