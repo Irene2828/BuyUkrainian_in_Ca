@@ -27,9 +27,13 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
-        <div className="flex items-center justify-between mb-6">
-          <span className="text-[14px] font-medium text-slate-500 lowercase">added this month</span>
-          <Link href="/map" className="text-[14px] font-medium text-slate-500 hover:text-black transition-colors">View all stores →</Link>
+        <div className="text-center mb-20 md:mb-32">
+          <h2 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight">
+            Recently Added Findings
+          </h2>
+          <p className="mt-6 text-[16px] md:text-[20px] text-slate-900/60 lowercase italic tracking-wide">
+            the map grows every time someone submits a new location!
+          </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => {
@@ -70,6 +74,16 @@ function NewlyAddedStores() {
               </div>
             );
           })}
+        </div>
+
+        {/* Terminal CTA */}
+        <div className="flex justify-center mt-12 w-full z-10 relative">
+          <Link
+            href="/map"
+            className="flex items-center justify-center gap-2 bg-black text-white px-8 py-3 rounded-full hover:bg-slate-900 transition-all font-medium"
+          >
+            Submit a New Location
+          </Link>
         </div>
       </div>
 
