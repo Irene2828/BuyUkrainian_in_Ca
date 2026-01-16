@@ -38,10 +38,10 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-4 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-slate-950 font-bold tracking-tight text-4xl mb-3 leading-tight font-header section-headline-reveal">
+          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
             {t('faq.title') || 'FAQ'}
           </h2>
-          <p className="mt-6 text-[16px] md:text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
+          <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>

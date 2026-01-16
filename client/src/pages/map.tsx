@@ -28,10 +28,10 @@ function NewlyAddedStores() {
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-slate-950 font-bold tracking-tight text-4xl mb-3 leading-tight font-header section-headline-reveal">
+          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
             Recently Added Findings
           </h2>
-          <p className="mt-6 text-[16px] md:text-[20px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
+          <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
             the map grows every time someone submits a new location!
           </p>
         </div>
