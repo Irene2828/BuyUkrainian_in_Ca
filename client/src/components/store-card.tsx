@@ -82,7 +82,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
     }, [handleKeyDown]);
 
     return (
-        <div className="flex flex-col h-auto w-full font-sans relative bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-[32px] overflow-hidden transition-all duration-300 animate-in fade-in zoom-in-95">
+        <div className="flex flex-col h-auto w-full font-sans relative bg-white/95 backdrop-blur-xl border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] rounded-[32px] overflow-hidden transition-all duration-300 animate-in fade-in zoom-in-95">
 
             {/* Close Button */}
             {!isLightboxOpen && (
@@ -156,7 +156,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
                     {/* Right Column: Highlights Stack - CLEAN INVENTORY LIST */}
                     <div className="flex-1 min-w-0 flex flex-col justify-start pt-1">
-                        <ul className="text-[16px] font-medium text-slate-700 leading-snug max-h-32 overflow-y-auto pr-2 custom-scrollbar space-y-1.5 font-sans">
+                        <ul className="my-6 py-4 border-y border-slate-50 space-y-2 text-[16px] text-slate-700 font-normal max-h-40 overflow-y-auto pr-2 custom-scrollbar font-sans">
                             {store.products && store.products.length > 0 ? (
                                 store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).map((product, i) => (
                                     <li key={i} className="truncate">
@@ -177,17 +177,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 </div>
 
-                {/* Metadata Block (Address & Hours) - Match Icon Color */}
+                {/* Metadata Block (Address & Hours) - Muted & Refined */}
                 <div className="space-y-1.5 mt-auto mb-6 pl-1">
-                    <div className="flex items-start gap-2">
-                        <MapPin className="w-3.5 h-3.5 text-slate-400 mt-[2px] shrink-0" />
-                        <span className="text-[14px] font-medium text-slate-400 leading-tight block">
+                    <div className="text-[14px] leading-relaxed flex items-start gap-3 text-slate-500">
+                        <MapPin className="w-3 h-3 text-slate-500 mt-[4px] shrink-0" />
+                        <span className="font-medium">
                             {store.address}
                         </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-[14px] font-medium text-slate-400">
+                    <div className="text-[14px] leading-relaxed flex items-start gap-3 text-slate-500">
+                        <Clock className="w-3 h-3 text-slate-500 mt-[4px] shrink-0" />
+                        <span className="font-medium">
                             Open today: 9:00 AM - 8:00 PM
                         </span>
                     </div>
@@ -199,12 +199,12 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 )}
 
-                {/* ANCHOR: Primary Action - Reduced Dead Zone */}
+                {/* ANCHOR: Primary Action - Solid Black with Margin */}
                 <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center h-[44px] w-full bg-white text-black border border-black rounded-full text-[14px] font-bold mt-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
+                    className="flex items-center justify-center h-[44px] w-full bg-black text-white rounded-full text-[14px] font-bold mt-8 hover:bg-slate-900 transition-all duration-300 ease-in-out gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
                 >
                     Get Directions
                 </a>
