@@ -17,10 +17,15 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md font-sans">
-      <div className="mx-auto px-4 md:px-[64px] max-w-[1440px] flex items-center h-full relative">
+      <div className="mx-auto px-4 md:px-[64px] max-w-[1440px] flex items-center justify-between h-full relative">
+        {/* Mobile Left: Map View (Icon + Text, No Stroke) */}
+        <Link href="/map" className="md:hidden flex items-center gap-2 py-2 text-black no-underline">
+          <Search className="w-5 h-5 text-black" />
+          <span className="text-[14px] font-semibold">{t('map.viewMap') || 'Map View'}</span>
+        </Link>
 
-        {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
+        {/* Left: Logo & Branding (Centered on Mobile, Left on Desktop) */}
+        <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex-1 flex items-center transition-all duration-300 ease-in-out">
           <Link href="/" className="flex flex-col items-center gap-0">
             <img
               src="/assets/logonew.png"
@@ -60,10 +65,7 @@ export function Header() {
 
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
-          <Link href="/map" className="no-invert-hover flex items-center gap-3 py-3 px-6 h-[48px] border border-gray-200 bg-white text-black rounded-full text-[14px] font-semibold transition-all duration-200 ease-out hover:bg-black hover:text-white hover:border-black">
-            <Search className="w-4 h-4" />
-            {t('map.viewMap') || 'Map View'}
-          </Link>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="no-invert-hover p-2 text-black"
