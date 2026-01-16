@@ -122,18 +122,18 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
             )}
 
-            {/* Main Content Area - SACRED SYMMETRY (p-10 = 40px) */}
-            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar p-10", isLightboxOpen && "opacity-10 pointer-events-none")}>
+            {/* Main Content Area - SACRED SYMMETRY (p-6 = 24px) */}
+            <div className={cn("flex flex-col h-full overflow-y-auto custom-scrollbar p-6", isLightboxOpen && "opacity-10 pointer-events-none")}>
 
                 {/* TIER 1: Store Name - The Anchor */}
                 <div className="mb-2">
-                    <div className="text-[20px] font-bold text-slate-900 tracking-tight leading-tight line-clamp-1 pr-8" title={store.name}>
+                    <div className="text-[18px] font-bold text-slate-900 tracking-tight leading-tight line-clamp-1 pr-8" title={store.name}>
                         {store.name}
                     </div>
                 </div>
 
                 {/* TIER 2: Category - Editorial Sub-Header */}
-                <span className="text-[12px] font-medium lowercase tracking-widest text-slate-400 block mb-4">
+                <span className="text-[11px] font-medium lowercase tracking-widest text-slate-400 block mb-4">
                     {store.category === 'food' ? 'food & grocery' :
                         store.category === 'clothes' ? 'clothing' :
                             store.category === 'retail' ? 'retail & gifts' :
@@ -204,7 +204,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center h-[46px] md:h-[52px] w-full bg-white text-black border border-black rounded-full text-[14px] font-bold mt-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
+                    className="flex items-center justify-center h-[44px] w-full bg-white text-black border border-black rounded-full text-[14px] font-bold mt-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out gap-2 shadow-sm focus:outline-none focus-visible:ring-0"
                 >
                     Get Directions
                 </a>
