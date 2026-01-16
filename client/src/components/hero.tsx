@@ -15,22 +15,22 @@ export function Hero() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
-          {/* Left Content - CENTERED on mobile, LEFT-ALIGNED on desktop */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left justify-center order-1">
+          {/* Left Content - Flush Left Alignment */}
+          <div className="w-full lg:w-1/2 flex flex-col items-start text-left justify-center order-1">
             {/* Main Headline - Exact Typography */}
-            <h1 className="hero-title premium-parallax-text w-full mb-4 text-[32px] min-[390px]:text-[36px] md:text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-center md:text-left">
+            <h1 className="hero-title premium-parallax-text w-full mb-4 text-[32px] min-[390px]:text-[36px] md:text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-left">
               <span className="hero-reveal-headline">
                 {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold across Canada'}
               </span>
             </h1>
 
             {/* Subtext - Discovery & Contribution */}
-            <p className="hero-subtitle mb-8 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto md:mx-0 font-ui text-center md:text-left">
+            <p className="hero-subtitle mb-8 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 max-w-[500px] font-ui text-left">
               {t('home.hero.subtitle') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
             </p>
 
-            {/* CTA Stack - Fixed width button, 16px gap. Desktop: Side-by-side (Row) */}
-            <div className="flex flex-col items-center md:flex-row md:items-center gap-10 hero-reveal-cta">
+            {/* CTA Stack - Flush Left */}
+            <div className="flex flex-col md:flex-row items-start gap-10 hero-reveal-cta">
               <Link href="/map">
                 <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                   {t('home.hero.explore') || 'Explore the Map'}
