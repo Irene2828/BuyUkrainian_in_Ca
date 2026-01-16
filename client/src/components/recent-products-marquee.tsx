@@ -35,10 +35,10 @@ export function RecentProductsMarquee() {
 
     return (
         <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-20 md:pb-[100px] font-sans">
-            <div className="flex justify-between items-center mb-8 px-6 md:px-20 max-w-[1440px] mx-auto">
-                <h2 className="text-[14px] font-medium text-slate-500 lowercase tracking-tight">
+            <div className="flex justify-between items-baseline mb-6 px-6 md:px-20 max-w-[1440px] mx-auto">
+                <span className="text-[14px] font-medium text-slate-500 lowercase tracking-tight">
                     added this month
-                </h2>
+                </span>
                 <Link href="/map" className="text-[14px] font-medium text-slate-500 flex items-center gap-1 hover:text-slate-900 transition-colors">
                     View all stores <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
