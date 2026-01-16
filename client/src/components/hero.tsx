@@ -20,7 +20,7 @@ export function Hero() {
             {/* Main Headline - Exact Typography */}
             <h1 className="hero-title premium-parallax-text w-full mb-4 text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-center md:text-left">
               <span className="hero-reveal-headline">
-                {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold in Canada'}
+                {t('home.hero.title') || 'Find and Share\nUkrainian Products\nsold across Canada'}
               </span>
             </h1>
 
