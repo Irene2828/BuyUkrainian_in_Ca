@@ -3,8 +3,8 @@ import { Link } from "wouter";
 export function Footer() {
   return (
     <footer className="bg-black text-[#fafafa] pb-10 font-sans overflow-hidden relative">
-      {/* Central Container - Tightened Grid */}
-      <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-12 px-8 pt-16 pb-24">
+      {/* Spanning Grid - Aligned with Header Frame */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-row justify-between pt-20 pb-24">
 
         {/* Column 1: Navigation (Action Links) */}
         <div className="flex flex-col gap-4">
@@ -60,7 +60,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Column 3: Community (New) */}
+        {/* Column 3: Community (Flush Right) */}
         <div className="flex flex-col gap-4">
           <h4 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
             COMMUNITY
@@ -82,13 +82,13 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar - Legal/Copyright */}
-      <div className="max-w-4xl mx-auto px-8 border-t border-slate-800/50 mt-16 pt-8 flex justify-between items-center text-[12px] text-slate-500">
+      {/* Bottom Bar - Legal/Copyright Spanning Full Width */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full border-t border-slate-900 mt-20 pt-10 flex justify-between text-[12px] text-slate-500">
         <div>
           © 2026 BuyUkrainian.ca. All rights reserved.
         </div>
 
-        {/* Discreet Admin Link */}
+        {/* Discreet Admin Link - Far Right Corner */}
         <Link
           href="/admin/login"
           className="text-[10px] text-slate-500 hover:text-white transition-colors"

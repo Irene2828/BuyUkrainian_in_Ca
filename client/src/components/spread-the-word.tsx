@@ -26,11 +26,11 @@ export function SpreadTheWord() {
   };
 
   return (
-    <section className="relative py-24 bg-[#D3E4FD]/20 overflow-hidden px-6 md:px-16 z-10 w-full">
-      {/* Consistent section padding */}
-      <div className="mx-auto max-w-[1440px] relative z-10 flex flex-col items-center">
+    <section className="relative w-full bg-[#f8faff] py-20 md:py-24 overflow-hidden z-10">
+      {/* Structural Container */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
 
-        <div className="text-center mb-8 md:mb-12">
+        <div className="text-center mb-12">
           {/* 32px/48px gap */}
           <h2 className="text-slate-950 font-bold tracking-tight text-4xl mb-3 leading-tight font-header section-headline-reveal">
             Spread the Word
