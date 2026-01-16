@@ -27,7 +27,7 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
-        <div className="text-center mb-20 md:mb-32">
+        <div className="text-center mb-10 md:mb-16">
           <h2 className="text-[28px] md:text-[42px] font-medium text-slate-900 tracking-tight leading-tight">
             Recently Added Findings
           </h2>
