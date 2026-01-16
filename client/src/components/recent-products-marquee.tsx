@@ -1,10 +1,5 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Link, useLocation } from "wouter";
-import { StoreCard } from "./store-card";
-import { Store } from "@/lib/data";
-import { ChevronRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export function RecentProductsMarquee() {
@@ -14,80 +9,37 @@ export function RecentProductsMarquee() {
         queryFn: getApprovedStores,
         staleTime: Infinity,
     });
-    const [selectedStore, setSelectedStore] = useState<Store | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [_, setLocation] = useLocation();
 
-    if (isLoading) return null;
+    if (isLoading || stores.length === 0) return null;
 
-    const displayStores = stores.length > 0 ? [...stores, ...stores, ...stores, ...stores].slice(0, 12) : [];
-
-    if (displayStores.length === 0) return null;
-
-    const handleStoreClick = (store: Store) => {
-        setSelectedStore(store);
-    };
-
-    const handleSeeOnMap = (store: Store) => {
-        setIsModalOpen(false);
-        setLocation(`/map?storeId=${store.id}`);
-    };
+    // Duplicate stores to create seamless loop
+    // Ensure we have enough items for the marquee
+    const storeNames = stores.map(s => s.name);
+    const repeatedNames = Array(10).fill(storeNames).flat(); // Repeat plenty of times
 
     return (
-        <div className="w-full bg-white overflow-hidden pt-8 pb-12 md:pt-20 md:pb-[100px] font-sans">
-            {/* Premium Header */}
-            <div className="flex justify-between items-baseline mb-10 px-6 md:px-20 max-w-[1440px] mx-auto">
-                <span className="text-[14px] font-medium text-slate-500 tracking-tight">
-                    Added this month
-                </span>
-                <Link href="/map" className="text-[14px] font-medium text-[#ADD0FE] flex items-center gap-1 hover:text-[#9bbce8] transition-colors">
-                    View all stores <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
-            </div>
+        <div className="w-full bg-white relative z-20 mt-[-32px] md:mt-[-40px] border-b border-gray-100/50 overflow-hidden font-sans">
+            <div className="max-w-[1440px] mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
-            <div className="relative w-full overflow-hidden">
-                <div className="flex animate-marquee whitespace-nowrap gap-8 px-8 items-center min-h-[160px]">
-                    {displayStores.map((store, i) => (
-                        <div
-                            key={`${store.id}-${i}`}
-                            onClick={() => handleStoreClick(store)}
-                            className="min-w-[340px] max-w-[420px] inline-flex bg-white p-8 rounded-[32px] cursor-pointer transition-all group"
-                        >
-                            {/* Store Image */}
-                            <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-black/5">
-                                <img
-                                    src={store.image || "/assets/kyivcake.jpeg"}
-                                    alt={store.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
+                {/* Fixed Live Label */}
+                <div className="sticky left-0 bg-white/90 backdrop-blur-md z-30 py-2 pr-6 pl-6 md:pl-20 flex items-center gap-3 h-full shadow-[10px_0_20px_-5px_rgba(255,255,255,1)]">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-fast shrink-0" />
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap">
+                        Live Findings
+                    </span>
+                </div>
 
-                            {/* Store Info - NO PINS, NO CATEGORY */}
-                            <div className="flex flex-col justify-center gap-1 flex-1 min-w-0 ml-6">
-                                <span className="text-[15px] font-semibold text-gray-900 truncate font-header">
-                                    {store.name}
-                                </span>
-                                <div className="flex items-center gap-2 text-slate-400 text-xs font-medium transition-colors group-hover:text-black font-ui">
-                                    <span className="no-underline">
-                                        {t ? t('modal.seeOnMap') : 'See on Map'}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                {/* Infinite Scroll Ticker */}
+                <div className="flex flex-1 overflow-hidden mask-ticker">
+                    <div className="flex animate-marquee whitespace-nowrap items-center min-w-full">
+                        {repeatedNames.map((name, i) => (
+                            <span key={i} className="text-[14px] md:text-[16px] font-medium text-slate-900 mx-3 md:mx-4 flex items-center gap-3 md:gap-4">
+                                {name} <span className="text-slate-300">·</span>
+                            </span>
+                        ))}
+                    </div>
                 </div>
             </div>
-
-            {/* Store Card Popup - Same as map pin */}
-            {
-                selectedStore && (
-                    <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setSelectedStore(null)}>
-                        <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
-                            <StoreCard store={selectedStore!} onClose={() => setSelectedStore(null)} />
-                        </div>
-                    </div>
-                )
-            }
-        </div >
+        </div>
     );
 }

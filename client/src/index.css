@@ -243,3 +243,12 @@
     display: none;
   }
 }
+/* Ticker Utilities */
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.mask-ticker {
+  mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+}
