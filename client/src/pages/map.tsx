@@ -127,14 +127,15 @@ export default function MapPage() {
     <div className="bg-background flex flex-col font-sans selection:bg-blue-100">
       <Header />
       <main className="flex-1 flex flex-col">
-        {/* Map Page Headline Section - Symmetrical Balance */}
+        {/* Map Page Headline Section - Premium Text-Block Anchor */}
         <section className="bg-white px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px] py-8 md:py-12 flex flex-col items-center justify-center">
-            <div className="max-w-[700px] mx-auto w-full px-4">
-              <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal text-left md:text-center">
+            {/* Text-Block Anchor with Premium Binding */}
+            <div className="flex flex-col items-center gap-3 mb-12 text-center">
+              <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
               </h2>
-              <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 font-ui text-left md:text-center">
+              <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui">
                 {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
               </p>
             </div>
