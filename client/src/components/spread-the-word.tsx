@@ -30,7 +30,7 @@ export function SpreadTheWord() {
       {/* Structural Container */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
 
-        <div className="mb-12 max-w-3xl mx-auto px-4 flex flex-col gap-3 text-center">
+        <div className="mb-12 max-w-3xl mx-auto flex flex-col gap-3 text-left md:text-center">
           {/* 12px gap (gap-3) standardized across all sections */}
           <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
             Spread the Word
