@@ -22,7 +22,7 @@ export function Hero() {
               {/* Main Headline */}
               <h1 className="text-slate-900 leading-[37.8px] md:leading-[1.05]">
                 {/* PART 1: High-Impact Header */}
-                <span className="block text-[30px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[37.8px] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[37.8px] md:leading-[1.05] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
@@ -41,7 +41,7 @@ export function Hero() {
 
             {/* Mobile-Only Cinematic Asset - Fixed 250x250 Left Aligned */}
             <div
-              className="block md:hidden w-[250px] h-[250px] mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
+              className="block md:hidden w-full h-[250px] mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
