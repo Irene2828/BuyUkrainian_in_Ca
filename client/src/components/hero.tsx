@@ -20,9 +20,9 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
+              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[44px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
                 {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
-                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] min-[391px]:leading-[44px] md:leading-[1.05] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
