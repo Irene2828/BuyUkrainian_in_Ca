@@ -28,13 +28,13 @@ export function Hero() {
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
-                <span className="block text-[28px] md:text-[42px] font-medium text-slate-700 mt-1 leading-[33px] md:leading-[1.1] tracking-[-1.5px] md:tracking-[-0.01em]">
+                <span className="block text-[28px] md:text-[42px] font-medium text-slate-700 mt-1 leading-[33px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Machined spacing: mt-6 for paragraph bridge */}
-              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left max-w-[260px] md:max-w-full">
+              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-[22px] md:leading-relaxed text-slate-500 font-ui text-left max-w-[260px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
