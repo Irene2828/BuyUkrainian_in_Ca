@@ -1,17 +1,12 @@
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Globe } from 'lucide-react';
 
 export function LanguageSwitcher({ className }: { className?: string }) {
     const { language, setLanguage } = useI18n();
-    const [mounted, setMounted] = useState(false);
     const [open, setOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -26,8 +21,6 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             return () => document.removeEventListener('mousedown', handleClickOutside);
         }
     }, [open]);
-
-    if (!mounted) return null;
 
     return (
         <div ref={containerRef} className="relative">

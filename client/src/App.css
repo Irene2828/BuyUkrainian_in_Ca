@@ -242,11 +242,11 @@ section h3,
     opacity: 0.8;
 }
 
-/* Pulse animation removed for premium calm interactions */
-/* Scroll Reveal Animation */
+/* Scroll Reveal Animation - INSTANT PAINT MODE */
 .section-reveal {
-    opacity: 0;
-    transform: translateY(10px);
+    /* INSTANT PAINT: Visible immediately, no opacity:0 */
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     position: relative;
     z-index: 10;
