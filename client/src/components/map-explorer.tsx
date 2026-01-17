@@ -272,7 +272,8 @@ export function MapExplorer() {
 
             <div className={cn(
                 "flex-1 md:flex-none max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
-                viewMode === "map" ? "items-stretch h-[450px] md:h-[450px]" : "items-start h-auto"
+                // Parent wrapper height control
+                viewMode === "map" ? "items-stretch h-auto md:h-[450px]" : "items-start h-auto"
             )}>
 
                 {/* Left Sidebar - Desktop only, full height synchronized with map */}
@@ -357,7 +358,8 @@ export function MapExplorer() {
                 </aside>
 
                 {/* Map Area - flex-1 fills remaining space */}
-                <div className="flex-1 relative min-h-[400px] md:min-h-0">
+                {/* Map Area - Force explicit height on mobile to guarantee Leaflet rendering */}
+                <div className="flex-1 relative h-[450px] md:h-auto md:min-h-0">
                     <MapSection
                         mode="full"
                         className="h-full w-full"
