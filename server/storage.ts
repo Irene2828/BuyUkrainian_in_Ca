@@ -3,10 +3,7 @@ import { db } from "../db";
 import { eq, desc } from "drizzle-orm";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Removed import.meta usage for CJS compatibility
 
 export interface IStorage {
   // Admin user methods
