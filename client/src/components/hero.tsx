@@ -20,28 +20,29 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[34px] md:leading-[1.05]">
+              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05]">
                 {/* PART 1: High-Impact Header */}
-                <span className="block text-[32px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
-                <span className="block text-[28px] md:text-[42px] font-medium text-slate-700 mt-1 leading-[40px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
+                {/* min-[391px]:mt-8 (32px) as requested for 'Higher Gravity' on large mobiles */}
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-1 min-[391px]:mt-8 md:mt-2 leading-[40px] min-[391px]:leading-[46px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
 
-              {/* Subtext - Machined spacing: mt-6 for paragraph bridge */}
-              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-[24px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] md:max-w-full">
+              {/* Subtext - Machined spacing: mt-6 -> mt-8 on Tier 2 */}
+              <p className="hero-subtitle mt-6 min-[391px]:mt-8 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[320px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
 
             {/* Mobile-Only Cinematic Asset - Fixed 250x250 Left Aligned */}
             <div
-              className="block md:hidden w-full h-[250px] mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
+              className="block md:hidden w-full h-[250px] mt-6 min-[391px]:mt-8 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
@@ -64,7 +65,7 @@ export function Hero() {
             {/* Button Wrapper */}
             <div className="w-full max-w-[500px]">
               {/* Button Group - Stacked, Left Aligned, Gap 16px */}
-              <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-4 md:gap-6 mt-6 md:mt-8">
+              <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-4 md:gap-6 mt-6 min-[391px]:mt-8 md:mt-8">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
