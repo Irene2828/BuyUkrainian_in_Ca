@@ -34,7 +34,7 @@ export function Hero() {
               </h1>
 
               {/* Subtext - Machined spacing: mt-6 for paragraph bridge */}
-              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
+              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left max-w-[218px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
