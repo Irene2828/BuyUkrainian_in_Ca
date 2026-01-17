@@ -18,11 +18,20 @@ export function Hero() {
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
             {/* Content wrapper for centered positioning on mobile with left-aligned text */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0">
-              {/* Main Headline - Exact Typography */}
-              <h1 className="hero-title premium-parallax-text w-full mb-4 text-[36px] md:text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-left">
-                <span className="hero-reveal-headline">
-                  {t('home.hero.title') || 'Find and Share\nUkrainian Products\nsold across Canada'}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0 flex flex-col gap-6">
+              {/* Main Headline - Dual-Scale Premium Typography */}
+              <h1 className="hero-title premium-parallax-text w-full text-left antialiased">
+                <span className="hero-reveal-headline block">
+                  {/* Top lines: Larger, bolder, darker */}
+                  <span className="block text-[48px] md:text-[52px] font-bold tracking-tight leading-[1.1] text-slate-900">
+                    Find and Share
+                    <br />
+                    Ukrainian Products sold
+                  </span>
+                  {/* Bottom line: Slightly smaller, medium weight, softer color */}
+                  <span className="block text-[42px] font-medium text-slate-800 mt-1">
+                    across Canada
+                  </span>
                 </span>
               </h1>
 
