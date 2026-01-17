@@ -22,7 +22,7 @@ export function Hero() {
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
               <h1 className="text-slate-900 leading-[1.1]">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="block text-4xl md:text-[56px] font-bold tracking-[-0.01em] leading-[1.1]">
+                <span className="block text-4xl md:text-[56px] font-semibold tracking-[-0.01em] leading-[1.1] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
