@@ -20,21 +20,21 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
-              <h1 className="text-slate-900 leading-tight">
+              <h1 className="text-slate-900 leading-none">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="block text-4xl md:text-[56px] font-bold tracking-tighter leading-tight">
+                <span className="block text-4xl md:text-[56px] font-bold tracking-tight leading-none">
                   Find and Share <br className="hidden md:block" />
                   Ukrainian Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header - text-3xl (30px) mobile */}
-                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-tight tracking-tight">
+                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-none tracking-tight">
                   sold across Canada
                 </span>
               </h1>
 
-              {/* Subtext - Machined spacing: mt-6 desktop, mt-4 mobile */}
-              <p className="hero-subtitle mt-4 md:mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
+              {/* Subtext - Machined spacing: mt-5 for caption feel */}
+              <p className="hero-subtitle mt-5 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
