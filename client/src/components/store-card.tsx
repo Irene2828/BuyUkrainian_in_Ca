@@ -156,7 +156,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 {/* Product List Card - Scrollable UI with Scroll Indicator */}
                 <div className="flex-1 relative">
                     <div className="bg-gray-50/50 border border-gray-100 rounded-[24px] p-3 h-24 overflow-y-auto custom-scrollbar">
-                        <p className="text-[16px] font-normal italic text-blue-600 leading-[1.4] tracking-tight font-['Inter']">
+                        <p className="text-[16px] font-normal italic text-gray-600 leading-[1.4] tracking-tight font-['Inter']">
                             {store.products && store.products.length > 0
                                 ? store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).join(', ')
                                 : 'Authentic Ukrainian products'}
@@ -193,7 +193,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full h-[52px] bg-black hover:bg-white hover:text-black hover:ring-1 hover:ring-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all shadow-xl shadow-gray-200 active:scale-[0.98]"
+                    className="w-full h-[52px] bg-white text-black border border-black font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all shadow-xl shadow-gray-200 hover:bg-black hover:text-white active:scale-[0.98]"
                 >
                     <Navigation size={20} strokeWidth={2.5} />
                     Get Directions
