@@ -37,7 +37,7 @@ export function Hero() {
 
               {/* Subtext - Discovery & Contribution */}
               <p className="hero-subtitle mb-8 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
-                {t('home.hero.subtitle') || 'Support Ukraine\'s economy by purchasing Made in Ukraine goods in Canada or contribute to our community-sourced map yourself by adding new locations.'}
+                {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
 
