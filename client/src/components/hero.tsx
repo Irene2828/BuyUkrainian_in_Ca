@@ -20,7 +20,7 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full md:mx-0">
+              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
                 {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
                 <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
                   Find and Share <br />
@@ -34,7 +34,7 @@ export function Hero() {
               </h1>
 
               {/* Subtext - Adjusted for Figma Alignment */}
-              <p className="hero-subtitle mt-6 min-[391px]:mt-8 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[320px] md:max-w-full">
+              <p className="hero-subtitle mt-6 min-[391px]:mt-8 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[323px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
