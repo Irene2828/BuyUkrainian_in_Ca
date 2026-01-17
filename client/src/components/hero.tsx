@@ -18,17 +18,17 @@ export function Hero() {
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
             {/* Content wrapper - Aligned with parent px-6 */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0 text-center md:text-left">
+            <div className="w-full max-w-4xl mx-auto md:mx-0 md:px-0 text-center md:text-left">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
-              <h1 className="text-slate-900 leading-[1.05]">
+              <h1 className="text-slate-900 leading-[1.1]">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="block text-4xl md:text-[56px] font-bold tracking-[-0.015em] leading-[1.05]">
-                  Find and Share <br className="hidden md:block" />
-                  Ukrainian Products
+                <span className="block text-4xl md:text-[56px] font-bold tracking-[-0.01em] leading-[1.1]">
+                  Find and Share <br />
+                  Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header - text-3xl (30px) mobile */}
-                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-[1.05] tracking-[-0.015em]">
+                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-[1.1] tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
