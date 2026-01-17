@@ -2,7 +2,7 @@
 :root {
     --radius-brand: 32px;
     --radius-card: 40px;
-    --font-header: 'Lora', serif;
+    --font-header: 'Inter', sans-serif;
     --font-ui: 'Inter', sans-serif;
 
     /* Audit Brand Colors */
