@@ -17,8 +17,8 @@ export function Hero() {
 
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
-            {/* Content wrapper - MOBILE: px-6 to align with Header Logo - NO gap-6 */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0">
+            {/* Content wrapper - Aligned with parent px-6 */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
               <h1 className="text-slate-900 leading-tight">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
@@ -39,8 +39,8 @@ export function Hero() {
               </p>
             </div>
 
-            {/* Button Wrapper - MOBILE: px-6 aligns with H1 and Logo */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0">
+            {/* Button Wrapper - Aligned with parent px-6 */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0">
               {/* 
                 ALIGNMENT FIX: Using items-center consistently ensures both CTAs 
                 are vertically centered regardless of their internal heights.
