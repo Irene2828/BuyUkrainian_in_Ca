@@ -48,6 +48,7 @@ export function Hero() {
                 elements with different heights (Button vs text link).
               */}
               {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
+              {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
               <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 mt-10">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
@@ -57,9 +58,9 @@ export function Hero() {
                 </Link>
 
                 <Link href="/#how-it-works" className="flex justify-start">
-                  <button className="no-invert-hover h-[46px] md:h-[52px] text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
-                    {t('header.howItWorks') || 'How It Works'}
+                  <button className="no-invert-hover h-[46px] md:h-[52px] pl-0 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
                     <HelpCircle className="w-4 h-4" />
+                    {t('header.howItWorks') || 'How It Works'}
                   </button>
                 </Link>
               </div>
