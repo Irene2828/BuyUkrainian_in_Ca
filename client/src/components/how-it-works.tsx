@@ -33,7 +33,7 @@ export function HowItWorks() {
           <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal text-gray-500 font-ui max-w-2xl">
+          <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui tracking-[-0.31px] md:tracking-normal max-w-2xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
