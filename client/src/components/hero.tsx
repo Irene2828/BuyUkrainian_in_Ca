@@ -28,7 +28,7 @@ export function Hero() {
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-2 min-[391px]:mt-2 md:mt-2 leading-[40px] min-[391px]:leading-[46px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-2 min-[391px]:mt-2 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
