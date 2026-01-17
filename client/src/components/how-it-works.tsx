@@ -28,7 +28,7 @@ export function HowItWorks() {
 
   return (
     <section id="how-it-works" className="pt-20 md:pt-[100px] pb-[100px] bg-white font-sans overflow-hidden">
-      <div className="mx-auto px-4 md:px-16 max-w-[1440px] relative z-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
         <div className="mb-8 md:mb-12 max-w-[700px] mx-auto px-4">
           <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal text-left md:text-center">
             {t('howItWorks.title') || 'How It Works'}
