@@ -17,18 +17,18 @@ export function Hero() {
 
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
-            {/* Content wrapper for centered positioning on mobile with left-aligned text */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0 flex flex-col gap-6">
-              {/* Main Headline - Atomic Structure with Explicit Classes */}
-              <h1 className="flex flex-col text-slate-900">
-                {/* PART 1: The High-Impact Header */}
-                <span className="text-[48px] md:text-[56px] font-bold leading-[1.05] tracking-tight">
+            {/* Content wrapper - MOBILE: px-6 to align with Header Logo */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0 flex flex-col gap-6">
+              {/* Main Headline - Obsidian 5:4 Mobile Ratio */}
+              <h1 className="flex flex-col text-slate-900 leading-[1.1] md:leading-normal">
+                {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
+                <span className="text-4xl md:text-[56px] font-bold tracking-tight">
                   Find and Share <br className="hidden md:block" />
                   Ukrainian Products
                 </span>
 
-                {/* PART 2: The Contextual Sub-Header */}
-                <span className="text-[32px] md:text-[42px] font-medium text-slate-700 mt-2 leading-[1.2]">
+                {/* PART 2: Contextual Sub-Header - text-3xl (30px) mobile */}
+                <span className="text-3xl md:text-[42px] font-medium text-slate-700 mt-2">
                   sold across Canada
                 </span>
               </h1>
@@ -39,8 +39,8 @@ export function Hero() {
               </p>
             </div>
 
-            {/* Button Wrapper - Centered on mobile, left-aligned on desktop */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0">
+            {/* Button Wrapper - MOBILE: px-6 aligns with H1 and Logo */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0">
               {/* 
                 ALIGNMENT FIX: Using items-center consistently ensures both CTAs 
                 are vertically centered regardless of their internal heights.
