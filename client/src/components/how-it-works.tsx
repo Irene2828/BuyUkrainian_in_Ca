@@ -72,7 +72,7 @@ export function HowItWorks() {
               {/* Technical Label - Tight Snap */}
               <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 text-left md:text-center w-full">{step.title}</h5>
 
-              <p className="text-[15px] leading-[1.6] text-slate-600 max-w-[280px] md:mx-auto text-left md:text-center w-full">
+              <p className="text-[16px] leading-[1.6] text-slate-600 max-w-[280px] md:mx-auto text-left md:text-center w-full">
                 {step.description}
               </p>
             </div>
@@ -83,7 +83,7 @@ export function HowItWorks() {
         <div className="mt-8 mb-0 flex justify-center text-center">
           <Link
             href="/map"
-            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
+            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
           >
             {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
           </Link>

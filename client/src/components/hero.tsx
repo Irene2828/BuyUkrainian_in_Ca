@@ -34,9 +34,9 @@ export function Hero() {
 
             {/* Button Wrapper - Left-aligned on mobile within centered container */}
             <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0">
-              <div className="flex flex-col md:flex-row items-start gap-8 mt-10">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mt-5">
                 <Link href="/map">
-                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
+                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
                     <ArrowRight className="w-5 h-5" />
                   </Button>

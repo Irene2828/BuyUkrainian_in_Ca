@@ -83,7 +83,7 @@ export function FAQ() {
                 )}
               >
                 <div className="pt-4 pb-6">
-                  <p className="text-[15px] leading-[1.6] text-slate-600 max-w-[600px]">
+                  <p className="text-[16px] leading-[1.6] text-slate-600 max-w-[600px]">
                     {faq.answer}
                   </p>
                 </div>
