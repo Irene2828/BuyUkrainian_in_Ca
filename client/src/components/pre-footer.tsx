@@ -18,7 +18,7 @@ export function PreFooter() {
                         {language === 'ua' ? 'Купуй українське — Підтримуй Україну' : 'Buy Ukrainian — Support Ukraine'}
                     </h3>
                     <p className="mt-6 text-[16px] md:text-[20px] text-slate-900/60 lowercase tracking-wide italic leading-relaxed">
-                        every purchase, every share matters.
+                        {language === 'ua' ? 'Купуй українське. Підтримуй Україну.' : 'Buy Ukrainian. Support Ukraine.'}
                     </p>
                 </div>
 
