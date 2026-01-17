@@ -2,7 +2,7 @@
 :root {
     --radius-brand: 32px;
     --radius-card: 40px;
-    --font-header: 'Plus Jakarta Sans', 'General Sans', sans-serif;
+    --font-header: 'Lora', serif;
     --font-ui: 'Inter', sans-serif;
 
     /* Audit Brand Colors */
@@ -12,42 +12,37 @@
 
 /* Typography System - RESTORED TO AUDIT hierarchy */
 h1 {
-    font-family: var(--font-header) !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.02em !important;
-    line-height: 1.2 !important;
-    color: #1A1A1A !important;
+    font-family: var(--font-header);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: #1A1A1A;
 }
 
 
 
 h2 {
-    font-family: var(--font-header) !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.01em !important;
-    line-height: 1.2 !important;
-    color: #1A1A1A !important;
+    font-family: var(--font-header);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: #1A1A1A;
 }
 
 h3 {
-    font-family: var(--font-header) !important;
-    font-weight: 500 !important;
-    line-height: 1.2 !important;
-    color: #1A1A1A !important;
+    font-family: var(--font-header);
+    line-height: 1.2;
+    color: #1A1A1A;
 }
 
 h4:not(footer h4) {
-    font-family: var(--font-header) !important;
-    font-weight: 500 !important;
-    line-height: 1.2 !important;
-    color: #1A1A1A !important;
+    font-family: var(--font-header);
+    line-height: 1.2;
+    color: #1A1A1A;
 }
 
 h5 {
-    font-family: var(--font-header) !important;
-    font-weight: 500 !important;
-    line-height: 1.2 !important;
-    color: #1A1A1A !important;
+    font-family: var(--font-header);
+    line-height: 1.2;
+    color: #1A1A1A;
 }
 
 /* Map Sidebar - RESTORED TO AUDIT RADIUS 32px */
