@@ -4,7 +4,7 @@
 
 **ENFORCE EVERYWHERE:**
 ```tsx
-className="max-w-7xl mx-auto px-6 md:px-12"
+className="max-w-[1440px] mx-auto px-6 md:px-12"
 ```
 
 This is the **Golden Boundary** that ensures perfect vertical alignment across all page sections.
@@ -40,7 +40,7 @@ This is the **Golden Boundary** that ensures perfect vertical alignment across a
 **EVERY NEW SECTION MUST:**
 ```tsx
 <section className="[background/styling]">
-  <div className="max-w-7xl mx-auto px-6 md:px-12">
+  <div className="max-w-[1440px] mx-auto px-6 md:px-12">
     {/* Section content */}
   </div>
 </section>
@@ -58,7 +58,7 @@ These elements use constrained widths WITHIN the Golden Boundary:
 **Structure:**
 ```tsx
 <header>
-  <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+  <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between">
     <div className="flex-1">{/* Logo */}</div>
     <div className="flex-1 justify-end">{/* Navigation */}</div>
   </div>
@@ -83,7 +83,7 @@ The Map Section's "Filter Bar" and "Add Location" button define the ABSOLUTE edg
 
 ## Anti-Patterns (DO NOT USE)
 
-❌ `max-w-[1440px]` (too wide, breaks rhythm)
+❌ `max-w-7xl` (too narrow at 1280px, breaks rhythm)
 ❌ `max-w-6xl` (too narrow, inconsistent)
 ❌ `justify-around` in Header (breaks edge alignment)
 ❌ Sections without Golden Boundary wrapper
