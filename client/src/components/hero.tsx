@@ -39,6 +39,28 @@ export function Hero() {
               </p>
             </div>
 
+            {/* Mobile-Only Cinematic Asset - Placed between Text and CTA (Ref: 22.44.46) */}
+            <div
+              className="block md:hidden w-full h-[250px] mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative max-w-[500px] mx-auto"
+              style={{ backgroundColor: '#FDFFD7' }}
+            >
+              <video
+                className="w-full h-full object-cover"
+                style={{
+                  opacity: videoReady ? 1 : 0,
+                  transition: 'opacity 0.4s ease-in-out'
+                }}
+                autoPlay
+                muted
+                loop
+                playsInline
+                onCanPlay={() => setVideoReady(true)}
+              >
+                <source src="/hero-video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
             {/* Button Wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0">
               {/* 
@@ -49,7 +71,7 @@ export function Hero() {
               */}
               {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
               {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8 mt-10">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8 mt-8">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
@@ -67,7 +89,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2 order-2 flex justify-center">
+          <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-center">
             <div
               className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:max-h-none w-full max-w-[500px] lg:max-w-none mx-auto"
               style={{ backgroundColor: '#FDFFD7' }}
