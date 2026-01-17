@@ -20,28 +20,28 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-[90%] min-[391px]:mx-auto md:mx-0">
-                {/* PART 1: High-Impact Header - Forced 2-Line Hook */}
+              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full md:mx-0">
+                {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
                 <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
-                  Find and Share Ukrainian <br />
-                  Products
+                  Find and Share <br />
+                  Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-1 min-[391px]:mt-4 md:mt-2 leading-[40px] min-[391px]:leading-[46px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-2 min-[391px]:mt-2 md:mt-2 leading-[40px] min-[391px]:leading-[46px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
 
-              {/* Subtext - Reverting scale on gaps to maintain 'The Ingot' compactness */}
-              <p className="hero-subtitle mt-6 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[320px] md:max-w-full">
+              {/* Subtext - Adjusted for Figma Alignment */}
+              <p className="hero-subtitle mt-6 min-[391px]:mt-8 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[320px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
 
-            {/* Mobile-Only Cinematic Asset - Fixed 250x250 Left Aligned */}
+            {/* Mobile-Only Cinematic Asset - Square + Full Width per Figma */}
             <div
-              className="block md:hidden w-full h-[250px] mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
+              className="block md:hidden w-full aspect-square mt-6 min-[391px]:mt-8 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
