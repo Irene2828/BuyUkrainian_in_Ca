@@ -16,34 +16,39 @@ export function Hero() {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
 
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start text-center md:text-left justify-center order-1">
-            {/* Main Headline - Exact Typography */}
-            <h1 className="hero-title premium-parallax-text w-full mb-4 text-[32px] min-[390px]:text-[36px] md:text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-center md:text-left">
-              <span className="hero-reveal-headline">
-                {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold across Canada'}
-              </span>
-            </h1>
+          <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
+            {/* Content wrapper for centered positioning on mobile with left-aligned text */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0">
+              {/* Main Headline - Exact Typography */}
+              <h1 className="hero-title premium-parallax-text w-full mb-4 text-[36px] md:text-[48px] font-bold tracking-tight leading-[1.1] text-gray-900 antialiased whitespace-pre-wrap text-left">
+                <span className="hero-reveal-headline">
+                  {t('home.hero.title') || 'Find and Share Ukrainian\nProducts sold across Canada'}
+                </span>
+              </h1>
 
-            {/* Subtext - Discovery & Contribution */}
-            <p className="hero-subtitle mb-8 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 max-w-[500px] mx-auto md:mx-0 font-ui text-center md:text-left">
-              {t('home.hero.subtitle') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
-            </p>
+              {/* Subtext - Discovery & Contribution */}
+              <p className="hero-subtitle mb-8 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
+                {t('home.hero.subtitle') || 'Our mission is to make it easy to find Ukrainian products across Canada, from traditional foods and crafts to modern Ukrainian-made goods.'}
+              </p>
+            </div>
 
-            {/* Button Wrapper - Centered Mobile, Flush Left Desktop */}
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mt-10">
-              <Link href="/map">
-                <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
-                  {t('home.hero.explore') || 'Explore the Map'}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
+            {/* Button Wrapper - Left-aligned on mobile within centered container */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0">
+              <div className="flex flex-col md:flex-row items-start gap-8 mt-10">
+                <Link href="/map">
+                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-3 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
+                    {t('home.hero.explore') || 'Explore the Map'}
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
 
-              <Link href="/#how-it-works">
-                <button className="no-invert-hover text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
-                  {t('header.howItWorks') || 'How It Works'}
-                  <HelpCircle className="w-4 h-4" />
-                </button>
-              </Link>
+                <Link href="/#how-it-works">
+                  <button className="no-invert-hover text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
+                    {t('header.howItWorks') || 'How It Works'}
+                    <HelpCircle className="w-4 h-4" />
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
 

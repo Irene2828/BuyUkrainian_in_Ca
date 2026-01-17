@@ -42,7 +42,7 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group flex flex-col items-center text-center bg-white rounded-[32px] p-8 h-full"
+              className="group flex flex-col items-start md:items-center bg-white rounded-[32px] p-8 h-full"
             >
               {/* Disciplined Image Frame */}
               <div className="h-[200px] w-full flex items-center justify-center overflow-hidden mb-4">
@@ -70,9 +70,9 @@ export function HowItWorks() {
               </div>
 
               {/* Technical Label - Tight Snap */}
-              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3">{step.title}</h5>
+              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 text-left md:text-center w-full">{step.title}</h5>
 
-              <p className="text-[15px] leading-[1.6] text-slate-600 max-w-[280px] mx-auto">
+              <p className="text-[15px] leading-[1.6] text-slate-600 max-w-[280px] md:mx-auto text-left md:text-center w-full">
                 {step.description}
               </p>
             </div>
