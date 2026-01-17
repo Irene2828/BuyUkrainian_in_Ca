@@ -152,13 +152,18 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 </div>
 
-                {/* Product List Card - Scrollable UI */}
-                <div className="flex-1 bg-gray-50/50 border border-gray-100 rounded-[24px] p-3 h-24 overflow-y-auto custom-scrollbar">
-                    <p className="text-[16px] font-normal italic text-gray-600 leading-[1.4] tracking-tight font-['Inter']">
-                        {store.products && store.products.length > 0
-                            ? store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).join(', ')
-                            : 'Authentic Ukrainian products'}
-                    </p>
+
+                {/* Product List Card - Scrollable UI with Scroll Indicator */}
+                <div className="flex-1 relative">
+                    <div className="bg-gray-50/50 border border-gray-100 rounded-[24px] p-3 h-24 overflow-y-auto custom-scrollbar">
+                        <p className="text-[16px] font-normal italic text-gray-600 leading-[1.4] tracking-tight font-['Inter']">
+                            {store.products && store.products.length > 0
+                                ? store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).join(', ')
+                                : 'Authentic Ukrainian products'}
+                        </p>
+                    </div>
+                    {/* Minimal Premium Scroll Indicator */}
+                    <div className="absolute bottom-0 right-0 left-0 h-8 bg-gradient-to-t from-gray-50 to-transparent rounded-b-[24px] pointer-events-none"></div>
                 </div>
             </div>
 
