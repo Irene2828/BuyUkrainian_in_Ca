@@ -73,11 +73,10 @@ export function Hero() {
                   </Button>
                 </Link>
 
-                <Link href="/#how-it-works" className="flex justify-center md:justify-start">
-                  <button className="no-invert-hover h-[46px] md:h-[52px] pl-0 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
-                    {t('header.howItWorks') || 'How It Works'}
-                    <HelpCircle className="w-4 h-4" />
-                  </button>
+                <Link href="/map" className="flex justify-center md:justify-start">
+                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-white text-black border border-black rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-black hover:text-white transition-all">
+                    + Add a Store
+                  </Button>
                 </Link>
               </div>
             </div>
