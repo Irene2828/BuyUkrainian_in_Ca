@@ -44,31 +44,31 @@ export function SpreadTheWord() {
         <div className="w-full md:w-[790px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
 
           {/* Message Pill Layout */}
-          <div className="px-4 md:px-10 mb-8 w-full max-w-[650px] mx-auto">
+          <div className="px-4 md:px-10 mb-8 w-full max-w-[650px] mx-auto text-center">
             <p className="text-[16px] md:text-[18px] font-normal text-white/90 leading-relaxed font-ui">
               {shareMessage}
             </p>
           </div>
 
-          {/* Social Buttons - Full width on mobile, auto on desktop */}
-          <div className="flex flex-col lg:flex-row flex-wrap items-center justify-center gap-3 w-full">
+          {/* Social Buttons - Vertically stacked per user request */}
+          <div className="flex flex-col items-center justify-center gap-3 w-full">
             <button
               onClick={handleFacebookShare}
-              className="w-full md:w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full max-w-[320px] flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <Facebook className="w-[14px] h-[14px] fill-current" />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
-              className="w-full md:w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full max-w-[320px] flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <Instagram className="w-[14px] h-[14px]" />
               Share on Instagram
             </button>
             <button
               onClick={handleXShare}
-              className="w-full md:w-fit flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full max-w-[320px] flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <svg
                 viewBox="0 0 24 24"
