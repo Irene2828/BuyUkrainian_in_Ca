@@ -359,7 +359,7 @@ export function MapExplorer() {
 
                 {/* Map Area - flex-1 fills remaining space */}
                 {/* Map Area - Force explicit height on mobile to guarantee Leaflet rendering */}
-                <div className="flex-1 relative h-[450px] md:h-auto md:min-h-0">
+                <div className="flex-1 relative h-[450px] md:h-auto md:min-h-0 w-full z-0">
                     <MapSection
                         mode="full"
                         className="h-full w-full"
