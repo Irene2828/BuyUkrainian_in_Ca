@@ -20,16 +20,16 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
+              <h1 className="text-slate-900 leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
                 {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
-                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-bold min-[391px]:font-semibold tracking-[-1px] leading-[34px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-bold min-[391px]:font-semibold tracking-[-1px] leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-0 min-[391px]:mt-0 md:mt-2 leading-[34px] min-[391px]:leading-[42px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[42px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
