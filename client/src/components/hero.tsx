@@ -20,15 +20,15 @@ export function Hero() {
             {/* Content wrapper - MOBILE: px-6 to align with Header Logo - NO gap-6 */}
             <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
-              <h1 className="flex flex-col text-slate-900 leading-tight">
+              <h1 className="text-slate-900 leading-tight">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="text-4xl md:text-[56px] font-bold tracking-tight">
+                <span className="block text-4xl md:text-[56px] font-bold tracking-tight leading-tight">
                   Find and Share <br className="hidden md:block" />
                   Ukrainian Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header - text-3xl (30px) mobile */}
-                <span className="text-3xl md:text-[42px] font-medium text-slate-700 mt-2">
+                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-tight">
                   sold across Canada
                 </span>
               </h1>
