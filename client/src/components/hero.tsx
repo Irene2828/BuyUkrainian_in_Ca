@@ -20,9 +20,9 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl mx-auto md:mx-0 md:px-0 text-center md:text-left">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
-              <h1 className="text-slate-900 leading-[1.1]">
+              <h1 className="text-slate-900 leading-[1.05]">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="block text-4xl md:text-[56px] font-semibold tracking-[-0.01em] leading-[1.1] antialiased">
+                <span className="block text-4xl md:text-[56px] font-semibold tracking-[-0.01em] leading-[1.05] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>

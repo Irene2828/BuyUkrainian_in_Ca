@@ -29,11 +29,11 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="pt-20 md:pt-[100px] pb-[100px] bg-white font-sans overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-20">
-        <div className="mb-8 md:mb-12 max-w-3xl mx-auto flex flex-col gap-3 text-center">
-          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
+        <div className="mb-6 max-w-3xl mx-auto flex flex-col gap-3 text-center">
+          <h2 className="text-[28px] md:text-[36px] font-extrabold tracking-tight leading-tight font-header section-headline-reveal">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui">
+          <p className="text-[16px] md:text-[18px] font-normal text-gray-500 font-ui">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
