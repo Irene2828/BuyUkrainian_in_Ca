@@ -64,7 +64,7 @@ export function Hero() {
             {/* Button Wrapper */}
             <div className="w-full max-w-[500px]">
               {/* Button Group - Stacked, Left Aligned, Gap 16px */}
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-start gap-4 md:gap-6 mt-6 md:mt-8">
+              <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-4 md:gap-6 mt-6 md:mt-8">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
@@ -72,7 +72,7 @@ export function Hero() {
                   </Button>
                 </Link>
 
-                <Link href="/#how-it-works" className="flex justify-start">
+                <Link href="/#how-it-works" className="flex justify-center md:justify-start">
                   <button className="no-invert-hover h-[46px] md:h-[52px] pl-0 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
                     {t('header.howItWorks') || 'How It Works'}
                     <HelpCircle className="w-4 h-4" />
