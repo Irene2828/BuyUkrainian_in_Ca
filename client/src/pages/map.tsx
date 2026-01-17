@@ -129,7 +129,7 @@ export default function MapPage() {
       <main className="flex-1 flex flex-col">
         {/* Map Page Headline Section - Symmetrical Balance */}
         <section className="bg-white px-6 md:px-16 section-reveal">
-          <div className="container mx-auto max-w-[1440px] py-16 md:py-20 flex flex-col items-center justify-center">
+          <div className="container mx-auto max-w-[1440px] py-8 md:py-12 flex flex-col items-center justify-center">
             <div className="max-w-[700px] mx-auto w-full px-4">
               <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal text-left md:text-center">
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
