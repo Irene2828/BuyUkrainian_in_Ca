@@ -40,7 +40,7 @@ export function Hero() {
                 Never use items-start here as it causes misalignment between 
                 elements with different heights (Button vs text link).
               */}
-              <div className="flex flex-col md:flex-row items-center gap-8 mt-5">
+              <div className="flex flex-col md:flex-row items-center gap-8 mt-0">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
