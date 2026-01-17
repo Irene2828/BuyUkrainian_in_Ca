@@ -58,9 +58,9 @@ export function Hero() {
                 </Link>
 
                 <Link href="/#how-it-works" className="flex justify-start">
-                  <button className="no-invert-hover h-[46px] md:h-[52px] pl-0 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4" />
+                  <button className="no-invert-hover h-[46px] md:h-[52px] pl-7 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
                     {t('header.howItWorks') || 'How It Works'}
+                    <HelpCircle className="w-4 h-4" />
                   </button>
                 </Link>
               </div>
