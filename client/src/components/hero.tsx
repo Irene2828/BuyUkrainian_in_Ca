@@ -10,7 +10,7 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans h-[720px] min-[391px]:h-[820px] md:h-auto pt-[58px] pb-[42px] md:pt-16 md:pb-20">
+    <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans min-h-[720px] min-[391px]:min-h-[820px] h-auto md:h-auto pt-[58px] pb-[42px] md:pt-16 md:pb-20">
       {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full h-full flex flex-col justify-start md:block">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start md:items-center w-full">
@@ -28,14 +28,14 @@ export function Hero() {
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
-                {/* Reduced mt-2 to mt-1.5 (6px) to decrease visual gap by ~10-20% */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-1.5 min-[391px]:mt-1.5 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
+                {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-700 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
 
-              {/* Subtext - Reduced to mt-4 (16px) on all mobile sizes */}
-              <p className="hero-subtitle mt-4 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[323px] md:max-w-full">
+              {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
+              <p className="hero-subtitle mt-3 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[24px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[323px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
