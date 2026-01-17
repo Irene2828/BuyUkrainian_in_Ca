@@ -181,7 +181,7 @@ export function MapExplorer() {
 
             {/* Desktop: Original Filter Section */}
             <div className="hidden md:block w-full pt-0 pb-0 bg-white shadow-none">
-                <div className="max-w-7xl mx-auto px-6 md:px-12">
+                <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                     {/* Filter Line - CATEGORY + VIEW (Left) | SEARCH + CTA (Right) - pb-6 for 50% more gap */}
                     <div className="flex items-center justify-between pt-0 pb-0 mb-8 gap-4">
                         <div className="flex flex-col gap-2">
@@ -271,7 +271,7 @@ export function MapExplorer() {
             </div>
 
             <div className={cn(
-                "flex-1 md:flex-none max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
+                "flex-1 md:flex-none max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
                 viewMode === "map" ? "items-stretch md:h-[450px]" : "items-start h-auto"
             )}>
 

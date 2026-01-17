@@ -17,7 +17,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md font-sans">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-full relative">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between h-full relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">

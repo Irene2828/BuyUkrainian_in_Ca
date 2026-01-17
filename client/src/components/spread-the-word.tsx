@@ -28,7 +28,7 @@ export function SpreadTheWord() {
   return (
     <section className="relative w-full bg-[#f8faff] py-24 overflow-hidden z-10">
       {/* Structural Container */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
 
         <div className="mb-12 max-w-[700px] mx-auto px-4 flex flex-col gap-3 text-left md:text-center">
           {/* 12px gap (gap-3) standardized across all sections */}
