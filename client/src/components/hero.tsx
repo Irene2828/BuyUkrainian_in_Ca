@@ -18,7 +18,7 @@ export function Hero() {
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
             {/* Content wrapper - Aligned with parent px-6 */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0">
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0 text-center md:text-left">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
               <h1 className="text-slate-900 leading-[1.05]">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
@@ -34,7 +34,7 @@ export function Hero() {
               </h1>
 
               {/* Subtext - Machined spacing: mt-6 for paragraph bridge */}
-              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
+              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-center md:text-left">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
@@ -49,7 +49,7 @@ export function Hero() {
               */}
               {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
               {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 mt-10">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8 mt-10">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
@@ -57,8 +57,8 @@ export function Hero() {
                   </Button>
                 </Link>
 
-                <Link href="/#how-it-works" className="flex justify-start">
-                  <button className="no-invert-hover h-[46px] md:h-[52px] pl-7 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
+                <Link href="/#how-it-works" className="flex justify-center md:justify-start">
+                  <button className="no-invert-hover h-[46px] md:h-[52px] pl-0 md:pl-7 text-[15px] font-medium text-slate-900 hover:underline flex items-center gap-2">
                     {t('header.howItWorks') || 'How It Works'}
                     <HelpCircle className="w-4 h-4" />
                   </button>
