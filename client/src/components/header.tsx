@@ -25,7 +25,7 @@ export function Header() {
             <img
               src="/assets/logonew.png"
               alt="BuyUkrainian.ca"
-              className="w-[80px] md:w-[124px] h-auto object-contain"
+              className="w-[100px] md:w-[124px] h-auto object-contain"
             />
             <span className="text-[12px] md:text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               BuyUkrainian.ca
