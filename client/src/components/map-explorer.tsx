@@ -98,7 +98,7 @@ export function MapExplorer() {
     return (
         <div className={cn(
             "w-full bg-white flex flex-col md:block transition-[height] duration-300 ease-in-out",
-            viewMode === "map" ? "h-[400px] md:h-[500px]" : "min-h-[400px] h-auto"
+            viewMode === "map" ? "h-[85vh] md:h-[500px]" : "min-h-[400px] h-auto"
         )}>
 
             {/* Mobile: Horizontal scrolling filter bar */}
@@ -359,7 +359,7 @@ export function MapExplorer() {
 
                 {/* Map Area - flex-1 fills remaining space */}
                 {/* Map Area - Force explicit height on mobile to guarantee Leaflet rendering */}
-                <div className="flex-1 relative h-[450px] md:h-auto md:min-h-0 w-full z-0">
+                <div className="flex-1 relative h-full md:h-auto md:min-h-0 w-full z-0">
                     <MapSection
                         mode="full"
                         className="h-full w-full"
