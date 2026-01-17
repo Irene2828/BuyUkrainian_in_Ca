@@ -28,7 +28,7 @@ function NewlyAddedStores() {
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
         <div className="mb-8 md:mb-12 max-w-[700px] mx-auto px-4 flex flex-col gap-3 text-left md:text-center">
-          <h2 className="text-[28px] md:text-[36px] font-semibold tracking-tight leading-tight font-header section-headline-reveal">
+          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
             Recently Added Findings
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui">
@@ -132,7 +132,7 @@ export default function MapPage() {
           <div className="container mx-auto max-w-[1440px] py-8 md:py-12 flex flex-col items-center justify-center">
             {/* Text-Block Anchor with Premium Binding */}
             <div className="flex flex-col items-center gap-3 mb-6 text-center">
-              <h2 className="text-[28px] md:text-[36px] font-semibold tracking-tight leading-tight font-header section-headline-reveal">
+              <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
               </h2>
               <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui">
