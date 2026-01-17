@@ -27,11 +27,11 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
+        <div className="mb-8 md:mb-12 max-w-[700px] mx-auto px-4">
+          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal text-left md:text-center">
             Recently Added Findings
           </h2>
-          <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
+          <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 font-ui text-left md:text-center">
             the map grows every time someone submits a new location!
           </p>
         </div>
@@ -128,14 +128,16 @@ export default function MapPage() {
       <Header />
       <main className="flex-1 flex flex-col">
         {/* Map Page Headline Section - Symmetrical Balance */}
-        <section className="bg-white text-center px-6 md:px-16 section-reveal">
-          <div className="container mx-auto max-w-[1440px] py-16 md:py-20 flex flex-col items-center justify-center text-center">
-            <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
-              {t('map.headline') || 'Find Ukrainian Products Across Canada'}
-            </h2>
-            <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 max-w-[700px] mx-auto font-ui px-4">
-              {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
-            </p>
+        <section className="bg-white px-6 md:px-16 section-reveal">
+          <div className="container mx-auto max-w-[1440px] py-16 md:py-20 flex flex-col items-center justify-center">
+            <div className="max-w-[700px] mx-auto w-full px-4">
+              <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal text-left md:text-center">
+                {t('map.headline') || 'Find Ukrainian Products Across Canada'}
+              </h2>
+              <p className="mt-6 text-[16px] md:text-[18px] font-normal text-gray-600 font-ui text-left md:text-center">
+                {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
+              </p>
+            </div>
           </div>
         </section>
 
