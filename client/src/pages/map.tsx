@@ -27,7 +27,7 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
-        <div className="mb-8 md:mb-12 max-w-[700px] mx-auto px-4 flex flex-col gap-3 text-left md:text-center">
+        <div className="mb-8 md:mb-12 max-w-[700px] mx-auto px-4 flex flex-col gap-3 text-center">
           <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
             Recently Added Findings
           </h2>
@@ -131,7 +131,7 @@ export default function MapPage() {
         <section className="bg-white px-6 md:px-16 section-reveal">
           <div className="container mx-auto max-w-[1440px] pt-8 pb-8 md:pt-12 md:pb-8 flex flex-col items-center justify-center">
             {/* Text-Block Anchor with Premium Binding */}
-            <div className="flex flex-col gap-3 text-left md:text-center md:items-center">
+            <div className="flex flex-col gap-3 text-center items-center">
               <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
               </h2>
