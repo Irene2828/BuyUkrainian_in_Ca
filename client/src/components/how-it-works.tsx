@@ -1,4 +1,4 @@
-import { MapPin, Search, PlusCircle, ArrowRight } from "lucide-react";
+import { MapPin, Search, PlusCircle, ArrowRight, Share2 } from "lucide-react";
 import { Link } from "wouter";
 import howItWorks1 from "@/assets/how-it-works-1.png";
 import howItWorks2 from "@/assets/how-it-works-2-v2.png";
@@ -22,7 +22,7 @@ export function HowItWorks() {
     {
       title: t('howItWorks.card3.title') || 'Spread the Word',
       description: t('howItWorks.card3.desc') || 'Share this platform with your network and help others support the mission.',
-      icon: MapPin
+      icon: Share2
     }
   ];
 
@@ -69,8 +69,11 @@ export function HowItWorks() {
                 )}
               </div>
 
-              {/* Technical Label - Tight Snap */}
-              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 text-left md:text-center w-full">{step.title}</h5>
+              {/* Technical Label with Optical Glyph - Machined into UI */}
+              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 text-left md:text-center w-full flex items-center md:justify-center">
+                <step.icon size={20} strokeWidth={1.5} className="mr-2 opacity-70" />
+                {step.title}
+              </h5>
 
               <p className="text-[16px] leading-[1.6] text-slate-600 max-w-[280px] md:mx-auto text-left md:text-center w-full">
                 {step.description}
