@@ -42,7 +42,7 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group flex flex-col items-start md:items-center bg-white rounded-[32px] p-8 h-full"
+              className="group flex flex-col items-center bg-white rounded-[32px] p-8 h-full"
             >
               {/* Disciplined Image Frame */}
               <div className="h-[200px] w-full flex items-center justify-center overflow-hidden mb-4">
@@ -70,12 +70,12 @@ export function HowItWorks() {
               </div>
 
               {/* Technical Label with Optical Glyph - Machined into UI */}
-              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 w-full flex items-center justify-start md:justify-center">
+              <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 w-full flex items-center justify-center">
                 <step.icon size={20} strokeWidth={1.5} className="mr-2 opacity-60" />
                 {step.title}
               </h5>
 
-              <p className="text-[16px] leading-[1.6] text-slate-600 max-w-[280px] md:mx-auto text-left md:text-center w-full">
+              <p className="text-[16px] leading-[1.6] text-slate-600 max-w-[280px] md:mx-auto text-center w-full">
                 {step.description}
               </p>
             </div>
