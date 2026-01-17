@@ -44,7 +44,7 @@ export function SpreadTheWord() {
         <div className="w-full md:w-[790px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
 
           {/* Message Pill Layout */}
-          <div className="px-4 md:px-10 py-4 mb-6 md:mb-8 w-full max-w-[650px] mx-auto">
+          <div className="px-4 md:px-10 mb-6 md:mb-8 w-full max-w-[650px] mx-auto">
             <p className="text-[16px] md:text-[18px] font-normal text-white/90 leading-relaxed font-ui">
               {shareMessage}
             </p>
