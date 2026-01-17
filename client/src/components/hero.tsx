@@ -32,9 +32,15 @@ export function Hero() {
               </p>
             </div>
 
-            {/* Button Wrapper - Left-aligned on mobile within centered container */}
+            {/* Button Wrapper - Centered on mobile, left-aligned on desktop */}
             <div className="w-full max-w-[500px] mx-auto md:mx-0 px-4 md:px-0">
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mt-5">
+              {/* 
+                ALIGNMENT FIX: Using items-center consistently ensures both CTAs 
+                are vertically centered regardless of their internal heights.
+                Never use items-start here as it causes misalignment between 
+                elements with different heights (Button vs text link).
+              */}
+              <div className="flex flex-col md:flex-row items-center gap-8 mt-5">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
