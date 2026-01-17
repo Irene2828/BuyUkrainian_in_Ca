@@ -80,7 +80,7 @@ export function HowItWorks() {
         </div>
 
         {/* CTA Button - Standardized size */}
-        <div className="mt-6 mb-0 flex justify-center text-center">
+        <div className="mt-4 mb-0 flex justify-center text-center">
           <Link
             href="/map"
             className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 pl-6 pr-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
