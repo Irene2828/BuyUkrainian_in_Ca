@@ -11,12 +11,12 @@
     --color-section-headline: #D3E4FD;
 }
 
-/* Global Section Headline Enforcement (Excluding Hero) */
-section h2,
+/* Global Section Headline Enforcement (Removed to allow utility classes) */
+/* section h2,
 section h3,
 .map-page-headline {
     color: var(--color-section-headline);
-}
+} */
 
 /* 
    Decorative Interstitial Map Sections
