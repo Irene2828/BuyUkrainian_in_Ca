@@ -12,7 +12,7 @@ export function Hero() {
   return (
     <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans h-[720px] min-[391px]:h-[820px] md:h-auto pt-[58px] pb-[42px] md:pt-16 md:pb-20">
       {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full h-full flex flex-col justify-center md:block">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full h-full flex flex-col justify-start md:block">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start md:items-center w-full">
 
           {/* Left Content - Flush Left Mobile & Desktop */}
