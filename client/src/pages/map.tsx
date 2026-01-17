@@ -129,9 +129,9 @@ export default function MapPage() {
       <main className="flex-1 flex flex-col">
         {/* Map Page Headline Section - Premium Text-Block Anchor */}
         <section className="bg-white px-6 md:px-16 section-reveal">
-          <div className="container mx-auto max-w-[1440px] py-8 md:py-12 flex flex-col items-center justify-center">
+          <div className="container mx-auto max-w-[1440px] pt-8 pb-8 md:pt-12 md:pb-8 flex flex-col items-center justify-center">
             {/* Text-Block Anchor with Premium Binding */}
-            <div className="flex flex-col gap-3 mb-6 text-left md:text-center md:items-center">
+            <div className="flex flex-col gap-3 text-left md:text-center md:items-center">
               <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
               </h2>
