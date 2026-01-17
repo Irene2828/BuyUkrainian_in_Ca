@@ -42,7 +42,7 @@ export function Hero() {
 
             {/* Mobile-Only Cinematic Asset - Square + Full Width per Figma */}
             <div
-              className="block md:hidden w-full aspect-square mt-6 min-[391px]:mt-8 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
+              className="block md:hidden w-full aspect-square mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
