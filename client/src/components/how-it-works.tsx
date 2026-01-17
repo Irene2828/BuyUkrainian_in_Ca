@@ -29,11 +29,11 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="pt-20 md:pt-[100px] pb-[100px] bg-white font-sans overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-20">
-        <div className="mb-16 md:mb-24 w-full max-w-4xl mx-0 md:mx-auto flex flex-col gap-3 text-left md:text-center items-start md:items-center">
-          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
+        <div className="mb-16 md:mb-24 w-full max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
+          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal text-black">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
-          <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui tracking-[-0.31px] md:tracking-normal max-w-2xl text-left md:text-center">
+          <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui tracking-[-0.31px] md:tracking-normal max-w-2xl text-center line-clamp-2 md:line-clamp-none">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
