@@ -26,11 +26,11 @@ export function Hero() {
                   <span className="block text-[48px] md:text-[52px] font-bold tracking-tight leading-[1.1] text-slate-900">
                     Find and Share
                     <br />
-                    Ukrainian Products sold
+                    Ukrainian Products
                   </span>
                   {/* Bottom line: Slightly smaller, medium weight, softer color */}
                   <span className="block text-[42px] font-medium text-slate-800 mt-1">
-                    across Canada
+                    sold across Canada
                   </span>
                 </span>
               </h1>
