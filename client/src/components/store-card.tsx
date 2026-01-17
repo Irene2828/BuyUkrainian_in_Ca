@@ -133,7 +133,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             </div>
 
             {/* 2. Visual Content Section: Gallery & Product Overview */}
-            <div className="px-6 pb-6 flex items-start gap-4">
+            <div className="px-6 pb-3 flex items-start gap-4">
                 {/* Interactive Store Image */}
                 <div
                     className="relative group w-24 h-24 flex-shrink-0 cursor-pointer overflow-hidden rounded-[24px] shadow-sm ring-1 ring-gray-100"
@@ -165,7 +165,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             {/* 3. Information Section: Location & Context */}
             <div className="mx-6 border-t border-gray-100"></div>
 
-            <div className="p-6">
+            <div className="p-3">
                 <div className="flex items-start gap-4">
                     <div className="bg-gray-50 p-3 rounded-[20px] text-gray-500 flex-shrink-0">
                         <MapPin size={20} />
@@ -182,7 +182,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             </div>
 
             {/* 4. Action Section: Primary & Secondary */}
-            <div className="px-6 pb-8 pt-2 space-y-3">
+            <div className="px-6 pb-4 pt-1 space-y-1.5">
                 {/* Primary Action */}
                 <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
