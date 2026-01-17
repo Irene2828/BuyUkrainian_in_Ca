@@ -272,7 +272,7 @@ export function MapExplorer() {
 
             <div className={cn(
                 "flex-1 md:flex-none max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
-                viewMode === "map" ? "items-stretch md:h-[450px]" : "items-start h-auto"
+                viewMode === "map" ? "items-stretch h-[450px] md:h-[450px]" : "items-start h-auto"
             )}>
 
                 {/* Left Sidebar - Desktop only, full height synchronized with map */}

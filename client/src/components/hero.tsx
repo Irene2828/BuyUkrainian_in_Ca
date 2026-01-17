@@ -10,7 +10,7 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans pt-20 pb-24">
+    <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans pt-10 pb-12 md:pt-20 md:pb-24">
       {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center w-full">
