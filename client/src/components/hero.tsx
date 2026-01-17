@@ -10,7 +10,7 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans h-[689px] md:h-auto py-[42px] md:pt-16 md:pb-20">
+    <section className="premium-parallax-hero relative w-full bg-[#F9FCD4] overflow-hidden font-sans h-[720px] md:h-auto pt-[58px] pb-[42px] md:pt-16 md:pb-20">
       {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full h-full flex flex-col justify-center md:block">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start md:items-center w-full">
@@ -20,21 +20,21 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[37.8px] md:leading-[1.05]">
+              <h1 className="text-slate-900 leading-[34px] md:leading-[1.05]">
                 {/* PART 1: High-Impact Header */}
-                <span className="block text-[32px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[37.8px] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] md:text-[56px] font-semibold tracking-[-1.5px] md:tracking-[-0.01em] leading-[34px] md:leading-[1.05] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
-                <span className="block text-[28px] md:text-[42px] font-medium text-slate-700 mt-1 leading-[33px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
+                <span className="block text-[28px] md:text-[42px] font-medium text-slate-700 mt-1 leading-[40px] md:leading-[1.1] tracking-[-1px] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Machined spacing: mt-6 for paragraph bridge */}
-              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-[22px] md:leading-relaxed text-slate-500 font-ui text-left max-w-[260px] md:max-w-full">
+              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-[24px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] md:max-w-full">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
