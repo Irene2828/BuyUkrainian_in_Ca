@@ -20,21 +20,21 @@ export function Hero() {
             {/* Content wrapper - Aligned with parent px-6 */}
             <div className="w-full max-w-[500px] mx-auto md:mx-0 md:px-0">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
-              <h1 className="text-slate-900 leading-none">
+              <h1 className="text-slate-900 leading-[1.05]">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="block text-4xl md:text-[56px] font-bold tracking-tight leading-none">
+                <span className="block text-4xl md:text-[56px] font-bold tracking-[-0.015em] leading-[1.05]">
                   Find and Share <br className="hidden md:block" />
                   Ukrainian Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header - text-3xl (30px) mobile */}
-                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-none tracking-tight">
+                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-[1.05] tracking-[-0.015em]">
                   sold across Canada
                 </span>
               </h1>
 
-              {/* Subtext - Machined spacing: mt-5 for caption feel */}
-              <p className="hero-subtitle mt-5 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
+              {/* Subtext - Machined spacing: mt-6 for paragraph bridge */}
+              <p className="hero-subtitle mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
@@ -47,8 +47,8 @@ export function Hero() {
                 Never use items-start here as it causes misalignment between 
                 elements with different heights (Button vs text link).
               */}
-              {/* Button Group - Separate Unit with mt-8, left-aligned on mobile */}
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 mt-8">
+              {/* Button Group - Separate Unit with mt-10 (Premium Void), left-aligned on mobile */}
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 mt-10">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
