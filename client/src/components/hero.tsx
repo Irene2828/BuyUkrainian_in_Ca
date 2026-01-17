@@ -22,13 +22,13 @@ export function Hero() {
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
               <h1 className="text-slate-900 leading-tight">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
-                <span className="block text-4xl md:text-[56px] font-bold tracking-tight leading-tight">
+                <span className="block text-4xl md:text-[56px] font-bold tracking-tighter leading-tight">
                   Find and Share <br className="hidden md:block" />
                   Ukrainian Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header - text-3xl (30px) mobile */}
-                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-tight">
+                <span className="block text-3xl md:text-[42px] font-medium text-slate-700 mt-1 leading-tight tracking-tight">
                   sold across Canada
                 </span>
               </h1>
