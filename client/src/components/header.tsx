@@ -21,7 +21,7 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
-          <Link href="/" className="flex flex-col items-center gap-0">
+          <Link href="/" className="flex flex-col items-start md:items-center gap-0">
             <img
               src="/assets/logonew.png"
               alt="BuyUkrainian.ca"
