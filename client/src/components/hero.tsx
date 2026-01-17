@@ -17,8 +17,8 @@ export function Hero() {
 
           {/* Left Content - Centered Mobile, Flush Left Desktop */}
           <div className="w-full lg:w-1/2 flex flex-col items-center md:items-start justify-center order-1">
-            {/* Content wrapper - MOBILE: px-6 to align with Header Logo */}
-            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0 flex flex-col gap-6">
+            {/* Content wrapper - MOBILE: px-6 to align with Header Logo - NO gap-6 */}
+            <div className="w-full max-w-[500px] mx-auto md:mx-0 px-6 md:px-0">
               {/* Main Headline - Obsidian 5:4 Mobile Ratio with Tight Leading */}
               <h1 className="flex flex-col text-slate-900 leading-tight">
                 {/* PART 1: High-Impact Header - text-4xl (36px) mobile */}
@@ -33,8 +33,8 @@ export function Hero() {
                 </span>
               </h1>
 
-              {/* Subtext - Discovery & Contribution - mt-8 for proper spacing */}
-              <p className="hero-subtitle mt-8 mb-8 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
+              {/* Subtext - Machined spacing: mt-6 desktop, mt-4 mobile */}
+              <p className="hero-subtitle mt-4 md:mt-6 text-[16px] md:text-[18px] font-normal leading-relaxed text-slate-500 font-ui text-left">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
@@ -47,7 +47,8 @@ export function Hero() {
                 Never use items-start here as it causes misalignment between 
                 elements with different heights (Button vs text link).
               */}
-              <div className="flex flex-col md:flex-row items-center gap-8 mt-0">
+              {/* Button Group - Separate Unit with mt-8, left-aligned on mobile */}
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 mt-8">
                 <Link href="/map">
                   <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
                     {t('home.hero.explore') || 'Explore the Map'}
