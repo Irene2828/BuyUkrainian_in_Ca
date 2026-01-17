@@ -51,24 +51,24 @@ export function SpreadTheWord() {
           </div>
 
           {/* Social Buttons - Vertically stacked per user request */}
-          <div className="flex flex-col items-center justify-center gap-3 w-full">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full">
             <button
               onClick={handleFacebookShare}
-              className="w-full max-w-[320px] flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <Facebook className="w-[14px] h-[14px] fill-current" />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
-              className="w-full max-w-[320px] flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <Instagram className="w-[14px] h-[14px]" />
               Share on Instagram
             </button>
             <button
               onClick={handleXShare}
-              className="w-full max-w-[320px] flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
               <svg
                 viewBox="0 0 24 24"
