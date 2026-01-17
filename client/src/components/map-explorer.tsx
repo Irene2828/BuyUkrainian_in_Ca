@@ -271,7 +271,7 @@ export function MapExplorer() {
             </div>
 
             <div className={cn(
-                "flex-1 md:flex-none max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
+                "w-full flex-1 md:flex-none max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-4 md:gap-8 mt-0 pt-0",
                 // Parent wrapper height control
                 viewMode === "map" ? "items-stretch h-auto md:h-[450px]" : "items-start h-auto"
             )}>
