@@ -72,6 +72,7 @@ h5 {
     transform: scale(1.2);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     z-index: 9999;
+    animation: premium-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Dimmed Pin State */
