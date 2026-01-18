@@ -35,7 +35,7 @@ export function Hero() {
               </h1>
 
               {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
-              <p className="hero-subtitle mt-6 md:mt-[14px] min-[1440px]:mt-[19px] text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29px] text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px]">
+              <p className="hero-subtitle mt-6 md:mt-[14px] min-[1440px]:mt-[19px] text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29px] min-[1440px]:leading-[28px] text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px] min-[1440px]:max-w-[575px]">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
