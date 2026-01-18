@@ -35,7 +35,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-white font-sans overflow-hidden pt-12 pb-[100px] px-6 md:px-16">
+    <section id="faq" className="bg-white font-sans overflow-hidden pt-[64px] pb-[72px] px-6 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
         <div className="mb-8 md:mb-12 max-w-3xl mx-auto flex flex-col gap-3 text-center">
           <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
