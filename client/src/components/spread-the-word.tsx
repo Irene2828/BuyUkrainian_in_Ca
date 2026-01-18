@@ -3,7 +3,7 @@ import { Facebook, Instagram } from "lucide-react";
 import { toast } from "sonner";
 
 export function SpreadTheWord() {
-  const shareMessage = "Join me in supporting Ukraine!\n\nDiscover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada!";
+  const shareMessage = "Discover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada!";
   const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
 
   const handleFacebookShare = () => {
@@ -26,7 +26,7 @@ export function SpreadTheWord() {
   };
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-12 md:py-[64px] md:h-[557px] overflow-hidden z-10 flex flex-col justify-center">
+    <section className="relative w-full bg-[#ECF6FF] py-16 md:py-[64px] md:h-[557px] overflow-hidden z-10 flex flex-col justify-center">
       {/* Structural Container */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
 
@@ -41,7 +41,7 @@ export function SpreadTheWord() {
         </div>
 
         {/* Material Card Section */}
-        <div className="w-full md:w-[790px] md:h-[285px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
+        <div className="w-full md:w-[790px] md:h-[252px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
 
           {/* Message Pill Layout */}
           <div className="px-4 md:px-10 mb-8 w-full max-w-[650px] mx-auto text-center">
