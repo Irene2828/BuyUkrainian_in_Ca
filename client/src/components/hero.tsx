@@ -10,7 +10,7 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="premium-parallax-hero relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans min-h-[720px] min-[391px]:min-h-[820px] md:min-h-0 h-auto md:h-auto pt-[42px] min-[391px]:pt-[52px] pb-[42px] md:pt-16 md:pb-20">
+    <section className="premium-parallax-hero relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans min-h-[720px] min-[391px]:min-h-[820px] md:min-h-0 h-auto md:h-[528px] pt-[42px] min-[391px]:pt-[52px] pb-[42px] md:p-0 md:flex md:items-center">
       {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full flex flex-col justify-start md:block">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start md:items-center w-full">
