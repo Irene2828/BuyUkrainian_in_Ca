@@ -3,7 +3,7 @@ import { Facebook, Instagram } from "lucide-react";
 import { toast } from "sonner";
 
 export function SpreadTheWord() {
-  const shareMessage = "Join me in supporting Ukraine!\nDiscover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to find and buy Ukrainian in Canada!";
+  const shareMessage = "Join me in supporting Ukraine!\n\nDiscover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada!";
   const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
 
   const handleFacebookShare = () => {
