@@ -194,7 +194,7 @@ export function MapExplorer() {
                                             className={cn(
                                                 "no-invert-hover flex items-center justify-center gap-2 h-[46px] px-5 rounded-full text-sm transition-all duration-300 font-ui",
                                                 category === cat.id
-                                                    ? "bg-[#006CE4] text-white shadow-[0_4px_12px_rgba(0,87,183,0.3)] font-medium"
+                                                    ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium"
                                                     : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
                                             )}
                                         >
@@ -210,7 +210,7 @@ export function MapExplorer() {
                                         onClick={() => setViewMode("map")}
                                         className={cn(
                                             "no-invert-hover h-[46px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
-                                            viewMode === "map" ? "bg-[#006CE4] text-white shadow-[0_4px_12px_rgba(0,87,183,0.3)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
+                                            viewMode === "map" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
                                         )}
                                     >
                                         <MapIcon className="w-4 h-4" /> {t('map.viewMap') || 'Map View'}
@@ -219,7 +219,7 @@ export function MapExplorer() {
                                         onClick={() => setViewMode("list")}
                                         className={cn(
                                             "no-invert-hover h-[46px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
-                                            viewMode === "list" ? "bg-[#006CE4] text-white shadow-[0_4px_12px_rgba(0,87,183,0.3)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
+                                            viewMode === "list" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
                                         )}
                                     >
                                         <List className="w-4 h-4" /> {t('map.viewList') || 'List View'}
