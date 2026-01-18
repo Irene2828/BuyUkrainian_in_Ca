@@ -169,9 +169,9 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     ) : (
                         <p className="text-sm text-gray-400 italic pl-1">Authentic Ukrainian products</p>
                     )}
+                    {/* Minimal Premium Scroll Indicator */}
+                    <div className="absolute bottom-0 right-0 left-0 h-8 bg-gradient-to-t from-gray-50 to-transparent rounded-b-[24px] pointer-events-none"></div>
                 </div>
-                {/* Minimal Premium Scroll Indicator */}
-                <div className="absolute bottom-0 right-0 left-0 h-8 bg-gradient-to-t from-gray-50 to-transparent rounded-b-[24px] pointer-events-none"></div>
             </div>
         </div>
 
