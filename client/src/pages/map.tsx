@@ -27,11 +27,11 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
-        <div className="mb-8 md:mb-12 max-w-[700px] mx-auto px-4 flex flex-col gap-3 text-center">
-          <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
+        <div className="mb-8 md:mb-12 max-w-[700px] flex flex-col gap-3 text-left">
+          <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
             Recently Added Findings
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui">
+          <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
             the map grows every time someone submits a new location!
           </p>
         </div>
@@ -132,10 +132,10 @@ export default function MapPage() {
           <div className="container mx-auto max-w-[1440px] pt-8 pb-8 md:pt-12 md:pb-8 flex flex-col items-center justify-center">
             {/* Text-Block Anchor with Premium Binding */}
             <div className="flex flex-col gap-3 text-center items-center">
-              <h2 className="text-[28px] md:text-[36px] font-bold tracking-tight leading-tight font-header section-headline-reveal">
+              <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
               </h2>
-              <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui">
+              <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
                 {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
               </p>
             </div>
@@ -150,12 +150,6 @@ export default function MapPage() {
         {/* Below-the-fold sections */}
         <div className="section-reveal relative z-10 bg-white">
           <NewlyAddedStores />
-        </div>
-        <div className="section-reveal">
-          <SpreadTheWord />
-        </div>
-        <div className="section-reveal">
-          <PreFooter />
         </div>
       </main>
       <Footer />
