@@ -132,7 +132,7 @@ export default function MapPage() {
             {/* Text-Block Anchor with Premium Binding */}
             <div className="flex flex-col gap-3 text-center items-center">
               <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
-                {t('map.headline') || 'Find Ukrainian Products Across Canada'}
+                {t('map.headline') || 'Ukrainian Products Across Canada'}
               </h2>
               <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
