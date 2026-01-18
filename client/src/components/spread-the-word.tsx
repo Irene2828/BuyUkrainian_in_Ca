@@ -3,7 +3,7 @@ import { Facebook, Instagram } from "lucide-react";
 import { toast } from "sonner";
 
 export function SpreadTheWord() {
-  const shareMessage = "Discovering and supporting Ukrainian products in Canada. 🇺🇦🇨🇦 Join me in supporting Ukraine.";
+  const shareMessage = "Join me in supporting Ukraine!\nDiscover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to find and buy Ukrainian in Canada!";
   const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
 
   const handleFacebookShare = () => {
@@ -45,7 +45,7 @@ export function SpreadTheWord() {
 
           {/* Message Pill Layout */}
           <div className="px-4 md:px-10 mb-8 w-full max-w-[650px] mx-auto text-center">
-            <p className="text-[16px] md:text-[18px] font-normal text-white/90 leading-relaxed font-ui">
+            <p className="text-[16px] md:text-[18px] font-normal text-white/90 leading-relaxed font-ui whitespace-pre-line">
               {shareMessage}
             </p>
           </div>
