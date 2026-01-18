@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Loader2, ExternalLink } from "lucide-react";
+import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -72,9 +72,9 @@ function NewlyAddedStores() {
         {/* Terminal CTA */}
         <div className="flex justify-center mt-12 w-full z-10 relative">
           <Link
-            href="/"
             className="flex items-center justify-center gap-2 bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-all font-medium"
           >
+            <ArrowLeft className="w-4 h-4" />
             Back to Homepage
           </Link>
         </div>
