@@ -74,7 +74,7 @@ export function Hero() {
                 </Link>
 
                 <Link href="/map" className="flex justify-center md:justify-start">
-                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-white text-black border border-black border-solid rounded-full px-7 text-[16px] font-medium gap-1.5 font-ui shadow-none hover:bg-gray-100 hover:text-black transition-all tracking-[-0.3125px]">
+                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-white/90 backdrop-blur-sm text-black ring-1 ring-inset ring-black/10 rounded-full px-7 text-[16px] font-medium gap-1.5 font-ui shadow-none hover:bg-gray-100 hover:text-black transition-all tracking-[-0.3125px]">
                     + Add a Store
                   </Button>
                 </Link>
