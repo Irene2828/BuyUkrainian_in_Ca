@@ -30,10 +30,10 @@ export function HowItWorks() {
     <section id="how-it-works" className="pt-20 md:pt-[100px] pb-[100px] bg-white font-sans overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-20">
         <div className="mb-16 md:mb-24 w-full max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
-          <h2 className="text-[28px] md:text-[36px] font-semibold tracking-tight leading-tight font-header section-headline-reveal text-slate-900">
+          <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
-          <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui tracking-[-0.31px] md:tracking-normal max-w-2xl text-center line-clamp-2 md:line-clamp-none">
+          <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui tracking-[-0.31px] md:tracking-[-0.44px] max-w-2xl text-center line-clamp-2 md:line-clamp-none">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
