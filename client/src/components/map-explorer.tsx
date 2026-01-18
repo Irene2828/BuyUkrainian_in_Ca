@@ -192,10 +192,10 @@ export function MapExplorer() {
                                             key={cat.id}
                                             onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                             className={cn(
-                                                "no-invert-hover flex items-center justify-center gap-2 h-[46px] px-5 rounded-full text-sm transition-all duration-300 font-ui",
+                                                "no-invert-hover flex items-center justify-center gap-2 h-[42px] px-5 rounded-full text-sm transition-all duration-300 font-ui",
                                                 category === cat.id
-                                                    ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium"
-                                                    : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
+                                                    ? "bg-[#0057B7] text-white shadow-md font-medium"
+                                                    : "bg-slate-50 text-slate-500 hover:bg-blue-50/50 font-normal"
                                             )}
                                         >
                                             <cat.icon className="w-4 h-4" />
@@ -209,8 +209,8 @@ export function MapExplorer() {
                                     <button
                                         onClick={() => setViewMode("map")}
                                         className={cn(
-                                            "no-invert-hover h-[46px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
-                                            viewMode === "map" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
+                                            "no-invert-hover h-[42px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
+                                            viewMode === "map" ? "bg-[#0057B7] text-white shadow-md font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50/50 font-normal"
                                         )}
                                     >
                                         <MapIcon className="w-4 h-4" /> {t('map.viewMap') || 'Map View'}
@@ -218,8 +218,8 @@ export function MapExplorer() {
                                     <button
                                         onClick={() => setViewMode("list")}
                                         className={cn(
-                                            "no-invert-hover h-[46px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
-                                            viewMode === "list" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
+                                            "no-invert-hover h-[42px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
+                                            viewMode === "list" ? "bg-[#0057B7] text-white shadow-md font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50/50 font-normal"
                                         )}
                                     >
                                         <List className="w-4 h-4" /> {t('map.viewList') || 'List View'}
