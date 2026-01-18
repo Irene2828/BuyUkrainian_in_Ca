@@ -59,7 +59,7 @@ function MapController({
   onFlightEnd
 }: {
   focusCoordinates: [number, number] | null;
-  flyConfig?: { duration: number; padding?: [number, number] } | null;
+  flyConfig?: { duration: number; padding?: [number, number]; zoom?: number } | null;
   provinceView: { lat: number, lng: number, zoom: number } | null;
   onFlightStart?: () => void;
   onFlightEnd?: () => void;
@@ -74,8 +74,10 @@ function MapController({
       const duration = flyConfig?.duration || 0.45;
       const padding = flyConfig?.padding || [0, 0];
 
+      const targetZoom = flyConfig?.zoom || 16;
+
       // The Glide & Curve (Obsidian Silk)
-      map.flyTo(focusCoordinates, 16, { // Zoom 16 for clarity
+      map.flyTo(focusCoordinates, targetZoom, {
         duration: duration,
         easeLinearity: 0.25, // Curve factor (lower is more curved)
         animate: true,
@@ -135,7 +137,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   extraControls
 }, ref) {
   const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
-  const [flyConfig, setFlyConfig] = useState<{ duration: number; padding?: [number, number] } | null>(null);
+  const [flyConfig, setFlyConfig] = useState<{ duration: number; padding?: [number, number]; zoom?: number } | null>(null);
   const [provinceView, setProvinceView] = useState<{ lat: number, lng: number, zoom: number } | null>(null);
   const mapRef = useRef<L.Map | null>(null);
 
@@ -143,7 +145,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     focusOnStore: (store: Store) => {
       // Mechanical Zoom (Pin Click)
       if (store.coordinates) {
-        setFlyConfig({ duration: 0.45, padding: [0, 0] });
+        setFlyConfig({ duration: 0.45, padding: [0, 0], zoom: 16 });
         setFocusCoordinates(store.coordinates as [number, number]);
         setProvinceView(null);
       }
