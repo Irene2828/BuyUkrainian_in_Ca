@@ -53,11 +53,13 @@ const isWithinCanada = (lat: number, lng: number) => {
 
 function MapController({
   focusCoordinates,
+  flyConfig, // New prop for dynamic flight configuration
   provinceView,
   onFlightStart,
   onFlightEnd
 }: {
   focusCoordinates: [number, number] | null;
+  flyConfig?: { duration: number; padding?: [number, number] } | null;
   provinceView: { lat: number, lng: number, zoom: number } | null;
   onFlightStart?: () => void;
   onFlightEnd?: () => void;
@@ -67,18 +69,25 @@ function MapController({
   useEffect(() => {
     if (focusCoordinates) {
       if (onFlightStart) onFlightStart();
-      // Mechanical Zoom: 450ms duration (0.45s)
-      map.flyTo(focusCoordinates, 15, {
-        duration: 0.45,
-        easeLinearity: 0.1,
-        animate: true
+
+      // Default to Mechanical Zoom (0.45s) if no config provided
+      const duration = flyConfig?.duration || 0.45;
+      const padding = flyConfig?.padding || [0, 0];
+
+      // The Glide & Curve (Obsidian Silk)
+      map.flyTo(focusCoordinates, 16, { // Zoom 16 for clarity
+        duration: duration,
+        easeLinearity: 0.25, // Curve factor (lower is more curved)
+        animate: true,
+        paddingTopLeft: padding
       });
+
       const timer = setTimeout(() => {
         if (onFlightEnd) onFlightEnd();
-      }, 450); // Match duration
+      }, duration * 1000);
       return () => clearTimeout(timer);
     }
-  }, [focusCoordinates, map]);
+  }, [focusCoordinates, map, flyConfig]);
 
   useEffect(() => {
     if (provinceView) {
@@ -126,12 +135,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   extraControls
 }, ref) {
   const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
+  const [flyConfig, setFlyConfig] = useState<{ duration: number; padding?: [number, number] } | null>(null);
   const [provinceView, setProvinceView] = useState<{ lat: number, lng: number, zoom: number } | null>(null);
   const mapRef = useRef<L.Map | null>(null);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
+      // Mechanical Zoom (Pin Click)
       if (store.coordinates) {
+        setFlyConfig({ duration: 0.45, padding: [0, 0] });
         setFocusCoordinates(store.coordinates as [number, number]);
         setProvinceView(null);
       }
@@ -140,7 +152,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       setProvinceView({ lat, lng, zoom });
       setFocusCoordinates(null);
     },
-    flyToLocation: (lat: number, lng: number, zoom: number = 15) => {
+    flyToLocation: (lat: number, lng: number, zoom: number = 16) => {
+      // Spatial Pivot (See On Map) - The Glide (0.8s) + The Offset
+      const isDesktop = window.innerWidth >= 768;
+      const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
+
+      setFlyConfig({ duration: 0.8, padding });
       setFocusCoordinates([lat, lng]);
       setProvinceView(null);
     },
