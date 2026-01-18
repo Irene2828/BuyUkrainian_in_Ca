@@ -26,11 +26,11 @@ export function SpreadTheWord() {
   };
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-12 md:py-24 overflow-hidden z-10">
+    <section className="relative w-full bg-[#ECF6FF] py-12 md:py-[64px] overflow-hidden z-10">
       {/* Structural Container */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
 
-        <div className="mb-6 max-w-3xl mx-auto flex flex-col gap-3 text-center">
+        <div className="mb-8 max-w-3xl mx-auto flex flex-col gap-3 text-center">
           {/* 12px gap (gap-3) standardized across all sections */}
           <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
             Spread the Word
@@ -41,7 +41,7 @@ export function SpreadTheWord() {
         </div>
 
         {/* Material Card Section */}
-        <div className="w-full md:w-[790px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
+        <div className="w-full md:w-[790px] md:h-[329px] max-w-full bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto py-12 px-6 md:px-8">
 
           {/* Message Pill Layout */}
           <div className="px-4 md:px-10 mb-8 w-full max-w-[650px] mx-auto text-center">
