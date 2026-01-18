@@ -29,7 +29,7 @@ export function Hero() {
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium min-[1440px]:!font-normal text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] min-[1440px]:leading-[60px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium md:font-medium min-[1440px]:!font-normal text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] min-[1440px]:leading-[60px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
                   sold across Canada
                 </span>
               </h1>
