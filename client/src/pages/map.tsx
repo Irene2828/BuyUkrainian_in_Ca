@@ -136,7 +136,7 @@ export default function MapPage() {
                 {t('map.headline') || 'Find Ukrainian Products Across Canada'}
               </h2>
               <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
-                {t('map.subheadline') || 'Browse the map or add places selling products made in Ukraine'}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </p>
             </div>
           </div>
