@@ -154,7 +154,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
 
                 {/* Product List Card - Scrollable Gallery */}
-                <div className="flex-1 min-w-0 h-24 flex flex-col justify-center">
+                <div className="flex-1 min-w-0 h-24 flex flex-col justify-center relative">
                     {store.products && store.products.length > 0 ? (
                         <div className="flex gap-2 overflow-x-auto pb-2 pt-1 snap-x scrollbar-hide mask-fade pr-4">
                             {store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).map((product, idx) => (
