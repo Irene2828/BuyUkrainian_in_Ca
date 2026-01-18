@@ -158,10 +158,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     {store.products && store.products.length > 0 ? (
                         <div className="flex gap-2 overflow-x-auto pb-2 pt-1 snap-x scrollbar-hide mask-fade pr-4">
                             {store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).map((product, idx) => (
-                                <div
-                                    key={idx}
-                                    className="flex-shrink-0 bg-slate-50 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-700 border border-slate-100 snap-start whitespace-nowrap shadow-sm"
-                                >
+                                <div key={idx} className="flex-shrink-0 bg-slate-50 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-700 border border-slate-100 snap-start whitespace-nowrap shadow-sm">
                                     {product}
                                 </div>
                             ))}
@@ -173,9 +170,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className="absolute bottom-0 right-0 left-0 h-8 bg-gradient-to-t from-gray-50 to-transparent rounded-b-[24px] pointer-events-none"></div>
                 </div>
             </div>
-        </div>
 
-            {/* 3. Information Section: Location & Context */ }
+            {/* 3. Information Section: Location & Context */}
             <div className="mx-6 border-t border-gray-100"></div>
 
             <div className="p-3">
@@ -194,40 +190,40 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
             </div>
 
-    {/* 4. Action Section: Primary & Secondary */ }
-    <div className="px-6 pb-4 mt-6 space-y-1.5">
-        {/* Primary Action */}
-        <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-[#1A1A1A] hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] active:scale-[0.98]"
-        >
-            <Navigation size={20} strokeWidth={2.5} />
-            Get Directions
-        </a>
+            {/* 4. Action Section: Primary & Secondary */}
+            <div className="px-6 pb-4 mt-6 space-y-1.5">
+                {/* Primary Action */}
+                <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-[#1A1A1A] hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] active:scale-[0.98]"
+                >
+                    <Navigation size={20} strokeWidth={2.5} />
+                    Get Directions
+                </a>
 
-        {/* Secondary Dual Actions */}
-        <div className="grid grid-cols-2 gap-3">
-            <button
-                onClick={handleCopyAddress}
-                className={cn(
-                    "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:!bg-slate-100/80 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
-                    copied ? "text-blue-600 bg-blue-50/50" : ""
-                )}
-            >
-                {copied ? <Check size={16} /> : <Copy size={16} />}
-                {copied ? "Copied!" : "Copy address"}
-            </button>
-            <button
-                onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:!bg-slate-100/80 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
-            >
-                <Maximize2 size={16} />
-                {onSeeOnMap ? "See on Map" : "Expand"}
-            </button>
+                {/* Secondary Dual Actions */}
+                <div className="grid grid-cols-2 gap-3">
+                    <button
+                        onClick={handleCopyAddress}
+                        className={cn(
+                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:!bg-slate-100/80 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
+                            copied ? "text-blue-600 bg-blue-50/50" : ""
+                        )}
+                    >
+                        {copied ? <Check size={16} /> : <Copy size={16} />}
+                        {copied ? "Copied!" : "Copy address"}
+                    </button>
+                    <button
+                        onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
+                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:!bg-slate-100/80 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
+                    >
+                        <Maximize2 size={16} />
+                        {onSeeOnMap ? "See on Map" : "Expand"}
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-        </div >
     );
 }
