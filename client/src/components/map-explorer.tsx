@@ -186,16 +186,16 @@ export function MapExplorer() {
                     <div className="flex items-center justify-between pt-0 pb-0 mb-8 gap-4">
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full shadow-sm">
+                                <div className="flex items-center gap-2">
                                     {categories.map((cat) => (
                                         <button
                                             key={cat.id}
                                             onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                             className={cn(
-                                                "no-invert-hover flex items-center gap-2 h-10 px-5 rounded-full text-sm transition-all duration-300 font-ui",
+                                                "no-invert-hover flex items-center justify-center gap-2 h-[46px] px-5 rounded-full text-sm transition-all duration-300 font-ui",
                                                 category === cat.id
-                                                    ? "bg-white text-black shadow-lg font-medium"
-                                                    : "text-black hover:bg-white font-normal"
+                                                    ? "bg-[#006CE4] text-white shadow-[0_4px_12px_rgba(0,87,183,0.3)] font-medium"
+                                                    : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
                                             )}
                                         >
                                             <cat.icon className="w-4 h-4" />
@@ -205,12 +205,12 @@ export function MapExplorer() {
                                     ))}
                                 </div>
 
-                                <div className="flex items-center p-1 bg-[#D3E4FD] rounded-full">
+                                <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => setViewMode("map")}
                                         className={cn(
-                                            "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
-                                            viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
+                                            "no-invert-hover h-[46px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
+                                            viewMode === "map" ? "bg-[#006CE4] text-white shadow-[0_4px_12px_rgba(0,87,183,0.3)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
                                         )}
                                     >
                                         <MapIcon className="w-4 h-4" /> {t('map.viewMap') || 'Map View'}
@@ -218,8 +218,8 @@ export function MapExplorer() {
                                     <button
                                         onClick={() => setViewMode("list")}
                                         className={cn(
-                                            "no-invert-hover h-10 px-5 rounded-full text-sm flex items-center gap-2 transition-all font-ui",
-                                            viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white font-normal"
+                                            "no-invert-hover h-[46px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
+                                            viewMode === "list" ? "bg-[#006CE4] text-white shadow-[0_4px_12px_rgba(0,87,183,0.3)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50 font-normal"
                                         )}
                                     >
                                         <List className="w-4 h-4" /> {t('map.viewList') || 'List View'}
@@ -241,7 +241,7 @@ export function MapExplorer() {
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
                                 <Input
                                     placeholder={t('map.search.placeholder') || 'Search stores, products, locations...'}
-                                    className="pl-12 pr-12 h-12 border-slate-100 bg-white/50 backdrop-blur-md shadow-sm rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/20 font-ui"
+                                    className="pl-12 pr-12 h-[46px] border-none bg-white/80 ring-1 ring-inset ring-black/5 backdrop-blur-md shadow-sm rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/50 font-ui tracking-tight placeholder:text-slate-400"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -256,7 +256,7 @@ export function MapExplorer() {
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                                 <DialogTrigger asChild>
-                                    <button className="btn-cta flex items-center justify-center gap-2 bg-black text-white px-6 h-12 rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap hover:bg-white hover:text-black hover:ring-1 hover:ring-black">
+                                    <button className="btn-cta flex items-center justify-center gap-2 !bg-black text-white hover:!text-white px-6 h-[46px] rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap transition-all duration-300 hover:!bg-[#1A1A1A] hover:scale-[1.02]">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
                                         {t('map.addLocation') || 'Add Location'}
                                     </button>
