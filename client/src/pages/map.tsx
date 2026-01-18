@@ -31,9 +31,7 @@ function NewlyAddedStores() {
           <h2 className="text-[28px] md:text-[24px] font-semibold md:font-medium tracking-tight md:tracking-[-0.05em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
             Recently Added Findings
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
-            the map grows every time someone submits a new location!
-          </p>
+
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
           {newlyAdded.map((store) => {
