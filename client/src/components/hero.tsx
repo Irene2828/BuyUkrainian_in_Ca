@@ -29,13 +29,13 @@ export function Hero() {
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium min-[1440px]:font-normal text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] min-[1440px]:leading-[60px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
-              <p className="hero-subtitle mt-6 md:mt-[14px] text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px]">
+              <p className="hero-subtitle mt-6 md:mt-[14px] min-[1440px]:mt-[19px] text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px]">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
