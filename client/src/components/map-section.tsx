@@ -148,11 +148,18 @@ export function MapSection({
 
   const handleSeeOnMap = (store: Store) => {
     setIsModalOpen(false);
-    if (viewMode === "list" && onViewChange) {
-      onViewChange("map");
-      setTimeout(() => mapRef.current?.focusOnStore(store), 100);
-    } else {
-      mapRef.current?.focusOnStore(store);
+    console.log("See on Map clicked. Coordinates:", store.coordinates);
+
+    if (store.coordinates) {
+      if (viewMode === "list" && onViewChange) {
+        onViewChange("map");
+        // Slight delay to allow view transition to complete
+        setTimeout(() => {
+          mapRef.current?.flyToLocation(store.coordinates![0], store.coordinates![1], 14.5);
+        }, 100);
+      } else {
+        mapRef.current?.flyToLocation(store.coordinates[0], store.coordinates[1], 14.5);
+      }
     }
   };
 
