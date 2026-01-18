@@ -193,7 +193,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full h-[52px] bg-white text-black border border-black font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all shadow-xl shadow-gray-200 hover:bg-black hover:text-white active:scale-[0.98]"
+                    className="w-full h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-[#1A1A1A] hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] active:scale-[0.98]"
                 >
                     <Navigation size={20} strokeWidth={2.5} />
                     Get Directions
