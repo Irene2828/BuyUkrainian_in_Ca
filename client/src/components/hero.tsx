@@ -22,20 +22,20 @@ export function Hero() {
               {/* Main Headline */}
               <h1 className="text-slate-900 leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
                 {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
-                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-bold min-[391px]:font-semibold tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-1px] leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] font-bold min-[391px]:font-semibold md:font-semibold tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] leading-[36px] min-[391px]:leading-[42px] md:leading-[52.5px] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[1.1] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
-              <p className="hero-subtitle mt-6 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-relaxed text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-normal max-w-[260px] min-[391px]:max-w-[323px] md:max-w-full">
+              <p className="hero-subtitle mt-6 md:mt-6 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px]">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
