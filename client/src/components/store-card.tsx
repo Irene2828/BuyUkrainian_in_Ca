@@ -176,10 +176,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         <MapPin size={20} />
                     </div>
                     <div className="flex-1 pt-0.5">
-                        <p className="text-[15px] font-semibold text-blue-600 leading-snug">
+                        <p className="text-[15px] font-semibold text-gray-500 leading-snug">
                             {store.address.split(',').slice(0, 2).join(',')}
                         </p>
-                        <p className="text-sm text-blue-600 mt-0.5 font-medium">
+                        <p className="text-sm text-gray-500 mt-0.5 font-medium">
                             {store.address.split(',').slice(2).join(',')}
                         </p>
                     </div>
