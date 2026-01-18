@@ -276,7 +276,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             }}
             onSeeOnMap={(s) => {
               // Zoom in effect
-              mapRef.current?.flyToLocation(s.coordinates[0], s.coordinates[1], 16);
+              mapRef.current?.flyToLocation(s.coordinates[0], s.coordinates[1], 14.5);
             }}
           />
         </div>
