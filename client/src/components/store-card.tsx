@@ -204,7 +204,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
-                            "flex h-[52px] items-center justify-center gap-2 rounded-[32px] border border-gray-200 font-medium hover:bg-gray-50 transition-all text-xs sm:text-sm active:scale-[0.97]",
+                            "flex h-[52px] items-center justify-center gap-2 rounded-[32px] border border-gray-200 font-medium hover:bg-gray-100 transition-all text-xs sm:text-sm active:scale-[0.97]",
                             copied ? "text-blue-600 border-blue-200" : "text-gray-700"
                         )}
                     >
@@ -213,7 +213,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                        className="flex h-[52px] items-center justify-center gap-2 rounded-[32px] border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-all text-xs sm:text-sm active:scale-[0.97]"
+                        className="flex h-[52px] items-center justify-center gap-2 rounded-[32px] border border-gray-200 text-gray-700 font-medium hover:bg-gray-100 transition-all text-xs sm:text-sm active:scale-[0.97]"
                     >
                         <Maximize2 size={16} />
                         {onSeeOnMap ? "See on Map" : "Expand"}
