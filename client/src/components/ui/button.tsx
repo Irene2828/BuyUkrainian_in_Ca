@@ -10,16 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-black text-white hover:bg-[#1A1A1A] shadow-sm hover:shadow-md",
+          "bg-black text-white hover:bg-slate-800 shadow-sm transition-colors duration-200",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/95 shadow-sm hover:shadow-md",
         outline:
-          "border border-[var(--color-primary-blue)] text-[var(--color-primary-blue)] bg-white hover:bg-[var(--color-info-blue)]/5 hover:border-[var(--color-primary-blue)]/80 shadow-sm",
+          "border border-[var(--color-primary-blue)] text-[var(--color-primary-blue)] bg-white hover:bg-slate-50 border-transparent shadow-sm",
         secondary:
-          "bg-[var(--color-bg-gray)] text-[var(--color-text-primary)] hover:bg-gray-200/80 shadow-sm",
+          "bg-[var(--color-bg-gray)] text-[var(--color-text-primary)] hover:bg-slate-100 shadow-sm",
         accent:
           "bg-[var(--color-accent-yellow)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)]/90 border border-[var(--color-accent-yellow)] shadow-sm hover:shadow-md font-semibold",
-        ghost: "hover:bg-[var(--color-bg-gray)]/50 text-[var(--color-text-primary)]",
+        ghost: "hover:bg-slate-50 text-[var(--color-text-primary)]",
         link: "text-[var(--color-primary-blue)] underline-offset-4 hover:underline hover:opacity-85",
       },
       size: {

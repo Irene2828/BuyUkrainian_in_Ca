@@ -141,6 +141,18 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   const [provinceView, setProvinceView] = useState<{ lat: number, lng: number, zoom: number } | null>(null);
   const mapRef = useRef<L.Map | null>(null);
 
+  // Internal Flight Logic
+  const triggerFlyToLocation = (lat: number, lng: number, zoom: number = 16) => {
+    // Spatial Pivot (See On Map) - The Glide (1.4s) + The Offset
+    const isDesktop = window.innerWidth >= 768;
+    const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
+
+    // essential: true is implied for "Obsidian" motion standards (simulated via strict duration)
+    setFlyConfig({ duration: 1.4, padding, zoom });
+    setFocusCoordinates([lat, lng]);
+    setProvinceView(null);
+  };
+
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
       // Mechanical Zoom (Pin Click)
@@ -155,13 +167,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       setFocusCoordinates(null);
     },
     flyToLocation: (lat: number, lng: number, zoom: number = 16) => {
-      // Spatial Pivot (See On Map) - The Glide (0.8s) + The Offset
-      const isDesktop = window.innerWidth >= 768;
-      const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
-
-      setFlyConfig({ duration: 0.8, padding, zoom });
-      setFocusCoordinates([lat, lng]);
-      setProvinceView(null);
+      triggerFlyToLocation(lat, lng, zoom);
     },
     resetView: () => {
       setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 3 });
@@ -266,7 +272,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Side Panel Overlay - No more Dialog */}
       {selectedStore && (
-        <div className="absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-500 delay-300 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[32px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
+        <div className="side-panel-container absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-500 delay-300 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[32px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
           <StoreCard
             store={selectedStore}
             onClose={() => {
@@ -276,7 +282,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             }}
             onSeeOnMap={(s) => {
               // Zoom in effect
-              mapRef.current?.flyToLocation(s.coordinates[0], s.coordinates[1], 14.5);
+              triggerFlyToLocation(s.coordinates[0], s.coordinates[1], 14.5);
             }}
           />
         </div>

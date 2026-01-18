@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import {
@@ -44,6 +44,21 @@ export function MapExplorer() {
         queryFn: getApprovedStores,
         staleTime: Infinity,
     });
+
+    // Handle 'Clear Filters' event from MapSection (Empty State)
+    useEffect(() => {
+        const handleClearFilters = () => {
+            setSearchQuery("");
+            setCategory(null);
+            setSelectedProvince(null);
+            setIsOpenOnly(false);
+            setSortMode("newest");
+            // toast({ description: t('map.filtersCleared') || "Filters cleared" }); // Removed per 13.58.03
+        };
+
+        window.addEventListener('clearFilters', handleClearFilters);
+        return () => window.removeEventListener('clearFilters', handleClearFilters);
+    }, [toast, t]);
 
     const handleUseLocation = () => {
         if (!navigator.geolocation) {
@@ -195,7 +210,7 @@ export function MapExplorer() {
                                                 "no-invert-hover flex items-center justify-center gap-2 h-[42px] px-5 rounded-full text-sm transition-all duration-300 font-ui",
                                                 category === cat.id
                                                     ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium"
-                                                    : "bg-slate-50 text-slate-500 hover:bg-blue-50/50 font-normal"
+                                                    : "bg-slate-50 text-slate-500 hover:bg-slate-100 font-normal"
                                             )}
                                         >
                                             <cat.icon className="w-4 h-4" />
@@ -210,7 +225,7 @@ export function MapExplorer() {
                                         onClick={() => setViewMode("map")}
                                         className={cn(
                                             "no-invert-hover h-[42px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
-                                            viewMode === "map" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50/50 font-normal"
+                                            viewMode === "map" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-slate-100 font-normal"
                                         )}
                                     >
                                         <MapIcon className="w-4 h-4" /> {t('map.viewMap') || 'Map View'}
@@ -219,7 +234,7 @@ export function MapExplorer() {
                                         onClick={() => setViewMode("list")}
                                         className={cn(
                                             "no-invert-hover h-[42px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
-                                            viewMode === "list" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-blue-50/50 font-normal"
+                                            viewMode === "list" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-slate-100 font-normal"
                                         )}
                                     >
                                         <List className="w-4 h-4" /> {t('map.viewList') || 'List View'}
@@ -256,7 +271,7 @@ export function MapExplorer() {
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                                 <DialogTrigger asChild>
-                                    <button className="btn-cta flex items-center justify-center gap-2 !bg-black text-white hover:!text-white px-6 h-[46px] rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap transition-all duration-300 hover:!bg-[#1A1A1A] hover:scale-[1.02]">
+                                    <button className="btn-cta inline-flex items-center justify-center gap-2 !bg-black text-white hover:!text-white px-8 h-[46px] rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap transition-colors duration-200 hover:!bg-slate-800">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
                                         {t('map.addLocation') || 'Add Location'}
                                     </button>
@@ -284,7 +299,7 @@ export function MapExplorer() {
                         </span>
                         <button
                             onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)}
-                            className="w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:border-gray-300 transition-all font-ui"
+                            className="w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:bg-slate-50 transition-all font-ui"
                         >
                             <span className={cn(selectedProvince ? "text-black" : "text-gray-400")}>
                                 {selectedProvince || "All provinces"}
@@ -326,6 +341,15 @@ export function MapExplorer() {
                         )}
                     </div>
 
+                    {/* No stores in province feedback */}
+                    {selectedProvince && filteredStoresCount === 0 && (
+                        <div className="px-1 mt-2 animate-in fade-in slide-in-from-top-1 duration-300">
+                            <span className="text-[13px] text-slate-500 font-medium tracking-[-0.01em] font-ui">
+                                No stores found
+                            </span>
+                        </div>
+                    )}
+
                     <div className="flex flex-col gap-4">
                         <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 block font-ui">
                             Status
@@ -335,7 +359,7 @@ export function MapExplorer() {
                                 onClick={() => setIsOpenOnly(!isOpenOnly)}
                                 className={cn(
                                     "flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border transition-all font-ui",
-                                    isOpenOnly ? "border-[#D3E4FD] text-[#D3E4FD] bg-blue-50/50" : "border-gray-100 text-gray-500 hover:border-gray-300 bg-white"
+                                    isOpenOnly ? "border-[#D3E4FD] text-[#D3E4FD] bg-blue-50/50" : "border-gray-100 text-gray-500 hover:bg-slate-50 bg-white"
                                 )}
                             >
                                 <div className="flex items-center gap-2">
@@ -346,7 +370,7 @@ export function MapExplorer() {
                             <div className="h-px bg-gray-50 my-1"></div>
                             <button
                                 onClick={() => setSortMode(sortMode === "newest" ? "name" : "newest")}
-                                className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border border-gray-100 text-gray-500 hover:border-gray-300 transition-all bg-white font-ui"
+                                className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border border-gray-100 text-gray-500 hover:bg-slate-50 transition-all bg-white font-ui"
                             >
                                 <div className="flex items-center gap-2">
                                     <ArrowUpDown className="w-4 h-4" />

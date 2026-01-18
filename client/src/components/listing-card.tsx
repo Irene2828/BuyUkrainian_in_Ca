@@ -33,7 +33,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
 
                 {/* Store Info - Name and Link Only */}
                 <div className="flex flex-col justify-center gap-1 flex-1 min-w-0">
-                    <span className="text-[15px] font-semibold text-gray-900 truncate font-header">
+                    <span className="text-sm font-semibold text-slate-900 truncate font-header tracking-[-0.01em]">
                         {store.name}
                     </span>
                     <div className="flex items-center gap-2 text-slate-400 text-xs font-medium transition-colors group-hover:text-black font-ui">
