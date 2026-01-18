@@ -74,10 +74,10 @@ function NewlyAddedStores() {
         {/* Terminal CTA */}
         <div className="flex justify-center mt-12 w-full z-10 relative">
           <Link
-            href="/map"
-            className="flex items-center justify-center gap-2 bg-black text-white px-8 py-3 rounded-full hover:bg-slate-900 transition-all font-medium"
+            href="/"
+            className="flex items-center justify-center gap-2 bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-all font-medium"
           >
-            Submit a New Location
+            Back to Homepage
           </Link>
         </div>
       </div>
