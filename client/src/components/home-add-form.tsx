@@ -315,7 +315,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 <FormItem>
                   <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Products</FormLabel>
                   <FormControl>
-                    <Input placeholder="List main items..." {...field} className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
