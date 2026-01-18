@@ -181,14 +181,14 @@ export function MapSection({
   if (viewMode === "list") {
     return (
       <div className="flex flex-col h-full bg-white">
-        <div className="flex flex-col gap-0 p-0 py-0 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white">
+        <div className="flex flex-col gap-8 px-6 md:px-12 py-8 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white">
           {filteredStores.slice(0, visibleCount).map((store) => (
             <ListingCard
               key={store.id}
               store={store}
               variant="list"
               onClick={() => handleSelectStore(store)}
-              className="bg-white hover:bg-gray-50 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+              className="bg-white hover:bg-white/50 hover:scale-[1.01] hover:shadow-sm transition-all duration-300 rounded-[24px] animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
               style={{ animationFillMode: 'both' }}
             />
           ))}
