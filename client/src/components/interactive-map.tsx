@@ -159,7 +159,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       const isDesktop = window.innerWidth >= 768;
       const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
 
-      setFlyConfig({ duration: 0.8, padding });
+      setFlyConfig({ duration: 0.8, padding, zoom });
       setFocusCoordinates([lat, lng]);
       setProvinceView(null);
     },
