@@ -22,14 +22,14 @@ export function Hero() {
               {/* Main Headline */}
               <h1 className="text-slate-900 leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
                 {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
-                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] min-[1440px]:text-[60px] font-bold min-[391px]:font-semibold md:font-semibold tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] leading-[36px] min-[391px]:leading-[42px] md:leading-[52.5px] min-[1440px]:leading-[60px] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[38px] md:text-[56px] min-[1440px]:text-[60px] font-bold min-[391px]:font-semibold md:font-semibold tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-1.5px] leading-[36px] min-[391px]:leading-[42px] md:leading-[52.5px] min-[1440px]:leading-[60px] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] md:-translate-y-[10%]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
                   sold across Canada
                 </span>
               </h1>
