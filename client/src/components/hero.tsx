@@ -84,7 +84,7 @@ export function Hero() {
 
           <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-center">
             <div
-              className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:h-[384px] lg:max-h-[384px] w-full max-w-[500px] lg:w-[512px] lg:max-w-none mx-auto"
+              className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:h-[384px] lg:max-h-[384px] min-[1440px]:h-[477px] min-[1440px]:max-h-none w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px] lg:max-w-none mx-auto"
               style={{ backgroundColor: '#FDFFD7' }}
             >
               <video
