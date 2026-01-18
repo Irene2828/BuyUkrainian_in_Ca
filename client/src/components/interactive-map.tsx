@@ -28,12 +28,13 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
 
 const CANADA_CENTER: [number, number] = [54.5, -106.0];
 
-// Unified Blue/Yellow Pin Marker
-const createUnifiedMarker = (isSelected: boolean) => {
+// Unified Blue/Yellow Pin Marker with Dimming Support
+const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
+  const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div class="marker-container ${isSelected ? 'selected' : ''}">
+      <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
         <div class="marker-pin-top"></div>
         <div class="marker-pin-bottom"></div>
       </div>
@@ -66,14 +67,15 @@ function MapController({
   useEffect(() => {
     if (focusCoordinates) {
       if (onFlightStart) onFlightStart();
+      // Mechanical Zoom: 450ms duration (0.45s)
       map.flyTo(focusCoordinates, 15, {
-        duration: 0.6,
+        duration: 0.45,
         easeLinearity: 0.1,
         animate: true
       });
       const timer = setTimeout(() => {
         if (onFlightEnd) onFlightEnd();
-      }, 600);
+      }, 450); // Match duration
       return () => clearTimeout(timer);
     }
   }, [focusCoordinates, map]);
@@ -220,7 +222,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             <Marker
               key={store.id}
               position={store.coordinates as [number, number]}
-              icon={createUnifiedMarker(selectedStore?.id === store.id)}
+              icon={createUnifiedMarker(selectedStore?.id === store.id, !!selectedStore)}
               eventHandlers={{
                 click: () => {
                   onSelectStore(store);
@@ -245,7 +247,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Side Panel Overlay - No more Dialog */}
       {selectedStore && (
-        <div className="absolute top-[24px] right-[24px] w-[400px] z-[2000] animate-in slide-in-from-right-4 duration-500 ease-out fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[32px] h-auto max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
+        <div className="absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-500 delay-300 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[32px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
           <StoreCard
             store={selectedStore}
             onClose={() => {
