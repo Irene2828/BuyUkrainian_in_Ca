@@ -206,6 +206,7 @@ export function MapExplorer() {
                                 </div>
 
                                 <div className="flex items-center gap-2">
+                                    <button
                                         onClick={() => setViewMode("map")}
                                         className={cn(
                                             "no-invert-hover h-[42px] px-5 rounded-full text-sm flex items-center justify-center gap-2 transition-all font-ui",
