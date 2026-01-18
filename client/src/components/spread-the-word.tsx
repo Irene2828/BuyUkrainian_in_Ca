@@ -36,7 +36,7 @@ export function SpreadTheWord() {
             Spread the Word
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-600 font-ui">
-            Help us reach more supporters. Share the map with your network and let others discover the best of Ukraine in Canada.
+            Share the map with your network and let others discover the best of Ukraine in Canada.
           </p>
         </div>
 
