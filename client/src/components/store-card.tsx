@@ -113,7 +113,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         {store.name}
                     </h2>
                     <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-blue-50 text-blue-600 rounded-full uppercase tracking-wider">
+                        <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md uppercase tracking-wider">
                             {getCategoryLabel(store.category)}
                         </span>
                         {matchedProduct && (
@@ -187,7 +187,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             </div>
 
             {/* 4. Action Section: Primary & Secondary */}
-            <div className="px-6 pb-4 pt-1 space-y-1.5">
+            <div className="px-6 pb-4 mt-6 space-y-1.5">
                 {/* Primary Action */}
                 <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
