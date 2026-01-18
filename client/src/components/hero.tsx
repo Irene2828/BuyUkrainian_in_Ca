@@ -67,9 +67,9 @@ export function Hero() {
               {/* Button Group - Stacked, Gap Reset to 12px (gap-3) */}
               <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6 mt-10">
                 <Link href="/map">
-                  <Button className="flex items-center justify-center h-[46px] bg-black text-white rounded-full px-6 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all tracking-[-0.3125px]">
+                  <Button className="group flex items-center justify-center h-[46px] bg-black text-white rounded-full px-6 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 ease-out hover:bg-[#1A1A1A] hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] tracking-[-0.3125px]">
                     {t('home.hero.explore') || 'Explore the Map'}
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
 
