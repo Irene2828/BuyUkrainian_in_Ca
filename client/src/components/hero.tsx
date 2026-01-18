@@ -29,13 +29,13 @@ export function Hero() {
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium min-[1440px]:font-normal text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] min-[1440px]:leading-[60px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[46px] font-medium md:font-medium min-[1440px]:!font-normal text-slate-900 mt-0 min-[391px]:mt-0 md:mt-2 leading-[40px] min-[391px]:leading-[48px] md:leading-[56.2px] min-[1440px]:leading-[60px] tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-2px] md:-translate-y-[10%]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
-              <p className="hero-subtitle mt-6 md:mt-[14px] min-[1440px]:mt-[19px] text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px]">
+              <p className="hero-subtitle mt-6 md:mt-[14px] min-[1440px]:mt-[19px] text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29px] text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[260px] min-[391px]:max-w-[323px] md:max-w-[480px]">
                 {t('home.hero.subtitle') || 'Support Ukraine\'s economy with every purchase or help the initiative grow by adding new stores to the map.'}
               </p>
             </div>
@@ -67,14 +67,14 @@ export function Hero() {
               {/* Button Group - Stacked, Gap Reset to 12px (gap-3) */}
               <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6 mt-6 md:mt-8">
                 <Link href="/map">
-                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all">
+                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-black text-white rounded-full px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black transition-all tracking-[-0.3125px]">
                     {t('home.hero.explore') || 'Explore the Map'}
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>
 
                 <Link href="/map" className="flex justify-center md:justify-start">
-                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-white text-black border-2 border-black border-solid rounded-full px-7 text-[16px] font-normal gap-1.5 font-ui shadow-none hover:bg-gray-100 hover:text-black transition-all">
+                  <Button className="flex items-center justify-center h-[46px] md:h-[52px] bg-white text-black border border-black border-solid rounded-full px-7 text-[16px] font-medium gap-1.5 font-ui shadow-none hover:bg-gray-100 hover:text-black transition-all tracking-[-0.3125px]">
                     + Add a Store
                   </Button>
                 </Link>
