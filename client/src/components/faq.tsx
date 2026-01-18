@@ -60,8 +60,8 @@ export function FAQ() {
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[18px] font-medium text-slate-700 leading-snug pr-4 transition-colors duration-200",
-                  openIndex === i ? "text-slate-900" : "group-hover:text-slate-900"
+                  "text-[18px] font-medium text-slate-900 leading-snug pr-4 transition-colors duration-200",
+                  openIndex === i ? "text-slate-900" : "group-hover:text-slate-500"
                 )}>
                   {faq.question}
                 </span>
