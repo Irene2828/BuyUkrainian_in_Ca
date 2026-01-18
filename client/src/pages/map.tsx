@@ -28,7 +28,7 @@ function NewlyAddedStores() {
     <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 md:px-20">
       <div className="container mx-auto max-w-[1440px]">
         <div className="mb-8 md:mb-12 max-w-[700px] flex flex-col gap-3 md:gap-4 text-left">
-          <h2 className="text-[28px] md:text-[24px] font-semibold md:font-medium tracking-tight md:tracking-[-0.05em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
+          <h2 className="text-[28px] md:text-[24px] font-medium tracking-tight md:tracking-[-0.05em] leading-tight md:leading-[52.5px] font-instrument section-headline-reveal text-slate-900">
             Recently Added Findings
           </h2>
 
@@ -131,7 +131,7 @@ export default function MapPage() {
           <div className="container mx-auto max-w-[1440px] pt-8 pb-8 md:pt-12 md:pb-8 flex flex-col items-center justify-center">
             {/* Text-Block Anchor with Premium Binding */}
             <div className="flex flex-col gap-3 text-center items-center">
-              <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
+              <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-instrument section-headline-reveal text-slate-900">
                 {t('map.headline') || 'Ukrainian Products Across Canada'}
               </h2>
               <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
