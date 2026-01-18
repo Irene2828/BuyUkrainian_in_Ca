@@ -33,8 +33,13 @@ export function RecentProductsMarquee() {
                 <div className="flex flex-1 overflow-hidden mask-ticker">
                     <div className="flex animate-marquee whitespace-nowrap items-center min-w-full">
                         {repeatedNames.map((name, i) => (
-                            <span key={i} className="text-[14px] md:text-[16px] font-medium text-slate-900 mx-3 md:mx-4 flex items-center gap-3 md:gap-4">
-                                {name} <span className="text-slate-300">·</span>
+                            <span key={i} className="group text-[14px] md:text-[16px] font-medium text-slate-900 mx-6 flex items-center gap-2 select-none cursor-default">
+                                {/* Identity Dot: 8px, Split 50/50, Opacity 70->100 */}
+                                <span
+                                    className="w-2 h-2 rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{ background: 'linear-gradient(to bottom, #0057B7 50%, #FFD700 50%)' }}
+                                />
+                                {name}
                             </span>
                         ))}
                     </div>
