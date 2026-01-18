@@ -22,7 +22,7 @@ export function Hero() {
               {/* Main Headline */}
               <h1 className="text-slate-900 leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
                 {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
-                <span className="block text-[32px] min-[391px]:text-[42px] md:text-[56px] min-[1440px]:text-[60px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.01em] min-[391px]:tracking-[-0.01em] md:tracking-[-0.01em] min-[1440px]:tracking-[-1.5px] leading-[1.05] min-[391px]:leading-[1.05] md:leading-[1.05] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[42px] md:text-[56px] min-[1440px]:text-[60px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.03em] leading-[1.1] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
@@ -67,7 +67,7 @@ export function Hero() {
               {/* Button Group - Stacked, Gap Reset to 12px (gap-3) */}
               <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6 mt-10">
                 <Link href="/map">
-                  <Button className="group flex items-center justify-center h-[46px] bg-black text-white rounded-full px-6 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 ease-out hover:bg-[#1A1A1A] hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] tracking-[-0.3125px]">
+                  <Button className="group flex items-center justify-center h-[46px] !bg-black text-white hover:!text-white rounded-full px-6 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 ease-out hover:!bg-[#1A1A1A] hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] tracking-[-0.3125px]">
                     {t('home.hero.explore') || 'Explore the Map'}
                     <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
