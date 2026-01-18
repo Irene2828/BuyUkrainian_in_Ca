@@ -27,9 +27,9 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="pt-[80px] md:pt-[80px] pb-[100px] bg-white font-sans overflow-hidden">
+    <section id="how-it-works" className="pt-[80px] md:pt-[160px] pb-[100px] bg-white font-sans overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-20">
-        <div className="mb-16 md:mb-24 w-full max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
+        <div className="mb-12 md:mb-16 w-full max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
           <h2 className="text-[28px] md:text-[42px] font-semibold md:font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-header section-headline-reveal text-slate-900">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
