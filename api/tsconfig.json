@@ -3,9 +3,9 @@
     "compilerOptions": {
         "noEmit": false,
         "allowImportingTsExtensions": false,
-        "moduleResolution": "node",
-        "module": "CommonJS",
-        "target": "ES2020",
+        "moduleResolution": "Bundler",
+        "module": "ESNext",
+        "target": "ES2022",
         "esModuleInterop": true,
         "baseUrl": "..",
         "paths": {
