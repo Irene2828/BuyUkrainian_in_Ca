@@ -1,4 +1,4 @@
-import { type AdminUser, type InsertAdminUser, type Store, type InsertStore, stores, adminUsers } from "@shared/schema";
+import { type AdminUser, type InsertAdminUser, type Store, type InsertStore, stores, adminUsers } from "../../shared/schema.js";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import fs from "fs";
 import path from "path";
