@@ -1,11 +1,11 @@
 // MUST be first - loads environment variables
-import "./env";
+import "./env.js";
 
-import app from "./app";
-import { setupWebSocket } from "./websocket";
-import { serveStatic } from "./static";
+import app from "./app.js";
+import { setupWebSocket } from "./websocket.js";
+import { serveStatic } from "./static.js";
 import { createServer } from "http";
-import { log } from "./app";
+import { log } from "./app.js";
 
 const httpServer = createServer(app);
 
@@ -25,7 +25,7 @@ const httpServer = createServer(app);
     serveStatic(app);
   } else {
     // Dev mode: Vite hot reload
-    const { setupVite } = await import("./vite");
+    const { setupVite } = await import("./vite.js");
     await setupVite(httpServer, app);
   }
 

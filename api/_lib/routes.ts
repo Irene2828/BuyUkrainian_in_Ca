@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { storage } from "./storage.js";
 import { insertStoreSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
@@ -13,8 +13,8 @@ import {
   destroyAdminSession,
   requireAdmin,
   hashPassword
-} from "./security";
-import { broadcast } from "./websocket";
+} from "./security.js";
+import { broadcast } from "./websocket.js";
 
 const loginSchema = z.object({
   username: z.string().min(1).max(50).optional(),

@@ -1,6 +1,6 @@
 import express from "express";
-import { registerRoutes } from "./routes";
-import { securityMiddleware } from "./security";
+import { registerRoutes } from "./routes.js";
+import { securityMiddleware } from "./security.js";
 import cors from "cors";
 const app = express();
 // Log critical environment variables for debugging (production only)
