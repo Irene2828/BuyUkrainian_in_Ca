@@ -51,20 +51,34 @@ export async function registerRoutes(
   // --- NEW LOCATIONS API (Per Request) ---
   // --- NEW LOCATIONS API (Per Request) ---
   // Mapping /api and /api/index to locations as well to satisfy user request/testing
+  // Helper function for location fetching with extra safety
   const getLocationsHelper = async (res: any) => {
     try {
+      console.log("📍 [API] Fetching locations...");
+
+      // Debug check for storage
       if (!storage) {
-        console.error("Storage not initialized");
-        return res.status(500).json({ error: "Storage not initialized" });
+        console.error("❌ [API] Storage is undefined!");
+        return res.status(500).json({
+          error: "Storage not initialized",
+          debug_env: process.env.NODE_ENV
+        });
       }
+
       const stores = await storage.getApprovedStores();
-      console.log(`📍 Fetched ${stores.length} approved locations from database`);
+      console.log(`✅ [API] Fetched ${stores.length} stores`);
       res.json({ data: stores });
+
     } catch (error: any) {
-      console.error("Failed to fetch locations:", error);
+      console.error("❌ [API] Critical Error:", error);
       res.status(500).json({
         error: "Failed to fetch locations",
-        details: error.message || String(error)
+        details: error.message || String(error),
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+        env_check: {
+          has_url: !!process.env.SUPABASE_URL,
+          has_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+        }
       });
     }
   };
