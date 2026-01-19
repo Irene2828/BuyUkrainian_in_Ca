@@ -49,18 +49,20 @@ export async function registerRoutes(
 ): Promise<Server> {
 
   // --- NEW LOCATIONS API (Per Request) ---
-  app.get("/api/locations", async (req, res) => {
+  // --- NEW LOCATIONS API (Per Request) ---
+  // Mapping /api and /api/index to locations as well to satisfy user request/testing
+  const getLocationsHelper = async (res: any) => {
     try {
-      // Returns all stores (approved? prompt says 'fetch all locations', usually implies approved for public map)
-      // I'll return Approved stores for public, or All if param?
-      // Prompt says "Allow SELECT for all users".
-      // Existing /api/stores returned Approved.
       const stores = await storage.getApprovedStores();
       res.json(stores);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch locations" });
     }
-  });
+  };
+
+  app.get("/api/locations", (req, res) => getLocationsHelper(res));
+  app.get("/api", (req, res) => getLocationsHelper(res));
+  app.get("/api/index", (req, res) => getLocationsHelper(res));
 
   app.post("/api/locations", securityMiddleware.submissionRateLimit, async (req, res) => {
     // Reuse logic from /api/stores

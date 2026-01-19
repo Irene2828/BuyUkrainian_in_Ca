@@ -53,11 +53,30 @@ export function apiStoreToStore(apiStore: ApiStore): Store {
 }
 
 export async function getApprovedStores(): Promise<Store[]> {
-  // Updated endpoint to /api/locations as requested
-  const response = await fetch(`/api/locations?t=${Date.now()}`);
-  if (!response.ok) throw new Error("Failed to fetch stores");
-  const data: ApiStore[] = await response.json();
-  return data.map(apiStoreToStore);
+  // Updated endpoint to /api/index as requested by User to match their debug check
+  console.log("Fetching stores from /api/index...");
+  try {
+    const response = await fetch(`/api/index?t=${Date.now()}`);
+    console.log("Response status:", response.status);
+
+    if (!response.ok) {
+      const txt = await response.text();
+      console.error("Fetch failed:", txt);
+      throw new Error("Failed to fetch stores: " + response.statusText);
+    }
+
+    const json = await response.json();
+    console.log("Raw JSON received:", json);
+
+    // Support both { data: [...] } (Supabase style) and direct [...] (Express style)
+    const data: ApiStore[] = Array.isArray(json) ? json : (json.data || json.rows || []);
+    console.log("Parsed data items:", data.length);
+
+    return data.map(apiStoreToStore);
+  } catch (error) {
+    console.error("getApprovedStores Error:", error);
+    return []; // Return empty array to prevent crash
+  }
 }
 
 export async function getAllStores(): Promise<Store[]> {
