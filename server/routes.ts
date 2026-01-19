@@ -55,8 +55,12 @@ export async function registerRoutes(
     try {
       const stores = await storage.getApprovedStores();
       res.json(stores);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch locations" });
+    } catch (error: any) {
+      console.error("Failed to fetch locations:", error);
+      res.status(500).json({
+        error: "Failed to fetch locations",
+        details: error.message || String(error)
+      });
     }
   };
 
