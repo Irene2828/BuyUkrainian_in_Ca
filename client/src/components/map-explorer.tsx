@@ -41,9 +41,24 @@ export function MapExplorer() {
 
     const { data: allStores = [], isLoading } = useQuery({
         queryKey: ["stores"],
-        queryFn: getApprovedStores,
+        queryFn: async () => {
+            console.log("MapExplorer: Starting store fetch...");
+            const data = await getApprovedStores();
+            console.log("MapExplorer: Stores fetched:", data.length);
+            return data;
+        },
         staleTime: Infinity,
     });
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] w-full bg-white">
+                <div className="w-8 h-8 border-4 border-gray-200 border-t-black rounded-full animate-spin mb-4"></div>
+                <p className="text-gray-500 font-ui text-sm">Loading locations...</p>
+                <p className="text-xs text-gray-300 mt-2 font-mono">Fetching from /api/index</p>
+            </div>
+        );
+    }
 
     // Handle 'Clear Filters' event from MapSection (Empty State)
     useEffect(() => {
