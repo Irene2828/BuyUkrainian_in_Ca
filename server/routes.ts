@@ -58,6 +58,7 @@ export async function registerRoutes(
         return res.status(500).json({ error: "Storage not initialized" });
       }
       const stores = await storage.getApprovedStores();
+      console.log(`📍 Fetched ${stores.length} approved locations from database`);
       res.json({ data: stores });
     } catch (error: any) {
       console.error("Failed to fetch locations:", error);

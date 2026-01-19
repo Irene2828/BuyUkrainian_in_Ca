@@ -1,3 +1,6 @@
+// MUST be first - loads environment variables
+import "./env";
+
 import app from "./app";
 import { setupWebSocket } from "./websocket";
 import { serveStatic } from "./static";

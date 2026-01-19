@@ -159,6 +159,75 @@ export class MemStorage implements IStorage {
   private currentUserId = 1;
   private currentStoreId = 1;
 
+  constructor() {
+    // Add sample test data for local development
+    const sampleStores = [
+      {
+        id: "1",
+        name: "Dnister Ukrainian Store",
+        description: "Traditional Ukrainian food products, books, and crafts",
+        products: ["Pyrih", "Honey", "Crafts", "Books"],
+        address: "739 Queen St W",
+        city: "Toronto",
+        province: "ON",
+        latitude: "43.6465" as any,
+        longitude: "-79.4105" as any,
+        category: "food" as const,
+        website: "https://www.dnisterbooks.com",
+        image: null,
+        images: [],
+        email: null,
+        status: "approved" as const,
+        createdAt: new Date(),
+        approvedAt: new Date(),
+        isOpen: "true"
+      },
+      {
+        id: "2",
+        name: "Veselka Food Store",
+        description: "Ukrainian grocery and deli specializing in authentic products",
+        products: ["Sausages", "Pickles", "Bread", "Smoked Fish"],
+        address: "606 Bloor St W",
+        city: "Toronto",
+        province: "ON",
+        latitude: "43.6634" as any,
+        longitude: "-79.4115" as any,
+        category: "food" as const,
+        website: null,
+        image: null,
+        images: [],
+        email: null,
+        status: "approved" as const,
+        createdAt: new Date(),
+        approvedAt: new Date(),
+        isOpen: "true"
+      },
+      {
+        id: "3",
+        name: "Ukrainian Gift Shop",
+        description: "Traditional Ukrainian embroidered shirts, ceramics, and souvenirs",
+        products: ["Vyshyvanka", "Ceramics", "Souvenirs"],
+        address: "2282 Bloor St W",
+        city: "Toronto",
+        province: "ON",
+        latitude: "43.6519" as any,
+        longitude: "-79.4768" as any,
+        category: "retail" as const,
+        website: null,
+        image: null,
+        images: [],
+        email: null,
+        status: "approved" as const,
+        createdAt: new Date(),
+        approvedAt: new Date(),
+        isOpen: "true"
+      }
+    ];
+
+    sampleStores.forEach(store => this.stores.set(store.id, store));
+    this.currentStoreId = 4; // Next ID after the 3 sample stores
+  }
+
   // Admin methods (unchanged ID type for admins for now to save time, prompt focused on Locations)
   async getAdminUser(id: number) { return this.users.get(id); }
   async getAdminUserByUsername(username: string) { return Array.from(this.users.values()).find(u => u.username === username); }
@@ -224,20 +293,32 @@ try {
 
   // Strict check: Both must be present and non-empty
   if (url && key && url.startsWith("http")) {
-    console.log("Initializing SupabaseStorage...");
-    storageImplementation = new SupabaseStorage();
+    console.log("✅ Supabase credentials detected");
+    console.log("🔗 SUPABASE_URL:", url);
+    console.log("🔑 Service key length:", key.length, "characters");
+    try {
+      storageImplementation = new SupabaseStorage();
+      console.log("✅ Connected to Supabase successfully - using live database");
+    } catch (error) {
+      console.error("❌ Failed to initialize SupabaseStorage:", error);
+      console.log("⚠️  Falling back to MemStorage");
+      storageImplementation = new MemStorage();
+    }
   } else {
     if (process.env.NODE_ENV === "production") {
-      console.warn("WARNING: Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in production. Falling back to MemStorage.");
+      console.warn("⚠️  WARNING: Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in production. Falling back to MemStorage.");
       console.log("URL present:", !!url);
       console.log("Key present:", !!key);
     } else {
-      console.log("Using MemStorage (Dev mode or missing credentials)");
+      console.log("ℹ️  Using MemStorage (Missing Supabase credentials in .env.local)");
+      console.log("   To connect to live database, create .env.local with:");
+      console.log("   SUPABASE_URL=your_supabase_url");
+      console.log("   SUPABASE_SERVICE_ROLE_KEY=your_service_key");
     }
     storageImplementation = new MemStorage();
   }
 } catch (error) {
-  console.error("Failed to initialize storage:", error);
+  console.error("❌ Failed to initialize storage:", error);
   storageImplementation = new MemStorage();
 }
 
