@@ -18,9 +18,9 @@ export const insertAdminUserSchema = createInsertSchema(adminUsers, {
 export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
 export type AdminUser = typeof adminUsers.$inferSelect;
 
-// Stores table for Ukrainian product locations (products only, no services)
+// Stores table for Ukrainian product locations
 export const stores = pgTable("stores", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(), // Changed to text for UUID
   name: text("name").notNull(),
   description: text("description").notNull(),
   products: text("products").array().notNull(),
@@ -30,13 +30,15 @@ export const stores = pgTable("stores", {
   latitude: decimal("latitude", { precision: 10, scale: 7 }).notNull(),
   longitude: decimal("longitude", { precision: 10, scale: 7 }).notNull(),
   category: text("category").notNull(),
-  website: text("website"), // Optional website link
-  image: text("image"), // Deprecated: keeping for backward compatibility
+  website: text("website"),
+  image: text("image"),
   images: text("images").array().notNull().default(sql`ARRAY[]::text[]`),
-  email: text("email"), // Optional email for notifications
-  status: text("status").notNull().default("pending"), // pending, approved, rejected
+  email: text("email"),
+  status: text("status").notNull().default("pending"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   approvedAt: timestamp("approved_at"),
+  // Added requested fields
+  isOpen: text("is_open").default("true"), // Using text 'true'/'false' or boolean if supported, keeping simple
 });
 
 const MAX_NAME_LENGTH = 100;

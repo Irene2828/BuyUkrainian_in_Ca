@@ -38,7 +38,7 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden pt-[64px] pb-[108px] px-6 md:px-16">
       <div className="mx-auto max-w-2xl relative z-10 w-full">
         <div className="mb-8 md:mb-12 max-w-3xl mx-auto flex flex-col gap-3 text-center">
-          <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-instrument section-headline-reveal text-slate-900">
+          <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
             {t('faq.title') || 'FAQ'}
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui md:leading-[29.3px] md:tracking-[-0.44px]">

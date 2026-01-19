@@ -2,7 +2,7 @@ import { Store } from "@/lib/data";
 import { getAuthHeaders, clearAdminSession } from "@/lib/auth";
 
 export interface ApiStore {
-  id: number;
+  id: string; // Updated to string (UUID)
   name: string;
   description: string;
   products: string[];
@@ -53,7 +53,8 @@ export function apiStoreToStore(apiStore: ApiStore): Store {
 }
 
 export async function getApprovedStores(): Promise<Store[]> {
-  const response = await fetch(`/api/stores?t=${Date.now()}`);
+  // Updated endpoint to /api/locations as requested
+  const response = await fetch(`/api/locations?t=${Date.now()}`);
   if (!response.ok) throw new Error("Failed to fetch stores");
   const data: ApiStore[] = await response.json();
   return data.map(apiStoreToStore);
@@ -86,7 +87,8 @@ export async function createStore(store: {
   images?: string[];
   email?: string;
 }): Promise<Store> {
-  const response = await fetch("/api/stores", {
+  // Updated endpoint to /api/locations as requested
+  const response = await fetch("/api/locations", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -105,7 +107,7 @@ export async function createStore(store: {
   return apiStoreToStore(data);
 }
 
-export async function deleteStore(id: number): Promise<boolean> {
+export async function deleteStore(id: string): Promise<boolean> {
   const response = await fetch(`/api/admin/stores/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
@@ -124,7 +126,7 @@ export async function deleteStore(id: number): Promise<boolean> {
   return true;
 }
 
-export async function updateStoreStatus(id: number, status: "approved" | "rejected"): Promise<Store> {
+export async function updateStoreStatus(id: string, status: "approved" | "rejected"): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}/status`, {
     method: "PATCH",
     headers: {
@@ -148,7 +150,7 @@ export async function updateStoreStatus(id: number, status: "approved" | "reject
   return apiStoreToStore(data);
 }
 
-export async function updateStoreImages(id: number, images: string[]): Promise<Store> {
+export async function updateStoreImages(id: string, images: string[]): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}/images`, {
     method: "PATCH",
     headers: {
@@ -172,7 +174,7 @@ export async function updateStoreImages(id: number, images: string[]): Promise<S
   return apiStoreToStore(data);
 }
 
-export async function updateStore(id: number, updates: {
+export async function updateStore(id: string, updates: {
   name?: string;
   address?: string;
   category?: string;
@@ -202,7 +204,7 @@ export async function updateStore(id: number, updates: {
   return apiStoreToStore(data);
 }
 
-// Admin user types
+// Admin user types (kept ID as number as per storage.ts for now, assuming user only touches Location table)
 export interface AdminUser {
   id: number;
   username: string;

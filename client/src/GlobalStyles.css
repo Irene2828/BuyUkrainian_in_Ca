@@ -127,22 +127,8 @@ h5 {
 }
 
 /* Smooth Map Interactions - RESTORED PREMIUM TRANSITIONS */
-.leaflet-container {
-    font-family: var(--font-ui), sans-serif;
-}
-
-/* Enable smooth transitions for premium weighted feel */
-.leaflet-tile-pane {
-    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-.leaflet-zoom-anim .leaflet-zoom-animated {
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-.leaflet-marker-pane {
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
+/* CSS Transitions removed to prevent conflict with Leaflet's internal animation engine (causes jitter) */
+/* .leaflet-tile-pane, .leaflet-zoom-anim .leaflet-zoom-animated, .leaflet-marker-pane logic handled via JS flyTo */
 
 /* Section Spacing - Now controlled by component Tailwind classes (100px on desktop) */
 /* Removed global !important override to allow md:py-[100px] to work */

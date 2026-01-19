@@ -39,7 +39,7 @@ export function MapExplorer() {
     const [provinceSearch, setProvinceSearch] = useState("");
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
-    const { data: allStores = [] } = useQuery({
+    const { data: allStores = [], isLoading } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
         staleTime: Infinity,
@@ -103,18 +103,37 @@ export function MapExplorer() {
         p.toLowerCase().includes(provinceSearch.toLowerCase())
     );
 
+    // Calculate Category Counts (Global Scope)
+    const getCategoryCount = (catId: string) => {
+        return allStores.filter(s => s.category === catId).length;
+    };
+
     const categories = [
-        { id: "food", label: "Food", icon: UtensilsCrossed },
-        { id: "clothes", label: "Clothing", icon: ShoppingBag },
-        { id: "retail", label: "Retail", icon: StoreIcon },
-        { id: "other", label: "Gifts", icon: Gift },
+        { id: "food", label: "Food", icon: UtensilsCrossed, count: getCategoryCount("food") },
+        { id: "clothes", label: "Clothing", icon: ShoppingBag, count: getCategoryCount("clothes") },
+        { id: "retail", label: "Gifts", icon: Gift, count: getCategoryCount("retail") }, // Mapped 'Retail' key to 'Gifts' label per request
+        { id: "other", label: "Other", icon: StoreIcon, count: getCategoryCount("other") },
     ];
 
     return (
         <div className={cn(
             "w-full bg-white flex flex-col md:block transition-[height] duration-300 ease-in-out",
-            viewMode === "map" ? "h-[85vh] md:h-[500px]" : "min-h-[400px] h-auto"
+            viewMode === "map" ? "h-auto md:h-[600px]" : "min-h-[400px] h-auto"
         )}>
+
+            {/* TASK 1: Dynamic Headline Section */}
+            <section className="bg-white px-6 md:px-16 section-reveal">
+                <div className="container mx-auto max-w-[1440px] pt-8 pb-8 md:pt-12 md:pb-8 flex flex-col items-center justify-center">
+                    <div className="flex flex-col gap-3 text-center items-center">
+                        <h2 className="text-[28px] md:text-[24px] font-medium tracking-tight md:tracking-[-0.05em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
+                            Showing {isLoading ? '...' : filteredStoresCount} local stores selling Ukrainian products
+                        </h2>
+                        <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
+                            Filter by category, province, or open status
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             {/* Mobile: Horizontal scrolling filter bar */}
             {/* Mobile: Map Controls Refactored - 2 Rows */}
@@ -124,7 +143,7 @@ export function MapExplorer() {
                     <div className="relative group flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
                         <Input
-                            placeholder="Search..."
+                            placeholder="Search by city or name..."
                             className="pl-9 pr-9 h-10 bg-gray-50 border-transparent rounded-full text-sm focus-visible:ring-1 focus-visible:ring-[#D3E4FD]/40 font-ui"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -185,7 +204,7 @@ export function MapExplorer() {
                                     )}
                                 >
                                     <cat.icon className="w-3.5 h-3.5" />
-                                    {cat.label}
+                                    {cat.label} <span className="opacity-60 text-[10px] ml-0.5">({cat.count})</span>
                                 </button>
                             ))}
                         </div>
@@ -214,8 +233,8 @@ export function MapExplorer() {
                                             )}
                                         >
                                             <cat.icon className="w-4 h-4" />
-                                            {/* @ts-ignore */}
-                                            {t(`form.category${cat.label === 'Clothing' ? 'Clothes' : cat.label === 'Gifts' ? 'Other' : cat.label === 'Retail' ? 'Other' : cat.label}`)}
+                                            {/* TASK 2: Count Badges */}
+                                            {cat.label} <span className="text-xs opacity-60 font-semibold">({cat.count})</span>
                                         </button>
                                     ))}
                                 </div>
@@ -228,7 +247,7 @@ export function MapExplorer() {
                                             viewMode === "map" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-slate-100 font-normal"
                                         )}
                                     >
-                                        <MapIcon className="w-4 h-4" /> {t('map.viewMap') || 'Map View'}
+                                        <MapIcon className="w-4 h-4" /> {t('map.viewMap') || 'Map'}
                                     </button>
                                     <button
                                         onClick={() => setViewMode("list")}
@@ -237,25 +256,19 @@ export function MapExplorer() {
                                             viewMode === "list" ? "bg-[#D3E4FD] text-black shadow-[0_4px_12px_rgba(0,87,183,0.15)] font-medium" : "bg-slate-50 text-slate-500 hover:bg-slate-100 font-normal"
                                         )}
                                     >
-                                        <List className="w-4 h-4" /> {t('map.viewList') || 'List View'}
+                                        <List className="w-4 h-4" /> {t('map.viewList') || 'List'}
                                     </button>
                                 </div>
                             </div>
                             {/* Filter Count Feedback */}
-                            {(category || searchQuery) && (
-                                <div className="pl-2 animate-in fade-in slide-in-from-left-2 duration-300">
-                                    <span className="text-[13px] font-medium text-gray-500 font-ui">
-                                        {filteredStoresCount} {filteredStoresCount === 1 ? 'store' : 'stores'} found
-                                    </span>
-                                </div>
-                            )}
+                            {/* Removed redundant feedback as it is now in the headline */}
                         </div>
 
                         <div className="flex items-center gap-4">
                             <div className="relative group w-[300px]">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
                                 <Input
-                                    placeholder={t('map.search.placeholder') || 'Search stores, products, locations...'}
+                                    placeholder={t('map.search.placeholder') || 'Search by city or store name...'}
                                     className="pl-12 pr-12 h-[46px] border-none bg-white/80 ring-1 ring-inset ring-black/5 backdrop-blur-md shadow-sm rounded-full focus-visible:ring-2 focus-visible:ring-[#D3E4FD]/50 font-ui tracking-tight placeholder:text-slate-400"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -302,7 +315,7 @@ export function MapExplorer() {
                             className="w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:bg-slate-50 transition-all font-ui"
                         >
                             <span className={cn(selectedProvince ? "text-black" : "text-gray-400")}>
-                                {selectedProvince || "All provinces"}
+                                {selectedProvince || `All provinces (${allStores.length} locations)`}
                             </span>
                             <ChevronDown className={cn("w-4 h-4 transition-transform", isProvinceDropdownOpen && "rotate-180")} />
                         </button>
@@ -322,24 +335,29 @@ export function MapExplorer() {
                                     </div>
                                 </div>
                                 <div className="max-h-60 overflow-y-auto custom-scrollbar">
-                                    {provincesFiltered.map((p) => (
-                                        <button
-                                            key={p}
-                                            onClick={() => {
-                                                setSelectedProvince(p === "All Canada" ? null : p);
-                                                setProvinceSearch("");
-                                                setIsProvinceDropdownOpen(false);
-                                            }}
-                                            className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-gray-50 border-b border-gray-50 font-ui"
-                                        >
-                                            {p}
-                                            {((!selectedProvince && p === "All Canada") || selectedProvince === p) && <Check className="w-4 h-4 text-[#D3E4FD]" />}
-                                        </button>
-                                    ))}
+                                    {provincesFiltered.map((p) => {
+                                        // TASK 3: Count per province inside select? User didn't ask explicitly inside list, but why not.
+                                        // Just keeping standard for now as "All provinces (N) placeholder" was the key request.
+                                        return (
+                                            <button
+                                                key={p}
+                                                onClick={() => {
+                                                    setSelectedProvince(p === "All Canada" ? null : p);
+                                                    setProvinceSearch("");
+                                                    setIsProvinceDropdownOpen(false);
+                                                }}
+                                                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-gray-50 border-b border-gray-50 font-ui"
+                                            >
+                                                {p}
+                                                {((!selectedProvince && p === "All Canada") || selectedProvince === p) && <Check className="w-4 h-4 text-[#D3E4FD]" />}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )}
                     </div>
+
 
                     {/* No stores in province feedback */}
                     {selectedProvince && filteredStoresCount === 0 && (

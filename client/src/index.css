@@ -6,7 +6,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   /* Colors - Restored to Audit Palette with New Brand Accents */
   --color-primary-yellow: #FFF9C8;
   --color-accent-yellow: #FFF59D;
@@ -74,15 +74,12 @@
   --spacing-section-gap: 24px;
 
   /* Typography */
-  --font-sans: 'Inter',
-    system-ui,
-    sans-serif;
-  --font-serif: 'Lora',
-    serif;
-  --font-instrument: 'Instrument Sans',
-    sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Lora', serif;
+  --font-gelasio: 'Gelasio', serif;
+  --font-instrument: 'Instrument Sans', sans-serif;
 
-  --animate-premium-pulse: premium-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-premium-pulse: premium-pulse 2.0s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-marquee: marquee 20s linear infinite;
 
   @keyframes premium-pulse {

@@ -10,7 +10,7 @@ function Skeleton({ className }: { className?: string }) {
                 className
             )}
             style={{
-                animation: 'shimmer 1.5s ease-in-out infinite',
+                animation: 'shimmer 1.35s ease-in-out infinite',
             }}
         />
     );

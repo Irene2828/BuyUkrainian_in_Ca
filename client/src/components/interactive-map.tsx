@@ -77,11 +77,13 @@ function MapController({
       const targetZoom = flyConfig?.zoom || 16;
 
       // The Glide & Curve (Obsidian Silk)
+      // Note: Leaflet flyTo does not support custom easing functions directly.
+      // We use easeLinearity: 0.25 to approximate the requested "Obsidian Curve" (Cubic ease-in-out).
       map.flyTo(focusCoordinates, targetZoom, {
         duration: duration,
         easeLinearity: 0.25, // Curve factor (lower is more curved)
-        animate: true,
-        paddingTopLeft: padding
+        animate: true
+        // padding options removed as they are not supported in flyTo ZoomPanOptions
       });
 
       const timer = setTimeout(() => {
@@ -101,11 +103,13 @@ function MapController({
       if (isCanadaReset && map.getZoom() === 3) return;
 
       if (onFlightStart) onFlightStart();
+
+      // The Reveal (Cinematic Zoom-Out)
+      // "Slow-Start" implied by the long duration and curve
       map.flyTo([provinceView.lat, provinceView.lng], provinceView.zoom, {
         duration: 2.2,
         easeLinearity: 0.25,
-        animate: true,
-        padding: [50, 50]
+        animate: true
       });
       const timer = setTimeout(() => {
         if (onFlightEnd) onFlightEnd();
@@ -127,6 +131,110 @@ interface InteractiveMapProps {
   extraControls?: React.ReactNode;
 }
 
+const MarkerClusterGroup = ({
+  stores,
+  selectedStore,
+  onSelectStore,
+  userLocation
+}: {
+  stores: Store[];
+  selectedStore: Store | null;
+  onSelectStore: (store: Store) => void;
+  userLocation?: [number, number] | null;
+}) => {
+  const map = useMap();
+  const groupRef = useRef<L.MarkerClusterGroup | null>(null);
+
+  // Initialize Cluster Group
+  useEffect(() => {
+    if (!groupRef.current) {
+      groupRef.current = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
+        spiderfyOnMaxZoom: true,
+        removeOutsideVisibleBounds: true,
+        maxClusterRadius: 50, // Tight clusters
+        iconCreateFunction: (cluster) => {
+          const childCount = cluster.getChildCount();
+
+          // Dynamic sizing based on density
+          // Base size matches standard pin (28px) but slightly larger for visibility
+          let sizeClass = 'w-9 h-9'; // 36px
+          let iconSize = [36, 36] as [number, number];
+          let fontSize = '13px';
+
+          if (childCount >= 10) {
+            sizeClass = 'w-11 h-11'; // 44px
+            iconSize = [44, 44];
+            fontSize = '14px';
+          }
+          if (childCount >= 50) {
+            sizeClass = 'w-12 h-12'; // 48px
+            iconSize = [48, 48];
+            fontSize = '15px';
+          }
+
+          // Exact replication of standard pin style (Circle split blue/yellow)
+          return L.divIcon({
+            html: `
+              <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: white;">
+                <div style="width: 100%; height: 50%; background: #3C93EA;"></div>
+                <div style="width: 100%; height: 50%; background: #F3FF0A;"></div>
+                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.4); font-family: var(--font-ui); font-size: ${fontSize};">
+                    ${childCount}
+                </div>
+              </div>
+            `,
+            className: 'custom-cluster-icon !bg-transparent !border-none', // Ensure leaflet default styles don't interfere
+            iconSize: iconSize
+          });
+        }
+      });
+      map.addLayer(groupRef.current);
+    }
+
+    return () => {
+      if (groupRef.current) {
+        map.removeLayer(groupRef.current);
+        groupRef.current = null;
+      }
+    };
+  }, [map]);
+
+
+  // Update Markers
+  useEffect(() => {
+    const group = groupRef.current;
+    if (!group) return;
+
+    group.clearLayers();
+
+    stores.forEach(store => {
+      if (store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1])) {
+        const isSelected = selectedStore?.id === store.id;
+        const isAnySelected = !!selectedStore;
+
+        const marker = L.marker(store.coordinates as [number, number], {
+          icon: createUnifiedMarker(isSelected, isAnySelected)
+        });
+
+        marker.on('click', () => {
+          onSelectStore(store);
+        });
+
+        group.addLayer(marker);
+      }
+    });
+
+    // Add User Location Marker (outside cluster? usually user location shouldn't cluster with stores, but keeping it simple)
+    // Actually, user location is usually distinct. Let's keep it separate in main component if possible.
+    // But returning null here implies we handle ONLY stores.
+
+  }, [stores, selectedStore, onSelectStore]); // Re-run when selection changes to update dimming states
+
+  return null;
+};
+
 export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(function InteractiveMap({
   stores,
   selectedStore,
@@ -143,21 +251,21 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   // Internal Flight Logic
   const triggerFlyToLocation = (lat: number, lng: number, zoom: number = 16) => {
-    // Spatial Pivot (See On Map) - The Glide (1.4s) + The Offset
+    // Calmer, slower cinematic zoom
     const isDesktop = window.innerWidth >= 768;
     const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
 
-    // essential: true is implied for "Obsidian" motion standards (simulated via strict duration)
-    setFlyConfig({ duration: 1.4, padding, zoom });
+    // Duration 1.5s for a smoother, weighted feel as requested (Airbnb style)
+    setFlyConfig({ duration: 1.5, padding, zoom });
     setFocusCoordinates([lat, lng]);
     setProvinceView(null);
   };
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
-      // Mechanical Zoom (Pin Click)
+      // Mechanical Zoom (Pin Click) - Stabilized
       if (store.coordinates) {
-        setFlyConfig({ duration: 0.45, padding: [0, 0], zoom: 16 });
+        setFlyConfig({ duration: 1.2, padding: [0, 0], zoom: 16 });
         setFocusCoordinates(store.coordinates as [number, number]);
         setProvinceView(null);
       }
@@ -170,7 +278,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       triggerFlyToLocation(lat, lng, zoom);
     },
     resetView: () => {
-      setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 3 });
+      // The Cinematic "Reveal" (Zoom-Out)
+      // Center: [-98, 58], Zoom: 4.5, Duration: 2.2s
+      setProvinceView({ lat: 58, lng: -98, zoom: 4.5 });
       setFocusCoordinates(null);
     },
     zoomIn: () => {
@@ -185,7 +295,16 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     }
   }), []);
 
+  // Listen for "clearFilters" event to trigger the Reveal (Cinematic Zoom-Out)
+  useEffect(() => {
+    const handleClearFilters = () => {
+      setProvinceView({ lat: 58, lng: -98, zoom: 4.5 });
+      setFocusCoordinates(null);
+    };
 
+    window.addEventListener('clearFilters', handleClearFilters);
+    return () => window.removeEventListener('clearFilters', handleClearFilters);
+  }, []);
 
   return (
     <div
@@ -200,8 +319,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         className="w-full h-full"
         zoomControl={false}
         attributionControl={false}
-        bounceAtZoomLimits={true}
+        bounceAtZoomLimits={false}
         maxBounds={CANADA_BOUNDS}
+        maxBoundsViscosity={1.0}
         markerZoomAnimation={true}
         zoomAnimation={true}
         fadeAnimation={true}
@@ -241,21 +361,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onFlightEnd={() => onFlightChange?.(false)}
         />
 
-
-        {stores.map((store) => (
-          store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1]) && (
-            <Marker
-              key={store.id}
-              position={store.coordinates as [number, number]}
-              icon={createUnifiedMarker(selectedStore?.id === store.id, !!selectedStore)}
-              eventHandlers={{
-                click: () => {
-                  onSelectStore(store);
-                }
-              }}
-            />
-          )
-        ))}
+        {/* CLUSTERING IMPLEMENTATION: Replaced direct Marker loop with MarkerClusterGroup */}
+        <MarkerClusterGroup
+          stores={stores}
+          selectedStore={selectedStore}
+          onSelectStore={onSelectStore}
+        />
 
         {userLocation && isWithinCanada(userLocation[0], userLocation[1]) && (
           <Marker
@@ -278,7 +389,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             onClose={() => {
               const panel = document.querySelector('.side-panel-container');
               if (panel) panel.classList.add('slide-out-to-right');
-              setTimeout(() => onCloseStore(), 200); // Wait for anim
+              setTimeout(() => {
+                onCloseStore();
+                // Trigger Cinematic Zoom-Out (The Reveal)
+                setProvinceView({ lat: 58, lng: -98, zoom: 4.5 });
+                setFocusCoordinates(null);
+              }, 200); // Wait for anim
             }}
             onSeeOnMap={(s) => {
               // Zoom in effect

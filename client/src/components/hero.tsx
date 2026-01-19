@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, HelpCircle } from "lucide-react";
+import { ArrowRight, HelpCircle, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ export function Hero() {
   return (
     <section className="premium-parallax-hero relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans min-h-[720px] min-[391px]:min-h-[820px] md:min-h-0 h-auto md:h-[528px] pt-[42px] min-[391px]:pt-[52px] pb-[42px] md:p-0 md:flex md:items-center mt-[23px] md:mt-[30px]">
       {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full flex flex-col justify-start md:block">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-start md:block">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 min-[1440px]:gap-[148px] items-start w-full">
 
           {/* Left Content - Flush Left Mobile & Desktop */}
@@ -21,24 +21,22 @@ export function Hero() {
             <div className="w-full max-w-4xl text-left">
               {/* Main Headline */}
               <h1 className="text-slate-900 leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
-                {/* PART 1: High-Impact Header - Reverted to 'Find and Share / Ukrainian Products' per Figma mockup */}
-                <span className="block text-[32px] min-[391px]:text-[42px] md:text-[56px] min-[1440px]:text-[60px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.03em] leading-[1] antialiased">
+                <span className="block text-[32px] min-[391px]:text-[42px] md:text-[48px] min-[1440px]:text-[48px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
                   Find and Share <br />
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* PART 2: Contextual Sub-Header */}
                 {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium md:font-medium min-[1440px]:!font-normal font-instrument text-slate-900 mt-0 min-[391px]:mt-[6px] md:mt-[6px] leading-[1.05] min-[391px]:leading-[1.05] md:leading-[1.05] tracking-[-0.03em] md:-translate-y-[10%]">
+                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium md:font-normal min-[1440px]:!font-normal font-instrument text-slate-900 mt-0 min-[391px]:mt-[6px] md:mt-[8px] leading-[1.15] min-[391px]:leading-[1.15] md:leading-[1.15] tracking-[-0.02em] md:-translate-y-[10%]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
-              <p className="hero-subtitle mt-8 text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29px] min-[1440px]:leading-[28px] text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[85%] md:max-w-[560px]">
-                Support Ukraine's economy with every purchase <br className="hidden md:block" />
-                or help the initiative grow by adding new stores <br className="hidden md:block" />
-                to the map.
+              <p className="hero-subtitle mt-8 text-[16px] min-[391px]:text-[16px] md:text-[16px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29px] min-[1440px]:leading-[28px] text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[85%] md:max-w-[578px]">
+                Support Ukraine’s economy with everyday purchases — <br className="hidden md:block" />
+                or help the map grow by adding local stores.
               </p>
             </div>
 
@@ -53,7 +51,6 @@ export function Hero() {
                   opacity: videoReady ? 1 : 0,
                   transition: 'opacity 0.4s ease-in-out'
                 }}
-                autoPlay
                 muted
                 loop
                 playsInline
@@ -69,15 +66,16 @@ export function Hero() {
               {/* Button Group - Stacked, Gap Reset to 12px (gap-3) */}
               <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6 mt-6">
                 <Link href="/map">
-                  <Button className="group inline-flex items-center justify-center h-[46px] !bg-black text-white hover:!text-white rounded-full px-8 text-[16px] font-medium gap-1.5 font-ui shadow-none transition-colors duration-200 ease-out hover:!bg-slate-800 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] tracking-[-0.3125px]">
-                    {t('home.hero.explore') || 'Explore the Map'}
-                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <Button className="group inline-flex items-center justify-center h-[46px] !bg-black text-white hover:!text-white rounded-full px-10 text-[16px] font-medium gap-1.5 font-ui shadow-none transition-colors duration-200 ease-out hover:!bg-slate-800 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] tracking-[-0.3125px]">
+                    {t('home.hero.explore') || "Explore the Map"}
+                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 mt-[1px]" />
                   </Button>
                 </Link>
 
                 <Link href="/map" className="flex justify-center md:justify-start">
                   <Button className="inline-flex items-center justify-center h-[46px] bg-white/10 backdrop-blur-md text-black border border-black rounded-[32px] px-8 text-[16px] font-normal gap-1.5 font-ui shadow-none hover:bg-slate-100 hover:text-black transition-colors tracking-[-0.3125px]">
-                    + Add a Store
+                    <HelpCircle className="w-5 h-5" />
+                    {t('home.hero.learnMore') || 'Learn More'}
                   </Button>
                 </Link>
               </div>
@@ -95,7 +93,6 @@ export function Hero() {
                   opacity: videoReady ? 1 : 0,
                   transition: 'opacity 0.4s ease-in-out'
                 }}
-                autoPlay
                 muted
                 loop
                 playsInline

@@ -30,7 +30,7 @@ export function HowItWorks() {
     <section id="how-it-works" className="pt-[80px] md:pt-[160px] pb-[100px] bg-white font-sans overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-20">
         <div className="mb-12 md:mb-16 w-full max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
-          <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-instrument section-headline-reveal text-slate-900">
+          <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
           <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui tracking-[-0.31px] md:tracking-[-0.44px] max-w-2xl text-center line-clamp-2 md:line-clamp-none">
