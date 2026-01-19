@@ -8,11 +8,7 @@
         "target": "ES2022",
         "esModuleInterop": true,
         "baseUrl": "..",
-        "paths": {
-            "@shared/*": [
-                "./shared/*"
-            ]
-        }
+        "paths": {}
     },
     "include": [
         ".",
