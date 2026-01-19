@@ -3,6 +3,9 @@ import { registerRoutes } from "./routes.js";
 import { securityMiddleware } from "./security.js";
 import cors from "cors";
 const app = express();
+
+// Trust the first proxy (required for Vercel/proxied environments to get correct client IP)
+app.set("trust proxy", 1);
 // Log critical environment variables for debugging (production only)
 if (process.env.NODE_ENV === "production") {
     console.log("[Env] DATABASE_URL:", process.env.DATABASE_URL ? "SET" : "MISSING");
