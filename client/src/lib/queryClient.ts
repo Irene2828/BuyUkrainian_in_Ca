@@ -58,6 +58,12 @@ export const queryClient = new QueryClient({
 
 // WebSocket setup for real-time updates
 export function setupWebSocketListener() {
+  // Vercel Serverless does not support WebSockets. Disable in production to prevent errors.
+  if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    console.log("WebSockets disabled in production environment");
+    return;
+  }
+
   const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
   const wsUrl = `${protocol}//${window.location.host}/ws`;
   const ws = new WebSocket(wsUrl);
