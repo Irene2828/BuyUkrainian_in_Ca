@@ -53,8 +53,12 @@ export async function registerRoutes(
   // Mapping /api and /api/index to locations as well to satisfy user request/testing
   const getLocationsHelper = async (res: any) => {
     try {
+      if (!storage) {
+        console.error("Storage not initialized");
+        return res.status(500).json({ error: "Storage not initialized" });
+      }
       const stores = await storage.getApprovedStores();
-      res.json(stores);
+      res.json({ data: stores });
     } catch (error: any) {
       console.error("Failed to fetch locations:", error);
       res.status(500).json({

@@ -68,8 +68,8 @@ export async function getApprovedStores(): Promise<Store[]> {
     const json = await response.json();
     console.log("Raw JSON received:", json);
 
-    // Support both { data: [...] } (Supabase style) and direct [...] (Express style)
-    const data: ApiStore[] = Array.isArray(json) ? json : (json.data || json.rows || []);
+    // Handle both { data: [...] } (new format) and direct [...] (old format) for compatibility
+    const data: ApiStore[] = json.data || (Array.isArray(json) ? json : []);
     console.log("Parsed data items:", data.length);
 
     return data.map(apiStoreToStore);
