@@ -3,7 +3,7 @@ import helmet from "helmet";
 import type { Express, Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { storage } from "./storage.js";
+import { storage } from "./db_storage.js";
 
 function getAdminPasswordHash(): string {
   const hash = process.env.ADMIN_PASSWORD_HASH;
