@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
-    // Debug logs to verify environment variables
+    // Debug output - Remove in production after verifying
     console.log("Checking ENV vars...");
+    // DO NOT LOG THE ACTUAL VALUES IN PRODUCTION LOGS for security, just presence
     console.log("SUPABASE_URL exists:", !!process.env.SUPABASE_URL);
     console.log("SUPABASE_SERVICE_ROLE_KEY exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -16,7 +17,7 @@ export default async function handler(req, res) {
 
         const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // Query 'locations' table (as per project context, instead of generic 'your_table')
+        // Query 'locations' table
         const { data, error } = await supabase
             .from('locations')
             .select('*');

@@ -1,0 +1,95 @@
+-- Insert Initial Seed Data for BlueYellowConnect
+-- These are the "Approved" stores that will appear on the map immediately.
+
+INSERT INTO locations (name, description, products, address, city, province, lat, lng, category, status, is_open, approved_at, images)
+VALUES 
+(
+  'Kozak Ukrainian Bakery', 
+  'Authentic Ukrainian breads, pastries, and comfort foods made from scratch.', 
+  ARRAY['Borsch', 'Varenyky', 'Sourdough Bread', 'Coffee'], 
+  '5077 Victoria Dr, Vancouver, BC V5P 3T9', 
+  'Vancouver', 
+  'British Columbia', 
+  49.2333, 
+  -123.0667, 
+  'food', 
+  'approved', 
+  true,
+  now(),
+  ARRAY['https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=800']
+),
+(
+  'Yummy Market', 
+  'European grocery store with a vast selection of Ukrainian imported goods.', 
+  ARRAY['Roshen Chocolates', 'Kvas', 'Buckwheat', 'Preserves'], 
+  '1390 Major Mackenzie Dr W, Maple, ON L6A 4H6', 
+  'Maple', 
+  'Ontario', 
+  43.8755, 
+  -79.4964, 
+  'clothes', 
+  'approved', 
+  true,
+  now(),
+  ARRAY['https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=800']
+),
+(
+  'Future Bakery', 
+  'Family-owned bakery serving traditional Eastern European recipes since 1991.', 
+  ARRAY['Rye Bread', 'Poppy Seed Roll', 'Cakes'], 
+  '106 N Queen St, Etobicoke, ON M8Z 2E2', 
+  'Etobicoke', 
+  'Ontario', 
+  43.6156, 
+  -79.5572, 
+  'food', 
+  'approved', 
+  true,
+  now(),
+  ARRAY['https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=800']
+),
+(
+  'Ukrainian Gift Shop', 
+  'Traditional Ukrainian gifts, crafts, and cultural items.', 
+  ARRAY['Embroidery', 'Pottery', 'Folk Art'], 
+  '405 The West Mall, Etobicoke, ON M9C 5J1', 
+  'Etobicoke', 
+  'Ontario', 
+  43.6441, 
+  -79.5653, 
+  'other', 
+  'approved', 
+  true,
+  now(),
+  ARRAY['https://images.unsplash.com/photo-1616687472097-47b744421689?auto=format&fit=crop&q=80&w=800']
+),
+(
+  'Shumka Ukrainian Foods', 
+  'Edmonton staple for perogies and cabbage rolls.', 
+  ARRAY['Perogies', 'Cabbage Rolls', 'Nalysnyky'], 
+  '16520 95 St, Edmonton, AB T5Z 3L2', 
+  'Edmonton', 
+  'Alberta', 
+  53.6284, 
+  -113.4909, 
+  'food', 
+  'approved', 
+  true,
+  now(),
+  ARRAY['https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&q=80&w=800']
+),
+(
+  'Saskatoon Co-op', 
+  'Local cooperative featuring local Ukrainian producers.', 
+  ARRAY['Sausage', 'Perogies', 'Local Crafts'], 
+  '201 33rd St W, Saskatoon, SK S7L 0V1', 
+  'Saskatoon', 
+  'Saskatchewan', 
+  52.1465, 
+  -106.6735, 
+  'food', 
+  'approved', 
+  true,
+  now(),
+  ARRAY['https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80&w=800']
+);
