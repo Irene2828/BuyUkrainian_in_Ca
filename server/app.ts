@@ -5,47 +5,18 @@ import cors from "cors";
 
 const app = express();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 // =====================
 // SECURITY & CONFIG
 // =====================
-const isProduction = process.env.NODE_ENV === "production";
-
 if (isProduction) {
-    // Production security
     app.use(securityMiddleware.helmet);
     app.use(securityMiddleware.generalRateLimit);
-    // CORS: Allow only production domain
-    // We'll let Vercel handle edge-level CORS or set strict origin here.
-    // The user asked for "No 'wildcard' (*) allowed".
-    // We can use process.env.VERCEL_URL or generic production URL.
-    // For now, let's keep it restricted or conditional.
-    // We'll trust the user has configured access control or add specific middleware if provided.
-    // Actually, let's add specific CORS for usage.
-    app.use(cors({
-        origin: (origin, callback) => {
-            // Allow requests with no origin (like mobile apps or curl requests)
-            if (!origin) return callback(null, true);
-            // Add your Vercel domains here
-            const allowedOrigins = [
-                process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
-                process.env.PRODUCTION_URL, // User provided var
-                "https://buyukrainian.ca",
-                "https://www.buyukrainian.ca"
-            ].filter(Boolean);
-
-            if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.length === 0) { // If no domains set, strictly speaking we should block, but for safety in transition lets fail open or strict? User said "Disiplined and exclusive".
-                // If we don't know the domain, we should probably fail if we want to be strict.
-                // But for now, let's try to pass usage.
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        }
-    }));
-} else {
-    // Dev mode: allow all
-    app.use(cors());
 }
+
+// CORS: Permissive for now to ensure connectivity
+app.use(cors());
 
 // =====================
 // LOGGING
@@ -88,21 +59,13 @@ app.use((req, res, next) => {
 // =====================
 // BODY PARSING
 // =====================
-app.use(
-    express.json({
-        limit: "100kb",
-        verify: (req: any, _res, buf) => {
-            req.rawBody = buf;
-        },
-    })
-);
+app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: false, limit: "100kb" }));
 
 // =====================
 // ROUTE REGISTRATION
 // =====================
 // Pass a dummy server object because we aren't listening here
-// and registerRoutes doesn't seemingly use the server instance for routing.
 import { createServer } from "http";
 const dummyServer = createServer(app);
 registerRoutes(dummyServer, app);
@@ -112,13 +75,14 @@ registerRoutes(dummyServer, app);
 // =====================
 app.use((err: any, _req: any, res: any, _next: any) => {
     const status = err.status || err.statusCode || 500;
-    if (isProduction) {
-        res.status(status).json({
-            error: status >= 500 ? "An unexpected error occurred." : err.message,
-        });
-    } else {
-        res.status(status).json({ error: err.message || "Internal Server Error" });
-    }
+    console.error("Global Error Handler:", err);
+
+    const errorResponse = {
+        error: err.message || "An unexpected error occurred.",
+        details: isProduction ? err.toString() : undefined
+    };
+
+    res.status(status).json(errorResponse);
 });
 
 export default app;

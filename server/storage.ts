@@ -215,4 +215,30 @@ export class MemStorage implements IStorage {
   async deleteStore(id: string) { return this.stores.delete(id); }
 }
 
-export const storage = process.env.SUPABASE_URL ? new SupabaseStorage() : new MemStorage();
+// Safely determine which storage to use without crashing
+let storageImplementation: IStorage;
+
+try {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  // Strict check: Both must be present and non-empty
+  if (url && key && url.startsWith("http")) {
+    console.log("Initializing SupabaseStorage...");
+    storageImplementation = new SupabaseStorage();
+  } else {
+    if (process.env.NODE_ENV === "production") {
+      console.warn("WARNING: Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in production. Falling back to MemStorage.");
+      console.log("URL present:", !!url);
+      console.log("Key present:", !!key);
+    } else {
+      console.log("Using MemStorage (Dev mode or missing credentials)");
+    }
+    storageImplementation = new MemStorage();
+  }
+} catch (error) {
+  console.error("Failed to initialize storage:", error);
+  storageImplementation = new MemStorage();
+}
+
+export const storage = storageImplementation;
