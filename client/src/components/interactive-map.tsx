@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { StoreCard } from "./store-card";
+import { motion } from "framer-motion";
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
@@ -27,11 +28,11 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
 ];
 
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
-// Toronto-Montreal-Ottawa Triangle Center - Optimized for maximum cluster visibility
+// Full Canada View - Coast to Coast - SOVEREIGN VIEW LOCK
 const INITIAL_MAP_STATE = {
-  center: [44.5, -78.5] as [number, number],
-  zoom: 5.5
-} as const;
+  center: [56.13, -106.35] as [number, number],
+  zoom: 3.5
+} as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 
@@ -313,7 +314,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   }, []);
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
       className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#D4E7F5] passport-map-container"
     >
       <MapContainer
@@ -441,6 +445,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 });

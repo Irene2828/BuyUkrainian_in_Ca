@@ -508,3 +508,17 @@
     box-shadow: none !important;
   }
 }
+
+/* ========================================
+   SURGICAL STROKE EXTERMINATION
+   ======================================== */
+.province-select-trigger:focus, 
+.province-select-trigger:focus-visible,
+.province-select-trigger[data-state='open'] {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #E5E7EB !important; /* gray-200 */
+  --tw-ring-offset-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: none !important;
+}
