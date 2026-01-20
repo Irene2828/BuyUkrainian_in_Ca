@@ -1,6 +1,7 @@
 # SOVEREIGN PROTECTION & SURGICAL PRECISION
 **Final Lockdown of Map Behavior & Focus Styles**  
 *Executed: 2026-01-20*
+*Status: STABLE (CSS Animation)*
 
 ---
 
@@ -9,7 +10,7 @@
 ### 1. Reactive Zoom Elimination
 **Action**: Audited `interactive-map.tsx` for `fitBounds` / `flyTo` / `setView` in effects.
 **Result**: No auto-zoom logic found. The "jumping" behavior was likely a visual artifact of the map loading instantly before data.
-**Fix**: Implemented **Elegant Entrance** to mask initial load.
+**Fix**: Implemented **Standard CSS Entrance** to mask initial load.
 
 ### 2. Sovereign View Configured
 **Status**: LOCKED
@@ -23,10 +24,11 @@ const INITIAL_MAP_STATE = {
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 ```
 
-### 3. Elegant Map Entrance
-**Action**: Wrapped Map in `motion.div`
-**Animation**: `opacity: 0` → `1` (1.2s easeOut)
+### 3. Elegant Map Entrance (CSS Version)
+**Action**: Wrapped Map in `div` with Tailwind animate utilities
+**Animation**: `animate-in fade-in duration-[1200ms]`
 **Effect**: Map fades in softly (Apple-style) *after* layout is stable, preventing any perceived "jumpiness".
+**Note**: Switched from Framer Motion to CSS to prevent runtime crashes.
 
 ---
 
@@ -73,6 +75,6 @@ const INITIAL_MAP_STATE = {
 **System Status**: 
 - **Map Viewport**: SOVEREIGN (Static Stage)
 - **Focus Rings**: EXTERMINATED (Surgical Strike)
-- **UX**: ELEVATED (Cinematic Entrance)
+- **UX**: ELEVATED (CSS Kinetic Entrance)
 
 🇺🇦🇨🇦

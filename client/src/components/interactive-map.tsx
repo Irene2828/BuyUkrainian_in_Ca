@@ -11,7 +11,6 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { StoreCard } from "./store-card";
-import { motion } from "framer-motion";
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
@@ -314,11 +313,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
-      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#D4E7F5] passport-map-container"
+    <div
+      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#D4E7F5] passport-map-container animate-in fade-in duration-[1200ms] fill-mode-forwards"
     >
       <MapContainer
         center={CANADA_CENTER}
@@ -445,6 +441,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 });
