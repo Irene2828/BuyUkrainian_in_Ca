@@ -327,7 +327,7 @@ export function MapExplorer() {
                         </span>
                         <button
                             onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)}
-                            className="w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:bg-gray-50 hover:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 transition-all duration-300 font-ui"
+                            className="no-ring-force w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:bg-gray-50 hover:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 transition-all duration-300 font-ui"
                         >
                             <span className={cn(selectedProvince ? "text-black" : "text-gray-400")}>
                                 {selectedProvince || `All provinces (${allStores.length} locations)`}

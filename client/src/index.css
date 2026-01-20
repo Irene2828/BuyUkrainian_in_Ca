@@ -477,3 +477,34 @@
     transition: none !important;
   }
 }
+/* ========================================
+   NUCLEAR FOCUS RING EXTERMINATION
+   ======================================== */
+
+@layer utilities {
+  /* Force remove all black strokes/rings - beats library defaults */
+  .no-ring-force {
+    --tw-ring-offset-width: 0px !important;
+    --tw-ring-color: transparent !important;
+    outline: none !important;
+    border-color: #E5E7EB !important; /* gray-200 */
+  }
+  
+  .no-ring-force:hover {
+    background-color: #F9FAFB !important; /* gray-50 */
+    border-color: #D1D5DB !important; /* gray-300 */
+  }
+  
+  .no-ring-force:focus {
+    outline: none !important;
+    border-color: #D1D5DB !important; /* gray-300 */
+    box-shadow: none !important;
+    --tw-ring-shadow: none !important;
+  }
+  
+  .no-ring-force:focus-visible {
+    outline: none !important;
+    border-color: #D1D5DB !important; /* gray-300 */
+    box-shadow: none !important;
+  }
+}
