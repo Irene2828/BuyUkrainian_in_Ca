@@ -164,7 +164,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     return (
       <div className="bg-white rounded-[32px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl border border-blue-50">
         <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
-          <CheckCircle className="w-12 h-12 text-green-500" />
+          <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
         <h3 className="text-[24px] font-bold mb-4 font-header text-gray-900">Successfully Added!</h3>
         <p className="text-gray-500 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
@@ -194,7 +194,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </div>
         {onClose && (
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5 text-gray-400 fill-none stroke-current" strokeWidth={2} />
           </button>
         )}
       </div>
@@ -214,7 +214,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   </FormLabel>
                   <FormControl>
                     <div className="relative group">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
                       <Input
                         placeholder="Start typing street address..."
                         {...field}
@@ -225,14 +225,14 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
                         className="h-14 pl-11 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400"
                       />
-                      {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black" />}
+                      {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
                   </FormControl>
 
                   {/* Location Summary - Shows City/Province automatically */}
                   {(form.getValues("city") || form.getValues("province")) && (
                     <div className="flex items-center gap-2 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
-                      <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+                      <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-none stroke-current" strokeWidth={2} />
                       <span className="text-[13px] font-medium text-slate-400 font-ui">
                         {form.getValues("city")}, {form.getValues("province")}
                       </span>
@@ -249,7 +249,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           className="w-full px-4 py-3.5 text-left hover:bg-gray-50 border-b border-gray-50 flex items-center gap-3 transition-colors last:border-0 font-ui group"
                         >
                           <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-white group-hover:shadow-sm transition-all">
-                            <MapPin className="w-4 h-4 text-gray-400 group-hover:text-black" />
+                            <MapPin className="w-4 h-4 text-gray-400 group-hover:text-black fill-none stroke-current" strokeWidth={2} />
                           </div>
                           <span className="text-[14px] text-gray-600 font-medium line-clamp-1 group-hover:text-black">{s.display_name}</span>
                         </button>
@@ -359,12 +359,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       onClick={(e) => { e.stopPropagation(); setImagePreview(null); }}
                       className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-3 h-3 fill-none stroke-current" strokeWidth={2} />
                     </button>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-2">
-                    <Image className="w-8 h-8 text-gray-300 group-hover:text-black transition-colors" />
+                    <Image className="w-8 h-8 text-gray-300 group-hover:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
                     <p className="text-[13px] text-gray-400 font-ui group-hover:text-black transition-colors">Click to upload a photo</p>
                   </div>
                 )}
@@ -384,7 +384,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               disabled={isSubmitting}
               className="w-full h-14 rounded-full bg-black text-white hover:bg-gray-900 font-semibold text-[16px] transition-all flex items-center justify-center gap-2 mt-8 font-ui shadow-lg hover:shadow-xl hover:scale-[1.01]"
             >
-              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Submit Store <ArrowRight className="w-5 h-5" /></>}
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Submit Store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
             </Button>
 
             {/* Privacy Note */}

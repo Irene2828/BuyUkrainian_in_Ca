@@ -13,7 +13,7 @@ export default function Home() {
   useScrollReveal();
 
   return (
-    <div className="bg-background font-sans text-foreground selection:bg-yellow-accent/30 overflow-x-hidden">
+    <div className="bg-background font-sans text-foreground selection:bg-yellow-accent/30">
       <Header />
       <main>
         <div className="section-reveal">

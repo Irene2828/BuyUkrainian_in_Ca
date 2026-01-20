@@ -1,0 +1,160 @@
+{
+    "OBSIDIAN_DESIGN_SYSTEM": {
+        "version": "1.0.0",
+        "last_updated": "2026-01-19",
+        "description": "Design System lock file to prevent drift and document layout exceptions"
+    },
+    "CORE_SYSTEM": {
+        "container": {
+            "class": "max-w-7xl mx-auto px-6 lg:px-12",
+            "max_width": "1280px",
+            "padding_mobile": "24px",
+            "padding_desktop": "48px",
+            "applies_to": [
+                "home",
+                "about",
+                "privacy",
+                "all_document_pages"
+            ]
+        },
+        "spacing": {
+            "ritual_gap_desktop": "128px",
+            "ritual_gap_mobile": "80px",
+            "component_breath": "64px",
+            "action_buffer": "40px",
+            "typography_proximity": "24px",
+            "css_vars": {
+                "--gap-obsidian-ritual": "128px",
+                "--gap-obsidian-ritual-mobile": "80px",
+                "--gap-obsidian-breath": "64px",
+                "--gap-obsidian-action": "40px",
+                "--gap-obsidian-proximity": "24px"
+            }
+        },
+        "radius": {
+            "brand": "32px",
+            "card": "40px",
+            "buttons": "infinite (rounded-full) or 32px",
+            "css_var": "--radius-brand"
+        },
+        "typography": {
+            "heading_font": "Gelasio or Instrument Sans",
+            "body_font": "Inter (font-ui)",
+            "h2_size": "28-36px (responsive)",
+            "subtext_size": "16-20px (responsive)"
+        },
+        "colors": {
+            "ukrainian_blue": "#0057B7",
+            "ukrainian_yellow": "#FFD700",
+            "brand_cyan": "#D3E4FD",
+            "interaction_gray": "gray-50, gray-100, gray-200"
+        }
+    },
+    "EXCEPTIONS": {
+        "MAP_VIEW": {
+            "container": "w-full px-6 lg:px-8 OR max-w-[1440px] (no 1280px constraint)",
+            "max_width": "1440-1600px or full viewport",
+            "rationale": "Immersive Canvas - Professional tool requires breathing room for sidebar + map",
+            "note": "Constraining this tool creates 'ugly cut' and destroys utility",
+            "applies_to": [
+                "/map"
+            ],
+            "frozen_viewport": {
+                "center": "[44.5, -78.5]",
+                "zoom": "5.5",
+                "locked_as": "INITIAL_MAP_STATE const",
+                "description": "Toronto-Montreal-Ottawa Triangle - Maximum cluster visibility",
+                "file": "client/src/components/interactive-map.tsx"
+            },
+            "ui_elements_still_follow_obsidian": {
+                "buttons": "rounded-[32px] (Obsidian Pill)",
+                "filters": "border-gray-200, hover:bg-gray-50, focus:ring-gray-200",
+                "typography": "Same weights as home page",
+                "focus_states": "premium-focus class (ring-1 ring-gray-200)"
+            }
+        },
+        "ADMIN_PAGES": {
+            "container": "w-full px-6 lg:px-8 (no max-width constraint)",
+            "rationale": "Data tables and admin interfaces need full width",
+            "applies_to": [
+                "/admin/*"
+            ]
+        }
+    },
+    "PHANTOM_STROKE_PREVENTION": {
+        "global_rules": "@layer base with *:focus { outline-none ring-0 }",
+        "premium_focus_class": ".premium-focus:focus { ring-1 ring-gray-200 border-gray-200 }",
+        "applies_to": [
+            "all buttons",
+            "all inputs",
+            "all selects",
+            "all textareas",
+            "all links"
+        ],
+        "rationale": "Prevents ugly black borders from browser defaults - permanent fix",
+        "implementation": "client/src/index.css @layer base section"
+    },
+    "MOTION_SYSTEM": {
+        "scroll_reveal": {
+            "initial": "opacity: 0, translateY(20px)",
+            "final": "opacity: 1, translateY(0)",
+            "duration": "0.8s",
+            "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+            "viewport_once": true
+        },
+        "stagger": {
+            "delay_increment": "0.1s",
+            "max_items": 6
+        },
+        "button_hover": {
+            "primary": "hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]",
+            "duration": "300ms"
+        }
+    },
+    "GOLDEN_GUTTER_ALIGNMENT": {
+        "description": "Vertical axis alignment for all major sections",
+        "left_edge_starts_at": "24px (mobile) / 48px (desktop)",
+        "sections_aligned": [
+            "Header Logo",
+            "Hero Title",
+            "How It Works Content",
+            "FAQ Questions",
+            "Footer Navigation"
+        ],
+        "right_edge_ends_at": "container max-width - padding",
+        "verification": "Use browser ruler to draw vertical line from Hero title - must hit all section starts"
+    },
+    "FILE_MAPPING": {
+        "css_tokens": "client/src/index.css (root section)",
+        "utility_classes": "client/src/index.css (.obsidian-section, .obsidian-container, etc.)",
+        "scroll_reveal_hook": "client/src/hooks/use-scroll-reveal.ts",
+        "motion_css": "client/src/index.css (Obsidian Motion section)",
+        "map_exception_implementation": "client/src/components/map-explorer.tsx (container)",
+        "home_page_sections": [
+            "client/src/components/hero.tsx",
+            "client/src/components/how-it-works.tsx",
+            "client/src/components/faq.tsx",
+            "client/src/components/spread-the-word.tsx",
+            "client/src/components/pre-footer.tsx",
+            "client/src/components/footer.tsx"
+        ]
+    },
+    "VERIFICATION_CHECKLIST": {
+        "golden_gutter": "All home sections use max-w-7xl lg:px-12",
+        "ritual_gap": "All sections use py-20 md:py-32",
+        "component_breath": "Section headers use mb-16",
+        "map_exception": "Map container uses w-full px-6 lg:px-8",
+        "no_black_borders": "All filters use gray-200 focus states",
+        "button_consistency": "All buttons match rounded-[32px] or rounded-full",
+        "motion_working": "Scroll reveals trigger correctly with stagger",
+        "map_viewport": "Toronto and Montreal visible on load at [44.5, -78.5] zoom 5.5 (FROZEN)"
+    },
+    "NOTES": {
+        "css_linter_warnings_safe_to_ignore": [
+            "@custom-variant",
+            "@theme",
+            "@apply"
+        ],
+        "reasoning": "These are Tailwind CSS v4 directives, linter doesn't recognize them but build handles correctly"
+    }
+}

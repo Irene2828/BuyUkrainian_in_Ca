@@ -35,9 +35,9 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-white font-sans overflow-hidden pt-[64px] pb-[108px] px-6 md:px-16">
-      <div className="mx-auto max-w-2xl relative z-10 w-full">
-        <div className="mb-8 md:mb-12 max-w-3xl mx-auto flex flex-col gap-3 text-center">
+    <section id="faq" className="bg-white font-sans overflow-hidden py-20 md:py-32 md:pb-32">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full">
+        <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-3 text-center">
           <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
             {t('faq.title') || 'FAQ'}
           </h2>
@@ -71,7 +71,7 @@ export function FAQ() {
                     openIndex === i ? "rotate-180 text-slate-900" : "group-hover:text-slate-500"
                   )}
                 >
-                  <ChevronDown className="w-5 h-5 stroke-[1.5]" />
+                  <ChevronDown className="w-5 h-5 fill-none stroke-current stroke-[1.5]" />
                 </div>
               </button>
 

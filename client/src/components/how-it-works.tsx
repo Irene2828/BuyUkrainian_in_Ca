@@ -27,22 +27,24 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="pt-[80px] md:pt-[160px] pb-[100px] bg-white font-sans overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-20">
-        <div className="mb-12 md:mb-16 w-full max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
+    <section id="how-it-works" className="py-20 md:py-32 bg-white font-sans overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section Header - Centered with Obsidian Breath */}
+        <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
           <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
             {t('howItWorks.title') || 'How It Works'}
           </h2>
-          <p className="hero-subtitle text-[16px] min-[391px]:text-[18px] md:text-[18px] font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29.3px] text-slate-500 font-ui tracking-[-0.31px] md:tracking-[-0.44px] max-w-2xl text-center line-clamp-2 md:line-clamp-none">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-600 font-ui">
+            Discover stores, contribute findings, and help grow the community of Ukrainian products across Canada.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 gap-y-12 md:gap-12 pt-0">
+        {/* Steps Grid with Stagger Animation */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 stagger-container">
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group flex flex-col items-center bg-white rounded-[32px] p-8 h-full"
+              className="stagger-item group flex flex-col items-center bg-white rounded-[32px] p-8 h-full"
             >
               {/* Disciplined Image Frame */}
               <div className="h-[200px] w-full flex items-center justify-center overflow-hidden mb-4">
@@ -71,7 +73,7 @@ export function HowItWorks() {
 
               {/* Technical Label with Optical Glyph - Machined into UI */}
               <h5 className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.15em] text-slate-900 mt-4 mb-3 w-full flex items-center justify-center">
-                <step.icon size={20} strokeWidth={1.5} className="mr-2 opacity-60" />
+                <step.icon size={20} strokeWidth={1.5} className="mr-2 opacity-60 fill-none stroke-current" />
                 {step.title}
               </h5>
 
@@ -86,9 +88,9 @@ export function HowItWorks() {
         <div className="mt-4 mb-0 flex justify-center text-center">
           <Link
             href="/map"
-            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none hover:bg-white hover:text-black hover:ring-1 hover:ring-black"
+            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]"
           >
-            {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5" />
+            {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
           </Link>
         </div>
       </div>

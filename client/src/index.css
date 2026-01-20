@@ -109,7 +109,38 @@
   --white: #FFFFFF;
   --black: #000000;
   --radius: 0.5rem;
+
+  /* ========================================
+     OBSIDIAN SPACING SYSTEM TOKENS
+     ======================================== */
+
+  /* Section Vertical Spacing (The Ritual Gap) */
+  --gap-obsidian-ritual: 128px;
+  /* py-32 desktop - Major section breathing room */
+  --gap-obsidian-ritual-mobile: 80px;
+  /* py-20 mobile - Scaled for smaller screens */
+
+  /* Internal Component Breathing (Section Header to Content) */
+  --gap-obsidian-breath: 64px;
+  /* mb-16 - 50% of ritual gap (Golden Ratio) */
+
+  /* Typography to Action Spacing (Subheading to CTAs) */
+  --gap-obsidian-action: 40px;
+  /* mb-10 - Airy buffer for destination buttons */
+
+  /* Typography Proximity (Heading to Subheading) */
+  --gap-obsidian-proximity: 24px;
+  /* mb-6 - Tight typographic bond */
+
+  /* Golden Gutter System */
+  --gutter-obsidian-x-mobile: 24px;
+  /* px-6 - Horizontal padding mobile */
+  --gutter-obsidian-x-desktop: 48px;
+  /* lg:px-12 - Horizontal padding desktop */
+  --gutter-obsidian-max-width: 1280px;
+  /* max-w-7xl - Unified frame width */
 }
+
 
 /* Desktop spacing overrides */
 @media (min-width: 768px) {
@@ -254,6 +285,29 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* ========================================
+     PHANTOM STROKE PREVENTION
+     ======================================== */
+
+  /* Disable default browser focus rings globally */
+  *:focus {
+    @apply outline-none;
+  }
+
+  /* Disable rings and borders on focus unless explicitly styled */
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  a:focus {
+    @apply outline-none ring-0;
+  }
+
+  /* Premium Focus State - Apply this class for Obsidian-style focus */
+  .premium-focus:focus {
+    @apply outline-none ring-1 ring-gray-200 border-gray-200;
+  }
 }
 
 /* Ticker Utilities */
@@ -279,4 +333,147 @@
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+/* ========================================
+   OBSIDIAN SECTION WRAPPER UTILITIES
+   ======================================== */
+
+/* Standard Section with Ritual Gap + Golden Gutter */
+.obsidian-section {
+  padding-top: var(--gap-obsidian-ritual-mobile);
+  padding-bottom: var(--gap-obsidian-ritual-mobile);
+}
+
+@media (min-width: 768px) {
+  .obsidian-section {
+    padding-top: var(--gap-obsidian-ritual);
+    padding-bottom: var(--gap-obsidian-ritual);
+  }
+}
+
+/* Standard Container with Golden Gutter Alignment */
+.obsidian-container {
+  max-width: var(--gutter-obsidian-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter-obsidian-x-mobile);
+  padding-right: var(--gutter-obsidian-x-mobile);
+}
+
+@media (min-width: 1024px) {
+  .obsidian-container {
+    padding-left: var(--gutter-obsidian-x-desktop);
+    padding-right: var(--gutter-obsidian-x-desktop);
+  }
+}
+
+/* Combined Section + Container */
+.obsidian-section-container {
+  padding-top: var(--gap-obsidian-ritual-mobile);
+  padding-bottom: var(--gap-obsidian-ritual-mobile);
+  max-width: var(--gutter-obsidian-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter-obsidian-x-mobile);
+  padding-right: var(--gutter-obsidian-x-mobile);
+}
+
+@media (min-width: 768px) {
+  .obsidian-section-container {
+    padding-top: var(--gap-obsidian-ritual);
+    padding-bottom: var(--gap-obsidian-ritual);
+  }
+}
+
+@media (min-width: 1024px) {
+  .obsidian-section-container {
+    padding-left: var(--gutter-obsidian-x-desktop);
+    padding-right: var(--gutter-obsidian-x-desktop);
+  }
+}
+
+/* Component Breath Spacing */
+.obsidian-breath {
+  margin-bottom: var(--gap-obsidian-breath);
+}
+
+/* ========================================
+   OBSIDIAN MOTION - SCROLL REVEAL SYSTEM
+   ======================================== */
+
+/* Initial State: Hidden + 20px float */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: opacity, transform;
+  /* CLS Prevention */
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animated State: Visible + settled */
+.section-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+  /* Release after animation */
+}
+
+/* Staggered Card Entrance (How It Works, Recently Added) */
+/* Apply .stagger-item class to individual cards */
+.stagger-container .stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: opacity, transform;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger delays - 0.1s increment per item */
+.stagger-container.is-visible .stagger-item:nth-child(1) {
+  transition-delay: 0s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-container.is-visible .stagger-item:nth-child(2) {
+  transition-delay: 0.1s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-container.is-visible .stagger-item:nth-child(3) {
+  transition-delay: 0.2s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-container.is-visible .stagger-item:nth-child(4) {
+  transition-delay: 0.3s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-container.is-visible .stagger-item:nth-child(5) {
+  transition-delay: 0.4s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-container.is-visible .stagger-item:nth-child(6) {
+  transition-delay: 0.5s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduce Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+
+  .section-reveal,
+  .stagger-container .stagger-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

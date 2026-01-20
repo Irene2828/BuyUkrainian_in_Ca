@@ -10,78 +10,81 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="premium-parallax-hero relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans min-h-[720px] min-[391px]:min-h-[820px] md:min-h-0 h-auto md:h-[528px] pt-[42px] min-[391px]:pt-[52px] pb-[42px] md:p-0 md:flex md:items-center mt-[23px] md:mt-[30px]">
-      {/* Internal Content Wrapper - Perfect Frame aligned with Header and Map */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-start md:block">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 min-[1440px]:gap-[148px] items-start w-full">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center mt-[22px] md:mt-[29px] animate-in fade-in duration-500">
+      {/* The Stage: Golden Gutter Wrapper */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
+        {/* Equilibrium Grid: Perfect Vertical Centering */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 min-[1440px]:gap-[148px] items-center w-full">
 
-          {/* Left Content - Flush Left Mobile & Desktop */}
-          <div className="w-full lg:w-1/2 flex flex-col items-start justify-center order-1">
-            {/* Content wrapper - Aligned with parent px-6 */}
-            <div className="w-full max-w-4xl text-left">
-              {/* Main Headline */}
-              <h1 className="text-slate-900 leading-[36px] min-[391px]:leading-[42px] md:leading-[1.05] max-w-full min-[391px]:max-w-[323px] md:max-w-full md:mx-0">
-                <span className="block text-[32px] min-[391px]:text-[42px] md:text-[48px] min-[1440px]:text-[48px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
-                  Find and Share <br />
+          {/* Left Column: Text Content - Vertically Centered */}
+          <div className="w-full lg:w-1/2 flex flex-col items-start order-1">
+            {/* Visual Grouping: Headline + Subtext + CTAs in One Container */}
+            <div className="w-full max-w-4xl">
+              {/* Main Headline - Structured for equal visual spacing */}
+              <h1 className="text-slate-900 flex flex-col max-w-full md:max-w-full md:mx-0 mb-6">
+                {/* Line 1 & 2 */}
+                <span className="text-[32px] min-[391px]:text-[42px] md:text-[48px] min-[1440px]:text-[48px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
+                  Find and Share
+                </span>
+                <span className="text-[32px] min-[391px]:text-[42px] md:text-[48px] min-[1440px]:text-[48px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
                   Ukrainian&nbsp;Products
                 </span>
 
-                {/* PART 2: Contextual Sub-Header */}
-                {/* Aggressively reduced mt-1.5 to mt-0 to force visual tightening */}
-                <span className="block text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium md:font-normal min-[1440px]:!font-normal font-instrument text-slate-900 mt-0 min-[391px]:mt-[6px] md:mt-[8px] leading-[1.15] min-[391px]:leading-[1.15] md:leading-[1.15] tracking-[-0.02em] md:-translate-y-[10%]">
+                {/* Line 3 - Visual continuation */}
+                <span className="text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium md:font-normal min-[1440px]:!font-normal font-instrument text-slate-900 leading-[1.15] tracking-[-0.02em]">
                   sold across Canada
                 </span>
               </h1>
 
-              {/* Subtext - Reduced to mt-3 (12px) on all mobile sizes */}
-              <p className="hero-subtitle mt-8 text-[16px] min-[391px]:text-[16px] md:text-[16px] font-normal md:font-normal leading-[22px] min-[391px]:leading-[28px] md:leading-[29px] min-[1440px]:leading-[28px] text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] max-w-[85%] md:max-w-[578px]">
-                Support Ukraine’s economy with everyday purchases — <br className="hidden md:block" />
+              {/* Subtext - 24px from H1, 40px to CTAs */}
+              <p className="hero-subtitle text-[16px] md:text-[16px] font-normal text-[#62748E] font-ui text-left tracking-[-0.31px] md:tracking-[-0.44px] leading-[20px] md:leading-[26px] max-w-[85%] md:max-w-[578px] mb-10">
+                Support Ukraine's economy with everyday purchases — <br className="hidden md:block" />
                 or help the map grow by adding local stores.
               </p>
-            </div>
 
-            {/* Mobile-Only Cinematic Asset - Square + Full Width per Figma */}
-            <div
-              className="block md:hidden w-full aspect-square mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
-              style={{ backgroundColor: '#FDFFD7' }}
-            >
-              <video
-                className="w-full h-full object-cover"
-                style={{
-                  opacity: videoReady ? 1 : 0,
-                  transition: 'opacity 0.4s ease-in-out'
-                }}
-                muted
-                loop
-                playsInline
-                onCanPlay={() => setVideoReady(true)}
+              {/* Mobile-Only Cinematic Asset */}
+              <div
+                className="block md:hidden w-full aspect-square mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
+                style={{ backgroundColor: '#FDFFD7' }}
               >
-                <source src="/hero-video.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
+                <video
+                  className="w-full h-full object-cover"
+                  style={{
+                    opacity: videoReady ? 1 : 0,
+                    transition: 'opacity 0.4s ease-in-out'
+                  }}
+                  muted
+                  loop
+                  playsInline
+                  onCanPlay={() => setVideoReady(true)}
+                >
+                  <source src="/hero-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
 
-            {/* Button Wrapper */}
-            <div className="w-full max-w-[500px]">
-              {/* Button Group - Stacked, Gap Reset to 12px (gap-3) */}
-              <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6 mt-6">
-                <Link href="/map">
-                  <Button className="group inline-flex items-center justify-center h-[46px] !bg-black text-white hover:!text-white rounded-full px-10 text-[16px] font-medium gap-1.5 font-ui shadow-none transition-colors duration-200 ease-out hover:!bg-slate-800 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] tracking-[-0.3125px]">
-                    {t('home.hero.explore') || "Explore the Map"}
-                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 mt-[1px]" />
-                  </Button>
-                </Link>
+              {/* Button Group - Airy buffer from subheading */}
+              <div className="w-full max-w-[500px]">
+                <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6">
+                  <Link href="/map">
+                    <Button className="group inline-flex items-center justify-center h-[46px] !bg-black text-white hover:!text-white rounded-full px-6 text-[16px] font-medium gap-1.5 font-ui shadow-none transition-all duration-300 hover:!bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98] tracking-[-0.3125px]">
+                      {t('home.hero.explore') || "Explore the Map"}
+                      <ArrowRight className="w-5 h-5 !fill-none !stroke-current transition-transform duration-300 group-hover:translate-x-1 mt-[1px]" strokeWidth={2} />
+                    </Button>
+                  </Link>
 
-                <Link href="/map" className="flex justify-center md:justify-start">
-                  <Button className="inline-flex items-center justify-center h-[46px] bg-white/10 backdrop-blur-md text-black border border-black rounded-[32px] px-8 text-[16px] font-normal gap-1.5 font-ui shadow-none hover:bg-slate-100 hover:text-black transition-colors tracking-[-0.3125px]">
-                    <HelpCircle className="w-5 h-5" />
-                    {t('home.hero.learnMore') || 'Learn More'}
-                  </Button>
-                </Link>
+                  <Link href="/map" className="flex justify-center md:justify-start">
+                    <Button className="inline-flex items-center justify-center h-[46px] bg-white/10 backdrop-blur-md text-black border border-black rounded-[32px] px-6 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-slate-50/50 hover:border-slate-300 hover:text-black tracking-[-0.3125px]">
+                      <HelpCircle className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
+                      {t('home.hero.learnMore') || 'Learn More'}
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
+          {/* Right Column: Video - Vertically Centered */}
           <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-center">
             <div
               className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:h-[384px] lg:max-h-[384px] min-[1440px]:h-[384px] min-[1440px]:max-h-none w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px] lg:max-w-none mx-auto min-[1440px]:aspect-auto"

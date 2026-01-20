@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="bg-black text-[#fafafa] pb-10 font-sans overflow-hidden relative">
       {/* Spanning Grid - Flex Justify Between for Edge Alignment */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full pt-16 pb-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full pt-16 pb-12">
         <div className="flex justify-between w-full md:justify-start md:gap-20 lg:gap-32">
 
           {/* Column 1: Navigation (Left Edge) */}
@@ -89,7 +89,7 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar - Legal/Copyright Spanning Full Width */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full border-t border-white/10 pt-8 mt-0 flex justify-between text-[12px] text-slate-500">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full border-t border-white/10 pt-8 mt-0 flex justify-between text-[12px] text-slate-500">
         <div>
           © 2026 BuyUkrainian.ca. All rights reserved.
         </div>

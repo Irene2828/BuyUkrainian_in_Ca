@@ -181,11 +181,6 @@ a[role="button"],
     border: 1px solid transparent;
 }
 
-/* Exception: Allow Tailwind border classes to work on no-invert-hover elements */
-button.no-invert-hover,
-.no-invert-hover {
-    /* Border is controlled by Tailwind classes, not overridden here */
-}
 
 /* HOVER STATE: Subtractive Elegance — White BG, Black Text/Border */
 button:hover:not(:disabled):not(.no-invert-hover),
@@ -208,8 +203,16 @@ a[role="button"]:hover span,
 .btn-cta:hover svg,
 .btn-cta:hover span {
     color: var(--btn-hover-text);
-    fill: var(--btn-hover-text);
+    /* fill removed - let component-level fill-none win */
     stroke: var(--btn-hover-text);
+}
+
+/* Global SVG Path/Circle Lock-Down - Force all internal elements hollow */
+svg[class*="fill-none"] path,
+svg[class*="fill-none"] circle,
+svg[class*="fill-none"] rect,
+svg[class*="fill-none"] polygon {
+    fill: none !important;
 }
 
 /* Active/Click: Gentle compression */

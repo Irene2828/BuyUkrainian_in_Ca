@@ -67,12 +67,13 @@ h5 {
     flex-direction: column;
 }
 
-/* Selected Pin State - Mechanical Zoom Protocol */
+/* Selected Pin State - Obsidian 'Machined' Protocol */
 .marker-container.selected {
-    transform: scale(1.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     z-index: 9999;
-    animation: premium-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    border: 3px solid white;
+    filter: drop-shadow(0 0 8px rgba(0, 87, 183, 0.5));
 }
 
 /* Dimmed Pin State */
@@ -98,10 +99,14 @@ h5 {
     transition: background-color 0.3s ease;
 }
 
-/* Override colors when selected */
-.marker-container.selected .marker-pin-top,
+/* Obsidian Selection - Ukrainian Blue Glow */
+.marker-container.selected .marker-pin-top {
+    background: #0057B7 !important;
+    opacity: 1 !important;
+}
+
 .marker-container.selected .marker-pin-bottom {
-    background: #000000 !important;
+    background: #0057B7 !important;
     opacity: 1 !important;
 }
 

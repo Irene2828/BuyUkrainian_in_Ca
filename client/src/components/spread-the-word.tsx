@@ -26,9 +26,9 @@ export function SpreadTheWord() {
   };
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-16 md:py-[64px] md:h-[557px] overflow-hidden z-10 flex flex-col justify-center">
+    <section className="relative w-full bg-[#ECF6FF] py-20 md:py-32 overflow-hidden z-10 flex flex-col justify-center">
       {/* Structural Container */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10 flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10 flex flex-col items-center">
 
         <div className="mb-8 max-w-3xl mx-auto flex flex-col gap-3 text-center">
           {/* 12px gap (gap-3) standardized across all sections */}
@@ -56,14 +56,14 @@ export function SpreadTheWord() {
               onClick={handleFacebookShare}
               className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
-              <Facebook className="w-[14px] h-[14px] fill-current" />
+              <Facebook className="w-[14px] h-[14px] fill-none stroke-current" strokeWidth={2} />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
               className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
             >
-              <Instagram className="w-[14px] h-[14px]" />
+              <Instagram className="w-[14px] h-[14px] fill-none stroke-current" strokeWidth={2} />
               Share on Instagram
             </button>
             <button
@@ -72,7 +72,8 @@ export function SpreadTheWord() {
             >
               <svg
                 viewBox="0 0 24 24"
-                className="w-[14px] h-[14px] fill-current"
+                className="w-[14px] h-[14px] fill-none stroke-current"
+                strokeWidth="2"
                 aria-hidden="true"
               >
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>

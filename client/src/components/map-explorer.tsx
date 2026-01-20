@@ -299,7 +299,7 @@ export function MapExplorer() {
 
                             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                                 <DialogTrigger asChild>
-                                    <button className="btn-cta inline-flex items-center justify-center gap-2 !bg-black text-white hover:!text-white px-8 h-[46px] rounded-full font-medium text-[16px] shadow-sm font-ui whitespace-nowrap transition-colors duration-200 hover:!bg-slate-800">
+                                    <button className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]">
                                         <Plus className="w-5 h-5 stroke-[2.5]" />
                                         {t('map.addLocation') || 'Add Location'}
                                     </button>
@@ -327,7 +327,7 @@ export function MapExplorer() {
                         </span>
                         <button
                             onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)}
-                            className="w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:bg-slate-50 transition-all font-ui"
+                            className="w-full flex items-center justify-between px-4 h-14 bg-white border border-gray-100 rounded-[var(--radius-brand)] text-sm font-medium hover:bg-gray-50 hover:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 transition-all duration-300 font-ui"
                         >
                             <span className={cn(selectedProvince ? "text-black" : "text-gray-400")}>
                                 {selectedProvince || `All provinces (${allStores.length} locations)`}
@@ -391,8 +391,8 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setIsOpenOnly(!isOpenOnly)}
                                 className={cn(
-                                    "flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border transition-all font-ui",
-                                    isOpenOnly ? "border-[#D3E4FD] text-[#D3E4FD] bg-blue-50/50" : "border-gray-100 text-gray-500 hover:bg-slate-50 bg-white"
+                                    "flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border transition-all duration-300 font-ui",
+                                    isOpenOnly ? "border-[#D3E4FD] text-[#D3E4FD] bg-blue-50/50" : "border-gray-100 text-gray-500 hover:border-slate-300 hover:shadow-sm bg-white"
                                 )}
                             >
                                 <div className="flex items-center gap-2">
@@ -403,7 +403,7 @@ export function MapExplorer() {
                             <div className="h-px bg-gray-50 my-1"></div>
                             <button
                                 onClick={() => setSortMode(sortMode === "newest" ? "name" : "newest")}
-                                className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border border-gray-100 text-gray-500 hover:bg-slate-50 transition-all bg-white font-ui"
+                                className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium border border-gray-100 text-gray-500 hover:border-slate-300 hover:shadow-sm transition-all duration-300 bg-white font-ui"
                             >
                                 <div className="flex items-center gap-2">
                                     <ArrowUpDown className="w-4 h-4" />

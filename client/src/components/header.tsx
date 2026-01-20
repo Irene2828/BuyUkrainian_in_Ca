@@ -8,7 +8,17 @@ import { LanguageSwitcher } from "./language-switcher";
 export function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useI18n();
+
+  // Track scroll position for border effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -16,8 +26,11 @@ export function Header() {
   }, [location]);
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md font-sans">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between h-full relative">
+    <header className={cn(
+      "sticky top-0 z-50 w-full h-[80px] md:h-[100px] bg-white/80 backdrop-blur-md font-sans transition-all duration-300",
+      isScrolled && "border-b border-slate-100"
+    )}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-full relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
@@ -42,14 +55,14 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="no-invert-hover text-[16px] font-normal text-black/65 hover:text-black transition-colors tracking-[0px]"
+              className="no-invert-hover text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 tracking-tight"
             >
               {t('header.howItWorks') || 'How It Works'}
             </button>
-            <a href="/#faq" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors tracking-[0px]">
+            <a href="/#faq" className="text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 tracking-tight">
               {t('header.faq') || 'FAQ'}
             </a>
-            <Link href="/about" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors tracking-[0px]">
+            <Link href="/about" className="text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 tracking-tight">
               {t('header.about.short') || 'About'}
             </Link>
           </nav>
@@ -61,7 +74,7 @@ export function Header() {
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
           <Link href="/map" className="no-invert-hover flex items-center gap-2 py-2 text-black no-underline">
-            <Search className="w-5 h-5 text-black" />
+            <Search className="w-5 h-5 text-black fill-none stroke-current" strokeWidth={2} />
             <span className="text-[14px] font-semibold">{t('map.viewMap') || 'Map View'}</span>
           </Link>
 
@@ -70,7 +83,7 @@ export function Header() {
             className="no-invert-hover p-2 text-black"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
           </button>
         </div>
 
@@ -81,7 +94,7 @@ export function Header() {
               <span className="text-[16px] font-bold text-black transition-colors tracking-[0px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {t('map.viewMap') || 'Map View'}
               </span>
-              <Search className="w-5 h-5 text-black stroke-[3]" />
+              <Search className="w-5 h-5 text-black fill-none stroke-current stroke-[3]" />
             </Link>
           </div>
         </div>
@@ -98,14 +111,14 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="no-invert-hover text-[16px] font-normal text-black/65 hover:text-black transition-colors text-left py-2"
+              className="no-invert-hover text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 text-left py-2 tracking-tight"
             >
               {t('header.howItWorks') || 'How It Works'}
             </button>
-            <a href="/#faq" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors py-2">
+            <a href="/#faq" className="text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 py-2 tracking-tight">
               {t('header.faq') || 'FAQ'}
             </a>
-            <Link href="/about" className="text-[16px] font-normal text-black/65 hover:text-black transition-colors py-2">
+            <Link href="/about" className="text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 py-2 tracking-tight">
               {t('header.about.short') || 'About'}
             </Link>
             <div className="py-2">

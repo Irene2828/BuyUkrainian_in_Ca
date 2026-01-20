@@ -26,7 +26,14 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
   [83.11, -52.62]
 ];
 
-const CANADA_CENTER: [number, number] = [54.5, -106.0];
+// INITIAL MAP STATE - FROZEN (Do not modify without design approval)
+// Toronto-Montreal-Ottawa Triangle Center - Optimized for maximum cluster visibility
+const INITIAL_MAP_STATE = {
+  center: [44.5, -78.5] as [number, number],
+  zoom: 5.5
+} as const;
+
+const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 
 // Unified Blue/Yellow Pin Marker with Dimming Support
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
@@ -202,7 +209,9 @@ const MarkerClusterGroup = ({
   }, [map]);
 
 
-  // Update Markers
+  // Update Markers - Each Store ID Creates Unique Marker
+  // CLUSTER LOGIC: If multiple stores share exact same coordinates, spiderfy will correctly
+  // display each as a separate pin with its unique store object and ID.
   useEffect(() => {
     const group = groupRef.current;
     if (!group) return;
@@ -218,6 +227,7 @@ const MarkerClusterGroup = ({
           icon: createUnifiedMarker(isSelected, isAnySelected)
         });
 
+        // Click handler passes the specific, unique store object
         marker.on('click', () => {
           onSelectStore(store);
         });
@@ -225,10 +235,6 @@ const MarkerClusterGroup = ({
         group.addLayer(marker);
       }
     });
-
-    // Add User Location Marker (outside cluster? usually user location shouldn't cluster with stores, but keeping it simple)
-    // Actually, user location is usually distinct. Let's keep it separate in main component if possible.
-    // But returning null here implies we handle ONLY stores.
 
   }, [stores, selectedStore, onSelectStore]); // Re-run when selection changes to update dimming states
 
@@ -312,8 +318,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     >
       <MapContainer
         center={CANADA_CENTER}
-        zoom={3}
-        minZoom={3}
+        zoom={INITIAL_MAP_STATE.zoom}
+        minZoom={3.5}
         maxZoom={18}
         scrollWheelZoom={false}
         className="w-full h-full"
@@ -413,7 +419,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
           title="Zoom In"
         >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
+          <Plus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
         <button
           onClick={() => {
@@ -422,17 +428,17 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
           title="Zoom Out"
         >
-          <Minus className="w-4 h-4 stroke-[2.5]" />
+          <Minus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
         <button
           onClick={() => {
-            setProvinceView({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1], zoom: 4 });
+            setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
             setFocusCoordinates(null);
           }}
           className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
           title="Reset to Full Canada"
         >
-          <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+          <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
       </div>
     </div>

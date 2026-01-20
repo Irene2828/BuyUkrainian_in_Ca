@@ -79,29 +79,59 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
     return (
         <div className="bg-white rounded-[32px] shadow-2xl overflow-hidden border border-gray-100 flex flex-col w-full max-w-sm animate-in fade-in zoom-in duration-300">
-            {/* Lightbox Overlay */}
+            {/* Lightbox Overlay - Boutique Gallery Preview */}
             {isLightboxOpen && (
-                <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center animate-in fade-in duration-300" onClick={() => setIsLightboxOpen(false)}>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] max-h-[70%] bg-white rounded-[24px] shadow-xl border border-black/5 flex flex-col overflow-hidden animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
+                <div
+                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4"
+                    onClick={() => setIsLightboxOpen(false)}
+                >
+                    {/* Modal Container - Boutique Frame */}
+                    <div
+                        className="relative max-w-2xl w-full bg-slate-900 rounded-[32px] border border-white/20 overflow-hidden shadow-2xl animate-in zoom-in-95 fade-in duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close Button - Inside Modal */}
                         <button
                             onClick={() => setIsLightboxOpen(false)}
-                            className="absolute top-3 right-3 z-50 p-2 rounded-full hover:bg-gray-100 text-gray-400 transition-colors"
+                            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 backdrop-blur-sm"
                         >
-                            <X className="w-4 h-4" />
+                            <X className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
                         </button>
-                        <div className="flex-1 relative flex items-center justify-center bg-gray-50 p-6 min-h-0 overflow-auto">
+
+                        {/* Image Display - Gallery Quality */}
+                        <div className="relative aspect-video bg-slate-800">
+                            <img
+                                src={uniqueImages[currentImageIndex]}
+                                alt={store.name}
+                                className="w-full h-full object-cover select-none"
+                                loading="lazy"
+                            />
+
+                            {/* Navigation Arrows - Inside Frame */}
                             {uniqueImages.length > 1 && (
                                 <>
-                                    <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-black transition-colors z-10 bg-white/80 hover:bg-white rounded-full shadow-sm">
-                                        <ChevronLeft className="w-4 h-4 stroke-[2]" />
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white transition-all duration-300 backdrop-blur-sm"
+                                    >
+                                        <ChevronLeft className="w-6 h-6 !fill-none !stroke-current stroke-white" strokeWidth={2.5} />
                                     </button>
-                                    <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-300 hover:text-black transition-colors z-10 bg-white/80 hover:bg-white rounded-full shadow-sm">
-                                        <ChevronRight className="w-4 h-4 stroke-[2]" />
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white transition-all duration-300 backdrop-blur-sm"
+                                    >
+                                        <ChevronRight className="w-6 h-6 !fill-none !stroke-current stroke-white" strokeWidth={2.5} />
                                     </button>
                                 </>
                             )}
-                            <img src={uniqueImages[currentImageIndex]} alt={store.name} className="max-w-full max-h-[250px] object-contain select-none" loading="lazy" />
                         </div>
+
+                        {/* Image Counter - Optional Indicator */}
+                        {uniqueImages.length > 1 && (
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm text-white text-xs font-medium">
+                                {currentImageIndex + 1} / {uniqueImages.length}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
@@ -128,7 +158,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 active:scale-90"
                     aria-label="Close"
                 >
-                    <X size={20} />
+                    <X size={20} className="fill-none stroke-current" strokeWidth={2} />
                 </button>
             </div>
 
@@ -147,7 +177,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     {/* Zoom Overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center">
                         <div className="bg-white/95 p-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                            <ZoomIn size={14} className="text-gray-900" strokeWidth={3} />
+                            <ZoomIn size={14} className="text-gray-900 fill-none stroke-current" strokeWidth={3} />
                         </div>
                     </div>
                 </div>
@@ -177,7 +207,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             <div className="p-3">
                 <div className="flex items-start gap-4">
                     <div className="bg-gray-50 p-3 rounded-[20px] text-gray-500 flex-shrink-0">
-                        <MapPin size={20} />
+                        <MapPin size={20} className="fill-none stroke-current" strokeWidth={2} />
                     </div>
                     <div className="flex-1 pt-0.5">
                         <p className="text-[15px] font-semibold text-gray-500 leading-snug">
@@ -197,9 +227,9 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-slate-800 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] active:scale-[0.98]"
+                    className="w-full h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]"
                 >
-                    <Navigation size={20} strokeWidth={2.5} />
+                    <Navigation size={20} className="fill-none stroke-current" strokeWidth={2.5} />
                     Get Directions
                 </a>
 
@@ -212,14 +242,14 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                             copied ? "text-blue-600 bg-blue-50/50" : ""
                         )}
                     >
-                        {copied ? <Check size={16} /> : <Copy size={16} />}
+                        {copied ? <Check size={16} className="fill-none stroke-current" strokeWidth={2} /> : <Copy size={16} className="fill-none stroke-current" strokeWidth={2} />}
                         {copied ? "Copied!" : "Copy address"}
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
                         className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
                     >
-                        <Maximize2 size={16} />
+                        <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
                         {onSeeOnMap ? "See on Map" : "Expand"}
                     </button>
                 </div>
