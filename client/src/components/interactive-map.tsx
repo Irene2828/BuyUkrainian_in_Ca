@@ -27,10 +27,10 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
 ];
 
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
-// Full Canada View - Coast to Coast - SOVEREIGN VIEW LOCK
+// Centered on Southern Canada - Optimized to show Toronto-Montreal corridor
 const INITIAL_MAP_STATE = {
-  center: [56.13, -106.35] as [number, number],
-  zoom: 3.5
+  center: [50.0, -90.0] as [number, number],  // Shifted south/east to show populated areas
+  zoom: 4
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
@@ -284,19 +284,30 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       triggerFlyToLocation(lat, lng, zoom);
     },
     resetView: () => {
-      // The Cinematic "Reveal" (Zoom-Out)
-      // Center: [-98, 58], Zoom: 4.5, Duration: 2.2s
-      setProvinceView({ lat: 58, lng: -98, zoom: 4.5 });
+      // The Cinematic "Reveal" (Zoom-Out) - Returns to INITIAL_MAP_STATE
+      setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
       setFocusCoordinates(null);
     },
     zoomIn: () => {
       if (mapRef.current) {
-        mapRef.current.zoomIn();
+        const currentCenter = mapRef.current.getCenter();
+        const currentZoom = mapRef.current.getZoom();
+        // Smooth zoom in with flyTo
+        mapRef.current.flyTo(currentCenter, Math.min(currentZoom + 1, 18), {
+          duration: 0.4,
+          easeLinearity: 0.25
+        });
       }
     },
     zoomOut: () => {
       if (mapRef.current) {
-        mapRef.current.zoomOut();
+        const currentCenter = mapRef.current.getCenter();
+        const currentZoom = mapRef.current.getZoom();
+        // Smooth zoom out with flyTo
+        mapRef.current.flyTo(currentCenter, Math.max(currentZoom - 1, 3.5), {
+          duration: 0.4,
+          easeLinearity: 0.25
+        });
       }
     }
   }), []);
