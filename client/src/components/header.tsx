@@ -56,6 +56,18 @@ export function Header() {
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-10">
           <nav className="items-center gap-10 flex font-ui">
+            <Link
+              href="/about"
+              className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
+            >
+              {t('header.about.short') || 'About'}
+            </Link>
+            <a
+              href="/#faq"
+              className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
+            >
+              {t('header.faq') || 'FAQ'}
+            </a>
             <button
               onClick={() => {
                 const el = document.getElementById('how-it-works');
@@ -64,20 +76,8 @@ export function Header() {
               }}
               className="no-invert-hover text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
             >
-              {t('header.howItWorks') || 'How It Works'}
+              {t('header.support') || 'Support'}
             </button>
-            <a
-              href="/#faq"
-              className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
-            >
-              {t('header.faq') || 'FAQ'}
-            </a>
-            <Link
-              href="/about"
-              className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
-            >
-              {t('header.about.short') || 'About'}
-            </Link>
           </nav>
 
           {/* Language Switcher */}
