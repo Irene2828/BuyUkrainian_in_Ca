@@ -522,3 +522,24 @@
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: none !important;
 }
+
+/* ========================================
+   PROVINCE DROPDOWN OPTION STROKE FIX
+   ======================================== */
+.province-dropdown-option,
+.province-dropdown-option:focus,
+.province-dropdown-option:focus-visible,
+.province-dropdown-option:hover,
+.province-dropdown-option:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  --tw-ring-color: transparent !important;
+}
+
+/* Kill all focus rings inside any dropdown */
+[class*="dropdown"] button:focus,
+[class*="dropdown"] button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}

@@ -292,10 +292,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       if (mapRef.current) {
         const currentCenter = mapRef.current.getCenter();
         const currentZoom = mapRef.current.getZoom();
-        // Smooth zoom in with flyTo
+        // Smooth zoom in with flyTo - Premium Airbnb feel
         mapRef.current.flyTo(currentCenter, Math.min(currentZoom + 1, 18), {
-          duration: 0.4,
-          easeLinearity: 0.25
+          duration: 0.8,
+          easeLinearity: 0.15
         });
       }
     },
@@ -303,10 +303,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       if (mapRef.current) {
         const currentCenter = mapRef.current.getCenter();
         const currentZoom = mapRef.current.getZoom();
-        // Smooth zoom out with flyTo
+        // Smooth zoom out with flyTo - Premium Airbnb feel
         mapRef.current.flyTo(currentCenter, Math.max(currentZoom - 1, 3.5), {
-          duration: 0.4,
-          easeLinearity: 0.25
+          duration: 0.8,
+          easeLinearity: 0.15
         });
       }
     }

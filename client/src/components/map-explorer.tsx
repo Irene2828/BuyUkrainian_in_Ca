@@ -361,7 +361,8 @@ export function MapExplorer() {
                                                     setProvinceSearch("");
                                                     setIsProvinceDropdownOpen(false);
                                                 }}
-                                                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-gray-50 border-b border-gray-50 font-ui"
+                                                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-gray-50 border-b border-gray-50 font-ui focus:outline-none focus:bg-gray-50 outline-none"
+                                                style={{ outline: 'none', boxShadow: 'none' }}
                                             >
                                                 {p}
                                                 {((!selectedProvince && p === "All Canada") || selectedProvince === p) && <Check className="w-4 h-4 text-[#D3E4FD]" />}
