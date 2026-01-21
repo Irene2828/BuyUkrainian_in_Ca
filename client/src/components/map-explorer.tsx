@@ -144,7 +144,7 @@ export function MapExplorer() {
                             Showing {isLoading ? '...' : filteredStoresCount} local stores selling Ukrainian products
                         </h2>
                         <p className="text-[16px] text-slate-600 max-w-2xl font-ui leading-[26px] tracking-[-0.44px]">
-                            Search by filters/locations or submit new stores to the map
+                            Search by categories, locations or submit new stores to the map
                         </p>
                     </div>
                 </div>

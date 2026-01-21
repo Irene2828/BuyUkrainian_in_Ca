@@ -55,29 +55,26 @@ export function Header() {
 
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-10">
-          <nav className="items-center gap-10 flex" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <nav className="items-center gap-10 flex font-ui">
             <button
               onClick={() => {
                 const el = document.getElementById('how-it-works');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="no-invert-hover font-normal text-slate-500 hover:text-slate-950 transition-colors duration-300"
-              style={{ fontSize: '16px', letterSpacing: '-0.45px', lineHeight: '32.5px' }}
+              className="no-invert-hover text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
             >
               {t('header.howItWorks') || 'How It Works'}
             </button>
             <a
               href="/#faq"
-              className="font-normal text-slate-500 hover:text-slate-950 transition-colors duration-300"
-              style={{ fontSize: '16px', letterSpacing: '-0.45px', lineHeight: '32.5px' }}
+              className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
             >
               {t('header.faq') || 'FAQ'}
             </a>
             <Link
               href="/about"
-              className="font-normal text-slate-500 hover:text-slate-950 transition-colors duration-300"
-              style={{ fontSize: '16px', letterSpacing: '-0.45px', lineHeight: '32.5px' }}
+              className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
             >
               {t('header.about.short') || 'About'}
             </Link>
