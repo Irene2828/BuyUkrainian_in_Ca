@@ -460,8 +460,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 borderRadius: '0'
                             }}
                         >
-                            <div style={{ width: '100%', height: '50%', backgroundColor: '#0768FA', opacity: 0.6 }} />
-                            <div style={{ width: '100%', height: '50%', backgroundColor: '#F3FF00', opacity: 0.6 }} />
+                            <div style={{ width: '100%', height: '50%', backgroundColor: '#0066FF', opacity: 0.9 }} />
+                            <div style={{ width: '100%', height: '50%', backgroundColor: '#FEEF1A', opacity: 0.9 }} />
                         </div>
                         <span className="text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                             BuyUkrainian.ca

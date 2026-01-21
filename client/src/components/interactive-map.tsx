@@ -185,8 +185,8 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `
               <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: white;">
-                <div style="width: 100%; height: 50%; background: #0768FA; opacity: 0.6;"></div>
-                <div style="width: 100%; height: 50%; background: #F3FF00; opacity: 0.6;"></div>
+                <div style="width: 100%; height: 50%; background: #0066FF; opacity: 0.9;"></div>
+                <div style="width: 100%; height: 50%; background: #FEEF1A; opacity: 0.9;"></div>
                 <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.4); font-family: var(--font-ui); font-size: ${fontSize};">
                     ${childCount}
                 </div>

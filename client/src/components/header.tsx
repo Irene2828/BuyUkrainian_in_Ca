@@ -44,8 +44,8 @@ export function Header() {
                 borderRadius: '0'
               }}
             >
-              <div style={{ width: '100%', height: '50%', backgroundColor: '#0768FA', opacity: 0.6 }} />
-              <div style={{ width: '100%', height: '50%', backgroundColor: '#F3FF00', opacity: 0.6 }} />
+              <div style={{ width: '100%', height: '50%', backgroundColor: '#0066FF', opacity: 0.9 }} />
+              <div style={{ width: '100%', height: '50%', backgroundColor: '#FEEF1A', opacity: 0.9 }} />
             </div>
             <span className="text-[12px] md:text-[16px] font-semibold tracking-[0px] text-[#003E82]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               BuyUkrainian.ca
@@ -62,14 +62,23 @@ export function Header() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                 else window.location.href = '/#how-it-works';
               }}
-              className="no-invert-hover text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 tracking-tight"
+              className="no-invert-hover font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300"
+              style={{ fontSize: '16px', letterSpacing: '-0.45px', lineHeight: '32.5px' }}
             >
               {t('header.howItWorks') || 'How It Works'}
             </button>
-            <a href="/#faq" className="text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 tracking-tight">
+            <a
+              href="/#faq"
+              className="font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300"
+              style={{ fontSize: '16px', letterSpacing: '-0.45px', lineHeight: '32.5px' }}
+            >
               {t('header.faq') || 'FAQ'}
             </a>
-            <Link href="/about" className="text-[16px] font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300 tracking-tight">
+            <Link
+              href="/about"
+              className="font-medium text-slate-500 hover:text-slate-950 transition-colors duration-300"
+              style={{ fontSize: '16px', letterSpacing: '-0.45px', lineHeight: '32.5px' }}
+            >
               {t('header.about.short') || 'About'}
             </Link>
           </nav>
