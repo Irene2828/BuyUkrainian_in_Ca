@@ -39,9 +39,9 @@ export function Header() {
             <div
               className="overflow-hidden"
               style={{
-                width: '100px',
-                height: '60px',
-                borderRadius: '8px'
+                width: '124px',
+                height: '46px',
+                borderRadius: '0'
               }}
             >
               <div style={{ width: '100%', height: '50%', backgroundColor: '#0768FA', opacity: 0.6 }} />
