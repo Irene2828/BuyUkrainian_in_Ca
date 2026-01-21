@@ -38,8 +38,8 @@ export function Hero() {
 
               {/* Subtext - Matching section subheaders */}
               <p className="hero-subtitle text-[16px] md:text-[18px] font-normal text-gray-600 font-ui text-left tracking-[-0.44px] leading-[26px] md:leading-[29.3px] max-w-[85%] md:max-w-[578px] mb-10">
-                Support Ukraine's economy with everyday purchases — <br className="hidden md:block" />
-                or help the map grow by adding local stores.
+                Support Ukraine with every purchase. Locate shops across Canada <br className="hidden md:block" />
+                or add new stores to our community map.
               </p>
 
               {/* Mobile-Only Cinematic Asset */}
