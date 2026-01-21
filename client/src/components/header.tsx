@@ -34,12 +34,22 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
-          <Link href="/" className="flex items-center">
-            <img
-              src="/assets/logo-buyukrainian.png"
-              alt="BuyUkrainian.ca - Support with every purchase"
-              className="h-[90px] md:h-[105px] w-auto object-contain bg-white"
-            />
+          <Link href="/" className="flex flex-col items-start md:items-center gap-0">
+            {/* Logo Flag - Blue #0066FF, Yellow #FEEF1A at 90% opacity */}
+            <div
+              className="overflow-hidden"
+              style={{
+                width: '124px',
+                height: '46px',
+                borderRadius: '0'
+              }}
+            >
+              <div style={{ width: '100%', height: '50%', backgroundColor: '#0066FF', opacity: 0.9 }} />
+              <div style={{ width: '100%', height: '50%', backgroundColor: '#FEEF1A', opacity: 0.9 }} />
+            </div>
+            <span className="text-[12px] md:text-[16px] font-semibold tracking-[0px] text-[#003E82]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
+              BuyUkrainian.ca
+            </span>
           </Link>
         </div>
 
