@@ -543,3 +543,36 @@
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* ========================================
+   NUCLEAR BUTTON FOCUS RING KILLER
+   ======================================== */
+button {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+button:focus,
+button:focus-visible,
+button:active,
+button:-moz-focusring {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+/* Specifically target buttons inside scrollable containers (dropdowns) */
+.custom-scrollbar button,
+.overflow-y-auto button {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.custom-scrollbar button:focus,
+.custom-scrollbar button:focus-visible,
+.overflow-y-auto button:focus,
+.overflow-y-auto button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-bottom: 1px solid #F9FAFB !important;
+}

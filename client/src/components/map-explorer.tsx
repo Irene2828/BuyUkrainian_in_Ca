@@ -144,7 +144,7 @@ export function MapExplorer() {
                             Showing {isLoading ? '...' : filteredStoresCount} local stores selling Ukrainian products
                         </h2>
                         <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
-                            Filter by category, province, or open status
+                            Know a place that is still not on the map? Add it - let the map grow!
                         </p>
                     </div>
                 </div>
@@ -361,8 +361,14 @@ export function MapExplorer() {
                                                     setProvinceSearch("");
                                                     setIsProvinceDropdownOpen(false);
                                                 }}
-                                                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-gray-50 border-b border-gray-50 font-ui focus:outline-none focus:bg-gray-50 outline-none"
-                                                style={{ outline: 'none', boxShadow: 'none' }}
+                                                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-gray-50 font-ui"
+                                                style={{
+                                                    outline: 'none',
+                                                    boxShadow: 'none',
+                                                    border: 'none',
+                                                    borderBottom: '1px solid #F9FAFB',
+                                                    WebkitTapHighlightColor: 'transparent'
+                                                }}
                                             >
                                                 {p}
                                                 {((!selectedProvince && p === "All Canada") || selectedProvince === p) && <Check className="w-4 h-4 text-[#D3E4FD]" />}
