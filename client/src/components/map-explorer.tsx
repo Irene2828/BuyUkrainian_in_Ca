@@ -143,8 +143,8 @@ export function MapExplorer() {
                         <h2 className="text-[28px] md:text-[24px] font-medium tracking-tight md:tracking-[-0.05em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
                             Showing {isLoading ? '...' : filteredStoresCount} local stores selling Ukrainian products
                         </h2>
-                        <p className="text-[16px] md:text-[18px] text-slate-600 max-w-2xl font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
-                            Know a place that is still not on the map? Add it - let the map grow!
+                        <p className="text-[16px] text-slate-600 max-w-2xl font-ui leading-[26px] tracking-[-0.44px]">
+                            Search by filters/locations or submit new stores to the map
                         </p>
                     </div>
                 </div>
