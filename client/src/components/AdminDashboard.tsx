@@ -451,11 +451,18 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 {/* Logo */}
                 <div className="p-6 border-b border-gray-50 flex justify-center">
                     <Link href="/" className="flex flex-col items-center gap-0">
-                        <img
-                            src="/assets/logonew.png"
-                            alt="BuyUkrainian.ca"
-                            className="w-[124px] h-auto object-contain"
-                        />
+                        {/* Logo Flag - Blue #0768FA, Yellow #F3FF00 at 60% opacity */}
+                        <div
+                            className="overflow-hidden"
+                            style={{
+                                width: '124px',
+                                height: '74px',
+                                borderRadius: '8px'
+                            }}
+                        >
+                            <div style={{ width: '100%', height: '50%', backgroundColor: '#0768FA', opacity: 0.6 }} />
+                            <div style={{ width: '100%', height: '50%', backgroundColor: '#F3FF00', opacity: 0.6 }} />
+                        </div>
                         <span className="text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                             BuyUkrainian.ca
                         </span>
