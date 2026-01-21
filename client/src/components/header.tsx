@@ -76,7 +76,7 @@ export function Header() {
               }}
               className="no-invert-hover text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
             >
-              {t('header.support') || 'Support'}
+              Support
             </button>
           </nav>
 
