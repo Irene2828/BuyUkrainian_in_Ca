@@ -72,12 +72,17 @@ export function MapSection({
     queryFn: getApprovedStores,
   });
 
-  // Handle Province Flight
+  // Track if province has ever been set (to distinguish initial mount from clearing)
+  const hasProvinceBeenSet = useRef(false);
+
+  // Handle Province Flight - SOVEREIGN VIEW LOCK: Only fly when user explicitly selects province
   useEffect(() => {
     if (selectedProvince && PROVINCE_CENTERS[selectedProvince]) {
+      hasProvinceBeenSet.current = true;
       const { lat, lng, zoom } = PROVINCE_CENTERS[selectedProvince];
       mapRef.current?.flyToProvince(lat, lng, zoom);
-    } else if (!selectedProvince && mode === "full") {
+    } else if (!selectedProvince && hasProvinceBeenSet.current && mode === "full") {
+      // Only reset view when user CLEARS a previously selected province, not on initial mount
       mapRef.current?.resetView();
     }
   }, [selectedProvince, mode]);
