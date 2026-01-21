@@ -91,7 +91,7 @@ export function Header() {
         <div className="flex md:hidden items-center gap-3">
           <Link href="/map" className="no-invert-hover flex items-center gap-2 py-2 text-black no-underline">
             <Search className="w-5 h-5 text-black fill-none stroke-current" strokeWidth={2} />
-            <span className="text-[14px] font-semibold">{t('map.viewMap') || 'Map View'}</span>
+            <span className="text-[14px] font-semibold">{t('map.viewMap') || 'View Map'}</span>
           </Link>
 
           <button
@@ -108,7 +108,7 @@ export function Header() {
           <div className="pointer-events-auto">
             <Link href="/map" className="flex items-center gap-3 py-2 px-4 rounded-full transition-all group">
               <span className="text-[16px] font-bold text-black transition-colors tracking-[0px]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                {t('map.viewMap') || 'Map View'}
+                {t('map.viewMap') || 'View Map'}
               </span>
               <Search className="w-5 h-5 text-black fill-none stroke-current stroke-[3]" />
             </Link>
