@@ -453,7 +453,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <img
                             src="/assets/logo-buyukrainian.png"
                             alt="BuyUkrainian.ca"
-                            className="h-[80px] w-auto object-contain"
+                            className="h-[120px] w-auto object-contain bg-white"
                         />
                     </Link>
                 </div>

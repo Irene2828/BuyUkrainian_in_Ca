@@ -38,7 +38,7 @@ export function Header() {
             <img
               src="/assets/logo-buyukrainian.png"
               alt="BuyUkrainian.ca - Support with every purchase"
-              className="h-[60px] md:h-[70px] w-auto object-contain"
+              className="h-[90px] md:h-[105px] w-auto object-contain bg-white"
             />
           </Link>
         </div>
