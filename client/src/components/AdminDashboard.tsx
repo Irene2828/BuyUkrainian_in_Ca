@@ -448,24 +448,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             {/* Left Sidebar */}
             <aside className="w-[260px] bg-white border-r border-gray-100 flex flex-col fixed h-full z-10">
                 {/* Logo */}
-                {/* Logo */}
                 <div className="p-6 border-b border-gray-50 flex justify-center">
-                    <Link href="/" className="flex flex-col items-center gap-0">
-                        {/* Logo Flag - Blue #0768FA, Yellow #F3FF00 at 60% opacity */}
-                        <div
-                            className="overflow-hidden"
-                            style={{
-                                width: '124px',
-                                height: '46px',
-                                borderRadius: '0'
-                            }}
-                        >
-                            <div style={{ width: '100%', height: '50%', backgroundColor: '#0066FF', opacity: 0.9 }} />
-                            <div style={{ width: '100%', height: '50%', backgroundColor: '#FEEF1A', opacity: 0.9 }} />
-                        </div>
-                        <span className="text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
-                            BuyUkrainian.ca
-                        </span>
+                    <Link href="/" className="flex items-center justify-center">
+                        <img
+                            src="/assets/logo-buyukrainian.png"
+                            alt="BuyUkrainian.ca"
+                            className="h-[80px] w-auto object-contain"
+                        />
                     </Link>
                 </div>
 
