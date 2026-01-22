@@ -146,15 +146,37 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    // Validate that required geocoding data is present
+    if (!values.city || !values.province) {
+      toast({
+        title: "Missing Location Data",
+        description: "Please select an address from the dropdown suggestions to auto-fill city and province.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!values.latitude || !values.longitude) {
+      toast({
+        title: "Missing Coordinates",
+        description: "Please select an address from the dropdown to set the location on the map.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await createStoreMutation.mutateAsync({
         ...values,
         products: values.products.split(",").map(p => p.trim()),
-        latitude: values.latitude || 45.4215,
-        longitude: values.longitude || -75.6972,
+        latitude: String(values.latitude),  // Convert to string for API
+        longitude: String(values.longitude), // Convert to string for API
         category: values.category as any,
       });
+    } catch (error: any) {
+      console.error("Submission error:", error);
+      // Error handling is in the mutation's onError
     } finally {
       setIsSubmitting(false);
     }

@@ -88,7 +88,7 @@ function MapController({
       // We use easeLinearity: 0.25 to approximate the requested "Obsidian Curve" (Cubic ease-in-out).
       map.flyTo(focusCoordinates, targetZoom, {
         duration: duration,
-        easeLinearity: 0.25, // Curve factor (lower is more curved)
+        easeLinearity: 0.8, // Curve factor (higher = flatter/smoother)
         animate: true
         // padding options removed as they are not supported in flyTo ZoomPanOptions
       });
@@ -114,8 +114,8 @@ function MapController({
       // The Reveal (Cinematic Zoom-Out)
       // "Slow-Start" implied by the long duration and curve
       map.flyTo([provinceView.lat, provinceView.lng], provinceView.zoom, {
-        duration: 2.2,
-        easeLinearity: 0.25,
+        duration: 2.0,
+        easeLinearity: 0.8,
         animate: true
       });
       const timer = setTimeout(() => {
@@ -185,9 +185,9 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `
               <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: white;">
-                <div style="width: 100%; height: 50%; background: #0066FF; opacity: 0.9;"></div>
-                <div style="width: 100%; height: 50%; background: #FEEF1A; opacity: 0.9;"></div>
-                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.4); font-family: var(--font-ui); font-size: ${fontSize};">
+                <div style="width: 100%; height: 50%; background: #20579F; opacity: 1;"></div>
+                <div style="width: 100%; height: 50%; background: #F4C127; opacity: 1;"></div>
+                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #FFFFFF; text-shadow: none; font-family: var(--font-ui); font-size: ${fontSize};">
                     ${childCount}
                 </div>
               </div>
@@ -294,8 +294,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         const currentZoom = mapRef.current.getZoom();
         // Smooth zoom in with flyTo - Premium Airbnb feel
         mapRef.current.flyTo(currentCenter, Math.min(currentZoom + 1, 18), {
-          duration: 0.8,
-          easeLinearity: 0.15
+          duration: 2.0,
+          easeLinearity: 0.8
         });
       }
     },
@@ -305,8 +305,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         const currentZoom = mapRef.current.getZoom();
         // Smooth zoom out with flyTo - Premium Airbnb feel
         mapRef.current.flyTo(currentCenter, Math.max(currentZoom - 1, 3.5), {
-          duration: 0.8,
-          easeLinearity: 0.15
+          duration: 2.0,
+          easeLinearity: 0.8
         });
       }
     }
@@ -325,7 +325,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#D4E7F5] passport-map-container animate-in fade-in duration-[1200ms] fill-mode-forwards"
+      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#EBF5FF] passport-map-container animate-in fade-in duration-[1200ms] fill-mode-forwards"
     >
       <MapContainer
         center={CANADA_CENTER}
@@ -353,6 +353,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           updateWhenIdle={false}
           updateWhenZooming={false}
           keepBuffer={2}
+          className="map-tiles-filtered"
         />
 
         {/* Canadian City Labels Only - CARTO Labels Layer - Instant load */}

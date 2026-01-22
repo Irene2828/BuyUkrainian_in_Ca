@@ -27,7 +27,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 md:py-32 bg-white font-sans overflow-hidden">
+    <section id="how-it-works" className="py-32 md:py-32 bg-white font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header - Centered with Obsidian Breath */}
         <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">

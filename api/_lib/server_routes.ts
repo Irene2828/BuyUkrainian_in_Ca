@@ -123,7 +123,59 @@ export async function registerRoutes(
     }
   });
 
-  // ... (Login routes unchanged as IDs are number for admins)
+  // Admin-only endpoint to get ALL stores (including pending)
+  app.get("/api/admin/stores", requireAdmin, async (req, res) => {
+    try {
+      const stores = await storage.getAllStores();
+      res.json(stores);
+    } catch (error) {
+      console.error("Error fetching all stores:", error);
+      res.status(500).json({ error: "Failed to fetch stores" });
+    }
+  });
+
+  // --- ADMIN AUTHENTICATION ROUTES ---
+
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const validation = loginSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ error: fromZodError(validation.error).message });
+      }
+
+      const { password, username } = validation.data;
+      const verification = await verifyAdminPassword(password, username);
+
+      if (!verification.valid) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const sessionId = createAdminSession();
+      res.json({ sessionId, success: true });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ error: "Login failed" });
+    }
+  });
+
+  app.get("/api/admin/verify", requireAdmin, async (req, res) => {
+    // If requireAdmin middleware passes, session is valid
+    res.json({ valid: true });
+  });
+
+  app.post("/api/admin/logout", async (req, res) => {
+    try {
+      const sessionId = req.headers["x-admin-session"] as string | undefined;
+      if (sessionId) {
+        destroyAdminSession(sessionId);
+      }
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Logout failed" });
+    }
+  });
+
+  // --- ADMIN STORE MANAGEMENT ROUTES ---
 
   app.patch("/api/admin/stores/:id/status", requireAdmin, async (req, res) => {
     try {

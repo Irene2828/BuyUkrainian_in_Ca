@@ -10,7 +10,7 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center mt-[22px] md:mt-[29px] animate-in fade-in duration-500">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center animate-in fade-in duration-500">
       {/* The Stage: Golden Gutter Wrapper */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
         {/* Equilibrium Grid: Perfect Vertical Centering */}
@@ -23,15 +23,15 @@ export function Hero() {
               {/* Main Headline - Structured for equal visual spacing */}
               <h1 className="text-slate-900 flex flex-col max-w-full md:max-w-full md:mx-0 mb-6">
                 {/* Line 1 & 2 */}
-                <span className="text-[32px] min-[391px]:text-[42px] md:text-[48px] min-[1440px]:text-[48px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
+                <span className="text-[32px] min-[391px]:text-[42px] md:text-[52px] min-[1440px]:text-[52px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
                   Find and Share
                 </span>
-                <span className="text-[32px] min-[391px]:text-[42px] md:text-[48px] min-[1440px]:text-[48px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
+                <span className="text-[32px] min-[391px]:text-[42px] md:text-[52px] min-[1440px]:text-[52px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* Line 3 - Visual continuation */}
-                <span className="text-[28px] min-[391px]:text-[32px] md:text-[42px] font-medium md:font-normal min-[1440px]:!font-normal font-instrument text-slate-900 leading-[1.15] tracking-[-0.02em]">
+                <span className="text-[28px] min-[391px]:text-[32px] md:text-[44px] font-medium md:font-normal min-[1440px]:!font-normal font-instrument text-slate-900 leading-[1.15] tracking-[-0.02em]">
                   sold across Canada
                 </span>
               </h1>

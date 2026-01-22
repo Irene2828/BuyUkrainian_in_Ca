@@ -206,7 +206,7 @@ section h3,
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    transition: box-shadow 0.2s ease-out;
 }
 
 .marker-container:hover {
@@ -230,16 +230,16 @@ section h3,
 .marker-pin-top {
     top: 0;
     left: 0;
-    background: #3C93EA;
+    background: #20579F;
     /* Blue */
 }
 
 .marker-pin-bottom {
     bottom: 0;
     left: 0;
-    background: #F3FF0A;
+    background: #F4C127;
     /* Yellow */
-    opacity: 0.8;
+    opacity: 1;
 }
 
 /* Scroll Reveal Animation - INSTANT PAINT MODE */

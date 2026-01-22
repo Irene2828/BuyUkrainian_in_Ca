@@ -62,7 +62,7 @@ h5 {
     position: relative;
     border: 2px solid white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease-out, opacity 0.3s ease-out;
+    transition: box-shadow 0.3s ease-out, opacity 0.3s ease-out;
     display: flex;
     flex-direction: column;
 }
@@ -84,18 +84,18 @@ h5 {
 .marker-pin-top {
     width: 100%;
     height: 50%;
-    background: #0066FF !important;
-    /* Brand blue at 90% opacity */
-    opacity: 0.9;
+    background: #20579F !important;
+    /* Obsidian Blue at 100% opacity */
+    opacity: 1;
     transition: background-color 0.3s ease;
 }
 
 .marker-pin-bottom {
     width: 100%;
     height: 50%;
-    background: #FEEF1A !important;
-    /* Brand yellow at 90% opacity */
-    opacity: 0.9;
+    background: #F4C127 !important;
+    /* Brand yellow at 100% opacity */
+    opacity: 1;
     transition: background-color 0.3s ease;
 }
 

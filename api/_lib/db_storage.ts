@@ -40,28 +40,41 @@ export class SupabaseStorage implements IStorage {
   // Admin User Methods (Supabase 'admin_users' table if exists, or just use Auth? Prompt asked for locations table mainly. I'll implement 'admin_users' table interact)
   async getAdminUser(id: number): Promise<AdminUser | undefined> {
     const { data } = await this.client.from("admin_users").select("*").eq("id", id).single();
-    return data || undefined;
+    return data ? this.mapAdminUser(data) : undefined;
   }
   async getAdminUserByUsername(username: string): Promise<AdminUser | undefined> {
     const { data } = await this.client.from("admin_users").select("*").eq("username", username).single();
-    return data || undefined;
+    return data ? this.mapAdminUser(data) : undefined;
   }
   async getAllAdminUsers(): Promise<AdminUser[]> {
     const { data } = await this.client.from("admin_users").select("*");
-    return data || [];
+    return (data || []).map(d => this.mapAdminUser(d));
   }
   async createAdminUser(user: InsertAdminUser): Promise<AdminUser> {
-    const { data, error } = await this.client.from("admin_users").insert(user).select().single();
+    const dbUser = {
+      username: user.username,
+      password_hash: user.passwordHash,
+    };
+    const { data, error } = await this.client.from("admin_users").insert(dbUser).select().single();
     if (error) throw error;
-    return data;
+    return this.mapAdminUser(data);
   }
   async deleteAdminUser(id: number): Promise<boolean> {
     const { error } = await this.client.from("admin_users").delete().eq("id", id);
     return !error;
   }
   async updateAdminPassword(id: number, passwordHash: string): Promise<AdminUser | undefined> {
-    const { data } = await this.client.from("admin_users").update({ passwordHash }).eq("id", id).select().single();
-    return data || undefined;
+    const { data } = await this.client.from("admin_users").update({ password_hash: passwordHash }).eq("id", id).select().single();
+    return data ? this.mapAdminUser(data) : undefined;
+  }
+
+  private mapAdminUser(row: any): AdminUser {
+    return {
+      id: row.id,
+      username: row.username,
+      passwordHash: row.password_hash,
+      createdAt: new Date(row.created_at),
+    };
   }
 
   // Store Methods

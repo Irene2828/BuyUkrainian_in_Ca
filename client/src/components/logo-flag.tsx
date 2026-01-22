@@ -8,9 +8,9 @@ interface LogoFlagProps {
 
 /**
  * BuyUkrainian.ca Logo Flag
- * Brand Colors (at 60% opacity):
- * - Top Blue: #0768FA
- * - Bottom Yellow: #F3FF00
+ * Brand Colors:
+ * - Top Blue: #003D99 (at 38% opacity)
+ * - Bottom Yellow: #FEEF1A (at 90% opacity)
  */
 export function LogoFlag({ className = "", width = 100, height = 60 }: LogoFlagProps) {
     return (
@@ -30,8 +30,8 @@ export function LogoFlag({ className = "", width = 100, height = 60 }: LogoFlagP
                 height="30"
                 rx="8"
                 ry="8"
-                fill="#0768FA"
-                fillOpacity="0.6"
+                fill="#003D99"
+                fillOpacity="0.38"
             />
             {/* Bottom Yellow Half */}
             <rect
@@ -41,8 +41,8 @@ export function LogoFlag({ className = "", width = 100, height = 60 }: LogoFlagP
                 height="30"
                 rx="8"
                 ry="8"
-                fill="#F3FF00"
-                fillOpacity="0.6"
+                fill="#FEEF1A"
+                fillOpacity="0.9"
             />
             {/* Cover corners for proper flag look */}
             <rect
@@ -67,8 +67,8 @@ export function LogoFlag({ className = "", width = 100, height = 60 }: LogoFlagP
                 <rect x="0" y="0" width="100" height="60" rx="8" ry="8" />
             </clipPath>
             <g clipPath="url(#flagClip)">
-                <rect x="0" y="0" width="100" height="30" fill="#0768FA" fillOpacity="0.6" />
-                <rect x="0" y="30" width="100" height="30" fill="#F3FF00" fillOpacity="0.6" />
+                <rect x="0" y="0" width="100" height="30" fill="#003D99" fillOpacity="0.38" />
+                <rect x="0" y="30" width="100" height="30" fill="#FEEF1A" fillOpacity="0.9" />
             </g>
         </svg>
     );
@@ -93,8 +93,8 @@ export function LogoFlagSimple({ className = "" }: { className?: string }) {
                 style={{
                     width: '100%',
                     height: '50%',
-                    backgroundColor: '#0768FA',
-                    opacity: 0.6
+                    backgroundColor: '#003D99',
+                    opacity: 0.38
                 }}
             />
             {/* Bottom Yellow */}
@@ -102,8 +102,8 @@ export function LogoFlagSimple({ className = "" }: { className?: string }) {
                 style={{
                     width: '100%',
                     height: '50%',
-                    backgroundColor: '#F3FF00',
-                    opacity: 0.6
+                    backgroundColor: '#FEEF1A',
+                    opacity: 0.9
                 }}
             />
         </div>

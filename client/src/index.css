@@ -8,8 +8,8 @@
 
 @theme {
   /* Colors - Restored to Audit Palette with New Brand Accents */
-  --color-primary-yellow: #FFF9C8;
-  --color-accent-yellow: #FFF59D;
+  --color-primary-yellow: #F2D36B;
+  --color-accent-yellow: #F2D36B;
   --color-primary-blue: #4096FF;
   --color-info-blue: #BBD9FF;
   --color-text-primary: #111111;
@@ -19,8 +19,8 @@
 
   /* New Requested Brand Accents */
   --color-brand-cyan: #D3E4FD;
-  --color-brand-blue-logo: #3C93EA;
-  --color-brand-yellow-logo: #F3FF0A;
+  --color-brand-blue-logo: #0047FF;
+  --color-brand-yellow-logo: #F2D36B;
 
   /* Admin Dashboard Colors */
   --color-admin-bg: #F8FAFC;
@@ -477,34 +477,41 @@
     transition: none !important;
   }
 }
+
 /* ========================================
    NUCLEAR FOCUS RING EXTERMINATION
    ======================================== */
 
 @layer utilities {
+
   /* Force remove all black strokes/rings - beats library defaults */
   .no-ring-force {
     --tw-ring-offset-width: 0px !important;
     --tw-ring-color: transparent !important;
     outline: none !important;
-    border-color: #E5E7EB !important; /* gray-200 */
+    border-color: #E5E7EB !important;
+    /* gray-200 */
   }
-  
+
   .no-ring-force:hover {
-    background-color: #F9FAFB !important; /* gray-50 */
-    border-color: #D1D5DB !important; /* gray-300 */
+    background-color: #F9FAFB !important;
+    /* gray-50 */
+    border-color: #D1D5DB !important;
+    /* gray-300 */
   }
-  
+
   .no-ring-force:focus {
     outline: none !important;
-    border-color: #D1D5DB !important; /* gray-300 */
+    border-color: #D1D5DB !important;
+    /* gray-300 */
     box-shadow: none !important;
     --tw-ring-shadow: none !important;
   }
-  
+
   .no-ring-force:focus-visible {
     outline: none !important;
-    border-color: #D1D5DB !important; /* gray-300 */
+    border-color: #D1D5DB !important;
+    /* gray-300 */
     box-shadow: none !important;
   }
 }
@@ -512,12 +519,13 @@
 /* ========================================
    SURGICAL STROKE EXTERMINATION
    ======================================== */
-.province-select-trigger:focus, 
+.province-select-trigger:focus,
 .province-select-trigger:focus-visible,
 .province-select-trigger[data-state='open'] {
   outline: none !important;
   box-shadow: none !important;
-  border-color: #E5E7EB !important; /* gray-200 */
+  border-color: #E5E7EB !important;
+  /* gray-200 */
   --tw-ring-offset-width: 0px !important;
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: none !important;
@@ -575,4 +583,30 @@ button:-moz-focusring {
   box-shadow: none !important;
   border: none !important;
   border-bottom: 1px solid #F9FAFB !important;
+}
+
+@layer base {
+
+  select,
+  select:focus,
+  select:hover,
+  button,
+  button:focus,
+  button:hover {
+    outline: none !important;
+    ring: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ========================================
+   MAP TILE COLOR CORRECTION
+   ======================================== */
+.map-tiles-filtered .leaflet-tile-pane {
+  /* 
+     Shift from Teal (195deg) to Neutral Blue (215deg) -> +20deg
+     Desaturate to make it "Neutral"
+     Increase brightness slightly for "Lighter"
+  */
+  filter: hue-rotate(21deg) saturate(0.4) brightness(1.12) contrast(0.9);
 }

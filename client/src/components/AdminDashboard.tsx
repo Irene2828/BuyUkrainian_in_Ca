@@ -29,9 +29,11 @@ import {
     XCircle,
     Image,
     Settings,
+    Check,
     Plus,
     User,
     Key,
+    Edit3,
 } from "lucide-react";
 import {
     Dialog,
@@ -113,7 +115,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     // Mutations
     const updateStatusMutation = useMutation({
-        mutationFn: ({ id, status }: { id: number; status: "approved" | "rejected" }) =>
+        mutationFn: ({ id, status }: { id: string; status: "approved" | "rejected" | "pending" }) =>
             updateStoreStatus(id, status),
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ["admin-stores"] });
@@ -122,7 +124,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     });
 
     const updateStoreMutation = useMutation({
-        mutationFn: ({ id, updates }: { id: number; updates: { name?: string; address?: string; category?: string; products?: string[]; description?: string } }) =>
+        mutationFn: ({ id, updates }: { id: string; updates: { name?: string; address?: string; category?: string; products?: string[]; description?: string } }) =>
             updateStore(id, updates),
         onSuccess: (data) => {
             queryClient.refetchQueries({ queryKey: ["admin-stores"] });
@@ -138,7 +140,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     });
 
     const updateImagesMutation = useMutation({
-        mutationFn: ({ id, images }: { id: number; images: string[] }) =>
+        mutationFn: ({ id, images }: { id: string; images: string[] }) =>
             updateStoreImages(id, images),
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ["admin-stores"] });
@@ -151,7 +153,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     });
 
     const deleteMutation = useMutation({
-        mutationFn: (id: number) => deleteStore(id),
+        mutationFn: (id: string) => deleteStore(id),
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ["admin-stores"] });
             queryClient.refetchQueries({ queryKey: ["stores"] });
@@ -241,12 +243,12 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const displayedStores = getDisplayedStores();
 
     // Get unique cities for filter
-    const allCities = [...new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean))];
+    const allCities = Array.from(new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean)));
 
     // Handlers
     const handleApprove = async (id: string) => {
         try {
-            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "approved" });
+            await updateStatusMutation.mutateAsync({ id, status: "approved" });
             toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
         } catch {
             toast({ title: "Error", description: "Failed to approve store.", variant: "destructive" });
@@ -255,13 +257,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     const handleMoveToTrash = async (id: string, fromStatus: "pending" | "approved") => {
         try {
-            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "rejected" });
+            await updateStatusMutation.mutateAsync({ id, status: "rejected" });
             toast({
                 title: "Moved to Trash",
                 description: "Store removed from list.",
                 action: (
                     <ToastAction altText="Undo" onClick={() =>
-                        updateStatusMutation.mutateAsync({ id: parseInt(id), status: fromStatus })
+                        updateStatusMutation.mutateAsync({ id, status: fromStatus })
                     }>
                         Undo
                     </ToastAction>
@@ -278,7 +280,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     const handleRestore = async (id: string) => {
         try {
-            await updateStatusMutation.mutateAsync({ id: parseInt(id), status: "pending" });
+            await updateStatusMutation.mutateAsync({ id, status: "pending" });
             toast({ title: "Store Restored", description: "Moved back to pending review." });
         } catch {
             toast({ title: "Error", description: "Failed to restore store.", variant: "destructive" });
@@ -287,7 +289,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     const handlePermanentDelete = async (id: string) => {
         if (confirm("Permanently delete this store? This cannot be undone.")) {
-            await deleteMutation.mutateAsync(parseInt(id));
+            await deleteMutation.mutateAsync(id);
         }
     };
 
@@ -328,10 +330,17 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const handleSaveEdit = async () => {
         if (!selectedStore) return;
 
+        if (!hasChanges) {
+            toast({ title: "Saved", description: "Store details saved." });
+            setIsEditModalOpen(false);
+            setSelectedStore(null);
+            return;
+        }
+
         if (hasChanges) {
             const productsArray = editProducts.split(',').map(p => p.trim()).filter(Boolean);
             await updateStoreMutation.mutateAsync({
-                id: parseInt(selectedStore.id),
+                id: selectedStore.id,
                 updates: {
                     name: editName,
                     address: editAddress,
@@ -346,7 +355,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
         if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
             await updateImagesMutation.mutateAsync({
-                id: parseInt(selectedStore.id),
+                id: selectedStore.id,
                 images: allImages,
             });
         }
@@ -450,21 +459,11 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 {/* Logo */}
                 <div className="p-6 border-b border-gray-50 flex justify-center">
                     <Link href="/" className="flex flex-col items-center gap-0">
-                        {/* Logo Flag - Blue #0066FF, Yellow #FEEF1A at 90% opacity */}
-                        <div
-                            className="overflow-hidden"
-                            style={{
-                                width: '124px',
-                                height: '46px',
-                                borderRadius: '0'
-                            }}
-                        >
-                            <div style={{ width: '100%', height: '50%', backgroundColor: '#0066FF', opacity: 0.9 }} />
-                            <div style={{ width: '100%', height: '50%', backgroundColor: '#FEEF1A', opacity: 0.9 }} />
-                        </div>
-                        <span className="text-[16px] font-semibold tracking-[0px] text-black" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
-                            BuyUkrainian.ca
-                        </span>
+                        <img
+                            src="/assets/logo-latest.png"
+                            alt="BuyUkrainian.ca"
+                            className="w-[219px] h-[112px] object-contain"
+                        />
                     </Link>
                 </div>
 
@@ -689,7 +688,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                                 <div className="divide-y divide-gray-50">
                                     {displayedStores.map((store: any) => (
-                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => setStoreToView(store)}>
+                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => activeTab === "pending" ? openEditModal(store) : setStoreToView(store)}>
                                             <div className="flex items-center gap-4 flex-1 min-w-0">
                                                 <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
                                                     {store.images?.[0] ? (
@@ -707,16 +706,25 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                 {activeTab === "pending" && (
                                                     <>
                                                         <button
+                                                            onClick={(e) => { e.stopPropagation(); openEditModal(store); }}
+                                                            className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+                                                            title="Edit Details"
+                                                        >
+                                                            <Edit3 className="w-5 h-5" />
+                                                        </button>
+                                                        <button
                                                             onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }}
                                                             className="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
+                                                            title="Approve"
                                                         >
-                                                            <CheckCircle className="w-5 h-5" />
+                                                            <Check className="w-5 h-5" />
                                                         </button>
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleReject(store.id); }}
                                                             className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                                                            title="Reject"
                                                         >
-                                                            <XCircle className="w-5 h-5" />
+                                                            <X className="w-5 h-5" />
                                                         </button>
                                                     </>
                                                 )}
@@ -938,12 +946,11 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <Button
                             variant="outline"
                             onClick={handleResetChanges}
-                            disabled={!hasChanges}
                             className={cn(hasChanges ? "text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700" : "")}
                         >
                             Undo Save
                         </Button>
-                        <Button onClick={handleSaveEdit} className="bg-black hover:bg-black/90" disabled={!hasChanges}>Save Changes</Button>
+                        <Button onClick={handleSaveEdit} className="bg-black hover:bg-black/90">Save Changes</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

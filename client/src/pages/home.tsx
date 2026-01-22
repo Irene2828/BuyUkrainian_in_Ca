@@ -15,13 +15,10 @@ export default function Home() {
   return (
     <div className="bg-background font-sans text-foreground selection:bg-yellow-accent/30">
       <Header />
+
       <main>
         <div className="section-reveal">
           <Hero />
-        </div>
-
-        {/* Products Marquee - Social Proof for user flow */}
-        <div className="section-reveal">
           <RecentProductsMarquee />
         </div>
 

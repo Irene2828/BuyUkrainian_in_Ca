@@ -145,7 +145,7 @@ export async function deleteStore(id: string): Promise<boolean> {
   return true;
 }
 
-export async function updateStoreStatus(id: string, status: "approved" | "rejected"): Promise<Store> {
+export async function updateStoreStatus(id: string, status: "approved" | "rejected" | "pending"): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}/status`, {
     method: "PATCH",
     headers: {

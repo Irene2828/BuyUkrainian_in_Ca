@@ -1,7 +1,10 @@
-import { useState, useRef, useEffect, forwardRef } from "react";
+import { useState, useRef, useEffect, forwardRef, Suspense, lazy } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
+import { InteractiveMapRef } from "@/components/interactive-map";
+
+// Dynamic Import for Map Component (Simulating SSR: false)
+const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
 import { Search, MapPin, ArrowDown, X, RefreshCw } from "lucide-react";
 import { ListingCard } from "./listing-card";
 
@@ -22,6 +25,7 @@ interface MapSectionProps {
   category?: string | null;
   viewMode?: "map" | "list";
   selectedProvince?: string | null;
+  selectedCity?: string | null;
   initialStoreId?: string | null;
   onViewChange?: (mode: "map" | "list") => void;
   onFlightChange?: (isFlying: boolean) => void;
@@ -55,6 +59,7 @@ export function MapSection({
   category = null,
   viewMode = "map",
   selectedProvince = null,
+  selectedCity = null,
   initialStoreId = null,
   onViewChange,
   onFlightChange,
@@ -135,8 +140,9 @@ export function MapSection({
     const matchesCategory = !category || store.category === category;
     const storeProvinceFull = getFullProvince(store.province);
     const matchesProvince = !selectedProvince || storeProvinceFull === selectedProvince;
+    const matchesCity = !selectedCity || store.city === selectedCity;
 
-    return matchesSearch && matchesCategory && matchesProvince;
+    return matchesSearch && matchesCategory && matchesProvince && matchesCity;
   });
 
   const handleSelectStore = (store: Store) => {
@@ -252,16 +258,18 @@ export function MapSection({
   return (
     <div className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}>
       <ErrorBoundary fallbackType="map">
-        <InteractiveMap
-          ref={mapRef}
-          stores={filteredStores}
-          selectedStore={selectedStore}
-          onSelectStore={handleSelectStore}
-          onCloseStore={handleCloseStore}
-          onFlightChange={onFlightChange}
-          extraControls={extraControls}
-          userLocation={userLocation}
-        />
+        <Suspense fallback={<MapSkeleton />}>
+          <InteractiveMap
+            ref={mapRef}
+            stores={filteredStores}
+            selectedStore={selectedStore}
+            onSelectStore={handleSelectStore}
+            onCloseStore={handleCloseStore}
+            onFlightChange={onFlightChange}
+            extraControls={extraControls}
+            userLocation={userLocation}
+          />
+        </Suspense>
       </ErrorBoundary>
       {/* Empty state overlay when no stores match filters */}
       {filteredStores.length === 0 && stores.length > 0 && (
