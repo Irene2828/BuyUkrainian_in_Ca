@@ -1,6 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
+import { Loader2, Maximize2, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -22,63 +29,99 @@ function NewlyAddedStores() {
 
   if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-secondary)]" /></div>;
 
-  const newlyAdded = stores.slice(0, 4);
+  const newlyAdded = stores.slice(0, 5);
 
   return (
-    <section className="bg-white border-t border-gray-50 pt-9 pb-14 md:pt-14 md:pb-[110px] px-6 lg:px-12">
-      <div className="container mx-auto max-w-7xl">
-        <div className="mb-8 md:mb-12 max-w-[700px] flex flex-col gap-3 md:gap-4 text-left">
-          <h2 className="text-[28px] md:text-[24px] font-medium tracking-tight md:tracking-[-0.05em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
-            Recently Added Findings
-          </h2>
-
+    <section className="bg-white border-t border-gray-50 pt-7 pb-14 md:pt-[44px] md:pb-[110px]">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <div className="mb-4 md:mb-6 max-w-[700px] flex flex-col gap-3 md:gap-4 text-left">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
+            <h2 className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-slate-400 whitespace-nowrap section-headline-reveal m-0">
+              Recently added by the community
+            </h2>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-left">
-          {newlyAdded.map((store) => {
-            const categoryLabels: Record<string, string> = {
-              food: "Food & Grocery",
-              clothes: "Clothing",
-              retail: "Retail & Gifts",
-              other: "Gifts"
-            };
-            const categoryLabel = categoryLabels[store.category] || store.category;
-            return (
+      </div>
+
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12">
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="w-full relative"
+        >
+          <CarouselContent className="-ml-4">
+            {newlyAdded.map((store) => (
+              <CarouselItem key={store.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+                <div
+                  onClick={() => setSelectedStore(store)}
+                  className="flex flex-row items-center justify-between gap-2 bg-white p-4 rounded-[16px] transition-all h-full duration-300 cursor-pointer group border border-gray-100 shadow-sm hover:scale-[1.02] hover:shadow-lg relative"
+                >
+                  {/* Left: Image (Smaller, approx 60% width of original full width) */}
+                  <div className="w-[45%] aspect-square bg-gray-50 rounded-lg overflow-hidden relative flex-shrink-0">
+                    <img
+                      src={store.image || store.images?.[0] || "/assets/kyivcake.jpeg"}
+                      alt="Store preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Right: Store Name - Right Aligned in Flex */}
+                  <div className="flex flex-col items-start gap-1 flex-1 min-w-0 pl-2">
+                    <h3 className="text-slate-900 font-semibold tracking-tight text-left text-[15px] leading-snug line-clamp-2">
+                      {store.name}
+                    </h3>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(() => {
+                          const event = new CustomEvent('focusStore', { detail: store });
+                          window.dispatchEvent(event);
+                        }, 600);
+                      }}
+                      className="flex items-center gap-2 mt-1 bg-transparent text-slate-600 text-xs sm:text-sm font-medium font-ui transition-all duration-300 hover:text-black no-underline p-0 cursor-pointer !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
+                    >
+                      <Maximize2 className="w-4 h-4 !fill-none !stroke-current" strokeWidth={2} />
+                      <span>{t('modal.seeOnMap') || 'See on Map'}</span>
+                    </button>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+
+            {/* Final "See more" card */}
+            <CarouselItem className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
               <div
-                key={store.id}
-                onClick={() => setSelectedStore(store)}
-                className="flex flex-col gap-4 bg-white p-4 rounded-[16px] transition-all h-full duration-200 cursor-pointer group border border-transparent hover:border-gray-100"
+                className="flex flex-col items-center justify-center h-full min-h-[140px] gap-3 p-4 rounded-[16px] border border-dashed border-slate-300 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-400 transition-all cursor-pointer group"
+                onClick={() => {
+                  document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
               >
-
-
-                <div className="w-full aspect-[4/3] bg-gray-50 rounded-xl overflow-hidden relative">
-                  <img
-                    src={store.image || "/assets/kyivcake.jpeg"}
-                    alt="Store preview"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600 transition-colors" />
                 </div>
-
-                {/* Store Name - Obsidian Premium Typography */}
-                <div className="flex flex-col items-center gap-1 mt-2">
-                  <h3 className="text-slate-900 font-semibold tracking-tight text-center text-[15px] leading-snug">
-                    {store.name}
-                  </h3>
-
-                  <button className="flex items-center gap-2 px-4 py-2 rounded-[32px] bg-transparent text-black/45 text-[13px] font-medium font-ui transition-all duration-300 hover:bg-slate-100 hover:text-black no-underline">
-                    <span>{t('modal.seeDetails') || 'See details'}</span>
-                    <ExternalLink className="w-3.5 h-3.5 !fill-none !stroke-current transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" strokeWidth={2} />
-                  </button>
-                </div>
+                <span className="text-sm font-medium text-slate-500 group-hover:text-slate-800 text-center">
+                  See more on the map
+                </span>
               </div>
-            );
-          })}
-        </div>
+            </CarouselItem>
+          </CarouselContent>
+          <div className="hidden md:block">
+            <CarouselPrevious className="-left-4 lg:-left-8 !text-slate-400 !border-slate-200 hover:!text-slate-600 hover:!border-slate-300" />
+            <CarouselNext className="-right-4 lg:-right-8 !text-slate-400 !border-slate-200 hover:!text-slate-600 hover:!border-slate-300" />
+          </div>
+        </Carousel>
+      </div>
 
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Terminal CTA */}
         <div className="flex justify-center mt-12 w-full z-10 relative">
           <Link
             href="/"
-            className="flex items-center justify-center gap-2 bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-all font-medium"
+            className="flex items-center justify-center gap-2 bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-all font-semibold"
           >
             <ArrowLeft className="w-4 h-4 !fill-none !stroke-current" strokeWidth={2} />
             Back to Homepage
@@ -135,7 +178,7 @@ export default function MapPage() {
 
 
         {/* Map Explorer - NO gap, directly follows headline */}
-        <div className="relative z-0 section-reveal mb-[110px]">
+        <div className="relative z-0 section-reveal mb-[55px]">
           <MapExplorer />
         </div>
 

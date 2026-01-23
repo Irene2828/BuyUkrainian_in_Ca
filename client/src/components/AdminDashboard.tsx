@@ -60,6 +60,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editName, setEditName] = useState("");
     const [editAddress, setEditAddress] = useState("");
+    const [editWebsite, setEditWebsite] = useState("");
     const [editCategory, setEditCategory] = useState<"food" | "clothes" | "retail" | "other">("food");
     const [editProducts, setEditProducts] = useState("");
     const [editDescription, setEditDescription] = useState("");
@@ -124,7 +125,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     });
 
     const updateStoreMutation = useMutation({
-        mutationFn: ({ id, updates }: { id: string; updates: { name?: string; address?: string; category?: string; products?: string[]; description?: string } }) =>
+        mutationFn: ({ id, updates }: { id: string; updates: { name?: string; address?: string; website?: string; category?: string; products?: string[]; description?: string } }) =>
             updateStore(id, updates),
         onSuccess: (data) => {
             queryClient.refetchQueries({ queryKey: ["admin-stores"] });
@@ -297,6 +298,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         setSelectedStore(store);
         setEditName(store.name);
         setEditAddress(store.address);
+        setEditWebsite(store.website || "");
         setEditCategory(store.category || "food");
         setEditProducts(store.products?.join(", ") || "");
         setEditDescription(store.description || "");
@@ -309,6 +311,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         if (!selectedStore) return;
         setEditName(selectedStore.name);
         setEditAddress(selectedStore.address);
+        setEditWebsite(selectedStore.website || "");
         setEditCategory(selectedStore.category || "food");
         setEditProducts(selectedStore.products?.join(", ") || "");
         setEditDescription(selectedStore.description || "");
@@ -320,6 +323,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const hasChanges = selectedStore ? (
         editName !== selectedStore.name ||
         editAddress !== selectedStore.address ||
+        editWebsite !== (selectedStore.website || "") ||
         editCategory !== (selectedStore.category || "food") ||
         JSON.stringify(editProducts.split(',').map(p => p.trim()).filter(Boolean)) !== JSON.stringify(selectedStore.products || []) ||
         editDescription !== (selectedStore.description || "") ||
@@ -344,6 +348,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 updates: {
                     name: editName,
                     address: editAddress,
+                    website: editWebsite,
                     category: editCategory,
                     products: productsArray,
                     description: editDescription
@@ -368,9 +373,17 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         if (!files) return;
         const currentTotal = editImages.length + localImagePreviews.length;
         const remaining = 3 - currentTotal;
-        Array.from(files).slice(0, remaining).forEach((file) => {
-            const previewUrl = URL.createObjectURL(file);
-            setLocalImagePreviews((prev) => [...prev, previewUrl].slice(0, 3 - editImages.length));
+        const validFiles = Array.from(files).slice(0, remaining);
+
+        validFiles.forEach((file) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const result = reader.result as string;
+                if (result) {
+                    setLocalImagePreviews((prev) => [...prev, result].slice(0, 3 - editImages.length));
+                }
+            };
+            reader.readAsDataURL(file);
         });
     }, [editImages.length, localImagePreviews.length]);
 
@@ -688,7 +701,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                                 <div className="divide-y divide-gray-50">
                                     {displayedStores.map((store: any) => (
-                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => activeTab === "pending" ? openEditModal(store) : setStoreToView(store)}>
+                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => openEditModal(store)}>
                                             <div className="flex items-center gap-4 flex-1 min-w-0">
                                                 <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
                                                     {store.images?.[0] ? (
@@ -862,6 +875,10 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <div className="space-y-2">
                             <Label htmlFor="editAddress" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Address</Label>
                             <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className="h-11 rounded-xl" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="editWebsite" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Website</Label>
+                            <Input id="editWebsite" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="https://example.com" className="h-11 rounded-xl" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="editCategory" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</Label>

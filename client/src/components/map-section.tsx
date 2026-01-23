@@ -5,7 +5,7 @@ import { InteractiveMapRef } from "@/components/interactive-map";
 
 // Dynamic Import for Map Component (Simulating SSR: false)
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
-import { Search, MapPin, ArrowDown, X, RefreshCw } from "lucide-react";
+import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle } from "lucide-react";
 import { ListingCard } from "./listing-card";
 
 import { getApprovedStores } from "@/lib/api";
@@ -26,6 +26,7 @@ interface MapSectionProps {
   viewMode?: "map" | "list";
   selectedProvince?: string | null;
   selectedCity?: string | null;
+  sortMode?: "newest" | "name";
   initialStoreId?: string | null;
   onViewChange?: (mode: "map" | "list") => void;
   onFlightChange?: (isFlying: boolean) => void;
@@ -60,6 +61,7 @@ export function MapSection({
   viewMode = "map",
   selectedProvince = null,
   selectedCity = null,
+  sortMode = "newest",
   initialStoreId = null,
   onViewChange,
   onFlightChange,
@@ -71,6 +73,7 @@ export function MapSection({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
   const mapRef = useRef<InteractiveMapRef>(null);
+  const [showHint, setShowHint] = useState(true);
 
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
@@ -143,6 +146,16 @@ export function MapSection({
     const matchesCity = !selectedCity || store.city === selectedCity;
 
     return matchesSearch && matchesCategory && matchesProvince && matchesCity;
+  }).sort((a, b) => {
+    if (sortMode === "name") {
+      return a.name.localeCompare(b.name);
+    }
+    // Default to 'newest' (assuming higher ID = newer for now, or maintain API order if it's already sorted)
+    // Ideally we'd use a createdAt field. For now, assuming API returns generally sorted or using ID if numeric.
+    // If IDs are strings (UUID), this might not work well, so falling back to index/natural order is safer if date is missing.
+    // But typically 'Recently Added' means reversing the natural order if natural is 'Oldest First'.
+    // Let's implement a simple ID desc sort if IDs are numeric, otherwise trust API.
+    return (Number(b.id) || 0) - (Number(a.id) || 0);
   });
 
   const handleSelectStore = (store: Store) => {
@@ -256,7 +269,33 @@ export function MapSection({
   }
 
   return (
-    <div className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}>
+    <div
+      className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}
+      onMouseDownCapture={() => setShowHint(false)}
+      onTouchStartCapture={() => setShowHint(false)}
+      onWheelCapture={() => setShowHint(false)}
+    >
+      {/* Map Interaction Hint */}
+      {showHint && filteredStores.length > 0 && (
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[400] pointer-events-none animate-in fade-in slide-in-from-top-2 duration-700 delay-500">
+          <div className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_2px_8px_rgba(0,0,0,0.05)] px-4 py-2 rounded-full flex items-center gap-2">
+            <span className="text-xs font-medium text-slate-600 tracking-wide">
+              Click a pin to explore store details
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Help / FAQ Button */}
+      <a
+        href="/#faq"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-4 right-4 z-[400] bg-white text-slate-700 hover:text-black w-[36px] h-[36px] rounded-full shadow-md flex items-center justify-center transition-all hover:scale-110 active:scale-95 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
+        title="Help & FAQ"
+      >
+        <span className="text-[18px] font-bold text-slate-700 opacity-70">?</span>
+      </a>
       <ErrorBoundary fallbackType="map">
         <Suspense fallback={<MapSkeleton />}>
           <InteractiveMap

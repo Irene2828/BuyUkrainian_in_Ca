@@ -90,7 +90,7 @@ export function Footer() {
 
       {/* Bottom Bar - Legal/Copyright Spanning Full Width */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full border-t border-white/10 pt-8 mt-0 flex justify-between text-[12px] text-slate-500">
-        <div>
+        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white opacity-50 font-ui">
           © 2026 BuyUkrainian.ca. All rights reserved.
         </div>
 

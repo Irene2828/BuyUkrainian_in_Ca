@@ -1,4 +1,5 @@
 import { Store } from "@/lib/data";
+import { Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 import { useI18n } from "@/lib/i18n";
@@ -36,7 +37,8 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
                     <span className="text-sm font-semibold text-slate-900 truncate font-header tracking-[-0.01em]">
                         {store.name}
                     </span>
-                    <div className="flex items-center gap-2 text-slate-400 text-xs font-medium transition-colors group-hover:text-black font-ui">
+                    <div className="flex items-center gap-2 text-slate-600 text-sm font-medium transition-colors group-hover:text-black font-ui">
+                        <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
                         <span>{t ? t('modal.seeOnMap') : 'See on Map'}</span>
                     </div>
                 </div>

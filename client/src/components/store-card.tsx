@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, Copy, Navigation, MapPin, Check, Maximize2, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Copy, Navigation, MapPin, Check, Maximize2, ZoomIn, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { Store } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from "@/lib/i18n";
@@ -82,7 +82,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             {/* Lightbox Overlay - Boutique Gallery Preview */}
             {isLightboxOpen && (
                 <div
-                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4"
+                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[2001] flex items-center justify-center p-4"
                     onClick={() => setIsLightboxOpen(false)}
                 >
                     {/* Modal Container - Boutique Frame */}
@@ -166,20 +166,30 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             <div className="px-6 pb-3 flex items-start gap-4">
                 {/* Interactive Store Image */}
                 <div
-                    className="relative group w-24 h-24 flex-shrink-0 cursor-pointer overflow-hidden rounded-[24px] shadow-sm ring-1 ring-gray-100"
-                    onClick={() => { setCurrentImageIndex(0); setIsLightboxOpen(true); }}
+                    className={cn(
+                        "relative group w-24 h-24 flex-shrink-0 overflow-hidden rounded-[24px] shadow-sm ring-1 ring-gray-100",
+                        store.image ? "cursor-pointer" : "cursor-default"
+                    )}
+                    onClick={() => {
+                        if (store.image) {
+                            setCurrentImageIndex(0);
+                            setIsLightboxOpen(true);
+                        }
+                    }}
                 >
                     <img
                         src={uniqueImages[0]}
                         alt={store.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Zoom Overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center">
-                        <div className="bg-white/95 p-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                            <ZoomIn size={14} className="text-gray-900 fill-none stroke-current" strokeWidth={3} />
+                    {/* Zoom Overlay - Only if image exists */}
+                    {store.image && (
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center">
+                            <div className="bg-white/95 p-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                <ZoomIn size={14} className="text-gray-900 fill-none stroke-current" strokeWidth={3} />
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
 
@@ -216,22 +226,46 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         <p className="text-sm text-gray-500 mt-0.5 font-medium">
                             {store.address.split(',').slice(2).join(',')}
                         </p>
+                        {store.website && (
+                            <a
+                                href={store.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-blue-600 mt-1 block hover:underline truncate"
+                            >
+                                {store.website.replace(/^https?:\/\/(www\.)?/, '')}
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>
 
             {/* 4. Action Section: Primary & Secondary */}
-            <div className="px-6 pb-4 mt-6 space-y-1.5">
-                {/* Primary Action */}
-                <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]"
-                >
-                    <Navigation size={20} className="fill-none stroke-current" strokeWidth={2.5} />
-                    Get Directions
-                </a>
+            <div className="px-6 pb-4 mt-6 space-y-3">
+                {/* Primary Actions Grid */}
+                <div className={cn("grid gap-3", store.website ? "grid-cols-2" : "grid-cols-1")}>
+                    <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98] text-[15px]"
+                    >
+                        <Navigation size={20} className="fill-none stroke-current" strokeWidth={2.5} />
+                        Directions
+                    </a>
+
+                    {store.website && (
+                        <a
+                            href={store.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="h-[52px] bg-blue-50 text-blue-700 font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 hover:bg-blue-100 hover:shadow-sm hover:-translate-y-[0.5px] active:scale-[0.98] text-[15px]"
+                        >
+                            <span>Website</span>
+                            <ArrowUpRight size={20} className="fill-none stroke-current" strokeWidth={2.5} />
+                        </a>
+                    )}
+                </div>
 
                 {/* Secondary Dual Actions */}
                 <div className="grid grid-cols-2 gap-3">

@@ -26,7 +26,7 @@ const statusSchema = z.object({
 });
 
 const imageSchema = z.object({
-  images: z.array(z.string().url("Invalid image URL").max(500, "URL too long")).max(5, "Maximum 5 images allowed"),
+  images: z.array(z.string().max(50 * 1024 * 1024, "Image too large")).max(5, "Maximum 5 images allowed"),
 });
 
 const createAdminSchema = z.object({

@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { Facebook, Instagram } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export function SpreadTheWord() {
   const shareMessage = "Discover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada!";
@@ -25,6 +25,8 @@ export function SpreadTheWord() {
     window.open(twitterUrl, '_blank', 'width=600,height=400');
   };
 
+  const buttonClass = "w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black font-medium";
+
   return (
     <section className="relative w-full bg-[#ECF6FF] py-16 md:py-16 overflow-hidden z-10 flex flex-col justify-center">
       {/* Structural Container */}
@@ -32,8 +34,8 @@ export function SpreadTheWord() {
 
         <div className="mb-8 max-w-3xl mx-auto flex flex-col gap-3 text-center">
           {/* 12px gap (gap-3) standardized across all sections */}
-          <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
-            Spread the Word
+          <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900">
+            Share with Friends
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-600 font-ui">
             Share the map with your network and let others discover the best of Ukraine in Canada.
@@ -54,21 +56,21 @@ export function SpreadTheWord() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full">
             <button
               onClick={handleFacebookShare}
-              className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className={buttonClass}
             >
               <Facebook className="w-[14px] h-[14px] fill-none stroke-current" strokeWidth={2} />
               Share on Facebook
             </button>
             <button
               onClick={handleInstagramShare}
-              className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className={buttonClass}
             >
               <Instagram className="w-[14px] h-[14px] fill-none stroke-current" strokeWidth={2} />
               Share on Instagram
             </button>
             <button
               onClick={handleXShare}
-              className="w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[13px] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black"
+              className={buttonClass}
             >
               <svg
                 viewBox="0 0 24 24"

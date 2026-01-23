@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
@@ -11,6 +12,19 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function Home() {
   useScrollReveal();
+
+  // Handle hash scrolling on mount (e.g. for /#faq)
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, []);
 
   return (
     <div className="bg-background font-sans text-foreground selection:bg-yellow-accent/30">

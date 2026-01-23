@@ -230,14 +230,14 @@ section h3,
 .marker-pin-top {
     top: 0;
     left: 0;
-    background: #20579F;
+    background: #1762C5;
     /* Blue */
 }
 
 .marker-pin-bottom {
     bottom: 0;
     left: 0;
-    background: #F4C127;
+    background: #FFCF3E;
     /* Yellow */
     opacity: 1;
 }

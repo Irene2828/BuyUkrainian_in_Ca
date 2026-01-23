@@ -27,8 +27,7 @@ export function Header() {
 
   return (
     <header className={cn(
-      "relative w-full h-auto py-2 bg-white/80 backdrop-blur-md font-sans transition-all duration-300",
-      isScrolled && "border-b border-slate-100"
+      "relative w-full h-auto py-2 bg-white/80 backdrop-blur-md font-sans transition-all duration-300"
     )}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-full relative">
 
@@ -36,9 +35,9 @@ export function Header() {
         <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
           <Link href="/" className="flex items-center">
             <img
-              src="/assets/logo-latest.png"
+              src="/assets/logo-v2.png"
               alt="BuyUkrainian.ca"
-              className="w-[219px] h-[112px] object-contain"
+              className="w-[193px] h-[77px] object-contain"
             />
           </Link>
         </div>

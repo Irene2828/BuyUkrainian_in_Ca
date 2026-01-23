@@ -25,6 +25,7 @@ const formSchema = z.object({
   address: z.string().min(5, "Address is required"),
   name: z.string().min(2, "Store name is required"),
   category: z.enum(["food", "clothes", "retail", "other"]),
+  website: z.string().url("Please enter a valid URL (https://...)").optional().or(z.literal("")),
   products: z.string().min(2, "List at least one product"),
   description: z.string().min(10, "Description is required"),
   latitude: z.number().optional(),
@@ -80,6 +81,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       address: "",
       name: "",
       category: "food",
+      website: "",
       products: "",
       description: "",
     },
@@ -170,8 +172,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       await createStoreMutation.mutateAsync({
         ...values,
         products: values.products.split(",").map(p => p.trim()),
-        latitude: String(values.latitude),  // Convert to string for API
-        longitude: String(values.longitude), // Convert to string for API
+        latitude: Number(values.latitude),  // Convert to number for API
+        longitude: Number(values.longitude), // Convert to number for API
         category: values.category as any,
       });
     } catch (error: any) {
@@ -295,6 +297,25 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
                       className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] font-medium placeholder:text-gray-400"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* 3. Website (Optional) */}
+            <FormField
+              control={form.control}
+              name="website"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Website (Optional)</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://example.com"
+                      {...field}
+                      className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] cursor-text placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />

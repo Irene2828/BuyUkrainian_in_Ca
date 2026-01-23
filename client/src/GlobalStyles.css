@@ -84,7 +84,7 @@ h5 {
 .marker-pin-top {
     width: 100%;
     height: 50%;
-    background: #20579F !important;
+    background: #1762C5 !important;
     /* Obsidian Blue at 100% opacity */
     opacity: 1;
     transition: background-color 0.3s ease;
@@ -93,7 +93,7 @@ h5 {
 .marker-pin-bottom {
     width: 100%;
     height: 50%;
-    background: #F4C127 !important;
+    background: #FFCF3E !important;
     /* Brand yellow at 100% opacity */
     opacity: 1;
     transition: background-color 0.3s ease;

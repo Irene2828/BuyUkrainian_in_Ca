@@ -35,14 +35,14 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-white font-sans overflow-hidden pt-16 md:pt-16 pb-40 md:pb-40">
+    <section id="faq" className="bg-white font-sans overflow-hidden pt-8 md:pt-8 pb-32 md:pb-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-3 text-center">
-          <h2 className="text-[32px] md:text-[42px] font-medium tracking-tight md:tracking-[0.03em] leading-tight md:leading-[52.5px] font-gelasio section-headline-reveal text-slate-900">
-            {t('faq.title') || 'FAQ'}
+          <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900">
+            Common Questions
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>
         </div>
 
@@ -92,6 +92,6 @@ export function FAQ() {
           ))}
         </div>
       </div>
-    </section>
+    </section >
   );
 }

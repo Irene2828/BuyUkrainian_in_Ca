@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, HelpCircle, MapPin } from "lucide-react";
+import { ArrowRight, Info, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,7 @@ export function Hero() {
   const { t, language } = useI18n();
 
   return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center animate-in fade-in duration-500">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center animate-in fade-in duration-500 mt-6">
       {/* The Stage: Golden Gutter Wrapper */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
         {/* Equilibrium Grid: Perfect Vertical Centering */}
@@ -21,25 +21,25 @@ export function Hero() {
             {/* Visual Grouping: Headline + Subtext + CTAs in One Container */}
             <div className="w-full max-w-4xl">
               {/* Main Headline - Structured for equal visual spacing */}
-              <h1 className="text-slate-900 flex flex-col max-w-full md:max-w-full md:mx-0 mb-6">
+              <h1 className="text-slate-900 flex flex-col items-start max-w-full md:max-w-full md:mx-0 mb-[24px]">
                 {/* Line 1 & 2 */}
-                <span className="text-[32px] min-[391px]:text-[42px] md:text-[52px] min-[1440px]:text-[52px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
+                <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block mb-[8px]">
                   Find and Share
                 </span>
-                <span className="text-[32px] min-[391px]:text-[42px] md:text-[52px] min-[1440px]:text-[52px] font-bold min-[391px]:font-semibold md:font-semibold font-instrument tracking-[-0.025em] leading-[1.1] antialiased">
+                <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block">
                   Ukrainian&nbsp;Products
                 </span>
 
                 {/* Line 3 - Visual continuation */}
-                <span className="text-[28px] min-[391px]:text-[32px] md:text-[44px] font-medium md:font-normal min-[1440px]:!font-normal font-instrument text-slate-900 leading-[1.15] tracking-[-0.02em]">
+                <span className="text-[24px] md:text-[28px] font-medium font-instrument text-slate-900 leading-tight tracking-[-0.02em] mt-[11px]">
                   sold across Canada
                 </span>
               </h1>
 
               {/* Subtext - Matching section subheaders */}
-              <p className="hero-subtitle text-[16px] md:text-[18px] font-normal text-gray-600 font-ui text-left tracking-[-0.44px] leading-[26px] md:leading-[29.3px] max-w-[85%] md:max-w-[578px] mb-10">
-                Support Ukraine with every purchase. Locate shops across Canada <br className="hidden md:block" />
-                or add new stores to our community map.
+              <p className="hero-subtitle text-[16px] font-medium text-gray-600 font-sans text-left tracking-[-0.01em] leading-[26px] md:leading-[26px] max-w-[85%] md:max-w-[700px] mb-[32px]">
+                Support Ukraine with every purchase. Find Ukrainian-made goods <br className="hidden md:block" />
+                in Canada — or help grow the map by adding a place you know.
               </p>
 
               {/* Mobile-Only Cinematic Asset */}
@@ -74,8 +74,8 @@ export function Hero() {
                   </Link>
 
                   <Link href="/map" className="flex justify-center md:justify-start">
-                    <Button className="inline-flex items-center justify-center h-[46px] bg-white/10 backdrop-blur-md text-black border border-black rounded-[32px] px-6 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-slate-50/50 hover:border-slate-300 hover:text-black tracking-[-0.3125px]">
-                      <HelpCircle className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
+                    <Button className="inline-flex items-center justify-center h-[46px] bg-transparent text-black border-none rounded-[32px] px-6 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-transparent hover:scale-110 tracking-[-0.3125px]">
+                      <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
                       {t('home.hero.learnMore') || 'Learn More'}
                     </Button>
                   </Link>

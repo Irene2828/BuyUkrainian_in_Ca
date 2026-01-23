@@ -12,6 +12,7 @@ export interface ApiStore {
   latitude: string | number;
   longitude: string | number;
   category: "food" | "clothes" | "other" | "retail";
+  website?: string | null;
   image?: string | null;
   images?: string[] | null;
   email?: string | null;
@@ -45,6 +46,7 @@ export function apiStoreToStore(apiStore: ApiStore): Store {
     province: apiStore.province,
     coordinates: [lat, lng],
     category: apiStore.category,
+    website: apiStore.website || undefined,
     image: apiStore.image || undefined,
     images: apiStore.images || (apiStore.image ? [apiStore.image] : []),
     status: apiStore.status,
@@ -102,6 +104,7 @@ export async function createStore(store: {
   latitude: number;
   longitude: number;
   category: "food" | "clothes" | "other";
+  website?: string;
   image?: string;
   images?: string[];
   email?: string;
@@ -197,6 +200,7 @@ export async function updateStore(id: string, updates: {
   name?: string;
   address?: string;
   category?: string;
+  website?: string;
   products?: string[];
   description?: string;
 }): Promise<Store> {

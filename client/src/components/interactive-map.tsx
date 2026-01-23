@@ -39,7 +39,7 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
-    className: 'unified-marker-icon',
+    className: 'unified-marker-icon will-change-transform',
     html: `
       <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
         <div class="marker-pin-top"></div>
@@ -77,20 +77,28 @@ function MapController({
     if (focusCoordinates) {
       if (onFlightStart) onFlightStart();
 
-      // Default to Mechanical Zoom (0.45s) if no config provided
-      const duration = flyConfig?.duration || 0.45;
-      const padding = flyConfig?.padding || [0, 0];
+      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      if (isReducedMotion) {
+        // Instant Jump for Accessibility
+        map.setView(focusCoordinates, flyConfig?.zoom || 16);
+        if (onFlightEnd) onFlightEnd();
+        return;
+      }
+
+      // Default to Cinematic Glide (1.5s+)
+      // User Rule: "Minimum 1.5s to 2.0s for long distances"
+      const duration = Math.max(flyConfig?.duration || 2.0, 1.5);
       const targetZoom = flyConfig?.zoom || 16;
 
       // The Glide & Curve (Obsidian Silk)
-      // Note: Leaflet flyTo does not support custom easing functions directly.
-      // We use easeLinearity: 0.25 to approximate the requested "Obsidian Curve" (Cubic ease-in-out).
+      // easeLinearity: 0.1 creates a more pronounced curve (arctangent-ish), 
+      // feeling more "flight-like" than straight line.
       map.flyTo(focusCoordinates, targetZoom, {
         duration: duration,
-        easeLinearity: 0.8, // Curve factor (higher = flatter/smoother)
-        animate: true
-        // padding options removed as they are not supported in flyTo ZoomPanOptions
+        easeLinearity: 0.1,
+        animate: true,
+        noMoveStart: true
       });
 
       const timer = setTimeout(() => {
@@ -102,25 +110,32 @@ function MapController({
 
   useEffect(() => {
     if (provinceView) {
-      // Skip flight if we're already at the center of Canada at zoom 3 (initial load stability)
+      // Skip flight if we're already at the center of Canada at zoom 3
       const isCanadaReset = provinceView.lat === CANADA_CENTER[0] &&
         provinceView.lng === CANADA_CENTER[1] &&
         provinceView.zoom === 3;
 
       if (isCanadaReset && map.getZoom() === 3) return;
 
+      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (isReducedMotion) {
+        map.setView([provinceView.lat, provinceView.lng], provinceView.zoom);
+        return;
+      }
+
       if (onFlightStart) onFlightStart();
 
       // The Reveal (Cinematic Zoom-Out)
-      // "Slow-Start" implied by the long duration and curve
+      // Slower, majestic ease out
       map.flyTo([provinceView.lat, provinceView.lng], provinceView.zoom, {
-        duration: 2.0,
-        easeLinearity: 0.8,
+        duration: 2.2, // Slightly longer for the "Reveal"
+        easeLinearity: 0.1,
         animate: true
       });
       const timer = setTimeout(() => {
         if (onFlightEnd) onFlightEnd();
-      }, 2200);
+      }, 2400); // Buffer for animation finish
       return () => clearTimeout(timer);
     }
   }, [provinceView, map]);
@@ -185,8 +200,8 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `
               <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: white;">
-                <div style="width: 100%; height: 50%; background: #20579F; opacity: 1;"></div>
-                <div style="width: 100%; height: 50%; background: #F4C127; opacity: 1;"></div>
+                <div style="width: 100%; height: 50%; background: #1762C5; opacity: 1;"></div>
+                <div style="width: 100%; height: 50%; background: #FFCF3E; opacity: 1;"></div>
                 <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #FFFFFF; text-shadow: none; font-family: var(--font-ui); font-size: ${fontSize};">
                     ${childCount}
                 </div>
@@ -261,8 +276,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     const isDesktop = window.innerWidth >= 768;
     const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
 
-    // Duration 1.5s for a smoother, weighted feel as requested (Airbnb style)
-    setFlyConfig({ duration: 1.5, padding, zoom });
+    // Enforce 2.0s minimum for "No Teleport" rule
+    setFlyConfig({ duration: 2.0, padding, zoom });
     setFocusCoordinates([lat, lng]);
     setProvinceView(null);
   };
@@ -271,7 +286,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     focusOnStore: (store: Store) => {
       // Mechanical Zoom (Pin Click) - Stabilized
       if (store.coordinates) {
-        setFlyConfig({ duration: 1.2, padding: [0, 0], zoom: 16 });
+        // Increased from 1.2 to 1.8 for smoother approach
+        setFlyConfig({ duration: 1.8, padding: [0, 0], zoom: 16 });
         setFocusCoordinates(store.coordinates as [number, number]);
         setProvinceView(null);
       }
@@ -325,7 +341,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#EBF5FF] passport-map-container animate-in fade-in duration-[1200ms] fill-mode-forwards"
+      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#EBF5FF] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards"
     >
       <MapContainer
         center={CANADA_CENTER}
@@ -428,7 +444,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onClick={() => {
             mapRef.current?.zoomIn();
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
           title="Zoom In"
         >
           <Plus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
@@ -437,7 +453,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onClick={() => {
             mapRef.current?.zoomOut();
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
           title="Zoom Out"
         >
           <Minus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
@@ -447,7 +463,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
             setFocusCoordinates(null);
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 border border-gray-200"
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
           title="Reset to Full Canada"
         >
           <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
