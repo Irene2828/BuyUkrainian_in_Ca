@@ -10,18 +10,18 @@ export function HowItWorks() {
 
   const steps = [
     {
-      title: t('howItWorks.card1.title') || 'Discover',
-      description: t('howItWorks.card1.desc') || 'Find authentic Ukrainian products at local Canadian retailers or online stores.',
+      title: t('howItWorks.card1.title') || 'Find',
+      description: t('howItWorks.card1.desc') || 'Find authentic Ukrainian-made products at local retailers or online stores.',
       icon: Search
     },
     {
-      title: t('howItWorks.card2.title') || 'Add to Map',
-      description: t('howItWorks.card2.desc') || 'Submit your favorite Ukrainian stores and products, and help others discover the treasures of Ukrainian culture.',
+      title: t('howItWorks.card2.title') || 'Add a store',
+      description: t('howItWorks.card2.desc') || 'Add your favorite Ukrainian stores and products, and help others find Ukrainian-made goods.',
       icon: PlusCircle
     },
     {
-      title: t('howItWorks.card3.title') || 'Spread the Word',
-      description: t('howItWorks.card3.desc') || 'Share this platform with your network and help others support the mission.',
+      title: t('howItWorks.card3.title') || 'Spread the word',
+      description: t('howItWorks.card3.desc') || 'Share this map with your network and help others support the mission.',
       icon: Share2
     }
   ];
@@ -35,7 +35,7 @@ export function HowItWorks() {
             How It Works
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-600 font-ui">
-            Discover new locations, contribute findings, and share the project with others.
+            Find new locations, contribute findings, and share the project with others.
           </p>
         </div>
 
@@ -51,14 +51,14 @@ export function HowItWorks() {
                 {index === 0 && (
                   <img
                     src={howItWorks1}
-                    alt="Discover Map"
+                    alt="Find Ukrainian products"
                     className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
                 {index === 1 && (
                   <img
                     src={howItWorks2}
-                    alt="Add to Map"
+                    alt="Add a store"
                     className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
@@ -90,7 +90,7 @@ export function HowItWorks() {
             href="/map"
             className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]"
           >
-            {t('home.hero.explore') || 'Explore the Map'} <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
+            {t('home.hero.explore') || 'Explore the map'} <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
           </Link>
         </div>
       </div>

@@ -473,9 +473,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 <div className="p-6 border-b border-gray-50 flex justify-center">
                     <Link href="/" className="flex flex-col items-center gap-0">
                         <img
-                            src="/assets/logo-latest.png"
+                            src="/assets/logo-final.png"
                             alt="BuyUkrainian.ca"
-                            className="w-[219px] h-[112px] object-contain"
+                            className="w-[190px] h-[90px] object-contain"
                         />
                     </Link>
                 </div>

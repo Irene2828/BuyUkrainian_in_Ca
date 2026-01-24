@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect, forwardRef, Suspense, lazy } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { InteractiveMapRef } from "@/components/interactive-map";
-
-// Dynamic Import for Map Component (Simulating SSR: false)
-const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
+import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
 import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle } from "lucide-react";
 import { ListingCard } from "./listing-card";
 
@@ -48,7 +45,7 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
   "Yukon": { lat: 64.0, lng: -135.0, zoom: 5 },
   "Northwest Territories": { lat: 65.0, lng: -120.0, zoom: 5 },
   "Nunavut": { lat: 70.0, lng: -90.0, zoom: 4 },
-  "All Canada": { lat: 56.1304, lng: -106.3468, zoom: 4 }
+  "All Provinces": { lat: 56.1304, lng: -106.3468, zoom: 4 }
 };
 
 import { useI18n } from "@/lib/i18n";
@@ -78,6 +75,7 @@ export function MapSection({
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
+    staleTime: Infinity,
   });
 
   // Track if province has ever been set (to distinguish initial mount from clearing)
@@ -193,18 +191,14 @@ export function MapSection({
     window.dispatchEvent(new CustomEvent('clearFilters'));
   };
 
-  if (isLoading) {
+  if (isLoading && viewMode === "list") {
     return (
       <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className}`}>
-        {viewMode === "map" ? (
-          <MapSkeleton />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <StoreListItemSkeleton key={i} />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <StoreListItemSkeleton key={i} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -219,7 +213,7 @@ export function MapSection({
               store={store}
               variant="list"
               onClick={() => handleSelectStore(store)}
-              className="bg-white hover:bg-white/50 hover:scale-[1.01] hover:shadow-sm transition-all duration-300 rounded-[24px] animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
+              className="bg-white hover:bg-white/50 hover:scale-[1.01] hover:shadow-sm transition-all duration-300 rounded-[20px] animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
               style={{ animationFillMode: 'both' }}
             />
           ))}
@@ -279,8 +273,8 @@ export function MapSection({
       {showHint && filteredStores.length > 0 && (
         <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[400] pointer-events-none animate-in fade-in slide-in-from-top-2 duration-700 delay-500">
           <div className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_2px_8px_rgba(0,0,0,0.05)] px-4 py-2 rounded-full flex items-center gap-2">
-            <span className="text-xs font-medium text-slate-600 tracking-wide">
-              Click a pin to explore store details
+            <span className="text-xs font-medium text-slate-500 tracking-wide">
+              Select a pin to view store details
             </span>
           </div>
         </div>
@@ -297,22 +291,20 @@ export function MapSection({
         <span className="text-[18px] font-bold text-slate-700 opacity-70">?</span>
       </a>
       <ErrorBoundary fallbackType="map">
-        <Suspense fallback={<MapSkeleton />}>
-          <InteractiveMap
-            ref={mapRef}
-            stores={filteredStores}
-            selectedStore={selectedStore}
-            onSelectStore={handleSelectStore}
-            onCloseStore={handleCloseStore}
-            onFlightChange={onFlightChange}
-            extraControls={extraControls}
-            userLocation={userLocation}
-          />
-        </Suspense>
+        <InteractiveMap
+          ref={mapRef}
+          stores={filteredStores}
+          selectedStore={selectedStore}
+          onSelectStore={handleSelectStore}
+          onCloseStore={handleCloseStore}
+          onFlightChange={onFlightChange}
+          extraControls={extraControls}
+          userLocation={userLocation}
+        />
       </ErrorBoundary>
       {/* Empty state overlay when no stores match filters */}
       {filteredStores.length === 0 && stores.length > 0 && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[32px]">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[20px]">
           <div className="text-center p-8">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <MapPin className="w-8 h-8 text-gray-400" />

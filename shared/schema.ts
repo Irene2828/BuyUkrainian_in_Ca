@@ -47,7 +47,7 @@ const MAX_ADDRESS_LENGTH = 200;
 const MAX_PRODUCT_LENGTH = 50;
 const MAX_PRODUCTS_COUNT = 20;
 const MAX_EMAIL_LENGTH = 100;
-const MAX_IMAGE_URL_LENGTH = 500;
+const MAX_IMAGE_DATA_LENGTH = 10 * 1024 * 1024; // 10MB for base64 strings
 const MAX_IMAGES_COUNT = 5;
 const MAX_WEBSITE_LENGTH = 200;
 
@@ -87,8 +87,8 @@ export const insertStoreSchema = createInsertSchema(stores, {
     }, "Location must be within Canada (longitude -140 to -50)"),
   category: z.enum(["food", "clothes", "other"]),
   website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").optional().or(z.literal("")),
-  image: z.string().max(MAX_IMAGE_URL_LENGTH, "Image URL too long").url("Invalid image URL").optional().or(z.literal("")),
-  images: z.array(z.string().url("Invalid image URL").max(MAX_IMAGE_URL_LENGTH, "Image URL too long")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
+  image: z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large").optional().or(z.literal("")),
+  images: z.array(z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
   email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
   status: z.enum(["pending", "approved", "rejected"]).optional(),
 }).omit({ id: true, createdAt: true });

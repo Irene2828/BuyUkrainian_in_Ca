@@ -62,18 +62,39 @@ h5 {
     position: relative;
     border: 2px solid white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease-out, opacity 0.3s ease-out;
+    /* Disable transition by default to sync with map, scale handled separately */
+    transition: none;
     display: flex;
     flex-direction: column;
+    will-change: transform;
+    transform: translateZ(0);
+    /* Hardware accelerate */
+}
+
+/* Hover-only boutique scale animation */
+.marker-container:hover {
+    transform: scale(1.1) translateZ(0);
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* STABILIZATION: Strict transition lockout during map motion */
+.leaflet-zoom-anim .marker-container,
+.leaflet-pan-anim .marker-container,
+.leaflet-zoom-anim .leaflet-marker-icon,
+.leaflet-pan-anim .leaflet-marker-icon {
+    transition: none !important;
+    animation: none !important;
 }
 
 /* Selected Pin State - Obsidian 'Machined' Protocol */
 .marker-container.selected {
-    transform: scale(1.15);
+    transform: scale(1.15) translateZ(0);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     z-index: 9999;
     border: 3px solid white;
     filter: drop-shadow(0 0 8px rgba(0, 87, 183, 0.5));
+    transition: box-shadow 0.3s ease-out;
+    /* Only shadow/filter transitions */
 }
 
 /* Dimmed Pin State */

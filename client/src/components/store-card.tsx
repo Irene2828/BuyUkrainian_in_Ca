@@ -19,9 +19,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
     const [copied, setCopied] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-    // Image logic
-    const images = store.image ? [store.image] : ["/assets/kyivcake.jpeg"];
-    const displayImages = images.length === 1 ? [images[0], "/assets/kyivcake.jpeg", "/assets/hero-bg.jpg"] : images;
+    // Image logic - Priority: store.image, then first item in store.images array, then placeholder
+    const baseImage = store.image || (store.images && store.images.length > 0 ? store.images[0] : null);
+    const images = baseImage ? [baseImage] : ["/assets/kyivcake.jpeg"];
+    const displayImages = images.length === 1 && baseImage ? [images[0], "/assets/kyivcake.jpeg", "/assets/hero-bg.jpg"] : images;
     const uniqueImages = Array.from(new Set(displayImages)).filter(Boolean);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -78,7 +79,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
     }, [handleKeyDown]);
 
     return (
-        <div className="bg-white rounded-[32px] shadow-2xl overflow-hidden border border-gray-100 flex flex-col w-full max-w-sm animate-in fade-in zoom-in duration-300">
+        <div className="bg-white rounded-[20px] shadow-2xl overflow-hidden border border-gray-100 flex flex-col w-full max-w-sm animate-in fade-in zoom-in duration-300">
             {/* Lightbox Overlay - Boutique Gallery Preview */}
             {isLightboxOpen && (
                 <div
@@ -87,7 +88,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 >
                     {/* Modal Container - Boutique Frame */}
                     <div
-                        className="relative max-w-2xl w-full bg-slate-900 rounded-[32px] border border-white/20 overflow-hidden shadow-2xl animate-in zoom-in-95 fade-in duration-300"
+                        className="relative max-w-2xl w-full bg-slate-900 rounded-[20px] border border-white/20 overflow-hidden shadow-2xl animate-in zoom-in-95 fade-in duration-300"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close Button - Inside Modal */}
@@ -143,7 +144,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         {store.name}
                     </h2>
                     <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md uppercase tracking-wider">
+                        <span className="text-[10px] font-bold px-2 py-0.5 bg-[#D3E4FD] text-slate-900 rounded-md uppercase tracking-wider">
                             {getCategoryLabel(store.category)}
                         </span>
                         {matchedProduct && (
@@ -272,7 +273,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
-                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
+                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
                             copied ? "text-blue-600 bg-blue-50/50" : ""
                         )}
                     >
@@ -281,7 +282,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
+                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
                     >
                         <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
                         {onSeeOnMap ? "See on Map" : "Expand"}

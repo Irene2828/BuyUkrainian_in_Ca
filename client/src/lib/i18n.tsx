@@ -76,8 +76,8 @@ export function generateLocalizedShareTexts(store: { name: string; products: str
   }
 
   return {
-    twitter: `${emoji} Just discovered ${store.name} - they sell authentic Ukrainian products like ${products}! Support local Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine`,
-    facebook: `I found this amazing Ukrainian store called ${store.name}! 🇺🇦\n\nThey sell: ${products}\n📍 ${store.address}\n\n${store.description}\n\nSupport Ukrainian businesses in Canada! Find more at BuyUkrainian.ca 💙💛`,
-    instagram: `🇺🇦 DISCOVER UKRAINIAN PRODUCTS 🇺🇦\n\n📍 ${store.name}\n\n{description}\n\n✨ Products: ${products}\n📍 Location: ${shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛`,
+    twitter: `${emoji} Just found ${store.name} - they sell authentic Ukrainian-made products like ${products}! Support Ukrainian businesses in Canada 🇺🇦💙💛 #MadeInUkraine #BuyUkrainian #SupportUkraine`,
+    facebook: `I found this amazing Ukrainian business called ${store.name}! 🇺🇦\n\nThey sell: ${products}\n📍 ${store.address}\n\n${store.description}\n\nSupport Ukrainian businesses in Canada! Find more at BuyUkrainian.ca 💙💛`,
+    instagram: `🇺🇦 MADE IN UKRAINE 🇺🇦\n\n📍 ${store.name}\n\n{description}\n\n✨ Products: ${products}\n📍 Location: ${shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛`,
   };
 }

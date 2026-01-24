@@ -17,13 +17,13 @@ export function Footer() {
                 href="/map"
                 className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
               >
-                Explore Map
+                Explore the map
               </Link>
               <Link
                 href="/map"
                 className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
               >
-                Add a Store
+                Add a store
               </Link>
               <a
                 href="/#how-it-works"

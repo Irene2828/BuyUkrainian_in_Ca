@@ -137,8 +137,11 @@
   /* px-6 - Horizontal padding mobile */
   --gutter-obsidian-x-desktop: 48px;
   /* lg:px-12 - Horizontal padding desktop */
-  --gutter-obsidian-max-width: 1280px;
   /* max-w-7xl - Unified frame width */
+  --gutter-obsidian-max-width: 1280px;
+
+  /* Map Theming */
+  --map-water-color: #D3E4FD;
 }
 
 
@@ -602,11 +605,37 @@ button:-moz-focusring {
 /* ========================================
    MAP TILE COLOR CORRECTION
    ======================================== */
-.map-tiles-filtered .leaflet-tile-pane {
+.map-tiles-filtered {
   /* 
-     Shift from Teal (195deg) to Neutral Blue (215deg) -> +20deg
-     Desaturate to make it "Neutral"
-     Increase brightness slightly for "Lighter"
+     Safe Aesthetic Calibration
+     - Shift blue towards #D1E0FF (Brand)
+     - Saturation 0.8 (Calm)
+     - Brightness 1.05 (Clean)
   */
-  filter: hue-rotate(21deg) saturate(0.4) brightness(1.12) contrast(0.9);
+  filter: hue-rotate(15deg) saturate(0.8) brightness(1.05);
+}
+
+/* ========================================
+   MAP ATTRIBUTION VISIBILITY (REDUCTION)
+   ======================================== */
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  opacity: 0.3 !important;
+  color: #94a3b8 !important;
+  /* slate-400 */
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  transition: opacity 0.3s ease-out !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
+}
+
+.leaflet-control-attribution:hover {
+  opacity: 1 !important;
+}
+
+.leaflet-control-attribution a {
+  color: inherit !important;
+  text-decoration: none !important;
 }

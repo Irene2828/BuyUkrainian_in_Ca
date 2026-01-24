@@ -30,6 +30,7 @@ const formSchema = z.object({
   description: z.string().min(10, "Description is required"),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
+  image: z.string().optional(),
 });
 
 interface AddressSuggestion {
@@ -129,6 +130,14 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     if (file) {
       const url = URL.createObjectURL(file);
       setImagePreview(url);
+
+      // Read as base64 and set in form
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        form.setValue("image", base64);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -140,7 +149,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Submission Error",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });
@@ -175,6 +184,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         latitude: Number(values.latitude),  // Convert to number for API
         longitude: Number(values.longitude), // Convert to number for API
         category: values.category as any,
+        images: values.image ? [values.image] : [], // Wrap in array for 'images' column too
       });
     } catch (error: any) {
       console.error("Submission error:", error);
@@ -190,15 +200,15 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
           <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
-        <h3 className="text-[24px] font-bold mb-4 font-header text-gray-900">Successfully Added!</h3>
+        <h3 className="text-[24px] font-bold mb-4 font-header text-gray-900">Thanks for helping the map grow</h3>
         <p className="text-gray-500 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
-          Your location has been submitted for review. It will appear on the map once approved by our team.
+          Your store will be reviewed by the community. It will appear on the map once verified.
         </p>
         <Button
           onClick={onClose}
           className="w-full h-14 rounded-full bg-black text-white hover:bg-gray-900 font-semibold text-[16px] font-ui transition-all"
         >
-          Back to Map
+          Back to the map
         </Button>
       </div>
     );
@@ -209,11 +219,11 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>
-          <h3 className="text-[20px] font-bold text-gray-900 font-header">
-            Add a New Store
-          </h3>
+          <h2 className="text-[20px] font-bold text-gray-900 font-header">
+            Add a store
+          </h2>
           <p className="text-[13px] text-gray-400 font-medium font-ui ms-0.5">
-            Help us map Ukrainian businesses
+            Help the map grow by adding stores selling Ukrainian-made products
           </p>
         </div>
         {onClose && (
@@ -291,7 +301,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Business Name</FormLabel>
+                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Business name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="e.g. European Deli & Bakery"
@@ -427,12 +437,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               disabled={isSubmitting}
               className="w-full h-14 rounded-full bg-black text-white hover:bg-gray-900 font-semibold text-[16px] transition-all flex items-center justify-center gap-2 mt-8 font-ui shadow-lg hover:shadow-xl hover:scale-[1.01]"
             >
-              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Submit Store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Add a store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
             </Button>
 
             {/* Privacy Note */}
             <p className="text-[10px] text-gray-400 text-center font-ui mt-4">
-              No personal data is collected. Submissions are reviewed by volunteers.
+              No personal data is collected. Additions are reviewed by the community.
             </p>
 
           </form>

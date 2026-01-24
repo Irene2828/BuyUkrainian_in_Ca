@@ -12,6 +12,16 @@ interface ListingCardProps extends HTMLAttributes<HTMLDivElement> {
 export function ListingCard({ store, className, variant = "list", ...props }: ListingCardProps) {
     const { t } = useI18n();
 
+    const EDITORIAL_IMAGES: Record<string, string> = {
+        "montreal ukrainian store": "/assets/montreal-store.jpg",
+        "yummy market": "/assets/yummy-market.jpg",
+        "future bakery": "/assets/future-bakery.jpg",
+        "shumka ukrainian foods": "/assets/shumka-foods.jpg"
+    };
+
+    const storeNameKey = store.name.toLowerCase().trim();
+    const editorialImage = EDITORIAL_IMAGES[storeNameKey] || store.image || store.images?.[0] || "/assets/kyivcake.jpeg";
+
     // For marquee variant - COMPLETELY REWRITTEN WITH NO PINS
     if (variant === "marquee") {
         return (
@@ -26,12 +36,13 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
                 {/* Store Image */}
                 <div className="w-[100px] h-[100px] bg-gray-50 rounded-2xl flex-shrink-0 overflow-hidden border border-black/5">
                     <img
-                        src={store.image || "/assets/kyivcake.jpeg"}
+                        src={editorialImage}
                         alt={store.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-opacity duration-700 opacity-0 animate-in fade-in fill-mode-forwards"
+                        onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+                        loading="eager"
                     />
                 </div>
-
                 {/* Store Info - Name and Link Only */}
                 <div className="flex flex-col justify-center gap-1 flex-1 min-w-0">
                     <span className="text-sm font-semibold text-slate-900 truncate font-header tracking-[-0.01em]">
@@ -56,11 +67,12 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
             {...props}
         >
             <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
-                {store.image ? (
-                    <img src={store.image} className="w-full h-full object-cover" alt={store.name} />
-                ) : (
-                    <img src="/assets/kyivcake.jpeg" className="w-full h-full object-cover" alt={store.name} />
-                )}
+                <img
+                    src={editorialImage}
+                    className="w-full h-full object-cover transition-opacity duration-700 opacity-0 animate-in fade-in fill-mode-forwards"
+                    onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+                    alt={store.name}
+                />
             </div>
 
             <div className="flex-1 min-w-0">

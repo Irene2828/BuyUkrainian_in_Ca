@@ -10,19 +10,19 @@ export function FAQ() {
   const faqs = [
     {
       question: t('faq.q1') || 'What is BuyUkrainian.ca?',
-      answer: t('faq.a1') || 'BuyUkrainian.ca is a community-driven platform that helps people discover Ukrainian-made products sold across Canada.'
+      answer: t('faq.a1') || 'BuyUkrainian.ca is a community-driven map that helps people find Ukrainian-made products sold across Canada.'
     },
     {
       question: t('faq.q2') || 'How can I add a store?',
-      answer: t('faq.a2') || 'Click the "Add a Location" button, fill in the store details including name, products, and address.'
+      answer: t('faq.a2') || 'Select the "Add a store" button, fill in the details including name, products, and address.'
     },
     {
-      question: t('faq.q3') || 'Why do submissions need review?',
-      answer: t('faq.a3') || 'To maintain quality and prevent spam, all submissions are reviewed by fellow Ukrainian community members.'
+      question: t('faq.q3') || 'Why do additions need review?',
+      answer: t('faq.a3') || 'Additions are reviewed by the community to keep the map accurate and useful.'
     },
     {
-      question: t('faq.q4') || 'Can I suggest edits to existing listings?',
-      answer: t('faq.a4') || 'Currently, you can contact us to suggest corrections. We\'re working on a feature to allow community edits in the future.'
+      question: t('faq.q4') || 'Can I update store details?',
+      answer: t('faq.a4') || 'Currently, you can contact us to update information. We\'re working on a feature to allow community edits in the future.'
     },
     {
       question: t('faq.q5') || 'Is this service free?',
@@ -42,7 +42,7 @@ export function FAQ() {
             Common Questions
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Frequently asked questions about the map and how to contribute.
           </p>
         </div>
 

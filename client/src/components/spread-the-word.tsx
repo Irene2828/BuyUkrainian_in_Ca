@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export function SpreadTheWord() {
-  const shareMessage = "Discover or add places that sell Ukraine-made goods.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada!";
+  const shareMessage = "Find or add stores that sell Ukrainian-made products.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada.";
   const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
 
   const handleFacebookShare = () => {
@@ -14,7 +14,7 @@ export function SpreadTheWord() {
   const handleInstagramShare = () => {
     // Instagram doesn't support URL sharing directly, so we copy the message
     navigator.clipboard.writeText(`${shareMessage}\n\n${shareUrl}`);
-    toast.success("Copied to clipboard!", {
+    toast.success("Copied to clipboard", {
       description: "Paste this into your Instagram story or post.",
       duration: 3000,
     });
@@ -38,7 +38,7 @@ export function SpreadTheWord() {
             Share with Friends
           </h2>
           <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-600 font-ui">
-            Share the map with your network and let others discover the best of Ukraine in Canada.
+            Share the map with your network and help others find Ukrainian-made products across Canada.
           </p>
         </div>
 

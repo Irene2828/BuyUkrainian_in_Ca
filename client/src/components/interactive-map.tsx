@@ -29,8 +29,8 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
 // Centered on Southern Canada - Optimized to show Toronto-Montreal corridor
 const INITIAL_MAP_STATE = {
-  center: [50.0, -90.0] as [number, number],  // Shifted south/east to show populated areas
-  zoom: 4
+  center: [50.5, -84.0] as [number, number],  // Premium SE Nudge: 40px blue-water margin
+  zoom: 4.2
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
@@ -39,7 +39,7 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
-    className: 'unified-marker-icon will-change-transform',
+    className: 'unified-marker-icon', // Transitions handled via GlobalStyles.css to prevent jitter
     html: `
       <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
         <div class="marker-pin-top"></div>
@@ -47,7 +47,7 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
       </div>
     `,
     iconSize: [28, 28],
-    iconAnchor: [14, 14],
+    iconAnchor: [14, 14], // Mathematically centered to prevent zoom jumping
     popupAnchor: [0, -14],
   });
 };
@@ -331,7 +331,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   // Listen for "clearFilters" event to trigger the Reveal (Cinematic Zoom-Out)
   useEffect(() => {
     const handleClearFilters = () => {
-      setProvinceView({ lat: 58, lng: -98, zoom: 4.5 });
+      setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
       setFocusCoordinates(null);
     };
 
@@ -341,7 +341,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#EBF5FF] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards"
+      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#eff6ff] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards"
     >
       <MapContainer
         center={CANADA_CENTER}
@@ -384,7 +384,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           keepBuffer={2}
         />
 
-        <div className="absolute bottom-1 right-2 z-[1000] text-[10px] text-gray-500 font-medium font-ui">
+        <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
           © CARTO, © OpenStreetMap contributors
         </div>
 
@@ -417,7 +417,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Side Panel Overlay - No more Dialog */}
       {selectedStore && (
-        <div className="side-panel-container absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-500 delay-300 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[32px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
+        <div className="side-panel-container absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-500 delay-300 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[20px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
           <StoreCard
             store={selectedStore}
             onClose={() => {
