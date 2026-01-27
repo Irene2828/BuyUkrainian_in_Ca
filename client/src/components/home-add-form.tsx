@@ -67,8 +67,9 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
   const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
+  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [isSearchingAddress, setIsSearchingAddress] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const addressDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -96,10 +97,29 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         const suggestions = await searchAddresses(value);
         setAddressSuggestions(suggestions);
         setShowAddressSuggestions(suggestions.length > 0);
+        setActiveIndex(-1); // Reset selection
         setIsSearchingAddress(false);
       }, 300);
     } else {
       setAddressSuggestions([]);
+      setShowAddressSuggestions(false);
+      setActiveIndex(-1);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showAddressSuggestions) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex(prev => (prev < addressSuggestions.length - 1 ? prev + 1 : prev));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex(prev => (prev > 0 ? prev - 1 : prev));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      e.preventDefault();
+      handleAddressSelect(addressSuggestions[activeIndex]);
+    } else if (e.key === "Escape") {
       setShowAddressSuggestions(false);
     }
   };
@@ -252,6 +272,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       <Input
                         placeholder="Start typing street address..."
                         {...field}
+                        onKeyDown={handleKeyDown}
                         onChange={(e) => {
                           field.onChange(e);
                           handleAddressChange(e.target.value);
@@ -274,18 +295,31 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   )}
 
                   {showAddressSuggestions && (
-                    <div className="absolute z-[100] w-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="absolute z-[100] w-full mt-2 bg-white/90 backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-2xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                       {addressSuggestions.map((s, i) => (
                         <button
                           key={i}
                           type="button"
                           onClick={() => handleAddressSelect(s)}
-                          className="w-full px-4 py-3.5 text-left hover:bg-gray-50 border-b border-gray-50 flex items-center gap-3 transition-colors last:border-0 font-ui group"
+                          onMouseEnter={() => setActiveIndex(i)}
+                          className={cn(
+                            "w-full px-4 py-3.5 text-left border-b border-gray-50/50 flex items-center gap-3 transition-colors last:border-0 font-ui group outline-none",
+                            activeIndex === i ? "bg-[#A5D8FF]/20" : "hover:bg-[#A5D8FF]/20"
+                          )}
                         >
-                          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-white group-hover:shadow-sm transition-all">
-                            <MapPin className="w-4 h-4 text-gray-400 group-hover:text-black fill-none stroke-current" strokeWidth={2} />
+                          <div className={cn(
+                            "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all",
+                            activeIndex === i ? "bg-[#A5D8FF]/30" : "bg-gray-100 group-hover:bg-[#A5D8FF]/30"
+                          )}>
+                            <MapPin className={cn(
+                              "w-4 h-4 fill-none stroke-current transition-colors",
+                              activeIndex === i ? "text-[#0047FF]" : "text-gray-400 group-hover:text-[#0047FF]"
+                            )} strokeWidth={2} />
                           </div>
-                          <span className="text-[14px] text-gray-600 font-medium line-clamp-1 group-hover:text-black">{s.display_name}</span>
+                          <span className={cn(
+                            "text-[14px] font-medium line-clamp-1 transition-colors",
+                            activeIndex === i ? "text-black" : "text-gray-700 group-hover:text-black"
+                          )}>{s.display_name}</span>
                         </button>
                       ))}
                     </div>

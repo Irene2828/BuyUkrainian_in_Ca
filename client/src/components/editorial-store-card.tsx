@@ -46,15 +46,15 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                 className
             )}
         >
-            {/* Image (Hero) - 2:1 Aspect Ratio - Ultrawide Landscape (50% height reduction) */}
-            <div className="relative w-full aspect-[2/1] overflow-hidden rounded-[20px] bg-slate-50 mb-5">
+            {/* Image (Hero) - 1.9:1 Aspect Ratio - 5% Taller than before */}
+            <div className="relative w-full aspect-[1.9/1] overflow-hidden rounded-[20px] bg-slate-50 mb-4">
                 {/* Subtle Inner Border to mimic print quality */}
                 <div className="absolute inset-0 z-10 ring-1 ring-inset ring-black/5 rounded-[20px] pointer-events-none" />
 
                 <img
                     src={editorialImage}
                     alt={store.name}
-                    className="w-full h-full object-cover transition-all duration-1000 ease-out group-hover:scale-105 group-hover:brightness-[0.95] opacity-0 animate-in fade-in fill-mode-forwards"
+                    className="w-full h-full object-cover will-change-transform transition-transform duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08] group-hover:brightness-[0.98] opacity-0 animate-in fade-in fill-mode-forwards"
                     onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
                     loading="eager"
                 />
@@ -69,16 +69,13 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                     </div>
                 )}
 
-                {/* Title & Action Row */}
-                <div className="flex flex-col items-center justify-center gap-2 mt-2">
-                    <h3 className="text-base font-semibold text-slate-900 leading-snug font-ui line-clamp-1 group-hover:text-black transition-colors">
-                        {store.name}
-                    </h3>
-
-                    {/* Action Link - Centered directly below */}
-                    <div className="flex items-center gap-1 text-[13px] font-medium text-slate-400 group-hover:text-black transition-all duration-300">
-                        <span>See on Map</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={2.5} />
+                {/* Title & Action Row - Strictly Centered Unit */}
+                <div className="w-full flex justify-center mt-2 px-1">
+                    <div className="flex items-center gap-2 max-w-full group/text">
+                        <h3 className="text-base font-semibold text-slate-900 leading-snug font-ui truncate group-hover:text-black transition-colors">
+                            {store.name}
+                        </h3>
+                        <ArrowUpRight className="w-4 h-4 text-slate-400 transition-all duration-300 ease-out group-hover:text-black group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
                     </div>
                 </div>
             </div>

@@ -67,8 +67,8 @@ export function Hero() {
               <div className="w-full max-w-[500px]">
                 <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6">
                   <Link href="/map">
-                    <Button className="group inline-flex items-center justify-center h-[46px] !bg-black text-white hover:!text-white rounded-full px-6 text-[16px] font-medium gap-1.5 font-ui shadow-none transition-all duration-300 hover:!bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98] tracking-[-0.3125px]">
-                      {t('home.hero.explore') || "Explore the map"}
+                    <Button className="btn-premium-action bg-black text-white hover:bg-slate-900 group gap-1.5 font-ui shadow-none">
+                      <span>{t('home.hero.explore') || "Explore the map"}</span>
                       <ArrowRight className="w-5 h-5 !fill-none !stroke-current transition-transform duration-300 group-hover:translate-x-1 mt-[1px]" strokeWidth={2} />
                     </Button>
                   </Link>

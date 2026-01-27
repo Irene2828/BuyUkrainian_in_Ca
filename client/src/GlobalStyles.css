@@ -53,15 +53,17 @@ h5 {
     border-radius: var(--radius-brand) !important;
 }
 
-/* Unified Blue/Yellow Pin Marker for Map */
+/* Unified Blue/Yellow Pin Marker for Map - WCAG High-Visibility */
 .marker-container {
     width: 28px;
     height: 28px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    border: 2px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    /* WCAG: 1.5px white stroke for visibility */
+    border: 1.5px solid white;
+    /* WCAG: Crisp drop-shadow for depth perception */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
     /* Disable transition by default to sync with map, scale handled separately */
     transition: none;
     display: flex;
@@ -86,12 +88,14 @@ h5 {
     animation: none !important;
 }
 
-/* Selected Pin State - Obsidian 'Machined' Protocol */
+/* Selected Pin State - Obsidian 'Machined' Protocol - WCAG Enhanced */
 .marker-container.selected {
     transform: scale(1.15) translateZ(0);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    /* WCAG: Enhanced shadow for selected state */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 9999;
-    border: 3px solid white;
+    /* WCAG: Thicker white border for selected */
+    border: 2.5px solid white;
     filter: drop-shadow(0 0 8px rgba(0, 87, 183, 0.5));
     transition: box-shadow 0.3s ease-out;
     /* Only shadow/filter transitions */
@@ -146,10 +150,38 @@ h5 {
     transition: all 0.2s ease;
 }
 
-/* City Labels Layer - Subtle and Readable */
+/* City Labels Layer - WCAG Enhanced Readability */
 .city-labels-layer {
-    opacity: 0.85;
+    opacity: 0.9;
     pointer-events: none;
+    /* Labels will use CARTO's default charcoal styling */
+}
+
+/* WCAG: Map Tile Color Adjustments for Contrast */
+.map-tiles-filtered {
+    /* Deeper water color, maintain crisp land */
+    filter: saturate(0.85) brightness(0.98) contrast(1.02);
+}
+
+/* WCAG: High-Contrast Focus States - Sky Blue #A5D8FF */
+.focus-ring-accessible:focus,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid #A5D8FF !important;
+    outline-offset: 2px !important;
+}
+
+/* Premium dropdown items - WCAG hover with darker grey */
+.province-dropdown-option:hover {
+    background-color: #E5E5E7 !important;
+}
+
+/* Zoom controls focus states */
+.leaflet-control-zoom button:focus-visible {
+    outline: 2px solid #A5D8FF !important;
+    outline-offset: 1px !important;
 }
 
 /* Smooth Map Interactions - RESTORED PREMIUM TRANSITIONS */
@@ -163,4 +195,156 @@ h5 {
 section h2,
 section h3 {
     margin-top: 0;
+}
+
+/* ========================================
+   MIDNIGHT MODE - DARK THEME OVERRIDES
+   ======================================== */
+
+/* Dark mode map tile filter - Midnight aesthetic */
+.dark .map-tiles-filtered {
+    filter: brightness(0.6) saturate(0.7) contrast(1.1);
+}
+
+/* Dark mode label layer */
+.dark .city-labels-layer {
+    filter: invert(1) hue-rotate(180deg) brightness(1.5);
+    opacity: 0.75;
+}
+
+/* Dark mode dropdowns */
+.dark .province-dropdown-option:hover {
+    background-color: #3A3A3C !important;
+}
+
+/* Dark mode text colors */
+.dark .text-slate-600,
+.dark .text-gray-600,
+.dark .text-gray-700 {
+    color: var(--text-secondary) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-gray-900,
+.dark .text-black {
+    color: var(--text-main) !important;
+}
+
+/* Dark mode borders */
+.dark .border-slate-100,
+.dark .border-gray-100,
+.dark .border-slate-200 {
+    border-color: var(--border-subtle) !important;
+}
+
+/* ========================================
+   LOCATION PULSE ANIMATION (Radar Ping)
+   ======================================== */
+
+@keyframes location-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(2.5);
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.location-pulse-ring {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(165, 216, 255, 0.4);
+    transform-origin: center;
+    animation: location-pulse 2s ease-out infinite;
+    pointer-events: none;
+}
+
+.location-pulse-ring::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: rgba(165, 216, 255, 0.6);
+    animation: location-pulse 2s ease-out infinite 0.5s;
+}
+
+/* User location marker with pulse */
+.user-location-marker {
+    position: relative;
+}
+
+.user-location-marker .location-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #A5D8FF;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(165, 216, 255, 0.6);
+    position: relative;
+    z-index: 10;
+}
+
+/* Locate button loading state */
+.locate-loading {
+    opacity: 0.5;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Ghost Toast for location errors */
+.ghost-toast {
+    position: absolute;
+    background: rgba(28, 28, 30, 0.9);
+    color: #F5F5F7;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: ghost-toast-in 0.3s ease-out, ghost-toast-out 0.3s ease-in 2.7s forwards;
+    z-index: 1000;
+}
+
+@keyframes ghost-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ghost-toast-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }

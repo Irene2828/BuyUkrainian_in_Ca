@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, forwardRef, Suspense, lazy } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle } from "lucide-react";
+import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation } from "lucide-react";
 import { ListingCard } from "./listing-card";
 
 import { getApprovedStores } from "@/lib/api";
@@ -70,7 +70,7 @@ export function MapSection({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
   const mapRef = useRef<InteractiveMapRef>(null);
-  const [showHint, setShowHint] = useState(true);
+
 
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
@@ -206,7 +206,7 @@ export function MapSection({
   if (viewMode === "list") {
     return (
       <div className="flex flex-col h-full bg-white">
-        <div className="flex flex-col gap-8 px-6 md:px-12 py-8 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white">
+        <div className="flex flex-col gap-8 px-6 md:px-12 pt-0 pb-8 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white">
           {filteredStores.slice(0, visibleCount).map((store) => (
             <ListingCard
               key={store.id}
@@ -265,31 +265,46 @@ export function MapSection({
   return (
     <div
       className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}
-      onMouseDownCapture={() => setShowHint(false)}
-      onTouchStartCapture={() => setShowHint(false)}
-      onWheelCapture={() => setShowHint(false)}
     >
-      {/* Map Interaction Hint */}
-      {showHint && filteredStores.length > 0 && (
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[400] pointer-events-none animate-in fade-in slide-in-from-top-2 duration-700 delay-500">
-          <div className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_2px_8px_rgba(0,0,0,0.05)] px-4 py-2 rounded-full flex items-center gap-2">
-            <span className="text-xs font-medium text-slate-500 tracking-wide">
-              Select a pin to view store details
-            </span>
-          </div>
-        </div>
-      )}
 
-      {/* Help / FAQ Button */}
-      <a
-        href="/#faq"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute top-4 right-4 z-[400] bg-white text-slate-700 hover:text-black w-[36px] h-[36px] rounded-full shadow-md flex items-center justify-center transition-all hover:scale-110 active:scale-95 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
-        title="Help & FAQ"
+
+
+
+      {/* Locate Me Button - Glassmorphism 44px square, 20px below Add a Store */}
+      <button
+        onClick={() => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const { latitude, longitude } = position.coords;
+                // Fly to user location at city level (zoom 12) with smooth ease-in-out 1.5s
+                if (mapRef.current) {
+                  mapRef.current.flyToLocation(latitude, longitude, 12);
+                }
+                // Emit event for sidebar sync (reverse geocoding happens in map-explorer)
+                window.dispatchEvent(new CustomEvent('userLocationFound', {
+                  detail: { latitude, longitude }
+                }));
+              },
+              (error) => {
+                // Show ghost toast for error
+                const toast = document.createElement('div');
+                toast.className = 'ghost-toast';
+                toast.textContent = error.code === 1 ? 'Location access denied' : 'Unable to get location';
+                toast.style.cssText = 'bottom: 84px; right: 20px;';
+                document.querySelector('.map-section-container')?.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+              },
+              { enableHighAccuracy: true, timeout: 10000 }
+            );
+          }
+        }}
+        className="absolute top-[84px] right-[20px] z-[400] w-[44px] h-[44px] rounded-xl bg-white/90 backdrop-blur-md border border-[rgba(0,0,0,0.1)] shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2 dark:bg-[rgba(44,44,46,0.9)] dark:border-[rgba(255,255,255,0.1)]"
+        aria-label="Locate me"
+        title="Locate me"
       >
-        <span className="text-[18px] font-bold text-slate-700 opacity-70">?</span>
-      </a>
+        <Navigation className="w-[18px] h-[18px] text-[#8E8E93]" strokeWidth={1.5} />
+      </button>
       <ErrorBoundary fallbackType="map">
         <InteractiveMap
           ref={mapRef}

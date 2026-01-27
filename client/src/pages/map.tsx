@@ -51,7 +51,7 @@ function NewlyAddedStores() {
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
-              <h2 className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-slate-400 !text-slate-400 whitespace-nowrap section-headline-reveal m-0">
+              <h2 className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-black whitespace-nowrap section-headline-reveal m-0">
                 Latest community additions
               </h2>
             </div>
@@ -62,25 +62,27 @@ function NewlyAddedStores() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 group/carousel relative">
+      <div className="mx-auto max-w-[1440px] pl-[68px] pr-6 md:pr-12 group/carousel relative">
         <Carousel
           opts={{
             align: "start",
           }}
           className="w-full relative"
         >
-          <CarouselContent className="-ml-6">
+          <CarouselContent className="">
             {newlyAdded.map((store) => (
-              <CarouselItem key={store.id} className="pl-6 basis-full sm:basis-1/2 lg:basis-1/4">
-                <EditorialStoreCard
-                  store={store}
-                  onClick={() => setSelectedStore(store)}
-                />
+              <CarouselItem key={store.id} className="pr-3 basis-full sm:basis-1/2 lg:basis-1/4">
+                <div className="w-full">
+                  <EditorialStoreCard
+                    store={store}
+                    onClick={() => setSelectedStore(store)}
+                  />
+                </div>
               </CarouselItem>
             ))}
 
             {/* Final "See more" card - Styled to match Editorial Height */}
-            <CarouselItem className="pl-6 basis-full sm:basis-1/2 lg:basis-1/4">
+            <CarouselItem className="pr-3 basis-full sm:basis-1/2 lg:basis-1/4">
               <div
                 className="flex flex-col items-center justify-center h-full min-h-[220px] gap-3 p-4 rounded-[20px] border border-dashed border-slate-300 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-400 transition-all cursor-pointer group"
                 onClick={() => {
@@ -175,7 +177,7 @@ export default function MapPage() {
             <div className="flex flex-col items-center gap-4 stagger-item">
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogTrigger asChild>
-                  <button className="group btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[52px] px-4 text-[16px] font-normal gap-2 font-ui shadow-lg transition-all duration-300 ease-out hover:bg-[#1e293b] hover:-translate-y-[1px] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] active:scale-95">
+                  <button className="group btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] px-6 text-[16px] font-semibold tracking-[-0.01em] gap-2 font-ui shadow-lg transition-all duration-300 ease-out hover:bg-[#1e293b] hover:-translate-y-[1px] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] active:scale-95">
                     <Plus className="w-5 h-5 stroke-[2.5] transition-transform duration-300 group-hover:rotate-90" />
                     Add a store
                   </button>
@@ -193,18 +195,18 @@ export default function MapPage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
               <div className="max-w-xl">
-                <p className="text-[13px] font-semibold text-blue-600 uppercase tracking-[0.2em] mb-4 font-sans">Our Mission</p>
+                <p className="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-[0.15em] mb-4 font-sans">Our Mission</p>
                 <h3 className="text-[28px] md:text-[32px] font-semibold text-slate-900 leading-tight mb-4 stagger-item">
                   Supporting resilience, one store at a time.
                 </h3>
-                <p className="text-[17px] text-slate-500 font-ui leading-relaxed max-w-lg">
+                <p className="text-[17px] text-[#424245] font-ui leading-relaxed max-w-lg">
                   We're creating a community-driven resource to help you find and support Ukrainian makers and entrepreneurship across Canada.
                 </p>
               </div>
               <div className="flex flex-col items-center md:items-end gap-6">
-                <div className="flex items-center gap-3 px-6 py-3 bg-white rounded-full shadow-sm border border-slate-200">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse" />
-                  <span className="text-[14px] font-medium text-slate-700 font-sans tracking-tight">Community verified</span>
+                <div className="flex items-center gap-2.5 px-4 py-2 bg-[#F5F5F7]/80 rounded-full border border-[#E5E5E7] border-[0.5px]">
+                  <div className="w-2 h-2 bg-[#A5D8FF] rounded-full animate-premium-pulse" />
+                  <span className="text-[12px] font-medium text-[#8E8E93] font-sans tracking-normal">Community verified</span>
                 </div>
                 <p className="text-[14px] text-slate-400 font-ui italic">
                   Every addition makes our community stronger.

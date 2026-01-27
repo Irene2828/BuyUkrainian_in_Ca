@@ -29,8 +29,8 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
 // Centered on Southern Canada - Optimized to show Toronto-Montreal corridor
 const INITIAL_MAP_STATE = {
-  center: [50.5, -84.0] as [number, number],  // Premium SE Nudge: 40px blue-water margin
-  zoom: 4.2
+  center: [52.0, -91.0] as [number, number],  // Panoramic Canada (Included East Coast)
+  zoom: 3.8
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
@@ -341,7 +341,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#eff6ff] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards"
+      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#FAFAFA] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards"
     >
       <MapContainer
         center={CANADA_CENTER}
@@ -349,6 +349,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         minZoom={3.5}
         maxZoom={18}
         scrollWheelZoom={false}
+        dragging={true}
         className="w-full h-full"
         zoomControl={false}
         attributionControl={false}
@@ -407,9 +408,14 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             position={userLocation}
             icon={L.divIcon({
               className: 'user-location-marker',
-              html: `<div class="w-3 h-3 rounded-full bg-blue-500 border-2 border-white shadow-lg"></div>`,
-              iconSize: [12, 12],
-              iconAnchor: [6, 6],
+              html: `
+                <div class="relative flex items-center justify-center">
+                  <div class="location-pulse-ring"></div>
+                  <div class="w-3 h-3 rounded-full bg-[#A5D8FF] border-2 border-white shadow-[0_2px_8px_rgba(165,216,255,0.6)] relative z-10"></div>
+                </div>
+              `,
+              iconSize: [40, 40],
+              iconAnchor: [20, 20],
             })}
           />
         )}
@@ -438,13 +444,13 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         </div>
       )}
 
-      {/* Airbnb-style Floating Navigation Controls - Right Side */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-[1000] flex flex-col gap-2">
+      {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col gap-2">
         <button
           onClick={() => {
             mapRef.current?.zoomIn();
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-[#F5F5F7] transition-all flex items-center justify-center text-black hover:scale-105 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
           title="Zoom In"
         >
           <Plus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
@@ -453,7 +459,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onClick={() => {
             mapRef.current?.zoomOut();
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-[#F5F5F7] transition-all flex items-center justify-center text-black hover:scale-105 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
           title="Zoom Out"
         >
           <Minus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
@@ -463,7 +469,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
             setFocusCoordinates(null);
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center text-black hover:scale-105 !outline-none !ring-0 !border-none focus:!outline-none focus-visible:!outline-none focus:!ring-0"
+          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-[#F5F5F7] transition-all flex items-center justify-center text-black hover:scale-105 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
           title="Reset to Full Canada"
         >
           <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />

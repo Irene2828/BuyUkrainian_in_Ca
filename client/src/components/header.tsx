@@ -1,15 +1,17 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSwitcher } from "./language-switcher";
+import { useTheme } from "@/lib/theme-context";
 
 export function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useI18n();
+  const { theme, toggleTheme, isDark } = useTheme();
 
   // Track scroll position for border effect
   useEffect(() => {
@@ -71,6 +73,19 @@ export function Header() {
 
             {/* Language Switcher */}
             <LanguageSwitcher />
+
+            {/* Sol/Luna Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 text-[#8E8E93] hover:text-[#1D1D1F] transition-all duration-500 ease-in-out focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDark ? (
+                <Sun className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              ) : (
+                <Moon className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              )}
+            </button>
           </div>
         )}
 
@@ -100,7 +115,7 @@ export function Header() {
                 <Link href="/" className="flex items-center gap-2 group">
                   <ArrowRight className="w-5 h-5 text-black fill-none stroke-current transition-transform duration-300 rotate-180 group-hover:-translate-x-1" strokeWidth={2} />
                   <span className="text-[16px] font-bold text-black transition-colors tracking-tight font-ui">
-                    Back to Homepage
+                    Back
                   </span>
                 </Link>
               ) : (

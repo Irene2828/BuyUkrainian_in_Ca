@@ -111,6 +111,26 @@
   --radius: 0.5rem;
 
   /* ========================================
+     THEME ENGINE - LIGHT MODE (Default)
+     ======================================== */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F5F7;
+  --bg-tertiary: #FAFAFA;
+  --text-main: #1D1D1F;
+  --text-secondary: #8E8E93;
+  --text-muted: #A1A1A6;
+  --border-subtle: #E5E5E5;
+  --border-medium: #D2D2D7;
+  --map-water: #D1D9E6;
+  --map-land: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --dropdown-bg: #FFFFFF;
+  --search-bg: #FFFFFF;
+  --search-border: #D2D2D7;
+  --toggle-bg: rgba(255, 255, 255, 0.9);
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+
+  /* ========================================
      OBSIDIAN SPACING SYSTEM TOKENS
      ======================================== */
 
@@ -142,6 +162,52 @@
 
   /* Map Theming */
   --map-water-color: #D3E4FD;
+}
+
+/* ========================================
+   THEME ENGINE - DARK MODE (Midnight)
+   ======================================== */
+:root.dark {
+  --bg-primary: #1C1C1E;
+  --bg-secondary: #2C2C2E;
+  --bg-tertiary: #3A3A3C;
+  --text-main: #F5F5F7;
+  --text-secondary: #A1A1A6;
+  --text-muted: #8E8E93;
+  --border-subtle: #3A3A3C;
+  --border-medium: #48484A;
+  --map-water: #0A192F;
+  --map-land: #1C1C1E;
+  --card-bg: #2C2C2E;
+  --dropdown-bg: #2C2C2E;
+  --search-bg: rgba(255, 255, 255, 0.05);
+  --search-border: rgba(255, 255, 255, 0.1);
+  --toggle-bg: rgba(44, 44, 46, 0.9);
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+}
+
+/* Smooth theme transition - 0.5s ease-in-out */
+html {
+  transition: background-color 0.5s ease-in-out;
+}
+
+html.dark body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+}
+
+/* Dark mode component overrides */
+html.dark .bg-white {
+  background-color: var(--bg-primary) !important;
+}
+
+html.dark header {
+  background-color: var(--bg-primary) !important;
+  border-bottom-color: var(--border-subtle) !important;
+}
+
+html.dark header.bg-white\/90 {
+  background-color: rgba(28, 28, 30, 0.9) !important;
 }
 
 
@@ -606,13 +672,18 @@ button:-moz-focusring {
    MAP TILE COLOR CORRECTION
    ======================================== */
 .map-tiles-filtered {
-  /* 
-     Safe Aesthetic Calibration
-     - Shift blue towards #D1E0FF (Brand)
-     - Saturation 0.8 (Calm)
-     - Brightness 1.05 (Clean)
-  */
+  /* Light Mode */
   filter: hue-rotate(15deg) saturate(0.8) brightness(1.05);
+}
+
+html.dark .map-tiles-filtered {
+  /* Midnight Mode Overhaul - Space Grey Land / Midnight Blue Water */
+  filter: invert(1) hue-rotate(180deg) brightness(0.6) saturate(0.6) contrast(1.2);
+}
+
+html.dark .city-labels-layer {
+  /* White text with halo for Midnight Mode */
+  filter: invert(1) brightness(1.5) contrast(1.2);
 }
 
 /* ========================================
@@ -638,4 +709,40 @@ button:-moz-focusring {
 .leaflet-control-attribution a {
   color: inherit !important;
   text-decoration: none !important;
+}
+
+/* Premium Action Button - Standardized DNA */
+.btn-premium-action {
+  height: 44px;
+  border-radius: 9999px;
+  padding-left: 24px;
+  padding-right: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-premium-action>* {
+  transition: transform 0.2s ease-out;
+}
+
+.btn-premium-action:hover {
+  transform: none !important;
+  filter: brightness(1.05);
+  border: none;
+  outline: none;
+  font-weight: 700;
+}
+
+.btn-premium-action:hover>* {
+  transform: scale(1.02);
+}
+
+.btn-premium-action:active {
+  transform: scale(1) !important;
 }

@@ -1,13 +1,14 @@
 import { AnimatedCounter } from '@/components/ui/animated-counter';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import {
     Plus, Search, List, Map as MapIcon,
     UtensilsCrossed, ShoppingBag, Gift, Store as StoreIcon,
     Clock, ArrowUpDown, ChevronDown, Check, Navigation, RefreshCw,
-    ToyBrick, BookOpen, Bookmark, Sparkles, MapPin
+    ToyBrick, BookOpen, Bookmark, Sparkles, MapPin, ChevronLeft, X
 } from "lucide-react";
+import { Link } from "wouter";
 import { MapSection } from "@/components/map-section";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -24,6 +25,23 @@ const PROVINCE_MAP: Record<string, string> = {
 };
 
 const CANADIAN_PROVINCES = Object.values(PROVINCE_MAP).sort();
+
+// Province center coordinates for Smart Sidebar Sync
+const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number }> = {
+    "Quebec": { lat: 52.0, lng: -71.0, zoom: 5 },
+    "Ontario": { lat: 50.0, lng: -85.0, zoom: 5 },
+    "Alberta": { lat: 55.0, lng: -115.0, zoom: 6 },
+    "British Columbia": { lat: 54.0, lng: -125.0, zoom: 6 },
+    "Manitoba": { lat: 55.0, lng: -97.0, zoom: 6 },
+    "Saskatchewan": { lat: 53.0, lng: -106.0, zoom: 6 },
+    "New Brunswick": { lat: 46.5, lng: -66.5, zoom: 7 },
+    "Nova Scotia": { lat: 45.0, lng: -63.0, zoom: 7 },
+    "Prince Edward Island": { lat: 46.5, lng: -63.0, zoom: 8.5 },
+    "Newfoundland and Labrador": { lat: 53.0, lng: -57.0, zoom: 5.5 },
+    "Yukon": { lat: 64.0, lng: -135.0, zoom: 5 },
+    "Northwest Territories": { lat: 65.0, lng: -125.0, zoom: 5 },
+    "Nunavut": { lat: 70.0, lng: -90.0, zoom: 4 },
+};
 
 import { useI18n } from "@/lib/i18n";
 
@@ -42,9 +60,35 @@ export function MapExplorer() {
     const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
     const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
     const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+    const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [provinceSearch, setProvinceSearch] = useState("");
     const [citySearch, setCitySearch] = useState("");
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+
+    // Ref for sidebar to detect clicks outside dropdowns
+    const sidebarRef = useRef<HTMLElement>(null);
+
+    // Helper function to close all dropdowns
+    const closeAllDropdowns = () => {
+        setIsProvinceDropdownOpen(false);
+        setIsCityDropdownOpen(false);
+        setIsCategoryDropdownOpen(false);
+        setIsSortDropdownOpen(false);
+    };
+
+    // Click outside handler to close dropdowns
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            // If clicking outside sidebar, close all dropdowns
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+                closeAllDropdowns();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     const { data: allStores = [], isLoading } = useQuery({
         queryKey: ["stores"],
         queryFn: async () => {
@@ -71,6 +115,69 @@ export function MapExplorer() {
         window.addEventListener('clearFilters', handleClearFilters);
         return () => window.removeEventListener('clearFilters', handleClearFilters);
     }, [toast, t]);
+
+    // Smart Sidebar Sync: Reverse geocoding when user location is found
+    useEffect(() => {
+        const handleUserLocationFound = async (evt: Event) => {
+            const event = evt as CustomEvent<{ latitude: number; longitude: number }>;
+            const { latitude, longitude } = event.detail;
+
+            try {
+                // Use Nominatim API for free reverse geocoding
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`,
+                    {
+                        headers: {
+                            'User-Agent': 'BuyUkrainian.ca/1.0'
+                        }
+                    }
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const address = data.address;
+
+                    // Extract city (try multiple fields as Nominatim varies)
+                    const city = address.city || address.town || address.village || address.municipality;
+                    const province = address.state || address.province;
+
+                    // Auto-update sidebar filters
+                    if (province) {
+                        // Match against our province list
+                        const matchedProvince = Object.keys(PROVINCE_CENTERS).find(
+                            p => p.toLowerCase() === province.toLowerCase() ||
+                                province.toLowerCase().includes(p.toLowerCase())
+                        );
+                        if (matchedProvince) {
+                            setSelectedProvince(matchedProvince);
+                        }
+                    }
+
+                    if (city) {
+                        // Set city filter (the dropdown will show available cities from stores)
+                        setSelectedCity(city);
+                    }
+
+                    // Update user location state
+                    setUserLocation([latitude, longitude]);
+                }
+            } catch (error) {
+                console.log('Reverse geocoding failed:', error);
+                // Still update user location even if geocoding fails
+                setUserLocation([latitude, longitude]);
+            }
+        };
+
+        window.addEventListener('userLocationFound', handleUserLocationFound);
+        return () => window.removeEventListener('userLocationFound', handleUserLocationFound);
+    }, []);
+
+    // Listen for openAddStoreDialog event from map button
+    useEffect(() => {
+        const handleOpenDialog = () => setAddStoreDialogOpen(true);
+        window.addEventListener('openAddStoreDialog', handleOpenDialog);
+        return () => window.removeEventListener('openAddStoreDialog', handleOpenDialog);
+    }, []);
 
     // Deep Linking: Handle ?store=Name param
     useEffect(() => {
@@ -180,31 +287,32 @@ export function MapExplorer() {
             viewMode === "map" ? "h-auto md:h-auto" : "min-h-[400px] h-auto"
         )}>
 
-            {/* TASK 1: Dynamic Headline Section - Bold Editorial Dashboard Cluster */}
+            {/* Stats Section with Heading */}
             <header
-                className="pt-2 pb-10 md:pt-4 md:pb-12 flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards"
+                className="pt-2 pb-11 md:pt-6 flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards"
                 aria-label="Map Statistics"
             >
-                <div className="w-full max-w-[1440px] px-6 lg:px-12 flex flex-wrap items-center justify-center gap-y-6 lg:scale-100 scale-90 origin-top transition-transform duration-500">
+                <div className="w-full max-w-[1440px] px-6 lg:px-12 flex items-end justify-center gap-12 lg:scale-100 scale-90 origin-top transition-transform duration-500">
 
-                    {/* Heading Group - Dynamic Guidance */}
-                    <div className="flex flex-col items-center lg:items-start mr-12 shrink-0">
-                        <div className="flex items-center gap-2 mb-1.5">
-                            <h2 className="text-slate-400 text-[12px] md:text-[13px] font-semibold tracking-[0.2em] uppercase">
+                    {/* Descriptive Text - Left aligned */}
+                    <div className="flex flex-col gap-2 shrink-0">
+                        <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
+                            <h2 className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-black whitespace-nowrap m-0">
                                 Currently on the map
                             </h2>
-                            <span className="hidden md:inline-block px-1.5 py-0.5 rounded bg-blue-50 text-[10px] font-bold text-blue-500 uppercase tracking-wider">Growing across Canada</span>
                         </div>
-                        <p className="text-[13px] text-slate-500 font-normal font-ui tracking-tight italic">
+                        <p className="text-[14px] text-slate-500 font-ui whitespace-nowrap">
                             Find Ukrainian products near you, or help grow the map.
                         </p>
                     </div>
 
-                    {/* Divider - Exact 40px Tall */}
-                    <div className="hidden md:block w-[1px] h-[40px] bg-slate-200 mr-12 shrink-0" />
+                    {/* Divider */}
+                    <div className="hidden md:block w-[1px] h-[40px] bg-slate-200 shrink-0" />
 
-                    {/* Stats Group - The Numerical Heroes */}
-                    <div className="flex items-center gap-12">
+                    {/* Stats Group - Centered */}
+                    <div className="flex items-center justify-center gap-12">
+
                         {/* Stores */}
                         <div className="flex flex-col items-center gap-1">
                             <span className="text-4xl font-medium tabular-nums text-slate-900 leading-none">
@@ -254,7 +362,7 @@ export function MapExplorer() {
                     </div>
                     <button
                         onClick={() => setAddStoreDialogOpen(true)}
-                        className="flex items-center justify-center bg-black text-white h-10 px-4 rounded-full text-[14px] font-medium whitespace-nowrap shadow-sm active:scale-95 transition-all font-ui"
+                        className="btn-premium-action bg-black text-white hover:bg-[#1a1a1a] shadow-sm active:scale-95"
                     >
                         <Plus className="w-4 h-4 mr-1.5" /> Add a store
                     </button>
@@ -270,20 +378,20 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "h-10 px-4 rounded-full text-sm flex items-center gap-1.5 transition-all font-ui active:scale-95",
+                                    "h-[46px] px-4 rounded-full text-sm flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
-                                <MapIcon className="w-3.5 h-3.5" /> Map
+                                <MapIcon className="w-3.5 h-3.5" /> Map View
                             </button>
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "h-10 px-4 rounded-full text-sm flex items-center gap-1.5 transition-all font-ui active:scale-95",
+                                    "h-[46px] px-4 rounded-full text-sm flex items-center gap-1.5 transition-all font-ui active:scale-95",
                                     viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
                                 )}
                             >
-                                <List className="w-3.5 h-3.5" /> List
+                                <List className="w-3.5 h-3.5" /> List View
                             </button>
                         </div>
 
@@ -294,7 +402,7 @@ export function MapExplorer() {
                                     key={cat.id}
                                     onClick={() => setCategory(category === cat.id ? null : cat.id)}
                                     className={cn(
-                                        "flex items-center gap-1.5 h-10 px-4 rounded-full text-sm transition-all font-ui whitespace-nowrap active:scale-95",
+                                        "flex items-center gap-1.5 h-[46px] px-4 rounded-full text-sm transition-all font-ui whitespace-nowrap active:scale-95",
                                         category === cat.id
                                             ? "bg-white text-black shadow-sm font-medium"
                                             : "text-black hover:bg-white/50 font-normal"
@@ -310,100 +418,72 @@ export function MapExplorer() {
             </div>
 
 
-            {/* Desktop: Header Controls (Search + Switcher + Add) */}
-            <div className="hidden md:block w-full pt-0 pb-0 bg-white shadow-none">
-                <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-                    <div className="relative flex items-center justify-between pt-0 pb-0 mb-6 w-full gap-4 z-20">
-                        {/* LEFT: Top-Level Search (Command Header) - Aligned with Sidebar width (300px) */}
-                        <div className="w-[300px] shrink-0">
-                            <div className="relative group w-full flex items-center">
-                                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-black group-focus-within:animate-pulse transition-all duration-300 pointer-events-none" />
-                                <Input
-                                    placeholder={t('map.search.placeholder') || 'Search by city...'}
-                                    className="pl-10 pr-10 h-[46px] bg-white border-[#3C3732]/15 rounded-[20px] text-sm shadow-[0_4px_20px_-4px_rgba(0,0,0,0.08),0_2px_10px_-2px_rgba(0,0,0,0.04)] focus-visible:ring-0 focus-visible:border-black focus-visible:bg-white focus-visible:shadow-md font-ui transition-all duration-300 placeholder:text-slate-400 !border-[0.5px]"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                                <button
-                                    onClick={handleUseLocation}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-black transition-colors !outline-none !border-none !ring-0 hover:bg-transparent"
-                                    title="Use my location"
-                                >
-                                    <Navigation className="w-3.5 h-3.5" />
-                                </button>
-                            </div>
-                        </div>
 
-                        {/* CENTER: Map/List View Toggles */}
-                        <div className="flex items-center justify-center pointer-events-auto z-20 flex-1">
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={() => setViewMode("map")}
-                                    className={cn(
-                                        "no-invert-hover group flex items-center gap-2 h-10 px-4 rounded-full text-sm transition-all duration-300 border font-ui !outline-none !ring-0",
-                                        viewMode === "map"
-                                            ? "bg-blue-50 border-blue-100 text-slate-900 font-semibold shadow-sm ring-1 ring-blue-500/10"
-                                            : "bg-white border-slate-100 text-slate-600 hover:border-slate-300 hover:shadow-sm hover:-translate-y-0.5"
-                                    )}
-                                >
-                                    <MapIcon className="w-4 h-4" />
-                                    Map
-                                </button>
-                                <button
-                                    onClick={() => setViewMode("list")}
-                                    className={cn(
-                                        "no-invert-hover group flex items-center gap-2 h-10 px-4 rounded-full text-sm transition-all duration-300 border font-ui !outline-none !ring-0",
-                                        viewMode === "list"
-                                            ? "bg-blue-50 border-blue-100 text-slate-900 font-semibold shadow-sm ring-1 ring-blue-500/10"
-                                            : "bg-white border-slate-100 text-slate-600 hover:border-slate-300 hover:shadow-sm hover:-translate-y-0.5"
-                                    )}
-                                >
-                                    <List className="w-4 h-4" />
-                                    List
-                                </button>
-                            </div>
-                        </div>
 
-                        {/* RIGHT: Add Location Button */}
-                        <div className="w-[300px] shrink-0 flex justify-end">
-                            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-                                <DialogTrigger asChild>
-                                    <button className="group btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] px-8 text-[15px] font-semibold gap-2 font-ui shadow-lg transition-all duration-300 ease-out hover:bg-[#1e293b] hover:-translate-y-[1px] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] active:scale-95">
-                                        <Plus className="w-4.5 h-4.5 stroke-[2.5] transition-transform duration-300 group-hover:rotate-90" />
-                                        Add a store
-                                    </button>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-xl p-0 overflow-y-auto max-h-[90vh] flex flex-col border-none bg-transparent shadow-none" hideClose>
-                                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-                                </DialogContent>
-                            </Dialog>
-                        </div>
-                    </div>
+            {/* Desktop Toolbar - Search and CTA - Centered Row */}
+            <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-6 lg:px-12 justify-center items-center gap-4 mb-8">
+                {/* Search Field (Fixed Width 480px) */}
+                <div className="relative group w-[480px] flex items-center">
+                    <Search
+                        className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A1A1A6] group-focus-within:text-[#A5D8FF] transition-all duration-300 pointer-events-none"
+                        strokeWidth={2}
+                    />
+                    <Input
+                        placeholder={t('map.search.placeholder') || 'Search by city or store name...'}
+                        className="no-ring-force w-full h-[44px] pl-10 pr-10 bg-white border-[0.5px] border-[#D2D2D7] rounded-full text-sm font-ui transition-all duration-200 placeholder:text-[#737373] focus-visible:border-[#A5D8FF] focus-visible:ring-0 focus-visible:shadow-[0_0_0_3px_rgba(165,216,255,0.4)] focus-visible:outline-none hover:border-[#C0C0C5] shadow-[0_1px_2px_rgba(0,0,0,0.05)]"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button
+                        onClick={handleUseLocation}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-[#A1A1A6] hover:bg-[#E5E5E7] rounded-full transition-all focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
+                        title="Use my location"
+                    >
+                        <Navigation className="w-3.5 h-3.5" strokeWidth={2} />
+                    </button>
                 </div>
+
+                {/* Add a Store Button */}
+                <button
+                    onClick={() => setAddStoreDialogOpen(true)}
+                    className="btn-premium-action bg-black text-white hover:bg-[#1a1a1a] shadow-lg"
+                >
+                    <Plus className="w-4 h-4 mr-2" />
+                    <span>Add a store</span>
+                </button>
             </div>
 
-            {/* Sidebar 'Command Center' Layout */}
+            {/* Sidebar 'Command Center' Layout - Clean Borderless Alignment */}
             <div className={cn(
-                "w-full flex-1 md:flex-none max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-3 mt-0 pt-0",
+                "w-full flex-1 md:flex-none max-w-[1440px] mx-auto pl-[68px] pr-6 md:pr-12 flex flex-col md:flex-row gap-6 mt-0 pt-0",
                 viewMode === "map" ? "items-start h-auto" : "items-start h-auto"
             )}>
 
-                <aside className="hidden md:flex w-[300px] flex-shrink-0 flex-col justify-start space-y-8 bg-white p-5 rounded-[24px] shadow-[0_2px_12px_-4px_rgba(0,0,0,0.03)] border border-slate-100 overflow-hidden h-[540px] overflow-y-auto custom-scrollbar">
+                <aside
+                    ref={sidebarRef}
+                    className="hidden md:flex w-[300px] flex-shrink-0 flex-col justify-start h-auto"
+                >
+                    <div className="flex flex-col gap-4">
+                        <h3 className="text-[14px] font-semibold text-black font-ui tracking-tight mb-0.5">
+                            Filter by:
+                        </h3>
 
-                    {/* Geography Stack (Now top of sidebar) */}
-                    <div className="flex flex-col gap-3">
-                        {/* Province Selector Dropdown */}
+                        {/* Dropdown 1: Location (Province) */}
                         <div className="relative">
                             <button
-                                onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)}
+                                onClick={() => {
+                                    const willOpen = !isProvinceDropdownOpen;
+                                    closeAllDropdowns();
+                                    setIsProvinceDropdownOpen(willOpen);
+                                }}
                                 className={cn(
-                                    "no-invert-hover flex items-center justify-between w-full h-[46px] px-4 rounded-[20px] text-sm transition-all duration-300 border-[0.5px] font-ui !outline-none !ring-0 shadow-sm",
+                                    "province-dropdown-option no-ring-force no-invert-hover flex items-center justify-between w-full h-[44px] px-4 rounded-xl text-sm transition-all duration-300 border shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] font-ui !outline-none !ring-0 hover:shadow-sm",
                                     selectedProvince
-                                        ? "bg-blue-50 border-blue-100 text-slate-900 font-semibold ring-1 ring-blue-500/10"
-                                        : "bg-white border-[#3C3732]/15 text-slate-600 hover:border-slate-300 hover:shadow-sm"
+                                        ? "bg-[#A5D8FF]/50 border-[#A5D8FF]/50 text-[#1A1A1A] font-semibold"
+                                        : "bg-white border-[#E5E5E5] text-slate-600 hover:border-[#D4D4D4]"
                                 )}
                             >
-                                <span className="truncate">{selectedProvince || "All Provinces"}</span>
+                                <span className="truncate">{selectedProvince || "Location"}</span>
                                 <ChevronDown className={cn("w-4 h-4 shrink-0 transition-transform", isProvinceDropdownOpen && "rotate-180")} />
                             </button>
 
@@ -413,8 +493,8 @@ export function MapExplorer() {
                                         <div className="relative">
                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
                                             <input
-                                                className="w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-0 font-ui placeholder:text-gray-400"
-                                                placeholder="Search province..."
+                                                className="no-ring-force w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-0 font-ui placeholder:text-gray-400"
+                                                placeholder="Search location..."
                                                 autoFocus
                                                 value={provinceSearch}
                                                 onChange={(e) => setProvinceSearch(e.target.value)}
@@ -431,9 +511,9 @@ export function MapExplorer() {
                                                     setProvinceSearch("");
                                                     setIsProvinceDropdownOpen(false);
                                                 }}
-                                                className="w-full flex items-center justify-between pl-4 pr-4 py-2.5 text-sm font-medium tracking-tight text-gray-700 hover:text-black hover:bg-gray-50 transition-colors font-ui text-left truncate"
+                                                className="province-dropdown-option w-full flex items-center justify-between pl-4 pr-4 py-2.5 text-sm font-medium tracking-tight text-gray-600 hover:text-gray-900 hover:font-semibold hover:bg-[#F5F5F7] transition-all duration-150 font-ui text-left truncate border-none outline-none focus:outline-none focus:ring-0"
                                             >
-                                                {p}
+                                                {p === "All Provinces" ? "All Locations" : p}
                                                 {((!selectedProvince && p === "All Provinces") || selectedProvince === p) && <Check className="w-4 h-4 text-[#D3E4FD]" />}
                                             </button>
                                         ))}
@@ -442,48 +522,42 @@ export function MapExplorer() {
                             )}
                         </div>
 
-                        {/* City Selector Dropdown */}
+                        {/* Dropdown 2: Category */}
                         <div className="relative">
                             <button
-                                onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
+                                onClick={() => {
+                                    const willOpen = !isCategoryDropdownOpen;
+                                    closeAllDropdowns();
+                                    setIsCategoryDropdownOpen(willOpen);
+                                }}
                                 className={cn(
-                                    "no-invert-hover flex items-center justify-between w-full h-[46px] px-4 rounded-[20px] text-sm transition-all duration-300 border-[0.5px] font-ui !outline-none !ring-0 shadow-sm",
-                                    selectedCity
-                                        ? "bg-blue-50 border-blue-100 text-slate-900 font-semibold ring-1 ring-blue-500/10"
-                                        : "bg-white border-[#3C3732]/15 text-slate-600 hover:border-slate-300 hover:shadow-sm"
+                                    "province-dropdown-option no-ring-force no-invert-hover flex items-center justify-between w-full h-[44px] px-4 rounded-xl text-sm transition-all duration-300 border font-ui !outline-none !ring-0 hover:shadow-sm",
+                                    category
+                                        ? "bg-[#A5D8FF]/50 border-[#A5D8FF]/50 text-[#1A1A1A] font-semibold"
+                                        : "bg-white border-[#E5E5E5] text-slate-600 hover:border-[#D4D4D4]"
                                 )}
                             >
-                                <span className="truncate">{selectedCity || "Select Town"}</span>
-                                <ChevronDown className={cn("w-4 h-4 shrink-0 transition-transform", isCityDropdownOpen && "rotate-180")} />
+                                <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                <ChevronDown className={cn("w-4 h-4 shrink-0 transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                             </button>
 
-                            {isCityDropdownOpen && (
+                            {isCategoryDropdownOpen && (
                                 <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-gray-100 rounded-[20px] shadow-2xl z-[100] overflow-hidden animate-in fade-in zoom-in-95 duration-200 ring-1 ring-black/5">
-                                    <div className="p-3 border-b border-gray-50">
-                                        <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                                            <input
-                                                className="w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-0 font-ui placeholder:text-gray-400"
-                                                placeholder="Search town..."
-                                                autoFocus
-                                                value={citySearch}
-                                                onChange={(e) => setCitySearch(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="max-h-60 overflow-y-auto custom-scrollbar">
-                                        {availableCities.filter(c => c.toLowerCase().includes(citySearch.toLowerCase())).map((city) => (
+                                    <div className="max-h-60 overflow-y-auto custom-scrollbar py-2">
+                                        {allCategories.map((cat) => (
                                             <button
-                                                key={city}
+                                                key={cat.id}
                                                 onClick={() => {
-                                                    setSelectedCity(city);
-                                                    setCitySearch("");
-                                                    setIsCityDropdownOpen(false);
+                                                    setCategory(category === cat.id ? null : cat.id);
+                                                    setIsCategoryDropdownOpen(false);
                                                 }}
-                                                className="w-full flex items-center justify-between pl-4 pr-4 py-2.5 text-sm font-medium tracking-tight text-gray-700 hover:text-black hover:bg-gray-50 transition-colors font-ui text-left truncate"
+                                                className="province-dropdown-option w-full flex items-center justify-between pl-4 pr-4 py-2.5 text-sm font-medium tracking-tight text-gray-600 hover:text-gray-900 hover:font-semibold hover:bg-[#F5F5F7] transition-all duration-150 font-ui text-left truncate border-none outline-none focus:outline-none focus:ring-0"
                                             >
-                                                {city}
-                                                {selectedCity === city && <Check className="w-4 h-4 text-[#D3E4FD]" />}
+                                                <div className="flex items-center gap-2">
+                                                    <cat.icon className="w-4 h-4 text-[#A1A1A6]" strokeWidth={1.5} />
+                                                    {cat.label}
+                                                </div>
+                                                {category === cat.id && <Check className="w-4 h-4 text-[#D3E4FD]" />}
                                             </button>
                                         ))}
                                     </div>
@@ -491,93 +565,48 @@ export function MapExplorer() {
                             )}
                         </div>
                     </div>
-
-                    {/* Section 3: Filter By Label & Category Chips (Bottom) */}
-                    <div className="flex flex-col gap-6">
-                        <div className="flex items-center justify-between">
-                            <h3 className="text-[10.5px] font-bold uppercase tracking-[0.2em] text-slate-500 font-ui antialiased">FILTER BY:</h3>
-
-                            {(category || selectedProvince || selectedCity || searchQuery || sortMode !== "newest") && (
-                                <button
-                                    onClick={() => {
-                                        setCategory(null);
-                                        setSelectedProvince(null);
-                                        setSelectedCity(null);
-                                        setIsOpenOnly(false);
-                                        setSortMode("newest");
-                                        setSearchQuery("");
-                                        setProvinceSearch("");
-                                        setCitySearch("");
-                                    }}
-                                    className="text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-black transition-colors"
-                                >
-                                    Clear
-                                </button>
-                            )}
-                        </div>
-
-                        {/* Category Cloud */}
-                        <div className="flex flex-wrap gap-4">
-                            {allCategories.map((cat) => {
-                                const isActive = category === cat.id;
-                                return (
-                                    <button
-                                        key={cat.id}
-                                        onClick={() => setCategory(isActive ? null : cat.id)}
-                                        className={cn(
-                                            "no-invert-hover group flex items-center gap-2 h-9 px-3.5 rounded-full text-sm transition-all duration-200 border font-ui shadow-sm",
-                                            isActive
-                                                ? "bg-blue-50 border-blue-100 text-slate-900 font-semibold shadow-sm ring-1 blue-500/10"
-                                                : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-white hover:border-slate-300 hover:shadow-sm"
-                                        )}
-                                    >
-                                        <cat.icon className="w-3.5 h-3.5" />
-                                        {cat.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Reset All Filters Button (Bottom Sticky Style) */}
-                    {(category || selectedProvince || selectedCity || searchQuery || sortMode !== "newest") && (
-                        <div className="mt-auto pt-6 border-t border-slate-50">
-                            <button
-                                onClick={() => {
-                                    setCategory(null);
-                                    setSelectedProvince(null);
-                                    setSelectedCity(null);
-                                    setIsOpenOnly(false);
-                                    setSortMode("newest");
-                                    setSearchQuery("");
-                                    setProvinceSearch("");
-                                    setCitySearch("");
-                                }}
-                                className="w-full py-2.5 rounded-xl border border-slate-100 text-[11px] font-bold uppercase tracking-wider text-slate-400 hover:text-black hover:border-slate-200 transition-all font-ui"
-                            >
-                                Reset All Filters
-                            </button>
-                        </div>
-                    )}
-
-                    {/* No stores feedback */}
-                    {(selectedProvince || selectedCity || category) && filteredStoresCount === 0 && (
-                        <div className="px-1 animate-in fade-in slide-in-from-top-1 duration-300">
-                            <span className="text-[13px] text-slate-500 font-medium tracking-[-0.01em] font-ui">
-                                No stores found
-                            </span>
-                        </div>
-                    )}
                 </aside>
 
                 {/* Map Column Wrapper */}
-                <div className="flex-1 flex flex-col min-w-0">
+                < div className="flex-1 flex flex-col min-w-0" >
+
+
 
                     {/* Map Area - Viewfinder Styling with Retina Shadows */}
-                    <div className="relative h-[540px] w-full z-0 flex flex-col rounded-[20px] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] border-[0.5px] border-[#3C3732]/15 overflow-hidden bg-[#eff6ff] overscroll-none touch-none [contain:layout]">
+                    < div className="relative h-[540px] w-full z-0 flex flex-col rounded-[20px] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] border-[0.5px] border-[#3C3732]/15 overflow-hidden bg-[#eff6ff] [contain:layout]" >
+
+                        {/* Floating Toggle Control - 44px Height + Glassmorphism for WCAG contrast */}
+                        <div className="absolute top-[20px] right-[20px] z-[100] flex items-center p-1 bg-white/90 backdrop-blur-md rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.12)] border border-[#D2D2D7] h-[44px]">
+                            <button
+                                onClick={() => setViewMode("map")}
+                                className={cn(
+                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wider transition-all duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-1",
+                                    viewMode === "map"
+                                        ? "bg-[#A5D8FF]/50 text-[#1A1A1A] shadow-sm"
+                                        : "text-slate-500 hover:bg-[#E5E5E7] hover:text-slate-900"
+                                )}
+                            >
+                                <MapIcon className="w-3.5 h-3.5" />
+                                Map
+                            </button>
+                            <button
+                                onClick={() => setViewMode("list")}
+                                className={cn(
+                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wider transition-all duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-1",
+                                    viewMode === "list"
+                                        ? "bg-[#A5D8FF]/50 text-[#1A1A1A] shadow-sm"
+                                        : "text-slate-500 hover:bg-[#E5E5E7] hover:text-slate-900"
+                                )}
+                            >
+                                <List className="w-3.5 h-3.5" />
+                                List
+                            </button>
+                        </div>
+
+                        {/* Add a Store Button - Moved Above Map */}
 
                         {/* Inner Glass Glow - The 'Retina' Touch */}
-                        <div className="absolute inset-0 pointer-events-none z-[50] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)] rounded-[20px]" />
+                        < div className="absolute inset-0 pointer-events-none z-[50] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)] rounded-[20px]" />
 
                         <MapSection
                             mode="full"
@@ -592,7 +621,7 @@ export function MapExplorer() {
                             onViewChange={setViewMode}
                             userLocation={userLocation}
                         />
-                    </div>
+                    </div >
 
                     {/* Map Info Footer - Precision Microcopy */}
                     <div className="w-full text-center mt-5">
@@ -608,6 +637,13 @@ export function MapExplorer() {
                     </div>
                 </div>
             </div >
-        </div >
+
+            {/* Add Store Dialog */}
+            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+                <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none">
+                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                </DialogContent>
+            </Dialog>
+        </div>
     );
 }
