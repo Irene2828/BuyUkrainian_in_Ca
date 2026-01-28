@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { storage } from "./db_storage.js";
 
+// Session Secret for signing stateless tokens
+const SESSION_SECRET = process.env.SESSION_SECRET || process.env.Supabase_SERVICE_ROLE_KEY || "default-insecure-secret-please-set-env-var";
+
 function getAdminPasswordHash(): string {
   const hash = process.env.ADMIN_PASSWORD_HASH;
   if (!hash) {
@@ -25,6 +28,7 @@ export const securityMiddleware = {
         connectSrc: ["'self'", "https://nominatim.openstreetmap.org", "https://*.tile.openstreetmap.org"],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"],
+        upgradeInsecureRequests: [], // Disable for mixed content flexibility if needed, though 'self' implies https on vercel
       },
     },
     crossOriginEmbedderPolicy: false,
@@ -50,7 +54,7 @@ export const securityMiddleware = {
 
   adminRateLimit: rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10,
+    max: 30, // Increased slightly for admin usability
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many login attempts. Please try again later." },
@@ -113,20 +117,13 @@ export function checkDuplicateSubmission(
   });
 }
 
-const adminSessions: Map<string, { expires: number }> = new Map();
+// ------------------------------------------------------------------
+// Stateless Authentication (HMAC Token) for Vercel/Serverless Support
+// ------------------------------------------------------------------
 
-function generateSessionId(): string {
-  return crypto.randomBytes(32).toString("hex");
+function signToken(payload: string): string {
+  return crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('hex');
 }
-
-setInterval(() => {
-  const now = Date.now();
-  Array.from(adminSessions.entries()).forEach(([id, session]) => {
-    if (session.expires < now) {
-      adminSessions.delete(id);
-    }
-  });
-}, 60 * 60 * 1000);
 
 export async function verifyAdminPassword(password: string, username?: string): Promise<{ valid: boolean; adminId?: number; username?: string }> {
   // If username is provided, check database first
@@ -161,25 +158,58 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export function createAdminSession(): string {
-  const sessionId = generateSessionId();
-  const expires = Date.now() + 24 * 60 * 60 * 1000;
-  adminSessions.set(sessionId, { expires });
-  return sessionId;
+  // Create payload
+  const sessionData = JSON.stringify({
+    id: crypto.randomBytes(16).toString("hex"),
+    expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+  });
+
+  // Encode
+  const base64Payload = Buffer.from(sessionData).toString('base64');
+
+  // Sign
+  const signature = signToken(base64Payload);
+
+  // Return Combined Token
+  return `${base64Payload}.${signature}`;
 }
 
-export function validateAdminSession(sessionId: string | undefined): boolean {
-  if (!sessionId) return false;
-  const session = adminSessions.get(sessionId);
-  if (!session) return false;
-  if (session.expires < Date.now()) {
-    adminSessions.delete(sessionId);
+export function validateAdminSession(token: string | undefined): boolean {
+  if (!token) return false;
+
+  const parts = token.split('.');
+  if (parts.length !== 2) return false;
+
+  const [payloadBase64, signature] = parts;
+
+  // Verify Signature
+  const expectedSignature = signToken(payloadBase64);
+
+  // Constant time comparison to prevent timing attacks
+  const sigBuffer = Buffer.from(signature);
+  const expectedBuffer = Buffer.from(expectedSignature);
+
+  if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
     return false;
   }
-  return true;
+
+  // Check Expiry
+  try {
+    const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString('utf8'));
+    if (payload.expires < Date.now()) {
+      return false;
+    }
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 export function destroyAdminSession(sessionId: string): void {
-  adminSessions.delete(sessionId);
+  // Stateless tokens cannot be destroyed server-side without a DB/Redis blacklist.
+  // For this implementation, we rely on client-side removal.
+  // Ideally, valid tokens expire after 24h.
+  return;
 }
 
 export function requireAdmin(req: Request, res: Response, next: NextFunction): void {

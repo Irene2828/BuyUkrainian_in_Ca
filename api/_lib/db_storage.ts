@@ -1,9 +1,9 @@
 import { type AdminUser, type InsertAdminUser, type Store, type InsertStore, stores, adminUsers } from "../../shared/schema.js";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import fs from "fs";
-import path from "path";
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
+import { eq, desc } from "drizzle-orm";
 
-// IStorage Interface with String IDs
+// IStorage Interface
 export interface IStorage {
   // Admin user methods
   getAdminUser(id: number): Promise<AdminUser | undefined>;
@@ -13,7 +13,7 @@ export interface IStorage {
   deleteAdminUser(id: number): Promise<boolean>;
   updateAdminPassword(id: number, passwordHash: string): Promise<AdminUser | undefined>;
 
-  // Store methods - Updated to String ID (UUID)
+  // Store methods
   getAllStores(): Promise<Store[]>;
   getApprovedStores(): Promise<Store[]>;
   getPendingStores(): Promise<Store[]>;
@@ -25,243 +25,110 @@ export interface IStorage {
   deleteStore(id: string): Promise<boolean>;
 }
 
-export class SupabaseStorage implements IStorage {
-  private client: SupabaseClient;
+export class DatabaseStorage implements IStorage {
+  private db;
 
   constructor() {
-    const url = process.env.SUPABASE_URL!;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY!; // Must refer to SERVICE KEY for backend ops
-    if (!url || !key) {
-      throw new Error("Missing Supabase credentials");
+    if (!process.env.DATABASE_URL) {
+      throw new Error("DATABASE_URL is missing. Ensure the database is provisioned.");
     }
-    this.client = createClient(url, key);
+    const sql = neon(process.env.DATABASE_URL);
+    this.db = drizzle(sql);
+    console.log("✅ DatabaseStorage initialized with Neon HTTP driver");
   }
 
-  // Admin User Methods (Supabase 'admin_users' table if exists, or just use Auth? Prompt asked for locations table mainly. I'll implement 'admin_users' table interact)
+  // Admin User Methods
   async getAdminUser(id: number): Promise<AdminUser | undefined> {
-    const { data } = await this.client.from("admin_users").select("*").eq("id", id).single();
-    return data ? this.mapAdminUser(data) : undefined;
+    const [user] = await this.db.select().from(adminUsers).where(eq(adminUsers.id, id));
+    return user;
   }
   async getAdminUserByUsername(username: string): Promise<AdminUser | undefined> {
-    const { data } = await this.client.from("admin_users").select("*").eq("username", username).single();
-    return data ? this.mapAdminUser(data) : undefined;
+    const [user] = await this.db.select().from(adminUsers).where(eq(adminUsers.username, username));
+    return user;
   }
   async getAllAdminUsers(): Promise<AdminUser[]> {
-    const { data } = await this.client.from("admin_users").select("*");
-    return (data || []).map(d => this.mapAdminUser(d));
+    return await this.db.select().from(adminUsers);
   }
   async createAdminUser(user: InsertAdminUser): Promise<AdminUser> {
-    const dbUser = {
-      username: user.username,
-      password_hash: user.passwordHash,
-    };
-    const { data, error } = await this.client.from("admin_users").insert(dbUser).select().single();
-    if (error) throw error;
-    return this.mapAdminUser(data);
+    const [newUser] = await this.db.insert(adminUsers).values(user).returning();
+    return newUser;
   }
   async deleteAdminUser(id: number): Promise<boolean> {
-    const { error } = await this.client.from("admin_users").delete().eq("id", id);
-    return !error;
+    const [deleted] = await this.db.delete(adminUsers).where(eq(adminUsers.id, id)).returning();
+    return !!deleted;
   }
   async updateAdminPassword(id: number, passwordHash: string): Promise<AdminUser | undefined> {
-    const { data } = await this.client.from("admin_users").update({ password_hash: passwordHash }).eq("id", id).select().single();
-    return data ? this.mapAdminUser(data) : undefined;
-  }
-
-  private mapAdminUser(row: any): AdminUser {
-    return {
-      id: row.id,
-      username: row.username,
-      passwordHash: row.password_hash,
-      createdAt: new Date(row.created_at),
-    };
+    const [updated] = await this.db.update(adminUsers)
+      .set({ passwordHash })
+      .where(eq(adminUsers.id, id))
+      .returning();
+    return updated;
   }
 
   // Store Methods
   async getAllStores(): Promise<Store[]> {
-    const { data } = await this.client.from("locations").select("*");
-    return (data || []).map(this.mapStore);
+    const allStores = await this.db.select().from(stores);
+    console.log(`📊 Fetched ${allStores.length} stores from the database.`);
+    return allStores;
   }
   async getApprovedStores(): Promise<Store[]> {
-    const { data } = await this.client.from("locations").select("*").eq("status", "approved").order('approved_at', { ascending: false });
-    return (data || []).map(this.mapStore);
+    return await this.db.select().from(stores)
+      .where(eq(stores.status, "approved"))
+      .orderBy(desc(stores.approvedAt));
   }
   async getPendingStores(): Promise<Store[]> {
-    const { data } = await this.client.from("locations").select("*").eq("status", "pending");
-    return (data || []).map(this.mapStore);
+    return await this.db.select().from(stores).where(eq(stores.status, "pending"));
   }
   async getStore(id: string): Promise<Store | undefined> {
-    const { data } = await this.client.from("locations").select("*").eq("id", id).single();
-    return data ? this.mapStore(data) : undefined;
+    const [store] = await this.db.select().from(stores).where(eq(stores.id, id));
+    return store;
   }
-  async createStore(store: InsertStore): Promise<Store> {
-    const dbStore = {
-      name: store.name,
-      description: store.description,
-      products: store.products,
-      address: store.address,
-      city: store.city,
-      province: store.province,
-      lat: store.latitude, // Mapping latitude -> lat
-      lng: store.longitude, // Mapping longitude -> lng
-      category: store.category,
-      website: store.website,
-      image: store.image,
-      images: store.images,
-      email: store.email,
-      status: store.status || "pending",
-      is_open: true, // as per prompt
-    };
-    const { data, error } = await this.client.from("locations").insert(dbStore).select().single();
-    if (error) {
-      console.error("Supabase Create Error", error);
-      throw error;
-    }
-    return this.mapStore(data);
+  async createStore(insertStore: InsertStore): Promise<Store> {
+    const [store] = await this.db.insert(stores).values({
+      ...insertStore,
+      id: crypto.randomUUID(), // Ensure UUIDs are generated
+      images: insertStore.images || [],
+      image: insertStore.image || null,
+      email: insertStore.email || null,
+      website: insertStore.website || null,
+      status: insertStore.status || "pending",
+      // isOpen is defaulted in schema but good to be explicit if needed, however schema handles default logic usually.
+      // Drizzle insert should respect schema defaults if column is omitted or set to undefined logic
+    }).returning();
+    return store;
   }
   async updateStoreStatus(id: string, status: "pending" | "approved" | "rejected"): Promise<Store | undefined> {
     const updates: any = { status };
     if (status === "approved") {
-      updates.approved_at = new Date().toISOString();
+      updates.approvedAt = new Date();
     }
-    const { data } = await this.client.from("locations").update(updates).eq("id", id).select().single();
-    return data ? this.mapStore(data) : undefined;
+    const [store] = await this.db.update(stores).set(updates).where(eq(stores.id, id)).returning();
+    return store;
   }
   async updateStoreImages(id: string, images: string[]): Promise<Store | undefined> {
     const image = images.length > 0 ? images[0] : null;
-    const { data } = await this.client.from("locations").update({ images, image }).eq("id", id).select().single();
-    return data ? this.mapStore(data) : undefined;
+    const [store] = await this.db.update(stores).set({ images, image }).where(eq(stores.id, id)).returning();
+    return store;
   }
   async updateStore(id: string, updates: { name?: string; address?: string }): Promise<Store | undefined> {
-    const { data } = await this.client.from("locations").update(updates).eq("id", id).select().single();
-    return data ? this.mapStore(data) : undefined;
+    const [store] = await this.db.update(stores).set(updates).where(eq(stores.id, id)).returning();
+    return store;
   }
   async deleteStore(id: string): Promise<boolean> {
-    const { error } = await this.client.from("locations").delete().eq("id", id);
-    return !error;
-  }
-
-  private mapStore(row: any): Store {
-    // Map Supabase snake_case or diff names to Application Store object
-    return {
-      id: row.id,
-      name: row.name,
-      description: row.description,
-      products: row.products || [],
-      address: row.address,
-      city: row.city,
-      province: row.province,
-      latitude: row.lat, // lat -> latitude
-      longitude: row.lng, // lng -> longitude
-      category: row.category,
-      website: row.website,
-      image: row.image,
-      images: row.images || [],
-      email: row.email,
-      status: row.status,
-      createdAt: new Date(row.created_at),
-      approvedAt: row.approved_at ? new Date(row.approved_at) : null,
-      isOpen: row.is_open ? 'true' : 'false'
-    };
+    const [deleted] = await this.db.delete(stores).where(eq(stores.id, id)).returning();
+    return !!deleted;
   }
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, AdminUser> = new Map();
-  private stores: Map<string, Store> = new Map(); // Changed to string ID
+  private stores: Map<string, Store> = new Map();
   private currentUserId = 1;
-  private currentStoreId = 1;
 
   constructor() {
-    // Add sample test data for local development
-    const sampleStores: Store[] = [
-      {
-        id: "1",
-        name: "Montreal Ukrainian Store",
-        description: "Specializing in authentic Ukrainian products, ceramics, and traditional crafts in the heart of Montreal.",
-        products: ["Varenyky", "Borsch", "Ceramics", "Vyshyvanka"],
-        address: "5185 Rue Charleroi, Montréal, QC H1G 3A2",
-        city: "Montreal",
-        province: "Quebec",
-        latitude: "45.5894" as any,
-        longitude: "-73.6189" as any,
-        category: "food" as const,
-        website: "https://www.ukrainianstore.ca",
-        image: "/assets/montreal-store-preview.jpg",
-        images: ["/assets/montreal-store-preview.jpg"],
-        email: null,
-        status: "approved" as const,
-        createdAt: new Date(),
-        approvedAt: new Date(),
-        isOpen: "true"
-      },
-      {
-        id: "2",
-        name: "Yummy Market",
-        description: "European grocery store with a vast selection of Ukrainian imported goods.",
-        products: ["Roshen Chocolates", "Kvas", "Buckwheat", "Preserves"],
-        address: "1390 Major Mackenzie Dr W, Maple, ON L6A 4H6",
-        city: "Maple",
-        province: "Ontario",
-        latitude: "43.8755" as any,
-        longitude: "-79.4964" as any,
-        category: "food" as const,
-        website: "https://yummymarket.com",
-        image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=800",
-        images: ["https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=800"],
-        email: null,
-        status: "approved" as const,
-        createdAt: new Date(),
-        approvedAt: new Date(),
-        isOpen: "true"
-      },
-      {
-        id: "3",
-        name: "Future Bakery",
-        description: "Family-owned bakery serving traditional recipes since 1991.",
-        products: ["Rye Bread", "Poppy Seed Roll", "Cakes"],
-        address: "106 N Queen St, Etobicoke, ON M8Z 2E2",
-        city: "Etobicoke",
-        province: "Ontario",
-        latitude: "43.6156" as any,
-        longitude: "-79.5572" as any,
-        category: "food" as const,
-        website: "https://futurebakery.com",
-        image: "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=800",
-        images: ["https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=800"],
-        email: null,
-        status: "approved" as const,
-        createdAt: new Date(),
-        approvedAt: new Date(),
-        isOpen: "true"
-      },
-      {
-        id: "4",
-        name: "Shumka Ukrainian Foods",
-        description: "Edmonton staple for perogies and cabbage rolls.",
-        products: ["Perogies", "Cabbage Rolls", "Nalysnyky"],
-        address: "16520 95 St, Edmonton, AB T5Z 3L2",
-        city: "Edmonton",
-        province: "Alberta",
-        latitude: "53.6284" as any,
-        longitude: "-113.4909" as any,
-        category: "food" as const,
-        website: null,
-        image: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&q=80&w=800",
-        images: ["https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&q=80&w=800"],
-        email: null,
-        status: "approved" as const,
-        createdAt: new Date(),
-        approvedAt: new Date(),
-        isOpen: "true"
-      }
-    ];
-
-    sampleStores.forEach(store => this.stores.set(store.id, store));
-    this.currentStoreId = 5; // Next ID after the 3 sample stores
+    console.log("ℹ️  Using MemStorage (No Database Connection)");
   }
 
-  // Admin methods (unchanged ID type for admins for now to save time, prompt focused on Locations)
   async getAdminUser(id: number) { return this.users.get(id); }
   async getAdminUserByUsername(username: string) { return Array.from(this.users.values()).find(u => u.username === username); }
   async getAllAdminUsers() { return Array.from(this.users.values()); }
@@ -277,13 +144,12 @@ export class MemStorage implements IStorage {
     const nu = { ...u, passwordHash: hash }; this.users.set(id, nu); return nu;
   }
 
-  // Store methods using String ID
   async getAllStores() { return Array.from(this.stores.values()); }
   async getApprovedStores() { return Array.from(this.stores.values()).filter(s => s.status === "approved").sort((a, b) => (b.approvedAt?.getTime() || 0) - (a.approvedAt?.getTime() || 0)); }
   async getPendingStores() { return Array.from(this.stores.values()).filter(s => s.status === "pending"); }
   async getStore(id: string) { return this.stores.get(id); }
   async createStore(insertStore: InsertStore) {
-    const id = String(this.currentStoreId++); // Generate String ID
+    const id = crypto.randomUUID();
     const now = new Date();
     const store: Store = {
       ...insertStore,
@@ -295,7 +161,9 @@ export class MemStorage implements IStorage {
       email: insertStore.email || null,
       website: insertStore.website || null,
       approvedAt: insertStore.status === "approved" ? now : null,
-      isOpen: "true"
+      isOpen: "true",
+      latitude: insertStore.latitude,
+      longitude: insertStore.longitude
     };
     this.stores.set(id, store);
     return store;
@@ -317,41 +185,17 @@ export class MemStorage implements IStorage {
   async deleteStore(id: string) { return this.stores.delete(id); }
 }
 
-// Safely determine which storage to use without crashing
 let storageImplementation: IStorage;
 
 try {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  // Strict check: Both must be present and non-empty
-  if (url && key && url.startsWith("http")) {
-    console.log("✅ Supabase credentials detected");
-    console.log("🔗 SUPABASE_URL:", url);
-    console.log("🔑 Service key length:", key.length, "characters");
-    try {
-      storageImplementation = new SupabaseStorage();
-      console.log("✅ Connected to Supabase successfully - using live database");
-    } catch (error) {
-      console.error("❌ Failed to initialize SupabaseStorage:", error);
-      console.log("⚠️  Falling back to MemStorage");
-      storageImplementation = new MemStorage();
-    }
+  if (process.env.DATABASE_URL) {
+    storageImplementation = new DatabaseStorage();
   } else {
-    if (process.env.NODE_ENV === "production") {
-      console.warn("⚠️  WARNING: Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in production. Falling back to MemStorage.");
-      console.log("URL present:", !!url);
-      console.log("Key present:", !!key);
-    } else {
-      console.log("ℹ️  Using MemStorage (Missing Supabase credentials in .env.local)");
-      console.log("   To connect to live database, create .env.local with:");
-      console.log("   SUPABASE_URL=your_supabase_url");
-      console.log("   SUPABASE_SERVICE_ROLE_KEY=your_service_key");
-    }
+    console.warn("⚠️  WARNING: DATABASE_URL is missing. Falling back to empty MemStorage.");
     storageImplementation = new MemStorage();
   }
 } catch (error) {
-  console.error("❌ Failed to initialize storage:", error);
+  console.error("❌ Failed to initialize DatabaseStorage:", error);
   storageImplementation = new MemStorage();
 }
 

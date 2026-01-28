@@ -1,34 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Info, MapPin } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export function Hero() {
-  const [videoReady, setVideoReady] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
-  const { t, language } = useI18n();
-
-  // Play on load
-  useEffect(() => {
-    if (videoReady) {
-      if (videoRef.current) videoRef.current.play().catch(e => console.log("Hero video play blocked:", e));
-      if (mobileVideoRef.current) mobileVideoRef.current.play().catch(e => console.log("Mobile video play blocked:", e));
-    }
-  }, [videoReady]);
-
-  const handleVideoHover = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(e => console.log("Video hover play blocked:", e));
-    }
-    if (mobileVideoRef.current) {
-      mobileVideoRef.current.currentTime = 0;
-      mobileVideoRef.current.play().catch(e => console.log("Mobile video hover play blocked:", e));
-    }
-  };
+  const [activeLayer, setActiveLayer] = useState<"main" | "secondary">("main");
+  const { t } = useI18n();
 
   return (
     <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center animate-in fade-in duration-500">
@@ -65,24 +44,38 @@ export function Hero() {
 
               {/* Mobile-Only Cinematic Asset */}
               <div
-                className="block md:hidden w-full aspect-square mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
-                style={{ backgroundColor: '#FDFFD7' }}
-                onMouseEnter={handleVideoHover}
+                className="block md:hidden w-full aspect-square mt-6 relative"
               >
-                <video
-                  ref={mobileVideoRef}
-                  className="w-full h-full object-cover"
-                  style={{
-                    opacity: videoReady ? 1 : 0,
-                    transition: 'opacity 0.4s ease-in-out'
-                  }}
-                  muted
-                  playsInline
-                  onCanPlay={() => setVideoReady(true)}
+                {/* Front Element: Main (Top-Left) */}
+                <div
+                  className={cn(
+                    "absolute top-0 left-0 w-[70%] h-[70%] rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-500 ease-out",
+                    activeLayer === 'main' ? "z-20 scale-[1.02]" : "z-10 scale-100 grayscale-[20%]"
+                  )}
+                  style={{ backgroundColor: '#FDFFD7' }}
+                  onMouseEnter={() => setActiveLayer('main')}
                 >
-                  <source src="/hero-video.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                  <img
+                    src="/madeinUA.jpg"
+                    alt="Made in Ukraine"
+                    className="w-full h-full object-cover scale-110"
+                  />
+                </div>
+                {/* Back Element: Secondary (482) */}
+                <div
+                  className={cn(
+                    "absolute bottom-0 right-0 w-[75%] h-[65%] rounded-3xl overflow-hidden shadow-xl border-4 border-[#F9FCD4] transition-all duration-500 ease-out",
+                    activeLayer === 'secondary' ? "z-20 scale-[1.02]" : "z-10 scale-100 grayscale-[20%]"
+                  )}
+                  style={{ backgroundColor: '#FDFFD7' }}
+                  onMouseEnter={() => setActiveLayer('secondary')}
+                >
+                  <img
+                    src="/482.jpg"
+                    alt="Process 482"
+                    className="w-full h-full object-cover scale-110"
+                  />
+                </div>
               </div>
 
               {/* Button Group - Airy buffer from subheading */}
@@ -96,7 +89,7 @@ export function Hero() {
                   </Link>
 
                   <Link href="/map" className="flex justify-center md:justify-start">
-                    <Button className="inline-flex items-center justify-center h-[46px] bg-transparent text-black border-none rounded-[32px] px-6 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-transparent hover:scale-110 tracking-[-0.3125px]">
+                    <Button className="inline-flex items-center justify-center h-[46px] md:h-[52px] bg-transparent text-black border-none rounded-full px-7 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-transparent hover:scale-105 tracking-[-0.3125px]">
                       <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
                       {t('home.hero.learnMore') || 'Learn More'}
                     </Button>
@@ -106,27 +99,42 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Video - Vertically Centered */}
-          <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-center">
+          {/* Right Column: Visualization - Vertically Centered */}
+          <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-end">
             <div
-              className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:h-[384px] lg:max-h-[384px] min-[1440px]:h-[384px] min-[1440px]:max-h-none w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px] lg:max-w-none mx-auto min-[1440px]:aspect-auto"
-              style={{ backgroundColor: '#FDFFD7' }}
-              onMouseEnter={handleVideoHover}
+              className="relative aspect-[4/3] max-h-[300px] lg:h-[384px] lg:max-h-[384px] min-[1440px]:h-[384px] min-[1440px]:max-h-none w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px] lg:max-w-none mx-0 min-[1440px]:aspect-auto"
             >
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                style={{
-                  opacity: videoReady ? 1 : 0,
-                  transition: 'opacity 0.4s ease-in-out'
-                }}
-                muted
-                playsInline
-                onCanPlay={() => setVideoReady(true)}
+              {/* Front Element: Main (Top-Left) */}
+              <div
+                className={cn(
+                  "absolute top-0 left-0 w-[70%] h-[85%] rounded-[40px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-500 ease-out",
+                  activeLayer === 'main' ? "z-20 scale-[1.02]" : "z-10 scale-100 grayscale-[20%]"
+                )}
+                style={{ backgroundColor: '#FDFFD7' }}
+                onMouseEnter={() => setActiveLayer('main')}
               >
-                <source src="/hero-video.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+                <img
+                  src="/madeinUA.jpg"
+                  alt="Made in Ukraine"
+                  className="w-full h-full object-cover scale-110"
+                />
+              </div>
+
+              {/* Back Element: Secondary (482) */}
+              <div
+                className={cn(
+                  "absolute bottom-[-20px] right-0 w-[75%] h-[75%] rounded-[40px] overflow-hidden shadow-2xl border-[6px] border-[#F9FCD4] transition-all duration-500 ease-out",
+                  activeLayer === 'secondary' ? "z-20 scale-[1.02]" : "z-10 scale-100 grayscale-[20%]"
+                )}
+                style={{ backgroundColor: '#FDFFD7' }}
+                onMouseEnter={() => setActiveLayer('secondary')}
+              >
+                <img
+                  src="/482.jpg"
+                  alt="Process 482"
+                  className="w-full h-full object-cover scale-110"
+                />
+              </div>
             </div>
           </div>
 

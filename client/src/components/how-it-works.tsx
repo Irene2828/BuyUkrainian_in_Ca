@@ -1,8 +1,6 @@
 import { MapPin, Search, PlusCircle, ArrowRight, Share2 } from "lucide-react";
 import { Link } from "wouter";
-import howItWorks1 from "@/assets/how-it-works-1.png";
-import howItWorks2 from "@/assets/how-it-works-2-v2.png";
-import howItWorks3 from "@/assets/how-it-works-3-v2.png";
+import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 
 export function HowItWorks() {
@@ -50,21 +48,21 @@ export function HowItWorks() {
               <div className="h-[200px] w-full flex items-end justify-center overflow-hidden mb-4">
                 {index === 0 && (
                   <img
-                    src={howItWorks1}
+                    src="/icon1.png"
                     alt="Find Ukrainian products"
                     className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
                 {index === 1 && (
                   <img
-                    src={howItWorks2}
+                    src="/icon2.png"
                     alt="Add a store"
                     className="max-h-full w-auto object-contain transform scale-110"
                   />
                 )}
                 {index === 2 && (
                   <img
-                    src={howItWorks2}
+                    src="/icon3.png"
                     alt="Spread the Word"
                     className="max-h-full w-auto object-contain transform scale-110"
                   />
@@ -86,11 +84,11 @@ export function HowItWorks() {
 
         {/* CTA Button - Standardized size */}
         <div className="mt-4 mb-0 w-full flex justify-center text-center">
-          <Link
-            href="/map"
-            className="btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] md:h-[52px] py-3 px-7 text-[16px] font-semibold gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98]"
-          >
-            {t('home.hero.explore') || 'Explore the map'} <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
+          <Link href="/map">
+            <Button className="btn-premium-action bg-black text-white hover:bg-slate-900 group gap-1.5 font-ui shadow-none h-[46px] md:h-[52px] rounded-full px-7">
+              <span>{t('home.hero.explore') || "Explore the map"}</span>
+              <ArrowRight className="w-5 h-5 !fill-none !stroke-current transition-transform duration-300 group-hover:translate-x-1 mt-[1px]" strokeWidth={2} />
+            </Button>
           </Link>
         </div>
       </div>

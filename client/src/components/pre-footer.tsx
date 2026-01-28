@@ -1,4 +1,7 @@
 import { useI18n } from "@/lib/i18n";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 export function PreFooter() {
     const { t, language } = useI18n();
@@ -21,6 +24,16 @@ export function PreFooter() {
                             Every small action matters.
                         </span>
                     </h2>
+
+                    {/* Unified CTA */}
+                    <div className="mt-12">
+                        <Link href="/map">
+                            <Button className="btn-premium-action bg-black text-white hover:bg-slate-900 group gap-1.5 font-ui shadow-none h-[46px] md:h-[52px] rounded-full px-7">
+                                <span>{t('home.hero.explore') || "Explore the map"}</span>
+                                <ArrowRight className="w-5 h-5 !fill-none !stroke-current transition-transform duration-300 group-hover:translate-x-1 mt-[1px]" strokeWidth={2} />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>
