@@ -123,6 +123,26 @@ export function MapSection({
     return () => window.removeEventListener('focusStore', handleFocus);
   }, [viewMode]);
 
+  // Focus Management: Return focus to pin when sidebar closes
+  const lastFocusedElement = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (selectedStore) {
+      // Capture focus BEFORE it moves to the modal/card
+      if (document.activeElement instanceof HTMLElement) {
+        lastFocusedElement.current = document.activeElement;
+      }
+    } else {
+      // Restore focus when selectedStore becomes null
+      if (lastFocusedElement.current) {
+        // Small timeout to ensure DOM is ready and modal is gone
+        setTimeout(() => {
+          lastFocusedElement.current?.focus();
+        }, 50);
+      }
+    }
+  }, [selectedStore]);
+
   const getFullProvince = (p: string) => {
     const map: Record<string, string> = {
       "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",

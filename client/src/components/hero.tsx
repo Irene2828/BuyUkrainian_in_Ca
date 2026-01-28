@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Info, MapPin } from "lucide-react";
 import { Link } from "wouter";
@@ -7,7 +7,28 @@ import { cn } from "@/lib/utils";
 
 export function Hero() {
   const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const { t, language } = useI18n();
+
+  // Play on load
+  useEffect(() => {
+    if (videoReady) {
+      if (videoRef.current) videoRef.current.play().catch(e => console.log("Hero video play blocked:", e));
+      if (mobileVideoRef.current) mobileVideoRef.current.play().catch(e => console.log("Mobile video play blocked:", e));
+    }
+  }, [videoReady]);
+
+  const handleVideoHover = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(e => console.log("Video hover play blocked:", e));
+    }
+    if (mobileVideoRef.current) {
+      mobileVideoRef.current.currentTime = 0;
+      mobileVideoRef.current.play().catch(e => console.log("Mobile video hover play blocked:", e));
+    }
+  };
 
   return (
     <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center animate-in fade-in duration-500">
@@ -46,15 +67,16 @@ export function Hero() {
               <div
                 className="block md:hidden w-full aspect-square mt-6 rounded-3xl overflow-hidden shadow-sm border border-gray-100 relative"
                 style={{ backgroundColor: '#FDFFD7' }}
+                onMouseEnter={handleVideoHover}
               >
                 <video
+                  ref={mobileVideoRef}
                   className="w-full h-full object-cover"
                   style={{
                     opacity: videoReady ? 1 : 0,
                     transition: 'opacity 0.4s ease-in-out'
                   }}
                   muted
-                  loop
                   playsInline
                   onCanPlay={() => setVideoReady(true)}
                 >
@@ -89,15 +111,16 @@ export function Hero() {
             <div
               className="rounded-2xl md:rounded-[40px] overflow-hidden shadow-sm border border-gray-100 relative aspect-[4/3] max-h-[300px] lg:h-[384px] lg:max-h-[384px] min-[1440px]:h-[384px] min-[1440px]:max-h-none w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px] lg:max-w-none mx-auto min-[1440px]:aspect-auto"
               style={{ backgroundColor: '#FDFFD7' }}
+              onMouseEnter={handleVideoHover}
             >
               <video
+                ref={videoRef}
                 className="w-full h-full object-cover"
                 style={{
                   opacity: videoReady ? 1 : 0,
                   transition: 'opacity 0.4s ease-in-out'
                 }}
                 muted
-                loop
                 playsInline
                 onCanPlay={() => setVideoReady(true)}
               >

@@ -63,11 +63,7 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
             {/* Typography & Content - Minimalist Centered Gallery Style */}
             <div className="flex flex-col items-center gap-1 px-1 relative text-center">
                 {/* Status indicator row (Hidden if no status) */}
-                {isNew && (
-                    <div className="flex items-center justify-center h-4 mb-2">
-                        <Circle className="w-1.5 h-1.5 fill-blue-600 text-blue-600 animate-pulse" />
-                    </div>
-                )}
+
 
                 {/* Title & Action Row - Strictly Centered Unit */}
                 <div className="w-full flex justify-center mt-2 px-1">

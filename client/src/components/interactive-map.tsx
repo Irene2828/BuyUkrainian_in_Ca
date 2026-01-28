@@ -91,15 +91,25 @@ function MapController({
       const duration = Math.max(flyConfig?.duration || 2.0, 1.5);
       const targetZoom = flyConfig?.zoom || 16;
 
-      // The Glide & Curve (Obsidian Silk)
-      // easeLinearity: 0.1 creates a more pronounced curve (arctangent-ish), 
-      // feeling more "flight-like" than straight line.
-      map.flyTo(focusCoordinates, targetZoom, {
+      // Use padding if provided for offset
+      // Standard Leaflet flyTo option: paddingBottomRight (x, y)
+      // This offsets the center point. If we have [400, 0], it means 400px of padding on right.
+      const flyOptions: L.ZoomPanOptions = {
         duration: duration,
         easeLinearity: 0.1,
         animate: true,
         noMoveStart: true
-      });
+      };
+
+      if (flyConfig?.padding) {
+        // @ts-ignore - Leaflet types might be missing paddingBottomRight on FlyTo options in some versions
+        flyOptions.paddingBottomRight = flyConfig.padding;
+      }
+
+      // The Glide & Curve (Obsidian Silk)
+      // easeLinearity: 0.1 creates a more pronounced curve (arctangent-ish), 
+      // feeling more "flight-like" than straight line.
+      map.flyTo(focusCoordinates, targetZoom, flyOptions);
 
       const timer = setTimeout(() => {
         if (onFlightEnd) onFlightEnd();
@@ -286,8 +296,13 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     focusOnStore: (store: Store) => {
       // Mechanical Zoom (Pin Click) - Stabilized
       if (store.coordinates) {
+        // Calculate dynamic padding based on sidebar presence
+        // Sidebar is 400px on desktop (right side)
+        const isDesktop = window.innerWidth >= 768;
+        const padding: [number, number] = isDesktop ? [400, 0] : [0, 0];
+
         // Increased from 1.2 to 1.8 for smoother approach
-        setFlyConfig({ duration: 1.8, padding: [0, 0], zoom: 16 });
+        setFlyConfig({ duration: 1.8, padding, zoom: 16 });
         setFocusCoordinates(store.coordinates as [number, number]);
         setProvinceView(null);
       }
@@ -385,12 +400,14 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           keepBuffer={2}
         />
 
+
         <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
           © CARTO, © OpenStreetMap contributors
         </div>
 
         <MapController
           focusCoordinates={focusCoordinates}
+          flyConfig={flyConfig} // Pass fresh flyConfig
           provinceView={provinceView}
           onFlightStart={() => onFlightChange?.(true)}
           onFlightEnd={() => onFlightChange?.(false)}
@@ -431,9 +448,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
               if (panel) panel.classList.add('slide-out-to-right');
               setTimeout(() => {
                 onCloseStore();
-                // Trigger Cinematic Zoom-Out (The Reveal)
-                setProvinceView({ lat: 58, lng: -98, zoom: 4.5 });
-                setFocusCoordinates(null);
+                // NO ZOOM REVEAL - User Requirement: "DO NOT trigger a zoom-out or fitBounds reset"
               }, 200); // Wait for anim
             }}
             onSeeOnMap={(s) => {

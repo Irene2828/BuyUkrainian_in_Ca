@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, Copy, Navigation, MapPin, Check, Maximize2, ZoomIn, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { X, Copy, Navigation, MapPin, Check, Maximize2, ZoomIn, ChevronLeft, ChevronRight, ArrowUpRight, Globe } from 'lucide-react';
 import { Store } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from "@/lib/i18n";
@@ -156,10 +156,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
                 <button
                     onClick={onClose}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 active:scale-90"
+                    className="w-[44px] h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors text-gray-400 active:scale-90 flex-shrink-0"
                     aria-label="Close"
                 >
-                    <X size={20} className="fill-none stroke-current" strokeWidth={2} />
+                    <X size={24} className="fill-none stroke-current" strokeWidth={2} />
                 </button>
             </div>
 
@@ -215,7 +215,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             {/* 3. Information Section: Location & Context */}
             <div className="mx-6 border-t border-gray-100"></div>
 
-            <div className="p-3">
+            <div className="p-3 flex flex-col gap-3">
                 <div className="flex items-start gap-4">
                     <div className="bg-gray-50 p-3 rounded-[20px] text-gray-500 flex-shrink-0">
                         <MapPin size={20} className="fill-none stroke-current" strokeWidth={2} />
@@ -227,24 +227,30 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         <p className="text-sm text-gray-500 mt-0.5 font-medium">
                             {store.address.split(',').slice(2).join(',')}
                         </p>
-                        {store.website && (
-                            <a
-                                href={store.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm text-blue-600 mt-1 block hover:underline truncate"
-                            >
-                                {store.website.replace(/^https?:\/\/(www\.)?/, '')}
-                            </a>
-                        )}
                     </div>
                 </div>
+
+                {store.website && (
+                    <div className="flex items-center gap-4">
+                        <div className="bg-gray-50 p-3 rounded-[20px] text-gray-500 flex-shrink-0">
+                            <Globe size={20} className="fill-none stroke-current" strokeWidth={2} />
+                        </div>
+                        <a
+                            href={store.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-blue-600 font-medium hover:underline truncate"
+                        >
+                            {store.website.replace(/^https?:\/\/(www\.)?/, '')}
+                        </a>
+                    </div>
+                )}
             </div>
 
             {/* 4. Action Section: Primary & Secondary */}
             <div className="px-6 pb-4 mt-6 space-y-3">
-                {/* Primary Actions Grid */}
-                <div className={cn("grid gap-3", store.website ? "grid-cols-2" : "grid-cols-1")}>
+                {/* Primary Action - Full Width Directions */}
+                <div className="grid grid-cols-1">
                     <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank"
@@ -252,20 +258,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         className="h-[52px] bg-black text-white font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-gray-200 hover:bg-slate-900 hover:shadow-md hover:-translate-y-[0.5px] active:scale-[0.98] text-[15px]"
                     >
                         <Navigation size={20} className="fill-none stroke-current" strokeWidth={2.5} />
-                        Directions
+                        Get Directions
                     </a>
-
-                    {store.website && (
-                        <a
-                            href={store.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="h-[52px] bg-blue-50 text-blue-700 font-bold rounded-[32px] flex items-center justify-center gap-2.5 transition-all duration-300 hover:bg-blue-100 hover:shadow-sm hover:-translate-y-[0.5px] active:scale-[0.98] text-[15px]"
-                        >
-                            <span>Website</span>
-                            <ArrowUpRight size={20} className="fill-none stroke-current" strokeWidth={2.5} />
-                        </a>
-                    )}
                 </div>
 
                 {/* Secondary Dual Actions */}
