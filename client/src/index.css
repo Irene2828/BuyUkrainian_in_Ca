@@ -28,7 +28,7 @@
   --color-admin-text-dark: #1A1A1A;
 
   /* Semantic Re-mapping */
-  --color-background: var(--white);
+  --color-background: #F5F5F7;
   --color-foreground: var(--color-text-primary);
 
   --color-primary: var(--color-text-primary);
@@ -47,9 +47,9 @@
   --color-input: #E5E7EB;
   --color-ring: var(--color-brand-cyan);
 
-  --color-card: var(--white);
+  --color-card: #FFFFFF;
   --color-card-foreground: var(--color-text-primary);
-  --color-popover: var(--white);
+  --color-popover: #FFFFFF;
   --color-popover-foreground: var(--color-text-primary);
   --color-destructive: #EF4444;
   --color-destructive-foreground: var(--white);
@@ -113,8 +113,8 @@
   /* ========================================
      THEME ENGINE - LIGHT MODE (Default)
      ======================================== */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F5F5F7;
+  --bg-primary: #F5F5F7;
+  --bg-secondary: #FFFFFF;
   --bg-tertiary: #FAFAFA;
   --text-main: #1D1D1F;
   --text-secondary: #8E8E93;
