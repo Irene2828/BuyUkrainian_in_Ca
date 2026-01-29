@@ -54,7 +54,7 @@ export async function registerRoutes(
   // Helper function for location fetching with extra safety
   const getLocationsHelper = async (res: any) => {
     try {
-      console.log("📍 [API] Fetching locations...");
+
 
       // Debug check for storage
       if (!storage) {
@@ -66,7 +66,7 @@ export async function registerRoutes(
       }
 
       const stores = await storage.getApprovedStores();
-      console.log(`✅ [API] Fetched ${stores.length} stores`);
+
       res.json({ data: stores });
 
     } catch (error: any) {

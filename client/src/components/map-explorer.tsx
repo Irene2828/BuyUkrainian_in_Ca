@@ -92,9 +92,9 @@ export function MapExplorer() {
     const { data: allStores = [], isLoading } = useQuery({
         queryKey: ["stores"],
         queryFn: async () => {
-            console.log("MapExplorer: Starting store fetch...");
+
             const data = await getApprovedStores();
-            console.log("MapExplorer: Stores fetched:", data.length);
+
             return data;
         },
         staleTime: Infinity,
