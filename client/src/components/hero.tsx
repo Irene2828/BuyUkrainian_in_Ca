@@ -89,7 +89,7 @@ export function Hero() {
                   </Link>
 
                   <Link href="/map" className="flex justify-center md:justify-start">
-                    <Button className="inline-flex items-center justify-center h-[46px] md:h-[52px] bg-transparent text-black border-none rounded-full px-7 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-all duration-300 hover:bg-transparent hover:scale-105 tracking-[-0.3125px]">
+                    <Button className="inline-flex items-center justify-center h-[46px] md:h-[52px] bg-transparent text-black border-none rounded-full px-7 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-colors duration-300 hover:bg-transparent tracking-[-0.3125px]">
                       <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
                       {t('home.hero.learnMore') || 'Learn More'}
                     </Button>

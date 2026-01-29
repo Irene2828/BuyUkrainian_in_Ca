@@ -6,7 +6,7 @@ const app = express();
 // Log critical environment variables for debugging (production only)
 if (process.env.NODE_ENV === "production") {
     console.log("[Env] DATABASE_URL:", process.env.DATABASE_URL ? "SET" : "MISSING");
-    console.log("[Env] SUPABASE_URL:", process.env.SUPABASE_URL ? "SET" : "MISSING");
+    console.log("[Env] NEXT_PUBLIC_SUPABASE_URL:", process.env.NEXT_PUBLIC_SUPABASE_URL ? "SET" : "MISSING");
     console.log("[Env] SUPABASE_SERVICE_ROLE_KEY:", process.env.SUPABASE_SERVICE_ROLE_KEY ? "SET" : "MISSING");
 }
 

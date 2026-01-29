@@ -362,7 +362,7 @@ export function MapExplorer() {
                     </div>
                     <button
                         onClick={() => setAddStoreDialogOpen(true)}
-                        className="btn-premium-action bg-black text-white hover:bg-[#1a1a1a] shadow-sm active:scale-95"
+                        className="btn-premium-action bg-black text-white hover:bg-slate-900 group shadow-none active:scale-95"
                     >
                         <Plus className="w-4 h-4 mr-1.5" /> Add a store
                     </button>
@@ -446,7 +446,7 @@ export function MapExplorer() {
                 {/* Add a Store Button */}
                 <button
                     onClick={() => setAddStoreDialogOpen(true)}
-                    className="btn-premium-action bg-black text-white hover:bg-[#1a1a1a] shadow-lg"
+                    className="btn-premium-action bg-black text-white hover:bg-slate-900 group shadow-none"
                 >
                     <Plus className="w-4 h-4 mr-2" />
                     <span>Add a store</span>

@@ -76,7 +76,7 @@ export async function registerRoutes(
         details: error.message || String(error),
         stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
         env_check: {
-          has_url: !!process.env.SUPABASE_URL,
+          has_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
           has_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
         }
       });

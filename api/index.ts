@@ -13,7 +13,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
             message: error.message || String(error),
             stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
             env_debug: {
-                has_supabase_url: !!process.env.SUPABASE_URL,
+                has_supabase_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
                 has_service_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
             }
         });

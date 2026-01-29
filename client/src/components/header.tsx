@@ -1,17 +1,17 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
+import { Search, Menu, X, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSwitcher } from "./language-switcher";
-import { useTheme } from "@/lib/theme-context";
+
 
 export function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useI18n();
-  const { theme, toggleTheme, isDark } = useTheme();
+
 
   // Track scroll position for border effect
   useEffect(() => {
@@ -74,18 +74,7 @@ export function Header() {
             {/* Language Switcher */}
             <LanguageSwitcher />
 
-            {/* Sol/Luna Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 text-[#8E8E93] hover:text-[#1D1D1F] transition-all duration-500 ease-in-out focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {isDark ? (
-                <Sun className="w-[18px] h-[18px]" strokeWidth={1.5} />
-              ) : (
-                <Moon className="w-[18px] h-[18px]" strokeWidth={1.5} />
-              )}
-            </button>
+            {/* Sol/Luna Theme Toggle - Removed per user request */}
           </div>
         )}
 

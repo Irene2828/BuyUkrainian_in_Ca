@@ -43,3 +43,5 @@ PREMIUM_INTERACTIONS.md
 PREMIUM_INTERACTIONS_VERIFICATION.md
 latest_state.json
 LatestUkraineProject/
+.vercel
+.env*.local
