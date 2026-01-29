@@ -58,6 +58,7 @@ export class DatabaseStorage implements IStorage {
     // Use standard node-postgres pool for compatibility with Supabase (Transaction Pooler) and Neon
     this.pool = new Pool({
       connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }, // Required for valid Supabase/Vercel connections
     });
 
     this.db = drizzle(this.pool);
