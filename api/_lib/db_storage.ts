@@ -3,6 +3,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import pkg from 'pg';
 const { Pool } = pkg;
 import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
 
 // Define the shape of our Store object for the application
 export interface Store {
@@ -84,7 +85,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createStore(insertStore: InsertStore): Promise<Store> {
-    const result = await this.db.insert(stores).values(insertStore).returning();
+    const newStore = {
+      ...insertStore,
+      id: nanoid(),
+      // Ensure specific fields that might be missing in InsertStore but required by DB are handled if any
+      // InsertStore form zod schema omits id and createdAt
+    };
+    const result = await this.db.insert(stores).values(newStore).returning();
     return this.mapToStore(result[0]);
   }
 
@@ -114,6 +121,7 @@ export class DatabaseStorage implements IStorage {
       ...dbStore,
       // Ensure category is typed correctly
       category: dbStore.category as "food" | "clothes" | "other" | "retail",
+      status: dbStore.status as "approved" | "pending" | "rejected",
       createdAt: dbStore.createdAt || new Date(),
     };
   }
