@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+// Force rebuild timestamp: 2026-01-31T21:45:00
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
@@ -33,12 +34,15 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://buy-ukrainian-in-cajan23.vercel.app',
         changeOrigin: true,
+        secure: false,
       },
       '/ws': {
-        target: 'http://localhost:3000',
+        target: 'https://buy-ukrainian-in-cajan23.vercel.app',
         ws: true,
+        changeOrigin: true,
+        secure: false,
       },
     },
     fs: {

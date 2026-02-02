@@ -1,5 +1,5 @@
-// MUST be first - loads environment variables
-import "./env.js";
+// MUST be first - loads environment variables and validates config
+import { config } from "./config.js";
 
 import app from "./app.js";
 import { setupWebSocket } from "./websocket.js";
@@ -16,12 +16,10 @@ const httpServer = createServer(app);
   // Routes are already registered in ./app.ts
   setupWebSocket(httpServer);
 
-  const isProduction = process.env.NODE_ENV === "production";
-
   // ERROR HANDLING is already in ./app.ts
 
   // Serve static files in production
-  if (isProduction) {
+  if (config.isProduction) {
     serveStatic(app);
   } else {
     // Dev mode: Vite hot reload
@@ -32,10 +30,8 @@ const httpServer = createServer(app);
   // =====================
   // START SERVER
   // =====================
-  const DEFAULT_PORT = 3000; // default dev port
-  const PORT = process.env.PORT ? parseInt(process.env.PORT) : DEFAULT_PORT;
 
-  httpServer.listen(PORT, "0.0.0.0", () => {
-    log(`Server running on http://localhost:${PORT}`);
+  httpServer.listen(config.port, "0.0.0.0", () => {
+    log(`Server running on http://localhost:${config.port}`);
   });
 })();

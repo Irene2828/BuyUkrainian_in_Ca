@@ -1,7 +1,7 @@
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import type { Express, Request, Response, NextFunction } from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { storage } from "./db_storage.js";
 

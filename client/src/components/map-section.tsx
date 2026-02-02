@@ -291,40 +291,7 @@ export function MapSection({
 
 
       {/* Locate Me Button - Glassmorphism 44px square, 20px below Add a Store */}
-      <button
-        onClick={() => {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const { latitude, longitude } = position.coords;
-                // Fly to user location at city level (zoom 12) with smooth ease-in-out 1.5s
-                if (mapRef.current) {
-                  mapRef.current.flyToLocation(latitude, longitude, 12);
-                }
-                // Emit event for sidebar sync (reverse geocoding happens in map-explorer)
-                window.dispatchEvent(new CustomEvent('userLocationFound', {
-                  detail: { latitude, longitude }
-                }));
-              },
-              (error) => {
-                // Show ghost toast for error
-                const toast = document.createElement('div');
-                toast.className = 'ghost-toast';
-                toast.textContent = error.code === 1 ? 'Location access denied' : 'Unable to get location';
-                toast.style.cssText = 'bottom: 84px; right: 20px;';
-                document.querySelector('.map-section-container')?.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-              },
-              { enableHighAccuracy: true, timeout: 10000 }
-            );
-          }
-        }}
-        className="absolute top-[84px] right-[20px] z-[400] w-[44px] h-[44px] rounded-xl bg-white/90 backdrop-blur-md border border-[rgba(0,0,0,0.1)] shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2 dark:bg-[rgba(44,44,46,0.9)] dark:border-[rgba(255,255,255,0.1)]"
-        aria-label="Locate me"
-        title="Locate me"
-      >
-        <Navigation className="w-[18px] h-[18px] text-[#8E8E93]" strokeWidth={1.5} />
-      </button>
+
       <ErrorBoundary fallbackType="map">
         <InteractiveMap
           ref={mapRef}
@@ -339,7 +306,7 @@ export function MapSection({
       </ErrorBoundary>
       {/* Empty state overlay when no stores match filters */}
       {filteredStores.length === 0 && stores.length > 0 && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[20px]">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[24px]">
           <div className="text-center p-8">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <MapPin className="w-8 h-8 text-gray-400" />

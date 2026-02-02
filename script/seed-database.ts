@@ -4,6 +4,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
+import { nanoid } from "nanoid";
 import { createClient } from "@supabase/supabase-js";
 
 const seedData = [
@@ -104,21 +105,20 @@ async function seedDatabase() {
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-        console.error("❌ Missing Supabase credentials!");
-        console.error("   Make sure .env.local contains:");
-        console.error("   - NEXT_PUBLIC_SUPABASE_URL");
-        console.error("   - SUPABASE_SERVICE_ROLE_KEY");
-        process.exit(1);
+        const missing = [];
+        if (!supabaseUrl) missing.push("NEXT_PUBLIC_SUPABASE_URL");
+        if (!supabaseKey) missing.push("SUPABASE_SERVICE_ROLE_KEY");
+        throw new Error(`Configuration Error: Missing API credentials: ${missing.join(", ")}`);
     }
 
     console.log("🌱 Connecting to Supabase...");
-    console.log(`📍 URL: ${supabaseUrl}`);
+    // URL logging removed for Zero-Visibility Policy
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // First, check if table is already populated
     const { data: existing, error: checkError } = await supabase
-        .from('locations')
+        .from('stores') // Updated table name
         .select('id')
         .limit(1);
 
@@ -128,21 +128,33 @@ async function seedDatabase() {
     }
 
     if (existing && existing.length > 0) {
-        console.log("⚠️  Warning: locations table already contains data.");
+        console.log("⚠️  Warning: 'stores' table already contains data.");
         console.log("   To avoid duplicates, delete existing data first or modify the script.");
         console.log("");
         console.log("   You can clear the table in Supabase SQL Editor with:");
-        console.log("   DELETE FROM locations;");
+        console.log("   DELETE FROM stores;");
         console.log("");
-        console.log("   Or continue anyway (will create duplicates)? [y/N]");
+        // We will just exit to be safe
+        console.log("   Exiting to prevent duplicates.");
         process.exit(0);
     }
 
     console.log(`🌱 Seeding ${seedData.length} Ukrainian stores...`);
 
+    // Format data and add IDs
+    const formattedData = seedData.map(store => {
+        const { lat, lng, ...rest } = store;
+        return {
+            ...rest,
+            id: nanoid(),
+            latitude: lat,
+            longitude: lng,
+        };
+    });
+
     const { data, error } = await supabase
-        .from('locations')
-        .insert(seedData)
+        .from('stores') // Updated table name
+        .insert(formattedData)
         .select();
 
     if (error) {

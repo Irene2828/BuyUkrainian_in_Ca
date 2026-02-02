@@ -4,7 +4,7 @@ import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
 import { SpreadTheWord } from "@/components/spread-the-word";
 import { FAQ } from "@/components/faq";
-import { PreFooter } from "@/components/pre-footer";
+import { CommunityImpact } from "@/components/community-impact";
 import { Footer } from "@/components/footer";
 import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 
@@ -52,7 +52,7 @@ export default function Home() {
         </div>
 
         <div className="section-reveal">
-          <PreFooter />
+          <CommunityImpact />
         </div>
       </main>
       <Footer />

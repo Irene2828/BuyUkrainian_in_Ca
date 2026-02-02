@@ -71,6 +71,7 @@ h5 {
     will-change: transform;
     transform: translateZ(0);
     /* Hardware accelerate */
+    z-index: 500;
 }
 
 /* Hover-only boutique scale animation */
@@ -150,18 +151,17 @@ h5 {
     transition: all 0.2s ease;
 }
 
-/* City Labels Layer - WCAG Enhanced Readability */
+/* City Labels Layer - Removed filters to preserve Stadia clarity */
 .city-labels-layer {
-    opacity: 0.9;
     pointer-events: none;
-    /* Labels will use CARTO's default charcoal styling */
 }
 
-/* WCAG: Map Tile Color Adjustments for Contrast */
-.map-tiles-filtered {
-    /* Deeper water color, maintain crisp land */
-    filter: saturate(0.85) brightness(0.98) contrast(1.02);
+/* Ice-Blue Crystalline Correction - Sovereign Aesthetic */
+.map-tile-pane-sovereign {
+    filter: hue-rotate(10deg) brightness(1.05) saturate(0.9) !important;
 }
+
+
 
 /* WCAG: High-Contrast Focus States - Sky Blue #A5D8FF */
 .focus-ring-accessible:focus,
@@ -202,14 +202,14 @@ section h3 {
    ======================================== */
 
 /* Dark mode map tile filter - Midnight aesthetic */
-.dark .map-tiles-filtered {
-    filter: brightness(0.6) saturate(0.7) contrast(1.1);
+/* Dark mode map adjustments - Using opacity instead of destructive filters */
+.dark .leaflet-tile-pane {
+    opacity: 0.8;
 }
 
-/* Dark mode label layer */
 .dark .city-labels-layer {
-    filter: invert(1) hue-rotate(180deg) brightness(1.5);
-    opacity: 0.75;
+    filter: invert(1) brightness(1.5);
+    opacity: 0.7;
 }
 
 /* Dark mode dropdowns */

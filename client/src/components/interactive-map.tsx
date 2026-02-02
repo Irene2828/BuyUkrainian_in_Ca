@@ -39,15 +39,15 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
-    className: 'unified-marker-icon', // Transitions handled via GlobalStyles.css to prevent jitter
+    className: 'unified-marker-icon',
     html: `
-      <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
-        <div class="marker-pin-top"></div>
-        <div class="marker-pin-bottom"></div>
+      <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow: hidden; position: relative; background: #fff;">
+        <div style="width: 100%; height: 50%; background: #0057B8;"></div>
+        <div style="width: 100%; height: 50%; background: #FFD700;"></div>
       </div>
     `,
     iconSize: [28, 28],
-    iconAnchor: [14, 14], // Mathematically centered to prevent zoom jumping
+    iconAnchor: [14, 14],
     popupAnchor: [0, -14],
   });
 };
@@ -356,8 +356,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden rounded-[var(--radius-brand)] bg-[#FAFAFA] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards"
+      className="w-full h-full relative z-0 overflow-hidden bg-[#F9FAFB] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards antialiased"
     >
+      <div
+        className="absolute inset-0 z-[400] pointer-events-none shadow-[inset_0_0_80px_white]"
+        style={{ borderRadius: 'inherit' }}
+      />
       <MapContainer
         center={CANADA_CENTER}
         zoom={INITIAL_MAP_STATE.zoom}
@@ -376,30 +380,16 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         fadeAnimation={true}
         ref={(m) => { if (m) mapRef.current = m; }}
       >
-        {/* Base Map Tiles - No Labels - Instant load, no fade */}
+        {/* CartoDB Voyager - The Aesthetic North Star */}
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           maxZoom={20}
-          attribution='© CARTO © OpenStreetMap contributors'
-          subdomains='abcd'
-          updateWhenIdle={false}
-          updateWhenZooming={false}
-          keepBuffer={2}
-          className="map-tiles-filtered"
-        />
-
-        {/* Canadian City Labels Only - CARTO Labels Layer - Instant load */}
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png"
-          maxZoom={20}
-          subdomains='abcd'
-          bounds={CANADA_BOUNDS}
-          className="city-labels-layer"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          className="map-tile-pane-sovereign"
           updateWhenIdle={false}
           updateWhenZooming={false}
           keepBuffer={2}
         />
-
 
         <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
           © CARTO, © OpenStreetMap contributors
@@ -460,34 +450,37 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col gap-2">
+      {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-white/90 backdrop-blur-md rounded-xl border-[0.5px] border-[#E2E8F0] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden">
         <button
           onClick={() => {
             mapRef.current?.zoomIn();
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-[#F5F5F7] transition-all flex items-center justify-center text-black hover:scale-105 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
+          className="w-[44px] h-[44px] flex items-center justify-center text-black hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Zoom In"
         >
-          <Plus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
+          <Plus className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
         </button>
+        <div className="w-[24px] h-[1px] bg-slate-200/60" />
         <button
           onClick={() => {
             mapRef.current?.zoomOut();
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-[#F5F5F7] transition-all flex items-center justify-center text-black hover:scale-105 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
+          className="w-[44px] h-[44px] flex items-center justify-center text-black hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Zoom Out"
         >
-          <Minus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
+          <Minus className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
         </button>
+        <div className="w-[24px] h-[1px] bg-slate-200/60" />
         <button
           onClick={() => {
             setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
             setFocusCoordinates(null);
           }}
-          className="w-8 h-8 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-[#F5F5F7] transition-all flex items-center justify-center text-black hover:scale-105 focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
+          className="w-[44px] h-[44px] flex items-center justify-center text-black hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Reset to Full Canada"
         >
-          <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
+          <Maximize2 className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
         </button>
       </div>
     </div>

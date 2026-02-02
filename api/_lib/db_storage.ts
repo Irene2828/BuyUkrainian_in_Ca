@@ -45,6 +45,8 @@ export interface IStorage {
   getAllAdminUsers(): Promise<AdminUser[]>;
 }
 
+import { config } from "./config.js";
+
 // Changes made here for standard Postgres storage (Supabase/Neon/etc).
 // Map pins are served directly from this DB (getApprovedStores) to minimize external API calls.
 export class DatabaseStorage implements IStorage {
@@ -52,13 +54,14 @@ export class DatabaseStorage implements IStorage {
   private pool;
 
   constructor() {
-    if (!process.env.DATABASE_URL) {
-      throw new Error("DATABASE_URL is not set. The application requires a database connection.");
+    // Validate config implicitly by accessing it
+    if (!config.databaseUrl) {
+      throw new Error("Configuration Error: Missing database credentials");
     }
 
     // Use standard node-postgres pool for compatibility with Supabase (Transaction Pooler) and Neon
     this.pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: config.databaseUrl,
       ssl: { rejectUnauthorized: false }, // Required for valid Supabase/Vercel connections
     });
 
@@ -158,11 +161,6 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Strict enforcement: no fallback
-if (!process.env.DATABASE_URL) {
-  console.error("❌ CRITICAL: DATABASE_URL is missing from environment variables.");
-  console.error("The application requires a database connection to function.");
-  throw new Error("Missing DATABASE_URL");
-}
+
 
 export const storage = new DatabaseStorage();

@@ -45,33 +45,35 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pb-7 md:pb-[44px]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="mb-4 md:mb-6 max-w-[700px] flex flex-col gap-3 md:gap-4 text-left">
+    <section className="bg-transparent pb-7 md:pb-[44px]">
+      <div className="mx-auto max-w-7xl px-6 lg:px-16">
+        <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col gap-3 md:gap-4 text-left">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
-              <h2 className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-black whitespace-nowrap section-headline-reveal m-0">
-                Latest community additions
+              <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
+              <h2
+                className="text-[13px] font-bold tracking-[0.08em] text-slate-400 uppercase whitespace-nowrap m-0 font-ui"
+              >
+                LATEST COMMUNITY ADDITIONS
               </h2>
             </div>
-            <p className="text-[14px] text-slate-500 font-ui stagger-item">
+            <p className="text-[16px] text-slate-500 font-ui stagger-item">
               Every point on the map starts with a member of our community sharing a local find.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1440px] pl-[68px] pr-6 md:pr-12 group/carousel relative">
+      <div className="mx-auto max-w-7xl px-6 lg:px-16 group/carousel relative">
         <Carousel
           opts={{
             align: "start",
           }}
           className="w-full relative"
         >
-          <CarouselContent className="">
+          <CarouselContent className="-ml-8">
             {newlyAdded.map((store) => (
-              <CarouselItem key={store.id} className="pr-3 basis-full sm:basis-1/2 lg:basis-1/4">
+              <CarouselItem key={store.id} className="pl-8 basis-full sm:basis-1/2 md:basis-[28%] lg:basis-[22%]">
                 <div className="w-full">
                   <EditorialStoreCard
                     store={store}
@@ -82,7 +84,7 @@ function NewlyAddedStores() {
             ))}
 
             {/* Final "See more" card - Styled to match Editorial Height */}
-            <CarouselItem className="pr-3 basis-full sm:basis-1/2 lg:basis-1/4">
+            <CarouselItem className="pl-8 basis-full sm:basis-1/2 md:basis-[28%] lg:basis-[22%]">
               <div
                 className="flex flex-col items-center justify-center h-full min-h-[220px] gap-3 p-4 rounded-[20px] border border-dashed border-slate-300 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-400 transition-all cursor-pointer group"
                 onClick={() => {
@@ -92,8 +94,8 @@ function NewlyAddedStores() {
                 <div className="h-12 w-12 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-black transition-colors" />
                 </div>
-                <span className="text-sm font-semibold text-slate-500 group-hover:text-slate-900 text-center">
-                  See all stores on map
+                <span className="text-sm font-bold text-slate-900 text-center">
+                  View All Stores
                 </span>
               </div>
             </CarouselItem>
@@ -107,7 +109,7 @@ function NewlyAddedStores() {
         </Carousel>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-16">
       </div>
 
 
@@ -148,7 +150,7 @@ export default function MapPage() {
   const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
 
   return (
-    <div className="bg-background flex flex-col font-sans selection:bg-blue-100">
+    <div className="bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100">
       <Header />
       <main className="flex flex-col">
         {/* Map Page Headline Section - Premium Text-Block Anchor */}
@@ -159,44 +161,19 @@ export default function MapPage() {
           <MapExplorer />
         </div>
 
-        {/* Below-the-fold sections - Vertical Air exactly 75% of Zen Zone (0.75 * py-32 = py-24) */}
-        <div className="section-reveal relative z-10 bg-white pt-24">
+        {/* Below-the-fold sections - Vertical Air exactly 75% of Zen Zone */}
+        <div className="section-reveal relative z-10 bg-white pt-6 pb-20">
           <NewlyAddedStores />
+
         </div>
 
-        {/* TASK 3: Tighter Whitespace for better content flow - Calibrated +10% bottom air */}
-        <section className="w-full flex justify-center pt-12 pb-[44px] md:pt-20 md:pb-[72px] bg-white flex flex-col items-center">
-          <div className="max-w-4xl mx-auto px-6 text-center mb-0">
-            <h2 className="text-[24px] font-semibold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900 mb-4 stagger-item">
-              Know a place selling made in Ukraine?
-            </h2>
-            <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-500 font-ui mb-8 stagger-item">
-              Contributing is easy and makes a difference for the community.
-            </p>
-
-            <div className="flex flex-col items-center gap-4 stagger-item">
-              <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-                <DialogTrigger asChild>
-                  <button className="group btn-cta inline-flex items-center justify-center bg-black text-white rounded-full h-[46px] px-6 text-[16px] font-semibold tracking-[-0.01em] gap-2 font-ui shadow-lg transition-all duration-300 ease-out hover:bg-[#1e293b] hover:-translate-y-[1px] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] active:scale-95">
-                    <Plus className="w-5 h-5 stroke-[2.5] transition-transform duration-300 group-hover:rotate-90" />
-                    Add a store
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="max-w-xl p-0 overflow-y-auto max-h-[90vh] flex flex-col border-none bg-transparent shadow-none" hideClose>
-                  <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-                </DialogContent>
-              </Dialog>
-            </div>
-          </div>
-        </section>
-
         {/* Mission Reminder - Subtle Bridge to Footer */}
-        <section className="w-full bg-[#f8fafc] py-20 md:py-24 border-t border-slate-100 section-reveal">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <section className="w-full bg-[#f1f5f9] py-20 md:py-24 border-t border-slate-100 section-reveal">
+          <div className="max-w-7xl mx-auto px-6 lg:px-16">
             <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
               <div className="max-w-xl">
                 <p className="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-[0.15em] mb-4 font-sans">Our Mission</p>
-                <h3 className="text-[28px] md:text-[32px] font-semibold text-slate-900 leading-tight mb-4 stagger-item">
+                <h3 className="font-semibold text-slate-900 leading-tight mb-4 stagger-item">
                   Supporting resilience, one store at a time.
                 </h3>
                 <p className="text-[17px] text-[#424245] font-ui leading-relaxed max-w-lg">
@@ -204,11 +181,11 @@ export default function MapPage() {
                 </p>
               </div>
               <div className="flex flex-col items-center md:items-end gap-6">
-                <div className="flex items-center gap-2.5 px-4 py-2 bg-[#F5F5F7]/80 rounded-full border border-[#E5E5E7] border-[0.5px]">
+                <div className="flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-[#E5E5E7] border-[0.5px] shadow-sm">
                   <div className="w-2 h-2 bg-[#A5D8FF] rounded-full animate-premium-pulse" />
                   <span className="text-[12px] font-medium text-[#8E8E93] font-sans tracking-normal">Community verified</span>
                 </div>
-                <p className="text-[14px] text-slate-400 font-ui italic">
+                <p className="text-[14px] text-slate-500 font-ui italic">
                   Every addition makes our community stronger.
                 </p>
               </div>

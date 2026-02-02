@@ -35,13 +35,13 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-white font-sans overflow-hidden pt-8 md:pt-8 pb-32 md:pb-32">
+    <section id="faq" className="bg-transparent font-sans overflow-hidden pt-8 md:pt-8 pb-32 md:pb-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-3 text-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900">
             Common Questions
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal text-gray-600 font-ui md:leading-[29.3px] md:tracking-[-0.44px]">
+          <p className="text-[14px] font-normal text-slate-400 font-ui md:leading-[1.6]">
             Frequently asked questions about the map and how to contribute.
           </p>
         </div>
@@ -51,27 +51,27 @@ export function FAQ() {
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className="border-b border-slate-100 last:border-0"
+              className="last:border-0"
             >
               {/* Question - Clickable */}
               <button
                 onClick={() => toggleItem(i)}
-                className="flex justify-between items-center w-full py-5 text-left group cursor-pointer no-invert-hover transition-colors"
+                className="flex justify-between items-center w-full py-6 text-left group cursor-pointer no-invert-hover transition-colors"
                 aria-expanded={openIndex === i}
               >
                 <span className={cn(
-                  "text-[18px] font-medium text-slate-900 leading-snug pr-4 transition-colors duration-200",
-                  openIndex === i ? "text-slate-900" : "group-hover:text-slate-500"
+                  "text-[18px] font-semibold text-black leading-snug pr-4 transition-colors duration-200",
+                  openIndex === i ? "text-black" : "group-hover:text-slate-600"
                 )}>
                   {faq.question}
                 </span>
                 <div
                   className={cn(
                     "flex items-center justify-center text-slate-300 transition-all duration-200 ease-out shrink-0",
-                    openIndex === i ? "rotate-180 text-slate-900" : "group-hover:text-slate-500"
+                    openIndex === i ? "rotate-180 text-black" : "group-hover:text-slate-600"
                   )}
                 >
-                  <ChevronDown className="w-5 h-5 fill-none stroke-current stroke-[1.5]" />
+                  <ChevronDown className="w-5 h-5 fill-none stroke-current stroke-[1]" />
                 </div>
               </button>
 
@@ -91,7 +91,7 @@ export function FAQ() {
             </div>
           ))}
         </div>
-      </div>
+      </div >
     </section >
   );
 }

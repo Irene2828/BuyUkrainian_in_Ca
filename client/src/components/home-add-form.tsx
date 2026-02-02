@@ -166,6 +166,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       setIsSubmitted(true);
+      toast({
+        title: "Store submitted successfully",
+        description: "Thank you for contributing to the community map!",
+        variant: "default",
+        className: "bg-[#F0F9FF] border-l-4 border-[#0ea5e9] text-slate-800", // Blue accent styling
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -469,7 +475,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-14 rounded-full bg-black text-white hover:bg-gray-900 font-semibold text-[16px] transition-all flex items-center justify-center gap-2 mt-8 font-ui shadow-lg hover:shadow-xl hover:scale-[1.01]"
+              className="w-full btn-premium-action flex items-center justify-center gap-2 mt-8 shadow-lg hover:shadow-xl hover:scale-[1.01]"
             >
               {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Add a store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
             </Button>

@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight, Info, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export function Hero() {
   const [activeLayer, setActiveLayer] = useState<"main" | "secondary">("main");
+  const [showNudge, setShowNudge] = useState(true);
   const { t } = useI18n();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowNudge(false);
+      } else {
+        setShowNudge(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-12 md:py-0 md:h-[528px] md:flex md:items-center animate-in fade-in duration-500">
@@ -88,11 +101,10 @@ export function Hero() {
                     </Button>
                   </Link>
 
-                  <Link href="/map" className="flex justify-center md:justify-start">
-                    <Button className="inline-flex items-center justify-center h-[46px] md:h-[52px] bg-transparent text-black border-none rounded-full px-7 text-[16px] font-normal gap-1.5 font-ui shadow-none transition-colors duration-300 hover:bg-transparent tracking-[-0.3125px]">
-                      <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
-                      {t('home.hero.learnMore') || 'Learn More'}
-                    </Button>
+                  <Link href="/map" className="group relative flex items-center justify-center h-[52px] px-6 text-[16px] font-medium text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none">
+                    <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={2} />
+                    <span>{t('home.hero.learnMore') || 'Learn More'}</span>
+                    <span className="absolute bottom-[10px] left-6 right-6 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </Link>
                 </div>
               </div>
@@ -140,6 +152,8 @@ export function Hero() {
 
         </div>
       </div>
+
+
     </section>
   );
 }

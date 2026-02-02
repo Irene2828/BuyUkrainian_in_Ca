@@ -1,9 +1,11 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Plus, HelpCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSwitcher } from "./language-switcher";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { HomeAddForm } from "@/components/home-add-form";
 
 
 export function Header() {
@@ -11,15 +13,18 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useI18n();
+  const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
 
 
   // Track scroll position for border effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      // Sticky header logic disabled for now per user request
+      // setIsScrolled(window.scrollY > 50);
+      setIsScrolled(false);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // window.addEventListener('scroll', handleScroll);
+    // return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Close mobile menu on route change
@@ -28,13 +33,8 @@ export function Header() {
   }, [location]);
 
   return (
-    <header className={cn(
-      "sticky top-0 z-[100] w-full h-auto font-sans transition-all duration-500 ease-in-out py-1",
-      isScrolled
-        ? "bg-white/90 backdrop-blur-xl shadow-[0_2px_20px_-12px_rgba(0,0,0,0.1)] border-b border-slate-200/50"
-        : "bg-white border-b border-transparent"
-    )}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-full relative">
+    <header className="relative w-full z-[100] h-auto font-sans py-5 bg-white/80 backdrop-blur-md border-b-0 border-transparent">
+      <div className="max-w-7xl mx-auto px-6 lg:px-16 flex items-center justify-between h-full relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
@@ -51,24 +51,15 @@ export function Header() {
         {!isScrolled && (
           <div className="hidden md:flex flex-1 items-center justify-end gap-10 animate-in fade-in duration-500">
             <nav className="items-center gap-10 flex font-ui">
-              <Link
-                href="/about"
-                className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
-              >
-                {t('header.about.short') || 'About'}
-              </Link>
+
               <a
                 href="/#faq"
-                className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
+                className="text-[16px] font-medium text-[#4B5563] tracking-[0.3px] flex items-center gap-1.5 group transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02]"
               >
-                {t('header.faq') || 'FAQ'}
+                <HelpCircle className="w-4 h-4" />
+                Help
+                <span className="absolute left-0 -bottom-1 w-full h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </a>
-              <Link
-                href="/about"
-                className="text-[16px] font-normal text-slate-600 hover:text-slate-950 transition-colors duration-300 leading-[26px] tracking-[-0.44px]"
-              >
-                Contact
-              </Link>
             </nav>
 
             {/* Language Switcher */}
@@ -81,15 +72,16 @@ export function Header() {
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
           {!isScrolled && location !== '/map' && (
-            <Link href="/map" className="no-invert-hover flex items-center gap-2 py-2 text-black no-underline">
+            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-gray-100 transition-colors text-black no-underline">
               <Search className="w-5 h-5 text-black fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-semibold">{t('header.exploreMap') || 'Explore the map'}</span>
             </Link>
           )}
 
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="no-invert-hover p-2 text-black"
+            className="no-invert-hover flex items-center justify-center min-w-[44px] min-h-[44px] p-2 rounded-full hover:bg-gray-100 transition-colors text-black"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
@@ -121,28 +113,23 @@ export function Header() {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-lg z-40">
-          <nav className="flex flex-col p-4 gap-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-            <Link
-              href="/about"
-              className="no-invert-hover text-[16px] font-medium text-[#0D4276] hover:text-slate-950 transition-colors duration-300 text-left py-2 tracking-tight"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <a href="/#faq" className="text-[16px] font-medium text-[#0D4276] hover:text-slate-950 transition-colors duration-300 py-2 tracking-tight">
-              {t('header.faq') || 'FAQ'}
-            </a>
-            <Link href="/about" className="text-[16px] font-medium text-[#0D4276] hover:text-slate-950 transition-colors duration-300 py-2 tracking-tight">
-              {t('header.about.short') || 'About'}
-            </Link>
-            <div className="py-2">
-              <LanguageSwitcher />
-            </div>
-          </nav>
-        </div>
-      )}
-    </header>
+      {
+        mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-lg z-40">
+            <nav className="flex flex-col p-4 gap-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+
+              <a href="/#faq" className="text-[16px] font-medium text-[#0D4276] hover:text-slate-950 transition-colors duration-300 py-2 tracking-tight flex items-center gap-2">
+                <HelpCircle className="w-5 h-5" />
+                Help
+              </a>
+
+              <div className="py-2">
+                <LanguageSwitcher />
+              </div>
+            </nav>
+          </div>
+        )
+      }
+    </header >
   );
 }

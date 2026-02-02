@@ -49,6 +49,7 @@ export function MapExplorer() {
     const { t } = useI18n();
     const { toast } = useToast();
     const [searchQuery, setSearchQuery] = useState("");
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [category, setCategory] = useState<string | null>(null);
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
     const [selectedCity, setSelectedCity] = useState<string | null>(null);
@@ -61,14 +62,12 @@ export function MapExplorer() {
     const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
     const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
-    const [provinceSearch, setProvinceSearch] = useState("");
+    const [provinceSearchQuery, setProvinceSearchQuery] = useState("");
     const [citySearch, setCitySearch] = useState("");
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
-    // Ref for sidebar to detect clicks outside dropdowns
     const sidebarRef = useRef<HTMLElement>(null);
 
-    // Helper function to close all dropdowns
     const closeAllDropdowns = () => {
         setIsProvinceDropdownOpen(false);
         setIsCityDropdownOpen(false);
@@ -76,31 +75,22 @@ export function MapExplorer() {
         setIsSortDropdownOpen(false);
     };
 
-    // Click outside handler to close dropdowns
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            // If clicking outside sidebar, close all dropdowns
             if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
                 closeAllDropdowns();
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const { data: allStores = [], isLoading } = useQuery({
+    const { data: stores = [], isLoading } = useQuery({
         queryKey: ["stores"],
-        queryFn: async () => {
-
-            const data = await getApprovedStores();
-
-            return data;
-        },
+        queryFn: getApprovedStores,
         staleTime: Infinity,
     });
 
-    // Handle 'Clear Filters' event from MapSection (Empty State)
     useEffect(() => {
         const handleClearFilters = () => {
             setSearchQuery("");
@@ -109,133 +99,52 @@ export function MapExplorer() {
             setSelectedCity(null);
             setIsOpenOnly(false);
             setSortMode("newest");
-            // toast({ description: t('map.filtersCleared') || "Filters cleared" }); // Removed per 13.58.03
         };
-
         window.addEventListener('clearFilters', handleClearFilters);
         return () => window.removeEventListener('clearFilters', handleClearFilters);
-    }, [toast, t]);
+    }, []);
 
-    // Smart Sidebar Sync: Reverse geocoding when user location is found
     useEffect(() => {
         const handleUserLocationFound = async (evt: Event) => {
             const event = evt as CustomEvent<{ latitude: number; longitude: number }>;
             const { latitude, longitude } = event.detail;
-
             try {
-                // Use Nominatim API for free reverse geocoding
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`,
-                    {
-                        headers: {
-                            'User-Agent': 'BuyUkrainian.ca/1.0'
-                        }
-                    }
-                );
-
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`, {
+                    headers: { 'User-Agent': 'BuyUkrainian.ca/1.0' }
+                });
                 if (response.ok) {
                     const data = await response.json();
-                    const address = data.address;
-
-                    // Extract city (try multiple fields as Nominatim varies)
-                    const city = address.city || address.town || address.village || address.municipality;
-                    const province = address.state || address.province;
-
-                    // Auto-update sidebar filters
+                    const province = data.address.state || data.address.province;
+                    const city = data.address.city || data.address.town || data.address.village;
                     if (province) {
-                        // Match against our province list
-                        const matchedProvince = Object.keys(PROVINCE_CENTERS).find(
-                            p => p.toLowerCase() === province.toLowerCase() ||
-                                province.toLowerCase().includes(p.toLowerCase())
-                        );
-                        if (matchedProvince) {
-                            setSelectedProvince(matchedProvince);
-                        }
+                        const matched = Object.keys(PROVINCE_CENTERS).find(p => p.toLowerCase().includes(province.toLowerCase()));
+                        if (matched) setSelectedProvince(matched);
                     }
-
-                    if (city) {
-                        // Set city filter (the dropdown will show available cities from stores)
-                        setSelectedCity(city);
-                    }
-
-                    // Update user location state
+                    if (city) setSelectedCity(city);
                     setUserLocation([latitude, longitude]);
                 }
             } catch (error) {
-                console.log('Reverse geocoding failed:', error);
-                // Still update user location even if geocoding fails
                 setUserLocation([latitude, longitude]);
             }
         };
-
         window.addEventListener('userLocationFound', handleUserLocationFound);
         return () => window.removeEventListener('userLocationFound', handleUserLocationFound);
     }, []);
 
-    // Listen for openAddStoreDialog event from map button
-    useEffect(() => {
-        const handleOpenDialog = () => setAddStoreDialogOpen(true);
-        window.addEventListener('openAddStoreDialog', handleOpenDialog);
-        return () => window.removeEventListener('openAddStoreDialog', handleOpenDialog);
-    }, []);
-
-    // Deep Linking: Handle ?store=Name param
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const storeName = params.get('store');
-        if (storeName && allStores.length > 0) {
-            const decodedName = decodeURIComponent(storeName);
-            const store = allStores.find(s => s.name === decodedName);
-            if (store) {
-                console.log("Deep Linking: Found store", store.name);
-                setTimeout(() => {
-                    window.dispatchEvent(new CustomEvent('focusStore', { detail: store }));
-                }, 800);
-            }
-        }
-    }, [allStores]);
-
-    // Non-blocking loading state - we render the structure and let MapSection show its skeleton
-    // and the Sidebar shows empty/loading states if needed.
-    // This avoids the full-screen "Fetching..." message which users found intrusive.
-
     const handleUseLocation = () => {
-        if (!navigator.geolocation) {
-            toast({
-                title: "Error",
-                description: "Geolocation is not supported by your browser",
-                variant: "destructive"
-            });
-            return;
-        }
-
-        toast({ description: "Locating..." });
+        if (!navigator.geolocation) return;
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                // Force update even if location is roughly same to trigger flyTo
-                setUserLocation([latitude, longitude]);
-            },
-            (error) => {
-                toast({
-                    title: "Location Error",
-                    description: "Unable to retrieve your location",
-                    variant: "destructive"
-                });
-            }
+            (pos) => setUserLocation([pos.coords.latitude, pos.coords.longitude]),
+            () => toast({ title: "Error", description: "Location access denied", variant: "destructive" })
         );
     };
 
-    const filteredStores = allStores.filter(store => {
-        const matchesSearch = !searchQuery ||
-            store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
-
+    const filteredStores = stores.filter(store => {
+        const matchesSearch = !searchQuery || store.name.toLowerCase().includes(searchQuery.toLowerCase()) || store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
         const matchesCategory = !category || store.category === category;
         const storeProvinceFull = PROVINCE_MAP[store.province] || store.province;
         const matchesProvince = !selectedProvince || selectedProvince === "All Canada" || storeProvinceFull === selectedProvince;
         const matchesCity = !selectedCity || store.city === selectedCity;
-
         return matchesSearch && matchesCategory && matchesProvince && matchesCity;
     });
 
@@ -243,28 +152,7 @@ export function MapExplorer() {
     const provincesCount = new Set(filteredStores.map(s => s.province)).size;
     const productsCount = filteredStores.reduce((acc, s) => acc + (s.products?.length || 0), 0);
 
-    const provincesFiltered = ["All Provinces", ...CANADIAN_PROVINCES].filter(p =>
-        p.toLowerCase().includes(provinceSearch.toLowerCase())
-    );
-
-    const availableCities = Array.from(new Set(
-        allStores
-            .filter(s => {
-                if (!selectedProvince) return true;
-                const provinceFull = PROVINCE_MAP[s.province] || s.province;
-                return provinceFull === selectedProvince;
-            })
-            .map(s => s.city)
-            .filter(Boolean)
-    )).sort();
-
-    // Calculate Category Counts (Global Scope)
-    const getCategoryCount = (catId: string) => {
-        return allStores.filter(s => s.category === catId).length;
-    };
-
-    // UI State for Filters Sidebar
-    // (State variables moved to top-level)
+    const provincesFiltered = ["All Provinces", ...CANADIAN_PROVINCES].filter(p => p.toLowerCase().includes(provinceSearchQuery.toLowerCase()));
 
     const allCategories = [
         { id: "food", label: "Food", icon: UtensilsCrossed },
@@ -279,371 +167,261 @@ export function MapExplorer() {
         { id: "other", label: "Other", icon: StoreIcon },
     ];
 
-    const topCategories = allCategories.filter(cat => ["food", "clothes", "gifts"].includes(cat.id));
+    const CATEGORIES = allCategories;
 
     return (
         <div className={cn(
-            "w-full bg-white flex flex-col md:block transition-[height] duration-300 ease-in-out",
-            viewMode === "map" ? "h-auto md:h-auto" : "min-h-[400px] h-auto"
+            "w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out",
+            viewMode === "map" ? "h-auto" : "min-h-[400px]"
         )}>
 
-            {/* Stats Section with Heading */}
-            <header
-                className="pt-2 pb-11 md:pt-6 flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards"
-                aria-label="Map Statistics"
-            >
-                <div className="w-full max-w-[1440px] px-6 lg:px-12 flex items-end justify-center gap-12 lg:scale-100 scale-90 origin-top transition-transform duration-500">
-
-                    {/* Descriptive Text - Left aligned */}
-                    <div className="flex flex-col gap-2 shrink-0">
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
-                            <h2 className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-black whitespace-nowrap m-0">
-                                Currently on the map
-                            </h2>
-                        </div>
-                        <p className="text-[14px] text-slate-500 font-ui whitespace-nowrap">
-                            Find Ukrainian products near you, or help grow the map.
-                        </p>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="hidden md:block w-[1px] h-[40px] bg-slate-200 shrink-0" />
-
-                    {/* Stats Group - Centered */}
-                    <div className="flex items-center justify-center gap-12">
-
-                        {/* Stores */}
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-4xl font-medium tabular-nums text-slate-900 leading-none">
-                                <AnimatedCounter end={filteredStoresCount} duration={1500} />
-                            </span>
-                            <span className="text-[11px] font-bold uppercase tracking-widest text-[#64748b]">stores</span>
-                        </div>
-
-                        {/* Provinces */}
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-4xl font-medium tabular-nums text-slate-900 leading-none">
-                                <AnimatedCounter end={provincesCount} duration={1600} />
-                            </span>
-                            <span className="text-[11px] font-bold uppercase tracking-widest text-[#64748b]">provinces</span>
-                        </div>
-
-                        {/* Products */}
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-4xl font-medium tabular-nums text-slate-900 leading-none">
-                                <AnimatedCounter end={productsCount} duration={1700} />
-                            </span>
-                            <span className="text-[11px] font-bold uppercase tracking-widest text-[#64748b]">products</span>
-                        </div>
-                    </div>
+            {/* Dashboard Header - Centered Mission Hierarchy */}
+            {/* Dashboard Header - Centered Mission Hierarchy */}
+            {/* Dashboard Header - Centered Mission Hierarchy */}
+            <header className="pt-3 pb-3 flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards text-center">
+                <div className="flex flex-col items-center w-full max-w-[500px] px-6 mb-2 mx-auto">
+                    <h2 className="text-[32px] md:text-[36px] font-normal tracking-[-0.01em] text-slate-900/90 leading-[1.2] font-sans">
+                        Find new places to <span className="font-medium border-b-[1px] border-[#FFE800]/80 pb-1">shop</span> or <span className="font-medium border-b-[1px] border-[#0057B8]/20 pb-1">grow the map</span> by adding new ones.
+                    </h2>
                 </div>
             </header>
 
-            {/* Mobile: Horizontal scrolling filter bar */}
-            {/* Mobile: Map Controls Refactored - 2 Rows */}
-            <div className="md:hidden w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-[80px] z-[45]">
-                {/* Row 1: Search + Add Store (Black CTA) */}
-                <div className="flex items-center gap-3 px-6 py-3 border-b border-gray-50/50">
-                    <div className="relative group flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+            {/* Main Content Area */}
+            <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 flex flex-col md:flex-row gap-8 pb-20">
+
+                {/* Sidebar - Strictly aligned with map top */}
+                <aside ref={sidebarRef} className="w-full md:w-[250px] shrink-0 pt-3 flex flex-col gap-6">
+
+                    {/* Search Field - Moved to Sidebar Top */}
+                    <div className="relative group w-full flex items-center">
                         <Input
-                            placeholder="Search by city or name..."
-                            className="pl-9 pr-9 h-10 bg-white border-[#2D2A27]/12 rounded-full text-sm shadow-[0_2px_12px_-3px_rgba(0,0,0,0.06),0_4px_6px_-2px_rgba(0,0,0,0.04)] focus-visible:ring-1 focus-visible:ring-[#D3E4FD]/40 font-ui transition-all duration-300"
+                            placeholder={t('map.search.placeholder') || 'Search...'}
+                            className="no-ring-force w-full h-[48px] pl-0 pr-20 bg-transparent border-b border-t-0 border-l-0 border-r-0 border-slate-200 rounded-none text-[15px] font-sans tracking-tight transition-all duration-200 placeholder:text-slate-900/50 focus-visible:border-black focus-visible:ring-0 focus-visible:shadow-none hover:border-slate-300 shadow-none px-0"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            onFocus={() => setIsSearchFocused(true)}
+                            onBlur={() => setIsSearchFocused(false)}
                         />
+                        <Search className="absolute right-10 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700 stroke-[1.5px] opacity-100 pointer-events-none" />
                         <button
                             onClick={handleUseLocation}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-black transition-colors"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-black transition-all"
+                            title="Use my location"
                         >
                             <Navigation className="w-3.5 h-3.5" />
                         </button>
                     </div>
-                    <button
-                        onClick={() => setAddStoreDialogOpen(true)}
-                        className="btn-premium-action bg-black text-white hover:bg-slate-900 group shadow-none active:scale-95"
-                    >
-                        <Plus className="w-4 h-4 mr-1.5" /> Add a store
-                    </button>
-                </div>
 
-                {/* Row 2: Horizontal Scroll Filters */}
-                <div className="overflow-x-auto scrollbar-hide relative">
-                    {/* Feed Signal */}
-                    <div className="fixed right-0 top-[140px] h-[50px] w-12 bg-gradient-to-l from-white to-transparent pointer-events-none z-50"></div>
-                    <div className="flex flex-row items-center gap-3 px-6 py-3 min-w-max">
-                        {/* View Toggle - Map/List */}
-                        <div className="flex items-center p-1 bg-[#D3E4FD] rounded-full">
-                            <button
-                                onClick={() => setViewMode("map")}
-                                className={cn(
-                                    "h-[46px] px-4 rounded-full text-sm flex items-center gap-1.5 transition-all font-ui active:scale-95",
-                                    viewMode === "map" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
-                                )}
-                            >
-                                <MapIcon className="w-3.5 h-3.5" /> Map View
-                            </button>
-                            <button
-                                onClick={() => setViewMode("list")}
-                                className={cn(
-                                    "h-[46px] px-4 rounded-full text-sm flex items-center gap-1.5 transition-all font-ui active:scale-95",
-                                    viewMode === "list" ? "bg-white text-black shadow-sm font-medium" : "text-black hover:bg-white/50 font-normal"
-                                )}
-                            >
-                                <List className="w-3.5 h-3.5" /> List View
-                            </button>
-                        </div>
-
-                        {/* Category Pills */}
-                        <div className="flex items-center gap-2 bg-[#D3E4FD] p-1 rounded-full">
-                            {topCategories.map((cat) => (
+                    <div className="flex flex-col gap-6">
+                        <h3 className="text-[12px] font-semibold text-slate-400 font-sans uppercase tracking-[0.03em] hidden md:block pl-0">
+                            FILTER BY:
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-1 gap-6">
+                            {/* Province Filter Dropdown */}
+                            <div className="relative">
                                 <button
-                                    key={cat.id}
-                                    onClick={() => setCategory(category === cat.id ? null : cat.id)}
+                                    onClick={() => {
+                                        const open = !isProvinceDropdownOpen;
+                                        closeAllDropdowns();
+                                        setIsProvinceDropdownOpen(open);
+                                    }}
                                     className={cn(
-                                        "flex items-center gap-1.5 h-[46px] px-4 rounded-full text-sm transition-all font-ui whitespace-nowrap active:scale-95",
-                                        category === cat.id
-                                            ? "bg-white text-black shadow-sm font-medium"
-                                            : "text-black hover:bg-white/50 font-normal"
+                                        "flex items-center justify-between w-full h-[48px] px-4 rounded-xl text-[16px] font-medium border transition-all duration-300 shadow-sm hover:shadow-md hover:border-black/[0.12]",
+                                        selectedProvince ? "bg-[#A5D8FF]/20 border-[#A5D8FF] text-black" : "bg-white border-black/[0.08] text-slate-500"
                                     )}
                                 >
-                                    <cat.icon className="w-3.5 h-3.5" />
-                                    {cat.label}
+                                    <span className="truncate">{selectedProvince || "Location"}</span>
+                                    <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-600", isProvinceDropdownOpen && "rotate-180")} strokeWidth={1} />
                                 </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            {/* Desktop Toolbar - Search and CTA - Centered Row */}
-            <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-6 lg:px-12 justify-center items-center gap-4 mb-8">
-                {/* Search Field (Fixed Width 480px) */}
-                <div className="relative group w-[480px] flex items-center">
-                    <Search
-                        className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A1A1A6] group-focus-within:text-[#A5D8FF] transition-all duration-300 pointer-events-none"
-                        strokeWidth={2}
-                    />
-                    <Input
-                        placeholder={t('map.search.placeholder') || 'Search by city or store name...'}
-                        className="no-ring-force w-full h-[44px] pl-10 pr-10 bg-white border-[0.5px] border-[#D2D2D7] rounded-full text-sm font-ui transition-all duration-200 placeholder:text-[#737373] focus-visible:border-[#A5D8FF] focus-visible:ring-0 focus-visible:shadow-[0_0_0_3px_rgba(165,216,255,0.4)] focus-visible:outline-none hover:border-[#C0C0C5] shadow-[0_1px_2px_rgba(0,0,0,0.05)]"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <button
-                        onClick={handleUseLocation}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-[#A1A1A6] hover:bg-[#E5E5E7] rounded-full transition-all focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-2"
-                        title="Use my location"
-                    >
-                        <Navigation className="w-3.5 h-3.5" strokeWidth={2} />
-                    </button>
-                </div>
-
-                {/* Add a Store Button */}
-                <button
-                    onClick={() => setAddStoreDialogOpen(true)}
-                    className="btn-premium-action bg-black text-white hover:bg-slate-900 group shadow-none"
-                >
-                    <Plus className="w-4 h-4 mr-2" />
-                    <span>Add a store</span>
-                </button>
-            </div>
-
-            {/* Sidebar 'Command Center' Layout - Clean Borderless Alignment */}
-            <div className={cn(
-                "w-full flex-1 md:flex-none max-w-[1440px] mx-auto pl-[68px] pr-6 md:pr-12 flex flex-col md:flex-row gap-6 mt-0 pt-0",
-                viewMode === "map" ? "items-start h-auto" : "items-start h-auto"
-            )}>
-
-                <aside
-                    ref={sidebarRef}
-                    className="hidden md:flex w-[300px] flex-shrink-0 flex-col justify-start h-auto"
-                >
-                    <div className="flex flex-col gap-4">
-                        <h3 className="text-[14px] font-semibold text-black font-ui tracking-tight mb-0.5">
-                            Filter by:
-                        </h3>
-
-                        {/* Dropdown 1: Location (Province) */}
-                        <div className="relative">
-                            <button
-                                onClick={() => {
-                                    const willOpen = !isProvinceDropdownOpen;
-                                    closeAllDropdowns();
-                                    setIsProvinceDropdownOpen(willOpen);
-                                }}
-                                className={cn(
-                                    "province-dropdown-option no-ring-force no-invert-hover flex items-center justify-between w-full h-[44px] px-4 rounded-xl text-sm transition-all duration-300 border shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] font-ui !outline-none !ring-0 hover:shadow-sm",
-                                    selectedProvince
-                                        ? "bg-[#A5D8FF]/50 border-[#A5D8FF]/50 text-[#1A1A1A] font-semibold"
-                                        : "bg-white border-[#E5E5E5] text-slate-600 hover:border-[#D4D4D4]"
-                                )}
-                            >
-                                <span className="truncate">{selectedProvince || "Location"}</span>
-                                <ChevronDown className={cn("w-4 h-4 shrink-0 transition-transform", isProvinceDropdownOpen && "rotate-180")} />
-                            </button>
-
-                            {isProvinceDropdownOpen && (
-                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-gray-100 rounded-[20px] shadow-2xl z-[100] overflow-hidden animate-in fade-in zoom-in-95 duration-200 ring-1 ring-black/5">
-                                    <div className="p-3 border-b border-gray-50">
-                                        <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                                            <input
-                                                className="no-ring-force w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-0 font-ui placeholder:text-gray-400"
-                                                placeholder="Search location..."
-                                                autoFocus
-                                                value={provinceSearch}
-                                                onChange={(e) => setProvinceSearch(e.target.value)}
-                                            />
+                                {isProvinceDropdownOpen && (
+                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-[#E2E8F0] rounded-2xl shadow-premium z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                        <div className="p-2 border-b border-slate-50">
+                                            <div className="relative">
+                                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                                                <input
+                                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border-none rounded-lg text-sm focus:ring-1 focus:ring-[#A5D8FF]/50"
+                                                    placeholder="Find location..."
+                                                    autoFocus
+                                                    value={provinceSearchQuery}
+                                                    onChange={(e) => setProvinceSearchQuery(e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="max-h-60 overflow-y-auto p-1">
+                                            <button
+                                                onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
+                                                className="w-full text-left px-3 py-2 text-sm text-slate-500 hover:bg-[#A5D8FF]/10 hover:text-black rounded-lg transition-colors"
+                                            >
+                                                Everywhere in Canada
+                                            </button>
+                                            {provincesFiltered.map(p => p !== "All Provinces" && (
+                                                <button
+                                                    key={p}
+                                                    onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
+                                                    className={cn(
+                                                        "w-full text-left px-3 py-2 text-sm rounded-lg transition-colors",
+                                                        selectedProvince === p ? "bg-[#A5D8FF]/20 text-black font-semibold" : "text-slate-600 hover:bg-slate-50"
+                                                    )}
+                                                >
+                                                    {p}
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
-                                    <div className="max-h-60 overflow-y-auto custom-scrollbar">
-                                        {provincesFiltered.map((p) => (
-                                            <button
-                                                key={p}
-                                                onClick={() => {
-                                                    setSelectedProvince(p === "All Provinces" ? null : p);
-                                                    setSelectedCity(null);
-                                                    setProvinceSearch("");
-                                                    setIsProvinceDropdownOpen(false);
-                                                }}
-                                                className="province-dropdown-option w-full flex items-center justify-between pl-4 pr-4 py-2.5 text-sm font-medium tracking-tight text-gray-600 hover:text-gray-900 hover:font-semibold hover:bg-[#F5F5F7] transition-all duration-150 font-ui text-left truncate border-none outline-none focus:outline-none focus:ring-0"
-                                            >
-                                                {p === "All Provinces" ? "All Locations" : p}
-                                                {((!selectedProvince && p === "All Provinces") || selectedProvince === p) && <Check className="w-4 h-4 text-[#D3E4FD]" />}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Dropdown 2: Category */}
-                        <div className="relative">
-                            <button
-                                onClick={() => {
-                                    const willOpen = !isCategoryDropdownOpen;
-                                    closeAllDropdowns();
-                                    setIsCategoryDropdownOpen(willOpen);
-                                }}
-                                className={cn(
-                                    "province-dropdown-option no-ring-force no-invert-hover flex items-center justify-between w-full h-[44px] px-4 rounded-xl text-sm transition-all duration-300 border font-ui !outline-none !ring-0 hover:shadow-sm",
-                                    category
-                                        ? "bg-[#A5D8FF]/50 border-[#A5D8FF]/50 text-[#1A1A1A] font-semibold"
-                                        : "bg-white border-[#E5E5E5] text-slate-600 hover:border-[#D4D4D4]"
                                 )}
-                            >
-                                <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
-                                <ChevronDown className={cn("w-4 h-4 shrink-0 transition-transform", isCategoryDropdownOpen && "rotate-180")} />
-                            </button>
+                            </div>
 
-                            {isCategoryDropdownOpen && (
-                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-gray-100 rounded-[20px] shadow-2xl z-[100] overflow-hidden animate-in fade-in zoom-in-95 duration-200 ring-1 ring-black/5">
-                                    <div className="max-h-60 overflow-y-auto custom-scrollbar py-2">
-                                        {allCategories.map((cat) => (
+                            {/* Category Filter Dropdown */}
+                            <div className="relative">
+                                <button
+                                    onClick={() => {
+                                        const open = !isCategoryDropdownOpen;
+                                        closeAllDropdowns();
+                                        setIsCategoryDropdownOpen(open);
+                                    }}
+                                    className={cn(
+                                        "flex items-center justify-between w-full h-[48px] px-4 rounded-xl text-[16px] font-medium border transition-all duration-300 shadow-sm hover:shadow-md hover:border-black/[0.12]",
+                                        category ? "bg-[#A5D8FF]/20 border-[#A5D8FF] text-black" : "bg-white border-black/[0.08] text-slate-500"
+                                    )}
+                                >
+                                    <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                    <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-600", isCategoryDropdownOpen && "rotate-180")} strokeWidth={1} />
+                                </button>
+                                {isCategoryDropdownOpen && (
+                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-[#E2E8F0] rounded-2xl shadow-premium z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                        <div className="p-1 max-h-60 overflow-y-auto">
                                             <button
-                                                key={cat.id}
-                                                onClick={() => {
-                                                    setCategory(category === cat.id ? null : cat.id);
-                                                    setIsCategoryDropdownOpen(false);
-                                                }}
-                                                className="province-dropdown-option w-full flex items-center justify-between pl-4 pr-4 py-2.5 text-sm font-medium tracking-tight text-gray-600 hover:text-gray-900 hover:font-semibold hover:bg-[#F5F5F7] transition-all duration-150 font-ui text-left truncate border-none outline-none focus:outline-none focus:ring-0"
+                                                onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
+                                                className="w-full text-left px-3 py-2 text-sm text-slate-500 hover:bg-[#A5D8FF]/10 hover:text-black rounded-lg transition-colors"
                                             >
-                                                <div className="flex items-center gap-2">
-                                                    <cat.icon className="w-4 h-4 text-[#A1A1A6]" strokeWidth={1.5} />
-                                                    {cat.label}
-                                                </div>
-                                                {category === cat.id && <Check className="w-4 h-4 text-[#D3E4FD]" />}
+                                                All Categories
                                             </button>
-                                        ))}
+                                            {allCategories.map(cat => (
+                                                <button
+                                                    key={cat.id}
+                                                    onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
+                                                    className={cn(
+                                                        "w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors",
+                                                        category === cat.id ? "bg-[#A5D8FF]/20 text-black font-semibold" : "text-slate-600 hover:bg-slate-50"
+                                                    )}
+                                                >
+                                                    <cat.icon className="w-4 h-4 text-slate-400" strokeWidth={1.5} />
+                                                    {cat.label}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
                     </div>
                 </aside>
 
-                {/* Map Column Wrapper */}
-                < div className="flex-1 flex flex-col min-w-0" >
+                {/* Map/List Column Wrapper */}
+                <div className="flex-1 min-w-0 flex flex-col gap-4">
+                    <div className="relative h-[500px] md:h-[580px] w-full rounded-[20px] shadow-[0_0_40px_rgba(0,0,0,0.03)] border border-black/[0.04] overflow-hidden bg-white group/map">
 
+                        {/* Search Focus Dimming Overlay */}
+                        <div
+                            className={cn(
+                                "absolute inset-0 bg-black/[0.02] z-[450] pointer-events-none transition-opacity duration-500 will-change-opacity",
+                                isSearchFocused ? "opacity-100" : "opacity-0"
+                            )}
+                        />
 
-
-                    {/* Map Area - Viewfinder Styling with Retina Shadows */}
-                    < div className="relative h-[540px] w-full z-0 flex flex-col rounded-[20px] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] border-[0.5px] border-[#3C3732]/15 overflow-hidden bg-[#eff6ff] [contain:layout]" >
-
-                        {/* Floating Toggle Control - 44px Height + Glassmorphism for WCAG contrast */}
-                        <div className="absolute top-[20px] right-[20px] z-[100] flex items-center p-1 bg-white/90 backdrop-blur-md rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.12)] border border-[#D2D2D7] h-[44px]">
+                        {/* Map/List Toggle - Floating Top Left - Minimalist & Premium */}
+                        <div className="absolute top-6 left-6 z-[500] inline-flex items-center p-0.5 bg-white/90 backdrop-blur-md rounded-full h-[36px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.04] border-[0.5px] border-[#E2E8F0]">
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wider transition-all duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-1",
-                                    viewMode === "map"
-                                        ? "bg-[#A5D8FF]/50 text-[#1A1A1A] shadow-sm"
-                                        : "text-slate-500 hover:bg-[#E5E5E7] hover:text-slate-900"
+                                    "relative flex items-center gap-1.5 px-3 h-[32px] rounded-full text-[11px] font-semibold transition-all duration-300 z-10",
+                                    viewMode === "map" ? "text-black" : "text-slate-500 hover:text-black"
                                 )}
                             >
-                                <MapIcon className="w-3.5 h-3.5" />
-                                Map
+                                {viewMode === "map" && (
+                                    <motion.span
+                                        layoutId="toggle-pill"
+                                        className="absolute inset-0 bg-white shadow-sm rounded-full border border-black/5"
+                                        initial={false}
+                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    />
+                                )}
+                                <span className="relative z-10 flex items-center gap-1.5">
+                                    <MapIcon className="w-3.5 h-3.5" />
+                                    Map
+                                </span>
                             </button>
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wider transition-all duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-[#A5D8FF] focus-visible:outline-offset-1",
-                                    viewMode === "list"
-                                        ? "bg-[#A5D8FF]/50 text-[#1A1A1A] shadow-sm"
-                                        : "text-slate-500 hover:bg-[#E5E5E7] hover:text-slate-900"
+                                    "relative flex items-center gap-1.5 px-3 h-[32px] rounded-full text-[11px] font-semibold transition-all duration-300 z-10",
+                                    viewMode === "list" ? "text-black" : "text-slate-500 hover:text-black"
                                 )}
                             >
-                                <List className="w-3.5 h-3.5" />
-                                List
+                                {viewMode === "list" && (
+                                    <motion.span
+                                        layoutId="toggle-pill"
+                                        className="absolute inset-0 bg-white shadow-sm rounded-full border border-black/5"
+                                        initial={false}
+                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    />
+                                )}
+                                <span className="relative z-10 flex items-center gap-1.5">
+                                    <List className="w-3.5 h-3.5" />
+                                    List
+                                </span>
                             </button>
                         </div>
 
-                        {/* Add a Store Button - Moved Above Map */}
+                        {/* Add a Store CTA - Floating Top Right - Replaces Locate Me */}
+                        <button
+                            onClick={() => setAddStoreDialogOpen(true)}
+                            className="absolute top-6 right-6 z-[500] group inline-flex items-center justify-center bg-[#1A1A1B] text-white rounded-full h-[40px] px-8 text-[13px] font-semibold tracking-wide gap-2 shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 border-[0.5px] border-white/20"
+                        >
+                            <Plus className="w-4 h-4" strokeWidth={2.5} />
+                            Add a Store
+                        </button>
 
-                        {/* Inner Glass Glow - The 'Retina' Touch */}
-                        < div className="absolute inset-0 pointer-events-none z-[50] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)] rounded-[20px]" />
+                        {/* Map or List Render */}
+                        <div className="w-full h-full relative z-0">
+                            <MapSection
+                                mode="full"
+                                className="w-full h-full"
+                                searchQuery={searchQuery}
+                                category={category}
+                                viewMode={viewMode}
+                                selectedProvince={selectedProvince}
+                                selectedCity={selectedCity}
+                                sortMode={sortMode}
+                                onFlightChange={setIsFlying}
+                                onViewChange={setViewMode}
+                                userLocation={userLocation}
+                            />
+                        </div>
+                    </div>
 
-                        <MapSection
-                            mode="full"
-                            className="flex-1 w-full h-full"
-                            searchQuery={searchQuery}
-                            category={category}
-                            viewMode={viewMode}
-                            selectedProvince={selectedProvince}
-                            selectedCity={selectedCity}
-                            sortMode={sortMode}
-                            onFlightChange={setIsFlying}
-                            onViewChange={setViewMode}
-                            userLocation={userLocation}
-                        />
-                    </div >
-
-                    {/* Map Info Footer - Precision Microcopy */}
-                    <div className="w-full text-center mt-5">
-                        <p className="inline-flex items-center text-[10.5px] font-semibold text-slate-400 font-ui antialiased tracking-[0.15em] uppercase">
-                            Community-driven <span className="mx-3 text-slate-300">·</span> Every location is verified <span className="mx-3 text-slate-300">·</span>
-                            <a
-                                href="/about"
-                                className="border-b-[0.5px] border-slate-300 pb-[2px] hover:border-slate-900 transition-all duration-300 hover:text-slate-900 cursor-pointer no-underline ml-1"
-                            >
-                                Become a moderator
-                            </a>
-                        </p>
+                    {/* Verified/Community Micro-Copy - Centered and Styled Unified */}
+                    <div className="mt-4 flex justify-center">
+                        <div className="flex items-center justify-center gap-4 md:gap-6">
+                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-400 tracking-normal">Community Driven</span>
+                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-300 tracking-normal">/</span>
+                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-400 tracking-normal">Moderator Verified</span>
+                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-300 tracking-normal">/</span>
+                            <Link href="/about" className="text-[14px] font-normal leading-normal font-ui text-slate-400 tracking-normal hover:text-black transition-colors cursor-pointer select-none no-underline">
+                                Transparency
+                            </Link>
+                        </div>
                     </div>
                 </div>
-            </div >
+            </div>
 
-            {/* Add Store Dialog */}
+            {/* Add Store Dialog Overlay */}
             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-                <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none">
+                <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none overflow-visible">
                     <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
                 </DialogContent>
             </Dialog>
         </div>
     );
 }
+
