@@ -27,7 +27,7 @@ export function SpreadTheWord() {
 
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-20 md:py-24 min-h-[700px] overflow-hidden z-10 flex flex-col justify-center">
+    <section className="relative w-full bg-[#ECF6FF] py-20 md:py-20 min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
 
       {/* Structural Container */}
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full relative z-10 flex flex-col items-center">

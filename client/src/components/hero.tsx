@@ -33,7 +33,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-4 md:py-0 mt-4 min-h-[700px] flex flex-col justify-center animate-in fade-in duration-500">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-20 md:py-20 min-h-[420px] flex flex-col justify-center animate-in fade-in duration-500">
       {/* Outer Wrapper: 1600px (matches global expansion) */}
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full">
         {/* Inner Content Wrapper: 1280px (Focused Hero Override) */}
