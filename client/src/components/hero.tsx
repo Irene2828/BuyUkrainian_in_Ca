@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Info, ChevronDown } from "lucide-react";
+import { ArrowRight, Info, ChevronDown, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
+import { MapPeek } from "@/components/ui/map-peek";
 
 export function Hero() {
   const [showNudge, setShowNudge] = useState(true);
@@ -49,7 +50,7 @@ export function Hero() {
                 <h1 className="text-slate-900 flex flex-col items-start max-w-full md:max-w-full md:mx-0 mb-[24px]">
                   {/* Line 1 & 2 */}
                   <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block mb-[8px]">
-                    Find and Share
+                    Discover
                   </span>
                   <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block">
                     Ukrainian&nbsp;Products
@@ -63,8 +64,7 @@ export function Hero() {
 
                 {/* Subtext - Matching section subheaders */}
                 <p className="hero-subtitle text-[16px] font-medium text-gray-600 font-sans text-left tracking-[-0.01em] leading-[26px] md:leading-[26px] max-w-[85%] md:max-w-[700px] mb-[32px]">
-                  Support Ukraine's economy with every purchase. Find Ukrainian-made<br className="hidden md:block" />
-                  goods in Canada — or help grow the map by adding new locations.
+                  Find stores near you that sell products made in Ukraine or share your own findings with the community by adding a new pin to our map.
                 </p>
 
                 {/* Mobile-Only Cinematic Asset */}
@@ -94,23 +94,12 @@ export function Hero() {
                 <div className="w-full max-w-[500px]">
                   <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6">
                     <Link href="/map">
-                      <button className="btn-premium-action gap-2 no-invert-hover">
-                        {t('home.hero.explore') || "Explore the map"}
-                        <svg
-                          className="w-5 h-5"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4 10H16M16 10L11 5M16 10L11 15"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
+                      <MapPeek>
+                        <button className="btn-premium-action gap-2 no-invert-hover">
+                          {t('home.hero.explore') || "Explore the map"}
+                          <MapPin className="w-5 h-5 opacity-90" strokeWidth={2} />
+                        </button>
+                      </MapPeek>
                     </Link>
 
                     <Link href="/map" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-medium text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
@@ -151,8 +140,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-
     </section>
   );
 }

@@ -170,7 +170,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         title: "Store submitted successfully",
         description: "Thank you for contributing to the community map!",
         variant: "default",
-        className: "bg-[#F0F9FF] border-l-4 border-[#0ea5e9] text-slate-800", // Blue accent styling
+        className: "bg-slate-50 border-l-4 border-slate-900 text-slate-800", // Neutral accent styling
       });
     },
     onError: (error: Error) => {
@@ -284,7 +284,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           handleAddressChange(e.target.value);
                         }}
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
-                        className="h-14 pl-11 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400"
+                        className="h-14 pl-11 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
@@ -301,7 +301,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   )}
 
                   {showAddressSuggestions && (
-                    <div className="absolute z-[100] w-full mt-2 bg-white/90 backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-2xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="absolute z-[100] w-full mt-2 bg-white/90 backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-[24px] shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                       {addressSuggestions.map((s, i) => (
                         <button
                           key={i}
@@ -310,16 +310,16 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           onMouseEnter={() => setActiveIndex(i)}
                           className={cn(
                             "w-full px-4 py-3.5 text-left border-b border-gray-50/50 flex items-center gap-3 transition-colors last:border-0 font-ui group outline-none",
-                            activeIndex === i ? "bg-[#A5D8FF]/20" : "hover:bg-[#A5D8FF]/20"
+                            activeIndex === i ? "bg-slate-50" : "hover:bg-slate-50"
                           )}
                         >
                           <div className={cn(
                             "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all",
-                            activeIndex === i ? "bg-[#A5D8FF]/30" : "bg-gray-100 group-hover:bg-[#A5D8FF]/30"
+                            activeIndex === i ? "bg-slate-200" : "bg-gray-100 group-hover:bg-slate-200"
                           )}>
                             <MapPin className={cn(
                               "w-4 h-4 fill-none stroke-current transition-colors",
-                              activeIndex === i ? "text-[#0047FF]" : "text-gray-400 group-hover:text-[#0047FF]"
+                              activeIndex === i ? "text-slate-900" : "text-gray-400 group-hover:text-slate-900"
                             )} strokeWidth={2} />
                           </div>
                           <span className={cn(
@@ -346,7 +346,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
-                      className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] font-medium placeholder:text-gray-400"
+                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] font-medium placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -365,7 +365,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] cursor-text placeholder:text-gray-400"
+                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] cursor-text placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -382,7 +382,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <select {...field} className="w-full h-14 px-4 rounded-2xl bg-gray-50 border-transparent text-[15px] outline-none focus:bg-white focus:border-black focus:ring-0 transition-all font-ui appearance-none cursor-pointer text-gray-900">
+                      <select {...field} className="w-full h-14 px-4 rounded-full bg-gray-50 border-transparent text-[15px] outline-none focus:bg-white focus:border-black focus:ring-0 transition-all font-ui appearance-none cursor-pointer text-gray-900">
                         <option value="food">Food & Grocery</option>
                         <option value="clothes">Clothing & Apparel</option>
                         <option value="retail">Retail & Gifts</option>
@@ -408,7 +408,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 <FormItem>
                   <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Products</FormLabel>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -426,7 +426,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-2xl bg-gray-50 border-transparent resize-none font-ui focus:bg-white focus:border-black focus:ring-0 transition-all shadow-sm p-4 text-[15px] placeholder:text-gray-400"
+                      className="min-h-[100px] rounded-[24px] bg-gray-50 border-transparent resize-none font-ui focus:bg-white focus:border-black focus:ring-0 transition-all shadow-sm p-4 text-[15px] placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -477,7 +477,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               disabled={isSubmitting}
               className="w-full btn-premium-action flex items-center justify-center gap-2 mt-8 shadow-lg hover:shadow-xl hover:scale-[1.01]"
             >
-              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Add a store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Add a New Store to the Map <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
             </Button>
 
             {/* Privacy Note */}

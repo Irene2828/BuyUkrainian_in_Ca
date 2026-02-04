@@ -30,7 +30,7 @@ export function PreFooter() {
                         <div className="mt-12">
                             <Link href="/map">
                                 <button className="group rounded-full bg-black hover:bg-black text-white px-8 py-3 text-base font-medium transition-all duration-300 hover:-translate-y-0.5 hover:font-semibold flex items-center gap-2 tracking-[0.3px]">
-                                    <span>Add a store</span>
+                                    <span>Add a New Store to the Map</span>
                                     <Plus className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" strokeWidth={1.5} />
                                 </button>
                             </Link>
@@ -39,7 +39,7 @@ export function PreFooter() {
 
                     {/* Right: Direct Navigation Bridge */}
                     <nav className="flex flex-col gap-4 items-start text-left" aria-label="Additional navigation">
-                        <NavigationLink href="/map" icon={Plus} label="Add a Store" />
+                        <NavigationLink href="/map" icon={Plus} label="Add a New Store to the Map" />
                         <NavigationLink href="#faq" icon={HelpCircle} label="FAQ" isExternal />
                         <NavigationLink href="#spread-the-word" icon={Users} label="Join the Community" isExternal />
                     </nav>

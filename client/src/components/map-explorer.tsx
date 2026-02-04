@@ -158,7 +158,7 @@ export function MapExplorer() {
         )}>
 
             {/* 1. Stats Dashboard */}
-            <section className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 pt-12 pb-6">
+            <section className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 pt-9 pb-4">
                 <div className="flex flex-col items-center justify-center gap-6">
 
                     {/* Top Row: Heading + Stats (Centered Together) */}
@@ -211,17 +211,20 @@ export function MapExplorer() {
             <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row md:items-start gap-8 pb-20">
 
                 {/* Sidebar - Search & Filters */}
-                <aside ref={sidebarRef} className="w-full md:w-[280px] md:mt-[62px] shrink-0 flex flex-col">
+                <aside ref={sidebarRef} className="w-full md:w-[280px] md:mt-[48px] shrink-0 flex flex-col">
 
                     {/* Search Field - Ghost Style */}
                     <div className="relative group">
-                        <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-[20px] h-[20px] text-slate-400 group-focus-within:text-slate-900 transition-colors" strokeWidth={1.5} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400 group-focus-within:text-slate-900 transition-colors" strokeWidth={1.5} />
                         <input
                             type="text"
                             placeholder="Search by city or store name..."
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full h-[40px] pl-8 pr-0 bg-transparent border-b border-slate-200 text-[15px] font-medium leading-normal placeholder:text-slate-500/90 focus:outline-none focus:border-black focus:ring-0 rounded-none transition-all duration-200 ease-in-out"
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                closeAllDropdowns();
+                            }}
+                            className="w-full h-[46px] pl-10 pr-4 bg-white border border-slate-200 text-[15px] font-medium leading-normal placeholder:text-slate-500/90 focus:outline-none focus:border-black focus:ring-0 rounded-full transition-all duration-200 ease-in-out shadow-sm"
                             aria-label="Search stores"
                         />
                     </div>
@@ -238,9 +241,9 @@ export function MapExplorer() {
                                     setIsProvinceDropdownOpen(open);
                                 }}
                                 className={cn(
-                                    "flex items-center justify-between w-full h-[52px] px-4 rounded-xl text-[15px] font-medium border transition-all duration-200 bg-white",
+                                    "flex items-center justify-between w-full h-[52px] px-6 rounded-full text-[15px] font-medium border transition-all duration-200 bg-white",
                                     selectedProvince
-                                        ? "border-[#A5D8FF] ring-1 ring-[#A5D8FF] text-slate-900"
+                                        ? "border-black text-slate-900"
                                         : "border-slate-200 text-slate-500 hover:border-slate-300"
                                 )}
                             >
@@ -248,20 +251,20 @@ export function MapExplorer() {
                                 <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-400", isProvinceDropdownOpen && "rotate-180 text-slate-900")} />
                             </button>
                             {isProvinceDropdownOpen && (
-                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-2xl shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-[24px] shadow-2xl z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
                                     <div className="p-3 border-b border-slate-50">
                                         <input
-                                            className="w-full px-3 py-2 bg-slate-50 rounded-lg text-sm border-none focus:ring-1 focus:ring-black/10 placeholder:text-slate-400"
+                                            className="w-full px-4 py-2.5 bg-slate-50 rounded-full text-sm border-none focus:ring-1 focus:ring-black/5 placeholder:text-slate-400"
                                             placeholder="Search location..."
                                             autoFocus
                                             value={provinceSearchQuery}
                                             onChange={(e) => setProvinceSearchQuery(e.target.value)}
                                         />
                                     </div>
-                                    <div className="max-h-[280px] overflow-y-auto p-1">
+                                    <div className="max-h-[280px] overflow-y-auto p-2">
                                         <button
                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
-                                            className="w-full text-left px-3 py-2.5 text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"
+                                            className="w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-slate-900 transition-colors rounded-full"
                                         >
                                             Everywhere in Canada
                                         </button>
@@ -270,8 +273,8 @@ export function MapExplorer() {
                                                 key={p}
                                                 onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
                                                 className={cn(
-                                                    "w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors",
-                                                    selectedProvince === p ? "bg-[#A5D8FF]/10 text-slate-900 font-semibold" : "text-slate-600 hover:bg-slate-50"
+                                                    "w-full text-left px-4 py-2.5 text-sm rounded-full transition-colors",
+                                                    selectedProvince === p ? "bg-slate-900 text-white font-semibold" : "text-slate-500 hover:text-slate-900"
                                                 )}
                                             >
                                                 {p}
@@ -291,9 +294,9 @@ export function MapExplorer() {
                                     setIsCategoryDropdownOpen(open);
                                 }}
                                 className={cn(
-                                    "flex items-center justify-between w-full h-[52px] px-4 rounded-xl text-[15px] font-medium border transition-all duration-200 bg-white",
+                                    "flex items-center justify-between w-full h-[52px] px-6 rounded-full text-[15px] font-medium border transition-all duration-200 bg-white",
                                     category
-                                        ? "border-[#A5D8FF] ring-1 ring-[#A5D8FF] text-slate-900"
+                                        ? "border-black text-slate-900"
                                         : "border-slate-200 text-slate-500 hover:border-slate-300"
                                 )}
                             >
@@ -301,11 +304,11 @@ export function MapExplorer() {
                                 <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-400", isCategoryDropdownOpen && "rotate-180 text-slate-900")} />
                             </button>
                             {isCategoryDropdownOpen && (
-                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-2xl shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-                                    <div className="p-1 max-h-[320px] overflow-y-auto">
+                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-[24px] shadow-2xl z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                    <div className="p-2 max-h-[320px] overflow-y-auto">
                                         <button
                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
-                                            className="w-full text-left px-3 py-2.5 text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"
+                                            className="w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-slate-900 transition-colors rounded-full"
                                         >
                                             All Categories
                                         </button>
@@ -314,11 +317,11 @@ export function MapExplorer() {
                                                 key={cat.id}
                                                 onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
                                                 className={cn(
-                                                    "w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors",
-                                                    category === cat.id ? "bg-[#A5D8FF]/10 text-slate-900 font-semibold" : "text-slate-600 hover:bg-slate-50"
+                                                    "w-full flex items-center gap-3 px-4 py-2.5 text-sm rounded-full transition-colors",
+                                                    category === cat.id ? "bg-slate-900 text-white font-semibold" : "text-slate-400 hover:text-slate-900 group"
                                                 )}
                                             >
-                                                <cat.icon className="w-4 h-4 text-slate-400" strokeWidth={1.5} />
+                                                <cat.icon className={cn("w-4 h-4 transition-colors", category === cat.id ? "text-white" : "text-slate-400 group-hover:text-slate-900")} strokeWidth={1.5} />
                                                 {cat.label}
                                             </button>
                                         ))}
@@ -330,7 +333,7 @@ export function MapExplorer() {
                 </aside>
 
                 {/* Map/List Column */}
-                <div className="flex-1 min-w-0 flex flex-col gap-4 md:mt-[38px] relative">
+                <div className="flex-1 min-w-0 flex flex-col gap-4 md:mt-[30px] relative">
                     {/* Map/List Toggle - Top Left - Glassmorphic */}
                     <div className="absolute top-6 left-6 z-[500]">
                         <div className="inline-flex items-center p-1 bg-white/70 backdrop-blur-md rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-white/10">
@@ -358,18 +361,14 @@ export function MapExplorer() {
                     </div>
 
                     {/* Add Store Button - Primary Action Token */}
+                    {/* Add Store Button Group - Top Right */}
                     <div className="absolute top-6 right-6 z-[500]">
-                        {/* Microcopy - Absolute positioned above the button */}
-                        <div className="absolute bottom-full right-0 mb-2 flex flex-col md:flex-row items-end md:items-center gap-0.5 md:gap-1 whitespace-nowrap">
-                            <span className="text-[11px] font-medium text-gray-500 leading-tight">Know more stores?</span>
-                            <span className="text-[11px] font-medium text-gray-500 leading-tight">Add them to the map!</span>
-                        </div>
                         <button
                             onClick={() => setAddStoreDialogOpen(true)}
-                            className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-medium hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center gap-2 shadow-lg hover:shadow-xl"
+                            className="no-invert-hover bg-slate-900 text-white rounded-full h-[46px] px-6 flex items-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl border border-white/10 hover:scale-[1.02]"
                         >
-                            <Plus className="w-4 h-4" strokeWidth={2.5} />
-                            Add a store
+                            <Plus className="w-5 h-5" strokeWidth={2.5} />
+                            <span className="text-[15px] font-semibold tracking-tight">Add New</span>
                         </button>
                     </div>
                     <div className={cn(
@@ -394,6 +393,19 @@ export function MapExplorer() {
                                 onViewChange={setViewMode}
                                 userLocation={userLocation}
                             />
+                        </div>
+                    </div>
+
+                    {/* Community Trust Bar - Integrated under map */}
+                    <div className="flex justify-center mt-3">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[11px] font-medium text-slate-700/60 font-sans uppercase tracking-[0.05em]">Community-driven</span>
+                            <span className="text-[11px] text-slate-300">•</span>
+                            <span className="text-[11px] font-medium text-slate-700/60 font-sans uppercase tracking-[0.05em]">Verified</span>
+                            <span className="text-[11px] text-slate-300">•</span>
+                            <Link href="/about" className="text-[11px] font-medium text-slate-700/60 hover:text-slate-700 font-sans uppercase tracking-[0.05em] cursor-pointer transition-colors hover:underline decoration-slate-300 underline-offset-4 flex items-center">
+                                Become a volunteer
+                            </Link>
                         </div>
                     </div>
                 </div>

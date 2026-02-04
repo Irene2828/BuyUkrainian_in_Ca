@@ -222,6 +222,22 @@ const MarkerClusterGroup = ({
           });
         }
       });
+
+      // Show tooltip on cluster hover
+      groupRef.current.on('clustermouseover', (a: any) => {
+        const cluster = a.layer;
+        const count = cluster.getChildCount();
+        if (count > 1) {
+          cluster.bindTooltip("More than one store in the area", {
+            direction: 'top',
+            offset: [0, -20],
+            className: 'premium-map-tooltip',
+            permanent: false,
+            sticky: false
+          }).openTooltip();
+        }
+      });
+
       map.addLayer(groupRef.current);
     }
 
@@ -250,6 +266,16 @@ const MarkerClusterGroup = ({
 
         const marker = L.marker(store.coordinates as [number, number], {
           icon: createUnifiedMarker(isSelected, isAnySelected)
+        });
+
+        // Hover effect: Show store name
+        marker.bindTooltip(store.name, {
+          direction: 'top',
+          offset: [0, -15],
+          opacity: 1,
+          className: 'premium-map-tooltip',
+          permanent: false,
+          sticky: false
         });
 
         // Click handler passes the specific, unique store object

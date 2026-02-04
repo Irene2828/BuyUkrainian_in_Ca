@@ -105,6 +105,16 @@ function NewlyAddedStores() {
         </Carousel>
       </div>
 
+      <div className="mt-12 flex justify-center">
+        <button
+          onClick={() => document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+          className="btn-premium-action gap-2 shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover group"
+        >
+          <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
+          Add a New Store to the Map
+        </button>
+      </div>
+
       <div className="mx-auto max-w-7xl px-6 lg:px-16">
       </div>
 
@@ -146,7 +156,7 @@ export default function MapPage() {
   const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100">
+    <div className="bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100 pt-[100px]">
       <Header />
       <main className="flex flex-col">
         {/* Map Page Headline Section - Premium Text-Block Anchor */}
@@ -164,7 +174,7 @@ export default function MapPage() {
         </div>
 
         {/* Mission Reminder - Subtle Bridge to Footer */}
-        <section className="w-full bg-[#f1f5f9] pt-20 md:pt-32 pb-[81px] border-t border-slate-100 section-reveal flex items-center">
+        <section className="w-full bg-[#f1f5f9] py-[68px] border-t border-slate-100 section-reveal flex items-center min-h-[468px]">
           <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left">
               <div>

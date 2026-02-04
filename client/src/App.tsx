@@ -18,7 +18,7 @@ import AboutPage from "@/pages/about";
 import NotFound from "@/pages/not-found";
 import TestLab from "@/pages/test-lab";
 import { initPremiumInteractions } from "./lib/premium-interactions";
-import { ScrollToTop } from "@/components/scroll-to-top";
+
 
 
 function Router() {
@@ -53,7 +53,6 @@ function App() {
               <Toaster />
               <SonnerToaster />
               <Router />
-              <ScrollToTop />
             </TooltipProvider>
           </QueryClientProvider>
         </I18nProvider>

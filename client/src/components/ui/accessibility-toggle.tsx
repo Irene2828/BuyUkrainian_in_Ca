@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils";
  * Switches between premium minimalist design and high-contrast accessible mode
  * WCAG 2.1 Level AA compliant
  */
-export function AccessibilityToggle() {
+export function AccessibilityToggle({ className }: { className?: string }) {
     const { accessibleMode, toggleAccessibleMode } = useAccessibility();
 
     return (
         <button
             onClick={toggleAccessibleMode}
-            className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-white transition-colors bg-transparent border-none p-0 outline-none focus:outline-none"
+            className={cn("uppercase transition-colors bg-transparent border-none p-0 outline-none focus:outline-none", className)}
             aria-label={accessibleMode ? "Disable high-contrast mode" : "Enable high-contrast mode"}
             aria-pressed={accessibleMode}
         >

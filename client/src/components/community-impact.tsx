@@ -4,6 +4,7 @@ import { Map, Package, Plus } from "lucide-react";
 import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
+import { MapPeek } from "@/components/ui/map-peek";
 
 export function CommunityImpact() {
     const { data: stores = [] } = useQuery({
@@ -18,10 +19,20 @@ export function CommunityImpact() {
     };
 
     return (
-        <section className="relative w-full py-20 md:py-20 min-h-[420px] bg-white border-t border-slate-100 flex flex-col justify-center">
+        <section className="relative w-full py-20 md:py-20 min-h-[550px] bg-white border-t border-slate-100 flex flex-col justify-center">
             <div className="max-w-[800px] mx-auto px-6 lg:px-0 flex flex-col items-center">
 
 
+
+                {/* Pre-footer Stats Header */}
+                <div className="flex flex-col items-center mb-8">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
+                        <span className="font-sans text-[11px] font-semibold tracking-[0.1em] text-slate-600 uppercase">
+                            Contributions to the map by today
+                        </span>
+                    </div>
+                </div>
 
                 {/* Stats Row - Apple Editorial Style */}
                 <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24 mb-20">
@@ -68,19 +79,16 @@ export function CommunityImpact() {
                     </div>
                 </div>
 
-                {/* Bridge Headline - Moved below stats */}
-                <h3 className="text-slate-900 opacity-60 font-medium text-xl mb-8 text-center max-w-lg leading-relaxed">
-                    Keep Supporting Support Ukrainian Products in Canada
-                </h3>
-
                 {/* Signature CTA Button */}
                 <div className="flex flex-col items-center gap-8">
 
                     <Link href="/map">
-                        <button className="btn-premium-action shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover group">
-                            <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
-                            Add More Stores to the Map
-                        </button>
+                        <MapPeek>
+                            <button className="btn-premium-action shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover group">
+                                <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
+                                Add More Stores to the Map
+                            </button>
+                        </MapPeek>
                     </Link>
                 </div>
 

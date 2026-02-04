@@ -6,7 +6,7 @@ import { MapPin, Heart, Users, Globe, Flag, ShoppingBag } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col pt-[100px]">
       <Header />
 
       <main className="flex-1">

@@ -33,37 +33,52 @@ export function Header() {
   return (
     <header
       className={cn(
-        "w-full z-[100] h-auto font-sans py-1 transition-all duration-300 border-b-0 border-transparent relative bg-transparent"
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out font-sans",
+        "bg-white/80 backdrop-blur-xl py-0",
+        isScrolled ? "border-b border-slate-200/40" : "border-b border-transparent"
       )}
     >
       <div className="max-w-[1600px] mx-auto px-6 lg:px-16 flex items-center justify-between h-full relative">
 
         {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center transition-all duration-300 ease-in-out">
+        <div className="flex-1 flex items-center">
           <Link href="/" className="flex items-center">
             <img
               src="/assets/logo-final.png"
               alt="BuyUkrainian.ca"
-              className="w-[190px] h-[90px] object-contain mix-blend-multiply"
+              className="object-contain mix-blend-multiply transition-all duration-500 w-[140px] h-[70px]"
             />
           </Link>
         </div>
 
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-8">
-          <nav className="items-center gap-8 flex font-sans">
-            <Link href="/about" className={cn("group relative text-[15px] font-medium transition-colors hover:text-slate-900", location === '/about' ? "text-slate-900" : "text-slate-800")}>
+          <nav className="items-center gap-8 flex font-sans antialiased">
+            <Link href="/about" className={cn("group relative text-[15px] font-medium transition-colors hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
               About
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
-            <a href="/#faq" className="group relative text-[15px] font-medium text-slate-800 hover:text-slate-900 transition-colors">
-              FAQ
+            <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
+              <Search className="w-4 h-4 opacity-70" />
+              Find Stores
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-            </a>
-            <a href="mailto:hello@buyukrainian.ca" className="group relative text-[15px] font-medium text-slate-800 hover:text-slate-900 transition-colors">
-              Contact
-              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-            </a>
+            </Link>
+            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+              <DialogTrigger asChild>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  className="group relative text-[15px] font-medium text-slate-900 opacity-90 hover:opacity-100 transition-all cursor-pointer outline-none flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4 opacity-70" />
+                  Add Stores
+                  <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                </span>
+              </DialogTrigger>
+              <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none">
+                <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+              </DialogContent>
+            </Dialog>
           </nav>
 
           {/* Language Switcher */}
@@ -96,12 +111,26 @@ export function Header() {
       {
         mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-lg z-40">
-            <nav className="flex flex-col p-4 gap-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <nav className="flex flex-col p-4 gap-4 antialiased" style={{ fontFamily: "'Inter', sans-serif" }}>
 
-              <a href="/#faq" className="text-[16px] font-medium text-[#0D4276] hover:text-slate-900 transition-colors duration-300 py-2 tracking-tight flex items-center gap-2">
-                <HelpCircle className="w-5 h-5" />
-                Help
-              </a>
+              <Link href="/about" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                About
+              </Link>
+
+              <Link href="/map" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                <Search className="w-4 h-4 opacity-70" />
+                Find Stores
+              </Link>
+
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={() => setAddStoreDialogOpen(true)}
+                className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2 text-left cursor-pointer"
+              >
+                <Plus className="w-4 h-4 opacity-70" />
+                Add Stores
+              </span>
 
               <div className="py-2">
                 <LanguageSwitcher />

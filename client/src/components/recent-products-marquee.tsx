@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 
 export function RecentProductsMarquee() {
     const { t } = useI18n();
@@ -117,7 +118,7 @@ export function RecentProductsMarquee() {
                     </div>
 
                     {/* Infinite Scroll Ticker - REMOVED group-hover pause class to allow moving overlay */}
-                    <div className="flex flex-1 overflow-hidden mask-ticker group/marquee ml-4">
+                    <div className="flex flex-1 overflow-hidden mask-ticker group/marquee px-4">
                         <div className="flex animate-marquee whitespace-nowrap items-center min-w-full">
                             {repeatedStores.map((store, i) => (
                                 <span
@@ -137,6 +138,8 @@ export function RecentProductsMarquee() {
                             ))}
                         </div>
                     </div>
+
+
                 </div>
             </div>
 

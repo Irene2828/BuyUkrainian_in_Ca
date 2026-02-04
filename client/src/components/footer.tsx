@@ -1,106 +1,54 @@
 import { Link } from "wouter";
 import { AccessibilityToggle } from "@/components/ui/accessibility-toggle";
+import { ArrowUp } from "lucide-react";
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <footer className="bg-slate-900 text-[#fafafa] pb-10 font-sans overflow-hidden relative">
-      {/* Spanning Grid - Flex Justify Between for Edge Alignment */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full pt-16 pb-12">
-        <div className="flex justify-between w-full md:justify-start md:gap-20 lg:gap-32">
+    <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative" style={{ paddingTop: '80px', paddingBottom: '10%' }}>
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full flex items-end justify-between h-full">
+        {/* Left Side: Utility Stacking */}
+        <div className="flex flex-col items-start gap-1">
+          <AccessibilityToggle className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 min-h-[32px] flex items-center tracking-[0.1em] uppercase" />
 
-          {/* Column 1: Navigation (Left Edge) */}
-          <div className="flex flex-col items-start text-left">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white opacity-50 mb-4 font-ui">
-              NAVIGATION
-            </h4>
-            <div className="flex flex-col space-y-3">
-              <Link
-                href="/map"
-                className="text-[14px] text-slate-200 hover:text-white transition-colors duration-300"
-              >
-                Explore the map
-              </Link>
-              <Link
-                href="/map"
-                className="text-[14px] text-slate-200 hover:text-white transition-colors duration-300"
-              >
-                Add a store
-              </Link>
-              <a
-                href="/#how-it-works"
-                className="text-[14px] text-slate-200 hover:text-white transition-colors duration-300"
-              >
-                How it works
-              </a>
-            </div>
-          </div>
+          <a
+            href="mailto:hello@buyukrainian.ca"
+            className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 no-underline min-h-[32px] flex items-center tracking-[0.1em] uppercase"
+          >
+            CONTACT
+          </a>
 
-          {/* Right Side Group (Stacked Right on Mobile, Row Left on Desktop) */}
-          <div className="flex flex-col items-end text-right gap-10 md:flex-row md:items-start md:text-left md:gap-20 lg:gap-32 md:ml-auto">
-
-            {/* Column 2: About */}
-            <div className="flex flex-col md:items-start">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white opacity-50 mb-4 font-ui">
-                ABOUT
-              </h4>
-              <div className="flex flex-col space-y-3">
-                <a
-                  href="/#faq"
-                  className="text-[14px] text-slate-400 hover:text-white transition-colors duration-300"
-                >
-                  Our Mission
-                </a>
-                <Link
-                  href="/about"
-                  className="text-[14px] text-slate-400 hover:text-white transition-colors duration-300"
-                >
-                  Contact us
-                </Link>
-              </div>
-            </div>
-
-            {/* Column 3: Community */}
-            <div className="flex flex-col md:items-start">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white opacity-50 mb-4 font-ui">
-                COMMUNITY
-              </h4>
-              <div className="flex flex-col space-y-3">
-                <a
-                  href="/#spread-the-word"
-                  className="text-[14px] text-slate-500 hover:text-white transition-colors duration-300"
-                >
-                  Spread the Word
-                </a>
-                <Link
-                  href="/privacy"
-                  className="text-[14px] text-slate-500 hover:text-white transition-colors duration-300"
-                >
-                  Privacy Policy
-                </Link>
-                <Link
-                  href="/about"
-                  className="text-[14px] text-slate-500 hover:text-white transition-colors duration-300"
-                >
-                  Volunteer
-                </Link>
-              </div>
-            </div>
-          </div>
+          <Link
+            href="/privacy"
+            className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 no-underline min-h-[32px] flex items-center tracking-[0.1em] uppercase"
+          >
+            PRIVACY POLICY
+          </Link>
         </div>
-      </div>
 
-      {/* Bottom Bar - Legal/Copyright + Accessibility Toggle */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full border-t border-white/10 pt-8 mt-0 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-slate-500">
-        {/* Universal Access Toggle */}
-        <AccessibilityToggle />
+        {/* Right Side: Admin & Navigation */}
+        <div className="flex items-center gap-6">
+          <Link
+            href="/admin/login"
+            className="text-[10px] text-white/40 hover:text-white/60 transition-colors uppercase tracking-[0.1em] whitespace-nowrap"
+          >
+            Admin access
+          </Link>
 
-        {/* Discreet Admin Link - Far Right Corner */}
-        <Link
-          href="/admin/login"
-          className="text-[10px] text-slate-500 hover:text-white transition-colors"
-        >
-          Admin
-        </Link>
+          <button
+            onClick={scrollToTop}
+            className="group flex items-center justify-center w-11 h-11 rounded-full border border-white/10 hover:border-white/20 transition-all hover:bg-white/5 scale-90 md:scale-100"
+            aria-label="Back to top"
+          >
+            <ArrowUp className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
     </footer>
   );
