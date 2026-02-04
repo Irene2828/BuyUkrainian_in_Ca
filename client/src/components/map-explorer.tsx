@@ -5,17 +5,17 @@ import { getApprovedStores } from "@/lib/api";
 import {
     Plus, Search, List, Map as MapIcon,
     UtensilsCrossed, ShoppingBag, Gift, Store as StoreIcon,
-    Clock, ArrowUpDown, ChevronDown, Check, Navigation, RefreshCw,
-    ToyBrick, BookOpen, Bookmark, Sparkles, MapPin, ChevronLeft, X
+    ToyBrick, BookOpen, Bookmark, Sparkles, Navigation, ChevronDown
 } from "lucide-react";
 import { Link } from "wouter";
 import { MapSection } from "@/components/map-section";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 
 const PROVINCE_MAP: Record<string, string> = {
     "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
@@ -26,7 +26,6 @@ const PROVINCE_MAP: Record<string, string> = {
 
 const CANADIAN_PROVINCES = Object.values(PROVINCE_MAP).sort();
 
-// Province center coordinates for Smart Sidebar Sync
 const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number }> = {
     "Quebec": { lat: 52.0, lng: -71.0, zoom: 5 },
     "Ontario": { lat: 50.0, lng: -85.0, zoom: 5 },
@@ -43,8 +42,6 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
     "Nunavut": { lat: 70.0, lng: -90.0, zoom: 4 },
 };
 
-import { useI18n } from "@/lib/i18n";
-
 export function MapExplorer() {
     const { t } = useI18n();
     const { toast } = useToast();
@@ -56,23 +53,17 @@ export function MapExplorer() {
     const [viewMode, setViewMode] = useState<"map" | "list">("map");
     const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
     const [isFlying, setIsFlying] = useState(false);
-    const [isOpenOnly, setIsOpenOnly] = useState(false);
     const [sortMode, setSortMode] = useState<"newest" | "name">("newest");
-    const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
     const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
-    const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [provinceSearchQuery, setProvinceSearchQuery] = useState("");
-    const [citySearch, setCitySearch] = useState("");
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
     const sidebarRef = useRef<HTMLElement>(null);
 
     const closeAllDropdowns = () => {
         setIsProvinceDropdownOpen(false);
-        setIsCityDropdownOpen(false);
         setIsCategoryDropdownOpen(false);
-        setIsSortDropdownOpen(false);
     };
 
     useEffect(() => {
@@ -85,11 +76,18 @@ export function MapExplorer() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const { data: stores = [], isLoading } = useQuery({
+    const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
         staleTime: Infinity,
     });
+
+    // Stats Calculation (Total)
+    const stats = {
+        stores: stores.length,
+        provinces: new Set(stores.map(s => s.province)).size,
+        products: stores.reduce((acc, s) => acc + (s.products?.length || 0), 0)
+    };
 
     useEffect(() => {
         const handleClearFilters = () => {
@@ -97,7 +95,6 @@ export function MapExplorer() {
             setCategory(null);
             setSelectedProvince(null);
             setSelectedCity(null);
-            setIsOpenOnly(false);
             setSortMode("newest");
         };
         window.addEventListener('clearFilters', handleClearFilters);
@@ -139,19 +136,6 @@ export function MapExplorer() {
         );
     };
 
-    const filteredStores = stores.filter(store => {
-        const matchesSearch = !searchQuery || store.name.toLowerCase().includes(searchQuery.toLowerCase()) || store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
-        const matchesCategory = !category || store.category === category;
-        const storeProvinceFull = PROVINCE_MAP[store.province] || store.province;
-        const matchesProvince = !selectedProvince || selectedProvince === "All Canada" || storeProvinceFull === selectedProvince;
-        const matchesCity = !selectedCity || store.city === selectedCity;
-        return matchesSearch && matchesCategory && matchesProvince && matchesCity;
-    });
-
-    const filteredStoresCount = filteredStores.length;
-    const provincesCount = new Set(filteredStores.map(s => s.province)).size;
-    const productsCount = filteredStores.reduce((acc, s) => acc + (s.products?.length || 0), 0);
-
     const provincesFiltered = ["All Provinces", ...CANADIAN_PROVINCES].filter(p => p.toLowerCase().includes(provinceSearchQuery.toLowerCase()));
 
     const allCategories = [
@@ -167,222 +151,220 @@ export function MapExplorer() {
         { id: "other", label: "Other", icon: StoreIcon },
     ];
 
-    const CATEGORIES = allCategories;
-
     return (
         <div className={cn(
-            "w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out",
+            "w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out font-sans",
             viewMode === "map" ? "h-auto" : "min-h-[400px]"
         )}>
 
-            {/* Dashboard Header - Centered Mission Hierarchy */}
-            {/* Dashboard Header - Centered Mission Hierarchy */}
-            {/* Dashboard Header - Centered Mission Hierarchy */}
-            <header className="pt-3 pb-3 flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards text-center">
-                <div className="flex flex-col items-center w-full max-w-[500px] px-6 mb-2 mx-auto">
-                    <h2 className="text-[32px] md:text-[36px] font-normal tracking-[-0.01em] text-slate-900/90 leading-[1.2] font-sans">
-                        Find new places to <span className="font-medium border-b-[1px] border-[#FFE800]/80 pb-1">shop</span> or <span className="font-medium border-b-[1px] border-[#0057B8]/20 pb-1">grow the map</span> by adding new ones.
-                    </h2>
-                </div>
-            </header>
-
-            {/* Main Content Area */}
-            <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 flex flex-col md:flex-row gap-8 pb-20">
-
-                {/* Sidebar - Strictly aligned with map top */}
-                <aside ref={sidebarRef} className="w-full md:w-[250px] shrink-0 pt-3 flex flex-col gap-6">
-
-                    {/* Search Field - Moved to Sidebar Top */}
-                    <div className="relative group w-full flex items-center">
-                        <Input
-                            placeholder={t('map.search.placeholder') || 'Search...'}
-                            className="no-ring-force w-full h-[48px] pl-0 pr-20 bg-transparent border-b border-t-0 border-l-0 border-r-0 border-slate-200 rounded-none text-[15px] font-sans tracking-tight transition-all duration-200 placeholder:text-slate-900/50 focus-visible:border-black focus-visible:ring-0 focus-visible:shadow-none hover:border-slate-300 shadow-none px-0"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onFocus={() => setIsSearchFocused(true)}
-                            onBlur={() => setIsSearchFocused(false)}
-                        />
-                        <Search className="absolute right-10 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700 stroke-[1.5px] opacity-100 pointer-events-none" />
-                        <button
-                            onClick={handleUseLocation}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-black transition-all"
-                            title="Use my location"
-                        >
-                            <Navigation className="w-3.5 h-3.5" />
-                        </button>
+            {/* 1. Stats Dashboard */}
+            <section className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 pt-12 pb-8">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                    {/* Left: Heading */}
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
+                            <h2 className="text-[13px] font-bold tracking-[0.08em] uppercase text-slate-900 whitespace-nowrap">
+                                CURRENTLY ON THE MAP
+                            </h2>
+                        </div>
+                        <p className="text-base text-slate-600 font-normal leading-relaxed mt-3">
+                            Find Ukrainian products near you, or help grow the map.
+                        </p>
                     </div>
 
-                    <div className="flex flex-col gap-6">
-                        <h3 className="text-[12px] font-semibold text-slate-400 font-sans uppercase tracking-[0.03em] hidden md:block pl-0">
-                            FILTER BY:
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-1 gap-6">
-                            {/* Province Filter Dropdown */}
-                            <div className="relative">
-                                <button
-                                    onClick={() => {
-                                        const open = !isProvinceDropdownOpen;
-                                        closeAllDropdowns();
-                                        setIsProvinceDropdownOpen(open);
-                                    }}
-                                    className={cn(
-                                        "flex items-center justify-between w-full h-[48px] px-4 rounded-xl text-[16px] font-medium border transition-all duration-300 shadow-sm hover:shadow-md hover:border-black/[0.12]",
-                                        selectedProvince ? "bg-[#A5D8FF]/20 border-[#A5D8FF] text-black" : "bg-white border-black/[0.08] text-slate-500"
-                                    )}
-                                >
-                                    <span className="truncate">{selectedProvince || "Location"}</span>
-                                    <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-600", isProvinceDropdownOpen && "rotate-180")} strokeWidth={1} />
-                                </button>
-                                {isProvinceDropdownOpen && (
-                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-[#E2E8F0] rounded-2xl shadow-premium z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-                                        <div className="p-2 border-b border-slate-50">
-                                            <div className="relative">
-                                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-                                                <input
-                                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border-none rounded-lg text-sm focus:ring-1 focus:ring-[#A5D8FF]/50"
-                                                    placeholder="Find location..."
-                                                    autoFocus
-                                                    value={provinceSearchQuery}
-                                                    onChange={(e) => setProvinceSearchQuery(e.target.value)}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="max-h-60 overflow-y-auto p-1">
-                                            <button
-                                                onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
-                                                className="w-full text-left px-3 py-2 text-sm text-slate-500 hover:bg-[#A5D8FF]/10 hover:text-black rounded-lg transition-colors"
-                                            >
-                                                Everywhere in Canada
-                                            </button>
-                                            {provincesFiltered.map(p => p !== "All Provinces" && (
-                                                <button
-                                                    key={p}
-                                                    onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
-                                                    className={cn(
-                                                        "w-full text-left px-3 py-2 text-sm rounded-lg transition-colors",
-                                                        selectedProvince === p ? "bg-[#A5D8FF]/20 text-black font-semibold" : "text-slate-600 hover:bg-slate-50"
-                                                    )}
-                                                >
-                                                    {p}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                    <div className="hidden md:block w-[1px] h-10 bg-slate-200" />
 
-                            {/* Category Filter Dropdown */}
-                            <div className="relative">
-                                <button
-                                    onClick={() => {
-                                        const open = !isCategoryDropdownOpen;
-                                        closeAllDropdowns();
-                                        setIsCategoryDropdownOpen(open);
-                                    }}
-                                    className={cn(
-                                        "flex items-center justify-between w-full h-[48px] px-4 rounded-xl text-[16px] font-medium border transition-all duration-300 shadow-sm hover:shadow-md hover:border-black/[0.12]",
-                                        category ? "bg-[#A5D8FF]/20 border-[#A5D8FF] text-black" : "bg-white border-black/[0.08] text-slate-500"
-                                    )}
-                                >
-                                    <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
-                                    <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-600", isCategoryDropdownOpen && "rotate-180")} strokeWidth={1} />
-                                </button>
-                                {isCategoryDropdownOpen && (
-                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-[#E2E8F0] rounded-2xl shadow-premium z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-                                        <div className="p-1 max-h-60 overflow-y-auto">
-                                            <button
-                                                onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
-                                                className="w-full text-left px-3 py-2 text-sm text-slate-500 hover:bg-[#A5D8FF]/10 hover:text-black rounded-lg transition-colors"
-                                            >
-                                                All Categories
-                                            </button>
-                                            {allCategories.map(cat => (
-                                                <button
-                                                    key={cat.id}
-                                                    onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
-                                                    className={cn(
-                                                        "w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors",
-                                                        category === cat.id ? "bg-[#A5D8FF]/20 text-black font-semibold" : "text-slate-600 hover:bg-slate-50"
-                                                    )}
-                                                >
-                                                    <cat.icon className="w-4 h-4 text-slate-400" strokeWidth={1.5} />
-                                                    {cat.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
+                    {/* Right: Stats */}
+                    <div className="flex items-center gap-8 md:gap-12">
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="text-[22px] font-medium text-slate-500 leading-none">
+                                <AnimatedCounter end={stats.stores} />
+                            </span>
+                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-[0.15em]">Stores</span>
+                        </div>
+                        <div className="w-[1px] h-8 bg-slate-200" />
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="text-[22px] font-medium text-slate-500 leading-none">
+                                <AnimatedCounter end={stats.provinces} />
+                            </span>
+                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-[0.15em]">Provinces</span>
+                        </div>
+                        <div className="w-[1px] h-8 bg-slate-200" />
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="text-[22px] font-medium text-slate-500 leading-none">
+                                <AnimatedCounter end={stats.products} />
+                            </span>
+                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-[0.15em]">Products</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 3. Main Content Area */}
+            <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row md:items-start gap-8 pb-20">
+
+                {/* Sidebar - Search & Filters */}
+                <aside ref={sidebarRef} className="w-full md:w-[280px] md:mt-[62px] shrink-0 flex flex-col">
+
+                    {/* Search Field - Ghost Style */}
+                    <div className="relative group">
+                        <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-[20px] h-[20px] text-slate-400 group-focus-within:text-slate-900 transition-colors" strokeWidth={1.5} />
+                        <input
+                            type="text"
+                            placeholder="Search by city or store name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full h-[40px] pl-8 pr-0 bg-transparent border-b border-slate-200 text-[15px] font-medium leading-normal placeholder:text-slate-500 focus:outline-none focus:border-black focus:ring-0 rounded-none transition-all duration-200 ease-in-out"
+                            aria-label="Search stores"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-4 mt-8">
+                        <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Filter by:</div>
+
+                        {/* Province Filter */}
+                        <div className="relative">
+                            <button
+                                onClick={() => {
+                                    const open = !isProvinceDropdownOpen;
+                                    closeAllDropdowns();
+                                    setIsProvinceDropdownOpen(open);
+                                }}
+                                className={cn(
+                                    "flex items-center justify-between w-full h-[52px] px-4 rounded-xl text-[15px] font-medium border transition-all duration-200 bg-white",
+                                    selectedProvince
+                                        ? "border-[#A5D8FF] ring-1 ring-[#A5D8FF] text-slate-900"
+                                        : "border-slate-200 text-slate-500 hover:border-slate-300"
                                 )}
-                            </div>
+                            >
+                                <span className="truncate">{selectedProvince || "Location"}</span>
+                                <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-400", isProvinceDropdownOpen && "rotate-180 text-slate-900")} />
+                            </button>
+                            {isProvinceDropdownOpen && (
+                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-2xl shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                    <div className="p-3 border-b border-slate-50">
+                                        <input
+                                            className="w-full px-3 py-2 bg-slate-50 rounded-lg text-sm border-none focus:ring-1 focus:ring-black/10 placeholder:text-slate-400"
+                                            placeholder="Search location..."
+                                            autoFocus
+                                            value={provinceSearchQuery}
+                                            onChange={(e) => setProvinceSearchQuery(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="max-h-[280px] overflow-y-auto p-1">
+                                        <button
+                                            onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
+                                            className="w-full text-left px-3 py-2.5 text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"
+                                        >
+                                            Everywhere in Canada
+                                        </button>
+                                        {provincesFiltered.map(p => p !== "All Provinces" && (
+                                            <button
+                                                key={p}
+                                                onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
+                                                className={cn(
+                                                    "w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors",
+                                                    selectedProvince === p ? "bg-[#A5D8FF]/10 text-slate-900 font-semibold" : "text-slate-600 hover:bg-slate-50"
+                                                )}
+                                            >
+                                                {p}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Category Filter */}
+                        <div className="relative">
+                            <button
+                                onClick={() => {
+                                    const open = !isCategoryDropdownOpen;
+                                    closeAllDropdowns();
+                                    setIsCategoryDropdownOpen(open);
+                                }}
+                                className={cn(
+                                    "flex items-center justify-between w-full h-[52px] px-4 rounded-xl text-[15px] font-medium border transition-all duration-200 bg-white",
+                                    category
+                                        ? "border-[#A5D8FF] ring-1 ring-[#A5D8FF] text-slate-900"
+                                        : "border-slate-200 text-slate-500 hover:border-slate-300"
+                                )}
+                            >
+                                <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-400", isCategoryDropdownOpen && "rotate-180 text-slate-900")} />
+                            </button>
+                            {isCategoryDropdownOpen && (
+                                <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-2xl shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                    <div className="p-1 max-h-[320px] overflow-y-auto">
+                                        <button
+                                            onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
+                                            className="w-full text-left px-3 py-2.5 text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"
+                                        >
+                                            All Categories
+                                        </button>
+                                        {allCategories.map(cat => (
+                                            <button
+                                                key={cat.id}
+                                                onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
+                                                className={cn(
+                                                    "w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors",
+                                                    category === cat.id ? "bg-[#A5D8FF]/10 text-slate-900 font-semibold" : "text-slate-600 hover:bg-slate-50"
+                                                )}
+                                            >
+                                                <cat.icon className="w-4 h-4 text-slate-400" strokeWidth={1.5} />
+                                                {cat.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </aside>
 
-                {/* Map/List Column Wrapper */}
-                <div className="flex-1 min-w-0 flex flex-col gap-4">
-                    <div className="relative h-[500px] md:h-[580px] w-full rounded-[20px] shadow-[0_0_40px_rgba(0,0,0,0.03)] border border-black/[0.04] overflow-hidden bg-white group/map">
+                {/* Map/List Column */}
+                <div className="flex-1 min-w-0 flex flex-col gap-4 md:mt-[38px]">
+                    <div className="relative h-[550px] w-full rounded-[32px] shadow-sm border border-slate-200 overflow-hidden bg-white group/map isolate">
 
-                        {/* Search Focus Dimming Overlay */}
-                        <div
-                            className={cn(
-                                "absolute inset-0 bg-black/[0.02] z-[450] pointer-events-none transition-opacity duration-500 will-change-opacity",
-                                isSearchFocused ? "opacity-100" : "opacity-0"
-                            )}
-                        />
-
-                        {/* Map/List Toggle - Floating Top Left - Minimalist & Premium */}
-                        <div className="absolute top-6 left-6 z-[500] inline-flex items-center p-0.5 bg-white/90 backdrop-blur-md rounded-full h-[36px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.04] border-[0.5px] border-[#E2E8F0]">
-                            <button
-                                onClick={() => setViewMode("map")}
-                                className={cn(
-                                    "relative flex items-center gap-1.5 px-3 h-[32px] rounded-full text-[11px] font-semibold transition-all duration-300 z-10",
-                                    viewMode === "map" ? "text-black" : "text-slate-500 hover:text-black"
-                                )}
-                            >
-                                {viewMode === "map" && (
-                                    <motion.span
-                                        layoutId="toggle-pill"
-                                        className="absolute inset-0 bg-white shadow-sm rounded-full border border-black/5"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                    />
-                                )}
-                                <span className="relative z-10 flex items-center gap-1.5">
+                        {/* Map/List Toggle - Top Left - Glassmorphic */}
+                        <div className="absolute top-6 left-6 z-[500]">
+                            <div className="inline-flex items-center p-1 bg-white/70 backdrop-blur-md rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-white/10">
+                                <button
+                                    onClick={() => setViewMode("map")}
+                                    className={cn(
+                                        "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
+                                        viewMode === "map" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
+                                    )}
+                                >
                                     <MapIcon className="w-3.5 h-3.5" />
                                     Map
-                                </span>
-                            </button>
-                            <button
-                                onClick={() => setViewMode("list")}
-                                className={cn(
-                                    "relative flex items-center gap-1.5 px-3 h-[32px] rounded-full text-[11px] font-semibold transition-all duration-300 z-10",
-                                    viewMode === "list" ? "text-black" : "text-slate-500 hover:text-black"
-                                )}
-                            >
-                                {viewMode === "list" && (
-                                    <motion.span
-                                        layoutId="toggle-pill"
-                                        className="absolute inset-0 bg-white shadow-sm rounded-full border border-black/5"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                    />
-                                )}
-                                <span className="relative z-10 flex items-center gap-1.5">
+                                </button>
+                                <button
+                                    onClick={() => setViewMode("list")}
+                                    className={cn(
+                                        "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
+                                        viewMode === "list" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
+                                    )}
+                                >
                                     <List className="w-3.5 h-3.5" />
                                     List
-                                </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Add Store Button - Primary Action Token */}
+                        <div className="absolute top-6 right-6 z-[500]">
+                            <button
+                                onClick={() => setAddStoreDialogOpen(true)}
+                                className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-medium hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center gap-2"
+                            >
+                                <Plus className="w-4 h-4" strokeWidth={2.5} />
+                                Add a store
                             </button>
                         </div>
 
-                        {/* Add a Store CTA - Floating Top Right - Replaces Locate Me */}
-                        <button
-                            onClick={() => setAddStoreDialogOpen(true)}
-                            className="absolute top-6 right-6 z-[500] group inline-flex items-center justify-center bg-[#1A1A1B] text-white rounded-full h-[40px] px-8 text-[13px] font-semibold tracking-wide gap-2 shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 border-[0.5px] border-white/20"
-                        >
-                            <Plus className="w-4 h-4" strokeWidth={2.5} />
-                            Add a Store
-                        </button>
-
-                        {/* Map or List Render */}
+                        {/* Content */}
                         <div className="w-full h-full relative z-0">
                             <MapSection
                                 mode="full"
@@ -399,23 +381,10 @@ export function MapExplorer() {
                             />
                         </div>
                     </div>
-
-                    {/* Verified/Community Micro-Copy - Centered and Styled Unified */}
-                    <div className="mt-4 flex justify-center">
-                        <div className="flex items-center justify-center gap-4 md:gap-6">
-                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-400 tracking-normal">Community Driven</span>
-                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-300 tracking-normal">/</span>
-                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-400 tracking-normal">Moderator Verified</span>
-                            <span className="text-[14px] font-normal leading-normal font-ui text-slate-300 tracking-normal">/</span>
-                            <Link href="/about" className="text-[14px] font-normal leading-normal font-ui text-slate-400 tracking-normal hover:text-black transition-colors cursor-pointer select-none no-underline">
-                                Transparency
-                            </Link>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            {/* Add Store Dialog Overlay */}
+            {/* Add Store Dialog */}
             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none overflow-visible">
                     <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
@@ -424,4 +393,3 @@ export function MapExplorer() {
         </div>
     );
 }
-

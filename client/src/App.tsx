@@ -9,6 +9,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from "@/lib/i18n";
+import { AccessibilityProvider } from "@/contexts/accessibility-context";
 import Home from "@/pages/home";
 import MapPage from "@/pages/map";
 import AdminLogin from "@/pages/admin/login";
@@ -44,19 +45,20 @@ function App() {
   }, [location]);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-
-      <I18nProvider>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <SonnerToaster />
-            <Router />
-            <ScrollToTop />
-          </TooltipProvider>
-        </QueryClientProvider>
-      </I18nProvider>
-    </ThemeProvider>
+    <AccessibilityProvider>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <I18nProvider>
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <Toaster />
+              <SonnerToaster />
+              <Router />
+              <ScrollToTop />
+            </TooltipProvider>
+          </QueryClientProvider>
+        </I18nProvider>
+      </ThemeProvider>
+    </AccessibilityProvider>
   );
 }
 

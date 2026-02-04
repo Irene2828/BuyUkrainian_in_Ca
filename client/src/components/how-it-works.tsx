@@ -26,13 +26,13 @@ export function HowItWorks() {
 
   return (
     <section id="how-it-works" className="py-40 md:py-48 font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
         {/* Section Header - Tighter Gap */}
-        <div className="mb-12 md:mb-16 max-w-4xl mx-auto flex flex-col gap-3 text-center items-center">
+        <div className="mb-12 md:mb-16 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[1.1] font-sans section-headline-reveal text-slate-900">
             How It Works
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal leading-relaxed text-gray-600 font-ui max-w-2xl">
+          <p className="subline font-ui max-w-2xl mx-auto">
             Find new locations, contribute findings, and share the project with others.
           </p>
         </div>
@@ -42,8 +42,8 @@ export function HowItWorks() {
           {/* Step 1 */}
           <div className="stagger-item group flex flex-col items-center bg-transparent px-6 pt-8 pb-0 h-full text-center">
 
-            {/* Illustration - Naked */}
-            <div className="h-[180px] w-full flex items-end justify-center overflow-hidden mb-6">
+            {/* Illustration - Centered Alignment */}
+            <div className="h-[216px] w-full flex items-center justify-center overflow-hidden mb-6">
               <img
                 src="/icon1.png"
                 alt="Find Ukrainian products"
@@ -65,8 +65,8 @@ export function HowItWorks() {
 
           <div className="stagger-item group flex flex-col items-center bg-transparent px-6 pt-8 pb-0 h-full text-center">
 
-            {/* Illustration - Naked */}
-            <div className="h-[180px] w-full flex items-end justify-center overflow-hidden mb-6">
+            {/* Illustration - Centered Alignment */}
+            <div className="h-[216px] w-full flex items-center justify-center overflow-hidden mb-6">
               <img
                 src="/icon2.png"
                 alt="Add a store"
@@ -88,8 +88,8 @@ export function HowItWorks() {
 
           <div className="stagger-item group flex flex-col items-center bg-transparent px-6 pt-8 pb-0 h-full text-center">
 
-            {/* Illustration - Naked */}
-            <div className="h-[180px] w-full flex items-end justify-center overflow-hidden mb-6">
+            {/* Illustration - Centered Alignment */}
+            <div className="h-[216px] w-full flex items-center justify-center overflow-hidden mb-6">
               <img
                 src="/icon3.png"
                 alt="Spread the Word"

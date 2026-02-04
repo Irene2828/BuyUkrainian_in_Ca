@@ -1,17 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { AnimatedCounter } from "@/components/ui/animated-counter";
-import { MapPin, Map, Package, Search } from "lucide-react";
+import { Map, Package } from "lucide-react";
 import { Link } from "wouter";
-import { cn } from "@/lib/utils";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
 
 export function CommunityImpact() {
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
     });
-
-
 
     const stats = {
         stores: stores.length,
@@ -20,59 +18,70 @@ export function CommunityImpact() {
     };
 
     return (
-        <section className="relative w-full pt-20 md:pt-32 pb-[100px] bg-white border-t border-slate-100">
+        <section className="relative w-full py-24 bg-white border-t border-slate-100">
             <div className="max-w-[800px] mx-auto px-6 lg:px-0 flex flex-col items-center">
 
-                {/* 1. High-End Stats Alignment (Tight Row) */}
-                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0 mb-10 border-b border-transparent">
+                {/* Bridge Headline */}
+                <h3 className="text-slate-900 opacity-60 font-medium text-xl mb-12 text-center">
+                    Real impact, growing daily.
+                </h3>
 
+                {/* Stats Row - Apple Editorial Style */}
+                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-16 md:gap-8 mb-20">
                     {/* Stores */}
-                    <div className="flex flex-col items-center justify-center text-center w-full md:w-1/3">
-                        <MapPin className="w-6 h-6 stroke-[1] text-[#1A1A1A] mb-2" />
-                        <span className="font-sans font-light text-[#1A1A1A] leading-none mb-1 text-[48px]">
-                            <AnimatedCounter end={stats.stores} duration={2000} />
-                        </span>
-                        <span className="text-[12px] text-slate-500 font-semibold tracking-[0.03em] font-sans uppercase">
-                            Stores
-                        </span>
+                    <div className="flex flex-col items-center gap-3">
+                        <AnimatedCounter
+                            end={stats.stores}
+                            duration={2000}
+                            delay={0}
+                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-60"
+                        />
+                        <div className="flex items-center gap-2 text-slate-500 mt-2">
+                            <UkrainianFlagIcon className="w-4 h-4 opacity-80" />
+                            <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Stores on the map</span>
+                        </div>
                     </div>
 
                     {/* Provinces */}
-                    <div className="flex flex-col items-center justify-center text-center w-full md:w-1/3">
-                        <Map className="w-6 h-6 stroke-[1] text-[#1A1A1A] mb-2" />
-                        <span className="font-sans font-light text-[#1A1A1A] leading-none mb-1 text-[48px]">
-                            <AnimatedCounter end={stats.provinces} duration={2000} delay={200} />
-                        </span>
-                        <span className="text-[12px] text-slate-500 font-semibold tracking-[0.03em] font-sans uppercase">
-                            Provinces
-                        </span>
+                    <div className="flex flex-col items-center gap-3">
+                        <AnimatedCounter
+                            end={stats.provinces}
+                            duration={2000}
+                            delay={200}
+                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-60"
+                        />
+                        <div className="flex items-center gap-2 text-slate-500 mt-2">
+                            <Map className="w-4 h-4 opacity-80" strokeWidth={1.5} />
+                            <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Provinces Covered</span>
+                        </div>
                     </div>
 
                     {/* Products */}
-                    <div className="flex flex-col items-center justify-center text-center w-full md:w-1/3">
-                        <Package className="w-6 h-6 stroke-[1] text-[#1A1A1A] mb-2" />
-                        <span className="font-sans font-light text-[#1A1A1A] leading-none mb-1 text-[48px]">
-                            <AnimatedCounter end={stats.products} duration={2000} delay={400} />
-                        </span>
-                        <span className="text-[12px] text-slate-500 font-semibold tracking-[0.03em] font-sans uppercase">
-                            Products
-                        </span>
+                    <div className="flex flex-col items-center gap-3">
+                        <AnimatedCounter
+                            end={stats.products}
+                            duration={2000}
+                            delay={400}
+                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-60"
+                        />
+                        <div className="flex items-center gap-2 text-slate-500 mt-2">
+                            <Package className="w-4 h-4 opacity-80" strokeWidth={1.5} />
+                            <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Unique Products</span>
+                        </div>
                     </div>
                 </div>
 
-                <div className="text-center max-w-xl mb-[40px]">
-                    <p className="text-[18px] font-sans font-medium text-slate-600 leading-relaxed tracking-tight scale-up-reveal">
-                        The Map grows with each contribution by Ukraine's supporters — like you.
-                        <br className="block my-2" />
-                        The more stores are there — the more purchases will be made to support the economy of the brave country.
+                {/* Signature CTA Button */}
+                <div className="flex flex-col items-center gap-8">
+                    <p className="text-slate-500 text-[15px] font-medium text-center tracking-wide max-w-md leading-relaxed">
+                        Contribute to our growing map of Ukrainian-made products across Canada.
                     </p>
+                    <Link href="/map">
+                        <button className="btn-premium-action shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover">
+                            Add a Local Store
+                        </button>
+                    </Link>
                 </div>
-
-                {/* 3. The Final Action (Anchor) */}
-                <Link href="/map" className="btn-premium-action gap-2">
-                    See What's on the Map
-                    <Search className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                </Link>
 
             </div>
         </section>

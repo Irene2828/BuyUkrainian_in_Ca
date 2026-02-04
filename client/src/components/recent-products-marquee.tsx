@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function RecentProductsMarquee() {
     const { t } = useI18n();
     const [location] = useLocation();
-    const [isStuck, setIsStuck] = useState(false);
+
 
     // Hover Tracking State
     const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
@@ -20,16 +20,7 @@ export function RecentProductsMarquee() {
 
     const isHome = location === "/";
 
-    useEffect(() => {
-        if (!isHome) return;
 
-        const handleScroll = () => {
-            setIsStuck(window.scrollY > 60);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [isHome]);
 
     // Continuous Tracking Effect (Syncs overlay position with moving marquee)
     useEffect(() => {
@@ -108,19 +99,14 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className={cn(
-                    "w-full py-3.5 overflow-hidden font-sans transition-all duration-300",
-                    isHome
-                        ? "sticky top-0 z-50 bg-white/80 backdrop-blur-md"
-                        : "relative z-20 bg-white"
-                )}
+                className="w-full py-3.5 overflow-hidden font-sans bg-white relative z-20"
             >
                 <div className="max-w-7xl mx-auto flex items-center h-[50px] md:h-[60px] relative px-6 md:px-12">
 
                     {/* Fixed Live Label */}
-                    <div className="sticky left-0 z-30 py-2 pr-6 flex items-center gap-3 h-full">
+                    <div className="sticky left-0 z-30 py-2 pr-20 flex items-center gap-3 h-full">
                         {/* Glass gradient background for label to mask marquee behind it */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/90 to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent pointer-events-none" />
 
                         <div className="relative z-10 flex items-center gap-3">
                             <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
@@ -136,7 +122,7 @@ export function RecentProductsMarquee() {
                             {repeatedStores.map((store, i) => (
                                 <span
                                     key={`${store.id}-${i}`}
-                                    className="group relative text-[14px] md:text-[16px] font-medium text-slate-800 hover:text-slate-950 mx-6 flex items-center gap-2.5 select-none cursor-pointer transition-colors duration-300 ease-in-out"
+                                    className="group relative text-[14px] md:text-[16px] font-medium text-slate-900 hover:text-slate-900 mx-6 flex items-center gap-2.5 select-none cursor-pointer transition-colors duration-300 ease-in-out"
                                     onClick={() => window.open(`/map?store=${encodeURIComponent(store.name)}`, '_blank')}
                                     onMouseEnter={(e) => handleMouseEnter(e, store)}
                                     onMouseLeave={handleMouseLeave}

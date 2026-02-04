@@ -47,7 +47,7 @@ export default function Home() {
         </div>
 
         {/* Spread the Word */}
-        <div className="section-reveal">
+        <div className="section-reveal mt-16">
           <SpreadTheWord />
         </div>
 

@@ -456,7 +456,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onClick={() => {
             mapRef.current?.zoomIn();
           }}
-          className="w-[44px] h-[44px] flex items-center justify-center text-black hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          className="w-[44px] h-[44px] flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Zoom In"
         >
           <Plus className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
@@ -466,7 +466,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onClick={() => {
             mapRef.current?.zoomOut();
           }}
-          className="w-[44px] h-[44px] flex items-center justify-center text-black hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          className="w-[44px] h-[44px] flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Zoom Out"
         >
           <Minus className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
@@ -477,7 +477,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
             setFocusCoordinates(null);
           }}
-          className="w-[44px] h-[44px] flex items-center justify-center text-black hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          className="w-[44px] h-[44px] flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Reset to Full Canada"
         >
           <Maximize2 className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />

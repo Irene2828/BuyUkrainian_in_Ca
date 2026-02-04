@@ -173,29 +173,8 @@ a[role="button"],
 
 
 /* HOVER STATE: Subtractive Elegance — White BG, Black Text/Border */
-button:hover:not(:disabled):not(.no-invert-hover),
-.btn-strict:hover,
-a[role="button"]:hover,
-[class*="Button"]:hover:not(:disabled),
-.btn-cta:hover {
-    background-color: var(--btn-hover-bg);
-    color: var(--btn-hover-text);
-    border-color: var(--btn-hover-border);
-}
-
-/* Child Element Inheritance — Icons/Spans follow parent on hover */
-button:hover:not(:disabled):not(.no-invert-hover) svg,
-button:hover:not(:disabled):not(.no-invert-hover) span,
-a[role="button"]:hover svg,
-a[role="button"]:hover span,
-[class*="Button"]:hover:not(:disabled) svg,
-[class*="Button"]:hover:not(:disabled) span,
-.btn-cta:hover svg,
-.btn-cta:hover span {
-    color: var(--btn-hover-text);
-    /* fill removed - let component-level fill-none win */
-    stroke: var(--btn-hover-text);
-}
+/* HOVER STATE: Custom implementation per component */
+/* Removed global white-bg inversion to respect specific component styles (slate-800) */
 
 /* Global SVG Path/Circle Lock-Down - Force all internal elements hollow */
 svg[class*="fill-none"] path,

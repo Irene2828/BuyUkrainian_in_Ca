@@ -1,10 +1,11 @@
 import { Link } from "wouter";
+import { AccessibilityToggle } from "@/components/ui/accessibility-toggle";
 
 export function Footer() {
   return (
-    <footer className="bg-black text-[#fafafa] pb-10 font-sans overflow-hidden relative">
+    <footer className="bg-slate-900 text-[#fafafa] pb-10 font-sans overflow-hidden relative">
       {/* Spanning Grid - Flex Justify Between for Edge Alignment */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full pt-16 pb-12">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full pt-16 pb-12">
         <div className="flex justify-between w-full md:justify-start md:gap-20 lg:gap-32">
 
           {/* Column 1: Navigation (Left Edge) */}
@@ -15,19 +16,19 @@ export function Footer() {
             <div className="flex flex-col space-y-3">
               <Link
                 href="/map"
-                className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                className="text-[14px] text-slate-200 hover:text-white transition-colors duration-300"
               >
                 Explore the map
               </Link>
               <Link
                 href="/map"
-                className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                className="text-[14px] text-slate-200 hover:text-white transition-colors duration-300"
               >
                 Add a store
               </Link>
               <a
                 href="/#how-it-works"
-                className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                className="text-[14px] text-slate-200 hover:text-white transition-colors duration-300"
               >
                 How it works
               </a>
@@ -45,21 +46,15 @@ export function Footer() {
               <div className="flex flex-col space-y-3">
                 <a
                   href="/#faq"
-                  className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                  className="text-[14px] text-slate-400 hover:text-white transition-colors duration-300"
                 >
                   Our Mission
                 </a>
                 <Link
                   href="/about"
-                  className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                  className="text-[14px] text-slate-400 hover:text-white transition-colors duration-300"
                 >
                   Contact us
-                </Link>
-                <Link
-                  href="/privacy"
-                  className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
-                >
-                  Privacy Policy
                 </Link>
               </div>
             </div>
@@ -72,13 +67,19 @@ export function Footer() {
               <div className="flex flex-col space-y-3">
                 <a
                   href="/#spread-the-word"
-                  className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                  className="text-[14px] text-slate-500 hover:text-white transition-colors duration-300"
                 >
                   Spread the Word
                 </a>
                 <Link
+                  href="/privacy"
+                  className="text-[14px] text-slate-500 hover:text-white transition-colors duration-300"
+                >
+                  Privacy Policy
+                </Link>
+                <Link
                   href="/about"
-                  className="text-[14px] text-slate-300 hover:text-white transition-colors duration-200"
+                  className="text-[14px] text-slate-500 hover:text-white transition-colors duration-300"
                 >
                   Volunteer
                 </Link>
@@ -88,11 +89,10 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar - Legal/Copyright Spanning Full Width */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full border-t border-white/10 pt-8 mt-0 flex justify-between text-[12px] text-slate-500">
-        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white opacity-50 font-ui">
-          © 2026 BuyUkrainian.ca. All rights reserved.
-        </div>
+      {/* Bottom Bar - Legal/Copyright + Accessibility Toggle */}
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full border-t border-white/10 pt-8 mt-0 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-slate-500">
+        {/* Universal Access Toggle */}
+        <AccessibilityToggle />
 
         {/* Discreet Admin Link - Far Right Corner */}
         <Link

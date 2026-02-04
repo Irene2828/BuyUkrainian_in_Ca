@@ -46,25 +46,21 @@ function NewlyAddedStores() {
 
   return (
     <section className="bg-transparent pb-7 md:pb-[44px]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-16">
-        <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col gap-3 md:gap-4 text-left">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
-              <h2
-                className="text-[13px] font-bold tracking-[0.08em] text-slate-400 uppercase whitespace-nowrap m-0 font-ui"
-              >
-                LATEST COMMUNITY ADDITIONS
-              </h2>
-            </div>
-            <p className="text-[16px] text-slate-500 font-ui stagger-item">
-              Every point on the map starts with a member of our community sharing a local find.
-            </p>
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-16">
+        <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
+          <div className="flex items-center gap-2.5">
+            <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
+            <h2 className="text-[13px] font-bold tracking-[0.08em] text-slate-900 uppercase whitespace-nowrap m-0 font-ui">
+              LATEST COMMUNITY ADDITIONS
+            </h2>
           </div>
+          <p className="text-base text-slate-600 font-ui stagger-item mt-3">
+            Every point on the map starts with a member of our community sharing a local find.
+          </p>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-16 group/carousel relative">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-16 group/carousel relative">
         <Carousel
           opts={{
             align: "start",
@@ -168,22 +164,22 @@ export default function MapPage() {
         </div>
 
         {/* Mission Reminder - Subtle Bridge to Footer */}
-        <section className="w-full bg-[#f1f5f9] py-20 md:py-24 border-t border-slate-100 section-reveal">
-          <div className="max-w-7xl mx-auto px-6 lg:px-16">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
-              <div className="max-w-xl">
+        <section className="w-full bg-[#f1f5f9] pt-20 md:pt-32 pb-[81px] border-t border-slate-100 section-reveal flex items-center">
+          <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left">
+              <div>
                 <p className="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-[0.15em] mb-4 font-sans">Our Mission</p>
                 <h3 className="font-semibold text-slate-900 leading-tight mb-4 stagger-item">
                   Supporting resilience, one store at a time.
                 </h3>
-                <p className="text-[17px] text-[#424245] font-ui leading-relaxed max-w-lg">
+                <p className="text-[17px] text-[#424245] font-ui leading-relaxed max-w-[45ch] mx-auto md:mx-0">
                   We're creating a community-driven resource to help you find and support Ukrainian makers and entrepreneurship across Canada.
                 </p>
               </div>
               <div className="flex flex-col items-center md:items-end gap-6">
-                <div className="flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-[#E5E5E7] border-[0.5px] shadow-sm">
+                <div className="flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
                   <div className="w-2 h-2 bg-[#A5D8FF] rounded-full animate-premium-pulse" />
-                  <span className="text-[12px] font-medium text-[#8E8E93] font-sans tracking-normal">Community verified</span>
+                  <span className="text-[13px] font-medium text-slate-700 font-sans tracking-tight">Community verified</span>
                 </div>
                 <p className="text-[14px] text-slate-500 font-ui italic">
                   Every addition makes our community stronger.

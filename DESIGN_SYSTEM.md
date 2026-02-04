@@ -106,6 +106,8 @@ Do not hardcode font sizes like `32px` or `48px` for main headings.
 -   **Text**: `#111827` (Onyx / Slate-900) - Never pure black `#000000` on white.
 -   **Muted Text**: `#4B5563` (Slate-600) - For labels and secondary copy.
 -   **Brand Accent**: `#2563EB` (Royal Blue) - For primary interactions.
+-   **Primary Button**: `#0F172A` (Slate-900) - Deep, sophisticated dark for CTAs.
+-   **Primary Button Hover**: `#1E293B` (Slate-800) - Slightly lighter on hover.
 
 ---
 
@@ -120,8 +122,10 @@ Do not hardcode font sizes like `32px` or `48px` for main headings.
 -   **Slogans**: Never use wide letter-spacing. Use `normal` or tight tracking for readability.
 
 ### Buttons
--   **Primary**: Solid Black (`#000`), White Text, Pill Shape (`rounded-full`).
-    -   Hover: Lift (`translateY(-2px)`), Weight Shift (500->600).
+-   **Primary**: Solid Slate-900 (`bg-slate-900`), White Text, Pill Shape (`rounded-full`), Height: `46px`.
+    -   Hover: `bg-slate-800` + Lift Scale (`scale-[1.02]`).
+    -   **Color Code**: `#0F172A` (Slate-900) → `#1E293B` (Slate-800) on hover.
+    -   **Usage**: All primary CTAs (Hero "Explore the map", Prefooter "Add a Local Store", Map "Add a store").
 -   **Secondary/Ghost**: No background/border initially.
     -   Hover: Text color shift + Expanding Underline.
 

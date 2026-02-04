@@ -1,6 +1,5 @@
 import { Facebook, Instagram } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
 export function SpreadTheWord() {
   const shareMessage = "Find or add stores that sell Ukrainian-made products.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada.";
@@ -25,69 +24,79 @@ export function SpreadTheWord() {
     window.open(twitterUrl, '_blank', 'width=600,height=400');
   };
 
-  const buttonClass = "w-full max-w-[320px] md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-[12px] tracking-[0.03em] text-white transition-all duration-300 border !border-white bg-transparent hover:!bg-white hover:!text-black font-semibold";
+
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-16 md:py-16 overflow-hidden z-10 flex flex-col justify-center">
-      {/* Structural Container */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10 flex flex-col items-center">
+    <section className="relative w-full bg-[#ECF6FF] py-16 md:py-0 min-h-[80vh] overflow-hidden z-10 flex flex-col justify-center">
 
-        <div className="mb-8 max-w-3xl mx-auto flex flex-col gap-3 text-center">
-          {/* 12px gap (gap-3) standardized across all sections */}
+      {/* Structural Container */}
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full relative z-10 flex flex-col items-center">
+
+        <div className="mb-10 max-w-3xl mx-auto flex flex-col gap-6 text-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900">
             Share with Friends
           </h2>
-          <p className="text-[16px] md:text-[18px] font-normal md:leading-[29.3px] md:tracking-[-0.44px] text-gray-600 font-ui">
+          <p className="subline font-ui max-w-2xl mx-auto">
             Share the map with your network and help others find Ukrainian-made products across Canada.
           </p>
         </div>
 
-        <div className="relative w-full md:w-[790px] mx-auto">
+        <div className="relative w-full max-w-[720px] mx-auto">
 
-          {/* Material Card Section */}
-          <div className="w-full h-full md:h-[252px] bg-[#000000] backdrop-blur-xl border border-white/10 rounded-[24px] md:rounded-[40px] flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.2)] py-12 px-6 md:px-8 relative z-10">
+          {/* Material Card Section - Wide & Compact */}
+          <div className="w-full h-full md:h-auto bg-slate-900 backdrop-blur-xl border border-slate-800 rounded-[40px] md:rounded-[50px] flex flex-col items-center justify-center text-center py-10 px-8 md:px-12 relative z-10 overflow-hidden isolate">
 
-            {/* Decorative Quote Mark - Structural Watermark */}
-            <span className="absolute top-[-10px] left-[20px] text-[120px] leading-none text-white/[0.05] font-serif hidden md:block select-none pointer-events-none">
-              “
-            </span>
+            {/* Subtle Inner Border/Glow */}
+            <div className="absolute inset-0 rounded-[40px] md:rounded-[50px] ring-1 ring-white/10 pointer-events-none" />
 
-            {/* Message Pill Layout */}
-            <div className="px-4 md:px-10 mb-8 w-full max-w-[650px] mx-auto text-center">
-              <p className="text-[16px] md:text-[18px] font-normal text-white/90 leading-relaxed font-ui whitespace-pre-line">
-                {shareMessage}
+            {/* Inner Light Overlay - Covers Container Fully */}
+            <div className="absolute inset-0 bg-[#C5E0F5] opacity-10 pointer-events-none" />
+
+
+
+            {/* Intimate Note Text */}
+            <div className="px-2 md:px-0 mb-5 w-full max-w-[800px] mx-auto text-center relative z-10">
+              <p className="text-[20px] font-medium text-slate-100 leading-relaxed tracking-normal font-sans">
+                <span className="text-white inline-block mr-1" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '28px' }}>"</span>
+                Let's make it easy to buy Ukrainian in Canada. 🇺🇦🇨🇦
+              </p>
+              <p className="text-[17px] font-normal text-slate-400 leading-[1.6] tracking-normal font-sans mt-1.5">
+                Join me in helping Ukrainian economy thrive.
+                <span className="text-white inline-block ml-1" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '28px' }}>"</span>
               </p>
             </div>
 
-            {/* Social Buttons - Vertically stacked per user request */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full">
+            {/* Social Buttons - Utility Tags */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-3 w-full max-w-[720px] mx-auto relative z-10 group/socials">
               <button
                 onClick={handleFacebookShare}
-                className={buttonClass}
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-white group-hover/socials:text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"
               >
-                <Facebook className="w-[14px] h-[14px] fill-none stroke-current" strokeWidth={2} />
+                <Facebook className="w-[14px] h-[14px] fill-current" />
                 Share on Facebook
+                <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-white scale-x-100 group-hover/socials:scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </button>
               <button
                 onClick={handleInstagramShare}
-                className={buttonClass}
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"
               >
-                <Instagram className="w-[14px] h-[14px] fill-none stroke-current" strokeWidth={2} />
+                <Instagram className="w-[12px] h-[12px]" />
                 Share on Instagram
+                <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </button>
               <button
                 onClick={handleXShare}
-                className={buttonClass}
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"
               >
                 <svg
                   viewBox="0 0 24 24"
-                  className="w-[14px] h-[14px] fill-none stroke-current"
-                  strokeWidth="2"
+                  className="w-[14px] h-[14px] fill-current"
                   aria-hidden="true"
                 >
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                 </svg>
                 Share on X
+                <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </button>
             </div>
           </div>

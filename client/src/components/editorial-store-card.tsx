@@ -1,6 +1,7 @@
 import { Store } from "@/lib/data";
 import { ArrowUpRight, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
 
 interface EditorialStoreCardProps {
     store: Store;
@@ -68,10 +69,11 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                 {/* Title & Action Row - Strictly Centered Unit */}
                 <div className="w-full flex justify-center mt-2 px-1">
                     <div className="flex items-center gap-2 max-w-full group/text">
-                        <h3 className="text-base font-medium text-black opacity-50 leading-snug font-ui truncate group-hover:text-black group-hover:opacity-100 transition-all">
+                        <UkrainianFlagIcon className="w-4 h-4 flex-shrink-0" />
+                        <h3 className="text-base font-medium text-slate-900 opacity-50 leading-snug font-ui truncate group-hover:text-slate-900 group-hover:opacity-100 transition-all">
                             {store.name}
                         </h3>
-                        <ArrowUpRight className="w-4 h-4 text-black opacity-50 transition-all duration-300 ease-out group-hover:text-black group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
+                        <ArrowUpRight className="w-4 h-4 text-slate-900 opacity-50 transition-all duration-300 ease-out group-hover:text-slate-900 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
                     </div>
                 </div>
             </div>

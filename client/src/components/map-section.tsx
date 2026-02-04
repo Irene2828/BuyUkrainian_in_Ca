@@ -45,7 +45,7 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
   "Yukon": { lat: 64.0, lng: -135.0, zoom: 5 },
   "Northwest Territories": { lat: 65.0, lng: -120.0, zoom: 5 },
   "Nunavut": { lat: 70.0, lng: -90.0, zoom: 4 },
-  "All Provinces": { lat: 56.1304, lng: -106.3468, zoom: 4 }
+  "All Provinces": { lat: 50.0, lng: -95.0, zoom: 4.8 } // Victoria to Halifax corridor focus
 };
 
 import { useI18n } from "@/lib/i18n";
@@ -252,7 +252,7 @@ export function MapSection({
           <div className="py-10 border-t border-gray-50 flex justify-center bg-white shadow-none">
             <button
               onClick={() => setVisibleCount(c => c + 12)}
-              className="text-[16px] font-bold text-black/70 hover:text-black transition-colors flex items-center gap-2 font-ui no-underline outline-none border-none focus:outline-none focus:ring-0 active:outline-none hover:outline-none bg-transparent hover:bg-transparent"
+              className="text-[16px] font-bold text-slate-900/70 hover:text-slate-900 transition-colors flex items-center gap-2 font-ui no-underline outline-none border-none focus:outline-none focus:ring-0 active:outline-none hover:outline-none bg-transparent hover:bg-transparent"
             >
               {t('map.seeMore') || 'See more stores'} <ArrowDown className="w-4 h-4" />
             </button>
