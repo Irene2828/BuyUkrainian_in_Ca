@@ -25,7 +25,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-12 md:py-16 font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="how-it-works" className="py-32 md:py-40 font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
         {/* Section Header - Tighter Gap */}
         <div className="mb-10 md:mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
