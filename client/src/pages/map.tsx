@@ -158,7 +158,7 @@ export default function MapPage() {
         </div>
 
         {/* Below-the-fold sections - Vertical Air exactly 75% of Zen Zone */}
-        <div className="section-reveal relative z-10 bg-white pt-6 pb-20">
+        <div className="section-reveal relative z-10 bg-white pt-20 pb-20">
           <NewlyAddedStores />
 
         </div>

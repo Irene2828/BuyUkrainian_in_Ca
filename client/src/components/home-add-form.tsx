@@ -232,7 +232,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-full h-14 rounded-full bg-black text-white hover:bg-gray-900 font-semibold text-[16px] font-ui transition-all"
+          className="w-full btn-premium-action flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-[1.01]"
         >
           Back to the map
         </Button>

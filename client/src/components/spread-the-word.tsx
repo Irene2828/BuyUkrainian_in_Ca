@@ -27,7 +27,7 @@ export function SpreadTheWord() {
 
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-16 md:py-0 min-h-[80vh] overflow-hidden z-10 flex flex-col justify-center">
+    <section className="relative w-full bg-[#ECF6FF] py-20 md:py-24 min-h-[700px] overflow-hidden z-10 flex flex-col justify-center">
 
       {/* Structural Container */}
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full relative z-10 flex flex-col items-center">
@@ -36,8 +36,9 @@ export function SpreadTheWord() {
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900">
             Share with Friends
           </h2>
+
           <p className="subline font-ui max-w-2xl mx-auto">
-            Share the map with your network and help others find Ukrainian-made products across Canada.
+            The more people know where to buy Ukrainian in Canada, the more support we can provide to Ukrainian businesses selling in Canada.
           </p>
         </div>
 
@@ -101,6 +102,8 @@ export function SpreadTheWord() {
             </div>
           </div>
         </div>
+
+
       </div>
     </section>
   );

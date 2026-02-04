@@ -158,46 +158,52 @@ export function MapExplorer() {
         )}>
 
             {/* 1. Stats Dashboard */}
-            <section className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 pt-12 pb-8">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
-                    {/* Left: Heading */}
-                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <section className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 pt-12 pb-6">
+                <div className="flex flex-col items-center justify-center gap-6">
+
+                    {/* Top Row: Heading + Stats (Centered Together) */}
+                    <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                        {/* Heading */}
                         <div className="flex items-center gap-2.5">
                             <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
                             <h2 className="text-[13px] font-bold tracking-[0.08em] uppercase text-slate-900 whitespace-nowrap">
                                 CURRENTLY ON THE MAP
                             </h2>
                         </div>
-                        <p className="text-base text-slate-600 font-normal leading-relaxed mt-3">
-                            Find Ukrainian products near you, or help grow the map.
-                        </p>
+
+                        {/* Divider */}
+                        <div className="hidden md:block w-[1px] h-6 bg-slate-300" />
+
+                        {/* Stats */}
+                        <div className="flex items-center gap-8 md:gap-12">
+                            <div className="flex flex-col items-center gap-1">
+                                <span className="text-[22px] font-medium text-slate-900 leading-none">
+                                    <AnimatedCounter end={stats.stores} />
+                                </span>
+                                <span className="text-[10px] font-medium text-slate-900 uppercase tracking-[0.15em]">Stores</span>
+                            </div>
+                            <div className="w-[1px] h-8 bg-slate-200" />
+                            <div className="flex flex-col items-center gap-1">
+                                <span className="text-[22px] font-medium text-slate-900 leading-none">
+                                    <AnimatedCounter end={stats.provinces} />
+                                </span>
+                                <span className="text-[10px] font-medium text-slate-900 uppercase tracking-[0.15em]">Provinces</span>
+                            </div>
+                            <div className="w-[1px] h-8 bg-slate-200" />
+                            <div className="flex flex-col items-center gap-1">
+                                <span className="text-[22px] font-medium text-slate-900 leading-none">
+                                    <AnimatedCounter end={stats.products} />
+                                </span>
+                                <span className="text-[10px] font-medium text-slate-900 uppercase tracking-[0.15em]">Products</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="hidden md:block w-[1px] h-10 bg-slate-200" />
+                    {/* Bottom Row: Subline (Centered) */}
+                    <p className="text-base text-slate-600 font-normal leading-relaxed text-center">
+                        Find Ukrainian products near you, or help grow the map.
+                    </p>
 
-                    {/* Right: Stats */}
-                    <div className="flex items-center gap-8 md:gap-12">
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-[22px] font-medium text-slate-500 leading-none">
-                                <AnimatedCounter end={stats.stores} />
-                            </span>
-                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-[0.15em]">Stores</span>
-                        </div>
-                        <div className="w-[1px] h-8 bg-slate-200" />
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-[22px] font-medium text-slate-500 leading-none">
-                                <AnimatedCounter end={stats.provinces} />
-                            </span>
-                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-[0.15em]">Provinces</span>
-                        </div>
-                        <div className="w-[1px] h-8 bg-slate-200" />
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-[22px] font-medium text-slate-500 leading-none">
-                                <AnimatedCounter end={stats.products} />
-                            </span>
-                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-[0.15em]">Products</span>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -215,7 +221,7 @@ export function MapExplorer() {
                             placeholder="Search by city or store name..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full h-[40px] pl-8 pr-0 bg-transparent border-b border-slate-200 text-[15px] font-medium leading-normal placeholder:text-slate-500 focus:outline-none focus:border-black focus:ring-0 rounded-none transition-all duration-200 ease-in-out"
+                            className="w-full h-[40px] pl-8 pr-0 bg-transparent border-b border-slate-200 text-[15px] font-medium leading-normal placeholder:text-slate-500/90 focus:outline-none focus:border-black focus:ring-0 rounded-none transition-all duration-200 ease-in-out"
                             aria-label="Search stores"
                         />
                     </div>
@@ -324,45 +330,54 @@ export function MapExplorer() {
                 </aside>
 
                 {/* Map/List Column */}
-                <div className="flex-1 min-w-0 flex flex-col gap-4 md:mt-[38px]">
-                    <div className="relative h-[550px] w-full rounded-[32px] shadow-sm border border-slate-200 overflow-hidden bg-white group/map isolate">
-
-                        {/* Map/List Toggle - Top Left - Glassmorphic */}
-                        <div className="absolute top-6 left-6 z-[500]">
-                            <div className="inline-flex items-center p-1 bg-white/70 backdrop-blur-md rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-white/10">
-                                <button
-                                    onClick={() => setViewMode("map")}
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
-                                        viewMode === "map" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
-                                    )}
-                                >
-                                    <MapIcon className="w-3.5 h-3.5" />
-                                    Map
-                                </button>
-                                <button
-                                    onClick={() => setViewMode("list")}
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
-                                        viewMode === "list" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
-                                    )}
-                                >
-                                    <List className="w-3.5 h-3.5" />
-                                    List
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Add Store Button - Primary Action Token */}
-                        <div className="absolute top-6 right-6 z-[500]">
+                <div className="flex-1 min-w-0 flex flex-col gap-4 md:mt-[38px] relative">
+                    {/* Map/List Toggle - Top Left - Glassmorphic */}
+                    <div className="absolute top-6 left-6 z-[500]">
+                        <div className="inline-flex items-center p-1 bg-white/70 backdrop-blur-md rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-white/10">
                             <button
-                                onClick={() => setAddStoreDialogOpen(true)}
-                                className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-medium hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center gap-2"
+                                onClick={() => setViewMode("map")}
+                                className={cn(
+                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
+                                    viewMode === "map" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
+                                )}
                             >
-                                <Plus className="w-4 h-4" strokeWidth={2.5} />
-                                Add a store
+                                <MapIcon className="w-3.5 h-3.5" />
+                                Map
+                            </button>
+                            <button
+                                onClick={() => setViewMode("list")}
+                                className={cn(
+                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
+                                    viewMode === "list" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
+                                )}
+                            >
+                                <List className="w-3.5 h-3.5" />
+                                List
                             </button>
                         </div>
+                    </div>
+
+                    {/* Add Store Button - Primary Action Token */}
+                    <div className="absolute top-6 right-6 z-[500]">
+                        {/* Microcopy - Absolute positioned above the button */}
+                        <div className="absolute bottom-full right-0 mb-2 flex flex-col md:flex-row items-end md:items-center gap-0.5 md:gap-1 whitespace-nowrap">
+                            <span className="text-[11px] font-medium text-gray-500 leading-tight">Know more stores?</span>
+                            <span className="text-[11px] font-medium text-gray-500 leading-tight">Add them to the map!</span>
+                        </div>
+                        <button
+                            onClick={() => setAddStoreDialogOpen(true)}
+                            className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-medium hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center gap-2 shadow-lg hover:shadow-xl"
+                        >
+                            <Plus className="w-4 h-4" strokeWidth={2.5} />
+                            Add a store
+                        </button>
+                    </div>
+                    <div className={cn(
+                        "relative h-[550px] w-full rounded-[32px] overflow-hidden bg-white group/map isolate",
+                        viewMode === "map" ? "shadow-sm border border-slate-200" : ""
+                    )}>
+
+
 
                         {/* Content */}
                         <div className="w-full h-full relative z-0">

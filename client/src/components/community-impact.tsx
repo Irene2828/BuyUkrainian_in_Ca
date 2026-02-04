@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Map, Package } from "lucide-react";
+import { Map, Package, Plus } from "lucide-react";
 import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
@@ -18,16 +18,13 @@ export function CommunityImpact() {
     };
 
     return (
-        <section className="relative w-full py-24 bg-white border-t border-slate-100">
+        <section className="relative w-full py-16 md:py-0 min-h-[700px] bg-white border-t border-slate-100 flex flex-col justify-center">
             <div className="max-w-[800px] mx-auto px-6 lg:px-0 flex flex-col items-center">
 
-                {/* Bridge Headline */}
-                <h3 className="text-slate-900 opacity-60 font-medium text-xl mb-12 text-center">
-                    Real impact, growing daily.
-                </h3>
+
 
                 {/* Stats Row - Apple Editorial Style */}
-                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-16 md:gap-8 mb-20">
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24 mb-20">
                     {/* Stores */}
                     <div className="flex flex-col items-center gap-3">
                         <AnimatedCounter
@@ -71,19 +68,23 @@ export function CommunityImpact() {
                     </div>
                 </div>
 
+                {/* Bridge Headline - Moved below stats */}
+                <h3 className="text-slate-900 opacity-60 font-medium text-xl mb-8 text-center max-w-lg leading-relaxed">
+                    Keep Supporting Support Ukrainian Products in Canada
+                </h3>
+
                 {/* Signature CTA Button */}
                 <div className="flex flex-col items-center gap-8">
-                    <p className="text-slate-500 text-[15px] font-medium text-center tracking-wide max-w-md leading-relaxed">
-                        Contribute to our growing map of Ukrainian-made products across Canada.
-                    </p>
+
                     <Link href="/map">
-                        <button className="btn-premium-action shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover">
+                        <button className="btn-premium-action shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover group">
+                            <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
                             Add a Local Store
                         </button>
                     </Link>
                 </div>
 
             </div>
-        </section>
+        </section >
     );
 }

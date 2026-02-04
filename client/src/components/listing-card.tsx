@@ -61,7 +61,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
     return (
         <div
             className={cn(
-                "flex items-center gap-4 px-4 py-5 bg-white transition-all cursor-pointer rounded-2xl hover:shadow-md",
+                "flex items-center gap-4 px-4 py-5 bg-white transition-all cursor-pointer rounded-2xl",
                 className
             )}
             {...props}
