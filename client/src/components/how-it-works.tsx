@@ -32,7 +32,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="section-padding-airy font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="how-it-works" className="py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
         <div className="mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">

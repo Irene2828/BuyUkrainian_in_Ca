@@ -11,7 +11,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative section-padding-airy" style={{ paddingBottom: '64px' }}>
+    <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
       <div className="boutique-width w-full flex flex-col items-center gap-12">
 
         {/* Line Divider above links */}

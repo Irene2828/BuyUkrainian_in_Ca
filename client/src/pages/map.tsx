@@ -42,7 +42,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-transparent section-padding-airy">
+    <section className="bg-transparent py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -152,7 +152,7 @@ export default function MapPage() {
           <MapExplorer />
         </div>
 
-        <div className="section-reveal relative z-10 bg-white section-padding-airy">
+        <div className="section-reveal relative z-10 bg-white py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
           <NewlyAddedStores />
         </div>
 
