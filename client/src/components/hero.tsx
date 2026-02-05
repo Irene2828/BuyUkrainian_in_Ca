@@ -34,7 +34,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-[60px] flex flex-col justify-center animate-in fade-in duration-500">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans section-padding-airy flex flex-col justify-center animate-in fade-in duration-500">
       {/* Outer Wrapper: 1600px (matches global expansion) */}
       <div className="boutique-width w-full">
         {/* Inner Content Wrapper: Full Width to align with Header/Footer */}

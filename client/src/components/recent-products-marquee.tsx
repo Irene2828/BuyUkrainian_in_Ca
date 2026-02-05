@@ -100,7 +100,7 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full py-[60px] overflow-hidden font-sans bg-white relative z-20"
+                className="w-full section-padding-airy overflow-hidden font-sans bg-white relative z-20"
             >
                 <div className="max-w-7xl mx-auto flex items-center h-[50px] md:h-[60px] relative px-6 md:px-12">
 

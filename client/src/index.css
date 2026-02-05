@@ -1035,22 +1035,16 @@ select:focus-visible {
   max-width: var(--container-standard);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
   transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (min-width: 768px) {
-  .boutique-width {
-    padding-left: 48px;
-    padding-right: 48px;
-  }
+.section-padding-airy {
+  padding-block: clamp(4rem, 8vh, 8rem);
 }
 
 @media (min-width: 1440px) {
   .boutique-width {
     max-width: var(--container-large);
-    padding-left: var(--gutter-obsidian-x-large);
-    padding-right: var(--gutter-obsidian-x-large);
   }
 }

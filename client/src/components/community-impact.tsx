@@ -34,7 +34,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section className={cn(
-            "relative w-full bg-white py-[60px] section-reveal flex items-center min-h-[468px] overflow-hidden",
+            "relative w-full bg-white section-padding-airy section-reveal flex items-center min-h-[468px] overflow-hidden",
             !hideBorder && "border-t border-slate-100"
         )}>
             {/* Background Blobs */}
