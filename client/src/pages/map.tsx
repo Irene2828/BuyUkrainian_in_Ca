@@ -101,15 +101,7 @@ function NewlyAddedStores() {
         </Carousel>
       </div>
 
-      <div className="mt-12 flex justify-center">
-        <button
-          onClick={() => document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-          className="btn-premium-action gap-2 shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover group"
-        >
-          <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
-          <span>Add a New Store to the Map</span>
-        </button>
-      </div>
+
 
       <AnimatePresence>
         {selectedStore && (

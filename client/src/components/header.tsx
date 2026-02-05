@@ -21,8 +21,17 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+
+    const handleOpenAddStore = () => {
+      setAddStoreDialogOpen(true);
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('openAddStore', handleOpenAddStore);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('openAddStore', handleOpenAddStore);
+    };
   }, []);
 
   // Close mobile menu on route change

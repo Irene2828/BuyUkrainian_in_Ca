@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Package } from "lucide-react";
+import { Package, Plus } from "lucide-react";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 export function MapStats() {
@@ -68,7 +68,14 @@ export function MapStats() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-6">
+                <div className="flex flex-col items-center gap-6 mt-12">
+                    <button
+                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
+                        className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
+                    >
+                        <Plus className="w-5 h-5" strokeWidth={2.5} />
+                        <span>Add New Store to the Map</span>
+                    </button>
                     <p className="text-[15px] text-slate-500 font-ui italic text-center max-w-[40ch]">
                         Every data point represents a Ukrainian entrepreneur supported by this community.
                     </p>

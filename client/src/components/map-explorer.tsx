@@ -200,9 +200,18 @@ export function MapExplorer() {
                     </div>
 
                     {/* Bottom Row: Subline (Centered) */}
-                    <p className="text-base text-slate-600 font-normal leading-relaxed text-center">
-                        Find Ukrainian products near you, or help grow the map.
-                    </p>
+                    <div className="flex flex-col items-center gap-8">
+                        <p className="text-base text-slate-600 font-normal leading-relaxed text-center">
+                            Find Ukrainian products near you, or help grow the map.
+                        </p>
+                        <button
+                            onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
+                            className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
+                        >
+                            <Plus className="w-5 h-5" strokeWidth={2.5} />
+                            <span>Add New Store to the Map</span>
+                        </button>
+                    </div>
 
                 </div>
             </section>

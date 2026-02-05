@@ -79,12 +79,12 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             We're creating a community-driven resource to help you find and support Ukrainian makers and entrepreneurship across Canada.
                         </p>
 
-                        <Link href="/map">
-                            <button className="btn-premium-action shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 no-invert-hover group">
+                        <a href="mailto:hello@buyukrainian.ca?subject=Volunteer%20Inquiry" className="inline-block">
+                            <button className="btn-premium-action bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10 no-invert-hover group">
                                 <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
-                                <span>Explore the Map</span>
+                                <span>Volunteer for the Project</span>
                             </button>
-                        </Link>
+                        </a>
                     </div>
 
                     <div className="flex flex-col items-center md:items-end">
