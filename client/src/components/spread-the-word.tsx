@@ -30,32 +30,6 @@ export function SpreadTheWord() {
 
   return (
     <section className="relative w-full bg-white py-[72px] min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
-      {/* Background Blobs */}
-      <div
-        className="absolute pointer-events-none rounded-full"
-        style={{
-          width: '600px',
-          height: '600px',
-          left: 'calc(50% - 514px)', // 78px from left of 1184px core (78 - 592)
-          top: '-300px',
-          background: 'rgba(0, 113, 227, 0.16)',
-          filter: 'blur(120px)',
-          zIndex: 0
-        }}
-      />
-      <div
-        className="absolute pointer-events-none rounded-full"
-        style={{
-          width: '500px',
-          height: '500px',
-          left: 'calc(50% + 125px)', // 717px from left of 1184px core (717 - 592)
-          top: '335px',
-          background: 'rgba(255, 212, 39, 0.23)',
-          filter: 'blur(100px)',
-          zIndex: 0
-        }}
-      />
-
       {/* Structural Container */}
       <div className="boutique-width w-full relative z-10 flex flex-col items-center">
 
