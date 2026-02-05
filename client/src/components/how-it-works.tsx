@@ -34,7 +34,7 @@ Inspire – Encourage others to shop with purpose and intent.`,
   ];
 
   return (
-    <section id="how-it-works" className="py-[72px] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="how-it-works" className="py-[60px] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
         <div className="mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
