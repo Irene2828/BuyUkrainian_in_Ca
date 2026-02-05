@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { MapStats } from "@/components/map-stats";
+import { CommunityImpact } from "@/components/community-impact";
 
 function NewlyAddedStores() {
   const { t } = useI18n();
@@ -159,6 +160,7 @@ export default function MapPage() {
 
         <div className="section-reveal">
           <MapStats />
+          <CommunityImpact hideBorder />
         </div>
       </main>
       <Footer />

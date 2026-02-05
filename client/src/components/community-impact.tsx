@@ -56,7 +56,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         <div className="flex items-center gap-2.5 mb-4">
                             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
-                                Contributions to the map by today
+                                How You Can Help
                             </p>
                         </div>
                         <h2 className="text-[32px] md:text-[42px] font-semibold text-slate-900 leading-tight mb-4 stagger-item max-w-[15ch]">
