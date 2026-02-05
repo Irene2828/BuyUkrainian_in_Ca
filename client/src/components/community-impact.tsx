@@ -21,7 +21,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section className={cn(
-            "relative w-full bg-white py-[80px] section-reveal flex items-center min-h-[468px] overflow-hidden",
+            "relative w-full bg-white py-[72px] section-reveal flex items-center min-h-[468px] overflow-hidden",
             !hideBorder && "border-t border-slate-100"
         )}>
             {/* Background Blobs (Swapped from Map Page) */}

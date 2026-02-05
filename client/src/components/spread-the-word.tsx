@@ -29,7 +29,7 @@ export function SpreadTheWord() {
 
 
   return (
-    <section className="relative w-full bg-white min-h-[420px] overflow-hidden z-10 flex flex-col justify-center" style={{ paddingTop: '10%', paddingBottom: '5%' }}>
+    <section className="relative w-full bg-white py-[72px] min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
       {/* Background Blobs */}
       <div
         className="absolute pointer-events-none rounded-full"

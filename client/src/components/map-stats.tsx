@@ -16,7 +16,7 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full py-[72px] md:py-[80px] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
+        <section className="relative w-full py-[72px] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
             <div className="boutique-width flex flex-col items-center">
                 {/* Stats Header */}
                 <div className="flex flex-col items-center mb-12">
