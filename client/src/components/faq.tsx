@@ -31,7 +31,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-transparent font-sans overflow-hidden pt-8 md:pt-8 pb-32 md:pb-32">
+    <section id="faq" className="bg-transparent font-sans overflow-hidden" style={{ paddingTop: '10%', paddingBottom: '10%' }}>
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
