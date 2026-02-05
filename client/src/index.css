@@ -871,16 +871,20 @@ html.dark .city-labels-layer {
 }
 
 /* Premium Action Button - Standardized DNA (Inter 16) */
+.btn-premium-action,
+.btn-premium-action span,
+.btn-premium-action div {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px;
+}
+
 .btn-premium-action {
   height: 46px;
   border-radius: 9999px;
   padding-left: 32px;
   padding-right: 32px;
-
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 500 !important;
-  letter-spacing: 0.3px;
 
   color: #FFFFFF;
   background-color: #0F172A;

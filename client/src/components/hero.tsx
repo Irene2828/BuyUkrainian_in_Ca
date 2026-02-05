@@ -97,8 +97,8 @@ export function Hero() {
                   <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6">
                     <Link href="/map">
                       <MapPeek>
-                        <button className="btn-premium-action gap-2 no-invert-hover text-[16px] !font-medium">
-                          <span className="tracking-tight">{t('home.hero.explore') || "Explore the map"}</span>
+                        <button className="btn-premium-action gap-2 no-invert-hover">
+                          <span>{t('home.hero.explore') || "Explore the map"}</span>
                           <MapPin className="w-5 h-5 opacity-90" strokeWidth={2} />
                         </button>
                       </MapPeek>
