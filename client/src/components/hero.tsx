@@ -104,9 +104,9 @@ export function Hero() {
                       </MapPeek>
                     </Link>
 
-                    <Link href="/#how-it-works" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-light text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
+                    <Link href="/#how-it-works" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-normal text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
                       <HelpCircle className="w-5 h-5 !fill-none !stroke-current" strokeWidth={1.5} />
-                      <span className="!text-[16px] font-light" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'How It Works'}</span>
+                      <span className="!text-[16px] font-normal" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'How It Works'}</span>
                       <span className="absolute bottom-[2px] left-6 right-6 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                     </Link>
                   </div>

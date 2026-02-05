@@ -267,7 +267,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
-                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-light font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
+                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-normal font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-base active:scale-[0.97]",
                             copied ? "text-blue-600 bg-blue-50/50" : ""
                         )}
                     >
@@ -276,7 +276,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-light font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
+                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-normal font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-base active:scale-[0.97]"
                     >
                         <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
                         {onSeeOnMap ? "See on Map" : "Expand"}

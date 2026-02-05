@@ -61,11 +61,11 @@ export function Header() {
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-8">
           <nav className="items-center gap-8 flex font-sans antialiased">
-            <Link href="/about" className={cn("group relative text-[15px] font-light transition-colors hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
+            <Link href="/about" className={cn("group relative text-[16px] font-normal transition-colors hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
               About
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
-            <Link href="/map" className={cn("group relative text-[15px] font-light transition-all hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
+            <Link href="/map" className={cn("group relative text-[16px] font-normal transition-all hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
               <Search className="w-4 h-4 opacity-70" />
               Find Stores
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
@@ -75,7 +75,7 @@ export function Header() {
                 <span
                   role="button"
                   tabIndex={0}
-                  className="group relative text-[15px] font-light text-slate-900 opacity-90 hover:opacity-100 transition-all cursor-pointer outline-none flex items-center gap-2"
+                  className="group relative text-[16px] font-normal text-slate-900 opacity-90 hover:opacity-100 transition-all cursor-pointer outline-none flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4 opacity-70" />
                   Add Stores

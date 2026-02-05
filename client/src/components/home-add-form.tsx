@@ -207,10 +207,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       await createStoreMutation.mutateAsync({
         ...values,
         products: values.products.split(",").map(p => p.trim()),
-        latitude: Number(values.latitude),  // Convert to number for API
-        longitude: Number(values.longitude), // Convert to number for API
+        latitude: String(values.latitude),  // Convert to string for API/Schema compatibility
+        longitude: String(values.longitude), // Convert to string for API/Schema compatibility
         category: values.category as any,
-        images: values.image ? [values.image] : [], // Wrap in array for 'images' column too
+        images: values.image ? [values.image] : [],
       });
     } catch (error: any) {
       console.error("Submission failed:", error);
@@ -350,7 +350,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
-                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] font-medium placeholder:text-gray-400"
+                      autoComplete="off"
+                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -369,7 +370,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] cursor-text placeholder:text-gray-400"
+                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal cursor-text placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -412,7 +413,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 <FormItem>
                   <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Products</FormLabel>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal placeholder:text-gray-400" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -430,7 +431,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-[24px] bg-gray-50 border-transparent resize-none font-ui focus:bg-white focus:border-black focus:ring-0 transition-all shadow-sm p-4 text-[15px] placeholder:text-gray-400"
+                      className="min-h-[100px] rounded-[24px] bg-gray-50 border-transparent resize-none font-ui focus:bg-white focus:border-black focus:ring-0 transition-all shadow-sm p-4 text-[16px] font-normal placeholder:text-gray-400"
                     />
                   </FormControl>
                   <FormMessage />

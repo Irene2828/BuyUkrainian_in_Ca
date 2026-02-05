@@ -97,7 +97,7 @@ export function SpreadTheWord() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-3 w-full max-w-[720px] mx-auto relative z-10 group/socials pb-[4.5%] transform translate-y-[10%]">
               <button
                 onClick={handleFacebookShare}
-                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-white group-hover/socials:text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-light whitespace-nowrap"
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-white group-hover/socials:text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-normal whitespace-nowrap"
               >
                 <Facebook className="w-[14px] h-[14px] fill-current" />
                 Share on Facebook
@@ -105,7 +105,7 @@ export function SpreadTheWord() {
               </button>
               <button
                 onClick={handleInstagramShare}
-                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-light whitespace-nowrap"
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-normal whitespace-nowrap"
               >
                 <Instagram className="w-[12px] h-[12px]" />
                 Share on Instagram
@@ -113,7 +113,7 @@ export function SpreadTheWord() {
               </button>
               <button
                 onClick={handleXShare}
-                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-light whitespace-nowrap"
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-normal whitespace-nowrap"
               >
                 <svg
                   viewBox="0 0 24 24"
