@@ -88,7 +88,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     </div>
 
                     <div className="flex flex-col items-center md:items-end">
-                        <span className="text-[11px] font-bold tracking-[0.15em] text-slate-400 uppercase mb-8 font-ui">
+                        <span className="text-[11px] font-bold tracking-[0.15em] text-slate-400 uppercase mb-8 font-ui invisible">
                             Share the map:
                         </span>
 
@@ -96,27 +96,27 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             <li>
                                 <button
                                     onClick={handleFacebookShare}
-                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-70 group relative"
+                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-100 group relative"
                                 >
                                     <Facebook className="w-4 h-4 text-slate-900" />
                                     <span>Share on Facebook</span>
-                                    <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                    <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
                             </li>
                             <li>
                                 <button
                                     onClick={handleInstagramShare}
-                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-70 group relative"
+                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-100 group relative"
                                 >
                                     <Instagram className="w-4 h-4 text-slate-900" />
                                     <span>Share on Instagram</span>
-                                    <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                    <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
                             </li>
                             <li>
                                 <button
                                     onClick={handleXShare}
-                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-70 group relative"
+                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-100 group relative"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                                     </svg>
                                     <span>Share on X</span>
-                                    <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                    <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
                             </li>
                         </ul>

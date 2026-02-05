@@ -18,8 +18,6 @@ import { StoreCard } from "@/components/store-card";
 import { Store } from "@/lib/data";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
-import { AnimatedCounter } from "@/components/ui/animated-counter";
-import { MapStats } from "@/components/map-stats";
 import { CommunityImpact } from "@/components/community-impact";
 
 function NewlyAddedStores() {
@@ -159,7 +157,6 @@ export default function MapPage() {
         </div>
 
         <div className="section-reveal">
-          <MapStats />
           <CommunityImpact hideBorder />
         </div>
       </main>
