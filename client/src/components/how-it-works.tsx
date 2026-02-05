@@ -6,28 +6,26 @@ import { useI18n } from "@/lib/i18n";
 export function HowItWorks() {
   const { t } = useI18n();
 
+  const placeholderDesc = `- loren ipsumenr
+- loren ipsum ipsumes
+- loren ipsum ipsum`;
+
   const steps = [
     {
       title: t('howItWorks.card1.title') || 'FIND STORES',
-      description: t('howItWorks.card1.desc') || `Explore – Discover curated shops and authentic makers nearby.
-Filter – Sort by province, city, or specific product category.
-Connect – Access addresses, contact info, and store hours instantly.`,
+      description: placeholderDesc,
       icon: Search,
       image: "/icon1.png"
     },
     {
       title: t('howItWorks.card2.title') || 'ADD NEW LOCATIONS',
-      description: t('howItWorks.card2.desc') || `Contribute – Tag new stores selling Ukrainian-made goods.
-Verify – Help the community maintain an accurate, trusted map.
-Expand – Grow the ecosystem of support one pin at a time.`,
+      description: placeholderDesc,
       icon: PlusCircle,
       image: "/icon2.png"
     },
     {
       title: t('howItWorks.card3.title') || 'SHARE THE MAP',
-      description: t('howItWorks.card3.desc') || `Amplify – Send the directory to your network with one tap.
-Advocate – Spread the mission of economic resilience.
-Inspire – Encourage others to shop with purpose and intent.`,
+      description: placeholderDesc,
       icon: Share2,
       image: "/icon3.png"
     }
@@ -70,19 +68,13 @@ Inspire – Encourage others to shop with purpose and intent.`,
                 </h5>
               </div>
 
-              {/* Centered Single Description: Precise FAQ Typography Match */}
-              <div className="w-full text-center flex flex-col items-center gap-2 mt-[10px]">
-                {step.description.split('\n').slice(0, 1).map((line, i) => {
-                  const parts = line.split('–');
-                  const verb = parts[0] ? parts[0].trim() : '';
-                  const desc = parts.slice(1).join('–').trim();
-
-                  return (
-                    <p key={i} className="text-[16px] leading-[1.7] text-slate-600 font-sans text-center">
-                      {verb}{desc ? ` ${desc}` : ''}
-                    </p>
-                  );
-                })}
+              {/* Centered Descriptions - 3 Lines with standard text style */}
+              <div className="w-full text-center flex flex-col items-center gap-1 mt-[10px]">
+                {step.description.split('\n').map((line, i) => (
+                  <p key={i} className="text-[16px] leading-[1.6] text-slate-600 font-sans text-center m-0">
+                    {line}
+                  </p>
+                ))}
               </div>
             </div>
           ))}
