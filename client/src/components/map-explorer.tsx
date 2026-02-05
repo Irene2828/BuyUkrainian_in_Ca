@@ -367,7 +367,7 @@ export function MapExplorer() {
                         <div className="absolute top-6 right-6 z-[500]">
                             <button
                                 onClick={() => setAddStoreDialogOpen(true)}
-                                className="btn-premium-action no-invert-hover gap-2"
+                                className="btn-premium-action no-invert-hover gap-2 text-[16px] !font-medium"
                             >
                                 <Plus className="w-5 h-5" strokeWidth={2.5} />
                                 <span className="tracking-tight">Add New</span>
