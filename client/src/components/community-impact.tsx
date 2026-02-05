@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 import { getApprovedStores } from "@/lib/api";
 import { Map, Package, Plus } from "lucide-react";
 import { Link } from "wouter";
@@ -6,7 +7,7 @@ import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
 import { MapPeek } from "@/components/ui/map-peek";
 
-export function CommunityImpact() {
+export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }) {
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
@@ -19,7 +20,10 @@ export function CommunityImpact() {
     };
 
     return (
-        <section className="relative w-full bg-white py-[80px] section-reveal flex items-center min-h-[468px] overflow-hidden border-t border-slate-100">
+        <section className={cn(
+            "relative w-full bg-white py-[80px] section-reveal flex items-center min-h-[468px] overflow-hidden",
+            !hideBorder && "border-t border-slate-100"
+        )}>
             {/* Background Blobs (Swapped from Map Page) */}
             <div
                 className="absolute pointer-events-none rounded-full"

@@ -5,6 +5,7 @@ import { HowItWorks } from "@/components/how-it-works";
 import { SpreadTheWord } from "@/components/spread-the-word";
 import { FAQ } from "@/components/faq";
 import { CommunityImpact } from "@/components/community-impact";
+import { MapStats } from "@/components/map-stats";
 import { Footer } from "@/components/footer";
 import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 
@@ -52,7 +53,8 @@ export default function Home() {
         </div>
 
         <div className="section-reveal">
-          <CommunityImpact />
+          <MapStats />
+          <CommunityImpact hideBorder />
         </div>
       </main>
       <Footer />
