@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { getApprovedStores } from "@/lib/api";
-import { Map, Package, Plus } from "lucide-react";
+import { Facebook, Instagram, Plus } from "lucide-react";
 import { Link } from "wouter";
-import { AnimatedCounter } from "@/components/ui/animated-counter";
-import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
-import { MapPeek } from "@/components/ui/map-peek";
+import { toast } from "sonner";
 
 export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }) {
     const { data: stores = [] } = useQuery({
@@ -13,10 +11,25 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
         queryFn: getApprovedStores,
     });
 
-    const stats = {
-        stores: stores.length,
-        provinces: new Set(stores.map(s => s.province)).size,
-        products: stores.reduce((acc, s) => acc + (s.products?.length || 0), 0)
+    const shareMessage = "Find or add stores that sell Ukrainian-made products.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada.";
+    const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
+
+    const handleFacebookShare = () => {
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareMessage)}`;
+        window.open(facebookUrl, '_blank', 'width=600,height=400');
+    };
+
+    const handleInstagramShare = () => {
+        navigator.clipboard.writeText(`${shareMessage}\n\n${shareUrl}`);
+        toast.success("Copied to clipboard", {
+            description: "Paste this into your Instagram story or post.",
+            duration: 3000,
+        });
+    };
+
+    const handleXShare = () => {
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl)}`;
+        window.open(twitterUrl, '_blank', 'width=600,height=400');
     };
 
     return (
@@ -24,7 +37,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
             "relative w-full bg-white py-[60px] section-reveal flex items-center min-h-[468px] overflow-hidden",
             !hideBorder && "border-t border-slate-100"
         )}>
-            {/* Background Blobs (Swapped from Map Page) */}
+            {/* Background Blobs */}
             <div
                 className="absolute pointer-events-none rounded-full"
                 style={{
@@ -74,15 +87,49 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         </Link>
                     </div>
 
-                    <div className="flex flex-col items-center md:items-end gap-6">
-                        <div className="flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
-                            <div className="w-2 h-2 bg-[#A5D8FF] rounded-full animate-premium-pulse" />
-                            <span className="text-[13px] font-medium text-slate-700 font-sans tracking-tight">Community verified</span>
-                        </div>
-                        <p className="text-[14px] text-slate-500 font-ui italic text-center md:text-right">
-                            Every addition makes our community stronger.<br />
-                            Join us in building the most accurate map.
-                        </p>
+                    <div className="flex flex-col items-center md:items-end">
+                        <span className="text-[11px] font-bold tracking-[0.15em] text-slate-400 uppercase mb-8 font-ui">
+                            Share the map:
+                        </span>
+
+                        <ul className="flex flex-col items-center md:items-end gap-6 list-none p-0 m-0">
+                            <li>
+                                <button
+                                    onClick={handleFacebookShare}
+                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-70 group relative"
+                                >
+                                    <Facebook className="w-4 h-4 text-slate-900" />
+                                    <span>Share on Facebook</span>
+                                    <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={handleInstagramShare}
+                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-70 group relative"
+                                >
+                                    <Instagram className="w-4 h-4 text-slate-900" />
+                                    <span>Share on Instagram</span>
+                                    <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={handleXShare}
+                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-slate-900 transition-all duration-300 hover:opacity-70 group relative"
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        className="w-4 h-4 fill-slate-900"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                                    </svg>
+                                    <span>Share on X</span>
+                                    <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

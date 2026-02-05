@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
-import { SpreadTheWord } from "@/components/spread-the-word";
+
 import { FAQ } from "@/components/faq";
 import { CommunityImpact } from "@/components/community-impact";
 import { MapStats } from "@/components/map-stats";
@@ -47,10 +47,7 @@ export default function Home() {
           <FAQ />
         </div>
 
-        {/* Spread the Word */}
-        <div className="section-reveal">
-          <SpreadTheWord />
-        </div>
+
 
         <div className="section-reveal">
           <MapStats />
