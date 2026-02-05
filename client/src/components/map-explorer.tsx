@@ -158,7 +158,7 @@ export function MapExplorer() {
         )}>
 
             {/* 1. Stats Dashboard */}
-            <section className="w-full max-w-[var(--container-standard)] map-focus-zone mx-auto px-6 lg:px-16 pt-9 pb-4">
+            <section className="boutique-width pt-9 pb-4">
                 <div className="flex flex-col items-center justify-center gap-6">
 
                     {/* Top Row: Heading + Stats (Centered Together) */}
@@ -208,7 +208,7 @@ export function MapExplorer() {
             </section>
 
             {/* 3. Main Content Area */}
-            <div className="w-full max-w-[var(--container-standard)] map-focus-zone mx-auto px-6 lg:px-16 flex flex-col md:flex-row md:items-start gap-8 pb-20">
+            <div className="boutique-width flex flex-col md:flex-row md:items-start gap-8 pb-20">
 
                 {/* Sidebar - Search & Filters */}
                 <aside ref={sidebarRef} className="w-full md:w-[280px] shrink-0 flex flex-col pt-6">

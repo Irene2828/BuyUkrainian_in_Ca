@@ -469,7 +469,7 @@ html.dark header.bg-white\/90 {
 }
 
 @media (min-width: 1440px) {
-  .obsidian-container:not(.map-focus-zone) {
+  .obsidian-container {
     max-width: var(--container-large);
     padding-left: var(--gutter-obsidian-x-large);
     padding-right: var(--gutter-obsidian-x-large);
@@ -1047,7 +1047,7 @@ select:focus-visible {
 }
 
 @media (min-width: 1440px) {
-  .boutique-width:not(.map-focus-zone) {
+  .boutique-width {
     max-width: var(--container-large);
     padding-left: var(--gutter-obsidian-x-large);
     padding-right: var(--gutter-obsidian-x-large);

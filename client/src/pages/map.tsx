@@ -46,7 +46,7 @@ function NewlyAddedStores() {
 
   return (
     <section className="bg-transparent pb-7 md:pb-[44px]">
-      <div className="boutique-width map-focus-zone">
+      <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
@@ -60,7 +60,7 @@ function NewlyAddedStores() {
         </div>
       </div>
 
-      <div className="boutique-width map-focus-zone group/carousel relative">
+      <div className="boutique-width group/carousel relative">
         <Carousel
           opts={{
             align: "start",

@@ -31,20 +31,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative bg-transparent font-sans overflow-hidden pt-8 md:pt-8 pb-32 md:pb-32">
-      {/* Background Gradient from Figma to connect sections */}
-      <div
-        className="absolute pointer-events-none rounded-full"
-        style={{
-          width: '828px',
-          height: '259px',
-          left: 'calc(50% + 150px)', // Positioned on the right side
-          top: '-130px', // Lifted to connect with the section above
-          background: 'rgba(0, 113, 227, 0.16)',
-          filter: 'blur(120px)',
-          zIndex: 0
-        }}
-      />
+    <section id="faq" className="bg-transparent font-sans overflow-hidden pt-8 md:pt-8 pb-32 md:pb-32">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">

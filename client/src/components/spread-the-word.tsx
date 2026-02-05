@@ -29,29 +29,29 @@ export function SpreadTheWord() {
 
 
   return (
-    <section className="relative w-full py-[72px] md:py-[72px] min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
-      {/* Background Gradients from Figma */}
+    <section className="relative w-full bg-white py-[72px] md:py-[72px] min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
+      {/* Background Blobs */}
       <div
         className="absolute pointer-events-none rounded-full"
         style={{
-          width: '318px',
-          height: '293px',
-          left: 'calc(50% - 550px)', // adjusted from left: -66px to be relative to center
-          top: '160px',
-          background: 'rgba(255, 212, 39, 0.23)',
-          filter: 'blur(100px)',
+          width: '600px',
+          height: '600px',
+          left: 'calc(50% - 514px)', // 78px from left of 1184px core (78 - 592)
+          top: '-300px',
+          background: 'rgba(0, 113, 227, 0.16)',
+          filter: 'blur(120px)',
           zIndex: 0
         }}
       />
       <div
         className="absolute pointer-events-none rounded-full"
         style={{
-          width: '828px',
-          height: '259px',
-          left: 'calc(50% + 100px)', // adjusted from left: 656px to be relative to center
-          top: '-100px',
-          background: 'rgba(0, 113, 227, 0.16)',
-          filter: 'blur(120px)',
+          width: '500px',
+          height: '500px',
+          left: 'calc(50% + 125px)', // 717px from left of 1184px core (717 - 592)
+          top: '335px',
+          background: 'rgba(255, 212, 39, 0.23)',
+          filter: 'blur(100px)',
           zIndex: 0
         }}
       />
