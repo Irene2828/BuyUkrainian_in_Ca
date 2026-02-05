@@ -158,7 +158,7 @@ export function MapExplorer() {
         )}>
 
             {/* 1. Stats Dashboard */}
-            <section className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 pt-9 pb-4">
+            <section className="w-full max-w-[var(--container-standard)] map-focus-zone mx-auto px-6 lg:px-16 pt-9 pb-4">
                 <div className="flex flex-col items-center justify-center gap-6">
 
                     {/* Top Row: Heading + Stats (Centered Together) */}
@@ -208,7 +208,7 @@ export function MapExplorer() {
             </section>
 
             {/* 3. Main Content Area */}
-            <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row md:items-start gap-8 pb-20">
+            <div className="w-full max-w-[var(--container-standard)] map-focus-zone mx-auto px-6 lg:px-16 flex flex-col md:flex-row md:items-start gap-8 pb-20">
 
                 {/* Sidebar - Search & Filters */}
                 <aside ref={sidebarRef} className="w-full md:w-[280px] shrink-0 flex flex-col pt-6">
@@ -343,8 +343,8 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "flex items-center gap-1.5 px-4 h-[32px] rounded-full text-[12px] uppercase tracking-wide transition-all duration-200",
-                                    viewMode === "map" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-light opacity-50 hover:opacity-80"
+                                    "flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[16px] transition-all duration-200",
+                                    viewMode === "map" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-50 hover:opacity-80"
                                 )}
                             >
                                 <MapIcon className="w-3.5 h-3.5" />
@@ -354,8 +354,8 @@ export function MapExplorer() {
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "flex items-center gap-1.5 px-4 h-[32px] rounded-full text-[12px] uppercase tracking-wide transition-all duration-200",
-                                    viewMode === "list" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-light opacity-50 hover:opacity-80"
+                                    "flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[16px] transition-all duration-200",
+                                    viewMode === "list" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-50 hover:opacity-80"
                                 )}
                             >
                                 <List className="w-3.5 h-3.5" />

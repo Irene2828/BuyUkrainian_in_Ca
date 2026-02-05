@@ -157,8 +157,13 @@
   /* px-6 - Horizontal padding mobile */
   --gutter-obsidian-x-desktop: 48px;
   /* lg:px-12 - Horizontal padding desktop */
-  /* max-w-7xl - Unified frame width */
-  --gutter-obsidian-max-width: 1280px;
+  --gutter-obsidian-x-large: clamp(2rem, 5vw, 4rem);
+  /* 1440px+ expansion padding */
+
+  /* Unified Frame Widths */
+  --container-standard: 1280px;
+  --container-large: 1440px;
+  --gutter-obsidian-max-width: var(--container-standard);
 
   /* Map Theming */
   --map-water-color: #C5E0F5;
@@ -461,6 +466,21 @@ html.dark header.bg-white\/90 {
     padding-left: var(--gutter-obsidian-x-desktop);
     padding-right: var(--gutter-obsidian-x-desktop);
   }
+}
+
+@media (min-width: 1440px) {
+  .obsidian-container:not(.map-focus-zone) {
+    max-width: var(--container-large);
+    padding-left: var(--gutter-obsidian-x-large);
+    padding-right: var(--gutter-obsidian-x-large);
+  }
+}
+
+/* Accessibility: Readable Line Lengths */
+.reading-width {
+  max-width: 75ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Combined Section + Container */
@@ -1011,17 +1031,25 @@ select:focus-visible {
    BOUTIQUE GRID SYSTEM
    ======================================== */
 .boutique-width {
-  max-width: 1280px;
-  /* max-w-7xl default in visual hierarchy matches New Findings */
+  max-width: var(--container-standard);
   margin-left: auto;
   margin-right: auto;
   padding-left: 24px;
   padding-right: 24px;
+  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (min-width: 768px) {
   .boutique-width {
     padding-left: 48px;
     padding-right: 48px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .boutique-width:not(.map-focus-zone) {
+    max-width: var(--container-large);
+    padding-left: var(--gutter-obsidian-x-large);
+    padding-right: var(--gutter-obsidian-x-large);
   }
 }

@@ -116,7 +116,7 @@ export function Hero() {
 
             {/* Right Column: Visualization - Vertically Centered */}
             <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-end items-center">
-              <div className="w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px]">
+              <div className="w-full max-w-[500px] lg:w-[512px]">
                 {/* Video Container */}
                 <div
                   className="relative w-full h-[336px] lg:h-[384px] rounded-[32px] overflow-hidden border border-slate-200 bg-slate-50 cursor-pointer"
