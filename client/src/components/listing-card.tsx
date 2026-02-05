@@ -48,7 +48,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
                     <span className="text-sm font-semibold text-slate-900 truncate font-header tracking-[-0.01em]">
                         {store.name}
                     </span>
-                    <div className="flex items-center gap-2 text-slate-600 text-sm font-medium transition-colors group-hover:text-slate-900 font-ui">
+                    <div className="flex items-center gap-2 text-slate-600 text-sm font-light transition-colors group-hover:text-slate-900 font-ui">
                         <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
                         <span>{t ? t('modal.seeOnMap') : 'See on Map'}</span>
                     </div>

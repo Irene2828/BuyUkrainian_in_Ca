@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Info, ChevronDown, MapPin } from "lucide-react";
+import { ArrowRight, HelpCircle, ChevronDown, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { MapPeek } from "@/components/ui/map-peek";
@@ -104,9 +104,9 @@ export function Hero() {
                       </MapPeek>
                     </Link>
 
-                    <Link href="/#how-it-works" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-medium text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
-                      <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={1.5} />
-                      <span className="!text-[16px]" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'How It Works'}</span>
+                    <Link href="/#how-it-works" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-light text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
+                      <HelpCircle className="w-5 h-5 !fill-none !stroke-current" strokeWidth={1.5} />
+                      <span className="!text-[16px] font-light" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'How It Works'}</span>
                       <span className="absolute bottom-[2px] left-6 right-6 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                     </Link>
                   </div>

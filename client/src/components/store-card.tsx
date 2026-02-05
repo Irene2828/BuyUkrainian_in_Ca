@@ -255,7 +255,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-medium hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center justify-center gap-2"
+                        className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-normal hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center justify-center gap-2"
                     >
                         <Navigation size={20} className="fill-none stroke-current" strokeWidth={2.5} />
                         Get Directions
@@ -267,7 +267,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
-                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
+                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-light font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]",
                             copied ? "text-blue-600 bg-blue-50/50" : ""
                         )}
                     >
@@ -276,7 +276,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-medium font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
+                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-light font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-xs sm:text-sm active:scale-[0.97]"
                     >
                         <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
                         {onSeeOnMap ? "See on Map" : "Expand"}

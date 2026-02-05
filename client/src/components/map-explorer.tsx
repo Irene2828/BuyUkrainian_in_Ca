@@ -344,7 +344,7 @@ export function MapExplorer() {
                                 onClick={() => setViewMode("map")}
                                 className={cn(
                                     "flex items-center gap-1.5 px-4 h-[32px] rounded-full text-[12px] uppercase tracking-wide transition-all duration-200",
-                                    viewMode === "map" ? "text-slate-900 font-bold opacity-100" : "text-slate-500 font-medium opacity-50 hover:opacity-80"
+                                    viewMode === "map" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-light opacity-50 hover:opacity-80"
                                 )}
                             >
                                 <MapIcon className="w-3.5 h-3.5" />
@@ -355,7 +355,7 @@ export function MapExplorer() {
                                 onClick={() => setViewMode("list")}
                                 className={cn(
                                     "flex items-center gap-1.5 px-4 h-[32px] rounded-full text-[12px] uppercase tracking-wide transition-all duration-200",
-                                    viewMode === "list" ? "text-slate-900 font-bold opacity-100" : "text-slate-500 font-medium opacity-50 hover:opacity-80"
+                                    viewMode === "list" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-light opacity-50 hover:opacity-80"
                                 )}
                             >
                                 <List className="w-3.5 h-3.5" />

@@ -61,7 +61,7 @@ export function SpreadTheWord() {
 
         <div className="mb-10 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
-            {t('share.title') || 'Share the Map Online'}
+            {t('share.title') || "Let's Grow the Map"}
           </h2>
           <p className="subline font-ui max-w-2xl mx-auto">
             The more people use this map, the more support reaches Ukrainian businesses in Canada.
@@ -97,7 +97,7 @@ export function SpreadTheWord() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-3 w-full max-w-[720px] mx-auto relative z-10 group/socials pb-[4.5%] transform translate-y-[10%]">
               <button
                 onClick={handleFacebookShare}
-                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-white group-hover/socials:text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-white group-hover/socials:text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-light whitespace-nowrap"
               >
                 <Facebook className="w-[14px] h-[14px] fill-current" />
                 Share on Facebook
@@ -105,7 +105,7 @@ export function SpreadTheWord() {
               </button>
               <button
                 onClick={handleInstagramShare}
-                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-light whitespace-nowrap"
               >
                 <Instagram className="w-[12px] h-[12px]" />
                 Share on Instagram
@@ -113,7 +113,7 @@ export function SpreadTheWord() {
               </button>
               <button
                 onClick={handleXShare}
-                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"
+                className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-light whitespace-nowrap"
               >
                 <svg
                   viewBox="0 0 24 24"

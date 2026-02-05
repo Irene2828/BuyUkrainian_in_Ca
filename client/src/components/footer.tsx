@@ -15,18 +15,18 @@ export function Footer() {
       <div className="boutique-width w-full flex items-end justify-between h-full">
         {/* Left Side: Utility Stacking */}
         <div className="flex flex-col items-start gap-1">
-          <AccessibilityToggle className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 min-h-[32px] flex items-center tracking-[0.1em] uppercase" />
+          <AccessibilityToggle className="text-[11px] font-light text-white/70 hover:opacity-100 transition-opacity duration-200 min-h-[32px] flex items-center tracking-[0.1em] uppercase" />
 
           <a
             href="mailto:hello@buyukrainian.ca"
-            className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 no-underline min-h-[32px] flex items-center tracking-[0.1em] uppercase"
+            className="text-[11px] font-light text-white/70 hover:opacity-100 transition-opacity duration-200 no-underline min-h-[32px] flex items-center tracking-[0.1em] uppercase"
           >
             CONTACT
           </a>
 
           <Link
             href="/privacy"
-            className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 no-underline min-h-[32px] flex items-center tracking-[0.1em] uppercase"
+            className="text-[11px] font-light text-white/70 hover:opacity-100 transition-opacity duration-200 no-underline min-h-[32px] flex items-center tracking-[0.1em] uppercase"
           >
             PRIVACY POLICY
           </Link>

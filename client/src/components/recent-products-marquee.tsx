@@ -123,7 +123,7 @@ export function RecentProductsMarquee() {
                             {repeatedStores.map((store, i) => (
                                 <span
                                     key={`${store.id}-${i}`}
-                                    className="group relative text-[14px] md:text-[16px] font-medium text-slate-900 hover:text-slate-900 mx-6 flex items-center gap-2.5 select-none cursor-pointer transition-colors duration-300 ease-in-out"
+                                    className="group relative text-[14px] md:text-[16px] font-normal text-slate-900 hover:text-slate-900 mx-6 flex items-center gap-2.5 select-none cursor-pointer transition-colors duration-300 ease-in-out"
                                     onClick={() => window.open(`/map?store=${encodeURIComponent(store.name)}`, '_blank')}
                                     onMouseEnter={(e) => handleMouseEnter(e, store)}
                                     onMouseLeave={handleMouseLeave}
