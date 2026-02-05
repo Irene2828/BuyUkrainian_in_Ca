@@ -12,7 +12,7 @@ export function Footer() {
 
   return (
     <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative" style={{ paddingTop: '80px', paddingBottom: '10%' }}>
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full flex items-end justify-between h-full">
+      <div className="boutique-width w-full flex items-end justify-between h-full">
         {/* Left Side: Utility Stacking */}
         <div className="flex flex-col items-start gap-1">
           <AccessibilityToggle className="text-[11px] font-semibold text-white/70 hover:opacity-100 transition-opacity duration-200 min-h-[32px] flex items-center tracking-[0.1em] uppercase" />
@@ -49,6 +49,30 @@ export function Footer() {
             <ArrowUp className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" strokeWidth={1.5} />
           </button>
         </div>
+      </div>
+
+      {/* Centered Copyright Section */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        style={{ width: '288.22px', height: '16.5px' }}
+      >
+        <span
+          className="absolute left-[calc(50%-232px/2-0.11px)] top-[1px]"
+          style={{
+            width: '232px',
+            height: '17px',
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 400,
+            fontSize: '11px',
+            lineHeight: '16px',
+            letterSpacing: '0.0644531px',
+            color: '#62748E',
+            whiteSpace: 'nowrap',
+            textAlign: 'center'
+          }}
+        >
+          Copyright © 2026 BuyUkrainian.ca. All rights reserved
+        </span>
       </div>
     </footer>
   );

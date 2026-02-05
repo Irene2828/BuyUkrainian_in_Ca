@@ -39,8 +39,12 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="space-y-1 text-center">
-          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-6 h-6 text-blue-600" />
+          <div className="flex justify-center mb-6">
+            <img
+              src="/logo-new.png"
+              alt="BuyUkrainian.ca"
+              className="w-[180px] h-[90px] object-contain"
+            />
           </div>
           <CardTitle className="text-2xl">{t("admin.login.title")}</CardTitle>
           <CardDescription>{t("admin.login.description")}</CardDescription>
@@ -53,9 +57,9 @@ export default function AdminLogin() {
               </Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input 
+                <Input
                   id="username"
-                  type="text" 
+                  type="text"
                   placeholder="Enter username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -71,10 +75,10 @@ export default function AdminLogin() {
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input 
+                <Input
                   id="password"
-                  type="password" 
-                  placeholder={t("admin.login.passwordPlaceholder")} 
+                  type="password"
+                  placeholder={t("admin.login.passwordPlaceholder")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={`pl-10 ${error ? "border-red-500" : ""}`}
@@ -89,8 +93,8 @@ export default function AdminLogin() {
                 </div>
               )}
             </div>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-black hover:bg-black/80 text-white"
               disabled={isLoading || !password}
               data-testid="button-admin-login"

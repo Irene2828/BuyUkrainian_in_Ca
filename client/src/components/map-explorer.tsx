@@ -165,8 +165,8 @@ export function MapExplorer() {
                     <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                         {/* Heading */}
                         <div className="flex items-center gap-2.5">
-                            <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
-                            <h2 className="text-[13px] font-bold tracking-[0.08em] uppercase text-slate-900 whitespace-nowrap">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
+                            <h2 className="text-[13px] font-bold tracking-[0.08em] uppercase text-slate-900/70 whitespace-nowrap">
                                 CURRENTLY ON THE MAP
                             </h2>
                         </div>
@@ -211,11 +211,11 @@ export function MapExplorer() {
             <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row md:items-start gap-8 pb-20">
 
                 {/* Sidebar - Search & Filters */}
-                <aside ref={sidebarRef} className="w-full md:w-[280px] md:mt-[48px] shrink-0 flex flex-col">
+                <aside ref={sidebarRef} className="w-full md:w-[280px] shrink-0 flex flex-col pt-6">
 
-                    {/* Search Field - Ghost Style */}
-                    <div className="relative group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400 group-focus-within:text-slate-900 transition-colors" strokeWidth={1.5} />
+                    {/* Search Field - Aligned with Map Buttons */}
+                    <div className="relative group border-b border-slate-200 focus-within:border-slate-900 transition-colors mb-8">
+                        <Search className="absolute left-0 bottom-4 w-[18px] h-[18px] text-slate-400 group-focus-within:text-slate-900 transition-colors" strokeWidth={1.5} />
                         <input
                             type="text"
                             placeholder="Search by city or store name..."
@@ -224,12 +224,12 @@ export function MapExplorer() {
                                 setSearchQuery(e.target.value);
                                 closeAllDropdowns();
                             }}
-                            className="w-full h-[46px] pl-10 pr-4 bg-white border border-slate-200 text-[15px] font-medium leading-normal placeholder:text-slate-500/90 focus:outline-none focus:border-black focus:ring-0 rounded-full transition-all duration-200 ease-in-out shadow-sm"
+                            className="w-full h-12 pl-8 pr-4 bg-transparent border-none focus:ring-0 text-[15px] font-medium leading-loose placeholder:text-slate-400 transition-all"
                             aria-label="Search stores"
                         />
                     </div>
 
-                    <div className="flex flex-col gap-4 mt-8">
+                    <div className="flex flex-col gap-4">
                         <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Filter by:</div>
 
                         {/* Province Filter */}
@@ -333,50 +333,46 @@ export function MapExplorer() {
                 </aside>
 
                 {/* Map/List Column */}
-                <div className="flex-1 min-w-0 flex flex-col gap-4 md:mt-[30px] relative">
-                    {/* Map/List Toggle - Top Left - Glassmorphic */}
-                    <div className="absolute top-6 left-6 z-[500]">
-                        <div className="inline-flex items-center p-1 bg-white/70 backdrop-blur-md rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-white/10">
+                <div className="flex-1 min-w-0 md:pt-6 flex flex-col gap-4 relative">
+                    <div className={cn(
+                        "relative h-[550px] w-full rounded-[32px] overflow-hidden bg-white group/map isolate",
+                        viewMode === "map" ? "shadow-sm border border-slate-200" : ""
+                    )}>
+                        {/* View Switcher - Top Left of Map Frame */}
+                        <div className="absolute top-6 left-6 z-[500] inline-flex items-center p-1 bg-white/40 backdrop-blur-md rounded-full border border-white/20 shadow-sm">
                             <button
                                 onClick={() => setViewMode("map")}
                                 className={cn(
-                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
-                                    viewMode === "map" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
+                                    "flex items-center gap-1.5 px-4 h-[32px] rounded-full text-[12px] uppercase tracking-wide transition-all duration-200",
+                                    viewMode === "map" ? "text-slate-900 font-bold opacity-100" : "text-slate-500 font-medium opacity-50 hover:opacity-80"
                                 )}
                             >
                                 <MapIcon className="w-3.5 h-3.5" />
                                 Map
                             </button>
+                            <span className="text-slate-300 mx-1">/</span>
                             <button
                                 onClick={() => setViewMode("list")}
                                 className={cn(
-                                    "flex items-center gap-1.5 px-4 h-[36px] rounded-full text-[12px] font-bold uppercase tracking-wide transition-all duration-200 ease-out",
-                                    viewMode === "list" ? "bg-white text-slate-900 shadow-sm ring-1 ring-black/5" : "text-slate-500 hover:text-slate-900"
+                                    "flex items-center gap-1.5 px-4 h-[32px] rounded-full text-[12px] uppercase tracking-wide transition-all duration-200",
+                                    viewMode === "list" ? "text-slate-900 font-bold opacity-100" : "text-slate-500 font-medium opacity-50 hover:opacity-80"
                                 )}
                             >
                                 <List className="w-3.5 h-3.5" />
                                 List
                             </button>
                         </div>
-                    </div>
 
-                    {/* Add Store Button - Primary Action Token */}
-                    {/* Add Store Button Group - Top Right */}
-                    <div className="absolute top-6 right-6 z-[500]">
-                        <button
-                            onClick={() => setAddStoreDialogOpen(true)}
-                            className="no-invert-hover bg-slate-900 text-white rounded-full h-[46px] px-6 flex items-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl border border-white/10 hover:scale-[1.02]"
-                        >
-                            <Plus className="w-5 h-5" strokeWidth={2.5} />
-                            <span className="text-[15px] font-semibold tracking-tight">Add New</span>
-                        </button>
-                    </div>
-                    <div className={cn(
-                        "relative h-[550px] w-full rounded-[32px] overflow-hidden bg-white group/map isolate",
-                        viewMode === "map" ? "shadow-sm border border-slate-200" : ""
-                    )}>
-
-
+                        {/* Add Store Button - Top Right of Map Frame */}
+                        <div className="absolute top-6 right-6 z-[500]">
+                            <button
+                                onClick={() => setAddStoreDialogOpen(true)}
+                                className="btn-premium-action no-invert-hover gap-2"
+                            >
+                                <Plus className="w-5 h-5" strokeWidth={2.5} />
+                                <span className="tracking-tight">Add New</span>
+                            </button>
+                        </div>
 
                         {/* Content */}
                         <div className="w-full h-full relative z-0">

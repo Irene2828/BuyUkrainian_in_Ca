@@ -38,16 +38,23 @@ export function Header() {
         isScrolled ? "border-b border-slate-200/40" : "border-b border-transparent"
       )}
     >
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-16 flex items-center justify-between h-full relative">
+      <div className="boutique-width h-20 flex items-center justify-between relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center group">
             <img
-              src="/assets/logo-final.png"
+              src="/header-logo.png"
               alt="BuyUkrainian.ca"
-              className="object-contain mix-blend-multiply transition-all duration-500 w-[140px] h-[70px]"
+              className="object-contain transition-all duration-500 h-[56px] w-auto ml-[-8px]"
             />
+            {/* Branding Text */}
+            <div className="flex flex-col justify-center ml-[-14px] h-10">
+              <span className="text-[14px] font-normal leading-[1.1] tracking-[0.3px] text-slate-900 font-sans">
+                Buy Ukrainian —<br />
+                Support Ukraine
+              </span>
+            </div>
           </Link>
         </div>
 

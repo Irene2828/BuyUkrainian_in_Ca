@@ -1,7 +1,9 @@
 import { Facebook, Instagram } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function SpreadTheWord() {
+  const { t } = useI18n();
   const shareMessage = "Find or add stores that sell Ukrainian-made products.🇺🇦🇨🇦\nLet’s make it easy to buy Ukrainian in Canada.";
   const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
 
@@ -27,25 +29,49 @@ export function SpreadTheWord() {
 
 
   return (
-    <section className="relative w-full bg-[#ECF6FF] py-20 md:py-20 min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
+    <section className="relative w-full bg-white py-[72px] md:py-[72px] min-h-[420px] overflow-hidden z-10 flex flex-col justify-center">
+      {/* Background Blobs */}
+      <div
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          width: '600px',
+          height: '600px',
+          left: 'calc(50% - 514px)', // 78px from left of 1184px core (78 - 592)
+          top: '-300px',
+          background: 'rgba(0, 113, 227, 0.16)',
+          filter: 'blur(120px)',
+          zIndex: 0
+        }}
+      />
+      <div
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          width: '500px',
+          height: '500px',
+          left: 'calc(50% + 125px)', // 717px from left of 1184px core (717 - 592)
+          top: '335px',
+          background: 'rgba(255, 212, 39, 0.23)',
+          filter: 'blur(100px)',
+          zIndex: 0
+        }}
+      />
 
       {/* Structural Container */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full relative z-10 flex flex-col items-center">
+      <div className="boutique-width w-full relative z-10 flex flex-col items-center">
 
-        <div className="mb-10 max-w-3xl mx-auto flex flex-col gap-6 text-center">
-          <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900">
-            Share with Friends
+        <div className="mb-10 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
+          <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
+            {t('share.title') || 'Share the Map Online'}
           </h2>
-
           <p className="subline font-ui max-w-2xl mx-auto">
-            The more people know where to buy Ukrainian in Canada, the more support we can provide to Ukrainian businesses selling in Canada.
+            The more people use this map, the more support reaches Ukrainian businesses in Canada.
           </p>
         </div>
 
         <div className="relative w-full max-w-[720px] mx-auto">
 
           {/* Material Card Section - Wide & Compact */}
-          <div className="w-full h-full md:h-auto bg-slate-900 backdrop-blur-xl border border-slate-800 rounded-[40px] md:rounded-[50px] flex flex-col items-center justify-center text-center py-10 px-8 md:px-12 relative z-10 overflow-hidden isolate">
+          <div className="w-full h-full md:h-auto bg-slate-900 backdrop-blur-xl border border-slate-800 rounded-[40px] md:rounded-[50px] flex flex-col items-center justify-center text-center pt-10 pb-[36px] px-8 md:px-12 relative z-10 overflow-hidden isolate shadow-[0_20px_50px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)]">
 
             {/* Subtle Inner Border/Glow */}
             <div className="absolute inset-0 rounded-[40px] md:rounded-[50px] ring-1 ring-white/10 pointer-events-none" />
@@ -61,14 +87,14 @@ export function SpreadTheWord() {
                 <span className="text-white inline-block mr-1" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '28px' }}>"</span>
                 Let's make it easy to buy Ukrainian in Canada. 🇺🇦🇨🇦
               </p>
-              <p className="text-[17px] font-normal text-slate-400 leading-[1.6] tracking-normal font-sans mt-1.5">
+              <p className="text-[17px] font-normal text-slate-200 leading-[1.6] tracking-normal font-sans mt-[3px]">
                 Join me in helping Ukrainian economy thrive.
                 <span className="text-white inline-block ml-1" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '28px' }}>"</span>
               </p>
             </div>
 
             {/* Social Buttons - Utility Tags */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-3 w-full max-w-[720px] mx-auto relative z-10 group/socials">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-3 w-full max-w-[720px] mx-auto relative z-10 group/socials pb-[4.5%] transform translate-y-[10%]">
               <button
                 onClick={handleFacebookShare}
                 className="no-invert-hover group relative h-auto flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.1em] text-white group-hover/socials:text-slate-300 hover:text-white transition-all duration-200 bg-transparent font-medium whitespace-nowrap"

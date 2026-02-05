@@ -79,8 +79,8 @@
   --font-gelasio: 'Gelasio', serif;
   --font-instrument: 'Instrument Sans', sans-serif;
 
-  --animate-premium-pulse: premium-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-marquee: marquee 16s linear infinite;
+  --animate-premium-pulse: premium-pulse 1.25s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-marquee: marquee 14.5s linear infinite;
 
   @keyframes premium-pulse {
 
@@ -611,7 +611,7 @@ html.dark header.bg-white\/90 {
   }
 
   .subline {
-    @apply text-[16px] leading-[1.6] text-[#575757] tracking-wide;
+    @apply text-[#575757] tracking-wide;
   }
 
   /* ========================================
@@ -1001,4 +1001,23 @@ select:focus-visible {
 /* Ensure round elements get round focus */
 .rounded-full:focus-visible {
   border-radius: 9999px !important;
+}
+
+/* ========================================
+   BOUTIQUE GRID SYSTEM
+   ======================================== */
+.boutique-width {
+  max-width: 1280px;
+  /* max-w-7xl default in visual hierarchy matches New Findings */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (min-width: 768px) {
+  .boutique-width {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
 }

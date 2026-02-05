@@ -11,13 +11,13 @@ export function Hero() {
 
   const handleVideoHover = () => {
     if (videoRef.current) {
-      videoRef.current.play();
+      videoRef.current.pause();
     }
   };
 
   const handleVideoLeave = () => {
     if (videoRef.current) {
-      videoRef.current.pause();
+      videoRef.current.play();
     }
   };
 
@@ -34,20 +34,20 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-20 md:py-20 min-h-[420px] flex flex-col justify-center animate-in fade-in duration-500">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-[72px] flex flex-col justify-center animate-in fade-in duration-500">
       {/* Outer Wrapper: 1600px (matches global expansion) */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full">
-        {/* Inner Content Wrapper: 1280px (Focused Hero Override) */}
-        <div className="max-w-7xl mx-auto w-full">
+      <div className="boutique-width w-full">
+        {/* Inner Content Wrapper: Full Width to align with Header/Footer */}
+        <div className="w-full">
           {/* Equilibrium Grid: Perfect Vertical Centering */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center w-full">
 
             {/* Left Column: Text Content - Vertically Centered */}
-            <div className="w-full lg:w-1/2 flex flex-col items-start order-1 lg:pl-12">
+            <div className="w-full lg:w-1/2 flex flex-col items-start order-1">
               {/* Visual Grouping: Headline + Subtext + CTAs in One Container */}
               <div className="w-full max-w-4xl">
                 {/* Main Headline - Structured for equal visual spacing */}
-                <h1 className="text-slate-900 flex flex-col items-start max-w-full md:max-w-full md:mx-0 mb-[24px]">
+                <h1 className="text-slate-900 flex flex-col items-start max-w-full md:max-w-full md:mx-0 mb-[24px] opacity-90">
                   {/* Line 1 & 2 */}
                   <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block mb-[8px]">
                     Discover
@@ -57,14 +57,16 @@ export function Hero() {
                   </span>
 
                   {/* Line 3 - Visual continuation */}
-                  <span className="text-[24px] md:text-[28px] font-medium font-instrument text-slate-900 leading-tight tracking-[-0.02em] mt-1">
+                  <span className="text-[24px] md:text-[28px] font-medium font-instrument text-slate-900 leading-[1.4] tracking-[-0.02em] mt-1">
                     sold across Canada
                   </span>
                 </h1>
 
                 {/* Subtext - Matching section subheaders */}
-                <p className="hero-subtitle text-[16px] font-medium text-gray-600 font-sans text-left tracking-[-0.01em] leading-[26px] md:leading-[26px] max-w-[85%] md:max-w-[700px] mb-[32px]">
-                  Find stores near you that sell products made in Ukraine or share your own findings with the community by adding a new pin to our map.
+                <p className="hero-subtitle text-[18px] font-medium text-gray-600 font-sans text-left tracking-[-0.01em] leading-[1.5] max-w-[85%] md:max-w-[700px] mb-[32px]">
+                  {t('home.hero.subtitle').split('\n').map((line, i) => (
+                    <span key={i} className="block">{line}</span>
+                  ))}
                 </p>
 
                 {/* Mobile-Only Cinematic Asset */}
@@ -102,9 +104,9 @@ export function Hero() {
                       </MapPeek>
                     </Link>
 
-                    <Link href="/map" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-medium text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
+                    <Link href="/#how-it-works" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-medium text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
                       <Info className="w-5 h-5 !fill-none !stroke-current" strokeWidth={1.5} />
-                      <span className="!text-[16px]" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'Learn More'}</span>
+                      <span className="!text-[16px]" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'How It Works'}</span>
                       <span className="absolute bottom-[2px] left-6 right-6 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                     </Link>
                   </div>
@@ -113,7 +115,7 @@ export function Hero() {
             </div>
 
             {/* Right Column: Visualization - Vertically Centered */}
-            <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-center items-center">
+            <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-end items-center">
               <div className="w-full max-w-[500px] lg:w-[512px] min-[1440px]:w-[636px]">
                 {/* Video Container */}
                 <div
@@ -126,6 +128,7 @@ export function Hero() {
                     className="w-full h-full object-cover"
                     style={{ objectPosition: 'center center' }}
                     preload="auto"
+                    autoPlay
                     muted
                     loop
                     playsInline
@@ -140,6 +143,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }

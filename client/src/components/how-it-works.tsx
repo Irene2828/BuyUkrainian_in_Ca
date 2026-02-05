@@ -8,106 +8,84 @@ export function HowItWorks() {
 
   const steps = [
     {
-      title: t('howItWorks.card1.title') || 'Find Stores',
-      description: t('howItWorks.card1.desc') || 'Find authentic Ukrainian-made products at local retailers or online stores.',
-      icon: Search
+      title: t('howItWorks.card1.title') || 'FIND STORES',
+      description: t('howItWorks.card1.desc') || `Explore – Discover curated shops and authentic makers nearby.
+Filter – Sort by province, city, or specific product category.
+Connect – Access addresses, contact info, and store hours instantly.`,
+      icon: Search,
+      image: "/icon1.png"
     },
     {
-      title: t('howItWorks.card2.title') || 'Add New Locations',
-      description: t('howItWorks.card2.desc') || 'Add your favorite Ukrainian stores and products, and help others find Ukrainian-made goods.',
-      icon: PlusCircle
+      title: t('howItWorks.card2.title') || 'ADD NEW LOCATIONS',
+      description: t('howItWorks.card2.desc') || `Contribute – Tag new stores selling Ukrainian-made goods.
+Verify – Help the community maintain an accurate, trusted map.
+Expand – Grow the ecosystem of support one pin at a time.`,
+      icon: PlusCircle,
+      image: "/icon2.png"
     },
     {
-      title: t('howItWorks.card3.title') || 'Share with Friends',
-      description: t('howItWorks.card3.desc') || 'Share this map with your network and help others support the mission.',
-      icon: Share2
+      title: t('howItWorks.card3.title') || 'SHARE THE MAP',
+      description: t('howItWorks.card3.desc') || `Amplify – Send the directory to your network with one tap.
+Advocate – Spread the mission of economic resilience.
+Inspire – Encourage others to shop with purpose and intent.`,
+      icon: Share2,
+      image: "/icon3.png"
     }
   ];
 
   return (
     <section id="how-it-works" className="py-32 md:py-40 font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
-        <div className="mb-10 md:mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
-          <h2 className="text-[36px] font-semibold tracking-tight leading-[1.1] font-sans section-headline-reveal text-slate-900">
-            How It Works
+        <div className="mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
+
+          <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
+            {t('howItWorks.title') || 'When Every Purchase Has an Impact'}
           </h2>
           <p className="subline font-ui max-w-2xl mx-auto">
-            Supporting Ukraine's economy gets easier when we all know where to shop.
+            {t('howItWorks.subtitle') || "The easiest way to support Ukraine's economy locally"}
           </p>
         </div>
 
         {/* Steps Grid with Stagger Animation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 stagger-container">
-          {/* Step 1 */}
-          <div className="stagger-item group flex flex-col items-center bg-transparent px-6 pt-4 pb-0 h-full text-center">
+        {/* Feature Grid - Spatial Geometry */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10 stagger-container text-center">
+          {steps.map((step, index) => (
+            <div key={index} className="stagger-item group flex flex-col items-center text-center">
 
-            {/* Illustration - Centered Alignment */}
-            <div className="h-[216px] w-full flex items-center justify-center overflow-hidden mb-6">
-              <img
-                src="/icon1.png"
-                alt="Find Ukrainian products"
-                className="max-h-full w-auto object-contain transform scale-105"
-              />
+              {/* Large Illustration - Centered Alignment */}
+              <div className="h-[234px] w-full flex items-center justify-center overflow-hidden mb-[27px]">
+                <img
+                  src={step.image}
+                  alt={step.title}
+                  className={`max-h-full w-auto object-contain transform ${index === 1 ? 'scale-[1.01]' : 'scale-[1.12]'}`}
+                />
+              </div>
+
+              {/* Horizontal Header Row: Icon + Label */}
+              <div className="flex items-center justify-center gap-3 mb-[28px] w-full">
+                <step.icon size={20} strokeWidth={2} className="text-slate-900" />
+                <h5 className="text-[12px] font-bold uppercase tracking-[0.05em] text-slate-900 font-sans">
+                  {step.title}
+                </h5>
+              </div>
+
+              {/* Centered Single Description: Precise FAQ Typography Match */}
+              <div className="w-full text-center flex flex-col items-center gap-2 mt-[10px]">
+                {step.description.split('\n').slice(0, 1).map((line, i) => {
+                  const parts = line.split('–');
+                  const verb = parts[0] ? parts[0].trim() : '';
+                  const desc = parts.slice(1).join('–').trim();
+
+                  return (
+                    <p key={i} className="text-[16px] leading-[1.7] text-slate-600 font-sans text-center">
+                      {verb}{desc ? ` ${desc}` : ''}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
-
-            {/* Label - Positioned Under Illustration */}
-            {/* Label - Positioned Under Illustration */}
-            <h5 className="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-900 mb-8 w-full flex items-center justify-center gap-2 font-sans">
-              <Search size={16} strokeWidth={3} className="opacity-100 fill-none stroke-current" />
-              {t('howItWorks.card1.title') || 'Find Stores'}
-            </h5>
-
-            <p className="text-[16px] leading-[1.6] text-slate-600 w-full font-sans">
-              Find authentic Ukrainian-made goods at local stores.
-            </p>
-          </div>
-
-          <div className="stagger-item group flex flex-col items-center bg-transparent px-6 pt-4 pb-0 h-full text-center">
-
-            {/* Illustration - Centered Alignment */}
-            <div className="h-[216px] w-full flex items-center justify-center overflow-hidden mb-6">
-              <img
-                src="/icon2.png"
-                alt="Add a store"
-                className="max-h-full w-auto object-contain transform scale-105"
-              />
-            </div>
-
-            {/* Label - Positioned Under Illustration */}
-            {/* Label - Positioned Under Illustration */}
-            <h5 className="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-900 mb-8 w-full flex items-center justify-center gap-2 font-sans">
-              <PlusCircle size={16} strokeWidth={3} className="opacity-100 fill-none stroke-current" />
-              {t('howItWorks.card2.title') || 'Add New Locations'}
-            </h5>
-
-            <p className="text-[16px] leading-[1.6] text-slate-600 w-full font-sans">
-              Add stores you know of that sell goods made in Ukraine to help others discover them.
-            </p>
-          </div>
-
-          <div className="stagger-item group flex flex-col items-center bg-transparent px-6 pt-4 pb-0 h-full text-center">
-
-            {/* Illustration - Centered Alignment */}
-            <div className="h-[216px] w-full flex items-center justify-center overflow-hidden mb-6">
-              <img
-                src="/icon3.png"
-                alt="Share with Friends"
-                className="max-h-full w-auto object-contain transform scale-105"
-              />
-            </div>
-
-            {/* Label - Positioned Under Illustration */}
-            {/* Label - Positioned Under Illustration */}
-            <h5 className="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-900 mb-8 w-full flex items-center justify-center gap-2 font-sans">
-              <Share2 size={16} strokeWidth={3} className="opacity-100 fill-none stroke-current" />
-              {t('howItWorks.card3.title') || 'Share with Friends'}
-            </h5>
-
-            <p className="text-[16px] leading-[1.6] text-slate-600 w-full font-sans">
-              Share this map with your network to help support the mission of helping Ukraine.
-            </p>
-          </div>
+          ))}
         </div>
 
       </div>

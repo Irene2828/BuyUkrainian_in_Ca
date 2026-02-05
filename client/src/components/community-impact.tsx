@@ -19,7 +19,7 @@ export function CommunityImpact() {
     };
 
     return (
-        <section className="relative w-full py-20 md:py-20 min-h-[550px] bg-white border-t border-slate-100 flex flex-col justify-center">
+        <section className="relative w-full py-[72px] md:py-[72px] min-h-[550px] bg-white border-t border-slate-100 flex flex-col justify-center">
             <div className="max-w-[800px] mx-auto px-6 lg:px-0 flex flex-col items-center">
 
 
@@ -27,8 +27,7 @@ export function CommunityImpact() {
                 {/* Pre-footer Stats Header */}
                 <div className="flex flex-col items-center mb-8">
                     <div className="flex items-center gap-2.5">
-                        <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
-                        <span className="font-sans text-[11px] font-semibold tracking-[0.1em] text-slate-600 uppercase">
+                        <span className="font-sans text-[11px] font-semibold tracking-[0.1em] text-slate-900/70 uppercase">
                             Contributions to the map by today
                         </span>
                     </div>
@@ -42,7 +41,7 @@ export function CommunityImpact() {
                             end={stats.stores}
                             duration={2000}
                             delay={0}
-                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-60"
+                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-50"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
                             <UkrainianFlagIcon className="w-4 h-4 opacity-80" />
@@ -56,7 +55,7 @@ export function CommunityImpact() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-60"
+                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-50"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
                             <Map className="w-4 h-4 opacity-80" strokeWidth={1.5} />
@@ -70,7 +69,7 @@ export function CommunityImpact() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-60"
+                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-slate-900 leading-none opacity-50"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
                             <Package className="w-4 h-4 opacity-80" strokeWidth={1.5} />

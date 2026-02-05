@@ -109,10 +109,10 @@ export function RecentProductsMarquee() {
                         {/* Glass gradient background for label to mask marquee behind it */}
                         <div className="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent pointer-events-none" />
 
-                        <div className="relative z-10 flex items-center gap-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-premium-pulse shrink-0" />
-                            <span className="text-[12px] md:text-[13px] font-semibold uppercase tracking-widest text-slate-400 whitespace-nowrap">
-                                New Findings
+                        <div className="relative z-10 flex items-center gap-2.5">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
+                            <span className="text-[11px] font-bold tracking-[0.08em] uppercase text-slate-900/70 whitespace-nowrap">
+                                NEWEST FINDINGS
                             </span>
                         </div>
                     </div>
@@ -142,6 +142,7 @@ export function RecentProductsMarquee() {
 
                 </div>
             </div>
+
 
             {/* Fixed Hover Preview Overlay */}
             {hoveredElement && initialCoords && (

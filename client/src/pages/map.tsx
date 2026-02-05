@@ -46,11 +46,11 @@ function NewlyAddedStores() {
 
   return (
     <section className="bg-transparent pb-7 md:pb-[44px]">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-16">
+      <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
-            <div className="w-2 h-2 bg-[#0047FF] rounded-full animate-premium-pulse shrink-0" />
-            <h2 className="text-[13px] font-bold tracking-[0.08em] text-slate-900 uppercase whitespace-nowrap m-0 font-ui">
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
+            <h2 className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
               LATEST COMMUNITY ADDITIONS
             </h2>
           </div>
@@ -60,7 +60,7 @@ function NewlyAddedStores() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-16 group/carousel relative">
+      <div className="boutique-width group/carousel relative">
         <Carousel
           opts={{
             align: "start",
@@ -168,17 +168,47 @@ export default function MapPage() {
         </div>
 
         {/* Below-the-fold sections - Vertical Air exactly 75% of Zen Zone */}
-        <div className="section-reveal relative z-10 bg-white pt-20 pb-20">
+        <div className="section-reveal relative z-10 bg-white pt-10 pb-20">
           <NewlyAddedStores />
 
         </div>
 
         {/* Mission Reminder - Subtle Bridge to Footer */}
-        <section className="w-full bg-[#f1f5f9] py-[68px] border-t border-slate-100 section-reveal flex items-center min-h-[468px]">
-          <div className="max-w-[1600px] mx-auto px-6 lg:px-16 w-full">
+        <section className="relative w-full bg-white py-[68px] section-reveal flex items-center min-h-[468px] overflow-hidden">
+          {/* Background Blobs */}
+          <div
+            className="absolute pointer-events-none rounded-full"
+            style={{
+              width: '600px',
+              height: '600px',
+              left: 'calc(50% - 514px)',
+              top: '-300px',
+              background: 'rgba(0, 113, 227, 0.16)',
+              filter: 'blur(120px)',
+              zIndex: 0
+            }}
+          />
+          <div
+            className="absolute pointer-events-none rounded-full"
+            style={{
+              width: '500px',
+              height: '500px',
+              left: 'calc(50% + 125px)',
+              top: '335px',
+              background: 'rgba(255, 212, 39, 0.23)',
+              filter: 'blur(100px)',
+              zIndex: 0
+            }}
+          />
+          <div className="boutique-width w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left">
               <div>
-                <p className="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-[0.15em] mb-4 font-sans">Our Mission</p>
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
+                  <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
+                    Contributions to the map by today
+                  </p>
+                </div>
                 <h3 className="font-semibold text-slate-900 leading-tight mb-4 stagger-item">
                   Supporting resilience, one store at a time.
                 </h3>
