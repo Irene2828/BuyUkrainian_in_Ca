@@ -85,7 +85,7 @@ export const insertStoreSchema = createInsertSchema(stores, {
       const lng = parseFloat(val);
       return lng >= -140 && lng <= -50;
     }, "Location must be within Canada (longitude -140 to -50)"),
-  category: z.enum(["food", "clothes", "other"]),
+  category: z.enum(["food", "clothes", "retail", "other"]),
   website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").optional().or(z.literal("")),
   image: z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large").optional().or(z.literal("")),
   images: z.array(z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),

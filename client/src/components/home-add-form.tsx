@@ -213,7 +213,11 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         images: values.image ? [values.image] : [], // Wrap in array for 'images' column too
       });
     } catch (error: any) {
-      console.error("Submission error:", error);
+      console.error("Submission failed:", error);
+      // Detailed error log for the user if they check console
+      if (error instanceof Error) {
+        console.error("Error Message:", error.message);
+      }
       // Error handling is in the mutation's onError
     } finally {
       setIsSubmitting(false);

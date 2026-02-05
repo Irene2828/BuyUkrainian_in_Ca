@@ -105,8 +105,13 @@ export async function registerRoutes(
       const newStore = await storage.createStore(storeData);
       broadcast("store_submitted");
       res.status(201).json(newStore);
-    } catch (e) {
-      res.status(500).json({ error: "Failed to create location" });
+    } catch (e: any) {
+      console.error("❌ [API] POST /api/locations Error:", e);
+      res.status(500).json({
+        error: "Failed to create location",
+        message: e.message || String(e),
+        stack: process.env.NODE_ENV === "development" ? e.stack : undefined
+      });
     }
   });
 
