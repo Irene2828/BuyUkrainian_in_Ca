@@ -214,7 +214,7 @@ export function MapExplorer() {
                 <aside ref={sidebarRef} className="w-full md:w-[280px] shrink-0 flex flex-col pt-6">
 
                     {/* Search Field - Aligned with Map Buttons */}
-                    <div className="relative group border-b border-slate-200 focus-within:border-slate-900 transition-colors mb-8">
+                    <div className="relative group border-b border-slate-200 focus-within:border-slate-900 transition-colors mb-8 md:mt-[22px]">
                         <Search className="absolute left-0 bottom-4 w-[18px] h-[18px] text-slate-400 group-focus-within:text-slate-900 transition-colors" strokeWidth={1.5} />
                         <input
                             type="text"
@@ -224,7 +224,7 @@ export function MapExplorer() {
                                 setSearchQuery(e.target.value);
                                 closeAllDropdowns();
                             }}
-                            className="w-full h-12 pl-8 pr-4 bg-transparent border-none focus:ring-0 text-[15px] font-medium leading-loose placeholder:text-slate-400 transition-all"
+                            className="w-full h-12 pl-8 pr-4 bg-transparent border-none focus:ring-0 text-[15px] font-normal leading-loose placeholder:text-slate-400 transition-all"
                             aria-label="Search stores"
                         />
                     </div>
@@ -241,7 +241,7 @@ export function MapExplorer() {
                                     setIsProvinceDropdownOpen(open);
                                 }}
                                 className={cn(
-                                    "flex items-center justify-between w-full h-[52px] px-6 rounded-full text-[15px] font-medium border transition-all duration-200 bg-white",
+                                    "flex items-center justify-between w-full h-[52px] px-6 rounded-full text-[15px] font-normal border transition-all duration-200 bg-white",
                                     selectedProvince
                                         ? "border-black text-slate-900"
                                         : "border-slate-200 text-slate-500 hover:border-slate-300"
@@ -294,7 +294,7 @@ export function MapExplorer() {
                                     setIsCategoryDropdownOpen(open);
                                 }}
                                 className={cn(
-                                    "flex items-center justify-between w-full h-[52px] px-6 rounded-full text-[15px] font-medium border transition-all duration-200 bg-white",
+                                    "flex items-center justify-between w-full h-[52px] px-6 rounded-full text-[15px] font-normal border transition-all duration-200 bg-white",
                                     category
                                         ? "border-black text-slate-900"
                                         : "border-slate-200 text-slate-500 hover:border-slate-300"
