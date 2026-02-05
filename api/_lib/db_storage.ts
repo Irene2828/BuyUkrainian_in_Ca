@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import pkg from 'pg';
 const { Pool } = pkg;
 import { eq } from "drizzle-orm";
-import { nanoid } from "nanoid";
+import crypto from "crypto";
 
 // Define the shape of our Store object for the application
 export interface Store {
@@ -90,7 +90,7 @@ export class DatabaseStorage implements IStorage {
   async createStore(insertStore: InsertStore): Promise<Store> {
     const newStore = {
       ...insertStore,
-      id: nanoid(),
+      id: crypto.randomUUID(),
       // Ensure specific fields that might be missing in InsertStore but required by DB are handled if any
       // InsertStore form zod schema omits id and createdAt
     };

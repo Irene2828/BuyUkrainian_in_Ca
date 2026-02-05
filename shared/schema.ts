@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, serial, timestamp, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, serial, timestamp, decimal, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -38,7 +38,7 @@ export const stores = pgTable("stores", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   approvedAt: timestamp("approved_at"),
   // Added requested fields
-  isOpen: text("is_open").default("true"), // Using text 'true'/'false' or boolean if supported, keeping simple
+  isOpen: boolean("is_open").default(true), // Using boolean for database compatibility
 });
 
 const MAX_NAME_LENGTH = 100;
