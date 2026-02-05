@@ -1031,6 +1031,7 @@ select:focus-visible {
    BOUTIQUE GRID SYSTEM
    ======================================== */
 .boutique-width {
+  width: 100%;
   max-width: var(--container-standard);
   margin-left: auto;
   margin-right: auto;
