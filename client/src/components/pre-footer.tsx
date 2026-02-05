@@ -15,7 +15,7 @@ export function PreFooter() {
                 className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-full max-w-[1990px] object-cover opacity-10 pointer-events-none"
             />
 
-            <div className="max-w-[1600px] mx-auto px-6 lg:px-12 w-full relative z-10">
+            <div className="boutique-width w-full relative z-10">
                 <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-12 w-full">
                     {/* Left: Mission Statement */}
                     <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-xl">
