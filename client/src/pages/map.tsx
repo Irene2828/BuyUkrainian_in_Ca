@@ -115,8 +115,7 @@ function NewlyAddedStores() {
         </button>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-16">
-      </div>
+      <div className="pb-16" />
 
 
       {/* Centered Modal Overlay with Precision Scale Animation */}
@@ -209,7 +208,7 @@ export default function MapPage() {
                     Contributions to the map by today
                   </p>
                 </div>
-                <h3 className="font-semibold text-slate-900 leading-tight mb-4 stagger-item">
+                <h3 className="text-[32px] font-semibold text-slate-900 leading-tight mb-4 stagger-item max-w-[15ch]">
                   Supporting resilience, one store at a time.
                 </h3>
                 <p className="text-[17px] text-[#424245] font-ui leading-relaxed max-w-[45ch] mx-auto md:mx-0">
