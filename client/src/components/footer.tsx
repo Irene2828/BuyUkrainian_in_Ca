@@ -12,7 +12,11 @@ export function Footer() {
 
   return (
     <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative" style={{ paddingTop: '80px', paddingBottom: '64px' }}>
-      <div className="boutique-width w-full flex flex-col items-center gap-16">
+      <div className="boutique-width w-full flex flex-col items-center gap-12">
+
+        {/* Line Divider above links */}
+        <div className="w-full border-t border-white/5" />
+
         {/* Top Row: Links & Actions */}
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-10">
 
@@ -54,8 +58,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Perfectly Centered Copyright Section */}
-        <div className="w-full border-t border-white/5 pt-12 flex justify-center">
+        {/* Perfectly Centered Copyright Section (Divider removed from here) */}
+        <div className="w-full pt-4 flex justify-center">
           <span
             className="text-[16px] font-normal text-[#62748E] tracking-wide text-center"
             style={{ fontFamily: "'Inter', sans-serif" }}
