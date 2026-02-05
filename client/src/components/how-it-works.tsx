@@ -12,7 +12,7 @@ export function HowItWorks() {
 
   const steps = [
     {
-      title: t('howItWorks.card1.title') || 'FIND STORES',
+      title: t('howItWorks.card1.title') || 'FIND STORES ON THE MAP',
       description: placeholderDesc,
       icon: Search,
       image: "/icon1.png"
@@ -32,16 +32,16 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="how-it-works" className="py-[80px] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
         <div className="mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
 
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
-            {t('howItWorks.title') || 'When Every Purchase Has an Impact'}
+            {t('howItWorks.title') || 'Purchase Here. Support Ukraine There'}
           </h2>
           <p className="subline font-ui max-w-2xl mx-auto">
-            {t('howItWorks.subtitle') || "The easiest way to support Ukraine's economy locally"}
+            {t('howItWorks.subtitle') || "Help Ukraine's economy from where you are. Here's how:"}
           </p>
         </div>
 

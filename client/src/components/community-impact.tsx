@@ -34,7 +34,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section className={cn(
-            "relative w-full bg-white py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)] section-reveal flex items-center min-h-[468px] overflow-hidden",
+            "relative w-full bg-white py-[80px] section-reveal overflow-hidden",
             !hideBorder && "border-t border-slate-100"
         )}>
             {/* Background Blobs */}
@@ -80,8 +80,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         </p>
 
                         <a href="mailto:hello@buyukrainian.ca?subject=Volunteer%20Inquiry" className="inline-block">
-                            <button className="btn-premium-action bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10 no-invert-hover group">
-                                <Plus className="w-5 h-5 mr-1" strokeWidth={2.5} />
+                            <button className="flex items-center justify-center gap-2 h-[52px] px-8 rounded-[32px] bg-transparent border-none outline-none text-slate-900 font-semibold text-[16px] transition-all duration-200 hover:bg-slate-900/5 group">
+                                <Plus className="w-5 h-5" />
                                 <span>Volunteer for the Project</span>
                             </button>
                         </a>
@@ -92,7 +92,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map:
                         </span>
 
-                        <ul className="flex flex-col items-center md:items-end gap-6 list-none p-0 m-0">
+                        <ul className="flex flex-col items-center md:items-end gap-4 list-none p-0 m-0">
                             <li>
                                 <button
                                     onClick={handleFacebookShare}

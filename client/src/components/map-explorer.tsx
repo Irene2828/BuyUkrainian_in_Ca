@@ -158,7 +158,7 @@ export function MapExplorer() {
         )}>
 
             {/* 1. Stats Dashboard */}
-            <section className="boutique-width py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
+            <section className="utility-width pt-[65px] pb-0 px-[clamp(1.5rem,5vw,4rem)]">
                 <div className="flex flex-col items-center justify-center gap-6">
 
                     {/* Top Row: Heading + Stats (Centered Together) */}
@@ -166,9 +166,9 @@ export function MapExplorer() {
                         {/* Heading */}
                         <div className="flex items-center gap-2.5">
                             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
-                            <h2 className="text-[13px] font-bold tracking-[0.08em] uppercase text-slate-900/70 whitespace-nowrap">
+                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 CURRENTLY ON THE MAP
-                            </h2>
+                            </p>
                         </div>
 
                         {/* Divider */}
@@ -177,47 +177,40 @@ export function MapExplorer() {
                         {/* Stats */}
                         <div className="flex items-center gap-8 md:gap-12">
                             <div className="flex flex-col items-center gap-1">
-                                <span className="text-[22px] font-medium text-slate-900 leading-none">
+                                <span className="text-[22px] md:text-[25px] font-medium text-slate-900 leading-none">
                                     <AnimatedCounter end={stats.stores} />
                                 </span>
-                                <span className="text-[10px] font-medium text-slate-900 uppercase tracking-[0.15em]">Stores</span>
+                                <span className="text-[10px] md:text-[11px] font-medium text-slate-900 uppercase tracking-[0.15em]">Stores</span>
                             </div>
                             <div className="w-[1px] h-8 bg-slate-200" />
                             <div className="flex flex-col items-center gap-1">
-                                <span className="text-[22px] font-medium text-slate-900 leading-none">
+                                <span className="text-[22px] md:text-[25px] font-medium text-slate-900 leading-none">
                                     <AnimatedCounter end={stats.provinces} />
                                 </span>
-                                <span className="text-[10px] font-medium text-slate-900 uppercase tracking-[0.15em]">Provinces</span>
+                                <span className="text-[10px] md:text-[11px] font-medium text-slate-900 uppercase tracking-[0.15em]">Provinces</span>
                             </div>
                             <div className="w-[1px] h-8 bg-slate-200" />
                             <div className="flex flex-col items-center gap-1">
-                                <span className="text-[22px] font-medium text-slate-900 leading-none">
+                                <span className="text-[22px] md:text-[25px] font-medium text-slate-900 leading-none">
                                     <AnimatedCounter end={stats.products} />
                                 </span>
-                                <span className="text-[10px] font-medium text-slate-900 uppercase tracking-[0.15em]">Products</span>
+                                <span className="text-[10px] md:text-[11px] font-medium text-slate-900 uppercase tracking-[0.15em]">Products</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom Row: Subline (Centered) */}
-                    <div className="flex flex-col items-center gap-8">
+                    <div className="flex flex-col items-center">
                         <p className="text-base text-slate-600 font-normal leading-relaxed text-center">
                             Find Ukrainian products near you, or help grow the map.
                         </p>
-                        <button
-                            onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
-                            className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
-                        >
-                            <Plus className="w-5 h-5" strokeWidth={2.5} />
-                            <span>Add New Store to the Map</span>
-                        </button>
                     </div>
 
                 </div>
             </section>
 
             {/* 3. Main Content Area */}
-            <div className="boutique-width flex flex-col md:flex-row md:items-start gap-8 py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
+            <div className="utility-width flex flex-col md:flex-row md:items-start gap-8 pt-0 pb-[65px] px-[clamp(1.5rem,5vw,4rem)]">
 
                 {/* Sidebar - Search & Filters */}
                 <aside ref={sidebarRef} className="w-full md:w-[280px] shrink-0 flex flex-col pt-6">
@@ -353,7 +346,7 @@ export function MapExplorer() {
                                 onClick={() => setViewMode("map")}
                                 className={cn(
                                     "flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[16px] transition-all duration-200",
-                                    viewMode === "map" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-50 hover:opacity-80"
+                                    viewMode === "map" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-80 hover:opacity-100"
                                 )}
                             >
                                 <MapIcon className="w-3.5 h-3.5" />
@@ -364,7 +357,7 @@ export function MapExplorer() {
                                 onClick={() => setViewMode("list")}
                                 className={cn(
                                     "flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[16px] transition-all duration-200",
-                                    viewMode === "list" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-50 hover:opacity-80"
+                                    viewMode === "list" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-80 hover:opacity-100"
                                 )}
                             >
                                 <List className="w-3.5 h-3.5" />

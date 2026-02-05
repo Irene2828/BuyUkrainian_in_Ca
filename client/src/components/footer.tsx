@@ -11,7 +11,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
+    <footer className="bg-slate-900 text-[#fafafa] font-sans overflow-hidden relative py-[clamp(4rem,8vh,8rem)]">
       <div className="boutique-width w-full flex flex-col items-center gap-12">
 
         {/* Line Divider above links */}
@@ -22,18 +22,18 @@ export function Footer() {
 
           {/* 3 Columns Layout for Links (Horizontal) */}
           <div className="flex flex-row items-center gap-8 md:gap-12">
-            <AccessibilityToggle className="text-[16px] font-normal text-white/70 hover:text-white transition-colors duration-200 uppercase tracking-[0.1em]" />
+            <AccessibilityToggle className="text-[13px] font-normal text-white/60 hover:text-white/90 transition-colors duration-200 uppercase tracking-widest" />
 
             <a
               href="mailto:hello@buyukrainian.ca"
-              className="text-[16px] font-normal text-white/70 hover:text-white transition-colors duration-200 no-underline uppercase tracking-[0.1em]"
+              className="text-[13px] font-normal text-white/60 hover:text-white/90 transition-colors duration-200 no-underline uppercase tracking-widest"
             >
               CONTACT
             </a>
 
             <Link
               href="/privacy"
-              className="text-[16px] font-normal text-white/70 hover:text-white transition-colors duration-200 no-underline uppercase tracking-[0.1em]"
+              className="text-[13px] font-normal text-white/60 hover:text-white/90 transition-colors duration-200 no-underline uppercase tracking-widest"
             >
               PRIVACY POLICY
             </Link>

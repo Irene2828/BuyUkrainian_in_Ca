@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight, Plus, HelpCircle } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
@@ -55,11 +55,11 @@ export function Header() {
             <img
               src="/header-logo.png"
               alt="BuyUkrainian.ca"
-              className="object-contain transition-all duration-500 h-[56px] w-auto ml-[-8px]"
+              className="object-contain transition-all duration-500 h-[56px] w-auto ml-[-12px]"
             />
             {/* Branding Text */}
             <div className="flex flex-col justify-center ml-[-14px] h-10">
-              <span className="text-[16px] font-normal leading-[1.1] tracking-[0.3px] text-slate-900 font-sans">
+              <span className="text-[16px] font-normal leading-[1.1] tracking-[0.3px] text-slate-900 font-instrument">
                 Buy Ukrainian —<br />
                 Support Ukraine
               </span>
@@ -75,8 +75,8 @@ export function Header() {
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
             <Link href="/map" className={cn("group relative text-[16px] font-medium transition-all hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-90")}>
-              <Search className="w-4 h-4 opacity-70" />
-              Find Stores
+              <MapPin className="w-4 h-4 opacity-70" />
+              View Map
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
@@ -105,7 +105,7 @@ export function Header() {
         <div className="flex md:hidden items-center gap-3">
           {!isScrolled && location !== '/map' && (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-gray-100 transition-colors text-slate-900 no-underline">
-              <Search className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
+              <MapPin className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-normal">{t('header.exploreMap') || 'Explore the map'}</span>
             </Link>
           )}
@@ -134,8 +134,8 @@ export function Header() {
               </Link>
 
               <Link href="/map" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
-                <Search className="w-4 h-4 opacity-70" />
-                Find Stores
+                <MapPin className="w-4 h-4 opacity-70" />
+                View Map
               </Link>
 
               <span

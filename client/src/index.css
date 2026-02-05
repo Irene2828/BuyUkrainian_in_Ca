@@ -163,6 +163,8 @@
   /* Unified Frame Widths */
   --container-standard: 1280px;
   --container-large: 1440px;
+  --width-narrative: 1280px;
+  --width-utility: 1440px;
   --gutter-obsidian-max-width: var(--container-standard);
 
   /* Map Theming */
@@ -1028,20 +1030,32 @@ select:focus-visible {
 }
 
 /* ========================================
-   BOUTIQUE GRID SYSTEM
+   BOUTIQUE GRID SYSTEM (Narrative vs Utility)
    ======================================== */
+
 .boutique-width {
+  /* Narrative Container: Standard width (1280px), expands to 1440px on large screens */
   width: 100%;
-  max-width: var(--container-standard);
+  max-width: var(--width-narrative);
   margin-left: auto;
   margin-right: auto;
   padding-inline: clamp(1.5rem, 5vw, 4rem);
   transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.utility-width {
+  /* Utility Container: Always targets 1440px (Effective full-width on standard laptops) */
+  width: 100%;
+  max-width: var(--width-utility);
+  margin-left: auto;
+  margin-right: auto;
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @media (min-width: 1440px) {
   .boutique-width {
-    max-width: var(--container-large);
+    max-width: var(--width-utility);
+    /* Narrative expands to match Utility on large screens */
   }
 }

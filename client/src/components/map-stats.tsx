@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Package, Plus } from "lucide-react";
+import { Package, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 export function MapStats() {
@@ -16,19 +17,20 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
-            <div className="boutique-width flex flex-col items-center">
+        <section className="relative w-full pt-[88px] pb-[100px] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
+            <div className="boutique-width flex flex-col items-center pb-3">
                 {/* Stats Header */}
                 <div className="flex flex-col items-center mb-12">
                     <div className="flex items-center gap-2.5">
-                        <span className="font-sans text-[11px] font-semibold tracking-[0.1em] text-slate-900/70 uppercase">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
+                        <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                             Contributions to the map by today
-                        </span>
+                        </p>
                     </div>
                 </div>
 
                 {/* Stats Row - Apple Editorial Style */}
-                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24 mb-14">
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24 mb-7">
                     <div className="flex flex-col items-center gap-3">
                         <AnimatedCounter
                             end={stats.stores}
@@ -68,17 +70,18 @@ export function MapStats() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-6 mt-12">
-                    <button
-                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
-                        className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
-                    >
-                        <Plus className="w-5 h-5" strokeWidth={2.5} />
-                        <span>Add New Store to the Map</span>
-                    </button>
+                <div className="flex flex-col items-center gap-6 mt-20">
                     <p className="text-[15px] text-slate-500 font-ui italic text-center max-w-[40ch]">
                         Every data point represents a Ukrainian entrepreneur supported by this community.
                     </p>
+                    <Link href="/map">
+                        <button
+                            className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
+                        >
+                            <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
+                            <span>Go to The Map</span>
+                        </button>
+                    </Link>
                 </div>
             </div>
         </section>

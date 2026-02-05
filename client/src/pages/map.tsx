@@ -42,14 +42,14 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-transparent py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
+    <section className="bg-transparent pt-[32px] pb-[65px]">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
-            <h2 className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
+            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
               LATEST COMMUNITY ADDITIONS
-            </h2>
+            </p>
           </div>
           <p className="text-base text-slate-600 font-ui stagger-item mt-3">
             Every point on the map starts with a member of our community sharing a local find.
@@ -101,6 +101,19 @@ function NewlyAddedStores() {
         </Carousel>
       </div>
 
+      {/* Add Store CTA Button */}
+      <div className="boutique-width flex flex-col items-center justify-center mt-12 gap-6">
+        <p className="text-[15px] text-slate-500 font-ui italic text-center max-w-[40ch]">
+          Know a store we missed? Add it!
+        </p>
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
+          className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
+        >
+          <Plus className="w-5 h-5" strokeWidth={2.5} />
+          <span>Add a New Store</span>
+        </button>
+      </div>
 
 
       <AnimatePresence>
@@ -144,7 +157,7 @@ export default function MapPage() {
           <MapExplorer />
         </div>
 
-        <div className="section-reveal relative z-10 bg-white py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)]">
+        <div className="section-reveal relative z-10 bg-white pt-0 pb-[32px]">
           <NewlyAddedStores />
         </div>
 

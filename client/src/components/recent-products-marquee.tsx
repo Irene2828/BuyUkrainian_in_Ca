@@ -100,9 +100,9 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)] overflow-hidden font-sans bg-white relative z-20"
+                className="w-full pt-[32px] pb-[88px] overflow-hidden font-sans bg-white relative z-20"
             >
-                <div className="max-w-7xl mx-auto flex items-center h-[50px] md:h-[60px] relative px-6 md:px-12">
+                <div className="boutique-width flex items-center h-[50px] md:h-[60px] relative">
 
                     {/* Fixed Live Label */}
                     <div className="sticky left-0 z-30 py-2 pr-20 flex items-center gap-3 h-full">
@@ -111,9 +111,9 @@ export function RecentProductsMarquee() {
 
                         <div className="relative z-10 flex items-center gap-2.5">
                             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
-                            <span className="text-[11px] font-bold tracking-[0.08em] uppercase text-slate-900/70 whitespace-nowrap">
+                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 NEWEST FINDINGS
-                            </span>
+                            </p>
                         </div>
                     </div>
 

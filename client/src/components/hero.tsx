@@ -34,7 +34,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans py-[clamp(4rem,8vh,8rem)] px-[clamp(1.5rem,5vw,4rem)] flex flex-col justify-center animate-in fade-in duration-500">
+    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans pt-[65px] pb-[65px] flex flex-col justify-center animate-in fade-in duration-500">
       {/* Outer Wrapper: 1600px (matches global expansion) */}
       <div className="boutique-width w-full">
         {/* Inner Content Wrapper: Full Width to align with Header/Footer */}
@@ -63,10 +63,8 @@ export function Hero() {
                 </h1>
 
                 {/* Subtext - Matching section subheaders */}
-                <p className="hero-subtitle text-[18px] font-medium text-gray-600 font-sans text-left tracking-[-0.01em] leading-[1.5] max-w-[85%] md:max-w-[700px] mb-[32px]">
-                  {t('home.hero.subtitle').split('\n').map((line, i) => (
-                    <span key={i} className="block">{line}</span>
-                  ))}
+                <p className="hero-subtitle text-[18px] font-medium text-slate-900/80 font-sans text-left tracking-[-0.01em] leading-[1.5] max-w-[85%] md:max-w-[600px] mb-[32px]">
+                  {t('home.hero.subtitle')}
                 </p>
 
                 {/* Mobile-Only Cinematic Asset */}
