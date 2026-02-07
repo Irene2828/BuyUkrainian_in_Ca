@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, forwardRef, Suspense, lazy } from "react";
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle, Suspense, lazy } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
@@ -50,26 +50,40 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
 
 import { useI18n } from "@/lib/i18n";
 
-export function MapSection({
-  mode = "section",
-  className = "",
-  searchQuery = "",
-  category = null,
-  viewMode = "map",
-  selectedProvince = null,
-  selectedCity = null,
-  sortMode = "newest",
-  initialStoreId = null,
-  onViewChange,
-  onFlightChange,
-  extraControls,
-  userLocation
-}: MapSectionProps) {
+export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
+  {
+    mode = "section",
+    className = "",
+    searchQuery = "",
+    category = null,
+    viewMode = "map",
+    selectedProvince = null,
+    selectedCity = null,
+    sortMode = "newest",
+    initialStoreId = null,
+    onViewChange,
+    onFlightChange,
+    extraControls,
+    userLocation
+  },
+  ref
+) => {
   const { t } = useI18n();
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
   const mapRef = useRef<InteractiveMapRef>(null);
+
+  useImperativeHandle(ref, () => ({
+    focusOnStore: (store: Store) => mapRef.current?.focusOnStore(store),
+    flyToProvince: (lat: number, lng: number, zoom: number) => mapRef.current?.flyToProvince(lat, lng, zoom),
+    flyToLocation: (lat: number, lng: number, zoom?: number) => mapRef.current?.flyToLocation(lat, lng, zoom),
+    resetView: () => mapRef.current?.resetView(),
+    zenView: () => mapRef.current?.zenView(),
+    zoomIn: () => mapRef.current?.zoomIn(),
+    zoomOut: () => mapRef.current?.zoomOut(),
+    invalidateSize: () => mapRef.current?.invalidateSize(),
+  }));
 
 
   const { data: stores = [], isLoading } = useQuery({
@@ -331,4 +345,4 @@ export function MapSection({
       )}
     </div>
   );
-}
+});

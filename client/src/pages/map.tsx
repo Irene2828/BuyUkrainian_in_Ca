@@ -19,6 +19,7 @@ import { Store } from "@/lib/data";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { CommunityImpact } from "@/components/community-impact";
+import { cn } from "@/lib/utils";
 
 function NewlyAddedStores() {
   const { t } = useI18n();
@@ -42,7 +43,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-transparent pt-[32px] pb-[65px]">
+    <section className="bg-white py-[72px]">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -51,7 +52,7 @@ function NewlyAddedStores() {
               LATEST COMMUNITY ADDITIONS
             </p>
           </div>
-          <p className="text-base text-slate-600 font-ui stagger-item mt-3">
+          <p className="text-base text-[#575756] font-ui stagger-item mt-3">
             Every point on the map starts with a member of our community sharing a local find.
           </p>
         </div>
@@ -102,7 +103,7 @@ function NewlyAddedStores() {
       </div>
 
       {/* Add Store CTA Button */}
-      <div className="boutique-width flex flex-col items-center justify-center mt-12 gap-6">
+      <div className="boutique-width flex flex-col items-center justify-center mt-6 gap-6">
         <p className="text-[15px] text-slate-500 font-ui italic text-center max-w-[40ch]">
           Know a store we missed? Add it!
         </p>
@@ -148,24 +149,36 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export default function MapPage() {
   useScrollReveal();
   const { t } = useI18n();
+  const [isZenMode, setIsZenMode] = useState(false);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100 pt-[100px]">
-      <Header />
-      <main className="flex flex-col">
-        <div className="relative z-0 section-reveal mb-0">
-          <MapExplorer />
+    <div className={cn(
+      "bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100 transition-all duration-500",
+      isZenMode ? "pt-0" : "pt-[80px]"
+    )}>
+      {!isZenMode && <Header />}
+      <main className="flex flex-col flex-1">
+        {!isZenMode && <div className="w-full h-[20px] bg-white shrink-0" />}
+        <div className={cn(
+          "relative z-0 mb-0 transition-all duration-500 w-full",
+          isZenMode ? "flex-1" : "h-auto"
+        )}>
+          <MapExplorer isZenMode={isZenMode} onZenModeToggle={() => setIsZenMode(!isZenMode)} />
         </div>
 
-        <div className="section-reveal relative z-10 bg-white pt-0 pb-[32px]">
-          <NewlyAddedStores />
-        </div>
+        {!isZenMode && (
+          <>
+            <div className="section-reveal relative z-10 bg-transparent pt-0 pb-0">
+              <NewlyAddedStores />
+            </div>
 
-        <div className="section-reveal">
-          <CommunityImpact hideBorder />
-        </div>
+            <div className="section-reveal">
+              <CommunityImpact hideBorder />
+            </div>
+          </>
+        )}
       </main>
-      <Footer />
+      {!isZenMode && <Footer />}
     </div>
   );
 }

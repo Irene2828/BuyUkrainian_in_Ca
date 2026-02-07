@@ -17,33 +17,38 @@ export interface InteractiveMapRef {
   flyToProvince: (lat: number, lng: number, zoom: number) => void;
   flyToLocation: (lat: number, lng: number, zoom?: number) => void;
   resetView: () => void;
+  zenView: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
+  invalidateSize: () => void;
 }
 
 const CANADA_BOUNDS: L.LatLngBoundsExpression = [
-  [41.67, -141.03],
+  [40.00, -141.03], // Tightened south to prioritize Canada while keeping context
   [83.11, -52.62]
 ];
 
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
 // Centered on Southern Canada - Optimized to show Toronto-Montreal corridor
 const INITIAL_MAP_STATE = {
-  center: [52.0, -91.0] as [number, number],  // Panoramic Canada (Included East Coast)
-  zoom: 3.8
+  center: [51.5, -96.0] as [number, number],  // Panoramic Canada Focus
+  zoom: 4.2
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 
 // Unified Blue/Yellow Pin Marker with Dimming Support
-const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean) => {
+const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow: hidden; position: relative; background: #fff;">
-        <div style="width: 100%; height: 50%; background: #0057B8;"></div>
-        <div style="width: 100%; height: 50%; background: #FFD700;"></div>
+      <div style="position: relative; width: 28px; height: 28px;">
+        ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3B82F6; opacity: 0; animation: ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>` : ''}
+        <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); filter: saturate(1.2) drop-shadow(0 2px 5px rgba(0,0,0,0.1)); overflow: hidden; position: relative; background: #fff; z-index: 10;">
+          <div style="width: 100%; height: 50%; background: #0057B8;"></div>
+          <div style="width: 100%; height: 50%; background: #FFD700;"></div>
+        </div>
       </div>
     `,
     iconSize: [28, 28],
@@ -209,7 +214,7 @@ const MarkerClusterGroup = ({
           // Exact replication of standard pin style (Circle split blue/yellow)
           return L.divIcon({
             html: `
-              <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: white;">
+              <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); filter: saturate(1.2) drop-shadow(0 2px 5px rgba(0,0,0,0.1)); background: white;">
                 <div style="width: 100%; height: 50%; background: #1762C5; opacity: 1;"></div>
                 <div style="width: 100%; height: 50%; background: #FFCF3E; opacity: 1;"></div>
                 <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #FFFFFF; text-shadow: none; font-family: var(--font-ui); font-size: ${fontSize};">
@@ -259,13 +264,22 @@ const MarkerClusterGroup = ({
 
     group.clearLayers();
 
+    // Determine newest store ID (assuming numeric ID increment or relying on API sort order)
+    // If IDs are not reliably numeric, we might need a createdAt field. 
+    // Fallback: Use the store with the highest numeric ID.
+    const newestStoreId = stores.reduce((maxId, store) => {
+      const id = Number(store.id);
+      return !isNaN(id) && id > maxId ? id : maxId;
+    }, -1);
+
     stores.forEach(store => {
       if (store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1])) {
         const isSelected = selectedStore?.id === store.id;
         const isAnySelected = !!selectedStore;
+        const isNewest = Number(store.id) === newestStoreId;
 
         const marker = L.marker(store.coordinates as [number, number], {
-          icon: createUnifiedMarker(isSelected, isAnySelected)
+          icon: createUnifiedMarker(isSelected, isAnySelected, isNewest)
         });
 
         // Hover effect: Show store name
@@ -345,6 +359,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
       setFocusCoordinates(null);
     },
+    zenView: () => {
+      // Specialized "Southern Canada" focus for Zen Mode - Hides Greenland/High Arctic
+      setProvinceView({ lat: 50.0, lng: -96.0, zoom: 5.0 });
+      setFocusCoordinates(null);
+    },
     zoomIn: () => {
       if (mapRef.current) {
         const currentCenter = mapRef.current.getCenter();
@@ -366,6 +385,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           easeLinearity: 0.8
         });
       }
+    },
+    invalidateSize: () => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
     }
   }), []);
 
@@ -384,10 +408,13 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     <div
       className="w-full h-full relative z-0 overflow-hidden bg-[#F9FAFB] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards antialiased"
     >
-      <div
-        className="absolute inset-0 z-[400] pointer-events-none shadow-[inset_0_0_80px_white]"
-        style={{ borderRadius: 'inherit' }}
-      />
+      {/* Deep Sea Overlay & Eye-Care Filter */}
+      <div className="absolute inset-0 z-[400] pointer-events-none" style={{ borderRadius: 'inherit' }}>
+        {/* 1. Deep Sea Gradient */}
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0) 30%, rgba(45, 80, 160, 0.06) 100%)' }} />
+        {/* 2. Eye-Care Multiply Layer */}
+        <div className="absolute inset-0 bg-[#F5F5F3] opacity-5 mix-blend-multiply" />
+      </div>
       <MapContainer
         center={CANADA_CENTER}
         zoom={INITIAL_MAP_STATE.zoom}
@@ -417,7 +444,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           keepBuffer={2}
         />
 
-        <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
+        <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
           © CARTO, © OpenStreetMap contributors
         </div>
 
@@ -456,7 +483,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Side Panel Overlay - No more Dialog */}
       {selectedStore && (
-        <div className="side-panel-container absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-500 delay-300 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[20px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
+        <div className="side-panel-container absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] delay-100 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[20px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
           <StoreCard
             store={selectedStore}
             onClose={() => {
@@ -477,7 +504,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
       {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-white/90 backdrop-blur-md rounded-xl border-[0.5px] border-[#E2E8F0] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden">
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-[rgba(255,255,255,0.7)] backdrop-blur-[12px] border border-[rgba(255,255,255,0.4)] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] overflow-hidden">
         <button
           onClick={() => {
             mapRef.current?.zoomIn();

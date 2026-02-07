@@ -48,9 +48,9 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
             )}
         >
             {/* Image (Hero) - 1.9:1 Aspect Ratio - 5% Taller than before */}
-            <div className="relative w-full aspect-[1.9/1] overflow-hidden rounded-[12px] bg-slate-50 mb-4">
+            <div className="relative w-full aspect-[1.9/1] overflow-hidden rounded-[4px] bg-slate-50 mb-3">
                 {/* Subtle Inner Border to mimic print quality */}
-                <div className="absolute inset-0 z-10 ring-1 ring-inset ring-black/5 rounded-[12px] pointer-events-none" />
+                <div className="absolute inset-0 z-10 ring-1 ring-inset ring-black/5 rounded-[4px] pointer-events-none" />
 
                 <img
                     src={editorialImage}
@@ -67,13 +67,12 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
 
 
                 {/* Title & Action Row - Strictly Centered Unit */}
-                <div className="w-full flex justify-center mt-2 px-1">
-                    <div className="flex items-center gap-2 max-w-full group/text">
-                        <UkrainianFlagIcon className="w-4 h-4 flex-shrink-0" />
-                        <h3 className="text-base font-medium text-slate-900 opacity-50 leading-snug font-ui truncate group-hover:text-slate-900 group-hover:opacity-100 transition-all">
+                <div className="w-full flex justify-center mt-0 px-1">
+                    <div className="flex items-center gap-1.5 max-w-full group/text">
+                        <h3 className="text-base font-medium text-[#1A1A19] leading-snug font-ui truncate transition-all">
                             {store.name}
                         </h3>
-                        <ArrowUpRight className="w-4 h-4 text-slate-900 opacity-50 transition-all duration-300 ease-out group-hover:text-slate-900 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
+                        <ArrowUpRight className="w-[14px] h-[14px] text-[#2D50A0] opacity-0 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
                     </div>
                 </div>
             </div>

@@ -1,146 +1,150 @@
-import { useState, useEffect, useRef } from "react";
-import { ArrowRight, HelpCircle, ChevronDown, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
-import { MapPeek } from "@/components/ui/map-peek";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export function Hero() {
-  const [showNudge, setShowNudge] = useState(true);
-  const { t } = useI18n();
-  const videoRef = useRef<HTMLVideoElement>(null);
+    const { t } = useI18n();
 
-  const handleVideoHover = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-  };
+    return (
+        <section
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-500 border-b border-[rgba(45,80,160,0.08)]"
+            style={{ background: 'linear-gradient(to bottom, #FFFFFF 0%, #FAFAF9 100%)' }}
+        >
+            {/* Background Blobs */}
+            <div
+                className="absolute pointer-events-none rounded-full"
+                style={{
+                    width: '500px',
+                    height: '500px',
+                    left: 'calc(50% - 714px)',
+                    top: '-300px',
+                    background: 'rgba(255, 212, 39, 0.23)',
+                    filter: 'blur(120px)',
+                    zIndex: 0
+                }}
+            />
+            <div
+                className="absolute pointer-events-none rounded-full"
+                style={{
+                    width: '600px',
+                    height: '600px',
+                    left: 'calc(50% + 225px)',
+                    top: '335px',
+                    background: 'rgba(0, 113, 227, 0.16)',
+                    filter: 'blur(120px)',
+                    zIndex: 0
+                }}
+            />
 
-  const handleVideoLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
-  };
+            <div className="boutique-width w-full pt-[5%] pb-[90px] flex items-center justify-center relative z-10">
+                {/* Main Grid: Mathematically Centered Architecture */}
+                <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-12 xl:gap-24 mx-auto max-w-[1280px]">
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setShowNudge(false);
-      } else {
-        setShowNudge(true);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+                    {/* Left-Side: Narrative - Left-Aligned Text Focus */}
+                    <div className="flex-1 max-w-[620px] flex flex-col justify-center items-center order-1 text-left">
+                        <div className="w-full">
+                            {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
+                            <h1
+                                className="leading-none mb-[24px] w-full antialiased"
+                                style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
+                            >
+                                <span className="block text-[39px] md:text-[54px] font-semibold tracking-[-0.03em] text-slate-900 whitespace-nowrap mb-1 leading-[1.1] font-sans">Find & Share</span>
+                                <span className="block text-[39px] md:text-[54px] font-semibold tracking-[-0.03em] text-slate-900 whitespace-nowrap mb-1 leading-[1.1] font-sans">Ukrainian Products</span>
+                                <span className="block text-[29px] md:text-[41px] font-normal tracking-[-0.03em] text-[#4A4A48] whitespace-nowrap">sold across Canada</span>
+                            </h1>
 
-  return (
-    <section className="relative z-10 w-full bg-[#F9FCD4] overflow-hidden font-sans pt-[65px] pb-[65px] flex flex-col justify-center animate-in fade-in duration-500">
-      {/* Outer Wrapper: 1600px (matches global expansion) */}
-      <div className="boutique-width w-full">
-        {/* Inner Content Wrapper: Full Width to align with Header/Footer */}
-        <div className="w-full">
-          {/* Equilibrium Grid: Perfect Vertical Centering */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center w-full">
+                            <p className="text-[20px] leading-[1.5] text-slate-800 font-medium max-w-[540px] mt-8 mb-4 tracking-[0.01em]">
+                                One intuitive map to find, add, and share stores selling Ukrainian-made products
+                            </p>
 
-            {/* Left Column: Text Content - Vertically Centered */}
-            <div className="w-full lg:w-1/2 flex flex-col items-start order-1">
-              {/* Visual Grouping: Headline + Subtext + CTAs in One Container */}
-              <div className="w-full max-w-4xl">
-                {/* Main Headline - Structured for equal visual spacing */}
-                <h1 className="text-slate-900 flex flex-col items-start max-w-full md:max-w-full md:mx-0 mb-[24px] opacity-90">
-                  {/* Line 1 & 2 */}
-                  <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block mb-[8px]">
-                    Discover
-                  </span>
-                  <span className="text-[32px] md:text-[48px] font-bold md:font-semibold font-instrument tracking-[-0.025em] leading-[1] text-slate-900 block">
-                    Ukrainian&nbsp;Products
-                  </span>
+                            {/* Secondary CTA - "Jobs-era" Minimalist Link */}
+                            {/* Secondary CTA - "Jobs-era" Minimalist Link */}
+                            <motion.a
+                                href="#how-it-works"
+                                className="group relative inline-flex items-center text-[17px] font-medium text-[#1A1A19] hover:text-[#2D50A0] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D50A0]/30 focus-visible:ring-offset-2 rounded-md px-1 -ml-1"
+                                initial="initial"
+                                whileHover="hover"
+                            >
+                                How it works
+                                <motion.span
+                                    variants={{
+                                        initial: { x: 0 },
+                                        hover: {
+                                            x: [0, 4, 0],
+                                            transition: {
+                                                duration: 0.7,
+                                                ease: "easeInOut",
+                                                repeat: Infinity
+                                            }
+                                        }
+                                    }}
+                                    className="flex items-center"
+                                >
+                                    <ChevronRight className="w-4 h-4 ml-1 text-[#2D50A0]" strokeWidth={2} />
+                                </motion.span>
+                                <span className="absolute -bottom-0.5 left-1/2 w-0 h-[1px] bg-[#2D50A0]/40 -translate-x-1/2 transition-all duration-300 ease-out group-hover:w-full" />
+                            </motion.a>
 
-                  {/* Line 3 - Visual continuation */}
-                  <span className="text-[24px] md:text-[28px] font-medium font-instrument text-slate-900 leading-[1.4] tracking-[-0.02em] mt-1">
-                    sold across Canada
-                  </span>
-                </h1>
+                            {/* Modern Image "Constellation" - REMOVED AS REQUESTED */}
+                            <div className="hidden"></div>
+                        </div>
+                    </div>
 
-                {/* Subtext - Matching section subheaders */}
-                <p className="hero-subtitle text-[18px] font-medium text-slate-900/80 font-sans text-left tracking-[-0.01em] leading-[1.5] max-w-[85%] md:max-w-[600px] mb-[32px]">
-                  {t('home.hero.subtitle')}
-                </p>
+                    {/* Right-Side: Map Preview Frame */}
+                    <div className="flex-1 flex flex-col items-center justify-center order-2 w-full max-w-[580px] -mt-[12px]">
+                        <div className="relative w-full aspect-[16/10] bg-white rounded-[32px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.04),0_10px_20px_rgba(45,80,160,0.03)] group/map transform transition-all duration-500 hover:shadow-[0_35px_70px_-15px_rgba(0,0,0,0.15)]">
+                            {/* Map Screenshot - FINAL HIGH-FIDELITY MAP */}
+                            <img
+                                src="/assets/hero-map-preview.png"
+                                alt="Interactive Map Display"
+                                className="w-full h-full object-cover opacity-90 group-hover/map:opacity-100 transition-all duration-700 transform scale-[1.05]"
+                                style={{ objectPosition: 'center' }}
+                            />
 
-                {/* Mobile-Only Cinematic Asset */}
-                {/* Mobile Video */}
-                <div className="block md:hidden w-full mt-6">
-                  <div
-                    className="relative w-full h-[320px] rounded-[32px] overflow-hidden border border-slate-200 bg-slate-50 cursor-pointer"
-                    onMouseEnter={handleVideoHover}
-                    onMouseLeave={handleVideoLeave}
-                  >
-                    <video
-                      ref={videoRef}
-                      className="w-full h-full object-cover"
-                      style={{ objectPosition: 'center center' }}
-                      preload="auto"
-                      muted
-                      loop
-                      playsInline
-                    >
-                      <source src="/hero-video.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
+                            {/* High-Key Alabaster Polish & Blue Inner Glow */}
+                            <div
+                                className="absolute inset-0 pointer-events-none rounded-[32px] z-10"
+                                style={{
+                                    background: 'rgba(250, 250, 249, 0.03)',
+                                    boxShadow: 'inset 0 0 20px rgba(45, 80, 160, 0.04)'
+                                }}
+                            />
+
+                            {/* Deep Horizon Border - Multiply Blend */}
+                            <div className="absolute inset-0 z-50 pointer-events-none rounded-[32px] border border-[rgba(45,80,160,0.20)] mix-blend-multiply" />
+
+                            {/* Centered Map CTA Overlay - RESTORED FOR GUIDANCE */}
+                            <div className="absolute inset-0 flex items-center justify-center z-20">
+                                <Link href="/map">
+                                    <Button
+                                        className="h-[52px] px-8 rounded-full bg-slate-900/80 text-white hover:bg-black/80 group-hover/map:scale-[1.02] hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 ease-out shadow-[0_10px_25px_rgba(45,80,160,0.15)] backdrop-blur-[8px] flex items-center gap-3 group/cta-btn border-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                    >
+                                        <span className="text-[14px] font-bold tracking-widest uppercase">Open Interactive Map</span>
+                                        <ArrowRight className="w-5 h-5 group-hover/cta-btn:translate-x-1 transition-transform" />
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Accessible Map Metadata - Centered Perfectly Under Map */}
+                        <div className="mt-4 flex flex-col md:flex-row items-center justify-center w-full gap-3 md:gap-0 opacity-100">
+                            <span className="text-xs font-normal text-[#575756] whitespace-nowrap">
+                                Verified listings
+                            </span>
+                            <div className="hidden md:block w-[1px] h-3 bg-slate-300 mx-6" />
+                            <span className="text-xs font-normal text-[#575756] whitespace-nowrap">
+                                Physical & online stores
+                            </span>
+                            <div className="hidden md:block w-[1px] h-3 bg-slate-300 mx-6" />
+                            <span className="text-xs font-normal text-[#575756] whitespace-nowrap">
+                                Easy to share
+                            </span>
+                        </div>
+                    </div>
                 </div>
-
-                {/* Button Group - Airy buffer from subheading */}
-                <div className="w-full max-w-[500px]">
-                  <div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-3 md:gap-6">
-                    <Link href="/map">
-                      <MapPeek>
-                        <button className="btn-premium-action gap-2 no-invert-hover">
-                          <span>{t('home.hero.explore') || "Explore the map"}</span>
-                          <MapPin className="w-5 h-5 opacity-90" strokeWidth={2} />
-                        </button>
-                      </MapPeek>
-                    </Link>
-
-                    <Link href="/#how-it-works" className="group relative flex items-center justify-center h-[52px] px-6 !text-[16px] [&_*]:!text-[16px] font-normal text-slate-800 transition-transform duration-200 hover:text-[#111827] hover:scale-[1.02] gap-2 font-ui tracking-tight outline-none" style={{ fontSize: '16px' }}>
-                      <HelpCircle className="w-5 h-5 !fill-none !stroke-current" strokeWidth={1.5} />
-                      <span className="!text-[16px] font-normal" style={{ fontSize: '16px' }}>{t('home.hero.learnMore') || 'How It Works'}</span>
-                      <span className="absolute bottom-[2px] left-6 right-6 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
             </div>
-
-            {/* Right Column: Visualization - Vertically Centered */}
-            <div className="hidden md:flex w-full lg:w-1/2 order-2 justify-end items-center">
-              <div className="w-full max-w-[500px] lg:w-[512px]">
-                {/* Video Container */}
-                <div
-                  className="relative w-full h-[336px] lg:h-[384px] rounded-[32px] overflow-hidden border border-slate-200 bg-slate-50 cursor-pointer"
-                  onMouseEnter={handleVideoHover}
-                  onMouseLeave={handleVideoLeave}
-                >
-                  <video
-                    ref={videoRef}
-                    className="w-full h-full object-cover"
-                    style={{ objectPosition: 'center center' }}
-                    preload="auto"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  >
-                    <source src="/hero-video.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section >
-  );
+        </section>
+    );
 }

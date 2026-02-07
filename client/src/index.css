@@ -282,43 +282,47 @@ html.dark header.bg-white\/90 {
   body {
     cursor: auto !important;
     scroll-behavior: smooth;
+    font-size: clamp(16px, 1.1vw, 20px);
+    /* Fluid Root Typography */
   }
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
     color: var(--color-text-primary);
+    line-height: 1.6;
+    /* Editorial readability */
   }
 
   /* Typography Scale - FLUID PREMIUM SCALE using clamp() */
   h1 {
     @apply font-semibold tracking-tight;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: 3.5rem;
+    /* ~56px at base 16 */
     /* Mobile: ~32px, Desktop: ~56px */
-    line-height: 1.05;
+    line-height: 1.1;
   }
 
   h2 {
     @apply font-medium tracking-tight;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: 2.5rem;
     /* Mobile: ~24px, Desktop: ~40px */
     line-height: 1.1;
   }
 
   h3 {
     @apply font-semibold tracking-tight;
-    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-size: 2rem;
     /* Mobile: ~19px, Desktop: ~32px */
-    line-height: 1.2;
+    line-height: 1.1;
   }
 
   p,
-  span,
   div {
     @apply font-normal;
     /* Fluid body text for better readability on large screens */
-    font-size: clamp(0.9375rem, 0.5vw + 0.875rem, 1.125rem);
+    /* font-size: clamp(0.9375rem, 0.5vw + 0.875rem, 1.125rem); REMOVED in favor of root scaling */
     /* 15px -> 18px */
-    line-height: 1.6;
+    /* line-height: 1.6; Inherited from body */
   }
 
   /* Global Button System - Premium with Tactile Press */
@@ -633,7 +637,7 @@ html.dark header.bg-white\/90 {
   }
 
   .subline {
-    @apply text-[#575757] tracking-wide;
+    @apply text-[18px] font-medium text-slate-900/80 font-sans tracking-[-0.01em] leading-[1.5];
   }
 
   /* ========================================
@@ -1036,9 +1040,8 @@ select:focus-visible {
 .boutique-width {
   /* Narrative Container: Standard width (1280px), expands to 1440px on large screens */
   width: 100%;
-  max-width: var(--width-narrative);
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1280px;
+  margin-inline: auto;
   padding-inline: clamp(1.5rem, 5vw, 4rem);
   transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1051,11 +1054,4 @@ select:focus-visible {
   margin-right: auto;
   padding-inline: clamp(1.5rem, 5vw, 4rem);
   transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (min-width: 1440px) {
-  .boutique-width {
-    max-width: var(--width-utility);
-    /* Narrative expands to match Utility on large screens */
-  }
 }

@@ -100,42 +100,72 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-[32px] pb-[88px] overflow-hidden font-sans bg-white relative z-20"
+                className="w-full pt-[36px] pb-[72px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
             >
                 <div className="boutique-width flex items-center h-[50px] md:h-[60px] relative">
 
                     {/* Fixed Live Label */}
-                    <div className="sticky left-0 z-30 py-2 pr-20 flex items-center gap-3 h-full">
+                    <div className="sticky left-0 z-30 py-2 pr-12 flex items-center gap-3 h-full bg-white/0">
                         {/* Glass gradient background for label to mask marquee behind it */}
                         <div className="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent pointer-events-none" />
 
-                        <div className="relative z-10 flex items-center gap-2.5">
+                        <div className="relative z-10 flex items-center gap-2.5 pl-2">
                             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
-                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
-                                NEWEST FINDINGS
+                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/55 uppercase whitespace-nowrap m-0 font-ui">
+                                ADDED THIS MONTH
                             </p>
                         </div>
                     </div>
 
-                    {/* Infinite Scroll Ticker - REMOVED group-hover pause class to allow moving overlay */}
-                    <div className="flex flex-1 overflow-hidden mask-ticker group/marquee px-4">
+                    {/* Infinite Scroll Ticker */}
+                    <div
+                        className="flex flex-1 overflow-hidden group/marquee px-4 h-full items-center"
+                        style={{ maskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)' }}
+                    >
                         <div className="flex animate-marquee whitespace-nowrap items-center min-w-full">
-                            {repeatedStores.map((store, i) => (
-                                <span
-                                    key={`${store.id}-${i}`}
-                                    className="group relative text-[14px] md:text-[16px] font-normal text-slate-900 hover:text-slate-900 mx-6 flex items-center gap-2.5 select-none cursor-pointer transition-colors duration-300 ease-in-out"
-                                    onClick={() => window.open(`/map?store=${encodeURIComponent(store.name)}`, '_blank')}
-                                    onMouseEnter={(e) => handleMouseEnter(e, store)}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    {/* Identity Dot: 10px, Split 50/50, Opacity 60->100 */}
+                            {repeatedStores.map((store, i) => {
+                                const provinceCode = (() => {
+                                    const p = store.province || "";
+                                    const map: Record<string, string> = {
+                                        "Alberta": "AB", "British Columbia": "BC", "Manitoba": "MB", "New Brunswick": "NB",
+                                        "Newfoundland and Labrador": "NL", "Nova Scotia": "NS", "Ontario": "ON",
+                                        "Prince Edward Island": "PE", "Quebec": "QC", "Saskatchewan": "SK",
+                                        "Northwest Territories": "NT", "Nunavut": "NU", "Yukon": "YT"
+                                    };
+                                    return map[p] || (p.length === 2 ? p.toUpperCase() : "CA");
+                                })();
+
+                                return (
                                     <span
-                                        className="w-[10px] h-[10px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
-                                        style={{ background: 'linear-gradient(to bottom, #0057B7 50%, #FFD700 50%)' }}
-                                    />
-                                    {store.name}
-                                </span>
-                            ))}
+                                        key={`${store.id}-${i}`}
+                                        className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
+                                        onClick={() => window.open(`/map?store=${encodeURIComponent(store.name)}`, '_blank')}
+                                        onMouseEnter={(e) => handleMouseEnter(e, store)}
+                                        onMouseLeave={handleMouseLeave}
+                                    >
+                                        {/* Identity Dot: 10px, Split 50/50, Opacity 60->100 */}
+                                        <span
+                                            className="shrink-0 w-[10px] h-[10px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+                                            style={{ background: 'linear-gradient(to bottom, #0057B7 50%, #FFD700 50%)' }}
+                                        />
+
+                                        <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
+                                            <span
+                                                className="font-medium text-slate-900/80 leading-[1.2] mb-0.5"
+                                                style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
+                                            >
+                                                {store.name}
+                                            </span>
+                                            <span
+                                                className="font-medium text-[#555555] leading-[1.2]"
+                                                style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
+                                            >
+                                                {store.city || 'Location'}, {provinceCode}
+                                            </span>
+                                        </div>
+                                    </span>
+                                );
+                            })}
                         </div>
                     </div>
 
