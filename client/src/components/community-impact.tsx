@@ -13,7 +13,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     });
 
     const shareMessage = "I just found a great way to support Ukraine locally. Check out this interactive map of Ukrainian-made products in Canada:";
-    const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://buyukrainian.ca';
+    const shareUrl = 'www.buyukrainian.ca';
 
     const [copied, setCopied] = useState(false);
 
@@ -25,7 +25,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     const handleFacebookShare = () => {
-        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareMessage + " " + shareUrl)}`;
+        const fullUrl = `https://${shareUrl}`;
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fullUrl)}&quote=${encodeURIComponent(shareMessage + " " + shareUrl)}`;
         window.open(facebookUrl, '_blank', 'width=600,height=400');
     };
 
@@ -34,7 +35,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     const handleXShare = () => {
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl)}`;
+        const fullUrl = `https://${shareUrl}`;
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(fullUrl)}`;
         window.open(twitterUrl, '_blank', 'width=600,height=400');
     };
 
@@ -74,19 +76,19 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         <div className="flex items-center gap-2.5 mb-4">
                             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" aria-hidden="true" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
-                                How You Can Help
+                                SHARE THE MAP
                             </p>
                         </div>
-                        <h2 className="text-[32px] md:text-[42px] font-semibold text-[#2D50A0] leading-tight mb-4 stagger-item max-w-[15ch]">
-                            Supporting resilience, one store at a time.
+                        <h2 className="text-[31px] md:text-[41px] font-semibold text-[#2D50A0] leading-tight mb-4 stagger-item max-w-[25ch]">
+                            Let's make it easy<br />to buy Ukrainian locally
                         </h2>
-                        <p className="text-[17px] text-[#424245] font-ui leading-relaxed max-w-[45ch] mx-auto md:mx-0 mb-8">
+                        <p className="text-[14px] text-[#424245] font-ui leading-relaxed max-w-[45ch] mx-auto md:mx-0 mb-8">
                             We're creating a community-driven resource to help you find and support Ukrainian makers and entrepreneurship across Canada.
                         </p>
 
                         <a href="mailto:hello@buyukrainian.ca?subject=Volunteer%20Inquiry" className="inline-block">
-                            <button className="flex items-center justify-center gap-2 h-[52px] px-8 rounded-[32px] bg-transparent border-none outline-none text-slate-900 font-semibold text-[16px] transition-all duration-200 hover:bg-slate-900/5 hover:text-[#2D50A0] group">
-                                <Plus className="w-5 h-5 group-hover:text-[#2D50A0] transition-colors" />
+                            <button className="flex items-center justify-center gap-2 h-[46px] px-8 rounded-[32px] bg-transparent border-none outline-none text-slate-900 font-semibold text-[13px] transition-all duration-200 hover:bg-slate-900/5 hover:text-[#2D50A0] group">
+                                <Plus className="w-4 h-4 group-hover:text-[#2D50A0] transition-colors" />
                                 <span>Volunteer for the Project</span>
                             </button>
                         </a>
@@ -96,15 +98,13 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         {/* Draft Preview Box */}
                         <div className="relative w-full max-w-[380px] mb-8 p-6 rounded-2xl bg-white border border-slate-100 text-left group/draft transition-colors shadow-[0_12px_32px_rgba(45,80,160,0.04)]">
                             <div className="flex items-center justify-between mb-3">
-                                <span className="text-[10px] font-bold tracking-[0.1em] text-slate-400 uppercase">
-                                    Share the Map:
-                                </span>
+                                <div />
                                 <button
                                     onClick={handleCopy}
-                                    className="flex items-center gap-1.5 text-[10px] font-bold tracking-[0.05em] uppercase text-slate-900 hover:text-slate-700 transition-all px-2 py-1 rounded-md hover:bg-slate-100/50"
+                                    className="flex items-center gap-1.5 text-[9px] font-bold tracking-[0.05em] uppercase text-slate-900 hover:text-slate-700 transition-all px-2 py-1 rounded-md hover:bg-slate-100/50"
                                     aria-label="Copy suggested post to clipboard"
                                 >
-                                    {copied ? <Check className="w-3 h-3 stroke-[1.5px]" /> : <Copy className="w-3 h-3 stroke-[1.5px]" />}
+                                    {copied ? <Check className="w-2.5 h-2.5 stroke-[1.5px]" /> : <Copy className="w-2.5 h-2.5 stroke-[1.5px]" />}
                                     {copied ? (
                                         <span className="animate-in slide-in-from-bottom-1 duration-200 fade-in text-slate-900/70">COPIED</span>
                                     ) : (
@@ -112,19 +112,19 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     )}
                                 </button>
                             </div>
-                            <p className="text-[14px] text-slate-600 font-ui italic leading-relaxed">
+                            <p className="text-[12px] text-slate-600 font-ui italic leading-relaxed">
                                 "{shareMessage} {shareUrl}"
                             </p>
                         </div>
 
-                        <ul className="flex flex-col items-center md:items-end gap-4 list-none p-0 m-0">
+                        <ul className="flex flex-col items-center md:items-end gap-3 list-none p-0 m-0">
                             <li>
                                 <button
                                     onClick={handleFacebookShare}
-                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
+                                    className="flex items-center gap-3 px-4 h-[40px] text-[12px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
                                     aria-label="Share on Facebook"
                                 >
-                                    <Facebook className="w-4 h-4 text-[#2D50A0]" />
+                                    <Facebook className="w-3.5 h-3.5 text-[#2D50A0]" />
                                     <span>Share on Facebook</span>
                                     <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
@@ -132,10 +132,10 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             <li>
                                 <button
                                     onClick={handleInstagramShare}
-                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
+                                    className="flex items-center gap-3 px-4 h-[40px] text-[12px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
                                     aria-label="Share on Instagram"
                                 >
-                                    <Instagram className="w-4 h-4 text-[#2D50A0]" />
+                                    <Instagram className="w-3.5 h-3.5 text-[#2D50A0]" />
                                     <span>Share on Instagram</span>
                                     <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
@@ -143,12 +143,12 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             <li>
                                 <button
                                     onClick={handleXShare}
-                                    className="flex items-center gap-3 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
+                                    className="flex items-center gap-3 px-4 h-[40px] text-[12px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
                                     aria-label="Share on X (Twitter)"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
-                                        className="w-4 h-4 fill-[#2D50A0]"
+                                        className="w-3.5 h-3.5 fill-[#2D50A0]"
                                         aria-hidden="true"
                                     >
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>

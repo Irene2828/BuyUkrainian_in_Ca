@@ -31,7 +31,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-transparent font-sans overflow-hidden py-[120px]">
+    <section id="faq" className="bg-white font-sans overflow-hidden py-[120px]">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
@@ -47,22 +47,22 @@ export function FAQ() {
           {faqs.map((faq, i) => (
             <details
               key={i}
-              className="group border-b border-slate-200/60 last:border-0 pb-4"
+              className="group border-b border-slate-200/60 last:border-0"
               open={openIndex === i}
               onClick={(e) => {
                 e.preventDefault();
                 toggleItem(i);
               }}
             >
-              <summary className="flex justify-between items-center w-full py-4 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg">
+              <summary className="flex justify-between items-center w-full py-6 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg">
                 <span className={cn(
-                  "text-[17px] font-semibold text-slate-900 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
+                  "text-[18px] font-semibold text-slate-900 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
                 )}>
                   {faq.question}
                 </span>
                 <div
                   className={cn(
-                    "flex items-center justify-center text-slate-400 transition-all duration-300 ease-out shrink-0",
+                    "flex items-center justify-center text-slate-300 transition-all duration-300 ease-out shrink-0",
                     openIndex === i ? "rotate-180 text-slate-900" : "group-hover:text-slate-600"
                   )}
                 >
@@ -72,12 +72,12 @@ export function FAQ() {
 
               <div
                 className={cn(
-                  "overflow-hidden transition-all duration-500 ease-in-out",
-                  openIndex === i ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                  "overflow-hidden transition-all duration-500 ease-in-out font-ui",
+                  openIndex === i ? "max-h-[500px] opacity-100 pb-8" : "max-h-0 opacity-0"
                 )}
               >
-                <div className="pt-0 pb-2">
-                  <p className="text-[16px] leading-[1.7] text-slate-600 max-w-[90%]">
+                <div>
+                  <p className="text-[16px] leading-[1.6] text-slate-500 max-w-[95%]">
                     {faq.answer}
                   </p>
                 </div>

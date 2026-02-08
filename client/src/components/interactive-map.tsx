@@ -6,7 +6,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
-import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink } from 'lucide-react';
+import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink, Navigation } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -29,12 +29,16 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
 ];
 
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
-// Centered on Southern Canada - Optimized to show Toronto-Montreal corridor
-// Centered on Central Canada - Optimized for "Coast to Coast" with FitBounds Fallback
+// Focused on Central Canada - Optimized for "Coast to Coast" with FitBounds Fallback
 const INITIAL_MAP_STATE = {
-  center: [51.0000, -95.0000] as [number, number],
-  zoom: 4.2
+  center: [54.5000, -96.0000] as [number, number], // Shifted further North to keep US text hidden at 4.7 zoom
+  zoom: 4.7 // Calibrated to user's "screenshot" preference
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
+
+const CANADA_POPULATION_BOUNDS: L.LatLngBoundsExpression = [
+  [44.00, -128.00], // Balanced South-West: High enough to hide US text
+  [59.00, -52.00]   // North East
+];
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 
@@ -334,6 +338,32 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     setProvinceView(null);
   };
 
+  const internalZoomIn = () => {
+    if (mapRef.current) {
+      const currentCenter = mapRef.current.getCenter();
+      const currentZoom = mapRef.current.getZoom();
+      const isDesktop = window.innerWidth >= 768;
+      const delta = isDesktop ? 0.4 : 0.7;
+      mapRef.current.flyTo(currentCenter, Math.min(currentZoom + delta, 18), {
+        duration: 1.2,
+        easeLinearity: 0.25
+      });
+    }
+  };
+
+  const internalZoomOut = () => {
+    if (mapRef.current) {
+      const currentCenter = mapRef.current.getCenter();
+      const currentZoom = mapRef.current.getZoom();
+      const isDesktop = window.innerWidth >= 768;
+      const delta = isDesktop ? 0.4 : 0.7;
+      mapRef.current.flyTo(currentCenter, Math.max(currentZoom - delta, 3.0), {
+        duration: 1.2,
+        easeLinearity: 0.25
+      });
+    }
+  };
+
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
       // Mechanical Zoom (Pin Click) - Stabilized
@@ -362,32 +392,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       setFocusCoordinates(null);
     },
     zenView: () => {
-      // Specialized "Southern Canada" focus for Zen Mode - Hides Greenland/High Arctic
-      setProvinceView({ lat: 50.0, lng: -96.0, zoom: 5.0 });
+      // Specialized "Southern Canada" focus for Zen Mode - Shifted North to match main view
+      setProvinceView({ lat: 51.5, lng: -96.0, zoom: 5.2 });
       setFocusCoordinates(null);
     },
-    zoomIn: () => {
-      if (mapRef.current) {
-        const currentCenter = mapRef.current.getCenter();
-        const currentZoom = mapRef.current.getZoom();
-        // Smooth zoom in with flyTo - Premium Airbnb feel
-        mapRef.current.flyTo(currentCenter, Math.min(currentZoom + 1, 18), {
-          duration: 2.0,
-          easeLinearity: 0.8
-        });
-      }
-    },
-    zoomOut: () => {
-      if (mapRef.current) {
-        const currentCenter = mapRef.current.getCenter();
-        const currentZoom = mapRef.current.getZoom();
-        // Smooth zoom out with flyTo - Premium Airbnb feel
-        mapRef.current.flyTo(currentCenter, Math.max(currentZoom - 1, 3.0), {
-          duration: 2.0,
-          easeLinearity: 0.8
-        });
-      }
-    },
+    zoomIn: internalZoomIn,
+    zoomOut: internalZoomOut,
     invalidateSize: () => {
       if (mapRef.current) {
         mapRef.current.invalidateSize();
@@ -406,41 +416,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     return () => window.removeEventListener('clearFilters', handleClearFilters);
   }, []);
 
-  // Gold Frame: Initial Fit Bounds to Active Markers (Premium Breathing Room)
-  const [hasPerformedInitialFit, setHasPerformedInitialFit] = useState(false);
-
-  useEffect(() => {
-    // Wait for map ref and stores
-    if (!hasPerformedInitialFit && stores.length > 0 && mapRef.current) {
-      // Use a small timeout to ensure Leaflet is ready
-      const timer = setTimeout(() => {
-        try {
-          // Filter for valid coordinates only
-          const validMarkers = stores.filter(s =>
-            s.coordinates &&
-            Array.isArray(s.coordinates) &&
-            s.coordinates.length === 2 &&
-            isWithinCanada(s.coordinates[0], s.coordinates[1])
-          );
-
-          if (validMarkers.length > 0) {
-            const bounds = L.latLngBounds(validMarkers.map(s => s.coordinates as [number, number]));
-
-            // INSTANT FIT - No Animation (Stable Load)
-            mapRef.current!.fitBounds(bounds, {
-              padding: [40, 40],
-              animate: false,
-              maxZoom: 9
-            });
-            setHasPerformedInitialFit(true);
-          }
-        } catch (error) {
-          console.error("FitBounds Error:", error);
-        }
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [stores, hasPerformedInitialFit]);
+  // Removed automatic fitBounds on mount to strictly respect INITIAL_MAP_STATE calibrabion.
+  // This ensures the map doesn't zoom out to show USA labels on load.
 
   return (
     <div
@@ -466,6 +443,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         bounceAtZoomLimits={false}
         maxBounds={CANADA_BOUNDS}
         maxBoundsViscosity={1.0}
+        zoomSnap={0}
+        zoomDelta={0.4}
         markerZoomAnimation={true}
         zoomAnimation={true}
         fadeAnimation={true}
@@ -540,43 +519,49 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         </div>
       )}
 
-      {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible - Hardware Refinement */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-[rgba(255,255,255,0.8)] backdrop-blur-[8px] border border-gray-200 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.08)] overflow-hidden">
+      {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-lg overflow-hidden">
         <button
-          onClick={() => {
-            mapRef.current?.zoomIn();
-          }}
-          className="w-9 h-9 flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
+          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+          title="Locate Me"
+        >
+          <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
+        </button>
+        <div className="w-6 h-[1px] bg-zinc-100" />
+        <button
+          onClick={internalZoomIn}
+          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
           title="Zoom In"
         >
-          <Plus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
+          <Plus className="w-4 h-4 stroke-[2.5]" />
         </button>
-        <div className="w-[20px] h-[1px] bg-slate-200/60" />
+        <div className="w-6 h-[1px] bg-zinc-100" />
         <button
-          onClick={() => {
-            mapRef.current?.zoomOut();
-          }}
-          className="w-9 h-9 flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          onClick={internalZoomOut}
+          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
           title="Zoom Out"
         >
-          <Minus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
+          <Minus className="w-4 h-4 stroke-[2.5]" />
         </button>
-        <div className="w-[20px] h-[1px] bg-slate-200/60" />
+        <div className="w-6 h-[1px] bg-zinc-100" />
         <button
           onClick={() => {
-            const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
-            if (valid.length > 0 && mapRef.current) {
-              const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
-              mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
-            } else {
-              setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+            if (mapRef.current) {
+              const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
+              if (valid.length > 0) {
+                const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
+                mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
+              } else {
+                setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+              }
+              setFocusCoordinates(null);
             }
-            setFocusCoordinates(null);
           }}
-          className="w-9 h-9 flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
           title="Reset to Full View"
         >
-          <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
+          <Maximize2 className="w-4 h-4 stroke-[2.5]" />
         </button>
       </div>
     </div>

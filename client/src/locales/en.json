@@ -92,8 +92,8 @@
     "form.existingStores": "Similar stores already on map:",
     "form.storeExists": "Store already exists",
     "form.storeExistsDesc": "This store is already on our map. You can view it there.",
-    "howItWorks.title": "Purchase Here. Support Ukraine There",
-    "howItWorks.subtitle": "Help Ukraine's economy from where you are. Here's how:",
+    "howItWorks.title": "How to Use this Map",
+    "howItWorks.subtitle": "and help Ukraine's economy",
     "howItWorks.description": "Our mission is to make it easy to find Ukrainian-made products across Canada, from traditional foods to modern goods.",
     "howItWorks.card1.title": "FIND STORES ON THE MAP",
     "howItWorks.card1.desc": "Discover curated shops and authentic makers nearby.",
@@ -205,5 +205,6 @@
     "share.facebook": "I found this amazing Ukrainian business called {name}. 🇺🇦\n\nThey sell: {products}\n📍 {address}\n\n{description}\n\nSupport Ukrainian businesses in Canada. Find more at BuyUkrainian.ca 💙💛",
     "share.instagram": "🇺🇦 MADE IN UKRAINE 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Products: {products}\n📍 Location: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛",
     "prefooter.slogan1": "Buy Ukrainian - Support Ukraine",
-    "prefooter.slogan2": "Every dollar spent right matters"
+    "prefooter.slogan2": "Every dollar spent right matters",
+    "map.filterBy": "Filter by:"
 }

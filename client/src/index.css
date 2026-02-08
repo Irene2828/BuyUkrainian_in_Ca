@@ -135,36 +135,43 @@
      ======================================== */
 
   /* Section Vertical Spacing (The Ritual Gap) */
-  --gap-obsidian-ritual: 128px;
+  --gap-obsidian-ritual: 8rem;
+  /* 128px */
   /* py-32 desktop - Major section breathing room */
-  --gap-obsidian-ritual-mobile: 80px;
+  --gap-obsidian-ritual-mobile: 5rem;
+  /* 80px */
   /* py-20 mobile - Scaled for smaller screens */
 
   /* Internal Component Breathing (Section Header to Content) */
-  --gap-obsidian-breath: 64px;
+  --gap-obsidian-breath: 4rem;
+  /* 64px */
   /* mb-16 - 50% of ritual gap (Golden Ratio) */
 
   /* Typography to Action Spacing (Subheading to CTAs) */
-  --gap-obsidian-action: 40px;
+  --gap-obsidian-action: 2.5rem;
+  /* 40px */
   /* mb-10 - Airy buffer for destination buttons */
 
   /* Typography Proximity (Heading to Subheading) */
-  --gap-obsidian-proximity: 24px;
+  --gap-obsidian-proximity: 1.5rem;
+  /* 24px */
   /* mb-6 - Tight typographic bond */
 
-  /* Golden Gutter System */
-  --gutter-obsidian-x-mobile: 24px;
-  /* px-6 - Horizontal padding mobile */
-  --gutter-obsidian-x-desktop: 48px;
-  /* lg:px-12 - Horizontal padding desktop */
-  --gutter-obsidian-x-large: clamp(2rem, 5vw, 4rem);
+  /* Golden Gutter System - REM Scaled */
+  --gutter-obsidian-x-mobile: 1.5rem;
+  /* 24px */
+  --gutter-obsidian-x-desktop: 3rem;
+  /* 48px */
+  --gutter-obsidian-x-large: clamp(3rem, 6vw, 6rem);
   /* 1440px+ expansion padding */
 
-  /* Unified Frame Widths */
-  --container-standard: 1280px;
-  --container-large: 1440px;
-  --width-narrative: 1280px;
-  --width-utility: 1440px;
+  /* Unified Frame Widths - Converted to REM for fluid scaling */
+  --container-standard: 80rem;
+  /* 1280px */
+  --container-large: 90rem;
+  /* 1440px */
+  --width-narrative: 80rem;
+  --width-utility: 90rem;
   --gutter-obsidian-max-width: var(--container-standard);
 
   /* Map Theming */
@@ -199,9 +206,18 @@
   --overlay-bg: rgba(0, 0, 0, 0.6);
 }
 
-/* Smooth theme transition - 0.5s ease-in-out */
+/* Smooth theme transition + Root Font Scaling Transition */
 html {
-  transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out, font-size 0.3s ease;
+  font-size: 16px;
+  /* Base font size */
+}
+
+/* Fluid root scaling starting at 1440px */
+@media (min-width: 1440px) {
+  html {
+    font-size: clamp(16px, 1.2vw, 20px);
+  }
 }
 
 html.dark body {
@@ -227,9 +243,12 @@ html.dark header.bg-white\/90 {
 /* Desktop spacing overrides */
 @media (min-width: 768px) {
   :root {
-    --spacing-section-top: 100px;
-    --spacing-section-bottom: 56px;
-    --spacing-section-gap: 40px;
+    --spacing-section-top: 6.25rem;
+    /* 100px */
+    --spacing-section-bottom: 3.5rem;
+    /* 56px */
+    --spacing-section-gap: 2.5rem;
+    /* 40px */
   }
 }
 
@@ -291,6 +310,13 @@ html.dark header.bg-white\/90 {
     color: var(--color-text-primary);
     line-height: 1.6;
     /* Editorial readability */
+  }
+
+  /* Increase air for large screens */
+  @media (min-width: 1440px) {
+    body {
+      line-height: 1.65;
+    }
   }
 
   /* Typography Scale - FLUID PREMIUM SCALE using clamp() */
@@ -605,35 +631,22 @@ html.dark header.bg-white\/90 {
 
 @layer utilities {
 
-  /* Force remove all black strokes/rings - beats library defaults */
-  .no-ring-force {
-    --tw-ring-offset-width: 0px !important;
-    --tw-ring-color: transparent !important;
-    outline: none !important;
-    border-color: #E5E7EB !important;
-    /* gray-200 */
+  /* Surgical Edges - The Milled Finish */
+  .milled-edge {
+    @apply border border-zinc-200 ring-1 ring-black/5;
   }
 
-  .no-ring-force:hover {
-    background-color: #F9FAFB !important;
-    /* gray-50 */
-    border-color: #D1D5DB !important;
-    /* gray-300 */
+  /* Clean Levitation - High Definition Chromatic Shadow System */
+  .shadow-levitation {
+    box-shadow: 0 20px 50px rgba(45, 80, 160, 0.1);
   }
 
-  .no-ring-force:focus {
-    outline: none !important;
-    border-color: #D1D5DB !important;
-    /* gray-300 */
-    box-shadow: none !important;
-    --tw-ring-shadow: none !important;
+  .shadow-levitation-hover {
+    transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  .no-ring-force:focus-visible {
-    outline: none !important;
-    border-color: #D1D5DB !important;
-    /* gray-300 */
-    box-shadow: none !important;
+  .shadow-levitation-hover:hover {
+    box-shadow: 0 32px 64px -16px rgba(45, 80, 160, 0.15);
   }
 
   .subline {
@@ -901,13 +914,13 @@ html.dark .city-labels-layer {
 .btn-premium-action span,
 .btn-premium-action div {
   font-family: 'Inter', sans-serif !important;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.3px;
 }
 
 .btn-premium-action {
-  height: 46px;
+  height: 2.875rem;
   border-radius: 9999px;
   padding-left: 32px;
   padding-right: 32px;

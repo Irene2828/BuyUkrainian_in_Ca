@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin, ArrowLeft } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
@@ -42,10 +42,10 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out font-sans border-b",
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out font-sans",
         isScrolled
-          ? "bg-white/90 backdrop-blur-[8px] border-gray-200"
-          : "bg-white/80 backdrop-blur-xl border-gray-200/50"
+          ? "bg-white/90 backdrop-blur-[8px] border-b border-gray-200"
+          : "bg-white/80 backdrop-blur-xl border-b border-transparent"
       )}
     >
       <div className="boutique-width h-[80px] flex items-center justify-between relative">
@@ -59,11 +59,11 @@ export function Header() {
               className="object-contain transition-all duration-500 h-[58px] w-auto ml-[-12px]"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center ml-[-16px] h-10 font-instrument">
-              <span className="text-[17px] font-medium tracking-[-0.02em] text-[#2D50A0] leading-none">
+            <div className="flex flex-col justify-center ml-[-22px] h-10 font-instrument">
+              <span className="text-[15.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/60 leading-none">
                 Buy Ukrainian
               </span>
-              <span className="text-[17px] font-medium tracking-[-0.02em] text-slate-400 leading-none mt-[2px]">
+              <span className="text-[15.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/60 leading-none mt-[2px]">
                 Support Ukraine
               </span>
             </div>
@@ -72,33 +72,41 @@ export function Header() {
 
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-8">
-          <nav className="items-center gap-8 flex font-sans antialiased">
-            <Link href="/about" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
-              About
+          {location === '/map' ? (
+            <Link href="/" className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 flex items-center gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Homepage
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
-            <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
-              <MapPin className="w-4 h-4 opacity-90" />
-              View Map
-              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-            </Link>
-            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-              <DialogTrigger asChild>
-                <span
-                  role="button"
-                  tabIndex={0}
-                  className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
-                >
-                  <Plus className="w-4 h-4 opacity-90" />
-                  Add a Store
-                  <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                </span>
-              </DialogTrigger>
-              <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none">
-                <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-              </DialogContent>
-            </Dialog>
-          </nav>
+          ) : (
+            <nav className="items-center gap-8 flex font-sans antialiased">
+              <Link href="/about" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
+                About
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+              </Link>
+              <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
+                <MapPin className="w-4 h-4 opacity-90" />
+                View Map
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+              </Link>
+              <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+                <DialogTrigger asChild>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4 opacity-90" />
+                    Add a Store
+                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                  </span>
+                </DialogTrigger>
+                <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none">
+                  <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                </DialogContent>
+              </Dialog>
+            </nav>
+          )}
 
           {/* Language Switcher */}
           <LanguageSwitcher />
@@ -132,24 +140,33 @@ export function Header() {
           <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-lg z-40">
             <nav className="flex flex-col p-4 gap-4 antialiased" style={{ fontFamily: "'Inter', sans-serif" }}>
 
-              <Link href="/about" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
-                About
-              </Link>
+              {location === '/map' ? (
+                <Link href="/" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                  <ArrowLeft className="w-5 h-5 opacity-70" />
+                  Back to Homepage
+                </Link>
+              ) : (
+                <>
+                  <Link href="/about" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                    About
+                  </Link>
 
-              <Link href="/map" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
-                <MapPin className="w-4 h-4 opacity-70" />
-                View Map
-              </Link>
+                  <Link href="/map" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                    <MapPin className="w-4 h-4 opacity-70" />
+                    View Map
+                  </Link>
 
-              <span
-                role="button"
-                tabIndex={0}
-                onClick={() => setAddStoreDialogOpen(true)}
-                className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2 text-left cursor-pointer"
-              >
-                <Plus className="w-4 h-4 opacity-70" />
-                Add a Store
-              </span>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setAddStoreDialogOpen(true)}
+                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2 text-left cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4 opacity-70" />
+                    Add a Store
+                  </span>
+                </>
+              )}
 
               <div className="py-2">
                 <LanguageSwitcher />

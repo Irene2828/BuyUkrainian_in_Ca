@@ -43,7 +43,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[36px] pb-0">
+    <section className="bg-white pt-[54px] pb-12">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -102,19 +102,7 @@ function NewlyAddedStores() {
         </Carousel>
       </div>
 
-      {/* Add Store CTA Button */}
-      <div className="boutique-width flex flex-col items-center justify-center pb-16 pt-0">
-        <p className="text-[13px] italic font-medium text-zinc-400 text-center mb-4">
-          Know a store we missed? Add it!
-        </p>
-        <button
-          onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
-          className="btn-premium-action gap-2 no-invert-hover px-10 bg-[#2D50A0] border-none text-white hover:bg-[#254285] shadow-xl shadow-[#2D50A0]/20 rounded-full"
-        >
-          <Plus className="w-5 h-5" strokeWidth={2.5} />
-          <span>Add a New Store</span>
-        </button>
-      </div>
+
 
 
       <AnimatePresence>
@@ -143,7 +131,6 @@ function NewlyAddedStores() {
     </section>
   );
 }
-
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function MapPage() {

@@ -202,5 +202,6 @@
     "share.facebook": "Знайшов(ла) чудовий український магазин {name}! 🇺🇦\n\nВони продають: {products}\n📍 {address}\n\n{description}\n\nПідтримуйте український бізнес в Канаді! Більше на BuyUkrainian.ca 💙💛",
     "share.instagram": "🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Товари: {products}\n📍 Локація: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛",
     "prefooter.slogan1": "Купуй українське - підтримуй Україну",
-    "prefooter.slogan2": "Кожен долар, витрачений правильно, має значення"
+    "prefooter.slogan2": "Кожен долар, витрачений правильно, має значення",
+    "map.filterBy": "Фільтрувати за:"
 }

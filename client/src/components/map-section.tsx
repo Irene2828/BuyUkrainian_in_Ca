@@ -45,7 +45,7 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
   "Yukon": { lat: 64.0, lng: -135.0, zoom: 5 },
   "Northwest Territories": { lat: 65.0, lng: -120.0, zoom: 5 },
   "Nunavut": { lat: 70.0, lng: -90.0, zoom: 4 },
-  "All Provinces": { lat: 50.0, lng: -95.0, zoom: 4.8 } // Victoria to Halifax corridor focus
+  "All Provinces": { lat: 54.5, lng: -96.0, zoom: 4.7 } // Synced with new 4.7 zoom "Screenshot View" focus
 };
 
 import { useI18n } from "@/lib/i18n";

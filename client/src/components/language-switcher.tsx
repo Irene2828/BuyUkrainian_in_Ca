@@ -5,7 +5,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
     const { language, setLanguage } = useI18n();
 
     return (
-        <div className={cn("relative flex items-center h-[38px] bg-white rounded-full p-1 w-[88px] border-[0.5px] border-slate-200", className)}>
+        <div className={cn("relative flex items-center h-[38px] bg-transparent rounded-full p-1 w-[88px] border-[0.5px] border-slate-200", className)}>
             {/* Sliding Background (Light Grey) */}
             <div
                 className={cn(

@@ -28,7 +28,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-background font-sans text-foreground selection:bg-yellow-accent/30 pt-[80px]">
+    <div className="bg-white font-sans text-foreground selection:bg-yellow-accent/30 pt-[80px]">
       <Header />
 
       <main>
