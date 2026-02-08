@@ -40,7 +40,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section className={cn(
-            "relative w-full bg-[#FAFAF9] py-[72px] section-reveal overflow-hidden"
+            "relative w-full bg-white py-[72px] section-reveal overflow-hidden"
         )}>
             {/* Background Blobs */}
             <div
@@ -68,7 +68,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                 }}
             />
 
-            <div className="boutique-width w-full relative z-10">
+            <div className="boutique-width min-[1537px]:max-w-[1440px] w-full mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left">
                     <div>
                         <div className="flex items-center gap-2.5 mb-4">

@@ -6,7 +6,7 @@ import {
     Plus, Search, List, Map as MapIcon,
     UtensilsCrossed, ShoppingBag, Gift, Store as StoreIcon,
     ToyBrick, BookOpen, Bookmark, Sparkles, Navigation, ChevronDown,
-    Eye, EyeOff
+    Eye, EyeOff, CheckCircle
 } from "lucide-react";
 import { Link } from "wouter";
 import { MapSection } from "@/components/map-section";
@@ -14,6 +14,7 @@ import { InteractiveMapRef } from "@/components/interactive-map";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
@@ -189,275 +190,252 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
     return (
         <div className={cn(
-            "w-full bg-[#FAFAF9] border-t border-[rgba(0,0,0,0.03)] flex flex-col transition-[height] duration-300 ease-in-out font-sans",
+            "w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out font-sans",
             viewMode === "map" ? "h-auto" : "min-h-[400px]"
         )}>
 
 
 
-            {/* 1. Stats Dashboard - HIDDEN IN ZEN MODE */}
-            {!isZenMode && (
-                <section className="w-full mx-auto lg:max-w-[95vw] min-[1537px]:max-w-[1440px] transition-[max-width] duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] relative z-10 pt-[48px] pb-8 px-[clamp(1.5rem,5vw,4rem)]">
-                    <div className="flex flex-col items-center justify-center gap-6">
 
-                        {/* Top Row: Heading + Stats (Centered Together) */}
-                        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                            {/* Heading */}
-                            <div className="flex items-center gap-2.5">
+
+            {/* Subline - Restored */}
+            {!isZenMode && (
+                <section className="w-full relative z-10 pt-[48px] pb-4">
+                    <div className="boutique-width mx-auto flex flex-col items-center gap-8">
+
+                        {/* Stats Heading - Restored */}
+                        <div className="flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 duration-700 relative z-20">
+                            <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
-                                <p className="text-[13px] font-bold tracking-[0.08em] text-[#1A1A19] uppercase whitespace-nowrap m-0 font-ui">
-                                    CURRENTLY ON THE MAP
+                                <span className="text-[28px] md:text-[32px] font-semibold text-slate-600 opacity-70 tracking-tight tabular-nums">
+                                    <AnimatedCounter end={stats.stores} />
+                                </span>
+                                <span className="text-[13px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Stores</span>
+                            </div>
+                            <div className="h-8 w-[1px] bg-slate-200 rotate-12 mx-2" />
+                            <div className="flex items-center gap-2">
+                                <span className="text-[28px] md:text-[32px] font-semibold text-slate-600 opacity-70 tracking-tight tabular-nums">
+                                    <AnimatedCounter end={stats.provinces} />
+                                </span>
+                                <span className="text-[13px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Provinces</span>
+                            </div>
+                            <div className="h-8 w-[1px] bg-slate-200 rotate-12 mx-2" />
+                            <div className="flex items-center gap-2">
+                                <span className="text-[28px] md:text-[32px] font-semibold text-slate-600 opacity-70 tracking-tight tabular-nums">
+                                    <AnimatedCounter end={stats.products} />
+                                </span>
+                                <span className="text-[13px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Products</span>
+                            </div>
+                        </div>
+
+                        {/* Unified Control Row: Text (Left) | Search (Center) | Filters (Right) */}
+                        <div className="w-full relative h-[40px] mt-2">
+                            {/* Left: Helper Text (Baseline Aligned) */}
+                            <div className="absolute left-0 bottom-0 pb-2 pointer-events-none z-10 hidden xl:block">
+                                <p className="text-[15px] text-[#1A1A19] font-medium leading-relaxed whitespace-nowrap">
+                                    Find Ukrainian products near you, or help grow the map.
                                 </p>
                             </div>
 
-                            {/* Divider */}
-                            <div className="hidden md:block w-[1px] h-6 bg-slate-300" />
+                            {/* Center: Search Field */}
+                            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[240px] flex items-center gap-3 border-b border-slate-300 focus-within:border-[#2D50A0] transition-colors pb-2 group z-20">
+                                <Search className="w-4 h-4 text-slate-400 shrink-0 group-focus-within:text-[#2D50A0] transition-colors" />
+                                <input
+                                    type="text"
+                                    placeholder="Search by city..."
+                                    value={searchQuery}
+                                    onChange={(e) => {
+                                        setSearchQuery(e.target.value);
+                                        closeAllDropdowns();
+                                    }}
+                                    className="w-full bg-transparent border-none outline-none text-[15px] font-sans text-slate-900 placeholder:text-slate-400/80 p-0"
+                                />
+                            </div>
 
-                            {/* Stats */}
-                            <div className="flex items-center gap-8 md:gap-12">
-                                <div className="flex flex-col items-center gap-1">
-                                    <span className="text-[22px] md:text-[25px] font-medium text-[#2D50A0] leading-none opacity-80">
-                                        <AnimatedCounter end={stats.stores} />
-                                    </span>
-                                    <span className="text-[10px] md:text-[11px] font-medium text-slate-900 uppercase tracking-[0.15em]">Stores</span>
+                            {/* Right: Filters (Baseline Aligned) */}
+                            <div className="absolute right-0 bottom-0 flex items-center gap-6 pb-2 z-30">
+                                {/* Location Filter */}
+                                <div className="relative">
+                                    <button
+                                        onClick={() => {
+                                            const open = !isProvinceDropdownOpen;
+                                            closeAllDropdowns();
+                                            setIsProvinceDropdownOpen(open);
+                                        }}
+                                        className={cn(
+                                            "flex items-center gap-2 bg-transparent text-[13px] font-medium transition-colors duration-200 hover:text-slate-900",
+                                            selectedProvince ? "text-[#2D50A0]" : "text-slate-600"
+                                        )}
+                                    >
+                                        <span className="truncate max-w-[120px]">{selectedProvince || "All Provinces"}</span>
+                                        <ChevronDown className={cn("w-3 h-3 transition-transform text-slate-400", isProvinceDropdownOpen && "rotate-180 text-slate-900")} strokeWidth={2} />
+                                    </button>
+                                    {isProvinceDropdownOpen && (
+                                        <div className="absolute top-[calc(100%+8px)] right-0 w-[240px] bg-white border border-slate-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                            <div className="p-2 border-b border-slate-50">
+                                                <input
+                                                    className="w-full px-3 py-2 bg-slate-50 rounded-lg text-xs border-none focus:ring-1 focus:ring-black/5 placeholder:text-slate-400"
+                                                    placeholder="Filter provinces..."
+                                                    autoFocus
+                                                    value={provinceSearchQuery}
+                                                    onChange={(e) => setProvinceSearchQuery(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="max-h-[200px] overflow-y-auto p-1">
+                                                <button
+                                                    onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
+                                                    className="w-full text-left px-3 py-2 text-xs text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-colors rounded-md font-medium"
+                                                >
+                                                    Everywhere
+                                                </button>
+                                                {provincesFiltered.map(p => p !== "All Provinces" && (
+                                                    <button
+                                                        key={p}
+                                                        onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
+                                                        className={cn(
+                                                            "w-full text-left px-3 py-2 text-xs rounded-md transition-colors font-medium",
+                                                            selectedProvince === p ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                                        )}
+                                                    >
+                                                        {p}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="w-[1px] h-8 bg-slate-200" />
-                                <div className="flex flex-col items-center gap-1">
-                                    <span className="text-[22px] md:text-[25px] font-medium text-[#2D50A0] leading-none opacity-80">
-                                        <AnimatedCounter end={stats.provinces} />
-                                    </span>
-                                    <span className="text-[10px] md:text-[11px] font-medium text-slate-900 uppercase tracking-[0.15em]">Provinces</span>
-                                </div>
-                                <div className="w-[1px] h-8 bg-slate-200" />
-                                <div className="flex flex-col items-center gap-1">
-                                    <span className="text-[22px] md:text-[25px] font-medium text-[#2D50A0] leading-none opacity-80">
-                                        <AnimatedCounter end={stats.products} />
-                                    </span>
-                                    <span className="text-[10px] md:text-[11px] font-medium text-slate-900 uppercase tracking-[0.15em]">Products</span>
+
+                                {/* Category Filter */}
+                                <div className="relative">
+                                    <button
+                                        onClick={() => {
+                                            const open = !isCategoryDropdownOpen;
+                                            closeAllDropdowns();
+                                            setIsCategoryDropdownOpen(open);
+                                        }}
+                                        className={cn(
+                                            "flex items-center gap-2 bg-transparent text-[13px] font-medium transition-colors duration-200 hover:text-slate-900",
+                                            category ? "text-[#2D50A0]" : "text-slate-600"
+                                        )}
+                                    >
+                                        <span className="truncate max-w-[120px]">{category ? allCategories.find(c => c.id === category)?.label : "All Products"}</span>
+                                        <ChevronDown className={cn("w-3 h-3 transition-transform text-slate-400", isCategoryDropdownOpen && "rotate-180 text-slate-900")} strokeWidth={2} />
+                                    </button>
+                                    {isCategoryDropdownOpen && (
+                                        <div className="absolute top-[calc(100%+8px)] right-0 w-[200px] bg-white border border-slate-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+                                            <div className="p-1 max-h-[240px] overflow-y-auto">
+                                                <button
+                                                    onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
+                                                    className="w-full text-left px-3 py-2 text-xs text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-colors rounded-md font-medium"
+                                                >
+                                                    All Categories
+                                                </button>
+                                                {allCategories.map(cat => (
+                                                    <button
+                                                        key={cat.id}
+                                                        onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
+                                                        className={cn(
+                                                            "w-full flex items-center gap-2 px-3 py-2 text-xs rounded-md transition-colors font-medium",
+                                                            category === cat.id ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                                        )}
+                                                    >
+                                                        <span>{cat.label}</span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
-
-                        {/* Bottom Row: Subline (Centered) */}
-                        <div className="flex flex-col items-center">
-                            <p className="text-base text-[#1A1A19] font-normal leading-relaxed text-center">
-                                Find Ukrainian products near you, or help grow the map.
-                            </p>
-                        </div>
-
                     </div>
                 </section>
             )}
 
-            {/* 3. Main Content Area */}
+            {/* 3. Main Content Area - Wide Format */}
             <div className={cn(
-                "w-full mx-auto lg:max-w-[95vw] min-[1537px]:max-w-[1440px] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col md:flex-row md:items-start gap-8 px-[clamp(1.5rem,5vw,4rem)]",
+                "boutique-width mx-auto transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col gap-0", // Gap 0 for seamless border alignment
                 isZenMode ? "flex-1 pb-0 w-full max-w-none px-0" : "pt-0 pb-[10px]"
             )}>
 
-                {/* Sidebar - Search & Filters (HIDDEN IN ZEN MODE) */}
-                {!isZenMode && (
-                    <aside ref={sidebarRef} className="w-full md:w-[280px] shrink-0 flex flex-col pt-0 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
 
-                        {/* Search Field - Aligned with Map Buttons */}
-                        <div className="relative group border-b-[1.5px] border-[#E5E5E5] focus-within:border-[#2D50A0] transition-colors duration-300 mb-8 md:mt-[22px]">
-                            <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400 group-focus-within:text-[#2D50A0] transition-colors z-10" strokeWidth={1.5} />
-                            <input
-                                type="text"
-                                placeholder="Search by city or store name..."
-                                value={searchQuery}
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                    closeAllDropdowns();
-                                }}
-                                className="w-full h-12 pl-8 pr-4 bg-transparent border-none rounded-none focus:ring-0 text-[15px] font-normal leading-loose placeholder:text-slate-400 transition-all font-sans"
-                                aria-label="Search stores"
-                            />
-                        </div>
 
-                        <div className="flex flex-col gap-4">
-                            <div className="text-[11px] font-medium text-[#424242] uppercase tracking-widest">Filter by:</div>
-
-                            {/* Province Filter */}
-                            <div className="relative">
-                                <button
-                                    onClick={() => {
-                                        const open = !isProvinceDropdownOpen;
-                                        closeAllDropdowns();
-                                        setIsProvinceDropdownOpen(open);
-                                    }}
-                                    className={cn(
-                                        "flex items-center justify-between w-full h-[40px] px-0 bg-transparent text-[15px] font-medium transition-colors duration-200 border-b border-[#EAEAEA]",
-                                        selectedProvince
-                                            ? "text-[#2D50A0]"
-                                            : "text-[#444444] hover:text-[#2D50A0]"
-                                    )}
-                                >
-                                    <span className="truncate">{selectedProvince || "Location"}</span>
-                                    <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-400", isProvinceDropdownOpen && "rotate-180 text-slate-900")} />
-                                </button>
-                                {isProvinceDropdownOpen && (
-                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-[24px] shadow-[0_4px_12px_rgba(45,80,160,0.05)] z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-                                        <div className="p-3 border-b border-slate-50">
-                                            <input
-                                                className="w-full px-4 py-2.5 bg-slate-50 rounded-full text-sm border-none focus:ring-1 focus:ring-black/5 placeholder:text-slate-400"
-                                                placeholder="Search location..."
-                                                autoFocus
-                                                value={provinceSearchQuery}
-                                                onChange={(e) => setProvinceSearchQuery(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="max-h-[280px] overflow-y-auto p-2">
-                                            <button
-                                                onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
-                                                className="w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-slate-900 transition-colors rounded-full"
-                                            >
-                                                Everywhere in Canada
-                                            </button>
-                                            {provincesFiltered.map(p => p !== "All Provinces" && (
-                                                <button
-                                                    key={p}
-                                                    onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
-                                                    className={cn(
-                                                        "w-full text-left px-4 py-2.5 text-sm rounded-full transition-colors",
-                                                        selectedProvince === p ? "bg-slate-900 text-white font-semibold" : "text-slate-500 hover:text-slate-900"
-                                                    )}
-                                                >
-                                                    {p}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Category Filter */}
-                            <div className="relative">
-                                <button
-                                    onClick={() => {
-                                        const open = !isCategoryDropdownOpen;
-                                        closeAllDropdowns();
-                                        setIsCategoryDropdownOpen(open);
-                                    }}
-                                    className={cn(
-                                        "flex items-center justify-between w-full h-[40px] px-0 bg-transparent text-[15px] font-medium transition-colors duration-200 border-b border-[#EAEAEA]",
-                                        category
-                                            ? "text-[#2D50A0]"
-                                            : "text-[#444444] hover:text-[#2D50A0]"
-                                    )}
-                                >
-                                    <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
-                                    <ChevronDown className={cn("w-4 h-4 transition-transform text-slate-400", isCategoryDropdownOpen && "rotate-180 text-slate-900")} />
-                                </button>
-                                {isCategoryDropdownOpen && (
-                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-100 rounded-[24px] shadow-[0_4px_12px_rgba(45,80,160,0.05)] z-[100] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-                                        <div className="p-2 max-h-[320px] overflow-y-auto">
-                                            <button
-                                                onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
-                                                className="w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-slate-900 transition-colors rounded-full"
-                                            >
-                                                All Categories
-                                            </button>
-                                            {allCategories.map(cat => (
-                                                <button
-                                                    key={cat.id}
-                                                    onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
-                                                    className={cn(
-                                                        "w-full flex items-center gap-3 px-4 py-2.5 text-sm rounded-full transition-colors",
-                                                        category === cat.id ? "bg-slate-900 text-white font-semibold" : "text-slate-400 hover:text-slate-900 group"
-                                                    )}
-                                                >
-                                                    <cat.icon className={cn("w-4 h-4 transition-colors", category === cat.id ? "text-white" : "text-slate-400 group-hover:text-slate-900")} strokeWidth={1.5} />
-                                                    {cat.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </aside>
-                )}
-
-                {/* Map/List Column */}
+                {/* Map/List Column - Full Width Main Stage */}
                 <div className={cn(
-                    "flex-1 min-w-0 flex flex-col relative transition-all duration-500 map-column-wrapper",
-                    isZenMode ? "h-[100vh] w-[100vw]" : "pt-0 gap-4"
+                    "flex-1 min-w-0 flex flex-col relative transition-all duration-500 map-column-wrapper w-full",
+                    isZenMode ? "h-[100vh] w-[100vw]" : "pt-0"
                 )}>
                     <div className={cn(
                         "relative w-full overflow-hidden bg-white group/map isolate transition-all duration-500",
-                        isZenMode ? "h-full rounded-0" : "h-[550px] rounded-[32px]",
-                        viewMode === "map" ? "shadow-[0_20px_40px_rgba(45,80,160,0.05)] border border-[rgba(45,80,160,0.15)]" : ""
+                        isZenMode ? "h-full rounded-0" : "h-[500px] rounded-[32px] border border-gray-200 shadow-sm", // Reduced height to crop empty space
                     )}>
-                        {/* View Switcher - Top Left of Map Frame (HIDDEN IN ZEN MODE) */}
-                        {!isZenMode && (
-                            <div className="absolute top-6 left-6 z-[500] inline-flex items-center p-1 bg-white backdrop-blur-[12px] rounded-full border border-[rgba(255,255,255,0.4)] shadow-[0_4px_12px_rgba(45,80,160,0.05)]">
-                                <button
-                                    onClick={() => setViewMode("map")}
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[16px] transition-all duration-200",
-                                        viewMode === "map" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-80 hover:opacity-100"
-                                    )}
-                                >
-                                    <MapIcon className="w-3.5 h-3.5" />
-                                    Map
-                                </button>
-                                <span className="text-slate-300 mx-1">/</span>
-                                <button
-                                    onClick={() => setViewMode("list")}
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[16px] transition-all duration-200",
-                                        viewMode === "list" ? "text-slate-900 font-normal opacity-100" : "text-slate-500 font-normal opacity-80 hover:opacity-100"
-                                    )}
-                                >
-                                    <List className="w-3.5 h-3.5" />
-                                    List
-                                </button>
-                            </div>
-
-                        )}
-
-                        {/* Add Store Button - Top Right of Map Frame (HIDDEN IN ZEN MODE) */}
-                        {!isZenMode && (
-                            <div className="absolute top-6 right-6 z-[500]">
-                                <button
-                                    onClick={() => setAddStoreDialogOpen(true)}
-                                    className="flex items-center gap-2 px-6 h-[46px] rounded-full bg-slate-900 text-white font-medium text-[14px] hover:bg-slate-800 border-none shadow-xl shadow-slate-900/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
-                                >
-                                    <Plus className="w-4 h-4" strokeWidth={2.5} />
-                                    <span>Add a Store</span>
-                                </button>
-                            </div>
-                        )}
-
-                        {/* ZEN MODE TOGGLE - Floating on the right edge */}
+                        {/* Add Store Button - Floating Layout (Left) */}
+                        <div className={cn(
+                            "absolute z-[500] transition-all duration-300 flex flex-col items-start gap-2",
+                            isZenMode ? "top-6 left-6" : "top-6 left-6"
+                        )}>
+                            <span className="text-[11px] font-semibold text-slate-500 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm border border-slate-100 pointer-events-none transition-opacity duration-300">
+                                Know a store selling made in Ukraine? Add it
+                            </span>
+                            <button
+                                onClick={() => setAddStoreDialogOpen(true)}
+                                className="h-[44px] px-6 rounded-full bg-slate-900/80 text-white text-[14px] font-semibold hover:bg-slate-800/90 transition-all shadow-md hover:shadow-lg flex items-center gap-2 backdrop-blur-sm"
+                            >
+                                <Plus className="w-4 h-4" />
+                                <span>Add a Store</span>
+                            </button>
+                        </div>
+                        {/* Map/List View Toggle - Premium Floating Control */}
                         <div className={cn(
                             "absolute z-[500] transition-all duration-300",
-                            isZenMode ? "top-6 right-6" : "top-1/2 -translate-y-1/2 right-4"
+                            isZenMode ? "top-6 right-6" : "top-6 right-6"
                         )}>
-                            <button
-                                onClick={onZenModeToggle}
-                                className={cn(
-                                    "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border transition-all duration-300 shadow-sm group/zen",
-                                    isZenMode
-                                        ? "bg-slate-900 text-white border-slate-800 hover:bg-slate-800"
-                                        : "bg-white/60 text-slate-500 border-white/40 hover:bg-white hover:text-slate-900"
-                                )}
-                                title={isZenMode ? "Show Map UI" : "Hide Map UI"}
-                            >
-                                {isZenMode ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
-                            </button>
+                            <div className="flex items-center gap-3">
+                                {/* Map/List Segmented Toggle */}
+                                <div className="flex items-center p-1 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-shadow">
+                                    <button
+                                        onClick={() => setViewMode("map")}
+                                        className={cn(
+                                            "px-4 py-1.5 rounded-full text-[13px] font-semibold transition-all duration-300 flex items-center gap-2",
+                                            viewMode === "map"
+                                                ? "bg-slate-100 text-slate-900 shadow-sm"
+                                                : "text-slate-400 hover:text-slate-900 bg-transparent"
+                                        )}
+                                    >
+                                        <MapIcon className="w-3.5 h-3.5" />
+                                        Map
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode("list")}
+                                        className={cn(
+                                            "px-4 py-1.5 rounded-full text-[13px] font-semibold transition-all duration-300 flex items-center gap-2",
+                                            viewMode === "list"
+                                                ? "bg-slate-100 text-slate-900 shadow-sm"
+                                                : "text-slate-400 hover:text-slate-900 bg-transparent"
+                                        )}
+                                    >
+                                        <List className="w-3.5 h-3.5" />
+                                        List
+                                    </button>
+                                </div>
+
+                                {/* Premium Locate Me Button */}
+                                <button
+                                    onClick={handleUseLocation}
+                                    className="w-[42px] h-[42px] flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-sm hover:shadow-md text-slate-600 hover:text-[#2D50A0] hover:bg-white transition-all group active:scale-95"
+                                    title="Locate Me"
+                                >
+                                    <Navigation className="w-5 h-5 fill-none stroke-[2px] -ml-[1px] group-hover:fill-current/20 transition-all" />
+                                </button>
+                            </div>
                         </div>
 
                         {/* Content */}
                         <div className="w-full h-full relative z-0">
-                            {/* Optical Glass Overlay - Removed in favor of InteractiveMap internal overlay for correct z-indexing */}
-                            {/* <div className="absolute inset-0 pointer-events-none z-[100]" style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0) 60%, rgba(240,242,245,0.3) 100%)' }} /> */}
-
                             <MapSection
                                 ref={mapSectionRef}
                                 mode="full"
-                                className="w-full !h-[110%] absolute top-0 left-0"
+                                className="w-full h-full absolute top-0 left-0" // Removed !h-[110%]
                                 searchQuery={searchQuery}
                                 category={category}
                                 viewMode={viewMode}
@@ -473,18 +451,27 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                 </div>
             </div>
 
-            {/* Community Trust Bar - Integrated under map (HIDDEN IN ZEN MODE) */}
+            {/* Community Trust Bar - Integrated under map (HIDDEN IN ZEN MODE) - ALIGNMENT FIXED */}
             {
                 !isZenMode && (
-                    <div className="flex justify-center md:pl-[280px] mt-1.5 pb-[72px]">
-                        <div className="flex items-center gap-3">
-                            <span className="text-[11px] font-medium text-[#555555] font-sans uppercase tracking-[0.05em]">Community-driven</span>
-                            <span className="text-[11px] text-slate-300">•</span>
-                            <span className="text-[11px] font-medium text-[#555555] font-sans uppercase tracking-[0.05em]">Verified</span>
-                            <span className="text-[11px] text-slate-300">•</span>
-                            <Link href="/about" className="text-[11px] font-medium text-slate-700/60 hover:text-slate-700 font-sans uppercase tracking-[0.05em] cursor-pointer transition-colors hover:underline decoration-slate-300 underline-offset-4 flex items-center">
-                                Become a volunteer
-                            </Link>
+                    <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-6 pb-[72px] w-full px-4">
+                        <div className="flex items-center gap-2">
+                            <CheckCircle className="w-3.5 h-3.5 text-[#2D50A0]" strokeWidth={1.5} />
+                            <span className="text-[11px] uppercase tracking-widest font-semibold text-zinc-400 font-sans">
+                                Community-driven map
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <CheckCircle className="w-3.5 h-3.5 text-[#2D50A0]" strokeWidth={1.5} />
+                            <span className="text-[11px] uppercase tracking-widest font-semibold text-zinc-400 font-sans">
+                                Made in Ukraine only
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <CheckCircle className="w-3.5 h-3.5 text-[#2D50A0]" strokeWidth={1.5} />
+                            <span className="text-[11px] uppercase tracking-widest font-semibold text-zinc-400 font-sans">
+                                Every Store is Verified
+                            </span>
                         </div>
                     </div>
                 )

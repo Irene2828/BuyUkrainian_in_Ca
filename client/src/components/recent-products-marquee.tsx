@@ -100,9 +100,9 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-[36px] pb-[72px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
+                className="w-full pt-[54px] pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
             >
-                <div className="boutique-width flex items-center h-[50px] md:h-[60px] relative">
+                <div className="boutique-width min-[1537px]:max-w-[1440px] w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
                     {/* Fixed Live Label */}
                     <div className="sticky left-0 z-30 py-2 pr-12 flex items-center gap-3 h-full bg-white/0">
@@ -151,7 +151,7 @@ export function RecentProductsMarquee() {
 
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span
-                                                className="font-medium text-slate-900/80 leading-[1.2] mb-0.5"
+                                                className="font-medium tracking-[-0.02em] text-[#1A1A19] leading-[1.2] mb-0.5"
                                                 style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
                                             >
                                                 {store.name}

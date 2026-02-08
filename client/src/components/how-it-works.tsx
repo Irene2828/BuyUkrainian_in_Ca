@@ -28,7 +28,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-[80px] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+    <section id="how-it-works" className="pt-[104px] pb-[80px] font-sans overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
         <div className="mb-12 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
@@ -43,7 +43,7 @@ export function HowItWorks() {
 
         {/* Steps Grid with Stagger Animation */}
         {/* Feature Grid - Spatial Geometry */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10 stagger-container">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10 stagger-container w-full max-w-[1280px] min-[1537px]:max-w-[1440px] mx-auto">
           {steps.map((step, index) => (
             <div key={index} className="stagger-item group flex flex-col items-center text-center px-4">
 

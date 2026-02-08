@@ -24,27 +24,29 @@ export interface InteractiveMapRef {
 }
 
 const CANADA_BOUNDS: L.LatLngBoundsExpression = [
-  [40.00, -141.03], // Tightened south to prioritize Canada while keeping context
-  [83.11, -52.62]
+  [41.00, -142.00], // South West (Below 49th parallel to include Windsor/Pelee)
+  [60.00, -50.00]   // North East (Cut off Arctic/Greenland)
 ];
 
 // INITIAL MAP STATE - FROZEN (Do not modify without design approval)
 // Centered on Southern Canada - Optimized to show Toronto-Montreal corridor
+// Centered on Central Canada - Optimized for "Coast to Coast" with FitBounds Fallback
 const INITIAL_MAP_STATE = {
-  center: [51.5, -96.0] as [number, number],  // Panoramic Canada Focus
+  center: [51.0000, -95.0000] as [number, number],
   zoom: 4.2
 } as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
 
 const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 
 // Unified Blue/Yellow Pin Marker with Dimming Support
+// Unified Blue/Yellow Pin Marker with Dimming Support - Stabilized (No Shaky Ping)
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
       <div style="position: relative; width: 28px; height: 28px;">
-        ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3B82F6; opacity: 0; animation: ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>` : ''}
+        ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3B82F6; opacity: 0;"></div>` : ''}
         <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); filter: saturate(1.2) drop-shadow(0 2px 5px rgba(0,0,0,0.1)); overflow: hidden; position: relative; background: #fff; z-index: 10;">
           <div style="width: 100%; height: 50%; background: #0057B8;"></div>
           <div style="width: 100%; height: 50%; background: #FFD700;"></div>
@@ -380,7 +382,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         const currentCenter = mapRef.current.getCenter();
         const currentZoom = mapRef.current.getZoom();
         // Smooth zoom out with flyTo - Premium Airbnb feel
-        mapRef.current.flyTo(currentCenter, Math.max(currentZoom - 1, 3.5), {
+        mapRef.current.flyTo(currentCenter, Math.max(currentZoom - 1, 3.0), {
           duration: 2.0,
           easeLinearity: 0.8
         });
@@ -404,9 +406,45 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     return () => window.removeEventListener('clearFilters', handleClearFilters);
   }, []);
 
+  // Gold Frame: Initial Fit Bounds to Active Markers (Premium Breathing Room)
+  const [hasPerformedInitialFit, setHasPerformedInitialFit] = useState(false);
+
+  useEffect(() => {
+    // Wait for map ref and stores
+    if (!hasPerformedInitialFit && stores.length > 0 && mapRef.current) {
+      // Use a small timeout to ensure Leaflet is ready
+      const timer = setTimeout(() => {
+        try {
+          // Filter for valid coordinates only
+          const validMarkers = stores.filter(s =>
+            s.coordinates &&
+            Array.isArray(s.coordinates) &&
+            s.coordinates.length === 2 &&
+            isWithinCanada(s.coordinates[0], s.coordinates[1])
+          );
+
+          if (validMarkers.length > 0) {
+            const bounds = L.latLngBounds(validMarkers.map(s => s.coordinates as [number, number]));
+
+            // INSTANT FIT - No Animation (Stable Load)
+            mapRef.current!.fitBounds(bounds, {
+              padding: [40, 40],
+              animate: false,
+              maxZoom: 9
+            });
+            setHasPerformedInitialFit(true);
+          }
+        } catch (error) {
+          console.error("FitBounds Error:", error);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [stores, hasPerformedInitialFit]);
+
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden bg-[#F9FAFB] passport-map-container animate-in fade-in zoom-in-[0.99] duration-[1000ms] delay-100 fill-mode-forwards antialiased"
+      className="w-full h-full relative z-0 overflow-hidden bg-[#F9FAFB] passport-map-container animate-in fade-in duration-[1000ms] delay-100 fill-mode-forwards antialiased"
     >
       {/* Deep Sea Overlay & Eye-Care Filter */}
       <div className="absolute inset-0 z-[400] pointer-events-none" style={{ borderRadius: 'inherit' }}>
@@ -418,7 +456,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       <MapContainer
         center={CANADA_CENTER}
         zoom={INITIAL_MAP_STATE.zoom}
-        minZoom={3.5}
+        minZoom={3.0}
         maxZoom={18}
         scrollWheelZoom={false}
         dragging={true}
@@ -502,38 +540,43 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         </div>
       )}
 
-      {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
-      {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-[rgba(255,255,255,0.7)] backdrop-blur-[12px] border border-[rgba(255,255,255,0.4)] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] overflow-hidden">
+      {/* Airbnb-style Floating Navigation Controls - Right Side - WCAG Accessible - Hardware Refinement */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-[rgba(255,255,255,0.8)] backdrop-blur-[8px] border border-gray-200 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.08)] overflow-hidden">
         <button
           onClick={() => {
             mapRef.current?.zoomIn();
           }}
-          className="w-[44px] h-[44px] flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          className="w-9 h-9 flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Zoom In"
         >
-          <Plus className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
+          <Plus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
-        <div className="w-[24px] h-[1px] bg-slate-200/60" />
+        <div className="w-[20px] h-[1px] bg-slate-200/60" />
         <button
           onClick={() => {
             mapRef.current?.zoomOut();
           }}
-          className="w-[44px] h-[44px] flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          className="w-9 h-9 flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
           title="Zoom Out"
         >
-          <Minus className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
+          <Minus className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
-        <div className="w-[24px] h-[1px] bg-slate-200/60" />
+        <div className="w-[20px] h-[1px] bg-slate-200/60" />
         <button
           onClick={() => {
-            setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+            const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
+            if (valid.length > 0 && mapRef.current) {
+              const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
+              mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
+            } else {
+              setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+            }
             setFocusCoordinates(null);
           }}
-          className="w-[44px] h-[44px] flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
-          title="Reset to Full Canada"
+          className="w-9 h-9 flex items-center justify-center text-slate-900 hover:bg-slate-50 transition-colors focus-visible:outline-2 focus-visible:outline-[#A5D8FF] active:bg-slate-100"
+          title="Reset to Full View"
         >
-          <Maximize2 className="w-5 h-5 !fill-none !stroke-current stroke-[2.5]" />
+          <Maximize2 className="w-4 h-4 !fill-none !stroke-current stroke-[2.5]" />
         </button>
       </div>
     </div>

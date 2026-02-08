@@ -42,9 +42,10 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out font-sans",
-        "bg-white/80 backdrop-blur-xl py-0",
-        isScrolled ? "border-b border-slate-200/40" : "border-b border-transparent"
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out font-sans border-b",
+        isScrolled
+          ? "bg-white/90 backdrop-blur-[8px] border-gray-200"
+          : "bg-white/80 backdrop-blur-xl border-gray-200/50"
       )}
     >
       <div className="boutique-width h-[80px] flex items-center justify-between relative">
@@ -58,10 +59,12 @@ export function Header() {
               className="object-contain transition-all duration-500 h-[58px] w-auto ml-[-12px]"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center ml-[-18px] h-10">
-              <span className="text-[15.5px] font-normal leading-[1.1] tracking-[0.3px] text-slate-900 font-instrument">
-                Buy Ukrainian —<br />
-                <span className="text-[#2D50A0] font-medium">Support Ukraine</span>
+            <div className="flex flex-col justify-center ml-[-16px] h-10 font-instrument">
+              <span className="text-[17px] font-medium tracking-[-0.02em] text-[#2D50A0] leading-none">
+                Buy Ukrainian
+              </span>
+              <span className="text-[17px] font-medium tracking-[-0.02em] text-slate-400 leading-none mt-[2px]">
+                Support Ukraine
               </span>
             </div>
           </Link>
@@ -70,12 +73,12 @@ export function Header() {
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-8">
           <nav className="items-center gap-8 flex font-sans antialiased">
-            <Link href="/about" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-60")}>
+            <Link href="/about" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
               About
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
-            <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-60")}>
-              <MapPin className="w-4 h-4 opacity-70" />
+            <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
+              <MapPin className="w-4 h-4 opacity-90" />
               View Map
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
@@ -84,9 +87,9 @@ export function Header() {
                 <span
                   role="button"
                   tabIndex={0}
-                  className="group relative text-[15px] font-medium text-slate-900 opacity-60 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
+                  className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
                 >
-                  <Plus className="w-4 h-4 opacity-70" />
+                  <Plus className="w-4 h-4 opacity-90" />
                   Add a Store
                   <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                 </span>

@@ -9,8 +9,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-500 border-b border-[rgba(45,80,160,0.08)]"
-            style={{ background: 'linear-gradient(to bottom, #FFFFFF 0%, #FAFAF9 100%)' }}
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-500 border-b border-[rgba(45,80,160,0.08)] bg-white"
         >
             {/* Background Blobs */}
             <div
@@ -18,7 +17,7 @@ export function Hero() {
                 style={{
                     width: '500px',
                     height: '500px',
-                    left: 'calc(50% - 714px)',
+                    left: 'calc(50% + 225px)',
                     top: '-300px',
                     background: 'rgba(255, 212, 39, 0.23)',
                     filter: 'blur(120px)',
@@ -30,7 +29,7 @@ export function Hero() {
                 style={{
                     width: '600px',
                     height: '600px',
-                    left: 'calc(50% + 225px)',
+                    left: 'calc(50% - 714px)',
                     top: '335px',
                     background: 'rgba(0, 113, 227, 0.16)',
                     filter: 'blur(120px)',
@@ -38,9 +37,9 @@ export function Hero() {
                 }}
             />
 
-            <div className="boutique-width w-full pt-[5%] pb-[90px] flex items-center justify-center relative z-10">
+            <div className="boutique-width w-full pt-[120px] pb-[135px] flex items-center justify-center relative z-10">
                 {/* Main Grid: Mathematically Centered Architecture */}
-                <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-12 xl:gap-24 mx-auto max-w-[1280px]">
+                <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-12 xl:gap-24 mx-auto max-w-[1280px] min-[1537px]:max-w-[1440px]">
 
                     {/* Left-Side: Narrative - Left-Aligned Text Focus */}
                     <div className="flex-1 max-w-[620px] flex flex-col justify-center items-center order-1 text-left">
@@ -55,7 +54,7 @@ export function Hero() {
                                 <span className="block text-[29px] md:text-[41px] font-normal tracking-[-0.03em] text-[#4A4A48] whitespace-nowrap">sold across Canada</span>
                             </h1>
 
-                            <p className="text-[20px] leading-[1.5] text-slate-800 font-medium max-w-[540px] mt-8 mb-4 tracking-[0.01em]">
+                            <p className="text-[20px] leading-[1.5] text-slate-800 font-medium max-w-[540px] mt-8 mb-6 tracking-[0.01em]">
                                 One intuitive map to find, add, and share stores selling Ukrainian-made products
                             </p>
 
@@ -63,7 +62,7 @@ export function Hero() {
                             {/* Secondary CTA - "Jobs-era" Minimalist Link */}
                             <motion.a
                                 href="#how-it-works"
-                                className="group relative inline-flex items-center text-[17px] font-medium text-[#1A1A19] hover:text-[#2D50A0] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D50A0]/30 focus-visible:ring-offset-2 rounded-md px-1 -ml-1"
+                                className="group relative inline-flex items-center text-[17px] font-normal text-[#2D50A0] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D50A0]/30 focus-visible:ring-offset-2 rounded-md px-1 -ml-1"
                                 initial="initial"
                                 whileHover="hover"
                             >
@@ -119,7 +118,7 @@ export function Hero() {
                             <div className="absolute inset-0 flex items-center justify-center z-20">
                                 <Link href="/map">
                                     <Button
-                                        className="h-[52px] px-8 rounded-full bg-slate-900/80 text-white hover:bg-black/80 group-hover/map:scale-[1.02] hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 ease-out shadow-[0_10px_25px_rgba(45,80,160,0.15)] backdrop-blur-[8px] flex items-center gap-3 group/cta-btn border-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                        className="h-[52px] px-8 rounded-full bg-slate-900/90 text-white hover:bg-black/80 group-hover/map:scale-[1.02] hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 ease-out shadow-[0_10px_25px_rgba(45,80,160,0.15)] backdrop-blur-[8px] flex items-center gap-3 group/cta-btn border-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                     >
                                         <span className="text-[14px] font-bold tracking-widest uppercase">Open Interactive Map</span>
                                         <ArrowRight className="w-5 h-5 group-hover/cta-btn:translate-x-1 transition-transform" />
@@ -129,18 +128,25 @@ export function Hero() {
                         </div>
 
                         {/* Accessible Map Metadata - Centered Perfectly Under Map */}
-                        <div className="mt-4 flex flex-col md:flex-row items-center justify-center w-full gap-3 md:gap-0 opacity-100">
-                            <span className="text-xs font-normal text-[#575756] whitespace-nowrap">
-                                Verified listings
-                            </span>
-                            <div className="hidden md:block w-[1px] h-3 bg-slate-300 mx-6" />
-                            <span className="text-xs font-normal text-[#575756] whitespace-nowrap">
-                                Physical & online stores
-                            </span>
-                            <div className="hidden md:block w-[1px] h-3 bg-slate-300 mx-6" />
-                            <span className="text-xs font-normal text-[#575756] whitespace-nowrap">
-                                Easy to share
-                            </span>
+                        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-4 w-full px-4">
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="w-3.5 h-3.5 text-[#2D50A0]" strokeWidth={1.5} />
+                                <span className="text-[11px] uppercase tracking-widest font-semibold text-zinc-400">
+                                    Community-driven map
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="w-3.5 h-3.5 text-[#2D50A0]" strokeWidth={1.5} />
+                                <span className="text-[11px] uppercase tracking-widest font-semibold text-zinc-400">
+                                    Made in Ukraine only
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="w-3.5 h-3.5 text-[#2D50A0]" strokeWidth={1.5} />
+                                <span className="text-[11px] uppercase tracking-widest font-semibold text-zinc-400">
+                                    Every Store is Verified
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

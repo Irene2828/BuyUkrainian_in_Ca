@@ -43,7 +43,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white py-[72px]">
+    <section className="bg-white pt-[36px] pb-0">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -103,13 +103,13 @@ function NewlyAddedStores() {
       </div>
 
       {/* Add Store CTA Button */}
-      <div className="boutique-width flex flex-col items-center justify-center mt-6 gap-6">
-        <p className="text-[15px] text-slate-500 font-ui italic text-center max-w-[40ch]">
+      <div className="boutique-width flex flex-col items-center justify-center pb-16 pt-0">
+        <p className="text-[13px] italic font-medium text-zinc-400 text-center mb-4">
           Know a store we missed? Add it!
         </p>
         <button
           onClick={() => window.dispatchEvent(new CustomEvent('openAddStore'))}
-          className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
+          className="btn-premium-action gap-2 no-invert-hover px-10 bg-[#2D50A0] border-none text-white hover:bg-[#254285] shadow-xl shadow-[#2D50A0]/20 rounded-full"
         >
           <Plus className="w-5 h-5" strokeWidth={2.5} />
           <span>Add a New Store</span>
@@ -158,7 +158,7 @@ export default function MapPage() {
     )}>
       {!isZenMode && <Header />}
       <main className="flex flex-col flex-1">
-        {!isZenMode && <div className="w-full h-[20px] bg-white shrink-0" />}
+        {!isZenMode && <div className="w-full h-0 bg-white shrink-0" />}
         <div className={cn(
           "relative z-0 mb-0 transition-all duration-500 w-full",
           isZenMode ? "flex-1" : "h-auto"
