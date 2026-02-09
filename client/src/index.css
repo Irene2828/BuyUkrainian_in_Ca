@@ -633,7 +633,7 @@ html.dark header.bg-white\/90 {
 
   /* Surgical Edges - The Milled Finish */
   .milled-edge {
-    @apply border border-zinc-200 ring-1 ring-black/5;
+    @apply border border-zinc-200 ring-1 ring-black/35;
   }
 
   /* Clean Levitation - High Definition Chromatic Shadow System */

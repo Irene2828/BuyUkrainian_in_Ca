@@ -34,10 +34,10 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden py-[120px]">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[36px] font-semibold tracking-tight leading-[52.5px] font-sans section-headline-reveal text-slate-900 opacity-75">
+          <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
             The Project's Mission
           </h2>
-          <p className="subline max-w-2xl mx-auto">
+          <p className="text-[1.125rem] leading-[1.5] text-slate-800 font-medium max-w-[33.75rem] mx-auto tracking-[0.01em]">
             Frequently asked questions about the map and how to contribute.
           </p>
         </div>

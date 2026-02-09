@@ -24,16 +24,15 @@ export interface InteractiveMapRef {
 }
 
 const CANADA_BOUNDS: L.LatLngBoundsExpression = [
-  [41.00, -142.00], // South West (Below 49th parallel to include Windsor/Pelee)
-  [60.00, -50.00]   // North East (Cut off Arctic/Greenland)
+  [41.00, -141.00],
+  [83.00, -52.00]
 ];
 
-// INITIAL MAP STATE - FROZEN (Do not modify without design approval)
-// Focused on Central Canada - Optimized for "Coast to Coast" with FitBounds Fallback
+// INITIAL MAP STATE - CANADA CENTERED
 const INITIAL_MAP_STATE = {
-  center: [54.5000, -96.0000] as [number, number], // Shifted further North to keep US text hidden at 4.7 zoom
-  zoom: 4.7 // Calibrated to user's "screenshot" preference
-} as const; /* DO NOT REMOVE: SOVEREIGN VIEW LOCK */
+  center: [50.0000, -95.0000] as [number, number],
+  zoom: 4
+} as const;
 
 const CANADA_POPULATION_BOUNDS: L.LatLngBoundsExpression = [
   [44.00, -128.00], // Balanced South-West: High enough to hide US text
@@ -433,7 +432,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       <MapContainer
         center={CANADA_CENTER}
         zoom={INITIAL_MAP_STATE.zoom}
-        minZoom={3.0}
+        minZoom={4.0}
         maxZoom={18}
         scrollWheelZoom={false}
         dragging={true}

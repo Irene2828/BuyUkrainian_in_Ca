@@ -80,17 +80,18 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             </p>
                         </div>
                         <h2 className="text-[31px] md:text-[41px] font-semibold text-[#2D50A0] leading-tight mb-4 stagger-item max-w-[25ch]">
-                            Let's make it easy<br />to buy Ukrainian locally
+                            Let's make it easy<br />to buy Ukrainian<br />in Canada
                         </h2>
                         <p className="text-[14px] text-[#424245] font-ui leading-relaxed max-w-[45ch] mx-auto md:mx-0 mb-8">
                             We're creating a community-driven resource to help you find and support Ukrainian makers and entrepreneurship across Canada.
                         </p>
 
-                        <a href="mailto:hello@buyukrainian.ca?subject=Volunteer%20Inquiry" className="inline-block">
-                            <button className="flex items-center justify-center gap-2 h-[46px] px-8 rounded-[32px] bg-transparent border-none outline-none text-slate-900 font-semibold text-[13px] transition-all duration-200 hover:bg-slate-900/5 hover:text-[#2D50A0] group">
-                                <Plus className="w-4 h-4 group-hover:text-[#2D50A0] transition-colors" />
-                                <span>Volunteer for the Project</span>
-                            </button>
+                        <a
+                            href="mailto:hello@buyukrainian.ca?subject=Volunteer%20Inquiry"
+                            className="group flex items-center gap-2 text-[16px] font-medium text-slate-500 hover:text-slate-900 transition-colors py-2"
+                        >
+                            <div className="w-1.5 h-1.5 bg-[#F4C542] rounded-full shadow-[0_0_4px_rgba(244,197,66,0.5)]" />
+                            <span>Volunteer for the Project</span>
                         </a>
                     </div>
 
@@ -112,19 +113,19 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     )}
                                 </button>
                             </div>
-                            <p className="text-[12px] text-slate-600 font-ui italic leading-relaxed">
+                            <p className="text-[12px] md:text-[14px] text-slate-600 font-ui italic leading-relaxed">
                                 "{shareMessage} {shareUrl}"
                             </p>
                         </div>
 
-                        <ul className="flex flex-col items-center md:items-end gap-3 list-none p-0 m-0">
+                        <ul className="flex flex-col items-center md:items-end gap-4 list-none p-0 m-0">
                             <li>
                                 <button
                                     onClick={handleFacebookShare}
-                                    className="flex items-center gap-3 px-4 h-[40px] text-[12px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
+                                    className="flex items-center gap-4 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
                                     aria-label="Share on Facebook"
                                 >
-                                    <Facebook className="w-3.5 h-3.5 text-[#2D50A0]" />
+                                    <Facebook className="w-[18px] h-[18px] text-[#2D50A0]" />
                                     <span>Share on Facebook</span>
                                     <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
@@ -132,10 +133,10 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             <li>
                                 <button
                                     onClick={handleInstagramShare}
-                                    className="flex items-center gap-3 px-4 h-[40px] text-[12px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
+                                    className="flex items-center gap-4 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
                                     aria-label="Share on Instagram"
                                 >
-                                    <Instagram className="w-3.5 h-3.5 text-[#2D50A0]" />
+                                    <Instagram className="w-[18px] h-[18px] text-[#2D50A0]" />
                                     <span>Share on Instagram</span>
                                     <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </button>
@@ -143,12 +144,12 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             <li>
                                 <button
                                     onClick={handleXShare}
-                                    className="flex items-center gap-3 px-4 h-[40px] text-[12px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
+                                    className="flex items-center gap-4 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
                                     aria-label="Share on X (Twitter)"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
-                                        className="w-3.5 h-3.5 fill-[#2D50A0]"
+                                        className="w-[18px] h-[18px] fill-[#2D50A0]"
                                         aria-hidden="true"
                                     >
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
