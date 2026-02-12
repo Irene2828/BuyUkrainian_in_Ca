@@ -38,7 +38,7 @@ export function Hero() {
                 }}
             />
 
-            <div className="boutique-width w-full pt-[5rem] lg:pt-[6.25rem] pb-[1.7rem] lg:pb-[7.625rem] flex items-center relative z-10 h-full pointer-events-none">
+            <div className="boutique-width w-full pt-[5rem] lg:pt-[5rem] pb-4 lg:pb-0 flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area */}
                 <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
@@ -55,7 +55,7 @@ export function Hero() {
                         Interactive map to find, add, and share stores selling Ukrainian-made products
                     </p>
 
-                    <div className="flex flex-col items-start gap-4 mt-8 w-full md:w-auto">
+                    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 mt-8 w-full md:w-auto md:mb-10">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
                                 className="h-[50px] px-8 w-full md:w-auto rounded-2xl bg-slate-900/85 backdrop-blur-md text-white font-medium text-[16px] tracking-normal transition-all duration-200 shadow-sm border border-white/10 hover:bg-slate-900 hover:translate-y-[-1px] active:scale-95 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn"
@@ -88,7 +88,7 @@ export function Hero() {
 
             {/* Desktop Peeking Map Container - FULL BLEED EFFECT */}
             <div
-                className="hidden lg:block absolute top-0 right-0 w-[60%] h-[calc(100%+20px)] z-0 select-none overflow-hidden pointer-events-auto"
+                className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden pointer-events-auto"
                 style={{
                     maskImage: 'linear-gradient(to right, transparent 0%, transparent 5%, black 25%)',
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 5%, black 25%)'
@@ -104,7 +104,7 @@ export function Hero() {
                             src="/assets/mapheronew.png"
                             alt="Interactive Map Display"
                             className="w-full h-full object-cover opacity-100"
-                            style={{ objectPosition: '95% center' }}
+                            style={{ objectPosition: '95% 15%' }}
                         />
 
                         {/* Integrated Status Bar Footer */}
