@@ -6,9 +6,10 @@ import {
     Search, List, Map as MapIcon,
     UtensilsCrossed, ShoppingBag, Gift, Store as StoreIcon,
     ToyBrick, BookOpen, Bookmark,
-    Eye, EyeOff, CheckCircle,
+    Eye, EyeOff, CheckCircle, HelpCircle,
     Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Navigation, ExternalLink
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "wouter";
 import { MapSection } from "@/components/map-section";
 import { InteractiveMapRef } from "@/components/interactive-map";
@@ -216,165 +217,201 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             {/* Top Row for Desktop Alignment */}
                             <div className="flex items-start justify-between pt-6">
                                 {/* 1. Action Island (Top-Left - now aligned with Logo) */}
-                                {!isZenMode && (
-                                    <div className="hidden md:block pointer-events-auto transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                {!isZenMode && viewMode === "map" ? (
+                                    <div className="hidden md:flex flex-col items-start gap-4 pointer-events-auto transition-all duration-500 animate-in fade-in slide-in-from-left-4">
                                         <button
                                             onClick={() => setAddStoreDialogOpen(true)}
-                                            className="btn-premium-action gap-2 no-invert-hover shadow-xl shadow-slate-900/10"
+                                            className={cn(
+                                                "h-12 px-5 py-2.5 flex items-center justify-center gap-2 font-medium text-[15px] transition-all duration-300",
+                                                "bg-slate-900/85 backdrop-blur-md text-white rounded-2xl",
+                                                "shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-brand-navy/15",
+                                                "hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]",
+                                                "focus-visible:ring-2 focus-visible:ring-blue-500/40 outline-none"
+                                            )}
                                         >
-                                            <Plus className="w-5 h-5" strokeWidth={2.5} />
-                                            <span>Add a Store</span>
+                                            <Plus className="w-5 h-5" strokeWidth={2} />
+                                            <span>Pin a New Store</span>
                                         </button>
+
+                                        {/* Purpose Badge / Map Legend */}
+                                        <div className="flex items-center gap-3 px-4 h-8 bg-white/80 backdrop-blur-md border border-brand-navy/10 rounded-full shadow-sm">
+                                            <div className="flex -space-x-1.5 items-center">
+                                                <div className="w-2.5 h-2.5 rounded-full bg-[#0047FF] border border-white" />
+                                                <div className="w-2.5 h-2.5 rounded-full bg-[#F2D36B] border border-white" />
+                                            </div>
+                                            <span className="text-[12px] font-medium tracking-tight text-slate-600 whitespace-nowrap">
+                                                Pins show local stores carrying Ukrainian-made products
+                                            </span>
+                                        </div>
                                     </div>
+                                ) : (
+                                    <div className="flex flex-col" /> // Placeholder to maintain 'justify-between' alignment across all screens
                                 )}
 
-                                {/* 2. Mission Control Card (Top-Right - now aligned with Language Switcher) */}
+                                {/* 2. Control Strip (Top-Right - Premium Integrated Design) */}
                                 {!isZenMode && (
-                                    <div className="pointer-events-auto w-full max-w-sm bg-white/90 backdrop-blur-xl border border-white/20 shadow-lg rounded-2xl p-4 flex flex-col transition-all duration-500 animate-in fade-in slide-in-from-right-4">
-                                        {/* Top: Search Input */}
-                                        <div className="relative w-full group">
-                                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 z-10" strokeWidth={1.5} />
+                                    <div className="pointer-events-auto flex items-center h-12 bg-white/95 backdrop-blur-xl border border-brand-navy/15 shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-2 transition-all duration-500 animate-in fade-in slide-in-from-right-4">
+
+                                        {/* Segment 1: Search */}
+                                        <div className="flex items-center pl-4 pr-2 min-w-[200px] h-full group">
+                                            <Search className="w-4 h-4 text-gray-900 mr-2 flex-shrink-0" strokeWidth={2} />
                                             <input
                                                 type="text"
-                                                placeholder="Search by city, stores etc..."
+                                                placeholder="Search stores..."
                                                 value={searchQuery}
                                                 onChange={(e) => {
                                                     setSearchQuery(e.target.value);
                                                     closeAllDropdowns();
                                                 }}
-                                                className={cn(
-                                                    "w-full h-[40px] pl-10 pr-4 bg-slate-50/50 border border-slate-100 rounded-xl text-[13px] font-medium text-slate-900",
-                                                    "transition-all duration-300 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#2D50A0]/10"
-                                                )}
+                                                className="w-full bg-transparent border-none outline-none text-sm font-medium text-gray-900 placeholder:text-gray-400"
+                                                aria-label="Search stores"
                                             />
                                         </div>
 
-                                        {/* Middle: Horizontal Filters */}
-                                        <div className="flex items-center gap-2 mt-3">
-                                            {/* Location Filter Pill */}
-                                            <div className="relative flex-1">
-                                                <button
-                                                    onClick={() => {
-                                                        const open = !isProvinceDropdownOpen;
-                                                        closeAllDropdowns();
-                                                        setIsProvinceDropdownOpen(open);
-                                                    }}
-                                                    className={cn(
-                                                        "w-full h-[36px] px-3 rounded-xl border text-[12px] font-semibold flex items-center justify-between transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:ring-slate-400 outline-none",
-                                                        selectedProvince
-                                                            ? "bg-blue-50 border-blue-200 text-[#2D50A0]"
-                                                            : "bg-white border-zinc-200 text-slate-600 hover:border-zinc-300"
-                                                    )}
-                                                >
-                                                    <div className="flex items-center gap-1.5 overflow-hidden">
-                                                        <MapPin className={cn("w-3 h-3 flex-shrink-0", selectedProvince ? "text-[#2D50A0]" : "text-slate-400")} strokeWidth={2} />
-                                                        <span className="truncate">{selectedProvince || "Province"}</span>
-                                                    </div>
-                                                    <ChevronDown className={cn("w-3 h-3 transition-transform text-slate-400 flex-shrink-0", isProvinceDropdownOpen && "rotate-180")} />
-                                                </button>
+                                        {/* Divider */}
+                                        <div className="w-[1px] h-6 bg-brand-navy/10 mx-1" />
 
-                                                {isProvinceDropdownOpen && (
-                                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-zinc-100 rounded-xl shadow-2xl z-[700] overflow-hidden animate-in fade-in zoom-in-95">
-                                                        <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5">
-                                                            <button
-                                                                onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
-                                                                className="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400 hover:bg-zinc-50 rounded-lg"
-                                                            >
-                                                                Canada
-                                                            </button>
-                                                            {CANADIAN_PROVINCES.map(p => (
-                                                                <button
-                                                                    key={p}
-                                                                    onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
-                                                                    className={cn(
-                                                                        "w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-colors",
-                                                                        selectedProvince === p ? "bg-[#2D50A0] text-white" : "text-zinc-600 hover:bg-zinc-50"
-                                                                    )}
-                                                                >
-                                                                    {p}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                    </div>
+                                        {/* Segment 2: Province Dropdown */}
+                                        <div className="relative h-full flex items-center">
+                                            <button
+                                                onClick={() => {
+                                                    const open = !isProvinceDropdownOpen;
+                                                    closeAllDropdowns();
+                                                    setIsProvinceDropdownOpen(open);
+                                                }}
+                                                className={cn(
+                                                    "h-full px-4 flex items-center gap-2 text-sm font-medium transition-colors hover:text-black outline-none",
+                                                    selectedProvince ? "text-[#2D50A0]" : "text-slate-600"
                                                 )}
-                                            </div>
+                                                aria-label="Filter by province"
+                                            >
+                                                <span className="truncate max-w-[100px]">{selectedProvince || "Province"}</span>
+                                                <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", isProvinceDropdownOpen && "rotate-180")} />
+                                            </button>
 
-                                            {/* Category Filter Pill */}
-                                            <div className="relative flex-1">
-                                                <button
-                                                    onClick={() => {
-                                                        const open = !isCategoryDropdownOpen;
-                                                        closeAllDropdowns();
-                                                        setIsCategoryDropdownOpen(open);
-                                                    }}
-                                                    className={cn(
-                                                        "w-full h-[36px] px-3 rounded-xl border text-[12px] font-semibold flex items-center justify-between transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:ring-slate-400 outline-none",
-                                                        category
-                                                            ? "bg-blue-50 border-blue-200 text-[#2D50A0]"
-                                                            : "bg-white border-zinc-200 text-slate-600 hover:border-zinc-300"
-                                                    )}
-                                                >
-                                                    <div className="flex items-center gap-1.5 overflow-hidden">
-                                                        <ShoppingBag className={cn("w-3 h-3 flex-shrink-0", category ? "text-[#2D50A0]" : "text-slate-400")} strokeWidth={2} />
-                                                        <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
-                                                    </div>
-                                                    <ChevronDown className={cn("w-3 h-3 transition-transform text-slate-400 flex-shrink-0", isCategoryDropdownOpen && "rotate-180")} />
-                                                </button>
-
-                                                {isCategoryDropdownOpen && (
-                                                    <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-zinc-100 rounded-xl shadow-2xl z-[700] overflow-hidden animate-in fade-in zoom-in-95">
-                                                        <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5">
+                                            {isProvinceDropdownOpen && (
+                                                <div className="absolute top-[calc(100%+8px)] right-0 w-48 bg-white border border-brand-navy/15 rounded-2xl shadow-2xl z-[700] overflow-hidden animate-in fade-in zoom-in-95">
+                                                    <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
+                                                        <button
+                                                            onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
+                                                            className="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400 hover:bg-zinc-50 rounded-lg"
+                                                        >
+                                                            Canada
+                                                        </button>
+                                                        {CANADIAN_PROVINCES.map(p => (
                                                             <button
-                                                                onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
-                                                                className="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400 hover:bg-zinc-50 rounded-lg"
+                                                                key={p}
+                                                                onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
+                                                                className={cn(
+                                                                    "w-full text-left px-3 py-2 text-[11px] font-semibold uppercase tracking-wider rounded-lg transition-colors",
+                                                                    selectedProvince === p ? "bg-[#2D50A0] text-white" : "text-zinc-600 hover:bg-zinc-50"
+                                                                )}
                                                             >
-                                                                All Categories
+                                                                {p}
                                                             </button>
-                                                            {allCategories.map(cat => (
-                                                                <button
-                                                                    key={cat.id}
-                                                                    onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
-                                                                    className={cn(
-                                                                        "w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-colors",
-                                                                        category === cat.id ? "bg-[#2D50A0] text-white" : "text-zinc-600 hover:bg-zinc-50"
-                                                                    )}
-                                                                >
-                                                                    {cat.label}
-                                                                </button>
-                                                            ))}
-                                                        </div>
+                                                        ))}
                                                     </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Divider */}
-                                        <div className="border-t border-slate-200/60 my-3" />
+                                        <div className="w-[1px] h-6 bg-brand-navy/10 mx-1" />
 
-                                        {/* Bottom: Segmented Control Toggle */}
-                                        <div className="bg-slate-100 rounded-lg p-1 flex w-full">
+                                        {/* Segment 3: Category Dropdown */}
+                                        <div className="relative h-full flex items-center">
                                             <button
-                                                onClick={() => setViewMode("map")}
-                                                aria-pressed={viewMode === "map"}
+                                                onClick={() => {
+                                                    const open = !isCategoryDropdownOpen;
+                                                    closeAllDropdowns();
+                                                    setIsCategoryDropdownOpen(open);
+                                                }}
                                                 className={cn(
-                                                    "flex-1 text-center py-1.5 rounded-md text-[13px] font-medium transition-all flex items-center justify-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
-                                                    viewMode === "map" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"
+                                                    "h-full px-4 flex items-center gap-2 text-sm font-medium transition-colors hover:text-black outline-none",
+                                                    category ? "text-[#2D50A0]" : "text-slate-600"
                                                 )}
+                                                aria-label="Filter by category"
                                             >
-                                                <MapIcon className="w-3.5 h-3.5" />
-                                                Map
+                                                <span className="truncate max-w-[100px]">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                                <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
-                                            <button
-                                                onClick={() => setViewMode("list")}
-                                                aria-pressed={viewMode === "list"}
-                                                className={cn(
-                                                    "flex-1 text-center py-1.5 rounded-md text-[13px] font-medium transition-all flex items-center justify-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
-                                                    viewMode === "list" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"
-                                                )}
-                                            >
-                                                <List className="w-3.5 h-3.5" />
-                                                List
-                                            </button>
+
+                                            {isCategoryDropdownOpen && (
+                                                <div className="absolute top-[calc(100%+8px)] right-0 w-48 bg-white border border-brand-navy/15 rounded-2xl shadow-2xl z-[700] overflow-hidden animate-in fade-in zoom-in-95">
+                                                    <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
+                                                        <button
+                                                            onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
+                                                            className="w-full text-left px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400 hover:bg-zinc-50 rounded-lg"
+                                                        >
+                                                            All Categories
+                                                        </button>
+                                                        {allCategories.map(cat => (
+                                                            <button
+                                                                key={cat.id}
+                                                                onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
+                                                                className={cn(
+                                                                    "w-full text-left px-3 py-2 text-[11px] font-semibold uppercase tracking-wider rounded-lg transition-colors",
+                                                                    category === cat.id ? "bg-[#2D50A0] text-white" : "text-zinc-600 hover:bg-zinc-50"
+                                                                )}
+                                                            >
+                                                                {cat.label}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="w-[1px] h-6 bg-brand-navy/10 mx-2" />
+
+                                        {/* Segment 4: Map/List Toggle (Pill style inside) */}
+                                        <div className="flex items-center h-9 bg-gray-100/80 backdrop-blur-sm border border-brand-navy/10 rounded-full p-1 ml-1 mr-1">
+                                            <TooltipProvider delayDuration={200}>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <button
+                                                            onClick={() => setViewMode("map")}
+                                                            aria-pressed={viewMode === "map"}
+                                                            aria-label="Switch to Map View"
+                                                            className={cn(
+                                                                "px-4 h-full rounded-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 outline-none focus-visible:ring-1 focus-visible:ring-blue-500/20",
+                                                                viewMode === "map"
+                                                                    ? "bg-white shadow-sm text-gray-900"
+                                                                    : "text-gray-500 hover:text-gray-700 bg-transparent"
+                                                            )}
+                                                        >
+                                                            Map
+                                                        </button>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent side="bottom" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                                                        Browse via Map
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+
+                                            <TooltipProvider delayDuration={200}>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <button
+                                                            onClick={() => setViewMode("list")}
+                                                            aria-pressed={viewMode === "list"}
+                                                            aria-label="Switch to List View"
+                                                            className={cn(
+                                                                "px-4 h-full rounded-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 outline-none focus-visible:ring-1 focus-visible:ring-blue-500/20",
+                                                                viewMode === "list"
+                                                                    ? "bg-white shadow-sm text-gray-900"
+                                                                    : "text-gray-500 hover:text-gray-700 bg-transparent"
+                                                            )}
+                                                        >
+                                                            List
+                                                        </button>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent side="bottom" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                                                        Browse Directory list
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
                                         </div>
                                     </div>
                                 )}
@@ -385,9 +422,14 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                 <div className="md:hidden absolute bottom-24 right-4 pointer-events-auto transition-all duration-500 animate-in fade-in slide-in-from-bottom-4">
                                     <button
                                         onClick={() => setAddStoreDialogOpen(true)}
-                                        className="btn-premium-action gap-2 shadow-2xl shadow-slate-900/20 w-14 h-14 p-0 rounded-full"
+                                        className={cn(
+                                            "w-14 h-14 p-0 rounded-full flex items-center justify-center transition-all duration-300",
+                                            "bg-slate-900/85 backdrop-blur-md text-white",
+                                            "shadow-2xl shadow-slate-900/20 border border-brand-navy/15",
+                                            "hover:scale-105 active:scale-95"
+                                        )}
                                     >
-                                        <Plus className="w-6 h-6" strokeWidth={2.5} />
+                                        <Plus className="w-6 h-6" strokeWidth={2} />
                                     </button>
                                 </div>
                             )}
@@ -420,6 +462,6 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
                 </DialogContent>
             </Dialog>
-        </div>
+        </div >
     );
 }

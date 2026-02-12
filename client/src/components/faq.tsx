@@ -37,7 +37,7 @@ export function FAQ() {
           <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
             The Project's Mission
           </h2>
-          <p className="text-[1.125rem] leading-[1.5] text-slate-800 font-medium max-w-[33.75rem] mx-auto tracking-[0.01em]">
+          <p className="text-[1.125rem] leading-[1.5] text-slate-500 font-medium max-w-[33.75rem] mx-auto tracking-[0.01em]">
             Frequently asked questions about the map and how to contribute.
           </p>
         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
-import { MapContainer, TileLayer, Marker, useMap, GeoJSON, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap, GeoJSON, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { StoreCard } from "./store-card";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
@@ -112,8 +113,9 @@ function MapController({
       };
 
       if (flyConfig?.padding) {
-        // @ts-ignore - Leaflet types might be missing paddingBottomRight on FlyTo options in some versions
-        flyOptions.paddingBottomRight = flyConfig.padding;
+        // If padding is [400, 0], we interpret it as left padding now
+        // @ts-ignore
+        flyOptions.paddingTopLeft = flyConfig.padding;
       }
 
       // The Glide & Curve (Obsidian Silk)
@@ -160,6 +162,15 @@ function MapController({
     }
   }, [provinceView, map]);
 
+  return null;
+}
+
+function MapEvents({ onMapClick }: { onMapClick: () => void }) {
+  useMapEvents({
+    click: () => {
+      onMapClick();
+    },
+  });
   return null;
 }
 
@@ -367,8 +378,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     focusOnStore: (store: Store) => {
       // Mechanical Zoom (Pin Click) - Stabilized
       if (store.coordinates) {
-        // Calculate dynamic padding based on sidebar presence
-        // Sidebar is 400px on desktop (right side)
+        // Sidebar is 400px on desktop (left side)
         const isDesktop = window.innerWidth >= 768;
         const padding: [number, number] = isDesktop ? [400, 0] : [0, 0];
 
@@ -472,6 +482,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onFlightEnd={() => onFlightChange?.(false)}
         />
 
+        <MapEvents onMapClick={onCloseStore} />
+
         {/* CLUSTERING IMPLEMENTATION: Replaced direct Marker loop with MarkerClusterGroup */}
         <MarkerClusterGroup
           stores={stores}
@@ -497,18 +509,24 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         )}
       </MapContainer>
 
-      {/* Side Panel Overlay - No more Dialog */}
+      {/* Side Panel Overlay - Balanced Dashboard (Left Side) */}
       {selectedStore && (
-        <div className="side-panel-container absolute bottom-4 left-4 right-4 md:top-[24px] md:bottom-auto md:left-auto md:right-[24px] md:w-[400px] z-[2000] animate-in fade-in slide-in-from-bottom-5 duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] delay-100 fill-mode-forwards shadow-[-10px_0_30px_rgba(0,0,0,0.05)] rounded-[20px] h-auto max-h-[85vh] md:max-h-[min(800px,calc(100vh-48px))] pointer-events-auto">
+        <div className={cn(
+          "side-panel-container absolute z-[2000] pointer-events-auto",
+          "bottom-4 left-4 right-4", // Mobile: Bottom Card
+          "md:top-24 md:left-6 md:bottom-auto md:right-auto md:w-[400px]", // Desktop: Left Sidebar below Add Store
+          "animate-in fade-in slide-in-from-left-6 duration-300 ease-out fill-mode-both"
+        )}>
           <StoreCard
             store={selectedStore}
             onClose={() => {
               const panel = document.querySelector('.side-panel-container');
-              if (panel) panel.classList.add('slide-out-to-right');
+              if (panel) {
+                panel.classList.add('animate-out', 'fade-out', 'slide-out-to-left-6');
+              }
               setTimeout(() => {
                 onCloseStore();
-                // NO ZOOM REVEAL - User Requirement: "DO NOT trigger a zoom-out or fitBounds reset"
-              }, 200); // Wait for anim
+              }, 300);
             }}
             onSeeOnMap={(s) => {
               // Zoom in effect
@@ -519,49 +537,113 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-lg overflow-hidden">
-        <button
-          onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
-          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-          title="Locate Me"
-        >
-          <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
-        </button>
-        <div className="w-6 h-[1px] bg-zinc-100" />
-        <button
-          onClick={internalZoomIn}
-          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-          title="Zoom In"
-        >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
-        </button>
-        <div className="w-6 h-[1px] bg-zinc-100" />
-        <button
-          onClick={internalZoomOut}
-          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-          title="Zoom Out"
-        >
-          <Minus className="w-4 h-4 stroke-[2.5]" />
-        </button>
-        <div className="w-6 h-[1px] bg-zinc-100" />
-        <button
-          onClick={() => {
-            if (mapRef.current) {
-              const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
-              if (valid.length > 0) {
-                const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
-                mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
-              } else {
-                setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
-              }
-              setFocusCoordinates(null);
-            }
-          }}
-          className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-          title="Reset to Full View"
-        >
-          <Maximize2 className="w-4 h-4 stroke-[2.5]" />
-        </button>
+      {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
+
+        {/* Main Control Group */}
+        <div className="flex flex-col items-center bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-lg overflow-hidden pointer-events-auto">
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
+                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                  aria-label="Center on my location"
+                >
+                  <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                Center on my location
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <div className="w-6 h-[1px] bg-zinc-100" />
+
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={internalZoomIn}
+                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                  aria-label="Zoom in map"
+                >
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                Zoom in map
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <div className="w-6 h-[1px] bg-zinc-100" />
+
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={internalZoomOut}
+                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                  aria-label="Zoom out map"
+                >
+                  <Minus className="w-4 h-4 stroke-[2.5]" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                Zoom out map
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <div className="w-6 h-[1px] bg-zinc-100" />
+
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => {
+                    if (mapRef.current) {
+                      const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
+                      if (valid.length > 0) {
+                        const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
+                        mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
+                      } else {
+                        setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+                      }
+                      setFocusCoordinates(null);
+                    }
+                  }}
+                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                  aria-label="Reset to full Canada view"
+                >
+                  <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                Reset to national view
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
+        {/* Separated Help Button (32px lower approx via gap-6/8) */}
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border border-zinc-200 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+                aria-label="How to use the map"
+              >
+                <span className="font-serif italic leading-none pt-0.5">?</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+              How it works
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );

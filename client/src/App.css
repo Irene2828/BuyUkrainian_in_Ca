@@ -11,6 +11,14 @@
     --color-section-headline: #D3E4FD;
 }
 
+/* Global Tracking for Buttons, Links, and CTAs */
+button,
+a,
+[role="button"],
+.cta {
+    letter-spacing: -0.02em;
+}
+
 /* Global Section Headline Enforcement (Removed to allow utility classes) */
 /* section h2,
 section h3,
@@ -129,8 +137,8 @@ section h3,
 
 /* Premium Card Style - UPDATED WITH BRAND BLUE STROKE ONLY */
 .flicker-card-premium {
-    transition: transform 0.2s ease-out, border-color 0.2s ease-out;
-    border: 1px solid #D3E4FD !important;
+    transition: transform 0.2s ease-out;
+    border: none !important;
     border-radius: 32px !important;
     box-shadow: none !important;
     background: #ffffff !important;
@@ -140,8 +148,6 @@ section h3,
 
 .flicker-card-premium:hover {
     box-shadow: none !important;
-    border-color: #006CE4 !important;
-    /* Slightly darker blue on hover */
     transform: translateY(-1px);
 }
 

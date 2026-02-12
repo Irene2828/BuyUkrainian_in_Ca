@@ -36,7 +36,7 @@ export function HowItWorks() {
           <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
             {t('howItWorks.title') || 'How to Use this Map'}
           </h2>
-          <p className="text-[1.125rem] leading-[1.5] text-slate-800 font-medium max-w-[33.75rem] mx-auto tracking-[0.01em]">
+          <p className="text-[1.125rem] leading-[1.5] text-slate-500 font-medium max-w-[33.75rem] mx-auto tracking-[0.01em]">
             {t('howItWorks.subtitle') || "and help Ukraine's economy"}
           </p>
         </div>
@@ -59,7 +59,7 @@ export function HowItWorks() {
               {/* Horizontal Header Row: Icon + Label - Centered */}
               <div className="flex items-center justify-center gap-3 mb-[28px] w-full">
                 <step.icon size={26} strokeWidth={2} className="text-[#2D50A0]" />
-                <h5 className="text-[14.4px] font-bold uppercase tracking-[0.05em] text-[#2D50A0] font-sans">
+                <h5 className="text-[14.4px] font-bold uppercase tracking-[0.05em] text-[#2D50A0]/60 font-sans">
                   {step.title}
                 </h5>
               </div>

@@ -100,7 +100,7 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-[54px] pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
+                className="w-full pt-[80px] pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
             >
                 <div className="boutique-width min-[1537px]:max-w-[1440px] w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
@@ -140,8 +140,7 @@ export function RecentProductsMarquee() {
                                         key={`${store.id}-${i}`}
                                         className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
                                         onClick={() => window.open(`/map?store=${encodeURIComponent(store.name)}`, '_blank')}
-                                        onMouseEnter={(e) => handleMouseEnter(e, store)}
-                                        onMouseLeave={handleMouseLeave}
+
                                     >
                                         {/* Identity Dot: 10px, Split 50/50, Opacity 60->100 */}
                                         <span

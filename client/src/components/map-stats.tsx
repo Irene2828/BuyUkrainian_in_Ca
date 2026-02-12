@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Package, ArrowRight } from "lucide-react";
+import { Package, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 
@@ -70,16 +70,16 @@ export function MapStats() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-6 mt-20">
-                    <p className="text-[15px] text-slate-500 font-ui italic text-center max-w-[40ch]">
-                        Every data point represents a Ukrainian entrepreneur supported by this community.
+                <div className="flex flex-col items-center gap-6 mt-10">
+                    <p className="text-[14px] md:text-[15px] text-slate-500 font-medium font-ui text-center max-w-[40ch]">
+                        Ready to find or add more stores selling made in Ukraine?
                     </p>
                     <Link href="/map">
                         <button
-                            className="btn-premium-action gap-2 no-invert-hover px-8 bg-slate-900 border-none text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
+                            className="h-12 px-8 rounded-2xl bg-slate-900/85 backdrop-blur-md text-white font-medium text-[15px] tracking-normal transition-all duration-200 shadow-sm border border-brand-navy/15 hover:bg-slate-900 hover:translate-y-[-1px] active:scale-95 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group flex items-center gap-2"
                         >
-                            <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
-                            <span>Go to The Map</span>
+                            <span>Open interactive map</span>
+                            <MapPin className="w-4 h-4 ml-1" />
                         </button>
                     </Link>
                 </div>

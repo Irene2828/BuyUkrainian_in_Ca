@@ -71,7 +71,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const { t } = useI18n();
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(12);
   const mapRef = useRef<InteractiveMapRef>(null);
 
   useImperativeHandle(ref, () => ({
@@ -227,11 +227,16 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (isLoading && viewMode === "list") {
     return (
-      <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className}`}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-0">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <StoreListItemSkeleton key={i} />
-          ))}
+      <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className} bg-[#fcfcfc]`}>
+        <div className="w-full h-10 md:h-12 shrink-0" />
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 justify-items-center">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="w-full max-w-[440px]">
+                <StoreListItemSkeleton />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -239,23 +244,28 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col h-full bg-white relative">
-        {/* Spacer for Toggle to prevent scroll overlap */}
-        <div className="w-full h-[120px] shrink-0 bg-white" />
+      <div className="flex flex-col h-full bg-[#fcfcfc] relative overflow-y-auto custom-scrollbar animate-in fade-in duration-500">
+        {/* Top Spacer: Maintains visual baseline with map controls */}
+        <div className="w-full h-10 md:h-12 shrink-0" />
 
-        <div className="flex flex-col gap-8 px-6 md:px-12 pt-0 pb-8 pr-0 overflow-y-auto flex-1 custom-scrollbar bg-white">
-          {filteredStores.slice(0, visibleCount).map((store) => (
-            <ListingCard
-              key={store.id}
-              store={store}
-              variant="list"
-              onClick={() => handleSelectStore(store)}
-              className="bg-white hover:bg-white/50 hover:scale-[1.01] transition-all duration-300 rounded-[20px] animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
-              style={{ animationFillMode: 'both' }}
-            />
-          ))}
+        <div className="max-w-6xl mx-auto w-full px-6 py-12 md:py-16">
+          {/* Gallery Grid: Premium 2-Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 justify-items-center">
+            {filteredStores.slice(0, visibleCount).map((store, index) => (
+              <ListingCard
+                key={store.id}
+                store={store}
+                variant="list"
+                onClick={() => handleSelectStore(store)}
+                className="w-full max-w-[440px] animate-in fade-in slide-in-from-bottom-8 fill-mode-both"
+                style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'both' }}
+              />
+            ))}
+          </div>
+
+          {/* Empty State Presentation */}
           {filteredStores.length === 0 && (
-            <div>
+            <div className="flex flex-col items-center justify-center py-32 animate-in fade-in duration-700">
               <EmptyState
                 type="no-results"
                 searchQuery={searchQuery}
@@ -263,20 +273,21 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
               />
             </div>
           )}
+
+          {/* See More Actions: Centered Premium Button */}
+          {visibleCount < filteredStores.length && (
+            <div className="mt-20 flex justify-center pb-20">
+              <button
+                onClick={() => setVisibleCount(c => c + 12)}
+                className="h-12 px-10 rounded-full border border-slate-900 bg-white text-slate-900 font-medium text-sm tracking-wide hover:bg-slate-900 hover:text-white transition-all duration-300 flex items-center gap-2 shadow-sm active:scale-95"
+              >
+                {t('map.seeMore') || 'See more stores'} <ArrowDown className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
 
-        {viewMode === "list" && visibleCount < filteredStores.length && (
-          <div className="py-10 border-t border-gray-50 flex justify-center bg-white shadow-none">
-            <button
-              onClick={() => setVisibleCount(c => c + 12)}
-              className="text-[16px] font-bold text-slate-900/70 hover:text-slate-900 transition-colors flex items-center gap-2 font-ui no-underline outline-none border-none focus:outline-none focus:ring-0 active:outline-none hover:outline-none bg-transparent hover:bg-transparent"
-            >
-              {t('map.seeMore') || 'See more stores'} <ArrowDown className="w-4 h-4" />
-            </button>
-          </div>
-        )}
-
-        {/* Custom Centered Modal Overlay - Identical to Recently Added */}
+        {/* Premium Modal Overlay: Ported from Map Selection */}
         {isModalOpen && selectedStore && (
           <div
             className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/20 backdrop-blur-sm animate-in fade-in duration-200"

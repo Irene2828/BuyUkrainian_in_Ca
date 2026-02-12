@@ -79,7 +79,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
     }, [handleKeyDown]);
 
     return (
-        <div className="bg-white rounded-[20px] shadow-2xl overflow-hidden border border-gray-100 flex flex-col w-full max-w-sm animate-in fade-in zoom-in duration-300">
+        <div className={cn(
+            "bg-white/95 backdrop-blur-xl rounded-[32px] overflow-hidden flex flex-col w-full max-w-[400px] transition-all duration-300",
+            "shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-brand-navy/15"
+        )}>
             {/* Lightbox Overlay - Boutique Gallery Preview */}
             {isLightboxOpen && (
                 <div
@@ -138,13 +141,13 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             )}
 
             {/* 1. Header Section: Brand & Navigation */}
-            <div className="px-6 pt-7 pb-4 flex justify-between items-start">
-                <div className="space-y-1.5 flex-1 pr-2">
-                    <h2 className="text-[17px] font-bold text-gray-900 leading-tight tracking-tight line-clamp-2">
+            <div className="px-6 pt-7 pb-4 flex justify-between items-start gap-4">
+                <div className="space-y-2 flex-1 min-w-0">
+                    <h2 className="text-[18px] font-bold text-gray-900 leading-tight tracking-tight line-clamp-2">
                         {store.name}
                     </h2>
                     <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold px-2 py-0.5 bg-[#D3E4FD] text-slate-900 rounded-md uppercase tracking-wider">
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-blue-50 text-[#2D50A0] rounded-lg uppercase tracking-wider">
                             {getCategoryLabel(store.category)}
                         </span>
                         {matchedProduct && (
@@ -156,10 +159,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
                 <button
                     onClick={onClose}
-                    className="w-[44px] h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors text-gray-400 active:scale-90 flex-shrink-0"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full transition-all active:scale-95 flex-shrink-0"
                     aria-label="Close"
                 >
-                    <X size={24} className="fill-none stroke-current" strokeWidth={2} />
+                    <X size={20} className="fill-none stroke-current" strokeWidth={2.5} />
                 </button>
             </div>
 
@@ -255,30 +258,41 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="no-invert-hover bg-slate-900 text-white rounded-full px-8 h-[46px] text-base font-normal hover:bg-slate-800 hover:scale-[1.02] transition-all duration-300 tracking-[0.3px] flex items-center justify-center gap-2"
+                        className="bg-white text-slate-900 border border-slate-900 rounded-full px-8 h-12 text-base font-medium hover:bg-gray-50 hover:scale-[1.01] transition-all duration-300 tracking-[0.3px] flex items-center justify-center gap-2 shadow-sm"
                     >
-                        <Navigation size={20} className="fill-none stroke-current" strokeWidth={2.5} />
+                        <Navigation size={20} className="fill-none stroke-current" strokeWidth={2} />
                         Get Directions
                     </a>
                 </div>
 
-                {/* Secondary Dual Actions */}
-                <div className="grid grid-cols-2 gap-3">
+                {/* Secondary Dual Actions - Synchronized Brand DNA */}
+                <div className="flex items-center justify-center gap-x-4">
                     <button
                         onClick={handleCopyAddress}
                         className={cn(
-                            "group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-normal font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-base active:scale-[0.97]",
-                            copied ? "text-blue-600 bg-blue-50/50" : ""
+                            "group flex h-11 items-center justify-center gap-2 rounded-xl border transition-all duration-300 active:scale-[0.97] px-4",
+                            "font-medium text-[13px] tracking-tight",
+                            copied
+                                ? "bg-blue-50 border-blue-200 text-blue-600"
+                                : "bg-transparent border-brand-navy/15 text-slate-600 hover:border-brand-navy/30 hover:text-[#2D50A0] hover:bg-slate-50/50"
                         )}
                     >
-                        {copied ? <Check size={16} className="fill-none stroke-current" strokeWidth={2} /> : <Copy size={16} className="fill-none stroke-current" strokeWidth={2} />}
+                        {copied ? (
+                            <Check size={14} className="fill-none stroke-current" strokeWidth={2.5} />
+                        ) : (
+                            <Copy size={14} className="fill-none stroke-current" strokeWidth={2.5} />
+                        )}
                         {copied ? "Copied!" : "Copy address"}
                     </button>
                     <button
                         onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                        className="group flex h-[52px] items-center justify-center gap-2 rounded-lg !border-none !border-transparent !bg-transparent text-slate-600 font-normal font-ui !transition-all !duration-300 hover:bg-slate-50 hover:scale-[1.01] hover:-translate-y-px text-base active:scale-[0.97]"
+                        className={cn(
+                            "group flex h-11 items-center justify-center gap-2 rounded-xl border transition-all duration-300 active:scale-[0.97] px-4",
+                            "font-medium text-[13px] tracking-tight",
+                            "bg-transparent border-brand-navy/15 text-slate-600 hover:border-brand-navy/30 hover:text-[#2D50A0] hover:bg-slate-50/50"
+                        )}
                     >
-                        <Maximize2 size={16} className="fill-none stroke-current" strokeWidth={2} />
+                        <Maximize2 size={14} className="fill-none stroke-current" strokeWidth={2.5} />
                         {onSeeOnMap ? "See on Map" : "Expand"}
                     </button>
                 </div>

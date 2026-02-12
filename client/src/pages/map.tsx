@@ -9,6 +9,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { HomeAddForm } from "@/components/home-add-form";
 import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -28,6 +30,7 @@ function NewlyAddedStores() {
     queryFn: getApprovedStores,
   });
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
+  const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
 
   if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-secondary)]" /></div>;
 
@@ -43,7 +46,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[54px] pb-12">
+    <section className="bg-white pt-[5rem] lg:pt-[6.25rem] pb-[72px]">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -52,9 +55,7 @@ function NewlyAddedStores() {
               LATEST COMMUNITY ADDITIONS
             </p>
           </div>
-          <p className="text-base text-[#575756] font-ui stagger-item mt-3">
-            Every point on the map starts with a member of our community sharing a local find.
-          </p>
+
         </div>
       </div>
 
@@ -102,6 +103,26 @@ function NewlyAddedStores() {
         </Carousel>
       </div>
 
+      {/* Community Call to Action */}
+      <div className="flex flex-col items-center justify-center mt-4 gap-5 text-center px-4">
+        <p className="text-[14px] md:text-[15px] text-slate-500 font-medium font-ui">
+          Know a Store We Missed? Add it To the Map
+        </p>
+        <button
+          onClick={() => setAddStoreDialogOpen(true)}
+          className="h-12 px-6 py-2.5 rounded-2xl bg-slate-900/85 backdrop-blur-md text-white font-medium text-[15px] tracking-normal transition-all duration-200 shadow-sm border border-brand-navy/15 hover:bg-slate-900 hover:translate-y-[-1px] active:scale-95 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group flex items-center gap-2"
+        >
+          <Plus className="w-5 h-5" strokeWidth={2} />
+          <span>Add a New Store</span>
+        </button>
+      </div>
+
+      <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+        <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none overflow-visible">
+          <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
 
 
 
@@ -141,17 +162,22 @@ export default function MapPage() {
   return (
     <div className={cn(
       "bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100 transition-all duration-500",
-      isZenMode ? "pt-0" : "pt-[80px]"
+      isZenMode ? "pt-0" : "pt-[5rem] lg:pt-[6.25rem]"
     )}>
       {!isZenMode && <Header />}
       <main className="flex flex-col flex-1">
         {!isZenMode && <div className="w-full h-0 bg-white shrink-0" />}
-        <div className={cn(
-          "relative z-0 mb-0 transition-all duration-500 w-full",
-          isZenMode ? "flex-1" : "h-auto"
-        )}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className={cn(
+            "relative z-0 mb-0 transition-all duration-500 w-full",
+            isZenMode ? "flex-1" : "h-auto"
+          )}
+        >
           <MapExplorer isZenMode={isZenMode} onZenModeToggle={() => setIsZenMode(!isZenMode)} />
-        </div>
+        </motion.div>
 
         {!isZenMode && (
           <>

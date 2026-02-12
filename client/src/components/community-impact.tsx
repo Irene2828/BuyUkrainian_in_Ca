@@ -42,7 +42,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section className={cn(
-            "relative w-full bg-white py-[72px] section-reveal overflow-hidden"
+            "relative w-full bg-white py-16 section-reveal overflow-hidden",
+            !hideBorder && "border-b border-brand-navy/10"
         )}>
             {/* Background Blobs */}
             <div
@@ -71,33 +72,24 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
             />
 
             <div className="boutique-width min-[1537px]:max-w-[1440px] w-full mx-auto relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left">
-                    <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-start">
+                    {/* 1. Left Column: Message */}
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
                         <div className="flex items-center gap-2.5 mb-4">
                             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" aria-hidden="true" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 SHARE THE MAP
                             </p>
                         </div>
-                        <h2 className="text-[31px] md:text-[41px] font-semibold text-[#2D50A0] leading-tight mb-4 stagger-item max-w-[25ch]">
-                            Let's make it easy<br />to buy Ukrainian<br />in Canada
+                        <h2 className="text-[31px] md:text-[41px] font-semibold text-[#2D50A0] leading-tight stagger-item w-full tracking-tighter">
+                            Let's grow the map<br />of Ukrainian products<br />in Canada
                         </h2>
-                        <p className="text-[14px] text-[#424245] font-ui leading-relaxed max-w-[45ch] mx-auto md:mx-0 mb-8">
-                            We're creating a community-driven resource to help you find and support Ukrainian makers and entrepreneurship across Canada.
-                        </p>
-
-                        <a
-                            href="mailto:hello@buyukrainian.ca?subject=Volunteer%20Inquiry"
-                            className="group flex items-center gap-2 text-[16px] font-medium text-slate-500 hover:text-slate-900 transition-colors py-2"
-                        >
-                            <div className="w-1.5 h-1.5 bg-[#F4C542] rounded-full shadow-[0_0_4px_rgba(244,197,66,0.5)]" />
-                            <span>Volunteer for the Project</span>
-                        </a>
                     </div>
 
-                    <div className="flex flex-col items-center md:items-end w-full">
-                        {/* Draft Preview Box */}
-                        <div className="relative w-full max-w-[380px] mb-8 p-6 rounded-2xl bg-white border border-slate-100 text-left group/draft transition-colors shadow-[0_12px_32px_rgba(45,80,160,0.04)]">
+                    {/* 2. Right Column: Actions */}
+                    <div className="flex flex-col items-center md:items-end w-full gap-6">
+                        {/* Copy Card */}
+                        <div className="relative w-full max-w-[480px] p-6 rounded-2xl bg-white border border-slate-100 text-left group/draft transition-colors shadow-[0_12px_32px_rgba(45,80,160,0.04)]">
                             <div className="flex items-center justify-between mb-3">
                                 <div />
                                 <button
@@ -118,47 +110,47 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             </p>
                         </div>
 
-                        <ul className="flex flex-col items-center md:items-end gap-4 list-none p-0 m-0">
-                            <li>
-                                <button
-                                    onClick={handleFacebookShare}
-                                    className="flex items-center gap-4 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
-                                    aria-label="Share on Facebook"
+                        {/* Social Links - Aligned Right under Card */}
+                        <div className="flex flex-col items-center md:items-end gap-4 w-full max-w-[480px]">
+                            <button
+                                onClick={handleFacebookShare}
+                                className="group flex items-center gap-2 text-brand-navy font-medium text-[15px] tracking-normal transition-all duration-200"
+                                aria-label="Share on Facebook"
+                            >
+                                <Facebook className="w-4 h-4" strokeWidth={2} />
+                                <span className="underline underline-offset-4 decoration-1 decoration-transparent transition-all duration-300 group-hover:decoration-slate-900">
+                                    Share on Facebook
+                                </span>
+                            </button>
+
+                            <button
+                                onClick={handleInstagramShare}
+                                className="group flex items-center gap-2 text-brand-navy font-medium text-[15px] tracking-normal transition-all duration-200"
+                                aria-label="Share on Instagram"
+                            >
+                                <Instagram className="w-4 h-4" strokeWidth={2} />
+                                <span className="underline underline-offset-4 decoration-1 decoration-transparent transition-all duration-300 group-hover:decoration-slate-900">
+                                    Share on Instagram
+                                </span>
+                            </button>
+
+                            <button
+                                onClick={handleXShare}
+                                className="group flex items-center gap-2 text-brand-navy font-medium text-[15px] tracking-normal transition-all duration-200"
+                                aria-label="Share on X (Twitter)"
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    className="w-[16px] h-[16px] fill-current"
+                                    aria-hidden="true"
                                 >
-                                    <Facebook className="w-[18px] h-[18px] text-[#2D50A0]" />
-                                    <span>Share on Facebook</span>
-                                    <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                                </button>
-                            </li>
-                            <li>
-                                <button
-                                    onClick={handleInstagramShare}
-                                    className="flex items-center gap-4 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
-                                    aria-label="Share on Instagram"
-                                >
-                                    <Instagram className="w-[18px] h-[18px] text-[#2D50A0]" />
-                                    <span>Share on Instagram</span>
-                                    <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                                </button>
-                            </li>
-                            <li>
-                                <button
-                                    onClick={handleXShare}
-                                    className="flex items-center gap-4 px-4 h-[44px] text-[15px] font-medium text-[#2D50A0] transition-all duration-300 hover:opacity-100 group relative"
-                                    aria-label="Share on X (Twitter)"
-                                >
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        className="w-[18px] h-[18px] fill-[#2D50A0]"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                                    </svg>
-                                    <span>Share on X</span>
-                                    <span className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-[#2D50A0] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                                </button>
-                            </li>
-                        </ul>
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                                </svg>
+                                <span className="underline underline-offset-4 decoration-1 decoration-transparent transition-all duration-300 group-hover:decoration-slate-900">
+                                    Share on X
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
