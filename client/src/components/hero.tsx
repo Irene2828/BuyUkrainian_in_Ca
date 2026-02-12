@@ -38,7 +38,7 @@ export function Hero() {
                 }}
             />
 
-            <div className="boutique-width w-full pt-[5rem] lg:pt-[6.25rem] pb-[4.2rem] lg:pb-[10.125rem] flex items-center relative z-10 h-full pointer-events-none">
+            <div className="boutique-width w-full pt-[5rem] lg:pt-[6.25rem] pb-[1.7rem] lg:pb-[7.625rem] flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area */}
                 <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
@@ -67,7 +67,7 @@ export function Hero() {
 
                         <a
                             href="#how-it-works"
-                            className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 py-3 md:py-0 flex items-center gap-1.5 pl-8"
+                            className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 py-3 md:py-0 flex items-center gap-1.5"
                         >
                             <HelpCircle className="w-4 h-4" />
                             <span>How it works</span>
