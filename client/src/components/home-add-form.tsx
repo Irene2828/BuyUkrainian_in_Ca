@@ -20,8 +20,8 @@ import { ArrowRight, CheckCircle, MapPin, Loader2, X, Upload, Image } from "luci
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
-  city: z.string().min(2, "City is required"),
-  province: z.string().min(2, "Province is required"),
+  city: z.string().optional().default(""),
+  province: z.string().optional().default(""),
   address: z.string().min(5, "Address is required"),
   name: z.string().min(2, "Store name is required"),
   category: z.enum(["food", "clothes", "retail", "other"]),
