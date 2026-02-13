@@ -339,6 +339,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           handleAddressChange(e.target.value);
                         }}
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
+                        onBlur={() => { setTimeout(() => setShowAddressSuggestions(false), 200); }}
                         className="h-14 pl-11 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
