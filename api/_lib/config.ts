@@ -25,16 +25,16 @@ function validateEnv(): Config {
   }
 
   if (missingVars.length > 0) {
-    const errorMsg = `Configuration Error: Missing required environment variables: ${missingVars.join(", ")}`;
-    // We throw a standard error here, but the consumer can catch it and exit gracefully if needed.
-    // However, for startup, crashing with a clear message is often desired on the server.
-    throw new Error(errorMsg);
+    // Log clearly but don't throw during module init — let the request handler report the error gracefully
+    console.error(`⚠️  Configuration Error: Missing required environment variables: ${missingVars.join(", ")}`);
+    console.error(`   Ensure these are set in Vercel Project Settings > Environment Variables`);
+    console.error(`   Current NODE_ENV: ${process.env.NODE_ENV}`);
   }
 
   return {
-    databaseUrl: process.env.DATABASE_URL!,
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    databaseUrl: process.env.DATABASE_URL || "",
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
     isProduction: process.env.NODE_ENV === "production",
     port: parseInt(process.env.PORT || "3000", 10),
   };
