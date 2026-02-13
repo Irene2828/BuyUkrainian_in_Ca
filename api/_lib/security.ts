@@ -127,15 +127,7 @@ function signToken(payload: string): string {
 
 export async function verifyAdminPassword(password: string, username?: string): Promise<{ valid: boolean; adminId?: number; username?: string }> {
   // If username is provided, check database first
-  // If username is provided, check database first
   if (username) {
-    // Temporary override to recover access
-    if (username === 'admin' && password === 'UaCa2016!new') {
-      // Return a mock ID if real one isn't known yet, or try to fetch it
-      // For now, valid: true is enough for session creation
-      return { valid: true, username: 'admin' };
-    }
-
     try {
       const adminUser = await storage.getAdminUserByUsername(username);
       if (adminUser) {
