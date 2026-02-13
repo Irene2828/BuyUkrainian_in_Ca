@@ -13,6 +13,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Link } from "wouter";
 import { MapSection } from "@/components/map-section";
 import { InteractiveMapRef } from "@/components/interactive-map";
+import { StoreCard } from "@/components/store-card";
+import { Store } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
@@ -61,6 +63,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
     const [selectedCity, setSelectedCity] = useState<string | null>(null);
     const [viewMode, setViewMode] = useState<"map" | "list">("map");
+    const [selectedStore, setSelectedStore] = useState<Store | null>(null);
     const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
     const [isFlying, setIsFlying] = useState(false);
     const [sortMode, setSortMode] = useState<"newest" | "name">("newest");
@@ -214,6 +217,35 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     {/* Floating Overlay Islands - Aligned with Header via boutique-width */}
                     <div className="absolute inset-0 z-[600] pointer-events-none">
                         <div className="boutique-width mx-auto h-full relative">
+
+                            {/* Store Card Overlay - Aligned left with Search Bar */}
+                            <AnimatePresence>
+                                {selectedStore && viewMode === "map" && !isZenMode && (
+                                    <motion.div
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
+                                        className="absolute top-[104px] left-0 z-[2000] w-full md:w-[400px] pointer-events-auto"
+                                    >
+                                        <StoreCard
+                                            store={selectedStore}
+                                            onClose={() => setSelectedStore(null)}
+                                            onSeeOnMap={(s) => {
+                                                // Zoom logic handled by InteractiveMap via ref if needed, 
+                                                // but MapSection handles camera. Here we just ensure card stays open? 
+                                                // Actually, "See on Map" usually zooms in.
+                                                // MapSection receives props, it might need a signal to zoom.
+                                                // But usually standard behavior is fine.
+                                                // Let's ensure we keep selection.
+                                                // For zoom, we can use the ref:
+                                                mapSectionRef.current?.flyToLocation(s.coordinates[0], s.coordinates[1], 14.5);
+                                            }}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             {/* Top Row for Desktop Alignment */}
                             <div className="flex items-start justify-between pt-6">
                                 {/* 1. Action Island (Top-Left - now aligned with Logo) */}
@@ -334,55 +366,37 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>
 
                                         {/* Divider */}
-                                        <div className="w-[1px] h-6 bg-brand-navy/10 mx-2" />
+                                        <div className="w-[1px] h-6 bg-brand-navy/10 mx-1" />
 
-                                        {/* Segment 4: Map/List Toggle (Pill style inside) */}
-                                        <div className="flex items-center h-[36px] bg-gray-100/80 backdrop-blur-sm border border-brand-navy/10 rounded-full p-1 ml-1 mr-1">
-                                            <TooltipProvider delayDuration={200}>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <button
-                                                            onClick={() => setViewMode("map")}
-                                                            aria-pressed={viewMode === "map"}
-                                                            aria-label="Switch to Map View"
-                                                            className={cn(
-                                                                "px-[16px] h-full rounded-full text-[13px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 outline-none focus-visible:ring-1 focus-visible:ring-blue-500/20",
-                                                                viewMode === "map"
-                                                                    ? "bg-white shadow-sm text-gray-900"
-                                                                    : "text-gray-500 hover:text-gray-700 bg-transparent"
-                                                            )}
-                                                        >
-                                                            Map
-                                                        </button>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent side="bottom" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                                                        Browse via Map
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
+                                        {/* Segment 4: Map/List Toggle (Sliding Pill) */}
+                                        <div className="relative flex items-center h-[36px] bg-slate-100 rounded-full p-1 ml-1 mr-1 w-[116px] border border-slate-200/60">
+                                            {/* Sliding Pill */}
+                                            <div
+                                                className={cn(
+                                                    "absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                                                    viewMode === "map" ? "left-1" : "left-[50%]"
+                                                )}
+                                            />
 
-                                            <TooltipProvider delayDuration={200}>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <button
-                                                            onClick={() => setViewMode("list")}
-                                                            aria-pressed={viewMode === "list"}
-                                                            aria-label="Switch to List View"
-                                                            className={cn(
-                                                                "px-[16px] h-full rounded-full text-[13px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 outline-none focus-visible:ring-1 focus-visible:ring-blue-500/20",
-                                                                viewMode === "list"
-                                                                    ? "bg-white shadow-sm text-gray-900"
-                                                                    : "text-gray-500 hover:text-gray-700 bg-transparent"
-                                                            )}
-                                                        >
-                                                            List
-                                                        </button>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent side="bottom" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                                                        Browse Directory list
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
+                                            <button
+                                                onClick={() => setViewMode("map")}
+                                                className={cn(
+                                                    "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-xs font-medium uppercase tracking-wide transition-colors duration-200",
+                                                    viewMode === "map" ? "text-slate-900" : "text-slate-500 hover:text-slate-700"
+                                                )}
+                                            >
+                                                Map
+                                            </button>
+
+                                            <button
+                                                onClick={() => setViewMode("list")}
+                                                className={cn(
+                                                    "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-xs font-medium uppercase tracking-wide transition-colors duration-200",
+                                                    viewMode === "list" ? "text-slate-900" : "text-slate-500 hover:text-slate-700"
+                                                )}
+                                            >
+                                                List
+                                            </button>
                                         </div>
                                         {/* Segment 5: Add Store Button */}
                                         <div className="w-[1px] h-6 bg-slate-200 mx-1" />
@@ -403,13 +417,18 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                             {/* Map Legend Pill - Bottom Center */}
                             {!isZenMode && viewMode === "map" && (
-                                <div className="absolute bottom-8 left-[clamp(1.5rem,5vw,4rem)] pointer-events-auto transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 z-[700]">
-                                    <div className="flex items-center gap-3 px-4 h-8 bg-white/90 backdrop-blur-md border border-slate-200/60 rounded-full shadow-sm">
+                                <div
+                                    className={cn(
+                                        "absolute bottom-8 left-[clamp(1.5rem,5vw,4rem)] pointer-events-auto transition-all duration-300 ease-in-out z-[700]",
+                                        selectedStore ? "opacity-0 pointer-events-none translate-y-4" : "opacity-100 translate-y-0"
+                                    )}
+                                >
+                                    <div className="flex items-center gap-3 px-4 py-1.5 bg-white/90 backdrop-blur-md border border-slate-200/60 rounded-full shadow-sm">
                                         <div className="flex -space-x-1.5 items-center">
                                             <div className="w-2.5 h-2.5 rounded-full bg-[#0047FF] border border-white shadow-sm" />
                                             <div className="w-2.5 h-2.5 rounded-full bg-[#F2D36B] border border-white shadow-sm" />
                                         </div>
-                                        <span className="text-[12px] font-medium tracking-tight text-slate-600 whitespace-nowrap">
+                                        <span className="text-sm font-medium tracking-tight text-slate-600 whitespace-nowrap">
                                             Pins show local stores carrying Ukrainian-made products
                                         </span>
                                     </div>
@@ -449,6 +468,8 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             sortMode={sortMode}
                             onFlightChange={setIsFlying}
                             onViewChange={setViewMode}
+                            selectedStore={selectedStore}
+                            onStoreSelect={setSelectedStore}
                             userLocation={userLocation}
                         />
                     </div>

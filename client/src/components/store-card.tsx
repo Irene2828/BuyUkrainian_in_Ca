@@ -4,6 +4,7 @@ import { Store } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from "@/lib/i18n";
 import { cn } from '@/lib/utils';
+import { createPortal } from "react-dom";
 
 interface StoreCardProps {
     store: Store;
@@ -84,9 +85,9 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             "shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-brand-navy/15"
         )}>
             {/* Lightbox Overlay - Boutique Gallery Preview */}
-            {isLightboxOpen && (
+            {isLightboxOpen && createPortal(
                 <div
-                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[2001] flex items-center justify-center p-4"
+                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[3000] flex items-center justify-center p-4"
                     onClick={() => setIsLightboxOpen(false)}
                 >
                     {/* Modal Container - Boutique Frame */}
@@ -137,7 +138,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                             </div>
                         )}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* 1. Header Section: Brand & Navigation */}

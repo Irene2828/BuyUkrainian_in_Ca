@@ -1,7 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Store } from "@/lib/data";
-import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, updateAdminPassword, createAdminUser, deleteAdminUser, AdminUser } from "@/lib/api";
+import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, updateAdminPassword, createAdminUser, deleteAdminUser, AdminUser, createStore } from "@/lib/api";
+
+
 import { logout, isAuthenticated, verifySession } from "@/lib/auth";
 import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -246,12 +248,105 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     // Get unique cities for filter
     const allCities = Array.from(new Set(allStores.map(s => s.address?.split(',').pop()?.trim()).filter(Boolean)));
 
+
+    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+    // Robust CSV Parser
+    const parseCSV = (text: string) => {
+        const lines = text.split('\n');
+        const result = [];
+        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+
+            const currentLine = [];
+            let inQuotes = false;
+            let start = 0;
+
+            for (let j = 0; j < lines[i].length; j++) {
+                if (lines[i][j] === '"') {
+                    inQuotes = !inQuotes;
+                } else if (lines[i][j] === ',' && !inQuotes) {
+                    currentLine.push(lines[i].substring(start, j).replace(/^"|"$/g, '').trim());
+                    start = j + 1;
+                }
+            }
+            currentLine.push(lines[i].substring(start).replace(/^"|"$/g, '').trim());
+
+            // Map based on order: Name, Address, Category (simple fallback)
+            // Or try to match headers if they exist, but for now simple index
+            const [name, address, category, website, description] = currentLine;
+
+            if (name) {
+                result.push({
+                    name,
+                    address: address || '',
+                    category: (category?.toLowerCase() || 'food') as any,
+                    website: website || '',
+                    description: description || ''
+                });
+            }
+        }
+        return result;
+    }
+
     // Handlers
     const handleApprove = async (id: string) => {
+        console.log("Approving Store ID:", id);
+
+        // DRAFT PATH
+        if (id.toString().startsWith('draft-')) {
+            console.log("Draft ID detected. processing as draft...");
+            const draftStore = drafts.find(d => d.id === id);
+
+            if (!draftStore) {
+                console.error("Draft store not found in state:", id);
+                toast({ title: "Error", description: "Draft data missing. Please re-import.", variant: "destructive" });
+                return;
+            }
+
+            try {
+                console.log("Creating store from draft:", draftStore);
+                await createStore({
+                    name: draftStore.name,
+                    description: draftStore.description || '',
+                    products: draftStore.products || [],
+                    address: draftStore.address,
+                    city: draftStore.city || draftStore.address.split(',').pop()?.trim() || '',
+                    province: draftStore.province || 'ON',
+                    latitude: 43.65,
+                    longitude: -79.38,
+                    category: draftStore.category || 'food',
+                    website: draftStore.website,
+                    images: draftStore.images
+                });
+
+                // Remove from drafts
+                setDrafts(prev => prev.filter(d => d.id !== id));
+                queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+                toast({ title: "Draft Published", description: "Store created successfully." });
+            } catch (e: any) {
+                console.error("Draft creation failed:", e);
+                toast({ title: "Error", description: e.message || "Failed to publish draft", variant: "destructive" });
+            }
+            return;
+        }
+
+        // EXISTING STORE PATH
+        const store = allStores.find(s => s.id === id);
+        if (!store) {
+            console.error("Store not found:", id);
+            toast({ title: "Error", description: "Store data not found.", variant: "destructive" });
+            return;
+        }
+
         try {
+            console.log("Updating status for existing store...");
             await updateStatusMutation.mutateAsync({ id, status: "approved" });
             toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
-        } catch {
+        } catch (e) {
+            console.error("Status update failed:", e);
             toast({ title: "Error", description: "Failed to approve store.", variant: "destructive" });
         }
     };
@@ -276,7 +371,24 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     };
 
     const handleReject = async (id: string) => {
+        // Check if draft
+        const isDraft = drafts.some(d => d.id === id) || id.toString().startsWith('draft-');
+        if (isDraft) {
+            handleDeleteDraft(id);
+            return;
+        }
         handleMoveToTrash(id, "pending");
+    };
+
+    // Handle deleting a draft locally
+    const handleDeleteDraft = (id: string) => {
+        setDrafts(prev => prev.filter(d => d.id !== id));
+        setSelectedIds(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(id);
+            return newSet;
+        });
+        toast({ title: "Draft Removed", description: "Draft deleted from list." });
     };
 
     const handleRestore = async (id: string) => {
@@ -292,6 +404,59 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         if (confirm("Permanently delete this store? This cannot be undone.")) {
             await deleteMutation.mutateAsync(id);
         }
+    };
+
+    // Bulk Actions
+    const toggleSelectAll = () => {
+        if (selectedIds.size === displayedStores.length) {
+            setSelectedIds(new Set());
+        } else {
+            setSelectedIds(new Set(displayedStores.map(s => s.id)));
+        }
+    };
+
+    const toggleSelect = (id: string) => {
+        setSelectedIds(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+            return newSet;
+        });
+    };
+
+    const handleBulkDelete = async () => {
+        if (!confirm(`Delete ${selectedIds.size} items?`)) return;
+
+        let count = 0;
+        const ids = Array.from(selectedIds);
+        for (const id of ids) {
+            if (activeTab === 'drafts') {
+                setDrafts(prev => prev.filter(d => d.id !== id));
+                count++;
+            } else if (activeTab === 'trash') {
+                await deleteMutation.mutateAsync(id);
+                count++;
+            } else {
+                await updateStatusMutation.mutateAsync({ id, status: "rejected" });
+                count++;
+            }
+        }
+        setSelectedIds(new Set());
+        toast({ title: "Bulk Action Complete", description: `Processed ${count} items.` });
+    };
+
+    const handleBulkApprove = async () => {
+        let count = 0;
+        const ids = Array.from(selectedIds);
+        for (const id of ids) {
+            await handleApprove(id);
+            count++;
+        }
+        setSelectedIds(new Set());
+        toast({ title: "Bulk Action Complete", description: `Approved ${count} items.` });
     };
 
     const openEditModal = (store: Store) => {
@@ -395,17 +560,19 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         const reader = new FileReader();
         reader.onload = (e) => {
             const text = e.target?.result as string;
-            const lines = text.split('\n').slice(1); // Skip header
-            const newDrafts = lines.filter(line => line.trim()).map((line, index) => {
-                const [name, address, category] = line.split(',').map(s => s.trim().replace(/"/g, ''));
+            // Use new robust CSV parser
+            const parsedData = parseCSV(text);
+
+            const newDrafts = parsedData.map((data, index) => {
                 return {
                     id: `draft-${Date.now()}-${index}`,
-                    name: name || 'Unknown Store',
-                    address: address || '',
-                    category: category || 'food',
+                    name: data.name || 'Unknown Store',
+                    address: data.address || '',
+                    category: data.category || 'food',
+                    website: data.website,
                     status: 'draft',
                     products: [],
-                    description: '',
+                    description: data.description,
                     images: [],
                 };
             });
@@ -503,7 +670,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         {tabs.map((tab) => (
                             <li key={tab.id}>
                                 <button
-                                    onClick={() => setActiveTab(tab.id)}
+                                    onClick={() => { setActiveTab(tab.id); setSelectedIds(new Set()); }}
                                     className={cn(
                                         "w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-all font-ui",
                                         activeTab === tab.id
@@ -568,7 +735,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 ml-[260px] p-8">
+            <main className="flex-1 ml-[260px] p-8 relative">
                 {/* Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div>
@@ -597,7 +764,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             type="file"
                             ref={bulkInputRef}
                             onChange={(e) => e.target.files && handleBulkImport(e.target.files)}
-                            accept=".csv,.xlsx"
+                            accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             className="hidden"
                         />
                         <a
@@ -613,6 +780,19 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 {/* Filter Bar */}
                 {activeTab !== "settings" && (
                     <div className="mb-6 flex flex-wrap items-center gap-3">
+                        {/* Bulk Selection Header if items exist */}
+                        {displayedStores.length > 0 && (
+                            <div className="mr-4 flex items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedIds.size === displayedStores.length && displayedStores.length > 0}
+                                    onChange={toggleSelectAll}
+                                    className="w-4 h-4 rounded border-gray-300 text-brand-navy focus:ring-brand-navy"
+                                />
+                                <span className="ml-2 text-sm text-gray-500 font-ui">Select All</span>
+                            </div>
+                        )}
+
                         {/* Category Chips */}
                         <div className="flex items-center gap-2">
                             {[
@@ -653,6 +833,34 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <option value="date">Sort: Date Added</option>
                             <option value="name">Sort: Name</option>
                         </select>
+                    </div>
+                )}
+
+                {/* Bulk Actions Bar */}
+                {selectedIds.size > 0 && (
+                    <div className="fixed bottom-6 left-[calc(260px+32px)] right-8 bg-black text-white p-4 rounded-xl shadow-xl flex items-center justify-between z-50 animate-in slide-in-from-bottom-4">
+                        <span className="text-sm font-medium pl-2">{selectedIds.size} items selected</span>
+                        <div className="flex items-center gap-3">
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={handleBulkDelete}
+                                className="bg-red-600 hover:bg-red-700 text-white border-none"
+                            >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                {activeTab === "trash" ? "Purge Selected" : "Delete Selected"}
+                            </Button>
+                            {(activeTab === "pending" || activeTab === "drafts") && (
+                                <Button
+                                    size="sm"
+                                    className="bg-green-600 hover:bg-green-700 text-white border-none"
+                                    onClick={handleBulkApprove}
+                                >
+                                    <Check className="w-4 h-4 mr-2" />
+                                    {activeTab === "drafts" ? "Publish Selected" : "Approve Selected"}
+                                </Button>
+                            )}
+                        </div>
                     </div>
                 )}
 
@@ -701,8 +909,16 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                                 <div className="divide-y divide-gray-50">
                                     {displayedStores.map((store: any) => (
-                                        <div key={store.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => openEditModal(store)}>
+                                        <div key={store.id} className={cn("flex items-center justify-between p-4 hover:bg-gray-50 transition-colors cursor-pointer", selectedIds.has(store.id) && "bg-blue-50/50")} onClick={() => openEditModal(store)}>
                                             <div className="flex items-center gap-4 flex-1 min-w-0">
+                                                <div className="flex items-center h-full px-2" onClick={(e) => { e.stopPropagation(); toggleSelect(store.id); }}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedIds.has(store.id)}
+                                                        onChange={() => { }} // Handled by div click
+                                                        className="w-4 h-4 rounded border-gray-300"
+                                                    />
+                                                </div>
                                                 <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
                                                     {store.images?.[0] ? (
                                                         <img src={store.images[0]} className="w-full h-full object-cover" alt="" />
@@ -710,7 +926,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                         <Image className="w-5 h-5 text-gray-300" />
                                                     )}
                                                 </div>
-                                                <div className="min-w-0">
+                                                <div className="min-w-0 max-w-[200px] md:max-w-[300px] lg:max-w-[400px]">
                                                     <p className="font-bold text-[15px] text-black truncate font-ui">{store.name}</p>
                                                     <p className="text-[13px] text-gray-400 truncate font-ui">{store.address || store.category}</p>
                                                 </div>
@@ -775,12 +991,21 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                     </>
                                                 )}
                                                 {activeTab === "drafts" && (
-                                                    <button
-                                                        onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }}
-                                                        className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium bg-black text-white rounded-full hover:bg-black/90 transition-colors font-ui"
-                                                    >
-                                                        Publish
-                                                    </button>
+                                                    <>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleDeleteDraft(store.id); }}
+                                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                                                            title="Delete Draft"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }}
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium bg-black text-white rounded-full hover:bg-black/90 transition-colors font-ui"
+                                                        >
+                                                            Publish
+                                                        </button>
+                                                    </>
                                                 )}
                                             </div>
                                         </div>
@@ -797,7 +1022,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                         key={store.id}
                                         store={store}
                                         viewMode="grid"
-                                        showActions={activeTab === "pending"}
+                                        showActions={activeTab === "pending" || activeTab === "drafts"}
                                         onApprove={handleApprove}
                                         onReject={handleReject}
                                         onEdit={openEditModal}

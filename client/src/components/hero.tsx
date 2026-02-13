@@ -9,7 +9,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-500 bg-white"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-500 bg-white min-h-[500px] lg:min-h-[600px]"
         >
             {/* Background Blobs - Precision Positioned */}
             <div
@@ -38,7 +38,7 @@ export function Hero() {
                 }}
             />
 
-            <div className="boutique-width w-full pt-[5rem] lg:pt-[144px] pb-4 lg:pb-[2.5rem] flex items-center relative z-10 h-full pointer-events-none">
+            <div className="boutique-width w-full py-10 lg:py-0 flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area */}
                 <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
@@ -49,13 +49,15 @@ export function Hero() {
                         <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
-                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal italic tracking-tight text-[#2D50A0]/70 whitespace-nowrap mt-2">
+                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#2D50A0]/70 whitespace-nowrap mt-2">
                             {t('hero.subtitle') || 'sold across Canada'}
                         </span>
                     </h1>
 
-                    <p className="mt-8 text-[16px] leading-7 text-slate-900/80 font-normal max-w-[55ch] tracking-[0.01em] whitespace-pre-line">
-                        One map to <span className="font-medium text-slate-900">find, add and share local stores selling made in Ukraine</span> products in Canada. Support Ukraine's economy with each purchase.
+                    <p className="mt-8 text-[18px] leading-7 text-slate-900/80 font-normal max-w-[55ch] tracking-[0.01em]">
+                        One map to <span className="font-medium text-slate-900">find, add and share local stores selling<br />
+                            made in Ukraine</span> products in Canada.<br />
+                        <span className="font-medium">Support Ukraine's economy with each purchase.</span>
                     </p>
 
                     <div className="flex flex-row items-center gap-6 mt-10 w-full md:w-auto md:mb-10">
@@ -90,7 +92,7 @@ export function Hero() {
 
             {/* Desktop Peeking Map Container - FULL BLEED EFFECT */}
             <div
-                className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden pointer-events-auto"
+                className="hidden lg:block absolute top-0 right-0 w-[85%] h-full z-0 select-none overflow-hidden point-events-auto translate-x-[20%]"
                 style={{
                     maskImage: 'linear-gradient(to right, transparent 0%, black 18%)',
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%)'
@@ -106,7 +108,7 @@ export function Hero() {
                             src="/assets/mapheronew.png"
                             alt="Interactive Map Display"
                             className="w-full h-full object-cover opacity-100"
-                            style={{ objectPosition: '50% 5%' }}
+                            style={{ objectPosition: 'right' }}
                         />
 
                         {/* Integrated Status Bar Footer */}

@@ -36,9 +36,7 @@ export function HowItWorks() {
           <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
             {t('howItWorks.title') || 'How to Use this Map'}
           </h2>
-          <p className="text-[1.125rem] leading-[1.5] text-slate-500 font-medium max-w-[33.75rem] mx-auto tracking-[0.01em]">
-            {t('howItWorks.subtitle') || "and help Ukraine's economy"}
-          </p>
+
         </div>
 
         {/* Steps Grid with Stagger Animation */}
@@ -48,7 +46,7 @@ export function HowItWorks() {
             <div key={index} className="stagger-item group flex flex-col items-center text-center px-4">
 
               {/* Huge Illustration Zoom - Centered Alignment */}
-              <div className="h-[340px] w-full flex items-center justify-center overflow-hidden mb-[27px]">
+              <div className="h-[340px] w-full flex items-center justify-center overflow-hidden mb-6">
                 <img
                   src={step.image}
                   alt={step.title}
@@ -59,15 +57,15 @@ export function HowItWorks() {
               {/* Horizontal Header Row: Icon + Label - Centered */}
               <div className="flex items-center justify-center gap-3 mb-[28px] w-full">
                 <step.icon size={26} strokeWidth={2} className="text-[#2D50A0]" />
-                <h5 className="text-[14.4px] font-bold uppercase tracking-[0.05em] text-[#2D50A0]/60 font-sans">
+                <h5 className="font-bold uppercase tracking-[0.05em] text-[#2D50A0]/60 font-sans text-[14.4px] max-[1440px]:text-xs max-[1440px]:tracking-widest">
                   {step.title}
                 </h5>
               </div>
 
-              {/* Centered Descriptions - Reverted to 16px */}
+              {/* Centered Descriptions - Refined for 1440px */}
               <div className="flex flex-col items-center gap-2 mt-[6px] max-w-[320px] w-fit">
                 {step.description.split('\n').filter(line => line.trim() !== '').map((line, i) => (
-                  <p key={i} className="text-[16px] leading-[1.6] text-slate-600 font-sans text-center m-0">
+                  <p key={i} className="font-sans text-center m-0 text-[16px] leading-[1.6] text-slate-900/80">
                     {line}
                   </p>
                 ))}

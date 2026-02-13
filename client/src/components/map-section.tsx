@@ -29,6 +29,8 @@ interface MapSectionProps {
   onFlightChange?: (isFlying: boolean) => void;
   extraControls?: React.ReactNode;
   userLocation?: [number, number] | null;
+  selectedStore: Store | null;
+  onStoreSelect: (store: Store | null) => void;
 }
 
 const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number }> = {
@@ -64,12 +66,13 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     onViewChange,
     onFlightChange,
     extraControls,
-    userLocation
+    userLocation,
+    selectedStore,
+    onStoreSelect
   },
   ref
 ) => {
   const { t } = useI18n();
-  const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
   const mapRef = useRef<InteractiveMapRef>(null);
@@ -117,7 +120,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   // Reset selected store when switching to map view
   useEffect(() => {
     if (viewMode === "map") {
-      setSelectedStore(null);
+      // Keep selection for "See on Map" flow - just close the list modal
       setIsModalOpen(false);
     }
   }, [viewMode]);
@@ -126,7 +129,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   useEffect(() => {
     const handleFocus = (e: any) => {
       const store = e.detail as Store;
-      setSelectedStore(store);
+      onStoreSelect(store);
       if (viewMode === "map") {
         mapRef.current?.focusOnStore(store);
       } else {
@@ -191,14 +194,14 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   });
 
   const handleSelectStore = (store: Store) => {
-    setSelectedStore(store);
+    onStoreSelect(store);
     setIsModalOpen(true);
     // Premium mode: No auto-zoom on pin click - map stays steady and calm
     // Camera only moves on explicit actions (province select, "See on Map", etc.)
   };
 
   const handleCloseStore = () => {
-    setSelectedStore(null);
+    onStoreSelect(null);
     setIsModalOpen(false);
   };
 

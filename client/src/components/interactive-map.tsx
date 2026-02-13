@@ -8,9 +8,6 @@ import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
 import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink, Navigation } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { StoreCard } from "./store-card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export interface InteractiveMapRef {
@@ -509,32 +506,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         )}
       </MapContainer>
 
-      {/* Side Panel Overlay - Balanced Dashboard (Left Side) */}
-      {selectedStore && (
-        <div className={cn(
-          "side-panel-container absolute z-[2000] pointer-events-auto",
-          "bottom-4 left-4 right-4", // Mobile: Bottom Card
-          "md:top-24 md:left-6 md:bottom-auto md:right-auto md:w-[400px]", // Desktop: Left Sidebar below Add Store
-          "animate-in fade-in slide-in-from-left-6 duration-300 ease-out fill-mode-both"
-        )}>
-          <StoreCard
-            store={selectedStore}
-            onClose={() => {
-              const panel = document.querySelector('.side-panel-container');
-              if (panel) {
-                panel.classList.add('animate-out', 'fade-out', 'slide-out-to-left-6');
-              }
-              setTimeout(() => {
-                onCloseStore();
-              }, 300);
-            }}
-            onSeeOnMap={(s) => {
-              // Zoom in effect
-              triggerFlyToLocation(s.coordinates[0], s.coordinates[1], 14.5);
-            }}
-          />
-        </div>
-      )}
+
 
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}

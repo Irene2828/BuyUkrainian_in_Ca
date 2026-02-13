@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Package, MapPin } from "lucide-react";
+import { Package, MapPin, Store, Map } from "lucide-react";
 import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { Button } from "@/components/ui/button";
 
 export function MapStats() {
     const { data: stores = [] } = useQuery({
@@ -38,7 +39,7 @@ export function MapStats() {
                             className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-[#2D50A0] leading-none opacity-80"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
-                            <div className="w-3 h-3 rounded-full bg-blue-400" />
+                            <Store className="w-4 h-4 opacity-80" strokeWidth={1.5} />
                             <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Stores Found</span>
                         </div>
                     </div>
@@ -51,7 +52,7 @@ export function MapStats() {
                             className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-[#2D50A0] leading-none opacity-80"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
-                            <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                            <Map className="w-4 h-4 opacity-80" strokeWidth={1.5} />
                             <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Provinces Covered</span>
                         </div>
                     </div>
@@ -71,16 +72,16 @@ export function MapStats() {
                 </div>
 
                 <div className="flex flex-col items-center gap-6 mt-10">
-                    <p className="text-[14px] md:text-[15px] text-slate-500 font-medium font-ui text-center max-w-[40ch]">
+                    <p className="text-[12px] md:text-[14px] text-slate-600 font-ui italic leading-relaxed text-center max-w-[40ch]">
                         Ready to find or add more stores selling made in Ukraine?
                     </p>
                     <Link href="/map">
-                        <button
-                            className="h-12 px-8 rounded-2xl bg-slate-900/85 backdrop-blur-md text-white font-medium text-[15px] tracking-normal transition-all duration-200 shadow-sm border border-brand-navy/15 hover:bg-slate-900 hover:translate-y-[-1px] active:scale-95 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group flex items-center gap-2"
+                        <Button
+                            className="h-[50px] 2xl:h-[54px] px-8 2xl:px-10 w-full md:w-auto rounded-full bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[linear-gradient(to_bottom,#3A3F4F,#3A3F4F)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                         >
                             <span>Open interactive map</span>
-                            <MapPin className="w-4 h-4 ml-1" />
-                        </button>
+                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5" />
+                        </Button>
                     </Link>
                 </div>
             </div>

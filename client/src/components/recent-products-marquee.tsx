@@ -111,7 +111,7 @@ export function RecentProductsMarquee() {
 
                         <div className="relative z-10 flex items-center gap-2.5 pl-2">
                             <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
-                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/55 uppercase whitespace-nowrap m-0 font-ui">
+                            <p className="text-[13px] font-bold tracking-[0.08em] uppercase whitespace-nowrap m-0 font-ui text-slate-900/80">
                                 {t('ticker.label') || 'ADDED THIS MONTH'}
                             </p>
                         </div>
