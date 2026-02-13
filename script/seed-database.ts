@@ -1,8 +1,7 @@
 #!/usr/bin/env tsx
 
-// Load environment variables
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+// Environment variables should be set before running this script.
+// e.g.: source .env.local && tsx script/seed-database.ts
 
 import { nanoid } from "nanoid";
 import { createClient } from "@supabase/supabase-js";

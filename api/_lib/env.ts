@@ -1,10 +1,4 @@
-// This file MUST be imported first to ensure environment variables are loaded
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Load .env.local for local development
-dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
-
-// Also try .env as fallback
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+// Environment variables are injected by Vercel in production.
+// For local development, use .env.local with your dev server (Vite handles client-side,
+// and you can use `--env-file .env.local` or source the file before running the API).
+// No manual dotenv loading is needed.

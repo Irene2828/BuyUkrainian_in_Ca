@@ -1,4 +1,4 @@
-import "./env.js";
+// Environment variables are injected by Vercel (production) or loaded by the dev server (local).
 
 // Define the required environment variables
 const REQUIRED_ENV_VARS = [

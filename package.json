@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev:client": "vite dev --port 5173",
-    "dev": "NODE_ENV=development tsx api/_lib/index.ts",
+    "dev": "NODE_ENV=development tsx --env-file=.env.local api/_lib/index.ts",
     "build": "tsx script/build.ts",
     "vercel-build": "vite build",
     "start": "NODE_ENV=production node dist/index.cjs",
