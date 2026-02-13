@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, serial, timestamp, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, decimal, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 export const adminUsers = pgTable("admin_users", {
@@ -26,13 +26,13 @@ export const stores = pgTable("stores", {
     category: text("category").notNull(),
     website: text("website"),
     image: text("image"),
-    images: text("images").array().notNull().default(sql `ARRAY[]::text[]`),
+    images: text("images").array().notNull().default(sql`ARRAY[]::text[]`),
     email: text("email"),
     status: text("status").notNull().default("pending"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     approvedAt: timestamp("approved_at"),
     // Added requested fields
-    isOpen: text("is_open").default("true"), // Using text 'true'/'false' or boolean if supported, keeping simple
+    isOpen: boolean("is_open").default(true),
 });
 const MAX_NAME_LENGTH = 100;
 const MAX_DESCRIPTION_LENGTH = 1000;
@@ -40,7 +40,7 @@ const MAX_ADDRESS_LENGTH = 200;
 const MAX_PRODUCT_LENGTH = 50;
 const MAX_PRODUCTS_COUNT = 20;
 const MAX_EMAIL_LENGTH = 100;
-const MAX_IMAGE_URL_LENGTH = 500;
+const MAX_IMAGE_DATA_LENGTH = 10 * 1024 * 1024; // 10MB for base64 strings
 const MAX_IMAGES_COUNT = 5;
 const MAX_WEBSITE_LENGTH = 200;
 const sanitizedString = z.string().transform((val) => {
@@ -65,19 +65,19 @@ export const insertStoreSchema = createInsertSchema(stores, {
     latitude: z.string()
         .refine((val) => !isNaN(parseFloat(val)), "Invalid latitude")
         .refine((val) => {
-        const lat = parseFloat(val);
-        return lat >= 40 && lat <= 85;
-    }, "Location must be within Canada (latitude 40-85)"),
+            const lat = parseFloat(val);
+            return lat >= 40 && lat <= 85;
+        }, "Location must be within Canada (latitude 40-85)"),
     longitude: z.string()
         .refine((val) => !isNaN(parseFloat(val)), "Invalid longitude")
         .refine((val) => {
-        const lng = parseFloat(val);
-        return lng >= -140 && lng <= -50;
-    }, "Location must be within Canada (longitude -140 to -50)"),
-    category: z.enum(["food", "clothes", "other"]),
+            const lng = parseFloat(val);
+            return lng >= -140 && lng <= -50;
+        }, "Location must be within Canada (longitude -140 to -50)"),
+    category: z.enum(["food", "clothes", "retail", "other"]),
     website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").optional().or(z.literal("")),
-    image: z.string().max(MAX_IMAGE_URL_LENGTH, "Image URL too long").url("Invalid image URL").optional().or(z.literal("")),
-    images: z.array(z.string().url("Invalid image URL").max(MAX_IMAGE_URL_LENGTH, "Image URL too long")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
+    image: z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large").optional().or(z.literal("")),
+    images: z.array(z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
     email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
     status: z.enum(["pending", "approved", "rejected"]).optional(),
 }).omit({ id: true, createdAt: true });

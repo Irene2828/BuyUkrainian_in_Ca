@@ -51,14 +51,38 @@ interface AddressSuggestion {
 async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
   if (query.length < 3) return [];
   try {
+    // Use structured search for better results with specific addresses
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=ca&format=json&limit=5&addressdetails=1`,
-      { headers: { 'Accept': 'application/json' } }
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=ca&format=json&limit=8&addressdetails=1`,
+      { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
     );
     return await response.json();
   } catch (error) {
     console.error("Address search error:", error);
     return [];
+  }
+}
+
+// Geocode a raw address string to coordinates
+async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&countrycodes=ca&format=json&limit=1&addressdetails=1`,
+      { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
+    );
+    const results = await response.json();
+    if (results.length > 0) {
+      const r = results[0];
+      return {
+        lat: parseFloat(r.lat),
+        lng: parseFloat(r.lon),
+        city: r.address?.city || r.address?.town || r.address?.village || '',
+        province: r.address?.state || '',
+      };
+    }
+    return null;
+  } catch {
+    return null;
   }
 }
 
@@ -151,13 +175,33 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       const url = URL.createObjectURL(file);
       setImagePreview(url);
 
-      // Read as base64 and set in form
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        form.setValue("image", base64);
+      // Compress image before converting to base64
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_SIZE = 1200; // Max dimension in pixels
+        let { width, height } = img;
+
+        if (width > MAX_SIZE || height > MAX_SIZE) {
+          if (width > height) {
+            height = Math.round((height * MAX_SIZE) / width);
+            width = MAX_SIZE;
+          } else {
+            width = Math.round((width * MAX_SIZE) / height);
+            height = MAX_SIZE;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        // Convert to JPEG at 70% quality — keeps size well under 4.5MB Vercel limit
+        const compressed = canvas.toDataURL('image/jpeg', 0.7);
+        form.setValue("image", compressed);
       };
-      reader.readAsDataURL(file);
+      img.src = url;
     }
   };
 
@@ -183,42 +227,49 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Validate that required geocoding data is present
-    if (!values.city || !values.province) {
-      toast({
-        title: "Missing Location Data",
-        description: "Please select an address from the dropdown suggestions to auto-fill city and province.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!values.latitude || !values.longitude) {
-      toast({
-        title: "Missing Coordinates",
-        description: "Please select an address from the dropdown to set the location on the map.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     try {
+      let lat = values.latitude;
+      let lng = values.longitude;
+      let city = values.city;
+      let province = values.province;
+
+      // If coordinates are missing (user typed address manually), try to geocode
+      if (!lat || !lng) {
+        const geo = await geocodeAddress(values.address);
+        if (geo) {
+          lat = geo.lat;
+          lng = geo.lng;
+          city = city || geo.city || '';
+          province = province || geo.province || '';
+        } else {
+          // Use approximate center of Canada as fallback — admin will verify
+          lat = 56.1304;
+          lng = -106.3468;
+          city = city || 'Unknown';
+          province = province || 'Unknown';
+        }
+      }
+
+      // Ensure city/province have values
+      city = city || 'Unknown';
+      province = province || 'Unknown';
+
       await createStoreMutation.mutateAsync({
         ...values,
-        products: values.products.split(",").map(p => p.trim()),
-        latitude: String(values.latitude),  // Convert to string for API/Schema compatibility
-        longitude: String(values.longitude), // Convert to string for API/Schema compatibility
+        city,
+        province,
+        products: values.products.split(",").map(p => p.trim()).filter(Boolean),
+        latitude: String(lat),
+        longitude: String(lng),
         category: values.category as any,
         images: values.image ? [values.image] : [],
       });
     } catch (error: any) {
       console.error("Submission failed:", error);
-      // Detailed error log for the user if they check console
       if (error instanceof Error) {
         console.error("Error Message:", error.message);
       }
-      // Error handling is in the mutation's onError
     } finally {
       setIsSubmitting(false);
     }
@@ -454,7 +505,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); setImagePreview(null); }}
+                      onClick={(e) => { e.stopPropagation(); setImagePreview(null); form.setValue("image", ""); }}
                       className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
                     >
                       <X className="w-3 h-3 fill-none stroke-current" strokeWidth={2} />

@@ -1080,11 +1080,17 @@ select:focus-visible {
 /* --- Progressive Width Breakpoints --- */
 
 /* MacBook "More Space" / 16" Default (1441px – 1680px) */
-@media (min-width: 1441px) {
+/* Width Upgrade for Laptops (1280px+) - Wider frame for smaller laptops */
+@media (min-width: 1280px) {
   :root {
     --boutique-max-width: 1380px;
     --utility-max-width: 1540px;
+  }
+}
 
+/* Typography Scale Upgrade (Kept at 1441px+) */
+@media (min-width: 1441px) {
+  :root {
     /* Typography Scale — Step 1: Gentle bump (+1px) */
     --text-xs: 0.8125rem;
     /* 12px → 13px */

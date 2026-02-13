@@ -101,9 +101,9 @@ export async function createStore(store: {
   address: string;
   city: string;
   province: string;
-  latitude: number;
-  longitude: number;
-  category: "food" | "clothes" | "other";
+  latitude: number | string;
+  longitude: number | string;
+  category: "food" | "clothes" | "retail" | "other";
   website?: string;
   image?: string;
   images?: string[];

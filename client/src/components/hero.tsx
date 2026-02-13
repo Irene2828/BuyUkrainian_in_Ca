@@ -106,7 +106,7 @@ export function Hero() {
                             src="/assets/mapheronew.png"
                             alt="Interactive Map Display"
                             className="w-full h-full object-cover opacity-100"
-                            style={{ objectPosition: '50% 15%' }}
+                            style={{ objectPosition: '50% 5%' }}
                         />
 
                         {/* Integrated Status Bar Footer */}
