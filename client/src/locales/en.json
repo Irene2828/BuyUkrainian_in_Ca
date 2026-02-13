@@ -206,5 +206,14 @@
     "share.instagram": "🇺🇦 MADE IN UKRAINE 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Products: {products}\n📍 Location: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #UkrainianBusiness #ShopLocal #UkrainianFood #CanadaUkraine #UkrainianCommunity #SlavaUkraini 💙💛",
     "prefooter.slogan1": "Buy Ukrainian - Support Ukraine",
     "prefooter.slogan2": "Every dollar spent right matters",
-    "map.filterBy": "Filter by:"
+    "map.filterBy": "Filter by:",
+    "nav.about": "About",
+    "nav.map": "Map",
+    "nav.addStore": "Add Store",
+    "hero.title": "Discover\nUkrainian Products",
+    "hero.subtitle": "sold across Canada",
+    "hero.description": "One map to find, add and share local stores selling made in Ukraine products in Canada. Support Ukraine's economy with each purchase.",
+    "hero.ctaPrimary": "Explore the Map",
+    "hero.ctaSecondary": "How It Works",
+    "ticker.label": "ADDED THIS MONTH"
 }

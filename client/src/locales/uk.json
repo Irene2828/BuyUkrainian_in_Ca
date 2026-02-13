@@ -203,5 +203,14 @@
     "share.instagram": "🇺🇦 ВІДКРИЙТЕ УКРАЇНСЬКІ ТОВАРИ 🇺🇦\n\n📍 {name}\n\n{description}\n\n✨ Товари: {products}\n📍 Локація: {shortAddress}\n\n#MadeInUkraine #UkrainianProducts #SupportUkraine #BuyUkrainian #УкраїнськийБізнес #ShopLocal #УкраїнськаЇжа #CanadaUkraine #УкраїнськаСпільнота #СлаваУкраїні 💙💛",
     "prefooter.slogan1": "Купуй українське - підтримуй Україну",
     "prefooter.slogan2": "Кожен долар, витрачений правильно, має значення",
-    "map.filterBy": "Фільтрувати за:"
+    "map.filterBy": "Фільтрувати за:",
+    "nav.about": "Про нас",
+    "nav.map": "Мапа",
+    "nav.addStore": "Додати магазин",
+    "hero.title": "Знаходь та ділись\nmade in Ukraine",
+    "hero.subtitle": "на полицях магазинів в Канаді",
+    "hero.description": "Інтерактивна мапа для пошуку та підтримки українського бізнесу.",
+    "hero.ctaPrimary": "Відкрити мапу",
+    "hero.ctaSecondary": "Як це працює",
+    "ticker.label": "ДОДАНО ЦЬОГО МІСЯЦЯ"
 }

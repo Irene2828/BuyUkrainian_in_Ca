@@ -29,10 +29,10 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [
   [83.00, -52.00]
 ];
 
-// INITIAL MAP STATE - CANADA CENTERED
+// INITIAL_MAP_STATE - CANADA CENTERED (Southern population corridor)
 const INITIAL_MAP_STATE = {
-  center: [50.0000, -95.0000] as [number, number],
-  zoom: 4
+  center: [52.0000, -96.0000] as [number, number],
+  zoom: 4.2
 } as const;
 
 const CANADA_POPULATION_BOUNDS: L.LatLngBoundsExpression = [
@@ -442,7 +442,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       <MapContainer
         center={CANADA_CENTER}
         zoom={INITIAL_MAP_STATE.zoom}
-        minZoom={4.0}
+        minZoom={3.5}
         maxZoom={18}
         scrollWheelZoom={false}
         dragging={true}

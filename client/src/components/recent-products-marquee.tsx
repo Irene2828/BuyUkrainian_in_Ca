@@ -102,7 +102,7 @@ export function RecentProductsMarquee() {
             <div
                 className="w-full pt-[80px] pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
             >
-                <div className="boutique-width min-[1537px]:max-w-[1440px] w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
+                <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
                     {/* Fixed Live Label */}
                     <div className="sticky left-0 z-30 py-2 pr-12 flex items-center gap-3 h-full bg-white/0">
@@ -110,9 +110,9 @@ export function RecentProductsMarquee() {
                         <div className="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent pointer-events-none" />
 
                         <div className="relative z-10 flex items-center gap-2.5 pl-2">
-                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
+                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/55 uppercase whitespace-nowrap m-0 font-ui">
-                                ADDED THIS MONTH
+                                {t('ticker.label') || 'ADDED THIS MONTH'}
                             </p>
                         </div>
                     </div>
@@ -150,7 +150,7 @@ export function RecentProductsMarquee() {
 
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span
-                                                className="font-medium tracking-[-0.02em] text-[#1A1A19] leading-[1.2] mb-0.5"
+                                                className="font-medium tracking-[-0.02em] text-[#1A1A19]/80 leading-[1.2] mb-0.5"
                                                 style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
                                             >
                                                 {store.name}

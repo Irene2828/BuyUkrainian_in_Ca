@@ -166,14 +166,18 @@
   --gutter-obsidian-x-large: clamp(3rem, 6vw, 6rem);
   /* 1440px+ expansion padding */
 
-  /* Unified Frame Widths - Converted to REM for fluid scaling */
-  --container-standard: 80rem;
-  /* 1280px */
-  --container-large: 90rem;
-  /* 1440px */
-  --width-narrative: 80rem;
-  --width-utility: 90rem;
+  /* Unified Frame Widths - LOCKED to px to prevent fluid root inflation */
+  --container-standard: 1280px;
+  --container-large: 1440px;
+  --width-narrative: 1280px;
+  --width-utility: 1440px;
   --gutter-obsidian-max-width: var(--container-standard);
+
+  /* Responsive Boutique Width - Progressive scaling for larger displays.
+     Base: 1280px — optimized for MacBook default resolution (1440px viewport).
+     Scales up for "More Space" and external monitors. */
+  --boutique-max-width: 1280px;
+  --utility-max-width: 1440px;
 
   /* Map Theming */
   --map-water-color: #C5E0F5;
@@ -1049,23 +1053,224 @@ select:focus-visible {
 
 /* ========================================
    BOUTIQUE GRID SYSTEM (Narrative vs Utility)
+   ========================================
+   Progressive responsive max-width system:
+   ≤1440px  →  1280px  (MacBook Default / Retina 13"-15")
+   1441px+  →  1380px  (MacBook "More Space" / 16" Default)
+   1681px+  →  1520px  (External 1080p / Large laptop "More Space")
+   1921px+  →  1600px  (External 1440p+ / Ultrawide cap)
    ======================================== */
 
 .boutique-width {
-  /* Narrative Container: Standard width (1280px), expands to 1440px on large screens */
   width: 100%;
-  max-width: 1280px;
+  max-width: var(--boutique-max-width, 1280px);
   margin-inline: auto;
   padding-inline: clamp(1.5rem, 5vw, 4rem);
   transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .utility-width {
-  /* Utility Container: Always targets 1440px (Effective full-width on standard laptops) */
   width: 100%;
-  max-width: var(--width-utility);
-  margin-left: auto;
-  margin-right: auto;
+  max-width: var(--utility-max-width, 1440px);
+  margin-inline: auto;
   padding-inline: clamp(1.5rem, 5vw, 4rem);
   transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Progressive Width Breakpoints --- */
+
+/* MacBook "More Space" / 16" Default (1441px – 1680px) */
+@media (min-width: 1441px) {
+  :root {
+    --boutique-max-width: 1380px;
+    --utility-max-width: 1540px;
+
+    /* Typography Scale — Step 1: Gentle bump (+1px) */
+    --text-xs: 0.8125rem;
+    /* 12px → 13px */
+    --text-xs--line-height: calc(1.125 / 0.8125);
+    --text-sm: 0.9375rem;
+    /* 14px → 15px */
+    --text-sm--line-height: calc(1.375 / 0.9375);
+    --text-base: 1.0625rem;
+    /* 16px → 17px */
+    --text-base--line-height: calc(1.625 / 1.0625);
+  }
+}
+
+/* External 1080p monitors / MacBook "More Space" (1680px – 1920px) */
+@media (min-width: 1680px) {
+  :root {
+    --boutique-max-width: 1520px;
+    --utility-max-width: 1680px;
+
+    /* Typography Scale — Step 2: Full bump (+2px) */
+    --text-xs: 0.875rem;
+    /* 12px → 14px */
+    --text-xs--line-height: calc(1.25 / 0.875);
+    --text-sm: 1rem;
+    /* 14px → 16px */
+    --text-sm--line-height: calc(1.5 / 1);
+    --text-base: 1.125rem;
+    /* 16px → 18px */
+    --text-base--line-height: calc(1.75 / 1.125);
+  }
+}
+
+/* ========================================
+   ARBITRARY VALUE FONT-SIZE OVERRIDES
+   ========================================
+   Tailwind v4 arbitrary classes like text-[12px] compile to literal
+   font-size values and bypass the CSS variable system above.
+   These overrides catch those hardcoded sizes.
+   Only targets sizes < 20px. Nothing ≥ 20px is touched.
+   
+   CEILING: 1680px is the maximum scaling point.
+   No further increases beyond this width for a premium, controlled feel.
+   ======================================== */
+
+/* Step 1: Gentle +1px bump (1441px – 1679px) */
+@media (min-width: 1441px) {
+  .text-\[9px\] {
+    font-size: 10px;
+  }
+
+  .text-\[10px\] {
+    font-size: 11px;
+  }
+
+  .text-\[11px\] {
+    font-size: 12px;
+  }
+
+  .text-\[12px\] {
+    font-size: 13px;
+  }
+
+  .text-\[13px\] {
+    font-size: 14px;
+  }
+
+  .text-\[14px\] {
+    font-size: 15px;
+  }
+
+  .text-\[15px\] {
+    font-size: 16px;
+  }
+
+  .text-\[15\.5px\] {
+    font-size: 16.5px;
+  }
+
+  .text-\[16px\] {
+    font-size: 17px;
+  }
+
+  .text-\[17px\] {
+    font-size: 18px;
+  }
+
+  .text-\[18px\] {
+    font-size: 19px;
+  }
+
+  .text-\[19px\] {
+    font-size: 19.5px;
+  }
+
+}
+
+/* Step 2: Full +2px bump — CEILING (1680px+). No further scaling beyond here. */
+@media (min-width: 1680px) {
+  .text-\[9px\] {
+    font-size: 11px;
+  }
+
+  .text-\[10px\] {
+    font-size: 12px;
+  }
+
+  .text-\[11px\] {
+    font-size: 13px;
+  }
+
+  .text-\[12px\] {
+    font-size: 14px;
+  }
+
+  .text-\[13px\] {
+    font-size: 15px;
+  }
+
+  .text-\[14px\] {
+    font-size: 16px;
+  }
+
+  .text-\[15px\] {
+    font-size: 17px;
+  }
+
+  .text-\[15\.5px\] {
+    font-size: 17.5px;
+  }
+
+  .text-\[16px\] {
+    font-size: 18px;
+  }
+
+  .text-\[17px\] {
+    font-size: 19px;
+  }
+
+  .text-\[18px\] {
+    font-size: 19.5px;
+  }
+
+  .text-\[19px\] {
+    font-size: 19.5px;
+  }
+
+}
+
+/* ========================================
+   PREMIUM CTA LETTER-SPACING (Apple/Airbnb style)
+   ========================================
+   When font-size bumps up on larger screens, characters
+   at body-size need slightly more breathing room for
+   optical balance. Apple uses ~0.007em–0.012em positive
+   tracking on buttons and body text.
+   ======================================== */
+@media (min-width: 1680px) {
+
+  /* Hero CTA & primary action buttons — subtle open tracking */
+  .text-\[16px\],
+  .text-\[15px\] {
+    letter-spacing: 0.008em;
+  }
+
+  /* Navigation links & secondary actions */
+  .text-\[14px\],
+  .text-\[13px\] {
+    letter-spacing: 0.005em;
+  }
+}
+
+/* ========================================
+   LOGO RESPONSIVE SCALING
+   ========================================
+   At 1680px+, the header logo image and text scale up
+   slightly for visual parity with the larger content frame.
+   ======================================== */
+@media (min-width: 1680px) {
+
+  /* Logo image: slightly larger to match scaled text */
+  .header-logo-img {
+    height: 66px;
+  }
+
+  /* Logo text: +2px for visual balance */
+  .header-logo-text {
+    font-size: 17.5px;
+  }
 }

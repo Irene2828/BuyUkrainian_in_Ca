@@ -43,9 +43,7 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out font-sans",
-        isScrolled
-          ? "bg-white/90 backdrop-blur-[8px] border-b border-gray-200"
-          : "bg-white/80 backdrop-blur-xl border-b border-transparent"
+        "bg-white/90 backdrop-blur-[8px] border-b border-gray-200"
       )}
     >
       <div className="boutique-width h-[80px] flex items-center justify-between relative">
@@ -56,14 +54,14 @@ export function Header() {
             <img
               src="/header-logo.png"
               alt="BuyUkrainian.ca"
-              className="object-contain transition-all duration-500 h-[58px] w-auto ml-[-12px]"
+              className="header-logo-img object-contain transition-all duration-500 h-[61px] w-auto ml-[-12px]"
             />
             {/* Branding Text */}
             <div className="flex flex-col justify-center ml-[-22px] h-10 font-instrument">
-              <span className="text-[15.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none">
                 Ukrainian Products
               </span>
-              <span className="text-[15.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none mt-[2px]">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none mt-[2px]">
                 in Canada
               </span>
             </div>
@@ -82,12 +80,12 @@ export function Header() {
           ) : (
             <nav className="items-center gap-8 flex font-sans antialiased">
               <Link href="/about" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
-                About
+                {t('nav.about') || 'About'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
                 <MapPin className="w-4 h-4 opacity-90" />
-                View Map
+                {t('nav.map') || 'View Map'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
@@ -98,7 +96,7 @@ export function Header() {
                     className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
                   >
                     <Plus className="w-4 h-4 opacity-90" />
-                    Add a Store
+                    {t('nav.addStore') || 'Add a Store'}
                     <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </span>
                 </DialogTrigger>
@@ -118,7 +116,7 @@ export function Header() {
           {!isScrolled && location !== '/map' && (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-gray-100 transition-colors text-slate-900 no-underline">
               <MapPin className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
-              <span className="text-[14px] font-normal">{t('header.exploreMap') || 'Explore the map'}</span>
+              <span className="text-[14px] font-normal">{t('nav.map') || 'Explore the map'}</span>
             </Link>
           )}
 
@@ -149,12 +147,12 @@ export function Header() {
               ) : (
                 <>
                   <Link href="/about" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
-                    About
+                    {t('nav.about') || 'About'}
                   </Link>
 
                   <Link href="/map" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
                     <MapPin className="w-4 h-4 opacity-70" />
-                    View Map
+                    {t('nav.map') || 'View Map'}
                   </Link>
 
                   <span

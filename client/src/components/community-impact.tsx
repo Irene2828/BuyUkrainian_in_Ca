@@ -71,12 +71,12 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                 }}
             />
 
-            <div className="boutique-width min-[1537px]:max-w-[1440px] w-full mx-auto relative z-10">
+            <div className="boutique-width w-full mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-start">
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-center md:items-start text-center md:text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" aria-hidden="true" />
+                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" aria-hidden="true" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 SHARE THE MAP
                             </p>

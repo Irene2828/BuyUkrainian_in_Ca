@@ -28,10 +28,10 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="pt-[135px] pb-[110px] font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="pt-[164px] pb-[110px] font-sans overflow-hidden bg-white">
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
-        <div className="mb-4 max-w-4xl mx-auto flex flex-col gap-4 text-center items-center">
+        <div className="mb-4 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
 
           <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
             {t('howItWorks.title') || 'How to Use this Map'}
@@ -43,7 +43,7 @@ export function HowItWorks() {
 
         {/* Steps Grid with Stagger Animation */}
         {/* Feature Grid - Spatial Geometry - Spanning full boutique width */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24 stagger-container w-full max-w-none mx-auto">
+        <div className="mt-9 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24 stagger-container w-full max-w-none mx-auto">
           {steps.map((step, index) => (
             <div key={index} className="stagger-item group flex flex-col items-center text-center px-4">
 

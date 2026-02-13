@@ -1,8 +1,8 @@
-import { ArrowRight, CheckCircle, ChevronRight, MapPin, Search, HelpCircle } from "lucide-react";
+import { MapPin, HelpCircle } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+
 
 export function Hero() {
     const { t } = useI18n();
@@ -38,40 +38,42 @@ export function Hero() {
                 }}
             />
 
-            <div className="boutique-width w-full pt-[5rem] lg:pt-[5rem] pb-4 lg:pb-0 flex items-center relative z-10 h-full pointer-events-none">
+            <div className="boutique-width w-full pt-[5rem] lg:pt-[144px] pb-4 lg:pb-[2.5rem] flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area */}
                 <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
                     <h1
-                        className="leading-none mb-6 w-full antialiased"
+                        className="leading-none w-full antialiased"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 whitespace-nowrap mb-1 leading-[1.1] font-sans">Find & Share</span>
-                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 whitespace-nowrap mb-1 leading-[1.1] font-sans">Ukrainian Products</span>
-                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#2D50A0]/70 whitespace-nowrap">sold across Canada</span>
+                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
+                            {t('hero.title') || 'Discover\nUkrainian Products'}
+                        </span>
+                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal italic tracking-tight text-[#2D50A0]/70 whitespace-nowrap mt-2">
+                            {t('hero.subtitle') || 'sold across Canada'}
+                        </span>
                     </h1>
 
-                    <p className="text-[1.125rem] leading-[1.5] text-slate-800 font-medium max-w-[33.75rem] tracking-[0.01em]">
-                        Interactive map to find, add, and share stores selling Ukrainian-made products
+                    <p className="mt-8 text-[16px] leading-7 text-slate-900/80 font-normal max-w-[55ch] tracking-[0.01em] whitespace-pre-line">
+                        One map to <span className="font-medium text-slate-900">find, add and share local stores selling made in Ukraine</span> products in Canada. Support Ukraine's economy with each purchase.
                     </p>
 
-                    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 mt-8 w-full md:w-auto md:mb-10">
+                    <div className="flex flex-row items-center gap-6 mt-10 w-full md:w-auto md:mb-10">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
-                                className="h-[50px] px-8 w-full md:w-auto rounded-2xl bg-slate-900/85 backdrop-blur-md text-white font-medium text-[16px] tracking-normal transition-all duration-200 shadow-sm border border-white/10 hover:bg-slate-900 hover:translate-y-[-1px] active:scale-95 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn"
+                                className="h-[50px] 2xl:h-[54px] px-8 2xl:px-10 w-full md:w-auto rounded-full bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[linear-gradient(to_bottom,#3A3F4F,#3A3F4F)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                             >
-                                <span>Open interactive map</span>
-                                <MapPin className="w-4 h-4 ml-2" />
+                                <span>{t('hero.ctaPrimary') || 'Explore the Map'}</span>
+                                <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5" />
                             </Button>
                         </Link>
 
                         <a
                             href="#how-it-works"
-                            className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 py-3 md:py-0 flex items-center gap-1.5"
+                            className="text-[15px] font-medium text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-1.5 hover:underline underline-offset-4 decoration-slate-300 group/help"
                         >
-                            <HelpCircle className="w-4 h-4" />
-                            <span>How it works</span>
-                            <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                            <HelpCircle className="w-4 h-4 opacity-70 group-hover/help:opacity-100 transition-opacity" />
+                            <span>{t('hero.ctaSecondary') || 'How It Works'}</span>
                         </a>
                     </div>
 
@@ -90,8 +92,8 @@ export function Hero() {
             <div
                 className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden pointer-events-auto"
                 style={{
-                    maskImage: 'linear-gradient(to right, transparent 0%, transparent 5%, black 25%)',
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 5%, black 25%)'
+                    maskImage: 'linear-gradient(to right, transparent 0%, black 18%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%)'
                 }}
             >
                 <Link href="/map" className="block w-full h-full cursor-pointer pointer-events-auto active:scale-[0.98] transition-transform duration-200">
@@ -104,7 +106,7 @@ export function Hero() {
                             src="/assets/mapheronew.png"
                             alt="Interactive Map Display"
                             className="w-full h-full object-cover opacity-100"
-                            style={{ objectPosition: '95% 15%' }}
+                            style={{ objectPosition: '50% 15%' }}
                         />
 
                         {/* Integrated Status Bar Footer */}

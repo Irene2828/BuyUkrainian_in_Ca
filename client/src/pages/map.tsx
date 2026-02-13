@@ -162,7 +162,7 @@ export default function MapPage() {
   return (
     <div className={cn(
       "bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100 transition-all duration-500",
-      isZenMode ? "pt-0" : "pt-[5rem] lg:pt-[6.25rem]"
+      isZenMode ? "pt-0" : "pt-[5rem] lg:pt-[80px]"
     )}>
       {!isZenMode && <Header />}
       <main className="flex flex-col flex-1">
