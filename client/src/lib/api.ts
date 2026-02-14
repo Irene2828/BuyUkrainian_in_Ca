@@ -58,7 +58,7 @@ export async function getApprovedStores(): Promise<Store[]> {
   // Updated endpoint to /api/index as requested by User to match their debug check
   console.log("Fetching stores from /api/index...");
   try {
-    const response = await fetch(`/api/index`);
+    const response = await fetch(`/api/index?t=${Date.now()}`);
     console.log("Response status:", response.status);
 
     if (!response.ok) {

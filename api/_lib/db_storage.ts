@@ -2,7 +2,7 @@ import { type AdminUser, type InsertAdminUser, stores, adminUsers, type Store as
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pkg from 'pg';
 const { Pool } = pkg;
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import crypto from "crypto";
 
 // Define the shape of our Store object for the application
@@ -78,7 +78,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getApprovedStores(): Promise<Store[]> {
-    const approvedStores = await this.db.select().from(stores).where(eq(stores.status, "approved"));
+    const approvedStores = await this.db.select().from(stores)
+      .where(eq(stores.status, "approved"))
+      .orderBy(desc(stores.createdAt));
     return approvedStores.map(this.mapToStore);
   }
 

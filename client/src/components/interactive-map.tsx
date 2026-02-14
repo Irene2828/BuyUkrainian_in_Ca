@@ -277,19 +277,20 @@ const MarkerClusterGroup = ({
 
     group.clearLayers();
 
-    // Determine newest store ID (assuming numeric ID increment or relying on API sort order)
-    // If IDs are not reliably numeric, we might need a createdAt field. 
-    // Fallback: Use the store with the highest numeric ID.
-    const newestStoreId = stores.reduce((maxId, store) => {
-      const id = Number(store.id);
-      return !isNaN(id) && id > maxId ? id : maxId;
-    }, -1);
+    // Determine newest store based on createdAt timestamp
+    const newestStoreId = stores.length > 0
+      ? stores.reduce((latest, store) => {
+        const current = new Date(store.createdAt || 0).getTime();
+        const latestTime = new Date(latest.createdAt || 0).getTime();
+        return current > latestTime ? store : latest;
+      }, stores[0]).id
+      : null;
 
     stores.forEach(store => {
       if (store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1])) {
         const isSelected = selectedStore?.id === store.id;
         const isAnySelected = !!selectedStore;
-        const isNewest = Number(store.id) === newestStoreId;
+        const isNewest = store.id === newestStoreId;
 
         const marker = L.marker(store.coordinates as [number, number], {
           icon: createUnifiedMarker(isSelected, isAnySelected, isNewest)
