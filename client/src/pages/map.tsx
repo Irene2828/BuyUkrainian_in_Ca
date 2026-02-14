@@ -179,6 +179,41 @@ export default function MapPage() {
           <MapExplorer isZenMode={isZenMode} onZenModeToggle={() => setIsZenMode(!isZenMode)} />
         </motion.div>
 
+        {/* Trust & Origin Metadata - Integrated below map section */}
+        {!isZenMode && (
+          <div className="w-full bg-white py-6 md:py-8 select-none pointer-events-none overflow-hidden">
+            <div className="boutique-width mx-auto px-6">
+              {/* Desktop Metadata */}
+              <div className="hidden md:flex justify-center items-center gap-5">
+                <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500">
+                  Community-driven map
+                </span>
+                <span className="text-slate-400 text-[10px] font-light">/</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
+                  <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 italic">
+                    Verified stores
+                  </span>
+                </div>
+                <span className="text-slate-400 text-[10px] font-light">/</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500">
+                  Made in Ukraine only
+                </span>
+              </div>
+
+              {/* Mobile Metadata */}
+              <div className="md:hidden flex justify-center">
+                <div className="flex items-center gap-2.5 bg-slate-50/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-slate-100">
+                  <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.4)]" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600">
+                    Verified Ukrainian Products
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {!isZenMode && (
           <>
             <div className="section-reveal relative z-10 bg-transparent pt-0 pb-0">

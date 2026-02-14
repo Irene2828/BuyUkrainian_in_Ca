@@ -28,12 +28,12 @@ export function Hero() {
             <div
                 className="absolute pointer-events-none rounded-full z-[10]"
                 style={{
-                    width: '540px',
-                    height: '540px',
-                    left: '50%',
+                    width: '460px',
+                    height: '460px',
+                    left: '42%',
                     top: '-300px',
                     transform: 'translateX(-50%)',
-                    background: 'rgba(0, 113, 227, 0.16)',
+                    background: 'rgba(0, 113, 227, 0.26)',
                     filter: 'blur(108px)',
                 }}
             />

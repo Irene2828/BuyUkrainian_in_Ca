@@ -429,7 +429,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                             <div className="w-2.5 h-2.5 rounded-full bg-[#F2D36B] border border-white shadow-sm" />
                                         </div>
                                         <span className="text-[14px] font-medium tracking-tight text-slate-600 whitespace-nowrap">
-                                            Pins show local stores carrying Ukrainian-made products
+                                            Pins show local stores selling Ukrainian-made products
                                         </span>
                                     </div>
                                 </div>
