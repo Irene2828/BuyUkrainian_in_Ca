@@ -529,18 +529,32 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full btn-premium-action flex items-center justify-center gap-2 mt-8 shadow-lg hover:shadow-xl hover:scale-[1.01]"
-            >
-              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} /> : <>Add a New Store to the Map <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>}
-            </Button>
+            <div className="flex flex-col gap-4 mt-8">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full btn-premium-action flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.01]"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
+                ) : (
+                  <>Submit Store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>
+                )}
+              </Button>
 
-            {/* Privacy Note */}
-            <p className="text-[10px] text-gray-400 text-center font-ui mt-4">
-              No personal data is collected. Additions are reviewed by the community.
-            </p>
+              <div className="flex flex-col gap-3 px-2">
+                <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
+                  All submissions will be approved by admin volunteers to prevent spam or inaccurate listings.{" "}
+                  <a href="#faq" onClick={onClose} className="text-blue-600 hover:text-blue-800 font-medium underline underline-offset-4 decoration-blue-200 hover:decoration-blue-600 transition-all">
+                    Why it matters
+                  </a>
+                </p>
+
+                <p className="text-[12px] text-gray-400 text-center font-ui">
+                  No personal data is collected. Additions are reviewed by the community.
+                </p>
+              </div>
+            </div>
 
           </form>
         </Form>

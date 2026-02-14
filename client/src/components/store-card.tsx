@@ -164,11 +164,11 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </button>
                 </div>
                 <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md uppercase tracking-wider">
+                    <span className="text-[12px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md uppercase tracking-wider">
                         {getCategoryLabel(store.category)}
                     </span>
                     {matchedProduct && (
-                        <span className="text-[10px] font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">
+                        <span className="text-[12px] font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">
                             Matches: {matchedProduct}
                         </span>
                     )}
@@ -256,7 +256,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
                         <CornerUpRight size={18} className="text-slate-700" />
                     </div>
-                    <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Directions</span>
+                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Directions</span>
                 </a>
 
                 {/* Copy Address */}
@@ -272,7 +272,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     )}>
                         {copied ? <Check size={18} /> : <Copy size={18} />}
                     </div>
-                    <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">{copied ? 'Copied' : 'Copy Address'}</span>
+                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">{copied ? 'Copied' : 'Copy Address'}</span>
                 </button>
 
                 {/* Share */}
@@ -283,7 +283,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
                         <Share2 size={18} className="text-slate-700" />
                     </div>
-                    <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Share</span>
+                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Share</span>
                 </button>
 
                 {/* Zoom */}
@@ -294,7 +294,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
                         <Maximize2 size={18} className="text-slate-700" />
                     </div>
-                    <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Zoom</span>
+                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Zoom</span>
                 </button>
             </div>
 
@@ -306,7 +306,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                             {store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="px-3 py-1.5 text-[11px] font-medium bg-white border border-slate-200 rounded-full whitespace-nowrap text-slate-700 shadow-sm"
+                                    className="px-3 py-1.5 text-[13px] font-medium bg-white border border-slate-200 rounded-full whitespace-nowrap text-slate-700 shadow-sm"
                                 >
                                     {product}
                                 </div>
