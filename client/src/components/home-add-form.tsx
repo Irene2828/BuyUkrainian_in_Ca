@@ -325,7 +325,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="address"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">
                     Location
                   </FormLabel>
                   <FormControl>
@@ -341,7 +341,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                         }}
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
                         onBlur={() => { setTimeout(() => setShowAddressSuggestions(false), 200); }}
-                        className="h-14 pl-11 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[15px] placeholder:text-gray-400"
+                        className="h-14 pl-11 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-400"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
@@ -398,13 +398,13 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Business name</FormLabel>
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Business name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
                       autoComplete="off"
-                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal placeholder:text-gray-400"
+                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -418,12 +418,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="website"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Website (Optional)</FormLabel>
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Website (Optional)</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal cursor-text placeholder:text-gray-400"
+                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -437,10 +437,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <select {...field} className="w-full h-14 px-4 rounded-full bg-gray-50 border-transparent text-[15px] outline-none focus:bg-white focus:border-black focus:ring-0 transition-all font-ui appearance-none cursor-pointer text-gray-900">
+                      <select {...field} className="w-full h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent text-[15px] outline-none focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui appearance-none cursor-pointer text-slate-800">
                         <option value="food">Food & Grocery</option>
                         <option value="clothes">Clothing & Apparel</option>
                         <option value="retail">Retail & Gifts</option>
@@ -464,9 +464,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="products"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Products (Type products found in a store separated by comma)</FormLabel>
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
+                  <p className="text-[11px] text-slate-400 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal placeholder:text-gray-400" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-400" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -479,12 +480,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Brief Store Info (Optional)</FormLabel>
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Brief Store Info (Optional)</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-[24px] bg-gray-50 border-transparent resize-none font-ui focus:bg-white focus:border-black focus:ring-0 transition-all shadow-sm p-4 text-[16px] font-normal placeholder:text-gray-400"
+                      className="min-h-[100px] rounded-[24px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all p-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-400"
                     />
                   </FormControl>
                   <FormMessage />
@@ -494,12 +495,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
             {/* 6. Image Upload Zone */}
             <div>
-              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-3">Store Photo (Optional)</label>
+              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-3">Store Photo (Optional)</label>
               <div
                 onClick={() => imageInputRef.current?.click()}
                 className={cn(
-                  "border-2 border-dashed rounded-[20px] p-8 text-center cursor-pointer transition-all duration-300 group",
-                  imagePreview ? "border-green-300 bg-green-50" : "border-gray-200 hover:border-black hover:bg-gray-50"
+                  "rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 group ring-1 ring-inset shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
+                  imagePreview ? "ring-green-300 bg-green-50" : "ring-slate-900/5 bg-slate-50 hover:ring-slate-900/15"
                 )}
               >
                 {imagePreview ? (
@@ -534,7 +535,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full btn-premium-action flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.01]"
+                className="w-full btn-premium-action flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.98] active:bg-slate-800 transition-all duration-200"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
@@ -546,7 +547,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <div className="flex flex-col gap-3 px-2">
                 <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
                   All submissions will be approved by admin volunteers to prevent spam or inaccurate listings.{" "}
-                  <a href="#faq" onClick={onClose} className="text-blue-600 hover:text-blue-800 font-medium underline underline-offset-4 decoration-blue-200 hover:decoration-blue-600 transition-all">
+                  <a href="#faq" onClick={onClose} className="text-slate-900 font-medium underline decoration-slate-300 underline-offset-4 hover:decoration-[#B6FF40] transition-all">
                     Why it matters
                   </a>
                 </p>

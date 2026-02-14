@@ -103,8 +103,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
     return (
         <div className={cn(
-            "bg-white/95 backdrop-blur-xl rounded-[28px] overflow-hidden flex flex-col w-full max-w-[400px] transition-all duration-300",
-            "shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-slate-200/60 p-5 gap-4"
+            "bg-white/95 backdrop-blur-xl rounded-[28px] overflow-hidden flex flex-col w-[320px] transition-all duration-300",
+            "shadow-[0_12px_40px_rgba(0,0,0,0.08)] ring-1 ring-inset ring-slate-900/5 p-5 gap-5"
         )}>
             {/* Lightbox Overlay */}
             {isLightboxOpen && createPortal(
@@ -175,126 +175,123 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
             </div>
 
-            {/* 1b. Information Section: Gallery (Carousel) & Address/Website side-by-side */}
-            <div className="flex gap-4 items-start">
-                {/* Left: Interactive Micro-Gallery Carousel */}
-                {uniqueImages.length > 0 && (
-                    <div className="relative group shrink-0">
-                        <div
-                            className="h-20 w-20 rounded-xl overflow-hidden border border-slate-200 cursor-zoom-in hover:opacity-95 transition-opacity"
-                            onClick={() => setIsLightboxOpen(true)}
-                        >
-                            <img
-                                src={uniqueImages[currentImageIndex]}
-                                alt={`${store.name} preview`}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* In-Card Navigation Arrows */}
-                        {uniqueImages.length > 1 && (
-                            <>
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                                    className="absolute left-0.5 top-1/2 -translate-y-1/2 p-1 rounded-full bg-white/80 border border-slate-200 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-                                >
-                                    <ChevronLeft size={12} className="text-slate-700" />
-                                </button>
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                                    className="absolute right-0.5 top-1/2 -translate-y-1/2 p-1 rounded-full bg-white/80 border border-slate-200 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-                                >
-                                    <ChevronRight size={12} className="text-slate-700" />
-                                </button>
-                                {/* Small Image Indicator Dots */}
-                                <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1">
-                                    {uniqueImages.map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={cn(
-                                                "w-1 h-1 rounded-full transition-all",
-                                                i === currentImageIndex ? "bg-slate-400 w-2" : "bg-slate-200"
-                                            )}
-                                        />
-                                    ))}
-                                </div>
-                            </>
-                        )}
+            {/* 2. Interactive Gallery (Full Width in Ticket Layout) */}
+            {uniqueImages.length > 0 && (
+                <div className="relative group w-full">
+                    <div
+                        className="aspect-[1.6/1] w-full rounded-2xl overflow-hidden border border-slate-100 cursor-zoom-in hover:opacity-95 transition-opacity"
+                        onClick={() => setIsLightboxOpen(true)}
+                    >
+                        <img
+                            src={uniqueImages[currentImageIndex]}
+                            alt={`${store.name} preview`}
+                            className="w-full h-full object-cover"
+                        />
                     </div>
-                )}
 
-                {/* Right: Address & Website Stacked */}
-                <div className="flex-1 flex flex-col gap-1 min-w-0 pt-0.5">
-                    <div className="flex flex-col">
-                        <p className="text-[14px] text-slate-600 font-medium leading-snug">
-                            {store.address}
-                        </p>
-                        {store.website && (
-                            <a
-                                href={store.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs font-medium text-blue-600 hover:text-blue-800 flex items-center gap-1.5 mt-1.5 transition-colors"
+                    {/* In-Card Navigation Arrows */}
+                    {uniqueImages.length > 1 && (
+                        <>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                                className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
                             >
-                                <Globe size={11} className="stroke-[2.5px]" />
-                                <span className="truncate">{store.website.replace(/^https?:\/\/(www\.)?/, '')}</span>
-                            </a>
-                        )}
-                    </div>
+                                <ChevronLeft size={14} className="text-slate-700" />
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                            >
+                                <ChevronRight size={14} className="text-slate-700" />
+                            </button>
+                            {/* Small Image Indicator Dots */}
+                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                                {uniqueImages.map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className={cn(
+                                            "w-1.5 h-1.5 rounded-full transition-all border border-white/50",
+                                            i === currentImageIndex ? "bg-white w-3" : "bg-white/40"
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
+            )}
+
+            {/* 3. Information Section: Address & Website Stacked */}
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <p className="text-[14px] text-slate-600 font-medium leading-relaxed">
+                    {store.address}
+                </p>
+                {store.website && (
+                    <a
+                        href={store.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors"
+                    >
+                        <Globe size={11} className="stroke-[2.5px]" />
+                        <span className="truncate underline underline-offset-2 decoration-blue-100">
+                            {store.website.replace(/^https?:\/\/(www\.)?/, '')}
+                        </span>
+                    </a>
+                )}
             </div>
 
-            {/* 3. High-Density Utility Action Bar */}
-            <div className="flex justify-between items-center w-full px-0.5">
+            {/* 4. Mathematically Perfect Action Grid */}
+            <div className="grid grid-cols-4 gap-2 w-full pt-1">
                 {/* Directions */}
                 <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-col items-center gap-1.5 group min-w-0"
+                    className="flex flex-col items-center justify-center gap-2 group"
                 >
-                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
-                        <CornerUpRight size={18} className="text-slate-700" />
+                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                        <CornerUpRight size={20} className="text-slate-700" />
                     </div>
-                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Directions</span>
+                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Directions</span>
                 </a>
 
                 {/* Copy Address */}
                 <button
                     onClick={handleCopyAddress}
-                    className="flex flex-col items-center gap-1.5 group min-w-0"
+                    className="flex flex-col items-center justify-center gap-2 group"
                 >
                     <div className={cn(
-                        "w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300",
+                        "w-12 h-12 rounded-full ring-1 ring-inset flex items-center justify-center transition-all duration-300",
                         copied
-                            ? "bg-blue-50 border-blue-200 text-blue-700"
-                            : "bg-slate-50 border-slate-200 hover:bg-slate-100 group-hover:border-blue-400/50 text-slate-700"
+                            ? "bg-blue-50 ring-blue-200 text-blue-700"
+                            : "bg-slate-50 ring-slate-900/5 hover:bg-slate-100 group-hover:ring-blue-400/30 text-slate-700"
                     )}>
-                        {copied ? <Check size={18} /> : <Copy size={18} />}
+                        {copied ? <Check size={20} /> : <Copy size={20} />}
                     </div>
-                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">{copied ? 'Copied' : 'Copy Address'}</span>
+                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">{copied ? 'Copied' : 'Copy'}</span>
                 </button>
 
                 {/* Share */}
                 <button
                     onClick={handleShare}
-                    className="flex flex-col items-center gap-1.5 group min-w-0"
+                    className="flex flex-col items-center justify-center gap-2 group"
                 >
-                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
-                        <Share2 size={18} className="text-slate-700" />
+                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                        <Share2 size={20} className="text-slate-700" />
                     </div>
-                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Share</span>
+                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Share</span>
                 </button>
 
                 {/* Zoom */}
                 <button
                     onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                    className="flex flex-col items-center gap-1.5 group min-w-0"
+                    className="flex flex-col items-center justify-center gap-2 group"
                 >
-                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
-                        <Maximize2 size={18} className="text-slate-700" />
+                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                        <Maximize2 size={20} className="text-slate-700" />
                     </div>
-                    <span className="text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Zoom</span>
+                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Zoom</span>
                 </button>
             </div>
 
