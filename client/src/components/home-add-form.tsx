@@ -301,7 +301,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>
-          <h2 className="text-[20px] font-bold text-gray-900 font-header">
+          <h2 className="text-[20px] font-bold text-gray-900 font-header mb-2">
             Add a store
           </h2>
           <p className="text-[13px] text-slate-500 font-medium font-ui ms-0.5">
