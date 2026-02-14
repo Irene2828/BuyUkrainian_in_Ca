@@ -207,61 +207,67 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 </div>
             </div>
 
-            {/* 2. Interactive Gallery (Full Width in Ticket Layout) */}
-            {uniqueImages.length > 0 && (
-                <div className="relative group w-full flex-shrink-0">
-                    <div
-                        className="h-40 w-full rounded-2xl overflow-hidden border border-slate-100 cursor-zoom-in hover:opacity-95 transition-opacity"
-                        onClick={() => setIsLightboxOpen(true)}
-                    >
-                        <img
-                            src={uniqueImages[currentImageIndex]}
-                            alt={`${store.name} preview`}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-
-                    {/* In-Card Navigation Arrows */}
-                    {uniqueImages.length > 1 && (
-                        <>
-                            <button
-                                onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                                className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-                            >
-                                <ChevronLeft size={14} className="text-slate-700" />
-                            </button>
-                            <button
-                                onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-                            >
-                                <ChevronRight size={14} className="text-slate-700" />
-                            </button>
-                        </>
-                    )}
-                </div>
-            )}
-
-            {/* Scrollable Content Container */}
-            <div className="flex flex-col gap-5 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
-                {/* 3. Information Section: Address & Website Stacked */}
-                <div className="flex flex-col gap-1.5 min-w-0">
-                    <p className="text-[14px] text-slate-500 font-medium leading-relaxed">
-                        {store.address}
-                    </p>
-                    {store.website && (
-                        <a
-                            href={store.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors"
+            {/* 2 & 3. Split Hero: Image (Left) & Info (Right) */}
+            <div className="flex gap-4 items-start flex-shrink-0">
+                {/* Picture (Left Column) */}
+                {uniqueImages.length > 0 && (
+                    <div className="relative group w-28 h-28 flex-shrink-0">
+                        <div
+                            className="w-full h-full rounded-2xl overflow-hidden border border-slate-100 cursor-zoom-in hover:opacity-95 transition-opacity"
+                            onClick={() => setIsLightboxOpen(true)}
                         >
-                            <Globe size={11} className="stroke-[2.5px]" />
-                            <span className="truncate underline underline-offset-2 decoration-blue-100">
-                                {store.website?.replace(/^https?:\/\/(www\.)?/, '')}
-                            </span>
-                        </a>
-                    )}
+                            <img
+                                src={uniqueImages[currentImageIndex]}
+                                alt={`${store.name} preview`}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+
+                        {/* Arrows (Smaller for Split Layout) */}
+                        {uniqueImages.length > 1 && (
+                            <>
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                                    className="absolute left-1 top-1/2 -translate-y-1/2 p-1 rounded-full bg-white/95 border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                                >
+                                    <ChevronLeft size={12} className="text-slate-700" />
+                                </button>
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                                    className="absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded-full bg-white/95 border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                                >
+                                    <ChevronRight size={12} className="text-slate-700" />
+                                </button>
+                            </>
+                        )}
+                    </div>
+                )}
+
+                {/* Information (Right Column) */}
+                <div className="flex flex-col gap-2 min-w-0 pt-1">
+                    <div className="flex flex-col gap-1">
+                        <p className="text-[13px] text-slate-500 font-medium leading-[1.4] line-clamp-3">
+                            {store.address}
+                        </p>
+                        {store.website && (
+                            <a
+                                href={store.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[11px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors"
+                            >
+                                <Globe size={11} className="stroke-[2.5px]" />
+                                <span className="truncate underline underline-offset-2 decoration-blue-100">
+                                    {store.website?.replace(/^https?:\/\/(www\.)?/, '')}
+                                </span>
+                            </a>
+                        )}
+                    </div>
                 </div>
+            </div>
+
+            {/* Scrollable Content Container (Actions & Tags) */}
+            <div className="flex flex-col gap-5 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
 
                 {/* 4. Mathematically Perfect Action Grid */}
                 <div className="grid grid-cols-4 gap-2 w-full pt-1">
