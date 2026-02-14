@@ -27,7 +27,7 @@ const formSchema = z.object({
   category: z.enum(["food", "clothes", "retail", "other"]),
   website: z.string().url("Please enter a valid URL (https://...)").optional().or(z.literal("")),
   products: z.string().min(2, "List at least one product"),
-  description: z.string().min(10, "Description is required"),
+  description: z.string().optional().or(z.literal("")),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   image: z.string().optional(),
@@ -259,6 +259,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         ...values,
         city,
         province,
+        description: values.description || "",
         products: values.products.split(",").map(p => p.trim()).filter(Boolean),
         latitude: String(lat),
         longitude: String(lng),
@@ -463,7 +464,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="products"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Products</FormLabel>
+                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Products (Type products found in a store separated by comma)</FormLabel>
                   <FormControl>
                     <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-gray-50 border-transparent focus:bg-white focus:border-black focus:ring-0 transition-all font-ui shadow-sm text-[16px] font-normal placeholder:text-gray-400" />
                   </FormControl>
@@ -478,7 +479,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Description</FormLabel>
+                  <FormLabel className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.15em] font-ui block mb-2">Brief Store Info (Optional)</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Share what makes this place unique..."
