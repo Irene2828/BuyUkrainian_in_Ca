@@ -100,7 +100,7 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-[80px] pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
+                className="w-full pt-0 pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
             >
                 <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 

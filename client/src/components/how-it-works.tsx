@@ -8,27 +8,36 @@ export function HowItWorks() {
 
   const steps = [
     {
-      title: t('howItWorks.card1.title') || 'FIND STORES ON THE MAP',
-      description: 'Search stores by location or product category;',
+      title: 'FIND STORES ON THE MAP',
+      bullets: [
+        'Search & filter stores by category or province.',
+        'Get directions, website links and main store info instantly.'
+      ],
       icon: Search,
       image: "/icon1.png"
     },
     {
-      title: t('howItWorks.card2.title') || 'ADD NEW LOCATIONS',
-      description: 'Get store addresses, links to websites and main info about the products;',
+      title: 'ADD NEW LOCATIONS',
+      bullets: [
+        'Found a new store in your town? Add it to the map.',
+        'Every new pin keeps the map updated for all.'
+      ],
       icon: PlusCircle,
       image: "/icon2.png"
     },
     {
-      title: t('howItWorks.card3.title') || 'SHARE THE MAP',
-      description: 'Make your future purchases with a benefit to Ukraine.',
+      title: 'SHARE THE MAP',
+      bullets: [
+        'Help your friends discover Ukrainian products in Canada.',
+        'Every share helps the mission to support Ukraine\'s economy'
+      ],
       icon: Share2,
       image: "/icon3.png"
     }
   ];
 
   return (
-    <section id="how-it-works" className="pt-[164px] pb-[110px] font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="pt-[196px] pb-[132px] font-sans overflow-hidden bg-white">
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
         <div className="mb-4 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
@@ -50,23 +59,23 @@ export function HowItWorks() {
                 <img
                   src={step.image}
                   alt={step.title}
-                  className={`max-h-full w-auto object-contain transform ${index === 1 ? 'scale-[1.5]' : 'scale-[1.6]'}`}
+                  className={`max-h-full w-auto object-contain transform ${index === 1 ? 'max-[1440px]:scale-[1.35] scale-[1.5]' : 'max-[1440px]:scale-[1.45] scale-[1.6]'}`}
                 />
               </div>
 
               {/* Horizontal Header Row: Icon + Label - Centered */}
               <div className="flex items-center justify-center gap-3 mb-[28px] w-full">
-                <step.icon size={26} strokeWidth={2} className="text-[#2D50A0]" />
+                <step.icon size={26} strokeWidth={2} className="text-[#2D50A0]/60" />
                 <h5 className="font-bold uppercase tracking-[0.05em] text-[#2D50A0]/60 font-sans text-[14.4px] max-[1440px]:text-xs max-[1440px]:tracking-widest">
                   {step.title}
                 </h5>
               </div>
 
-              {/* Centered Descriptions - Refined for 1440px */}
-              <div className="flex flex-col items-center gap-2 mt-[6px] max-w-[320px] w-fit">
-                {step.description.split('\n').filter(line => line.trim() !== '').map((line, i) => (
-                  <p key={i} className="font-sans text-center m-0 text-[16px] leading-[1.6] text-slate-900/80">
-                    {line}
+              {/* Minimalist Bullet List - Aligned Start */}
+              <div className="flex flex-col items-start gap-4 max-w-[320px] w-full text-left">
+                {step.bullets.map((bullet, i) => (
+                  <p key={i} className="font-ui m-0 text-[16px] leading-[1.6] text-slate-900/80">
+                    - {bullet}
                   </p>
                 ))}
               </div>

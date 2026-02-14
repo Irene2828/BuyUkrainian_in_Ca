@@ -18,6 +18,7 @@ import {
     Users,
     X,
     LogOut,
+    Loader2,
     Upload,
     Trash2,
     ExternalLink,
@@ -250,12 +251,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
 
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const [isBulkProcessing, setIsBulkProcessing] = useState(false);
+    const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false);
 
     // Robust CSV Parser
     const parseCSV = (text: string) => {
         const lines = text.split('\n');
         const result = [];
-        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
 
         for (let i = 1; i < lines.length; i++) {
             if (!lines[i].trim()) continue;
@@ -275,8 +277,24 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             currentLine.push(lines[i].substring(start).replace(/^"|"$/g, '').trim());
 
             // Map based on order: Name, Address, Category (simple fallback)
-            // Or try to match headers if they exist, but for now simple index
-            const [name, address, category, website, description] = currentLine;
+            let [name, address, col3, col4, col5] = currentLine;
+
+            // Heuristic to detect column mapping
+            let category = col3;
+            let website = col4;
+            let description = col5;
+
+            // Fix: If category looks like a URL, it's probably the website
+            if (category && (category.startsWith('http') || category.startsWith('www'))) {
+                website = category;
+                category = 'food'; // Default fallback
+            }
+
+            // Fix: Normalize category
+            const validCategories = ['food', 'clothes', 'retail', 'other'];
+            if (!validCategories.includes(category?.toLowerCase() || '')) {
+                category = 'food';
+            }
 
             if (name) {
                 result.push({
@@ -289,6 +307,33 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             }
         }
         return result;
+    }
+
+    // Geocode helper
+    async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay to respect rate limits
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&countrycodes=ca&format=json&limit=1&addressdetails=1`,
+                { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca (admin@buyukrainian.ca)' } } // Better UA
+            );
+            if (!response.ok) throw new Error(`Geocoding HTTP ${response.status}`);
+
+            const results = await response.json();
+            if (results.length > 0) {
+                const r = results[0];
+                return {
+                    lat: parseFloat(r.lat),
+                    lng: parseFloat(r.lon),
+                    city: r.address?.city || r.address?.town || r.address?.village || r.address?.hamlet || '',
+                    province: r.address?.state || '',
+                };
+            }
+            return null;
+        } catch (e) {
+            console.error("Geocoding error:", e);
+            return null;
+        }
     }
 
     // Handlers
@@ -307,20 +352,72 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             }
 
             try {
-                console.log("Creating store from draft:", draftStore);
-                await createStore({
+                // Validate/Fix data before sending
+                const validDescription = (draftStore.description && draftStore.description.length >= 10)
+                    ? draftStore.description
+                    : "A great place to find Ukrainian products and support the community.";
+
+                const validProducts = (draftStore.products && draftStore.products.length > 0)
+                    ? draftStore.products
+                    : ["General Goods", "Ukrainian Products"];
+
+                const validCategory = ['food', 'clothes', 'retail', 'other'].includes(draftStore.category)
+                    ? draftStore.category
+                    : 'food';
+
+                // Fix website if it's invalid (basic check)
+                let validWebsite = draftStore.website || '';
+                if (validWebsite && !validWebsite.startsWith('http')) {
+                    validWebsite = 'https://' + validWebsite;
+                }
+
+                // Geocode Address
+                let lat = 43.65;
+                let lng = -79.38;
+                let city = draftStore.city || draftStore.address.split(',').pop()?.trim() || 'Toronto';
+                let province = draftStore.province || 'ON';
+
+                toast({ title: "Geocoding...", description: "Looking up address coordinates." });
+                const addressToGeocode = draftStore.address.replace(/, Canada$/i, "").trim(); // Remove ", Canada" suffix if present
+
+                let geo = await geocodeAddress(addressToGeocode);
+
+                // Fallback: Try geocoding without postal code if first attempt fails
+                if (!geo) {
+                    const noPostal = addressToGeocode.replace(/[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d/, "").trim();
+                    if (noPostal !== addressToGeocode) {
+                        console.log("Retrying geocode without postal code:", noPostal);
+                        geo = await geocodeAddress(noPostal);
+                    }
+                }
+
+                if (geo) {
+                    lat = geo.lat;
+                    lng = geo.lng;
+                    city = geo.city || city;
+                    province = geo.province || province;
+                    console.log("Geocoded to:", lat, lng);
+                } else {
+                    console.warn("Geocoding failed, using fallback.");
+                    toast({ title: "Warning", description: "Could not geocode address. Using default location.", variant: "destructive" });
+                }
+
+                const payload = {
                     name: draftStore.name,
-                    description: draftStore.description || '',
-                    products: draftStore.products || [],
+                    description: validDescription,
+                    products: validProducts,
                     address: draftStore.address,
-                    city: draftStore.city || draftStore.address.split(',').pop()?.trim() || '',
-                    province: draftStore.province || 'ON',
-                    latitude: 43.65,
-                    longitude: -79.38,
-                    category: draftStore.category || 'food',
-                    website: draftStore.website,
+                    city: city,
+                    province: province,
+                    latitude: lat,
+                    longitude: lng,
+                    category: validCategory,
+                    website: validWebsite,
                     images: draftStore.images
-                });
+                };
+
+                console.log("Creating store from draft with payload:", payload);
+                await createStore(payload);
 
                 // Remove from drafts
                 setDrafts(prev => prev.filter(d => d.id !== id));
@@ -427,36 +524,92 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         });
     };
 
-    const handleBulkDelete = async () => {
-        if (!confirm(`Delete ${selectedIds.size} items?`)) return;
-
-        let count = 0;
+    const performBulkDelete = async () => {
+        setIsBulkProcessing(true);
         const ids = Array.from(selectedIds);
-        for (const id of ids) {
-            if (activeTab === 'drafts') {
-                setDrafts(prev => prev.filter(d => d.id !== id));
-                count++;
-            } else if (activeTab === 'trash') {
-                await deleteMutation.mutateAsync(id);
-                count++;
-            } else {
-                await updateStatusMutation.mutateAsync({ id, status: "rejected" });
-                count++;
-            }
-        }
+        const previousDrafts = [...drafts];
+        const itemsToRestore: { id: string, status: "pending" | "approved" | "rejected" }[] = [];
+
+        // Optimistic UI Update: Clear selection immediately
         setSelectedIds(new Set());
-        toast({ title: "Bulk Action Complete", description: `Processed ${count} items.` });
+
+        try {
+            if (activeTab === 'drafts') {
+                // Filter out deleted drafts immediately
+                setDrafts(prev => prev.filter(d => !ids.includes(d.id)));
+                toast({
+                    title: "Drafts Deleted",
+                    description: `Removed ${ids.length} drafts.`,
+                    action: <ToastAction altText="Undo" onClick={() => setDrafts(previousDrafts)}>Undo</ToastAction>
+                });
+            } else if (activeTab === 'trash') {
+                // Permanent Delete - Parallel Execution
+                await Promise.all(ids.map(id => deleteMutation.mutateAsync(id)));
+                toast({ title: "Deleted Permanently", description: `Removed ${ids.length} items.` });
+            } else {
+                // Move to Trash (Reject) - Parallel Execution
+                // Save current status for undo? (Assuming they are all 'pending' or 'approved' based on tab)
+                const currentStatus = activeTab as "pending" | "approved";
+
+                await Promise.all(ids.map(id => updateStatusMutation.mutateAsync({ id, status: "rejected" })));
+
+                toast({
+                    title: "Moved to Trash",
+                    description: `Moved ${ids.length} items to trash.`,
+                    action: (
+                        <ToastAction altText="Undo" onClick={async () => {
+                            const undoPromises = ids.map(id => updateStatusMutation.mutateAsync({ id, status: currentStatus }));
+                            await Promise.all(undoPromises);
+                            toast({ title: "Undone", description: "Items restored." });
+                        }}>
+                            Undo
+                        </ToastAction>
+                    )
+                });
+            }
+        } catch (e) {
+            console.error("Bulk delete failed:", e);
+            // Revert selection on critical failure if needed, or just let error toast show
+            toast({ title: "Error", description: "Some items failed to delete.", variant: "destructive" });
+        } finally {
+            setIsBulkProcessing(false);
+            setShowBulkDeleteConfirm(false);
+        }
+    };
+
+    const handleBulkDelete = () => {
+        setShowBulkDeleteConfirm(true);
     };
 
     const handleBulkApprove = async () => {
-        let count = 0;
+        setIsBulkProcessing(true);
         const ids = Array.from(selectedIds);
-        for (const id of ids) {
-            await handleApprove(id);
-            count++;
-        }
+        let count = 0;
+
+        // Clear selection immediately to prevent double-clicks
         setSelectedIds(new Set());
-        toast({ title: "Bulk Action Complete", description: `Approved ${count} items.` });
+
+        toast({ title: "Processing...", description: `Approving ${ids.length} items. Please wait.` });
+
+        try {
+            // Sequential for now due to geocoding rate limits, but UI won't flicker as much
+            // We could parallelize non-draft approvals since they don't need geocoding
+            for (const id of ids) {
+                // Identify if draft or existing
+                if (id.startsWith('draft-')) {
+                    await handleApprove(id); // Using existing logic with geocoding
+                } else {
+                    await updateStatusMutation.mutateAsync({ id, status: "approved" });
+                }
+                count++;
+            }
+            toast({ title: "Bulk Action Complete", description: `Approved ${count} items.` });
+        } catch (e) {
+            console.error("Bulk approve error:", e);
+            toast({ title: "Error", description: "Failed to approve all items.", variant: "destructive" });
+        } finally {
+            setIsBulkProcessing(false);
+        }
     };
 
     const openEditModal = (store: Store) => {
@@ -845,9 +998,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 variant="destructive"
                                 size="sm"
                                 onClick={handleBulkDelete}
+                                disabled={isBulkProcessing}
                                 className="bg-red-600 hover:bg-red-700 text-white border-none"
                             >
-                                <Trash2 className="w-4 h-4 mr-2" />
+                                {isBulkProcessing ? (
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                ) : (
+                                    <Trash2 className="w-4 h-4 mr-2" />
+                                )}
                                 {activeTab === "trash" ? "Purge Selected" : "Delete Selected"}
                             </Button>
                             {(activeTab === "pending" || activeTab === "drafts") && (
@@ -1308,6 +1466,33 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             }
                         />
                     )}
+                </DialogContent>
+            </Dialog>
+            {/* Bulk Delete Confirmation Dialog */}
+            <Dialog open={showBulkDeleteConfirm} onOpenChange={setShowBulkDeleteConfirm}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Confirm Bulk Action</DialogTitle>
+                    </DialogHeader>
+                    <div className="py-4">
+                        <p className="text-sm text-gray-600">
+                            {activeTab === 'trash'
+                                ? `Are you sure you want to PERMANENTLY delete these ${selectedIds.size} items? This cannot be undone.`
+                                : `Are you sure you want to move ${selectedIds.size} items to trash?`
+                            }
+                        </p>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowBulkDeleteConfirm(false)}>Cancel</Button>
+                        <Button
+                            variant="destructive"
+                            onClick={performBulkDelete}
+                            disabled={isBulkProcessing}
+                        >
+                            {isBulkProcessing && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                            {activeTab === 'trash' ? "Permanently Delete" : "Move to Trash"}
+                        </Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </div >

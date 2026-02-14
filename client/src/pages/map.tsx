@@ -46,7 +46,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[5rem] lg:pt-[6.25rem] pb-[72px]">
+    <section className="bg-white pt-[6rem] lg:pt-[7.5rem] pb-[86px]">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -105,7 +105,7 @@ function NewlyAddedStores() {
 
       {/* Community Call to Action */}
       <div className="flex flex-col items-center justify-center mt-4 gap-5 text-center px-4">
-        <p className="text-[14px] md:text-[15px] text-slate-500 font-medium font-ui">
+        <p className="text-[14px] md:text-[16px] 2xl:text-[18px] text-slate-600 font-ui italic leading-relaxed">
           Know a Store We Missed? Add it To the Map
         </p>
         <button

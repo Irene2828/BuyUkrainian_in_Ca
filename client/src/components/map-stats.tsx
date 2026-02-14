@@ -18,7 +18,7 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full pt-[100px] pb-[100px] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
+        <section className="relative w-full pt-[120px] pb-[120px] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
             <div className="boutique-width flex flex-col items-center pb-3">
                 {/* Stats Header */}
                 <div className="flex flex-col items-center mb-12">
@@ -72,7 +72,7 @@ export function MapStats() {
                 </div>
 
                 <div className="flex flex-col items-center gap-6 mt-10">
-                    <p className="text-[12px] md:text-[14px] text-slate-600 font-ui italic leading-relaxed text-center max-w-[40ch]">
+                    <p className="text-[14px] md:text-[16px] 2xl:text-[18px] text-slate-600 font-ui italic leading-relaxed text-center max-w-[40ch]">
                         Ready to find or add more stores selling made in Ukraine?
                     </p>
                     <Link href="/map">

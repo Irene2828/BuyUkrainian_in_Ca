@@ -6,7 +6,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
-import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink, Navigation } from 'lucide-react';
+import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink, Navigation, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -608,7 +608,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                 className="w-10 h-10 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border border-zinc-200 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
                 aria-label="How to use the map"
               >
-                <span className="font-serif italic leading-none pt-0.5">?</span>
+                <Info className="w-5 h-5 stroke-[2.5]" />
               </button>
             </TooltipTrigger>
             <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
