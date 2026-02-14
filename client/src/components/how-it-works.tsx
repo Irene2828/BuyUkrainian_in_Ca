@@ -37,7 +37,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="pt-[176px] pb-[132px] font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="pt-[158px] pb-[132px] font-sans overflow-hidden bg-white">
       <div className="boutique-width">
         {/* Section Header - Tighter Gap */}
         <div className="mb-4 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
