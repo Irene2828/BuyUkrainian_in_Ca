@@ -72,7 +72,7 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                         <h3 className="text-base font-medium text-[#1A1A19] leading-snug font-ui truncate transition-all">
                             {store.name}
                         </h3>
-                        <ArrowUpRight className="w-[14px] h-[14px] text-[#2D50A0] opacity-0 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
+                        <ArrowUpRight className="w-[14px] h-[14px] text-slate-400 transition-all duration-300 ease-out group-hover:text-black group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
                     </div>
                 </div>
             </div>

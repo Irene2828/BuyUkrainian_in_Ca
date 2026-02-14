@@ -168,7 +168,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                         {getCategoryLabel(store.category)}
                     </span>
                     {matchedProduct && (
-                        <span className="text-[10px] font-medium px-2 py-0.5 bg-lime-50 text-lime-700 rounded-md">
+                        <span className="text-[10px] font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">
                             Matches: {matchedProduct}
                         </span>
                     )}
@@ -253,7 +253,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     rel="noopener noreferrer"
                     className="flex flex-col items-center gap-1.5 group min-w-0"
                 >
-                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-lime-300 flex items-center justify-center transition-all duration-300">
+                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
                         <CornerUpRight size={18} className="text-slate-700" />
                     </div>
                     <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Directions</span>
@@ -267,8 +267,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     <div className={cn(
                         "w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300",
                         copied
-                            ? "bg-lime-50 border-lime-300 text-lime-700"
-                            : "bg-slate-50 border-slate-200 hover:bg-slate-100 group-hover:border-lime-300 text-slate-700"
+                            ? "bg-blue-50 border-blue-200 text-blue-700"
+                            : "bg-slate-50 border-slate-200 hover:bg-slate-100 group-hover:border-blue-400/50 text-slate-700"
                     )}>
                         {copied ? <Check size={18} /> : <Copy size={18} />}
                     </div>
@@ -280,7 +280,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     onClick={handleShare}
                     className="flex flex-col items-center gap-1.5 group min-w-0"
                 >
-                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-lime-300 flex items-center justify-center transition-all duration-300">
+                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
                         <Share2 size={18} className="text-slate-700" />
                     </div>
                     <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Share</span>
@@ -291,7 +291,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
                     className="flex flex-col items-center gap-1.5 group min-w-0"
                 >
-                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-lime-300 flex items-center justify-center transition-all duration-300">
+                    <div className="w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-300">
                         <Maximize2 size={18} className="text-slate-700" />
                     </div>
                     <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold whitespace-nowrap text-center w-full">Zoom</span>
