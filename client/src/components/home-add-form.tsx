@@ -284,7 +284,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </div>
         <h3 className="text-[24px] font-bold mb-4 font-header text-gray-900">Thanks for helping the map grow</h3>
         <p className="text-gray-500 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
-          Your store will be reviewed by the community. It will appear on the map once verified.
+          Your store will appear on the map once verified.
         </p>
         <Button
           onClick={onClose}
@@ -552,7 +552,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 </p>
 
                 <p className="text-[12px] text-gray-400 text-center font-ui">
-                  No personal data is collected. Additions are reviewed by the community.
+                  No personal data is collected.
                 </p>
               </div>
             </div>
