@@ -101,11 +101,43 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
+    const [leaveTimeout, setLeaveTimeout] = useState<any>(null);
+
+    const handleMouseEnter = () => {
+        if (leaveTimeout) {
+            clearTimeout(leaveTimeout);
+            setLeaveTimeout(null);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        const timeout = setTimeout(() => {
+            onClose();
+        }, 200);
+        setLeaveTimeout(timeout);
+    };
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (leaveTimeout) clearTimeout(leaveTimeout);
+        };
+    }, [leaveTimeout]);
+
+    const allProducts = store.products?.flatMap(p => p.split(',')).map(p => p.trim()).filter(Boolean) || [];
+    const visibleProducts = allProducts.slice(0, 4);
+    const hiddenCount = allProducts.length - visibleProducts.length;
+
     return (
-        <div className={cn(
-            "bg-white/95 backdrop-blur-xl rounded-[28px] overflow-hidden flex flex-col w-[320px] transition-all duration-300",
-            "shadow-[0_12px_40px_rgba(0,0,0,0.08)] ring-1 ring-inset ring-slate-900/5 p-5 gap-5"
-        )}>
+        <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={cn(
+                "bg-white/95 backdrop-blur-xl rounded-[28px] overflow-hidden flex flex-col w-[320px] transition-all duration-300",
+                "shadow-[0_20px_50px_rgba(0,0,0,0.12)] ring-1 ring-inset ring-slate-900/5 border border-slate-900/10",
+                "max-h-[85vh] p-5 gap-5"
+            )}
+        >
             {/* Lightbox Overlay */}
             {isLightboxOpen && createPortal(
                 <div
@@ -177,9 +209,9 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
 
             {/* 2. Interactive Gallery (Full Width in Ticket Layout) */}
             {uniqueImages.length > 0 && (
-                <div className="relative group w-full">
+                <div className="relative group w-full flex-shrink-0">
                     <div
-                        className="aspect-[1.6/1] w-full rounded-2xl overflow-hidden border border-slate-100 cursor-zoom-in hover:opacity-95 transition-opacity"
+                        className="h-40 w-full rounded-2xl overflow-hidden border border-slate-100 cursor-zoom-in hover:opacity-95 transition-opacity"
                         onClick={() => setIsLightboxOpen(true)}
                     >
                         <img
@@ -204,114 +236,108 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                             >
                                 <ChevronRight size={14} className="text-slate-700" />
                             </button>
-                            {/* Small Image Indicator Dots */}
-                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                                {uniqueImages.map((_, i) => (
-                                    <div
-                                        key={i}
-                                        className={cn(
-                                            "w-1.5 h-1.5 rounded-full transition-all border border-white/50",
-                                            i === currentImageIndex ? "bg-white w-3" : "bg-white/40"
-                                        )}
-                                    />
-                                ))}
-                            </div>
                         </>
                     )}
                 </div>
             )}
 
-            {/* 3. Information Section: Address & Website Stacked */}
-            <div className="flex flex-col gap-1.5 min-w-0">
-                <p className="text-[14px] text-slate-600 font-medium leading-relaxed">
-                    {store.address}
-                </p>
-                {store.website && (
+            {/* Scrollable Content Container */}
+            <div className="flex flex-col gap-5 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                {/* 3. Information Section: Address & Website Stacked */}
+                <div className="flex flex-col gap-1.5 min-w-0">
+                    <p className="text-[14px] text-slate-500 font-medium leading-relaxed">
+                        {store.address}
+                    </p>
+                    {store.website && (
+                        <a
+                            href={store.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors"
+                        >
+                            <Globe size={11} className="stroke-[2.5px]" />
+                            <span className="truncate underline underline-offset-2 decoration-blue-100">
+                                {store.website?.replace(/^https?:\/\/(www\.)?/, '')}
+                            </span>
+                        </a>
+                    )}
+                </div>
+
+                {/* 4. Mathematically Perfect Action Grid */}
+                <div className="grid grid-cols-4 gap-2 w-full pt-1">
+                    {/* Directions */}
                     <a
-                        href={store.website}
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors"
+                        className="flex flex-col items-center justify-center gap-2 group"
                     >
-                        <Globe size={11} className="stroke-[2.5px]" />
-                        <span className="truncate underline underline-offset-2 decoration-blue-100">
-                            {store.website.replace(/^https?:\/\/(www\.)?/, '')}
-                        </span>
+                        <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                            <CornerUpRight size={20} className="text-slate-700" />
+                        </div>
+                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Directions</span>
                     </a>
-                )}
-            </div>
 
-            {/* 4. Mathematically Perfect Action Grid */}
-            <div className="grid grid-cols-4 gap-2 w-full pt-1">
-                {/* Directions */}
-                <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col items-center justify-center gap-2 group"
-                >
-                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
-                        <CornerUpRight size={20} className="text-slate-700" />
-                    </div>
-                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Directions</span>
-                </a>
+                    {/* Copy Address */}
+                    <button
+                        onClick={handleCopyAddress}
+                        className="flex flex-col items-center justify-center gap-2 group"
+                    >
+                        <div className={cn(
+                            "w-12 h-12 rounded-full ring-1 ring-inset flex items-center justify-center transition-all duration-300",
+                            copied
+                                ? "bg-blue-50 ring-blue-200 text-blue-700"
+                                : "bg-slate-50 ring-slate-900/5 hover:bg-slate-100 group-hover:ring-blue-400/30 text-slate-700"
+                        )}>
+                            {copied ? <Check size={20} /> : <Copy size={20} />}
+                        </div>
+                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">{copied ? 'Copied' : 'Copy'}</span>
+                    </button>
 
-                {/* Copy Address */}
-                <button
-                    onClick={handleCopyAddress}
-                    className="flex flex-col items-center justify-center gap-2 group"
-                >
-                    <div className={cn(
-                        "w-12 h-12 rounded-full ring-1 ring-inset flex items-center justify-center transition-all duration-300",
-                        copied
-                            ? "bg-blue-50 ring-blue-200 text-blue-700"
-                            : "bg-slate-50 ring-slate-900/5 hover:bg-slate-100 group-hover:ring-blue-400/30 text-slate-700"
-                    )}>
-                        {copied ? <Check size={20} /> : <Copy size={20} />}
-                    </div>
-                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">{copied ? 'Copied' : 'Copy'}</span>
-                </button>
+                    {/* Share */}
+                    <button
+                        onClick={handleShare}
+                        className="flex flex-col items-center justify-center gap-2 group"
+                    >
+                        <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                            <Share2 size={20} className="text-slate-700" />
+                        </div>
+                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Share</span>
+                    </button>
 
-                {/* Share */}
-                <button
-                    onClick={handleShare}
-                    className="flex flex-col items-center justify-center gap-2 group"
-                >
-                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
-                        <Share2 size={20} className="text-slate-700" />
-                    </div>
-                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Share</span>
-                </button>
+                    {/* Zoom */}
+                    <button
+                        onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
+                        className="flex flex-col items-center justify-center gap-2 group"
+                    >
+                        <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                            <Maximize2 size={20} className="text-slate-700" />
+                        </div>
+                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Zoom</span>
+                    </button>
+                </div>
 
-                {/* Zoom */}
-                <button
-                    onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                    className="flex flex-col items-center justify-center gap-2 group"
-                >
-                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
-                        <Maximize2 size={20} className="text-slate-700" />
-                    </div>
-                    <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Zoom</span>
-                </button>
-            </div>
-
-            {/* 4. Products Vertical Scroll List */}
-            {store.products && store.products.length > 0 && (
-                <div className="flex flex-col gap-2">
-                    <div className="max-h-32 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
-                        <div className="flex flex-wrap gap-2">
-                            {store.products.flatMap(p => p.split(',')).map(p => p.trim()).filter(p => p.length > 0).map((product, idx) => (
+                {/* 5. Products Tag Cloud (Capped to 2 lines) */}
+                {allProducts.length > 0 && (
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap gap-2 max-h-[82px] overflow-hidden relative">
+                            {allProducts.map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="px-3 py-1.5 text-[13px] font-medium bg-white border border-slate-200 rounded-full whitespace-nowrap text-slate-700 shadow-sm"
+                                    className="px-3 py-1.5 text-[12px] font-semibold bg-white border border-slate-200 rounded-full whitespace-nowrap text-slate-600 shadow-sm"
                                 >
                                     {product}
                                 </div>
                             ))}
                         </div>
+                        {allProducts.length > 4 && (
+                            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                +{allProducts.length - 4} more products
+                            </p>
+                        )}
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }

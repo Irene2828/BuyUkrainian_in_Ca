@@ -283,7 +283,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
           <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
         <h3 className="text-[24px] font-bold mb-4 font-header text-gray-900">Thanks for helping the map grow</h3>
-        <p className="text-gray-500 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
+        <p className="text-slate-500 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
           Your store will appear on the map once verified.
         </p>
         <Button
@@ -304,7 +304,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
           <h2 className="text-[20px] font-bold text-gray-900 font-header">
             Add a store
           </h2>
-          <p className="text-[13px] text-gray-400 font-medium font-ui ms-0.5">
+          <p className="text-[13px] text-slate-500 font-medium font-ui ms-0.5">
             Help the map grow by adding stores selling Ukrainian-made products
           </p>
         </div>
@@ -341,7 +341,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                         }}
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
                         onBlur={() => { setTimeout(() => setShowAddressSuggestions(false), 200); }}
-                        className="h-14 pl-11 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-400"
+                        className="h-14 pl-11 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
@@ -404,7 +404,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
                       autoComplete="off"
-                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-400"
+                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -423,7 +423,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-400"
+                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -465,9 +465,9 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
-                  <p className="text-[11px] text-slate-400 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
+                  <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-400" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -485,7 +485,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-[24px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all p-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-400"
+                      className="min-h-[100px] rounded-[24px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all p-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -517,7 +517,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 ) : (
                   <div className="flex flex-col items-center gap-2">
                     <Image className="w-8 h-8 text-gray-300 group-hover:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
-                    <p className="text-[13px] text-gray-400 font-ui group-hover:text-black transition-colors">Click to upload a photo</p>
+                    <p className="text-[13px] text-slate-500 font-ui group-hover:text-black transition-colors">Click to upload a photo</p>
                   </div>
                 )}
               </div>
@@ -552,7 +552,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   </a>
                 </p>
 
-                <p className="text-[12px] text-gray-400 text-center font-ui">
+                <p className="text-[12px] text-slate-500 text-center font-ui">
                   No personal data is collected.
                 </p>
               </div>
