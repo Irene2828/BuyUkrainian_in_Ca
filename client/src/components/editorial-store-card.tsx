@@ -1,7 +1,6 @@
 import { Store } from "@/lib/data";
 import { ArrowUpRight, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { UkrainianFlagIcon } from "@/components/ui/ukrainian-flag-icon";
 
 interface EditorialStoreCardProps {
     store: Store;
