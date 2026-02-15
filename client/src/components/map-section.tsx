@@ -52,6 +52,9 @@ const PROVINCE_CENTERS: Record<string, { lat: number, lng: number, zoom: number 
 
 import { useI18n } from "@/lib/i18n";
 
+import { OpportunityCard } from "@/components/opportunity-card";
+import { StoreBottomSheet } from "@/components/store-bottom-sheet";
+
 export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   {
     mode = "section",
@@ -75,7 +78,15 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const { t } = useI18n();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
+  const [isMobile, setIsMobile] = useState(false);
   const mapRef = useRef<InteractiveMapRef>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    checkMobile(); // Initial check
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => mapRef.current?.focusOnStore(store),
@@ -92,7 +103,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
-    staleTime: Infinity,
+    staleTime: 1000 * 30, // 30 seconds
   });
 
   // Track if province has ever been set (to distinguish initial mount from clearing)
@@ -195,9 +206,11 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   const handleSelectStore = (store: Store) => {
     onStoreSelect(store);
-    setIsModalOpen(true);
-    // Premium mode: No auto-zoom on pin click - map stays steady and calm
-    // Camera only moves on explicit actions (province select, "See on Map", etc.)
+    // Only open the modal in List View.
+    // In Map View, the InteractiveMap handles the floating card/popup internally.
+    if (viewMode === "list") {
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseStore = () => {
@@ -333,30 +346,25 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           onFlightChange={onFlightChange}
           extraControls={extraControls}
           userLocation={userLocation}
+          isMobile={isMobile}
         />
       </ErrorBoundary>
-      {/* Empty state overlay when no stores match filters */}
-      {filteredStores.length === 0 && stores.length > 0 && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[24px]">
-          <div className="text-center p-8">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <MapPin className="w-8 h-8 text-gray-400" />
-            </div>
-            <h3 className="text-[20px] font-bold text-gray-800 mb-2 font-header">
-              {t('map.noStores') || 'No stores in this area'}
-            </h3>
-            <p className="text-[14px] text-gray-500 mb-4 max-w-xs font-ui">
-              {t('map.adjustFilters') || 'Try adjusting your filters or searching a different location.'}
-            </p>
-            <button
-              onClick={handleClearFilters}
-              className="inline-flex items-center gap-2 h-10 px-5 bg-black text-white rounded-full font-medium text-[14px] hover:bg-black/90 transition-all font-ui"
-            >
-              <X className="w-4 h-4" /> {t('map.clearFilters') || 'Clear filters'}
-            </button>
-          </div>
-        </div>
+
+      {/* Mobile Bottom Sheet - Replaces Popup on Small Screens */}
+      {isMobile && selectedStore && (
+        <StoreBottomSheet
+          store={selectedStore}
+          onClose={handleCloseStore}
+          onSeeOnMap={handleSeeOnMap}
+        />
       )}
+
+      {/* Premium Empty State Overlay */}
+      <OpportunityCard
+        isVisible={viewMode === "map" && filteredStores.length === 0 && stores.length > 0}
+        onClear={handleClearFilters}
+        onAddStore={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+      />
     </div>
   );
 });

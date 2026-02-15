@@ -133,8 +133,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className={cn(
-                "bg-white/95 backdrop-blur-xl rounded-[28px] overflow-hidden flex flex-col w-[320px] transition-all duration-300",
-                "shadow-[0_20px_50px_rgba(0,0,0,0.12)] ring-1 ring-inset ring-slate-900/5 border border-slate-900/10",
+                "bg-white/95 backdrop-blur-xl rounded-[28px] overflow-hidden flex flex-col w-[360px] transition-all duration-300",
+                // "Technical Double" Border System: Outer Slate-200, Inner White/40 Inset Ring
+                "border border-slate-200 ring-1 ring-white/40 ring-inset",
+                "shadow-[0_20px_50px_rgba(0,0,0,0.12)]",
                 "max-h-[85vh] p-5 gap-5"
             )}
         >
@@ -183,37 +185,37 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
             )}
 
             {/* 1. Brand Header Section */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between gap-4">
-                    <h2 className="text-lg font-bold text-slate-900 leading-tight tracking-tight truncate">
+                    <h2 className="text-[20px] font-bold text-slate-900 leading-tight tracking-tight truncate font-header">
                         {store.name}
                     </h2>
                     <button
                         onClick={onClose}
-                        className="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-full text-slate-500 transition-colors"
+                        className="bg-slate-100/80 hover:bg-slate-200 p-1.5 rounded-full text-slate-500 transition-colors"
                     >
                         <X size={16} />
                     </button>
                 </div>
-                <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[12px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md uppercase tracking-wider">
+                <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 bg-slate-900/5 text-slate-600 rounded-lg uppercase tracking-wider border border-slate-900/5">
                         {getCategoryLabel(store.category)}
                     </span>
                     {matchedProduct && (
-                        <span className="text-[12px] font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">
+                        <span className="text-[11px] font-semibold px-2.5 py-0.5 bg-blue-50 text-blue-700 rounded-lg border border-blue-100">
                             Matches: {matchedProduct}
                         </span>
                     )}
                 </div>
             </div>
 
-            {/* 2 & 3. Split Hero: Image (Left) & Info (Right) */}
-            <div className="flex gap-4 items-start flex-shrink-0">
-                {/* Picture (Left Column) */}
+            {/* 2. Middle Row: Image (Left) & Products (Right) */}
+            <div className="flex gap-4 items-stretch min-h-[112px]">
+                {/* Image (Left) */}
                 {uniqueImages.length > 0 && (
                     <div className="relative group w-28 h-28 flex-shrink-0">
                         <div
-                            className="w-full h-full rounded-2xl overflow-hidden border border-slate-100 cursor-zoom-in hover:opacity-95 transition-opacity"
+                            className="w-full h-full rounded-2xl overflow-hidden border border-slate-100/80 cursor-zoom-in hover:opacity-95 transition-opacity shadow-sm"
                             onClick={() => setIsLightboxOpen(true)}
                         >
                             <img
@@ -223,7 +225,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                             />
                         </div>
 
-                        {/* Arrows (Smaller for Split Layout) */}
+                        {/* Pagination Arrows */}
                         {uniqueImages.length > 1 && (
                             <>
                                 <button
@@ -243,106 +245,106 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                     </div>
                 )}
 
-                {/* Information (Right Column) */}
-                <div className="flex flex-col gap-2 min-w-0 pt-1">
-                    <div className="flex flex-col gap-1">
-                        <p className="text-[13px] text-slate-500 font-medium leading-[1.4] line-clamp-3">
-                            {store.address}
-                        </p>
-                        {store.website && (
-                            <a
-                                href={store.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[11px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors"
-                            >
-                                <Globe size={11} className="stroke-[2.5px]" />
-                                <span className="truncate underline underline-offset-2 decoration-blue-100">
-                                    {store.website?.replace(/^https?:\/\/(www\.)?/, '')}
-                                </span>
-                            </a>
+                {/* Product Tags (Right - Scrollable) */}
+                <div className="flex-1 bg-slate-50/50 rounded-2xl p-2.5 border border-slate-100/50">
+                    <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-2 px-0.5">Products in Store</p>
+                    <div className="max-h-[72px] overflow-y-auto pr-1 flex flex-wrap gap-1.5 custom-scrollbar">
+                        {allProducts.length > 0 ? (
+                            allProducts.map((product, idx) => (
+                                <div
+                                    key={idx}
+                                    className="px-2.5 py-1 text-[11px] font-semibold bg-white border border-slate-200/60 rounded-lg text-slate-600 shadow-sm cursor-default hover:border-blue-200 transition-colors"
+                                >
+                                    {product}
+                                </div>
+                            ))
+                        ) : (
+                            <span className="text-[12px] text-slate-400 italic px-1">Check website for products</span>
                         )}
                     </div>
                 </div>
             </div>
 
-            {/* Scrollable Content Container (Actions & Tags) */}
-            <div className="flex flex-col gap-5 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
-
-                {/* 4. Mathematically Perfect Action Grid */}
-                <div className="grid grid-cols-4 gap-2 w-full pt-1">
-                    {/* Directions */}
-                    <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col items-center justify-center gap-2 group"
-                    >
-                        <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
-                            <CornerUpRight size={20} className="text-slate-700" />
-                        </div>
-                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Directions</span>
-                    </a>
-
-                    {/* Copy Address */}
-                    <button
-                        onClick={handleCopyAddress}
-                        className="flex flex-col items-center justify-center gap-2 group"
-                    >
-                        <div className={cn(
-                            "w-12 h-12 rounded-full ring-1 ring-inset flex items-center justify-center transition-all duration-300",
-                            copied
-                                ? "bg-blue-50 ring-blue-200 text-blue-700"
-                                : "bg-slate-50 ring-slate-900/5 hover:bg-slate-100 group-hover:ring-blue-400/30 text-slate-700"
-                        )}>
-                            {copied ? <Check size={20} /> : <Copy size={20} />}
-                        </div>
-                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">{copied ? 'Copied' : 'Copy'}</span>
-                    </button>
-
-                    {/* Share */}
-                    <button
-                        onClick={handleShare}
-                        className="flex flex-col items-center justify-center gap-2 group"
-                    >
-                        <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
-                            <Share2 size={20} className="text-slate-700" />
-                        </div>
-                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Share</span>
-                    </button>
-
-                    {/* Zoom */}
-                    <button
-                        onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
-                        className="flex flex-col items-center justify-center gap-2 group"
-                    >
-                        <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
-                            <Maximize2 size={20} className="text-slate-700" />
-                        </div>
-                        <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold text-center">Zoom</span>
-                    </button>
+            {/* 3. Detailed Info: Address & Website */}
+            <div className="flex flex-col gap-2.5 px-0.5">
+                <div className="flex items-start gap-3">
+                    <div className="p-1.5 bg-slate-100 rounded-lg flex-shrink-0 mt-0.5">
+                        <MapPin size={14} className="text-slate-500" />
+                    </div>
+                    <p className="text-[14px] text-slate-700 font-medium leading-[1.5]">
+                        {store.address}
+                    </p>
                 </div>
 
-                {/* 5. Products Tag Cloud (Capped to 2 lines) */}
-                {allProducts.length > 0 && (
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-wrap gap-2 max-h-[82px] overflow-hidden relative">
-                            {allProducts.map((product, idx) => (
-                                <div
-                                    key={idx}
-                                    className="px-3 py-1.5 text-[12px] font-semibold bg-white border border-slate-200 rounded-full whitespace-nowrap text-slate-600 shadow-sm"
-                                >
-                                    {product}
-                                </div>
-                            ))}
+                {store.website && (
+                    <div className="flex items-center gap-3">
+                        <div className="p-1.5 bg-blue-50 rounded-lg flex-shrink-0">
+                            <Globe size={14} className="text-blue-500" />
                         </div>
-                        {allProducts.length > 4 && (
-                            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                +{allProducts.length - 4} more products
-                            </p>
-                        )}
+                        <a
+                            href={store.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[13px] font-bold text-blue-600 hover:text-blue-800 transition-colors underline underline-offset-4 decoration-blue-100 hover:decoration-blue-400 truncate"
+                        >
+                            {store.website?.replace(/^https?:\/\/(www\.)?/, '')}
+                        </a>
                     </div>
                 )}
+            </div>
+
+            {/* 4. Mathematically Perfect Action Grid */}
+            <div className="grid grid-cols-4 gap-2 w-full pt-1 border-t border-slate-100 mt-1">
+                {/* Directions */}
+                <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center justify-center gap-2 group py-2"
+                >
+                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                        <CornerUpRight size={20} className="text-slate-700" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wide text-slate-500 font-bold text-center">Directions</span>
+                </a>
+
+                {/* Copy Address */}
+                <button
+                    onClick={handleCopyAddress}
+                    className="flex flex-col items-center justify-center gap-2 group py-2"
+                >
+                    <div className={cn(
+                        "w-12 h-12 rounded-full ring-1 ring-inset flex items-center justify-center transition-all duration-300",
+                        copied
+                            ? "bg-blue-50 ring-blue-200 text-blue-700"
+                            : "bg-slate-50 ring-slate-900/5 hover:bg-slate-100 group-hover:ring-blue-400/30 text-slate-700"
+                    )}>
+                        {copied ? <Check size={20} /> : <Copy size={20} />}
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wide text-slate-500 font-bold text-center">{copied ? 'Copied' : 'Copy'}</span>
+                </button>
+
+                {/* Share */}
+                <button
+                    onClick={handleShare}
+                    className="flex flex-col items-center justify-center gap-2 group py-2"
+                >
+                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                        <Share2 size={20} className="text-slate-700" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wide text-slate-500 font-bold text-center">Share</span>
+                </button>
+
+                {/* Zoom */}
+                <button
+                    onClick={onSeeOnMap ? () => onSeeOnMap(store) : () => { }}
+                    className="flex flex-col items-center justify-center gap-2 group py-2"
+                >
+                    <div className="w-12 h-12 rounded-full bg-slate-50 hover:bg-slate-100 ring-1 ring-inset ring-slate-900/5 group-hover:ring-blue-400/30 flex items-center justify-center transition-all duration-300">
+                        <Maximize2 size={20} className="text-slate-700" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wide text-slate-500 font-bold text-center">Zoom</span>
+                </button>
             </div>
         </div>
     );

@@ -378,3 +378,96 @@ section h3 {
 .leaflet-tooltip-pane {
     z-index: 1000 !important;
 }
+
+
+/* ========================================
+   PREMIUM MOTION & PHYSICS AUDIT
+   ======================================== */
+
+/* 1. Marker Optimization - GPU Acceleration */
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: none !important;
+    /* Critical: Prevent CSS fighting JS zoom */
+}
+
+/* 2. Store Card Popup Choreography */
+/* Entrance Animation - Physics based spring-like feel */
+@keyframes popup-spring-enter {
+    0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(2px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.store-card-popup {
+    /* margin-bottom removed to prevent offset issues */
+    will-change: transform, opacity;
+    animation: popup-spring-enter 0.25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    transform-origin: bottom center;
+}
+
+/* Inner content wrapper styling for glass effect */
+.store-card-popup .leaflet-popup-content-wrapper {
+    background: transparent !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 20px !important;
+    overflow: hidden;
+}
+
+.store-card-popup .leaflet-popup-tip-container {
+    display: none !important;
+}
+
+.store-card-popup .leaflet-popup-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 360px !important;
+}
+
+/* 3. Accessibility - Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+    .store-card-popup {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow {
+        transition: none !important;
+    }
+}
+
+/* ========================================
+   MAP PERFORMANCE & TILE POLISH
+   ======================================== */
+.leaflet-container {
+    background-color: #F8F9FA !important;
+    /* Soft warm neutral foundation */
+}
+
+/* Hardware Acceleration Force */
+.leaflet-layer,
+.leaflet-tile-pane {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Tile Cross-Fade Tuning */
+.leaflet-fade-anim .leaflet-tile {
+    transition: opacity 0.2s linear !important;
+    /* Tight 200ms fade */
+}

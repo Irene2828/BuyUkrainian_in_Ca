@@ -9,6 +9,7 @@ import { Store } from '@/lib/data';
 import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink, Navigation, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { StoreCard } from '@/components/store-card';
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
@@ -43,20 +44,22 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 // Unified Blue/Yellow Pin Marker with Dimming Support - Stabilized (No Shaky Ping)
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
+  // Box-shadow matches tailwind shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
+  // Border 2px white matches ring-2 ring-white
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div style="position: relative; width: 28px; height: 28px;">
-        ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3B82F6; opacity: 0;"></div>` : ''}
-        <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); filter: saturate(1.2) drop-shadow(0 2px 5px rgba(0,0,0,0.1)); overflow: hidden; position: relative; background: #fff; z-index: 10;">
+      <div style="position: relative; width: 32px; height: 32px; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        ${isNewest ? `<div style="position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #3B82F6; opacity: 0.6; animation: pulse 2s infinite;"></div>` : ''}
+        <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); overflow: hidden; position: relative; background: #fff; z-index: 10;">
           <div style="width: 100%; height: 50%; background: #0057B8;"></div>
           <div style="width: 100%; height: 50%; background: #FFD700;"></div>
         </div>
       </div>
     `,
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
-    popupAnchor: [0, -14],
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
   });
 };
 
@@ -66,98 +69,20 @@ const isWithinCanada = (lat: number, lng: number) => {
 
 // Scroll wheel zoom is permanently disabled - users can zoom using +/- buttons only
 
+// Controller to capture the map instance for imperative usage
 function MapController({
-  focusCoordinates,
-  flyConfig, // New prop for dynamic flight configuration
-  provinceView,
-  onFlightStart,
-  onFlightEnd
+  mapRef
 }: {
-  focusCoordinates: [number, number] | null;
-  flyConfig?: { duration: number; padding?: [number, number]; zoom?: number } | null;
-  provinceView: { lat: number, lng: number, zoom: number } | null;
-  onFlightStart?: () => void;
-  onFlightEnd?: () => void;
+  mapRef: React.MutableRefObject<L.Map | null>;
 }) {
   const map = useMap();
 
   useEffect(() => {
-    if (focusCoordinates) {
-      if (onFlightStart) onFlightStart();
-
-      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (isReducedMotion) {
-        // Instant Jump for Accessibility
-        map.setView(focusCoordinates, flyConfig?.zoom || 16);
-        if (onFlightEnd) onFlightEnd();
-        return;
-      }
-
-      // Default to Cinematic Glide (1.5s+)
-      // User Rule: "Minimum 1.5s to 2.0s for long distances"
-      const duration = Math.max(flyConfig?.duration || 2.0, 1.5);
-      const targetZoom = flyConfig?.zoom || 16;
-
-      // Use padding if provided for offset
-      // Standard Leaflet flyTo option: paddingBottomRight (x, y)
-      // This offsets the center point. If we have [400, 0], it means 400px of padding on right.
-      const flyOptions: L.ZoomPanOptions = {
-        duration: duration,
-        easeLinearity: 0.1,
-        animate: true,
-        noMoveStart: true
-      };
-
-      if (flyConfig?.padding) {
-        // If padding is [400, 0], we interpret it as left padding now
-        // @ts-ignore
-        flyOptions.paddingTopLeft = flyConfig.padding;
-      }
-
-      // The Glide & Curve (Obsidian Silk)
-      // easeLinearity: 0.1 creates a more pronounced curve (arctangent-ish), 
-      // feeling more "flight-like" than straight line.
-      map.flyTo(focusCoordinates, targetZoom, flyOptions);
-
-      const timer = setTimeout(() => {
-        if (onFlightEnd) onFlightEnd();
-      }, duration * 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [focusCoordinates, map, flyConfig]);
-
-  useEffect(() => {
-    if (provinceView) {
-      // Skip flight if we're already at the center of Canada at zoom 3
-      const isCanadaReset = provinceView.lat === CANADA_CENTER[0] &&
-        provinceView.lng === CANADA_CENTER[1] &&
-        provinceView.zoom === 3;
-
-      if (isCanadaReset && map.getZoom() === 3) return;
-
-      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (isReducedMotion) {
-        map.setView([provinceView.lat, provinceView.lng], provinceView.zoom);
-        return;
-      }
-
-      if (onFlightStart) onFlightStart();
-
-      // The Reveal (Cinematic Zoom-Out)
-      // Slower, majestic ease out
-      map.flyTo([provinceView.lat, provinceView.lng], provinceView.zoom, {
-        duration: 2.2, // Slightly longer for the "Reveal"
-        easeLinearity: 0.1,
-        animate: true
-      });
-      const timer = setTimeout(() => {
-        if (onFlightEnd) onFlightEnd();
-      }, 2400); // Buffer for animation finish
-      return () => clearTimeout(timer);
-    }
-  }, [provinceView, map]);
+    mapRef.current = map;
+    return () => {
+      mapRef.current = null;
+    };
+  }, [map, mapRef]);
 
   return null;
 }
@@ -179,6 +104,7 @@ interface InteractiveMapProps {
   userLocation?: [number, number] | null;
   onFlightChange?: (isFlying: boolean) => void;
   extraControls?: React.ReactNode;
+  isMobile?: boolean;
 }
 
 const MarkerClusterGroup = ({
@@ -193,12 +119,12 @@ const MarkerClusterGroup = ({
   userLocation?: [number, number] | null;
 }) => {
   const map = useMap();
-  const groupRef = useRef<L.MarkerClusterGroup | null>(null);
+  const [group, setGroup] = useState<L.MarkerClusterGroup | null>(null);
 
   // Initialize Cluster Group
   useEffect(() => {
-    if (!groupRef.current) {
-      groupRef.current = L.markerClusterGroup({
+    if (!group) {
+      const newGroup = L.markerClusterGroup({
         showCoverageOnHover: false,
         zoomToBoundsOnClick: true,
         spiderfyOnMaxZoom: true,
@@ -242,7 +168,7 @@ const MarkerClusterGroup = ({
       });
 
       // Show tooltip on cluster hover
-      groupRef.current.on('clustermouseover', (a: any) => {
+      newGroup.on('clustermouseover', (a: any) => {
         const cluster = a.layer;
         const count = cluster.getChildCount();
         if (count > 1) {
@@ -256,23 +182,22 @@ const MarkerClusterGroup = ({
         }
       });
 
-      map.addLayer(groupRef.current);
+      map.addLayer(newGroup);
+      setGroup(newGroup);
     }
 
     return () => {
-      if (groupRef.current) {
-        map.removeLayer(groupRef.current);
-        groupRef.current = null;
+      if (group) {
+        map.removeLayer(group);
       }
     };
-  }, [map]);
+  }, [map, group]);
 
 
   // Update Markers - Each Store ID Creates Unique Marker
   // CLUSTER LOGIC: If multiple stores share exact same coordinates, spiderfy will correctly
   // display each as a separate pin with its unique store object and ID.
   useEffect(() => {
-    const group = groupRef.current;
     if (!group) return;
 
     group.clearLayers();
@@ -306,7 +231,7 @@ const MarkerClusterGroup = ({
           sticky: false
         });
 
-        // Click handler passes the specific, unique store object
+        // Check handler passes the specific, unique store object
         marker.on('click', () => {
           onSelectStore(store);
         });
@@ -315,7 +240,7 @@ const MarkerClusterGroup = ({
       }
     });
 
-  }, [stores, selectedStore, onSelectStore]); // Re-run when selection changes to update dimming states
+  }, [stores, selectedStore, onSelectStore, group]); // Re-run when selection or group changes
 
   return null;
 };
@@ -327,7 +252,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   onCloseStore,
   userLocation,
   onFlightChange,
-  extraControls
+  extraControls,
+  isMobile = false
 }, ref) {
   const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
   const [flyConfig, setFlyConfig] = useState<{ duration: number; padding?: [number, number]; zoom?: number } | null>(null);
@@ -336,12 +262,27 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   // Internal Flight Logic
   const triggerFlyToLocation = (lat: number, lng: number, zoom: number = 16) => {
-    // Calmer, slower cinematic zoom
-    const isDesktop = window.innerWidth >= 768;
-    const padding: [number, number] = isDesktop ? [300, 0] : [0, 0];
+    if (!mapRef.current) return;
 
-    // Enforce 2.0s minimum for "No Teleport" rule
-    setFlyConfig({ duration: 2.0, padding, zoom });
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReducedMotion) {
+      mapRef.current.setView([lat, lng], zoom);
+      return;
+    }
+
+    const currentCenter = mapRef.current.getCenter();
+    const dist = mapRef.current.distance(currentCenter, [lat, lng]);
+
+    // Dynamic duration based on distance: short hops are fast, long hauls are cinematic
+    // Base 1.5s + scalable component, capped at 3s
+    const duration = Math.min(Math.max(1.5, dist / 2000), 3.0);
+
+    mapRef.current.flyTo([lat, lng], zoom, {
+      duration: duration,
+      easeLinearity: 0.5, // Smoother arc
+      noMoveStart: true // Prevents initial jump
+    });
+
     setFocusCoordinates([lat, lng]);
     setProvinceView(null);
   };
@@ -350,10 +291,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     if (mapRef.current) {
       const currentCenter = mapRef.current.getCenter();
       const currentZoom = mapRef.current.getZoom();
-      const isDesktop = window.innerWidth >= 768;
-      const delta = isDesktop ? 0.4 : 0.7;
+      // Increased zoom step for faster navigation
+      const delta = 2.0;
       mapRef.current.flyTo(currentCenter, Math.min(currentZoom + delta, 18), {
-        duration: 1.2,
+        duration: 0.8,
         easeLinearity: 0.25
       });
     }
@@ -363,29 +304,60 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     if (mapRef.current) {
       const currentCenter = mapRef.current.getCenter();
       const currentZoom = mapRef.current.getZoom();
-      const isDesktop = window.innerWidth >= 768;
-      const delta = isDesktop ? 0.4 : 0.7;
+      // Increased zoom step for faster navigation
+      const delta = 2.0;
       mapRef.current.flyTo(currentCenter, Math.max(currentZoom - delta, 3.0), {
-        duration: 1.2,
+        duration: 0.8,
         easeLinearity: 0.25
       });
     }
   };
 
-  useImperativeHandle(ref, () => ({
-    focusOnStore: (store: Store) => {
-      // Mechanical Zoom (Pin Click) - Stabilized
-      if (store.coordinates) {
-        // Sidebar is 400px on desktop (left side)
-        const isDesktop = window.innerWidth >= 768;
-        const padding: [number, number] = isDesktop ? [400, 0] : [0, 0];
+  const internalFocusOnStore = (store: Store) => {
+    if (store.coordinates && mapRef.current) {
+      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const map = mapRef.current;
+      // Reduced zoom level to show more map context (Airbnb-style)
+      const targetZoom = 14;
 
-        // Increased from 1.2 to 1.8 for smoother approach
-        setFlyConfig({ duration: 1.8, padding, zoom: 16 });
-        setFocusCoordinates(store.coordinates as [number, number]);
-        setProvinceView(null);
+      const point = map.project(store.coordinates as [number, number], targetZoom);
+
+      // Manual Offset Calculation:
+      // We want the Pin to be in the Bottom-Right quadrant.
+      // So the Map Center must be Top-Left relative to the Pin.
+      // NewCenter = PinPixel - [ShiftX, ShiftY]
+      // 25% Width Right, 20% Height Down
+      const offsetX = map.getSize().x * 0.25;
+      const offsetY = map.getSize().y * 0.20;
+
+      const targetPoint = point.subtract([offsetX, offsetY]);
+      const targetLatLng = map.unproject(targetPoint, targetZoom);
+
+      if (isReducedMotion) {
+        map.setView(targetLatLng, targetZoom);
+        return;
       }
-    },
+
+      map.flyTo(targetLatLng, targetZoom, {
+        duration: 1.5,
+        easeLinearity: 0.5,
+        noMoveStart: true
+      });
+
+      setFocusCoordinates(store.coordinates as [number, number]);
+      setProvinceView(null);
+    }
+  };
+
+  // Automatically focus on store when selection changes (e.g. Pin Click)
+  useEffect(() => {
+    if (selectedStore && !isMobile) {
+      internalFocusOnStore(selectedStore);
+    }
+  }, [selectedStore?.id, isMobile]);
+
+  useImperativeHandle(ref, () => ({
+    focusOnStore: internalFocusOnStore,
     flyToProvince: (lat: number, lng: number, zoom: number) => {
       setProvinceView({ lat, lng, zoom });
       setFocusCoordinates(null);
@@ -472,14 +444,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           © CARTO, © OpenStreetMap contributors
         </div>
 
-        <MapController
-          focusCoordinates={focusCoordinates}
-          flyConfig={flyConfig} // Pass fresh flyConfig
-          provinceView={provinceView}
-          onFlightStart={() => onFlightChange?.(true)}
-          onFlightEnd={() => onFlightChange?.(false)}
-        />
-
         <MapEvents onMapClick={onCloseStore} />
 
         {/* CLUSTERING IMPLEMENTATION: Replaced direct Marker loop with MarkerClusterGroup */}
@@ -508,6 +472,25 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       </MapContainer>
 
 
+
+      {/* Fixed Store Card Overlay - Replaces Leaflet Popup for Desktop */}
+      {selectedStore && !isMobile && (
+        <div
+          className="absolute left-6 top-24 z-[1000] w-auto animate-in slide-in-from-left-4 fade-in duration-300 pointer-events-auto"
+        >
+          <div className="bg-white rounded-xl shadow-2xl border border-slate-100/50 overflow-hidden">
+            <StoreCard
+              store={selectedStore}
+              onClose={onCloseStore}
+              onSeeOnMap={(s) => {
+                if (mapRef.current && s.coordinates) {
+                  internalFocusOnStore(s);
+                }
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}

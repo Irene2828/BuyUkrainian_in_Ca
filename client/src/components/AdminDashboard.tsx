@@ -422,6 +422,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 // Remove from drafts
                 setDrafts(prev => prev.filter(d => d.id !== id));
                 queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+                queryClient.invalidateQueries({ queryKey: ["stores"] });
                 toast({ title: "Draft Published", description: "Store created successfully." });
             } catch (e: any) {
                 console.error("Draft creation failed:", e);
@@ -441,6 +442,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         try {
             console.log("Updating status for existing store...");
             await updateStatusMutation.mutateAsync({ id, status: "approved" });
+            queryClient.invalidateQueries({ queryKey: ["stores"] });
             toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
         } catch (e) {
             console.error("Status update failed:", e);

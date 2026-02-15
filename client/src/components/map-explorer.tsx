@@ -218,33 +218,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     <div className="absolute inset-0 z-[600] pointer-events-none">
                         <div className="boutique-width mx-auto h-full relative">
 
-                            {/* Store Card Overlay - Aligned left with Search Bar */}
-                            <AnimatePresence>
-                                {selectedStore && viewMode === "map" && !isZenMode && (
-                                    <motion.div
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -20 }}
-                                        transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
-                                        className="absolute top-[104px] left-0 z-[2000] w-full md:w-[400px] pointer-events-auto"
-                                    >
-                                        <StoreCard
-                                            store={selectedStore}
-                                            onClose={() => setSelectedStore(null)}
-                                            onSeeOnMap={(s) => {
-                                                // Zoom logic handled by InteractiveMap via ref if needed, 
-                                                // but MapSection handles camera. Here we just ensure card stays open? 
-                                                // Actually, "See on Map" usually zooms in.
-                                                // MapSection receives props, it might need a signal to zoom.
-                                                // But usually standard behavior is fine.
-                                                // Let's ensure we keep selection.
-                                                // For zoom, we can use the ref:
-                                                mapSectionRef.current?.flyToLocation(s.coordinates[0], s.coordinates[1], 14.5);
-                                            }}
-                                        />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 
                             {/* Top Row for Desktop Alignment */}
                             <div className="flex items-start justify-between pt-3">
@@ -253,7 +227,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                                 {/* 2. Control Strip (Top-Right - Premium Integrated Design) */}
                                 {!isZenMode && (
-                                    <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto flex items-center h-[48px] max-w-[960px] bg-slate-100/90 backdrop-blur-md border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                    <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto flex items-center h-[48px] max-w-[960px] bg-slate-100/90 backdrop-blur-md border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
 
                                         {/* Segment 1: Search */}
                                         <div className="flex items-center px-[16px] min-w-[260px] h-full group">
@@ -266,7 +240,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     setSearchQuery(e.target.value);
                                                     closeAllDropdowns();
                                                 }}
-                                                className="w-full bg-transparent border-none outline-none text-[14px] font-medium text-gray-900 placeholder:text-gray-500"
+                                                className="w-full bg-transparent border-none outline-none text-[14px] font-medium text-gray-900 placeholder:text-slate-500"
                                                 aria-label="Search stores"
                                             />
                                         </div>
@@ -284,7 +258,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 }}
                                                 className={cn(
                                                     "h-full px-[16px] flex items-center gap-[8px] text-[14px] font-medium leading-normal transition-colors hover:text-black outline-none",
-                                                    selectedProvince ? "text-[#2D50A0]" : "text-slate-600"
+                                                    selectedProvince ? "text-[#2D50A0]" : "text-slate-700"
                                                 )}
                                                 aria-label="Filter by province"
                                             >
@@ -331,7 +305,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 }}
                                                 className={cn(
                                                     "h-full px-[16px] flex items-center gap-[8px] text-[14px] font-medium leading-normal transition-colors hover:text-black outline-none",
-                                                    category ? "text-[#2D50A0]" : "text-slate-600"
+                                                    category ? "text-[#2D50A0]" : "text-slate-700"
                                                 )}
                                                 aria-label="Filter by category"
                                             >
@@ -369,7 +343,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         <div className="w-[1px] h-5 bg-brand-navy/10 mx-1" />
 
                                         {/* Segment 4: Map/List Toggle (Sliding Pill) */}
-                                        <div className="relative flex items-center h-[34px] bg-transparent rounded-full p-1 ml-1 mr-1 w-[116px] border-[0.5px] border-slate-200">
+                                        <div className="relative flex items-center h-[34px] bg-transparent rounded-full p-1 ml-1 mr-1 w-[180px] border border-slate-200 ring-1 ring-white/40 ring-inset">
                                             {/* Sliding Pill */}
                                             <div
                                                 className={cn(
@@ -381,21 +355,21 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                             <button
                                                 onClick={() => setViewMode("map")}
                                                 className={cn(
-                                                    "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-[13px] font-semibold tracking-[-0.01em] transition-colors duration-200",
+                                                    "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-[12px] font-bold tracking-[-0.01em] transition-colors duration-200",
                                                     viewMode === "map" ? "text-slate-900" : "text-slate-400 hover:bg-slate-50"
                                                 )}
                                             >
-                                                MAP
+                                                Map View
                                             </button>
 
                                             <button
                                                 onClick={() => setViewMode("list")}
                                                 className={cn(
-                                                    "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-[13px] font-semibold tracking-[-0.01em] transition-colors duration-200",
+                                                    "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-[12px] font-bold tracking-[-0.01em] transition-colors duration-200",
                                                     viewMode === "list" ? "text-slate-900" : "text-slate-500 hover:text-slate-700"
                                                 )}
                                             >
-                                                LIST
+                                                List View
                                             </button>
                                         </div>
                                         {/* Segment 5: Add Store Button */}
