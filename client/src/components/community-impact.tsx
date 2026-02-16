@@ -85,8 +85,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">
-                            The more people know where to buy products made in Ukraine,<br />
-                            the more support Ukrainian economy can get from each conscious purchase.
+                            Visibility drives support. Every conscious purchase strengthens the Ukrainian economy.
                         </p>
                     </div>
 
@@ -132,7 +131,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         <div className="flex flex-col items-center md:items-end gap-5 w-full max-w-[520px] md:pr-4">
                             <button
                                 onClick={handleFacebookShare}
-                                className="group relative flex items-center gap-3 text-slate-700 opacity-70 hover:opacity-100 transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
                                 aria-label="Share on Facebook"
                             >
                                 <Facebook className="w-4 h-4" strokeWidth={1.5} />
@@ -144,7 +143,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                             <button
                                 onClick={handleInstagramShare}
-                                className="group relative flex items-center gap-3 text-slate-700 opacity-70 hover:opacity-100 transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
                                 aria-label="Share on Instagram"
                             >
                                 <Instagram className="w-4 h-4" strokeWidth={1.5} />
@@ -156,7 +155,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                             <button
                                 onClick={handleXShare}
-                                className="group relative flex items-center gap-3 text-slate-700 opacity-70 hover:opacity-100 transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
                                 aria-label="Share on X (Twitter)"
                             >
                                 <svg

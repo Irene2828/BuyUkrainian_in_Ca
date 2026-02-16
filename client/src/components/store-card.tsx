@@ -12,9 +12,10 @@ interface StoreCardProps {
     onSeeOnMap?: (store: Store) => void;
     actionSlot?: React.ReactNode;
     searchQuery?: string;
+    className?: string; // Allow overrides
 }
 
-export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery }: StoreCardProps) {
+export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery, className }: StoreCardProps) {
     const { t } = useI18n();
     const { toast } = useToast();
     const [copied, setCopied] = useState(false);
@@ -137,7 +138,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, actionSlot, searchQuery 
                 // "Technical Double" Border System: Outer Slate-200, Inner White/40 Inset Ring
                 "border border-slate-200 ring-1 ring-white/40 ring-inset",
                 "shadow-[0_20px_50px_rgba(0,0,0,0.12)]",
-                "max-h-[85vh] p-5 gap-5"
+                "max-h-[85vh] p-5 gap-5",
+                className
             )}
         >
             {/* Lightbox Overlay */}

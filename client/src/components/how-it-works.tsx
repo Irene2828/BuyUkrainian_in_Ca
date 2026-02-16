@@ -7,7 +7,7 @@ export function HowItWorks() {
 
   const steps = [
     {
-      image: "/icon1.png",
+      image: "/assets/how-it-works-1.png",
       bullets: [
         <span key="1"><strong className="font-bold text-slate-900">Filter</strong> locations by province or specific business category.</span>,
         <span key="2"><strong className="font-bold text-slate-900">Access</strong> instant directions, website links, and core details.</span>
@@ -21,7 +21,7 @@ export function HowItWorks() {
       ]
     },
     {
-      image: "/icon3.png",
+      image: "/assets/how-it-works-3.png",
       bullets: [
         <span key="5"><strong className="font-bold text-slate-900">Share</strong> the map to help others discover local products.</span>,
         <span key="6"><strong className="font-bold text-slate-900">Turn</strong> community visibility into direct <strong className="font-bold text-slate-900">economic support</strong>.</span>
@@ -85,7 +85,7 @@ export function HowItWorks() {
                 <img
                   src={step.image}
                   alt={`Step ${index + 1}`}
-                  className={`max-h-full w-auto object-contain transform ${index === 1 ? 'max-[1440px]:scale-[1.35] scale-[1.5]' : 'max-[1440px]:scale-[1.45] scale-[1.6]'}`}
+                  className={`max-h-full w-auto object-contain transform ${index === 1 ? 'max-[1440px]:scale-[1.2] scale-[1.35]' : 'max-[1440px]:scale-[1.3] scale-[1.45]'}`}
                 />
               </div>
 

@@ -64,7 +64,10 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
 };
 
 const isWithinCanada = (lat: number, lng: number) => {
-  return lat >= 41.67 && lat <= 83.11 && lng >= -141.03 && lng <= -52.62;
+  // Relaxed bounds for debugging/edge cases
+  const valid = lat >= 40.00 && lat <= 85.00 && lng >= -145.00 && lng <= -50.00;
+  if (!valid) console.log(`Store outside Canada bounds during check: ${lat}, ${lng}`);
+  return valid;
 };
 
 // Scroll wheel zoom is permanently disabled - users can zoom using +/- buttons only
@@ -105,6 +108,7 @@ interface InteractiveMapProps {
   onFlightChange?: (isFlying: boolean) => void;
   extraControls?: React.ReactNode;
   isMobile?: boolean;
+  variant?: "default" | "hero";
 }
 
 const MarkerClusterGroup = ({
@@ -212,31 +216,37 @@ const MarkerClusterGroup = ({
       : null;
 
     stores.forEach(store => {
-      if (store.coordinates && isWithinCanada(store.coordinates[0], store.coordinates[1])) {
-        const isSelected = selectedStore?.id === store.id;
-        const isAnySelected = !!selectedStore;
-        const isNewest = store.id === newestStoreId;
+      if (store.coordinates) {
+        if (isWithinCanada(store.coordinates[0], store.coordinates[1])) {
+          const isSelected = selectedStore?.id === store.id;
+          const isAnySelected = !!selectedStore;
+          const isNewest = store.id === newestStoreId;
 
-        const marker = L.marker(store.coordinates as [number, number], {
-          icon: createUnifiedMarker(isSelected, isAnySelected, isNewest)
-        });
+          const marker = L.marker(store.coordinates as [number, number], {
+            icon: createUnifiedMarker(isSelected, isAnySelected, isNewest)
+          });
 
-        // Hover effect: Show store name
-        marker.bindTooltip(store.name, {
-          direction: 'top',
-          offset: [0, -15],
-          opacity: 1,
-          className: 'premium-map-tooltip',
-          permanent: false,
-          sticky: false
-        });
+          // Hover effect: Show store name
+          marker.bindTooltip(store.name, {
+            direction: 'top',
+            offset: [0, -15],
+            opacity: 1,
+            className: 'premium-map-tooltip',
+            permanent: false,
+            sticky: false
+          });
 
-        // Check handler passes the specific, unique store object
-        marker.on('click', () => {
-          onSelectStore(store);
-        });
+          // Check handler passes the specific, unique store object
+          marker.on('click', (e) => {
+            console.log("Marker clicked:", store.name, store.id);
+            L.DomEvent.stopPropagation(e); // Prevent map click from firing
+            onSelectStore(store);
+          });
 
-        group.addLayer(marker);
+          group.addLayer(marker);
+        } else {
+          console.warn("Store filtered out by bounds:", store.name, store.coordinates);
+        }
       }
     });
 
@@ -253,7 +263,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   userLocation,
   onFlightChange,
   extraControls,
-  isMobile = false
+  isMobile = false,
+  variant = "default"
 }, ref) {
   const [focusCoordinates, setFocusCoordinates] = useState<[number, number] | null>(null);
   const [flyConfig, setFlyConfig] = useState<{ duration: number; padding?: [number, number]; zoom?: number } | null>(null);
@@ -444,7 +455,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           © CARTO, © OpenStreetMap contributors
         </div>
 
-        <MapEvents onMapClick={onCloseStore} />
+        {variant !== "hero" && <MapEvents onMapClick={onCloseStore} />}
 
         {/* CLUSTERING IMPLEMENTATION: Replaced direct Marker loop with MarkerClusterGroup */}
         <MarkerClusterGroup
@@ -474,7 +485,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
 
       {/* Fixed Store Card Overlay - Replaces Leaflet Popup for Desktop */}
-      {selectedStore && !isMobile && (
+      {selectedStore && !isMobile && variant !== "hero" && (
         <div
           className="absolute left-6 top-24 z-[1000] w-auto animate-in slide-in-from-left-4 fade-in duration-300 pointer-events-auto"
         >
@@ -494,113 +505,115 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
       {/* Glass Navigation Controls - Middle Right - ERGONOMIC CENTER */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
+      {variant !== "hero" && (
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
 
-        {/* Main Control Group */}
-        <div className="flex flex-col items-center bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-lg overflow-hidden pointer-events-auto">
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
-                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-                  aria-label="Center on my location"
-                >
-                  <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                Center on my location
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {/* Main Control Group */}
+          <div className="flex flex-col items-center bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-lg overflow-hidden pointer-events-auto">
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
+                    className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                    aria-label="Center on my location"
+                  >
+                    <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                  Center on my location
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-          <div className="w-6 h-[1px] bg-zinc-100" />
+            <div className="w-6 h-[1px] bg-zinc-100" />
 
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={internalZoomIn}
-                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-                  aria-label="Zoom in map"
-                >
-                  <Plus className="w-4 h-4 stroke-[2.5]" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                Zoom in map
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={internalZoomIn}
+                    className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                    aria-label="Zoom in map"
+                  >
+                    <Plus className="w-4 h-4 stroke-[2.5]" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                  Zoom in map
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-          <div className="w-6 h-[1px] bg-zinc-100" />
+            <div className="w-6 h-[1px] bg-zinc-100" />
 
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={internalZoomOut}
-                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-                  aria-label="Zoom out map"
-                >
-                  <Minus className="w-4 h-4 stroke-[2.5]" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                Zoom out map
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={internalZoomOut}
+                    className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                    aria-label="Zoom out map"
+                  >
+                    <Minus className="w-4 h-4 stroke-[2.5]" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                  Zoom out map
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-          <div className="w-6 h-[1px] bg-zinc-100" />
+            <div className="w-6 h-[1px] bg-zinc-100" />
 
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={() => {
-                    if (mapRef.current) {
-                      const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
-                      if (valid.length > 0) {
-                        const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
-                        mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
-                      } else {
-                        setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => {
+                      if (mapRef.current) {
+                        const valid = stores.filter(s => s.coordinates && isWithinCanada(s.coordinates[0], s.coordinates[1]));
+                        if (valid.length > 0) {
+                          const bounds = L.latLngBounds(valid.map(s => s.coordinates as [number, number]));
+                          mapRef.current.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
+                        } else {
+                          setProvinceView({ lat: INITIAL_MAP_STATE.center[0], lng: INITIAL_MAP_STATE.center[1], zoom: INITIAL_MAP_STATE.zoom });
+                        }
+                        setFocusCoordinates(null);
                       }
-                      setFocusCoordinates(null);
-                    }
-                  }}
-                  className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
-                  aria-label="Reset to full Canada view"
+                    }}
+                    className="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                    aria-label="Reset to full Canada view"
+                  >
+                    <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
+                  Reset to national view
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+
+          {/* Separated Help Button (32px lower approx via gap-6/8) */}
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border border-zinc-200 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+                  aria-label="How to use the map"
                 >
-                  <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+                  <Info className="w-5 h-5 stroke-[2.5]" />
                 </button>
               </TooltipTrigger>
               <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                Reset to national view
+                How it works
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
-
-        {/* Separated Help Button (32px lower approx via gap-6/8) */}
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                className="w-10 h-10 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border border-zinc-200 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
-                aria-label="How to use the map"
-              >
-                <Info className="w-5 h-5 stroke-[2.5]" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-              How it works
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
+      )}
     </div>
   );
 });

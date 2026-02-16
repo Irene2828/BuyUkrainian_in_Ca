@@ -227,10 +227,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                                 {/* 2. Control Strip (Top-Right - Premium Integrated Design) */}
                                 {!isZenMode && (
-                                    <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto flex items-center h-[48px] max-w-[960px] bg-slate-100/90 backdrop-blur-md border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                    <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto flex items-center h-[48px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-slate-100/90 backdrop-blur-md border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4 overflow-x-auto scrollbar-hide touch-pan-x">
 
                                         {/* Segment 1: Search */}
-                                        <div className="flex items-center px-[16px] min-w-[260px] h-full group">
+                                        <div className="flex items-center px-[16px] min-w-[260px] h-full group shrink-0">
                                             <Search className="w-4 h-4 text-gray-900 mr-2 flex-shrink-0" strokeWidth={2} />
                                             <input
                                                 type="text"
@@ -246,10 +246,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>
 
                                         {/* Divider */}
-                                        <div className="w-[1px] h-5 bg-brand-navy/10 mx-1" />
+                                        <div className="w-[1px] h-5 bg-brand-navy/10 mx-1 shrink-0" />
 
                                         {/* Segment 2: Province Dropdown */}
-                                        <div className="relative h-full flex items-center">
+                                        <div className="relative h-full flex items-center shrink-0">
                                             <button
                                                 onClick={() => {
                                                     const open = !isProvinceDropdownOpen;
@@ -293,10 +293,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>
 
                                         {/* Divider */}
-                                        <div className="w-[1px] h-5 bg-brand-navy/10 mx-1" />
+                                        <div className="w-[1px] h-5 bg-brand-navy/10 mx-1 shrink-0" />
 
                                         {/* Segment 3: Category Dropdown */}
-                                        <div className="relative h-full flex items-center">
+                                        <div className="relative h-full flex items-center shrink-0">
                                             <button
                                                 onClick={() => {
                                                     const open = !isCategoryDropdownOpen;
@@ -340,10 +340,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>
 
                                         {/* Divider */}
-                                        <div className="w-[1px] h-5 bg-brand-navy/10 mx-1" />
+                                        <div className="w-[1px] h-5 bg-brand-navy/10 mx-1 shrink-0" />
 
                                         {/* Segment 4: Map/List Toggle (Sliding Pill) */}
-                                        <div className="relative flex items-center h-[34px] bg-transparent rounded-full p-1 ml-1 mr-1 w-[180px] border border-slate-200 ring-1 ring-white/40 ring-inset">
+                                        <div className="relative flex items-center h-[34px] bg-transparent rounded-full p-1 ml-1 mr-1 w-[180px] border border-slate-200 ring-1 ring-white/40 ring-inset shrink-0">
                                             {/* Sliding Pill */}
                                             <div
                                                 className={cn(
@@ -373,12 +373,12 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                             </button>
                                         </div>
                                         {/* Segment 5: Add Store Button */}
-                                        <div className="w-[1px] h-5 bg-slate-200 mx-1" />
+                                        <div className="w-[1px] h-5 bg-slate-200 mx-1 shrink-0" />
                                         <button
                                             onClick={() => setAddStoreDialogOpen(true)}
                                             className={cn(
                                                 "h-[36px] px-[16px] ml-[4px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                "bg-slate-900/85 backdrop-blur-md text-white rounded-full",
+                                                "bg-slate-900/85 backdrop-blur-md text-white rounded-full shrink-0",
                                                 "hover:bg-slate-900 active:scale-95 shadow-sm"
                                             )}
                                         >

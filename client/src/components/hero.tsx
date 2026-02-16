@@ -2,10 +2,27 @@ import { MapPin, Info } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getApprovedStores } from "@/lib/api";
+import { Suspense, lazy, useState } from "react";
+import { Store } from "@/lib/data";
+import { StoreBottomSheet } from "@/components/store-bottom-sheet";
+import { useLocation } from "wouter";
+
+// Lazy load the map to ensure fast initial page load
+const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
 
 
 export function Hero() {
     const { t } = useI18n();
+    const [selectedStore, setSelectedStore] = useState<Store | null>(null);
+    const [, setLocation] = useLocation();
+
+    const { data: stores = [] } = useQuery({
+        queryKey: ["stores"],
+        queryFn: getApprovedStores,
+        staleTime: 1000 * 60 * 5,
+    });
 
     return (
         <section
@@ -28,7 +45,7 @@ export function Hero() {
             <div
                 className="absolute pointer-events-none rounded-full z-[10]"
                 style={{
-                    width: '460px',
+                    width: '414px',
                     height: '460px',
                     left: '42%',
                     top: '-300px',
@@ -53,7 +70,7 @@ export function Hero() {
                     background: `linear-gradient(to right, 
                         #FFFFFF 0%, 
                         #FFFFFF 25%, 
-                        rgba(255, 255, 255, 0) 55%
+                        rgba(255, 255, 255, 0) 40%
                     )`
                 }}
             />
@@ -75,11 +92,10 @@ export function Hero() {
                     </h1>
 
                     <p className="mt-8 mb-8 text-[18px] text-slate-600 leading-relaxed max-w-md lg:max-w-lg font-normal">
-                        Find, add, and share local stores to support Ukraine's economy<br />
-                        with every purchase.
+                        Find, add, and share local stores to support Ukraine's economy with every purchase.
                     </p>
 
-                    <div className="flex flex-row items-center gap-6 w-full md:w-auto md:mb-10">
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto md:mb-10">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
                                 className="h-[50px] 2xl:h-[54px] px-8 2xl:px-10 w-full md:w-auto rounded-full bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[linear-gradient(to_bottom,#3A3F4F,#3A3F4F)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
@@ -91,42 +107,72 @@ export function Hero() {
 
                         <a
                             href="#how-it-works"
-                            className="text-[15px] font-medium text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-1.5 hover:underline underline-offset-4 decoration-slate-300 group/help"
+                            className="text-[15px] font-medium text-slate-500 hover:text-slate-900 transition-colors flex items-center justify-center w-full md:w-auto gap-1.5 hover:underline underline-offset-4 decoration-slate-300 group/help"
                         >
                             <Info className="w-4 h-4 opacity-70 group-hover/help:opacity-100 transition-opacity" />
                             <span>{t('hero.ctaSecondary') || 'How It Works'}</span>
                         </a>
                     </div>
 
-                    {/* Mobile Map Preview - Visible only on mobile/tablet */}
-                    <div className="lg:hidden w-full mt-[72px] aspect-[16/10] rounded-[24px] overflow-hidden shadow-xl border border-slate-100">
-                        <img
-                            src="/assets/hero-map-preview.png"
-                            alt="Map Preview"
-                            className="w-full h-full object-cover"
-                        />
+                    {/* Mobile Map Preview - Live Map */}
+                    <div className="lg:hidden w-full mt-[50px] aspect-[4/3] rounded-[24px] overflow-hidden shadow-xl border border-slate-100 relative bg-slate-50">
+                        <Suspense fallback={<div className="w-full h-full bg-slate-100 animate-pulse" />}>
+                            <InteractiveMap
+                                stores={stores}
+                                selectedStore={selectedStore}
+                                onSelectStore={setSelectedStore}
+                                onCloseStore={() => setSelectedStore(null)}
+                                variant="hero"
+                                isMobile={true}
+                            />
+                            {/* Mobile Gradient Overlay for Text Readability */}
+                            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white/20 to-transparent" />
+                        </Suspense>
                     </div>
+
+                    {/* Mobile Store Bottom Sheet */}
+                    {selectedStore && (
+                        <div className="lg:hidden">
+                            <StoreBottomSheet
+                                store={selectedStore}
+                                onClose={() => setSelectedStore(null)}
+                                onSeeOnMap={(store) => {
+                                    setLocation("/map");
+                                    // Optional: You could pass state here if wouter supports it, or use context
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* Desktop Peeking Map Container - FULL BLEED EFFECT */}
+            {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
             <div
-                className="hidden lg:block absolute top-0 right-0 w-[85%] h-full z-0 select-none overflow-hidden point-events-auto translate-x-[25%] -translate-y-[12%]"
+                className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden translate-x-[0%] pointer-events-auto"
+                aria-label="Interactive map of Ukrainian stores in Canada"
             >
-                <Link href="/map" className="block w-full h-full cursor-pointer pointer-events-auto">
-                    <div className="relative w-full h-full overflow-hidden flex flex-col items-center">
-
-                        <img
-                            src="/assets/mapnew.png"
-                            alt="Interactive Map Display"
-                            className="h-full w-full object-cover object-left opacity-100 origin-left"
-                            style={{
-                                maskImage: 'linear-gradient(to right, transparent 0%, black 400px)',
-                                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 400px)'
-                            }}
+                <div className="relative w-full h-full">
+                    <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
+                        <InteractiveMap
+                            stores={stores}
+                            selectedStore={null}
+                            onSelectStore={() => { }}
+                            onCloseStore={() => { }}
+                            variant="hero"
+                            isMobile={false}
                         />
-                    </div>
-                </Link>
+                    </Suspense>
+
+                    {/* Gradient Alpha Masking - The "Built-in" Feel */}
+                    {/* Left Edge Fade (Stronger to make text legible) */}
+                    <div className="absolute top-0 bottom-0 left-0 w-[400px] z-[20] pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent" />
+
+                    {/* Top Edge Fade */}
+                    <div className="absolute top-0 left-0 right-0 h-[150px] z-[20] pointer-events-none bg-gradient-to-b from-white via-white/50 to-transparent" />
+
+                    {/* Bottom Edge Fade */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[100px] z-[20] pointer-events-none bg-gradient-to-t from-white via-white/50 to-transparent" />
+                </div>
             </div>
 
             {/* 6. Trust & Origin Metadata - Desktop (Bottom Right) */}
