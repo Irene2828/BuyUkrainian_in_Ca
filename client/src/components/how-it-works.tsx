@@ -9,22 +9,22 @@ export function HowItWorks() {
     {
       image: "/assets/how-it-works-1.png",
       bullets: [
-        <span key="1"><strong className="font-bold text-slate-900">Filter</strong> locations by province or specific business category.</span>,
-        <span key="2"><strong className="font-bold text-slate-900">Access</strong> instant directions, website links, and core details.</span>
+        <span key="1">Filter locations by province or specific business category.</span>,
+        <span key="2">Access instant directions, website links, and core details.</span>
       ]
     },
     {
       image: "/icon2.png",
       bullets: [
-        <span key="3"><strong className="font-bold text-slate-900">Spot</strong> a missing Ukrainian business? <strong className="font-bold text-slate-900">Drop a new pin</strong>.</span>,
-        <span key="4"><strong className="font-bold text-slate-900">Help build</strong> a highly accurate, community-driven directory.</span>
+        <span key="3">Spot a missing Ukrainian business? Drop a new pin.</span>,
+        <span key="4">Help build a highly accurate, community-driven directory.</span>
       ]
     },
     {
       image: "/assets/how-it-works-3.png",
       bullets: [
-        <span key="5"><strong className="font-bold text-slate-900">Share</strong> the map to help others discover local products.</span>,
-        <span key="6"><strong className="font-bold text-slate-900">Turn</strong> community visibility into direct <strong className="font-bold text-slate-900">economic support</strong>.</span>
+        <span key="5">Share the map to help others discover local products.</span>,
+        <span key="6">Turn community visibility into direct economic support.</span>
       ]
     }
   ];
@@ -60,7 +60,7 @@ export function HowItWorks() {
       <div className="boutique-width">
         {/* Section Header */}
         <div className="mb-4 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
+          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900">
             {t('howItWorks.title') || 'How to Use this Map'}
           </h2>
         </div>

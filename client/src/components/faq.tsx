@@ -34,7 +34,7 @@ export function FAQ() {
     <section id="faq" className="bg-white font-sans overflow-hidden pt-[90px] pb-[144px]">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[41px] font-semibold tracking-tight leading-[1.2] font-sans section-headline-reveal text-slate-900 opacity-75">
+          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900">
             The Project's Mission
           </h2>
 
