@@ -31,38 +31,30 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative font-sans overflow-hidden py-24 z-10 border-y border-slate-200/50">
-      {/* Center White Glow */}
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at center, white 0%, rgba(255,255,255,0.8) 30%, transparent 70%)',
-          zIndex: -1
-        }}
-      />
+    <section id="faq" className="relative font-sans overflow-hidden py-24 z-10 border-y border-slate-200/50 bg-[#F8FAFC]">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900">
+          <h2 className="text-[31px] md:text-[41px] font-bold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900">
             The Project's Mission
           </h2>
 
         </div>
 
         {/* Accordion - Semantic Details/Summary */}
-        <div className="max-w-[680px] mx-auto w-full px-4 md:px-0 flex flex-col gap-4">
+        <div className="max-w-[680px] mx-auto w-full px-4 md:px-0 flex flex-col">
           {faqs.map((faq, i) => (
             <details
               key={i}
-              className="group border-b border-slate-200/60 last:border-0"
+              className="group border-t border-slate-200 first:border-t-0"
               open={openIndex === i}
               onClick={(e) => {
                 e.preventDefault();
                 toggleItem(i);
               }}
             >
-              <summary className="flex justify-between items-center w-full py-6 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg">
+              <summary className="flex justify-between items-center w-full py-8 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg">
                 <span className={cn(
-                  "text-[18px] font-semibold text-slate-900 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
+                  "text-[18px] font-semibold text-slate-800 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
                 )}>
                   {faq.question}
                 </span>

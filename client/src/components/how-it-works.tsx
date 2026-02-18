@@ -9,17 +9,17 @@ export function HowItWorks() {
     {
       title: "Looking for authentic Ukrainian goods?",
       image: "/assets/how-it-works-1.png",
-      text: "Explore our verified directory to find exactly what you need with instant directions"
+      text: (<><strong>Explore</strong> our <strong>verified directory</strong> to find exactly what you need with instant directions.</>)
     },
     {
       title: "Found a new product on the shelf?",
       image: "/icon2.png",
-      text: "Add it to the map. Your contribution helps the community find new ways to support Ukraine"
+      text: (<><strong>Add it to the map.</strong> Your contribution helps the community find new ways to support Ukraine.</>)
     },
     {
       title: "Want to help the Ukrainian economy?",
       image: "/assets/how-it-works-3.png",
-      text: "Share the map with your network. Visibility drives support and strengthens every purchase"
+      text: (<><strong>Share the map</strong> with your network. Visibility drives support and strengthens every purchase.</>)
     }
   ];
 
@@ -49,18 +49,18 @@ export function HowItWorks() {
   };
 
   return (
-    <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-slate-50">
-      <div className="boutique-width">
+    <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-[#F8FAFC]">
+      <div className="boutique-width px-6 md:px-12">
         {/* Section Header */}
-        <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans text-slate-900">
-            {t('howItWorks.title') || 'When to Use the Map'}
+        <div className="mb-20 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
+          <h2 className="text-[31px] md:text-[41px] font-bold tracking-tight leading-tight font-sans text-slate-900">
+            {t('howItWorks.title') || 'When to Use this Map'}
           </h2>
         </div>
 
         {/* Steps Grid - Animated Stagger */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-stretch"
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 w-full items-start"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -70,28 +70,23 @@ export function HowItWorks() {
             <motion.div
               key={index}
               variants={columnVariants}
-              className="group relative flex flex-col h-full bg-white/80 backdrop-blur-xl ring-1 ring-inset ring-slate-200/50 rounded-[32px] p-8 transition-all duration-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+              className="flex flex-col items-center text-center"
             >
-              {/* Flow Indicator */}
-              <span className="absolute top-8 right-8 text-[48px] font-black text-slate-100 select-none transition-colors">
-                0{index + 1}
-              </span>
-
-              {/* Illustration Container - Refined with Double Stroke Frame */}
-              <div className="h-[240px] w-full flex items-center justify-center bg-gradient-to-b from-white/80 to-slate-50 rounded-2xl mb-8 overflow-hidden">
+              {/* Illustration Card Reservoir */}
+              <div className="relative w-full aspect-[4/3] bg-white ring-1 ring-inset ring-slate-200/40 rounded-[32px] p-8 flex items-center justify-center transition-all duration-500 shadow-[0_1px_3px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.1)] overflow-hidden group">
                 <img
                   src={step.image}
                   alt={step.title}
-                  className={`max-h-[85%] w-auto object-contain transition-transform duration-700 group-hover:scale-110 ${index === 1 ? 'scale-[1.1]' : 'scale-[1.2]'}`}
+                  className={`max-h-[85%] w-auto object-contain transition-transform duration-700 group-hover:scale-105 ${index === 1 ? 'scale-[1.1]' : 'scale-[1.2]'}`}
                 />
               </div>
 
-              {/* Text Content */}
-              <div className="flex flex-col flex-1">
-                <h3 className="text-xl font-bold text-[#0F172A] mb-3 tracking-tight">
+              {/* Text Content - Outside the Card */}
+              <div className="flex flex-col items-center w-full mt-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-tight leading-snug">
                   {step.title}
                 </h3>
-                <p className="text-[15px] leading-relaxed text-slate-600/90 font-ui font-normal">
+                <p className="text-[16px] leading-[1.6] text-slate-900/80 max-w-[280px] mx-auto">
                   {step.text}
                 </p>
               </div>
