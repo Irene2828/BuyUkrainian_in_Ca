@@ -103,7 +103,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
-    staleTime: 1000 * 30, // 30 seconds
+    staleTime: 1000 * 60 * 5, // 5 minutes fresh (WebSocket handles invalidation)
   });
 
   // Track if province has ever been set (to distinguish initial mount from clearing)
@@ -252,6 +252,14 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
             ))}
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (isLoading && viewMode === "map") {
+    return (
+      <div className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}>
+        <MapSkeleton />
       </div>
     );
   }

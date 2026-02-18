@@ -28,6 +28,7 @@ function NewlyAddedStores() {
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
+    staleTime: 1000 * 60 * 5, // 5 minutes fresh
   });
 
   const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);

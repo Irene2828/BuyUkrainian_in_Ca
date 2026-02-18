@@ -58,7 +58,7 @@ export async function getApprovedStores(): Promise<Store[]> {
   // Updated endpoint to /api/index as requested by User to match their debug check
   console.log("Fetching stores from /api/index...");
   try {
-    const response = await fetch(`/api/index?t=${Date.now()}`);
+    const response = await fetch(`/api/index`);
     console.log("Response status:", response.status);
 
     if (!response.ok) {
@@ -82,7 +82,7 @@ export async function getApprovedStores(): Promise<Store[]> {
 }
 
 export async function getAllStores(): Promise<Store[]> {
-  const response = await fetch(`/api/admin/stores?t=${Date.now()}`, {
+  const response = await fetch(`/api/admin/stores`, {
     headers: getAuthHeaders(),
   });
   if (response.status === 401) {

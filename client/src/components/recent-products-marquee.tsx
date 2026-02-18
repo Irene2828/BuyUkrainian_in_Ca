@@ -64,7 +64,17 @@ export function RecentProductsMarquee() {
         staleTime: 1000 * 60 * 5, // 5 minutes fresh before re-fetching
     });
 
-    if (isLoading || stores.length === 0) return null;
+    if (isLoading) {
+        return <div className="h-[200px] flex items-center justify-center bg-slate-50/30 rounded-[32px] overflow-hidden">
+            <div className="w-full px-8 flex gap-6 overflow-hidden">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-16 w-64 bg-slate-100 rounded-2xl animate-pulse shrink-0" />
+                ))}
+            </div>
+        </div>;
+    }
+
+    if (stores.length === 0) return null;
 
     // Duplicate stores to create seamless loop
     const repeatedStores = Array(10).fill(stores).flat();

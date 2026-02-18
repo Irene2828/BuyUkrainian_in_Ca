@@ -36,12 +36,20 @@ function Router() {
   );
 }
 
+import { getApprovedStores } from "./lib/api";
+
 function App() {
   const [location] = useLocation();
 
   useEffect(() => {
     setupWebSocketListener();
     initPremiumInteractions();
+
+    // Prefetch store data immediately on load to hide network latency
+    queryClient.prefetchQuery({
+      queryKey: ["stores"],
+      queryFn: getApprovedStores,
+    }).catch(console.error);
   }, [location]);
 
   return (

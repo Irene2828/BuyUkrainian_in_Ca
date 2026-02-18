@@ -67,6 +67,8 @@ export async function registerRoutes(
 
       const stores = await storage.getApprovedStores();
 
+      // Enable Edge Caching: 60s fresh, 30s background revalidation
+      res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=30");
       res.json({ data: stores });
 
     } catch (error: any) {
