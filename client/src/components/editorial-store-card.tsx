@@ -53,18 +53,25 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
             </div>
 
             {/* Typography & Content - Minimalist Centered Gallery Style */}
-            <div className="flex flex-col items-center gap-1 px-1 relative text-center">
-                {/* Status indicator row (Hidden if no status) */}
-
-
+            <div className="flex flex-col items-center gap-0.5 px-1 relative text-center">
                 {/* Title & Action Row - Strictly Centered Unit */}
-                <div className="w-full flex justify-center mt-0 px-1">
+                <div className="w-full flex flex-col items-center justify-center mt-0 px-1">
                     <div className="flex items-center gap-1.5 max-w-full group/text">
-                        <h3 className="text-base font-medium text-[#1A1A19] leading-snug font-ui truncate transition-all">
+                        <h3
+                            className="font-medium tracking-[-0.02em] text-slate-900/65 leading-[1.2] truncate transition-all"
+                            style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
+                        >
                             {store.name}
                         </h3>
-                        <ArrowUpRight className="w-[14px] h-[14px] text-slate-400 transition-all duration-300 ease-out group-hover:text-black group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
+                        <ArrowUpRight className="w-[14px] h-[14px] text-slate-400 opacity-60 transition-all duration-300 ease-out group-hover:text-black group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
                     </div>
+                    {/* Location Row - Matching Homepage Flicker Style */}
+                    <span
+                        className="font-medium text-slate-900/65 leading-[1.2] mt-0.5"
+                        style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
+                    >
+                        {store.city}, {store.province}
+                    </span>
                 </div>
             </div>
         </div>

@@ -249,7 +249,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 
                             {/* Top Row for Desktop Alignment */}
-                            <div className="flex items-start justify-start pt-6 relative">
+                            <div className="flex items-start justify-start min-[1441px]:pt-9 max-[1440px]:pt-3 pt-6 relative">
                                 {/* 1. Action Island (Top-Left - now aligned with Logo) */}
                                 {/* Action Island Removed - Components Relocated */}
 
@@ -258,7 +258,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                     <div className="flex flex-col items-start gap-3 pointer-events-none">
 
                                         {/* Control Strip - outer wrapper is position:relative + overflow:visible so dropdowns can escape */}
-                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center h-[48px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center min-[1441px]:h-[56px] max-[1440px]:h-[40px] h-[48px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
                                             {/* Inner scrollable row - overflow-x-auto for mobile, but dropdowns live OUTSIDE this */}
                                             <div className="flex items-center h-full overflow-x-auto scrollbar-hide touch-pan-x">
                                                 {/* Segment 1: Search */}
@@ -272,7 +272,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                             setSearchQuery(e.target.value);
                                                             closeAllDropdowns();
                                                         }}
-                                                        className="w-full bg-transparent border-none outline-none text-sm font-medium text-slate-700 focus:text-slate-900 placeholder:text-slate-400 transition-colors duration-200"
+                                                        className="w-full bg-transparent border-none outline-none text-[14px] font-medium text-slate-700 focus:text-slate-900 placeholder:text-slate-400 transition-colors duration-200"
                                                         aria-label="Search stores"
                                                     />
                                                 </div>
@@ -288,7 +288,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                             setIsProvinceDropdownOpen(open);
                                                         }}
                                                         className={cn(
-                                                            "h-full px-4 flex items-center gap-2 text-sm font-medium transition-colors hover:text-slate-900 outline-none",
+                                                            "h-full px-4 flex items-center gap-2 text-[14px] font-medium transition-colors hover:text-slate-900 outline-none",
                                                             selectedProvince ? "text-[#2D50A0]" : "text-slate-700"
                                                         )}
                                                         aria-label="Filter by province"
@@ -309,7 +309,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                             setIsCategoryDropdownOpen(open);
                                                         }}
                                                         className={cn(
-                                                            "h-full px-4 flex items-center gap-2 text-sm font-medium transition-colors hover:text-slate-900 outline-none",
+                                                            "h-full px-4 flex items-center gap-2 text-[14px] font-medium transition-colors hover:text-slate-900 outline-none",
                                                             category ? "text-[#2D50A0]" : "text-slate-700"
                                                         )}
                                                         aria-label="Filter by category"
@@ -322,27 +322,27 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 <div className="w-1.5 shrink-0" />
 
                                                 {/* Segment 4: Map/List Toggle (Simplified) */}
-                                                <div className="relative flex items-center h-[34px] ml-1.5 mr-1.5 w-[180px] shrink-0">
+                                                <div className="relative flex items-center h-[34px] ml-1.5 mr-1.5 w-[210px] shrink-0">
                                                     <button
                                                         onClick={() => setViewMode("map")}
                                                         className={cn(
-                                                            "relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full text-sm transition-colors duration-200",
+                                                            "relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full text-[14px] transition-colors duration-200",
                                                             viewMode === "map" ? "text-slate-700 font-semibold" : "text-slate-400 font-medium hover:text-slate-600"
                                                         )}
                                                     >
                                                         <MapIcon className="w-3.5 h-3.5" />
-                                                        <span>Map View</span>
+                                                        <span className="whitespace-nowrap">Map View</span>
                                                     </button>
 
                                                     <button
                                                         onClick={() => setViewMode("list")}
                                                         className={cn(
-                                                            "relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full text-sm transition-colors duration-200",
+                                                            "relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full text-[14px] transition-colors duration-200",
                                                             viewMode === "list" ? "text-slate-700 font-semibold" : "text-slate-400 font-medium hover:text-slate-600"
                                                         )}
                                                     >
                                                         <List className="w-3.5 h-3.5" />
-                                                        <span>List View</span>
+                                                        <span className="whitespace-nowrap">List View</span>
                                                     </button>
                                                 </div>
                                                 {/* Segment 5: Add Store Button */}
@@ -366,7 +366,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
                                                         <button
                                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
-                                                            className="w-full text-left px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
+                                                            className="w-full text-left px-3 py-2 text-[12px] font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
                                                         >
                                                             Canada
                                                         </button>
@@ -375,7 +375,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                                 key={p}
                                                                 onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
                                                                 className={cn(
-                                                                    "w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                                                                    "w-full text-left px-3 py-2 text-[14px] font-medium rounded-lg transition-colors",
                                                                     selectedProvince === p ? "bg-slate-50 text-[#2D50A0]" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                                                                 )}
                                                             >
@@ -392,7 +392,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
                                                         <button
                                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
-                                                            className="w-full text-left px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
+                                                            className="w-full text-left px-3 py-2 text-[12px] font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
                                                         >
                                                             All Categories
                                                         </button>
@@ -401,7 +401,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                                 key={cat.id}
                                                                 onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
                                                                 className={cn(
-                                                                    "w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                                                                    "w-full text-left px-3 py-2 text-[14px] font-medium rounded-lg transition-colors",
                                                                     category === cat.id ? "bg-slate-50 text-[#2D50A0]" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                                                                 )}
                                                             >

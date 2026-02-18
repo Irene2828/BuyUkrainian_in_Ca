@@ -53,7 +53,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-slate-50 pt-[6rem] lg:pt-[7.5rem] pb-[86px] border-t border-slate-200/50">
+    <section className="bg-white pt-[3rem] lg:pt-[3.75rem] pb-[86px] border-t border-slate-200/50">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -88,7 +88,7 @@ function NewlyAddedStores() {
             {/* Final "See more" card */}
             <CarouselItem className="pl-8 basis-full sm:basis-1/2 md:basis-[28%] lg:basis-[22%]">
               <div
-                className="flex flex-col items-center justify-center h-full min-h-[220px] gap-3 p-4 rounded-[20px] border border-dashed border-slate-300 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-400 transition-all cursor-pointer group"
+                className="flex flex-col items-center justify-center h-full min-h-[220px] gap-3 p-4 rounded-[20px] border border-dashed border-slate-300 bg-slate-50/30 hover:bg-slate-50/50 hover:border-slate-400 transition-all cursor-pointer group"
                 onClick={() => {
                   document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }}
@@ -111,7 +111,7 @@ function NewlyAddedStores() {
       </div>
 
       {/* Community Call to Action */}
-      <div className="flex flex-col items-center justify-center mt-8 text-center px-4">
+      <div className="flex flex-col items-center justify-center mt-12 text-center px-4">
         <p className="text-base font-medium text-slate-800 leading-relaxed mb-4">
           Know a store we missed? Add it to the map.
         </p>
@@ -166,7 +166,7 @@ export default function MapPage() {
 
         {/* Trust & Origin Metadata - Integrated below map section */}
         {!isZenMode && (
-          <div className="w-full bg-gradient-to-b from-white via-white to-slate-50 py-6 md:py-8 select-none pointer-events-none overflow-hidden">
+          <div className="w-full bg-gradient-to-b from-white via-white to-white py-6 md:py-8 select-none pointer-events-none overflow-hidden">
             <div className="boutique-width mx-auto px-6">
               {/* Desktop Metadata */}
               <div className="hidden md:flex justify-center items-center gap-5">

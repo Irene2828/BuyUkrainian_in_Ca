@@ -92,7 +92,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* 2. Right Column: Actions */}
                     <div className="flex flex-col items-center md:items-end w-full gap-5">
                         {/* Copy Card (Glass Style - Refined with Double Stroke) */}
-                        <div className="relative w-full max-w-[624px] p-8 rounded-3xl bg-white/60 backdrop-blur-[16px] border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_20px_40px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] text-left group/draft transition-all duration-500">
+                        <div className="relative w-full max-w-[624px] px-8 py-4 rounded-3xl bg-white/60 backdrop-blur-[16px] border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_20px_40px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] text-left group/draft transition-all duration-500">
                             <div className="flex items-center justify-end mb-5">
                                 <button
                                     onClick={handleCopy}

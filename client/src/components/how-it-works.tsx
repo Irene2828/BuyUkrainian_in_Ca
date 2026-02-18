@@ -80,16 +80,16 @@ export function HowItWorks() {
                   <img
                     src={step.image}
                     alt={step.title}
-                    className={`max-h-[180px] w-auto object-contain transition-transform duration-700 group-hover:scale-110 ${index === 1 ? 'scale-[1.1]' : 'scale-[1.2]'}`}
+                    className={`max-h-[200px] w-auto object-contain transition-transform duration-700 ${index === 1 ? 'scale-[1.2]' : 'scale-[1.3]'}`}
                   />
                 </div>
 
                 {/* Bottom Section: ContentStack */}
-                <div className="flex flex-col items-center text-center">
-                  <h3 className="text-slate-900 font-semibold text-lg mt-20 mb-6 min-h-[56px] flex items-center justify-center">
+                <div className="flex flex-col items-start text-left mt-16">
+                  <h3 className="text-slate-900 font-semibold text-lg mb-3 min-h-[56px] flex items-start justify-start">
                     {step.title}
                   </h3>
-                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui max-w-[260px] mx-auto">
+                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui max-w-[315px]">
                     {step.text}
                   </p>
                 </div>

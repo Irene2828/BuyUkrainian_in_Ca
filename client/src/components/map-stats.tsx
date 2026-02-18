@@ -21,17 +21,12 @@ export function MapStats() {
         <section className="relative w-full pt-24 pb-24 bg-transparent flex flex-col justify-center items-center">
             <div className="w-full flex flex-col items-center px-6">
                 {/* Stats Header */}
-                <div className="flex flex-col items-center mb-16 max-w-4xl mx-auto text-center gap-6">
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
-                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
-                                Contributions to the map by today
-                            </p>
-                        </div>
-                        <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight text-slate-900">
-                            The Project's Mission
-                        </h2>
+                <div className="flex flex-col items-center mb-12">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
+                        <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
+                            Contributions to the map by today
+                        </p>
                     </div>
                 </div>
 
