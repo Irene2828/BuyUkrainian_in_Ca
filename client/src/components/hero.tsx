@@ -26,7 +26,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:pt-[108px] lg:pb-[60px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:pt-[108px] lg:pb-[60px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh] border-b border-slate-200/50"
         >
             {/* Layer 1: Top Left Yellow Glow - Prefooter Style */}
             <div
@@ -183,18 +183,18 @@ export function Hero() {
             <div className="absolute bottom-0 left-0 w-full z-30 pointer-events-none bg-white/40 backdrop-blur-md py-3">
                 <div className="boutique-width w-full flex items-center justify-end md:gap-5 md:pr-12 overflow-x-hidden no-scrollbar px-4">
                     <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 hidden md:block">
-                        Community-driven map
+                        COMMUNITY-DRIVEN
                     </span>
                     <span className="text-slate-400 text-[10px] font-light hidden md:block">/</span>
                     <div className="flex items-center gap-2.5">
                         <div className="w-1 h-1 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
                         <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 italic">
-                            Verified stores
+                            VERIFIED STORES ONLY
                         </span>
                     </div>
                     <span className="text-slate-400 text-[10px] font-light hidden md:block">/</span>
                     <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 hidden md:block">
-                        Made in Ukraine only
+                        MADE IN UKRAINE PRODUCTS
                     </span>
                 </div>
             </div>

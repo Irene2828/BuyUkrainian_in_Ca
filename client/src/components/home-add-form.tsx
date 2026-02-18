@@ -278,7 +278,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="bg-white rounded-[32px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl border border-blue-50">
+      <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
         <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
           <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
@@ -297,7 +297,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white/98 backdrop-blur-2xl rounded-[32px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden border border-slate-100 transition-all duration-500 ease-in-out">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white/80 backdrop-blur-xl rounded-[32px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>

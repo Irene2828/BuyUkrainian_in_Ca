@@ -71,8 +71,8 @@ export function MapStats() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-6 mt-10">
-                    <p className="text-[14px] md:text-[16px] 2xl:text-[18px] text-slate-600 font-ui italic leading-relaxed text-center max-w-[40ch]">
+                <div className="flex flex-col items-center mt-10">
+                    <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mb-6">
                         Ready to find or add more stores selling made in Ukraine?
                     </p>
                     <Link href="/map">

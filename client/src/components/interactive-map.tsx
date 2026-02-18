@@ -154,18 +154,21 @@ const MarkerClusterGroup = ({
             fontSize = '15px';
           }
 
-          // Exact replication of standard pin style (Circle split blue/yellow)
+          // Exact replication of standard pin style (Circle split blue/yellow) with Refined Shoulder Badge
           return L.divIcon({
             html: `
-              <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); filter: saturate(1.2) drop-shadow(0 2px 5px rgba(0,0,0,0.1)); background: white;">
-                <div style="width: 100%; height: 50%; background: #1762C5; opacity: 1;"></div>
-                <div style="width: 100%; height: 50%; background: #FFCF3E; opacity: 1;"></div>
-                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #FFFFFF; text-shadow: none; font-family: var(--font-ui); font-size: ${fontSize};">
+              <div class="cluster-badge-wrapper" style="position: relative; width: 100%; height: 100%;">
+                <div class="marker-container" style="width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); filter: saturate(1.2) drop-shadow(0 2px 5px rgba(0,0,0,0.1)); background: white; z-index: 1;">
+                  <div style="width: 100%; height: 50%; background: #1762C5; opacity: 1;"></div>
+                  <div style="width: 100%; height: 50%; background: #FFCF3E; opacity: 1;"></div>
+                </div>
+                <!-- Shoulder Badge: Refined Technical Grey -->
+                <div class="cluster-badge" style="position: absolute; top: -4px; right: -4px; width: ${childCount > 9 ? '18px' : '16px'}; height: ${childCount > 9 ? '18px' : '16px'}; background: #475569; color: #FFFFFF; border: 2px solid #FFFFFF; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; letter-spacing: -0.025em; line-height: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000; font-family: var(--font-ui); pointer-events: none;">
                     ${childCount}
                 </div>
               </div>
             `,
-            className: 'custom-cluster-icon !bg-transparent !border-none', // Ensure leaflet default styles don't interfere
+            className: 'custom-cluster-icon !bg-transparent !border-none !overflow-visible', // Force overflow visible to show the badge
             iconSize: iconSize
           });
         }
@@ -516,7 +519,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
 
           {/* Main Control Group */}
-          <div className="flex flex-col items-center bg-white/80 backdrop-blur-md border border-zinc-200 rounded-full shadow-lg overflow-hidden pointer-events-auto">
+          <div className="flex flex-col items-center bg-slate-200/60 backdrop-blur-md border border-slate-300 rounded-full shadow-lg overflow-hidden pointer-events-auto">
             <TooltipProvider delayDuration={200}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -608,7 +611,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border border-zinc-200 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200/60 backdrop-blur-md border border-slate-300 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
                   aria-label="How to use the map"
                 >
                   <Info className="w-5 h-5 stroke-[2.5]" />

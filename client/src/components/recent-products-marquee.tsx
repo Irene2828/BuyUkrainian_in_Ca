@@ -106,7 +106,7 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-12 pb-12 overflow-hidden font-sans relative z-20 flex items-center justify-center border-t border-slate-200/50 backdrop-blur-sm"
+                className="w-full pt-6 pb-12 overflow-hidden font-sans relative z-20 flex items-center justify-center backdrop-blur-sm"
             >
                 <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 

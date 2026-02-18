@@ -49,11 +49,11 @@ export function HowItWorks() {
   };
 
   return (
-    <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-[#F8FAFC]">
+    <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-white">
       <div className="boutique-width px-6 md:px-12">
         {/* Section Header */}
-        <div className="mb-20 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[31px] md:text-[41px] font-bold tracking-tight leading-tight font-sans text-slate-900">
+        <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
+          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight text-slate-900">
             {t('howItWorks.title') || 'When to Use this Map'}
           </h2>
         </div>
@@ -70,25 +70,29 @@ export function HowItWorks() {
             <motion.div
               key={index}
               variants={columnVariants}
-              className="flex flex-col items-center text-center"
+              className="h-full"
             >
-              {/* Illustration Card Reservoir */}
-              <div className="relative w-full aspect-[4/3] bg-white ring-1 ring-inset ring-slate-200/40 rounded-[32px] p-8 flex items-center justify-center transition-all duration-500 shadow-[0_1px_3px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.1)] overflow-hidden group">
-                <img
-                  src={step.image}
-                  alt={step.title}
-                  className={`max-h-[85%] w-auto object-contain transition-transform duration-700 group-hover:scale-105 ${index === 1 ? 'scale-[1.1]' : 'scale-[1.2]'}`}
-                />
-              </div>
+              {/* Feature Card: Unified Container */}
+              <div className="group flex flex-col h-full min-h-[480px] bg-white rounded-[32px] p-8 transition-all duration-300">
 
-              {/* Text Content - Outside the Card */}
-              <div className="flex flex-col items-center w-full mt-6">
-                <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-tight leading-snug">
-                  {step.title}
-                </h3>
-                <p className="text-[16px] leading-[1.6] text-slate-900/80 max-w-[280px] mx-auto">
-                  {step.text}
-                </p>
+                {/* Top Section: Illustration (Centered & Fixed Height) */}
+                <div className="w-full h-[220px] min-h-[220px] shrink-0 flex items-center justify-center relative">
+                  <img
+                    src={step.image}
+                    alt={step.title}
+                    className={`max-h-[180px] w-auto object-contain transition-transform duration-700 group-hover:scale-110 ${index === 1 ? 'scale-[1.1]' : 'scale-[1.2]'}`}
+                  />
+                </div>
+
+                {/* Bottom Section: ContentStack */}
+                <div className="flex flex-col items-center text-center">
+                  <h3 className="text-slate-900 font-bold text-lg mt-20 mb-6 min-h-[56px] flex items-center justify-center">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui max-w-[260px] mx-auto">
+                    {step.text}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}

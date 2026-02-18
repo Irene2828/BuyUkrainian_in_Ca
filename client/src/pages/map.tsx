@@ -111,9 +111,9 @@ function NewlyAddedStores() {
       </div>
 
       {/* Community Call to Action */}
-      <div className="flex flex-col items-center justify-center mt-4 gap-5 text-center px-4">
-        <p className="text-[14px] md:text-[16px] 2xl:text-[18px] text-slate-600 font-ui italic leading-relaxed">
-          Know a Store We Missed? Add it To the Map
+      <div className="flex flex-col items-center justify-center mt-8 text-center px-4">
+        <p className="text-base font-medium text-slate-800 leading-relaxed mb-4">
+          Know a store we missed? Add it to the map.
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}

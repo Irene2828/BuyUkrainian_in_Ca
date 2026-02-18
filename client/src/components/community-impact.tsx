@@ -45,8 +45,6 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
             "relative w-full bg-transparent pt-24 pb-16 section-reveal overflow-hidden border-t border-slate-200/50",
             !hideBorder && "border-b border-brand-navy/10"
         )}>
-            {/* Bottom Gradient Wash to Footer */}
-            <div className="absolute bottom-0 left-0 right-0 h-[300px] bg-gradient-to-b from-transparent to-slate-50/80 pointer-events-none" />
             {/* Background Blobs */}
             <div
                 className="absolute pointer-events-none rounded-full"

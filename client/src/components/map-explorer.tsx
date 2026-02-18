@@ -257,165 +257,161 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                 {!isZenMode && (
                                     <div className="flex flex-col items-start gap-3 pointer-events-none">
 
-                                        {/* Control Strip */}
-                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto flex items-center h-[48px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-slate-100/90 backdrop-blur-md border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4 overflow-x-auto scrollbar-hide touch-pan-x">
-                                            {/* Segment 1: Search */}
-                                            <div className="flex items-center px-[16px] min-w-[260px] h-full group shrink-0">
-                                                <Search className="w-4 h-4 text-gray-900 mr-2 flex-shrink-0" strokeWidth={2} />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Search by product, town..."
-                                                    value={searchQuery}
-                                                    onChange={(e) => {
-                                                        setSearchQuery(e.target.value);
-                                                        closeAllDropdowns();
-                                                    }}
-                                                    className="w-full bg-transparent border-none outline-none text-[14px] font-medium text-[#0F172A] placeholder:text-slate-400"
-                                                    aria-label="Search stores"
-                                                />
-                                            </div>
+                                        {/* Control Strip - outer wrapper is position:relative + overflow:visible so dropdowns can escape */}
+                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center h-[48px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                            {/* Inner scrollable row - overflow-x-auto for mobile, but dropdowns live OUTSIDE this */}
+                                            <div className="flex items-center h-full overflow-x-auto scrollbar-hide touch-pan-x">
+                                                {/* Segment 1: Search */}
+                                                <div className="flex items-center h-[34px] rounded-full px-4 min-w-[260px] group shrink-0 transition-all duration-200">
+                                                    <Search className="w-3.5 h-3.5 text-slate-500 mr-2 flex-shrink-0" strokeWidth={2.5} />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Search product or town..."
+                                                        value={searchQuery}
+                                                        onChange={(e) => {
+                                                            setSearchQuery(e.target.value);
+                                                            closeAllDropdowns();
+                                                        }}
+                                                        className="w-full bg-transparent border-none outline-none text-sm font-medium text-slate-700 focus:text-slate-900 placeholder:text-slate-400 transition-colors duration-200"
+                                                        aria-label="Search stores"
+                                                    />
+                                                </div>
 
-                                            {/* Divider */}
-                                            <div className="w-[1px] h-5 bg-brand-navy/10 mx-1 shrink-0" />
+                                                <div className="w-1.5 shrink-0" />
 
-                                            {/* Segment 2: Province Dropdown */}
-                                            <div className="relative h-full flex items-center shrink-0">
+                                                {/* Segment 2: Province Button only (dropdown rendered outside scroll) */}
+                                                <div className="h-[34px] flex items-center rounded-full shrink-0 transition-all duration-200">
+                                                    <button
+                                                        onClick={() => {
+                                                            const open = !isProvinceDropdownOpen;
+                                                            closeAllDropdowns();
+                                                            setIsProvinceDropdownOpen(open);
+                                                        }}
+                                                        className={cn(
+                                                            "h-full px-4 flex items-center gap-2 text-sm font-medium transition-colors hover:text-slate-900 outline-none",
+                                                            selectedProvince ? "text-[#2D50A0]" : "text-slate-700"
+                                                        )}
+                                                        aria-label="Filter by province"
+                                                    >
+                                                        <span className="truncate max-w-[100px]">{selectedProvince || "Province"}</span>
+                                                        <ChevronDown className={cn("w-3.5 h-3.5 transition-transform text-slate-400", isProvinceDropdownOpen && "rotate-180")} />
+                                                    </button>
+                                                </div>
+
+                                                <div className="w-1.5 shrink-0" />
+
+                                                {/* Segment 3: Category Button only (dropdown rendered outside scroll) */}
+                                                <div className="h-[34px] flex items-center rounded-full shrink-0 transition-all duration-200">
+                                                    <button
+                                                        onClick={() => {
+                                                            const open = !isCategoryDropdownOpen;
+                                                            closeAllDropdowns();
+                                                            setIsCategoryDropdownOpen(open);
+                                                        }}
+                                                        className={cn(
+                                                            "h-full px-4 flex items-center gap-2 text-sm font-medium transition-colors hover:text-slate-900 outline-none",
+                                                            category ? "text-[#2D50A0]" : "text-slate-700"
+                                                        )}
+                                                        aria-label="Filter by category"
+                                                    >
+                                                        <span className="truncate max-w-[100px]">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                                        <ChevronDown className={cn("w-3.5 h-3.5 transition-transform text-slate-400", isCategoryDropdownOpen && "rotate-180")} />
+                                                    </button>
+                                                </div>
+
+                                                <div className="w-1.5 shrink-0" />
+
+                                                {/* Segment 4: Map/List Toggle (Simplified) */}
+                                                <div className="relative flex items-center h-[34px] ml-1.5 mr-1.5 w-[180px] shrink-0">
+                                                    <button
+                                                        onClick={() => setViewMode("map")}
+                                                        className={cn(
+                                                            "relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full text-sm transition-colors duration-200",
+                                                            viewMode === "map" ? "text-slate-700 font-semibold" : "text-slate-400 font-medium hover:text-slate-600"
+                                                        )}
+                                                    >
+                                                        <MapIcon className="w-3.5 h-3.5" />
+                                                        <span>Map View</span>
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => setViewMode("list")}
+                                                        className={cn(
+                                                            "relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full text-sm transition-colors duration-200",
+                                                            viewMode === "list" ? "text-slate-700 font-semibold" : "text-slate-400 font-medium hover:text-slate-600"
+                                                        )}
+                                                    >
+                                                        <List className="w-3.5 h-3.5" />
+                                                        <span>List View</span>
+                                                    </button>
+                                                </div>
+                                                {/* Segment 5: Add Store Button */}
+                                                <div className="w-[1px] h-5 bg-slate-200 mx-1 shrink-0" />
                                                 <button
-                                                    onClick={() => {
-                                                        const open = !isProvinceDropdownOpen;
-                                                        closeAllDropdowns();
-                                                        setIsProvinceDropdownOpen(open);
-                                                    }}
+                                                    onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
-                                                        "h-full px-[16px] flex items-center gap-[8px] text-[14px] font-medium leading-normal transition-colors hover:text-black outline-none",
-                                                        selectedProvince ? "text-[#2D50A0]" : "text-slate-700"
+                                                        "h-[36px] px-[16px] ml-[4px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
+                                                        "bg-slate-900/85 backdrop-blur-md text-white rounded-full shrink-0",
+                                                        "hover:bg-slate-900 active:scale-95 shadow-sm"
                                                     )}
-                                                    aria-label="Filter by province"
                                                 >
-                                                    <span className="truncate max-w-[100px]">{selectedProvince || "Province"}</span>
-                                                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", isProvinceDropdownOpen && "rotate-180")} />
+                                                    <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                                    <span>{t('nav.addStore') || 'Pin Store'}</span>
                                                 </button>
+                                            </div>{/* end inner scrollable div */}
 
-                                                {isProvinceDropdownOpen && (
-                                                    <div className="absolute top-[calc(100%+8px)] right-0 w-48 bg-white border border-slate-200 shadow-lg ring-1 ring-black/5 rounded-xl z-[700] overflow-hidden transition-all duration-200 ease-out animate-in fade-in slide-in-from-top-2">
-                                                        <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
+                                            {/* Province Dropdown — rendered OUTSIDE the overflow-x-auto div, as a direct child of the position:relative outer strip */}
+                                            {isProvinceDropdownOpen && (
+                                                <div className="absolute top-[calc(100%+8px)] left-[310px] w-48 bg-white border border-slate-200 shadow-lg ring-1 ring-black/5 rounded-xl z-[700] overflow-hidden animate-in fade-in slide-in-from-top-2">
+                                                    <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
+                                                        <button
+                                                            onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
+                                                            className="w-full text-left px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
+                                                        >
+                                                            Canada
+                                                        </button>
+                                                        {CANADIAN_PROVINCES.map(p => (
                                                             <button
-                                                                onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
-                                                                className="w-full text-left px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
+                                                                key={p}
+                                                                onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
+                                                                className={cn(
+                                                                    "w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                                                                    selectedProvince === p ? "bg-slate-50 text-[#2D50A0]" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+                                                                )}
                                                             >
-                                                                Canada
+                                                                {p}
                                                             </button>
-                                                            {CANADIAN_PROVINCES.map(p => (
-                                                                <button
-                                                                    key={p}
-                                                                    onClick={() => { setSelectedProvince(p); setIsProvinceDropdownOpen(false); }}
-                                                                    className={cn(
-                                                                        "w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors",
-                                                                        selectedProvince === p ? "bg-slate-50 text-[#2D50A0]" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"
-                                                                    )}
-                                                                >
-                                                                    {p}
-                                                                </button>
-                                                            ))}
-                                                        </div>
+                                                        ))}
                                                     </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                            )}
 
-                                            {/* Divider */}
-                                            <div className="w-[1px] h-5 bg-brand-navy/10 mx-1 shrink-0" />
-
-                                            {/* Segment 3: Category Dropdown */}
-                                            <div className="relative h-full flex items-center shrink-0">
-                                                <button
-                                                    onClick={() => {
-                                                        const open = !isCategoryDropdownOpen;
-                                                        closeAllDropdowns();
-                                                        setIsCategoryDropdownOpen(open);
-                                                    }}
-                                                    className={cn(
-                                                        "h-full px-[16px] flex items-center gap-[8px] text-[14px] font-medium leading-normal transition-colors hover:text-black outline-none",
-                                                        category ? "text-[#2D50A0]" : "text-slate-700"
-                                                    )}
-                                                    aria-label="Filter by category"
-                                                >
-                                                    <span className="truncate max-w-[100px]">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
-                                                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", isCategoryDropdownOpen && "rotate-180")} />
-                                                </button>
-
-                                                {isCategoryDropdownOpen && (
-                                                    <div className="absolute top-[calc(100%+8px)] right-0 w-48 bg-white border border-slate-200 shadow-lg ring-1 ring-black/5 rounded-xl z-[700] overflow-hidden transition-all duration-200 ease-out animate-in fade-in slide-in-from-top-2">
-                                                        <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
+                                            {/* Category Dropdown — rendered OUTSIDE the overflow-x-auto div */}
+                                            {isCategoryDropdownOpen && (
+                                                <div className="absolute top-[calc(100%+8px)] left-[430px] w-48 bg-white border border-slate-200 shadow-lg ring-1 ring-black/5 rounded-xl z-[700] overflow-hidden animate-in fade-in slide-in-from-top-2">
+                                                    <div className="max-h-[240px] overflow-y-auto custom-scrollbar p-1.5 font-ui">
+                                                        <button
+                                                            onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
+                                                            className="w-full text-left px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
+                                                        >
+                                                            All Categories
+                                                        </button>
+                                                        {allCategories.map(cat => (
                                                             <button
-                                                                onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
-                                                                className="w-full text-left px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-200 rounded-lg"
+                                                                key={cat.id}
+                                                                onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
+                                                                className={cn(
+                                                                    "w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                                                                    category === cat.id ? "bg-slate-50 text-[#2D50A0]" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+                                                                )}
                                                             >
-                                                                All Categories
+                                                                {cat.label}
                                                             </button>
-                                                            {allCategories.map(cat => (
-                                                                <button
-                                                                    key={cat.id}
-                                                                    onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
-                                                                    className={cn(
-                                                                        "w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors",
-                                                                        category === cat.id ? "bg-slate-50 text-[#2D50A0]" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"
-                                                                    )}
-                                                                >
-                                                                    {cat.label}
-                                                                </button>
-                                                            ))}
-                                                        </div>
+                                                        ))}
                                                     </div>
-                                                )}
-                                            </div>
-
-                                            {/* Divider */}
-                                            <div className="w-[1px] h-5 bg-brand-navy/10 mx-1 shrink-0" />
-
-                                            {/* Segment 4: Map/List Toggle (Sliding Pill) */}
-                                            <div className="relative flex items-center h-[34px] bg-transparent rounded-full p-1 ml-1 mr-1 w-[180px] border border-slate-200 ring-1 ring-white/40 ring-inset shrink-0">
-                                                {/* Sliding Pill */}
-                                                <div
-                                                    className={cn(
-                                                        "absolute top-1 bottom-1 w-[calc(50%-4px)] bg-slate-100 rounded-full shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                                                        viewMode === "map" ? "left-1" : "left-[50%]"
-                                                    )}
-                                                />
-
-                                                <button
-                                                    onClick={() => setViewMode("map")}
-                                                    className={cn(
-                                                        "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-[12px] font-bold tracking-[-0.01em] transition-colors duration-200",
-                                                        viewMode === "map" ? "text-slate-900" : "text-slate-400 hover:bg-slate-50"
-                                                    )}
-                                                >
-                                                    Map View
-                                                </button>
-
-                                                <button
-                                                    onClick={() => setViewMode("list")}
-                                                    className={cn(
-                                                        "relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-[12px] font-bold tracking-[-0.01em] transition-colors duration-200",
-                                                        viewMode === "list" ? "text-slate-900" : "text-slate-500 hover:text-slate-700"
-                                                    )}
-                                                >
-                                                    List View
-                                                </button>
-                                            </div>
-                                            {/* Segment 5: Add Store Button */}
-                                            <div className="w-[1px] h-5 bg-slate-200 mx-1 shrink-0" />
-                                            <button
-                                                onClick={() => setAddStoreDialogOpen(true)}
-                                                className={cn(
-                                                    "h-[36px] px-[16px] ml-[4px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                    "bg-slate-900/85 backdrop-blur-md text-white rounded-full shrink-0",
-                                                    "hover:bg-slate-900 active:scale-95 shadow-sm"
-                                                )}
-                                            >
-                                                <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
-                                                <span>{t('nav.addStore') || 'Pin Store'}</span>
-                                            </button>
-                                        </div>
+                                                </div>
+                                            )}
+                                        </div>{/* end outer control strip */}
 
                                         {/* Map Legend (Pins show...) - Relocated below toolbar */}
                                         {viewMode === "map" && (
@@ -425,11 +421,11 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     selectedStore ? "opacity-0 -translate-y-2" : "opacity-100 translate-y-0"
                                                 )}
                                             >
-                                                <div className="flex -space-x-1 items-center scale-90">
+                                                <div className="flex -space-x-1 items-center scale-[1.05]">
                                                     <div className="w-2 h-2 rounded-full bg-[#0047FF] border border-white shadow-sm" />
                                                     <div className="w-2 h-2 rounded-full bg-[#F2D36B] border border-white shadow-sm" />
                                                 </div>
-                                                <span className="text-[12px] font-medium text-slate-600 whitespace-nowrap">
+                                                <span className="text-[14px] font-medium text-slate-600 whitespace-nowrap">
                                                     Pins show local stores selling Ukrainian-made products
                                                 </span>
                                             </div>

@@ -36,25 +36,22 @@ export default function Home() {
           <Hero />
 
           {/* 1. Hero-to-How-It-Works Transition Container */}
-          <div className="relative w-full bg-gradient-to-b from-white to-slate-50 pt-8 pb-12">
+          <div className="relative w-full bg-white pt-6 pb-12">
             <RecentProductsMarquee />
           </div>
         </div>
 
         {/* 2. Seamless How It Works & FAQ block */}
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <HowItWorks />
         </div>
 
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <FAQ />
         </div>
 
         {/* 3. Transition into Stats & Community */}
         <div className="section-reveal relative bg-white">
-          {/* Gradient Transition from slate-50 to white */}
-          <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-slate-50 via-slate-50/50 to-white pointer-events-none" />
-
           <div className="relative z-10">
             <MapStats />
             <CommunityImpact hideBorder />
