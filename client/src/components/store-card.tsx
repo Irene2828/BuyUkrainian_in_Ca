@@ -98,7 +98,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 {/* 1. Sticky Header Section */}
                 <div className="p-5 pb-3 bg-white/50 backdrop-blur-lg border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-1">
                     <div className="flex items-center justify-between">
-                        <span className="px-2.5 py-0.5 bg-slate-200/70 text-slate-700 rounded-full border border-slate-300/60 text-[10px] font-medium uppercase tracking-[0.2em] font-ui">
+                        <span className="px-2.5 py-0.5 bg-slate-200/60 backdrop-blur-md text-slate-700 rounded-full border border-slate-300 ring-1 ring-white/40 ring-inset text-[10px] font-bold uppercase tracking-[0.2em] font-ui">
                             {getCategoryLabel(store.category)}
                         </span>
                         <button
@@ -166,7 +166,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                                 {(isProductsExpanded ? allProducts : allProducts.slice(0, maxVisibleTags)).map((product, idx) => (
                                     <div
                                         key={idx}
-                                        className="px-2.5 py-0.5 bg-slate-100 border border-slate-200 rounded-full text-[12px] font-medium text-slate-700 transition-colors hover:bg-slate-200 cursor-default"
+                                        className="px-2.5 py-0.5 bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset rounded-full text-[12px] font-medium text-slate-700 transition-colors hover:bg-slate-200/80 cursor-default"
                                     >
                                         {product}
                                     </div>
@@ -195,7 +195,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             target="_blank" rel="noopener noreferrer"
                             className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors group"
                         >
-                            <div className="w-9 h-9 rounded-full bg-slate-200/95 flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                            <div className="w-9 h-9 rounded-full bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
                                 <CornerUpRight size={16} />
                             </div>
                             <span className="text-[9px] font-bold text-slate-500/60 uppercase tracking-tight">Directions</span>
@@ -207,7 +207,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         >
                             <div className={cn(
                                 "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300",
-                                copied ? "bg-green-600 text-white" : "bg-slate-200/95 text-slate-700 group-hover:bg-slate-900 group-hover:text-white"
+                                copied ? "bg-green-600 text-white" : "bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset text-slate-700 group-hover:bg-slate-900 group-hover:text-white"
                             )}>
                                 {copied ? <Check size={16} /> : <Copy size={16} />}
                             </div>
@@ -218,7 +218,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             onClick={handleShare}
                             className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors group"
                         >
-                            <div className="w-9 h-9 rounded-full bg-slate-200/95 flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                            <div className="w-9 h-9 rounded-full bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
                                 <Share2 size={16} />
                             </div>
                             <span className="text-[9px] font-bold text-slate-500/60 uppercase tracking-tight">Share Store</span>
@@ -230,7 +230,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         >
                             <div className={cn(
                                 "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300",
-                                isImageExpanded ? "bg-slate-900 text-white" : "bg-slate-200/95 text-slate-700 group-hover:bg-slate-900 group-hover:text-white"
+                                isImageExpanded ? "bg-slate-900 text-white" : "bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset text-slate-700 group-hover:bg-slate-900 group-hover:text-white"
                             )}>
                                 <Maximize2 size={16} />
                             </div>
