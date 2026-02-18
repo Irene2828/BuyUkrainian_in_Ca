@@ -360,12 +360,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     }
   };
 
-  // Automatically focus on store when selection changes (e.g. Pin Click)
-  useEffect(() => {
-    if (selectedStore && !isMobile) {
-      internalFocusOnStore(selectedStore);
-    }
-  }, [selectedStore?.id, isMobile]);
+  // Automatically focus REMOVED as per user request (Step 1766) - user zooms manually
+  // useEffect(() => {
+  //   if (selectedStore && !isMobile) {
+  //     internalFocusOnStore(selectedStore);
+  //   }
+  // }, [selectedStore?.id, isMobile]);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: internalFocusOnStore,
@@ -421,12 +421,16 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         <div className="absolute inset-0 bg-[#F5F5F3] opacity-5 mix-blend-multiply" />
       </div>
       <MapContainer
-        center={CANADA_CENTER}
+        center={variant === 'hero' ? [52.0000, -110.0000] : CANADA_CENTER}
         zoom={INITIAL_MAP_STATE.zoom}
         minZoom={3.5}
         maxZoom={18}
         scrollWheelZoom={false}
-        dragging={true}
+        dragging={variant !== 'hero'}
+        doubleClickZoom={variant !== 'hero'}
+        touchZoom={variant !== 'hero'}
+        boxZoom={variant !== 'hero'}
+        keyboard={variant !== 'hero'}
         className="w-full h-full"
         zoomControl={false}
         attributionControl={false}
@@ -451,9 +455,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           keepBuffer={2}
         />
 
-        <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
-          © CARTO, © OpenStreetMap contributors
-        </div>
+        {variant !== "hero" && (
+          <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
+            © CARTO, © OpenStreetMap contributors
+          </div>
+        )}
 
         {variant !== "hero" && <MapEvents onMapClick={onCloseStore} />}
 
@@ -487,9 +493,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {/* Fixed Store Card Overlay - Replaces Leaflet Popup for Desktop */}
       {selectedStore && !isMobile && variant !== "hero" && (
         <div
-          className="absolute left-6 top-24 z-[1000] w-auto animate-in slide-in-from-left-4 fade-in duration-300 pointer-events-auto"
+          className="absolute left-6 top-[88px] bottom-8 z-[1000] w-auto flex items-center animate-in slide-in-from-left-4 fade-in duration-300 pointer-events-none"
         >
-          <div className="bg-white rounded-xl shadow-2xl border border-slate-100/50 overflow-hidden">
+          <div className="pointer-events-auto">
             <StoreCard
               store={selectedStore}
               onClose={onCloseStore}
@@ -498,6 +504,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                   internalFocusOnStore(s);
                 }
               }}
+              variant="map"
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { getApprovedStores } from "@/lib/api";
-import { Facebook, Instagram, Plus, Check, Copy } from "lucide-react";
+import { Facebook, Instagram, Plus, Check, Copy, Share2 } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -42,9 +42,11 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section className={cn(
-            "relative w-full bg-white py-16 section-reveal overflow-hidden",
+            "relative w-full bg-transparent pt-24 pb-16 section-reveal overflow-hidden border-t border-slate-200/50",
             !hideBorder && "border-b border-brand-navy/10"
         )}>
+            {/* Bottom Gradient Wash to Footer */}
+            <div className="absolute bottom-0 left-0 right-0 h-[300px] bg-gradient-to-b from-transparent to-slate-50/80 pointer-events-none" />
             {/* Background Blobs */}
             <div
                 className="absolute pointer-events-none rounded-full"
@@ -74,9 +76,9 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
             <div className="boutique-width w-full mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-start">
                     {/* 1. Left Column: Message */}
-                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                    <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" aria-hidden="true" />
+                            <Share2 size={14} className="text-blue-500" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>
@@ -91,38 +93,31 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                     {/* 2. Right Column: Actions */}
                     <div className="flex flex-col items-center md:items-end w-full gap-5">
-                        {/* Copy Card (Glass Style) */}
-                        <div className="relative w-full max-w-[520px] p-6 rounded-2xl bg-white/40 backdrop-blur-xl hover:backdrop-blur-2xl border border-slate-900/10 hover:border-slate-900/20 ring-1 ring-inset ring-white/50 text-left group/draft transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.03)]">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-2">
-                                    <div className={cn(
-                                        "w-1.5 h-1.5 rounded-full transition-all duration-300",
-                                        copied ? "bg-lime-500 scale-125 animate-pulse" : "bg-slate-300"
-                                    )} />
-                                    <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">Message Preview</span>
-                                </div>
+                        {/* Copy Card (Glass Style - Refined with Double Stroke) */}
+                        <div className="relative w-full max-w-[624px] p-8 rounded-3xl bg-white/60 backdrop-blur-[16px] border border-slate-200 ring-1 ring-white/40 ring-inset shadow-[0_20px_40px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] text-left group/draft transition-all duration-500">
+                            <div className="flex items-center justify-end mb-5">
                                 <button
                                     onClick={handleCopy}
-                                    className="flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-slate-500 hover:text-black transition-all group/copy-btn"
+                                    className={cn(
+                                        "flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase transition-all duration-200 ease-out group/copy-btn active:scale-95 select-none",
+                                        copied
+                                            ? "bg-lime-50 text-lime-700 ring-1 ring-lime-200/50"
+                                            : "bg-slate-100/80 text-slate-600 hover:bg-slate-200 hover:text-slate-900 ring-1 ring-slate-900/5"
+                                    )}
                                     aria-label="Copy suggested post to clipboard"
                                 >
                                     {copied ? (
-                                        <span className="animate-in slide-in-from-bottom-1 duration-200 fade-in text-lime-600">COPIED</span>
+                                        <span className="animate-in slide-in-from-bottom-1 duration-200 fade-in">COPIED</span>
                                     ) : (
                                         <span>COPY TEXT</span>
                                     )}
-                                    <div className={cn(
-                                        "p-1.5 rounded-md transition-all duration-200",
-                                        copied ? "bg-lime-50" : "group-hover/copy-btn:bg-slate-100"
-                                    )}>
-                                        <Copy className={cn(
-                                            "w-3 h-3 transition-colors duration-200",
-                                            copied ? "text-lime-600" : "text-slate-400 group-hover/copy-btn:text-lime-500"
-                                        )} strokeWidth={2.5} />
-                                    </div>
+                                    <Copy className={cn(
+                                        "w-3 h-3 transition-colors duration-200",
+                                        copied ? "text-lime-600" : "text-slate-400 group-hover/copy-btn:text-slate-600"
+                                    )} strokeWidth={2.5} />
                                 </button>
                             </div>
-                            <p className="text-[13px] md:text-[15px] text-slate-600 font-ui italic leading-relaxed">
+                            <p className="text-[13px] md:text-[14px] min-[1441px]:text-[16px] text-slate-500 font-ui italic leading-relaxed font-normal">
                                 "{shareMessage} {shareUrl}"
                             </p>
                         </div>

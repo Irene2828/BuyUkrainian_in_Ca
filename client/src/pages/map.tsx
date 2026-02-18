@@ -29,7 +29,7 @@ function NewlyAddedStores() {
     queryKey: ["stores"],
     queryFn: getApprovedStores,
   });
-  const [selectedStore, setSelectedStore] = useState<Store | null>(null);
+
   const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
 
   if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-secondary)]" /></div>;
@@ -37,16 +37,23 @@ function NewlyAddedStores() {
   const newlyAdded = stores.slice(0, 5);
 
   const handleSeeOnMap = (store: Store) => {
-    setSelectedStore(null);
-    document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Determine target location to scroll to - prioritize MapExplorer
+    const mapElement = document.querySelector('.passport-map-container') || document.querySelector('.map-column-wrapper');
+    mapElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Dispatch event to trigger MapExplorer focus
     setTimeout(() => {
+      // Option 1: Dispatch event (since we are on the same page)
       const event = new CustomEvent('focusStore', { detail: store });
       window.dispatchEvent(event);
+
+      // Option 2: Also update URL for consistency (optional but good for history)
+      // window.history.pushState({}, '', `/map?store=${encodeURIComponent(store.id)}`);
     }, 600);
   };
 
   return (
-    <section className="bg-white pt-[6rem] lg:pt-[7.5rem] pb-[86px]">
+    <section className="bg-slate-50 pt-[6rem] lg:pt-[7.5rem] pb-[86px] border-t border-slate-200/50">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -72,7 +79,7 @@ function NewlyAddedStores() {
                 <div className="w-full">
                   <EditorialStoreCard
                     store={store}
-                    onClick={() => setSelectedStore(store)}
+                    onClick={() => handleSeeOnMap(store)}
                   />
                 </div>
               </CarouselItem>
@@ -126,29 +133,7 @@ function NewlyAddedStores() {
 
 
 
-      <AnimatePresence>
-        {selectedStore && (
-          <div
-            className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-md px-4"
-            onClick={() => setSelectedStore(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.92, y: 16 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-[450px]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <StoreCard
-                store={selectedStore}
-                onClose={() => setSelectedStore(null)}
-                onSeeOnMap={handleSeeOnMap}
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+
     </section>
   );
 }
@@ -181,7 +166,7 @@ export default function MapPage() {
 
         {/* Trust & Origin Metadata - Integrated below map section */}
         {!isZenMode && (
-          <div className="w-full bg-white py-6 md:py-8 select-none pointer-events-none overflow-hidden">
+          <div className="w-full bg-gradient-to-b from-white via-white to-slate-50 py-6 md:py-8 select-none pointer-events-none overflow-hidden">
             <div className="boutique-width mx-auto px-6">
               {/* Desktop Metadata */}
               <div className="hidden md:flex justify-center items-center gap-5">

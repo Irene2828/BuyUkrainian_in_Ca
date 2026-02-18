@@ -31,7 +31,15 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-white font-sans overflow-hidden pt-[90px] pb-[144px]">
+    <section id="faq" className="relative font-sans overflow-hidden py-24 z-10 border-y border-slate-200/50">
+      {/* Center White Glow */}
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle at center, white 0%, rgba(255,255,255,0.8) 30%, transparent 70%)',
+          zIndex: -1
+        }}
+      />
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900">

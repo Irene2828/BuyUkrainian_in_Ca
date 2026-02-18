@@ -1,4 +1,4 @@
-import { MapPin, Info } from "lucide-react";
+import { MapPin, Info, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[80px] lg:py-[120px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[15vh]"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:pt-[108px] lg:pb-[60px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
         >
             {/* Layer 1: Top Left Yellow Glow - Prefooter Style */}
             <div
@@ -59,7 +59,7 @@ export function Hero() {
             <div
                 className="absolute bottom-0 left-0 w-full h-[50%] pointer-events-none z-[10]"
                 style={{
-                    background: 'radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.5) 0%, transparent 45%)'
+                    background: 'radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.5) 0%, transparent 35%)'
                 }}
             />
 
@@ -69,8 +69,8 @@ export function Hero() {
                 style={{
                     background: `linear-gradient(to right, 
                         #FFFFFF 0%, 
-                        #FFFFFF 25%, 
-                        rgba(255, 255, 255, 0) 40%
+                        #FFFFFF 15%, 
+                        rgba(255, 255, 255, 0) 30%
                     )`
                 }}
             />
@@ -91,27 +91,31 @@ export function Hero() {
                         </span>
                     </h1>
 
-                    <p className="mt-8 mb-8 text-[18px] text-slate-600 leading-relaxed max-w-md lg:max-w-lg font-normal">
+                    <p className="mt-8 mb-8 text-[18px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
                         Find, add, and share local stores to support Ukraine's economy with every purchase.
                     </p>
 
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto md:mb-10">
+                    <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
                                 className="h-[50px] 2xl:h-[54px] px-8 2xl:px-10 w-full md:w-auto rounded-full bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[linear-gradient(to_bottom,#3A3F4F,#3A3F4F)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                             >
-                                <span>{t('hero.ctaPrimary') || 'Explore the Map'}</span>
+                                <span>{t('hero.ctaPrimary') || 'Open Interactive Map'}</span>
                                 <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5" />
                             </Button>
                         </Link>
 
-                        <a
-                            href="#how-it-works"
-                            className="text-[15px] font-medium text-slate-500 hover:text-slate-900 transition-colors flex items-center justify-center w-full md:w-auto gap-1.5 hover:underline underline-offset-4 decoration-slate-300 group/help"
+                        <Link
+                            href="/#how-it-works"
+                            onClick={(e) => {
+                                e.preventDefault(); // Prevent default wouter navigation
+                                document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="flex items-center gap-2 text-slate-400 text-sm font-medium hover:text-[#0F172A] transition-colors group/how-link"
                         >
-                            <Info className="w-4 h-4 opacity-70 group-hover/help:opacity-100 transition-opacity" />
-                            <span>{t('hero.ctaSecondary') || 'How It Works'}</span>
-                        </a>
+                            <span>How it works</span>
+                            <ChevronDown className="w-4 h-4 transition-transform group-hover/how-link:translate-y-0.5" />
+                        </Link>
                     </div>
 
                     {/* Mobile Map Preview - Live Map */}
@@ -171,36 +175,26 @@ export function Hero() {
                     <div className="absolute top-0 left-0 right-0 h-[150px] z-[20] pointer-events-none bg-gradient-to-b from-white via-white/50 to-transparent" />
 
                     {/* Bottom Edge Fade */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[100px] z-[20] pointer-events-none bg-gradient-to-t from-white via-white/50 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[100px] z-[20] pointer-events-none bg-gradient-to-t from-white/70 via-white/30 to-transparent" />
                 </div>
             </div>
 
-            {/* 6. Trust & Origin Metadata - Desktop (Bottom Right) */}
-            <div className="hidden md:flex absolute bottom-12 right-12 z-20 items-center gap-4 mix-blend-multiply pointer-events-none select-none">
-                <div className="flex items-center gap-5">
-                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500">
+            {/* 6. Glass Runway - Trust & Origin Metadata */}
+            <div className="absolute bottom-0 left-0 w-full z-30 pointer-events-none bg-white/40 backdrop-blur-md py-3">
+                <div className="boutique-width w-full flex items-center justify-end md:gap-5 md:pr-12 overflow-x-hidden no-scrollbar px-4">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 hidden md:block">
                         Community-driven map
                     </span>
-                    <span className="text-slate-400 text-[10px] font-light">/</span>
+                    <span className="text-slate-400 text-[10px] font-light hidden md:block">/</span>
                     <div className="flex items-center gap-2.5">
-                        <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
+                        <div className="w-1 h-1 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
                         <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 italic">
                             Verified stores
                         </span>
                     </div>
-                    <span className="text-slate-400 text-[10px] font-light">/</span>
-                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500">
+                    <span className="text-slate-400 text-[10px] font-light hidden md:block">/</span>
+                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 hidden md:block">
                         Made in Ukraine only
-                    </span>
-                </div>
-            </div>
-
-            {/* 6b. Trust & Origin Metadata - Mobile (Centered) */}
-            <div className="md:hidden absolute bottom-8 left-0 right-0 z-20 flex justify-center pointer-events-none select-none px-6">
-                <div className="flex items-center gap-2.5 bg-white/50 backdrop-blur-sm px-4 py-1.5 rounded-full border border-slate-100/50">
-                    <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.4)]" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600">
-                        Verified Ukrainian Products
                     </span>
                 </div>
             </div>

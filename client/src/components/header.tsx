@@ -43,7 +43,7 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out font-sans",
-        "bg-white/90 backdrop-blur-[8px] border-b border-gray-200"
+        "bg-slate-50/90 backdrop-blur-md border-b border-slate-200/50"
       )}
     >
       <div className="boutique-width h-[80px] flex items-center justify-between relative">
@@ -79,7 +79,16 @@ export function Header() {
             </Link>
           ) : (
             <nav className="items-center gap-8 flex font-sans antialiased">
-              <Link href="/about" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100", location === '/about' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
+              <Link
+                href="/#how-it-works"
+                onClick={(e) => {
+                  if (location === '/') {
+                    e.preventDefault();
+                    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 text-slate-900 opacity-70"
+              >
                 {t('nav.about') || 'About'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
@@ -136,7 +145,7 @@ export function Header() {
       {/* Mobile Menu Dropdown */}
       {
         mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-lg z-40">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-slate-50 border-b border-slate-100 shadow-lg z-40">
             <nav className="flex flex-col p-4 gap-4 antialiased" style={{ fontFamily: "'Inter', sans-serif" }}>
 
               {location === '/map' ? (
@@ -146,7 +155,17 @@ export function Header() {
                 </Link>
               ) : (
                 <>
-                  <Link href="/about" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                  <Link
+                    href="/#how-it-works"
+                    onClick={(e) => {
+                      if (location === '/') {
+                        e.preventDefault();
+                        document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                        setMobileMenuOpen(false);
+                      }
+                    }}
+                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2"
+                  >
                     {t('nav.about') || 'About'}
                   </Link>
 

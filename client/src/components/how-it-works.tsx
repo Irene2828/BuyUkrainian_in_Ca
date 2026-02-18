@@ -7,25 +7,19 @@ export function HowItWorks() {
 
   const steps = [
     {
+      title: "Looking for authentic Ukrainian goods?",
       image: "/assets/how-it-works-1.png",
-      bullets: [
-        <span key="1">Filter locations by province or specific business category.</span>,
-        <span key="2">Access instant directions, website links, and core details.</span>
-      ]
+      text: "Explore our verified directory to find exactly what you need with instant directions"
     },
     {
+      title: "Found a new product on the shelf?",
       image: "/icon2.png",
-      bullets: [
-        <span key="3">Spot a missing Ukrainian business? Drop a new pin.</span>,
-        <span key="4">Help build a highly accurate, community-driven directory.</span>
-      ]
+      text: "Add it to the map. Your contribution helps the community find new ways to support Ukraine"
     },
     {
+      title: "Want to help the Ukrainian economy?",
       image: "/assets/how-it-works-3.png",
-      bullets: [
-        <span key="5">Share the map to help others discover local products.</span>,
-        <span key="6">Turn community visibility into direct economic support.</span>
-      ]
+      text: "Share the map with your network. Visibility drives support and strengthens every purchase"
     }
   ];
 
@@ -34,73 +28,73 @@ export function HowItWorks() {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.25, // 250ms delay between columns
+        staggerChildren: 0.25,
       }
     }
   };
 
-  // Column Item Animation (Fade In + Drift Up)
   const columnVariants = {
     hidden: {
       opacity: 0,
-      y: 20 // Drift up start
+      y: 24
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8, // 800ms
-        ease: [0.16, 1, 0.3, 1] as const // Premium weighted motion
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1] as const
       }
     }
   };
 
   return (
-    <section id="how-it-works" className="pt-[120px] pb-[132px] font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-slate-50">
       <div className="boutique-width">
         {/* Section Header */}
-        <div className="mb-4 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans section-headline-reveal text-slate-900">
-            {t('howItWorks.title') || 'How to Use this Map'}
+        <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
+          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight font-sans text-slate-900">
+            {t('howItWorks.title') || 'When to Use the Map'}
           </h2>
         </div>
 
         {/* Steps Grid - Animated Stagger */}
         <motion.div
-          className="mt-9 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24 w-full max-w-none mx-auto"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-stretch"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }} // Trigger when 20% visible
+          viewport={{ once: true, amount: 0.2 }}
           variants={gridVariants}
         >
           {steps.map((step, index) => (
             <motion.div
               key={index}
               variants={columnVariants}
-              className="flex flex-col items-center text-center px-4 w-full"
+              className="group relative flex flex-col h-full bg-white/80 backdrop-blur-xl ring-1 ring-inset ring-slate-200/50 rounded-[32px] p-8 transition-all duration-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
             >
+              {/* Flow Indicator */}
+              <span className="absolute top-8 right-8 text-[48px] font-black text-slate-100 select-none transition-colors">
+                0{index + 1}
+              </span>
 
-              {/* Illustration - Tighter Spacing (16px reduction from 32px/previous to 16px/mb-4) */}
-              <div className="h-[340px] w-full flex items-center justify-center overflow-hidden mb-4">
+              {/* Illustration Container - Refined with Double Stroke Frame */}
+              <div className="h-[240px] w-full flex items-center justify-center bg-gradient-to-b from-white/80 to-slate-50 rounded-2xl mb-8 overflow-hidden">
                 <img
                   src={step.image}
-                  alt={`Step ${index + 1}`}
-                  className={`max-h-full w-auto object-contain transform ${index === 1 ? 'max-[1440px]:scale-[1.2] scale-[1.35]' : 'max-[1440px]:scale-[1.3] scale-[1.45]'}`}
+                  alt={step.title}
+                  className={`max-h-[85%] w-auto object-contain transition-transform duration-700 group-hover:scale-110 ${index === 1 ? 'scale-[1.1]' : 'scale-[1.2]'}`}
                 />
               </div>
 
-              {/* Minimalist Bullet List */}
-              <ul className="w-full max-w-[260px] mx-auto text-left list-none space-y-4 px-4 md:px-0">
-                {step.bullets.map((bullet, i) => (
-                  <li
-                    key={i}
-                    className="font-ui text-[16px] leading-[1.6] text-slate-900/80 pl-0"
-                  >
-                    <span className="mr-2">-</span>
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
+              {/* Text Content */}
+              <div className="flex flex-col flex-1">
+                <h3 className="text-xl font-bold text-[#0F172A] mb-3 tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="text-[15px] leading-relaxed text-slate-600/90 font-ui font-normal">
+                  {step.text}
+                </p>
+              </div>
             </motion.div>
           ))}
         </motion.div>

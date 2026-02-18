@@ -25,18 +25,10 @@ const isStoreNew = (dateString?: string) => {
     return (new Date().getTime() - new Date(dateString).getTime()) < oneDay;
 };
 
-const EDITORIAL_IMAGES: Record<string, string> = {
-    "montreal ukrainian store": "/assets/montreal-store.jpg",
-    "yummy market": "/assets/yummy-market.jpg",
-    "future bakery": "/assets/future-bakery.jpg",
-    "shumka ukrainian foods": "/assets/shumka-foods.jpg",
-    "saskatoon co-op": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80&w=800"
-};
-
 export function EditorialStoreCard({ store, onClick, className }: EditorialStoreCardProps) {
     const isNew = isStoreNew(store.createdAt);
-    const storeNameKey = store.name.toLowerCase().trim();
-    const editorialImage = EDITORIAL_IMAGES[storeNameKey] || store.image || store.images?.[0] || "/assets/kyivcake.jpeg";
+    // Prioritize store.image (main thumbnail) then the first item in images array
+    const editorialImage = store.image || store.images?.[0] || "/assets/kyivcake.jpeg";
 
     return (
         <div

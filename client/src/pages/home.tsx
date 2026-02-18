@@ -34,24 +34,31 @@ export default function Home() {
       <main>
         <div className="section-reveal">
           <Hero />
-          <RecentProductsMarquee />
+
+          {/* 1. Hero-to-How-It-Works Transition Container */}
+          <div className="relative w-full bg-gradient-to-b from-white to-slate-50 pt-8 pb-12">
+            <RecentProductsMarquee />
+          </div>
         </div>
 
-        {/* How It Works Content */}
-        <div className="section-reveal">
+        {/* 2. Seamless How It Works & FAQ block */}
+        <div className="section-reveal bg-slate-50">
           <HowItWorks />
         </div>
 
-        {/* FAQ (Project's Mission) Content */}
-        <div className="section-reveal">
+        <div className="section-reveal bg-slate-50">
           <FAQ />
         </div>
 
+        {/* 3. Transition into Stats & Community */}
+        <div className="section-reveal relative bg-white">
+          {/* Gradient Transition from slate-50 to white */}
+          <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-slate-50 via-slate-50/50 to-white pointer-events-none" />
 
-
-        <div className="section-reveal">
-          <MapStats />
-          <CommunityImpact hideBorder />
+          <div className="relative z-10">
+            <MapStats />
+            <CommunityImpact hideBorder />
+          </div>
         </div>
       </main>
       <Footer />

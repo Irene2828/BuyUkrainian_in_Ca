@@ -12,15 +12,8 @@ interface ListingCardProps extends HTMLAttributes<HTMLDivElement> {
 export function ListingCard({ store, className, variant = "list", ...props }: ListingCardProps) {
     const { t } = useI18n();
 
-    const EDITORIAL_IMAGES: Record<string, string> = {
-        "montreal ukrainian store": "/assets/montreal-store.jpg",
-        "yummy market": "/assets/yummy-market.jpg",
-        "future bakery": "/assets/future-bakery.jpg",
-        "shumka ukrainian foods": "/assets/shumka-foods.jpg"
-    };
-
-    const storeNameKey = store.name.toLowerCase().trim();
-    const editorialImage = EDITORIAL_IMAGES[storeNameKey] || store.image || store.images?.[0] || "/assets/kyivcake.jpeg";
+    // Prioritize store.image (main thumbnail) then the first item in images array
+    const editorialImage = store.image || store.images?.[0] || "/assets/kyivcake.jpeg";
 
     // For marquee variant - COMPLETELY REWRITTEN WITH NO PINS
     if (variant === "marquee") {

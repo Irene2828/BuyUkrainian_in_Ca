@@ -175,7 +175,7 @@ function GridViewCard({
                 <div className="px-5 pb-5 flex gap-2">
                     <Button
                         size="sm"
-                        className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased"
                         onClick={(e) => { e.stopPropagation(); onApprove(store.id); }}
                     >
                         <Check className="w-4 h-4 mr-1" /> Approve
@@ -183,7 +183,7 @@ function GridViewCard({
                     <Button
                         size="sm"
                         variant="outline"
-                        className="flex-1 text-red-600 border-red-200 hover:bg-red-50"
+                        className="flex-1 text-red-600 border-red-200 hover:bg-red-50 font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased"
                         onClick={(e) => { e.stopPropagation(); onReject(store.id); }}
                     >
                         <X className="w-4 h-4 mr-1" /> Reject
@@ -196,7 +196,7 @@ function GridViewCard({
                     <Button
                         size="sm"
                         variant="outline"
-                        className="w-full"
+                        className="w-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased"
                         onClick={(e) => { e.stopPropagation(); onEdit(store); }}
                     >
                         <Edit3 className="w-4 h-4 mr-2" /> Edit Details

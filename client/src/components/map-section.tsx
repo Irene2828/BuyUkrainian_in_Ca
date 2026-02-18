@@ -196,12 +196,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     if (sortMode === "name") {
       return a.name.localeCompare(b.name);
     }
-    // Default to 'newest' (assuming higher ID = newer for now, or maintain API order if it's already sorted)
-    // Ideally we'd use a createdAt field. For now, assuming API returns generally sorted or using ID if numeric.
-    // If IDs are strings (UUID), this might not work well, so falling back to index/natural order is safer if date is missing.
-    // But typically 'Recently Added' means reversing the natural order if natural is 'Oldest First'.
-    // Let's implement a simple ID desc sort if IDs are numeric, otherwise trust API.
-    return (Number(b.id) || 0) - (Number(a.id) || 0);
+    // Sort by createdAt descending (newest first)
+    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return dateB - dateA;
   });
 
   const handleSelectStore = (store: Store) => {
@@ -310,7 +308,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
             onClick={handleCloseStore}
           >
             <div
-              className="w-full max-w-[400px] mx-4 animate-in zoom-in-[0.98] duration-200"
+              className="w-auto max-w-[90vw] lg:max-w-[900px] mx-4 animate-in zoom-in-[0.98] duration-200 transition-all"
               style={{ animationTimingFunction: 'cubic-bezier(0.2, 0, 0, 1)' }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -318,6 +316,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                 store={selectedStore}
                 onClose={handleCloseStore}
                 onSeeOnMap={handleSeeOnMap}
+                variant="modal"
               />
             </div>
           </div>
@@ -358,7 +357,6 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           onSeeOnMap={handleSeeOnMap}
         />
       )}
-
       {/* Premium Empty State Overlay */}
       <OpportunityCard
         isVisible={viewMode === "map" && filteredStores.length === 0 && stores.length > 0}

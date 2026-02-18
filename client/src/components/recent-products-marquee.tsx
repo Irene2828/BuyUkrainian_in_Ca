@@ -1,14 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
-import { Link, useLocation } from "wouter";
+
 import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 
+
 export function RecentProductsMarquee() {
     const { t } = useI18n();
-    const [location] = useLocation();
+
 
 
     // Hover Tracking State
@@ -19,7 +20,12 @@ export function RecentProductsMarquee() {
     const [initialCoords, setInitialCoords] = useState<{ top: number, left: number } | null>(null);
     const [hoveredStore, setHoveredStore] = useState<any | null>(null);
 
-    const isHome = location === "/";
+
+
+    const navigateToStoreCoordinates = (storeId: number | string) => {
+        // Direct navigation to Map with query param to trigger "Teleport" focus
+        window.location.assign(`/map?store=${encodeURIComponent(storeId)}`);
+    };
 
 
 
@@ -100,14 +106,14 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-0 pb-[66px] overflow-hidden font-sans bg-white relative z-20 flex items-center justify-center"
+                className="w-full pt-12 pb-12 overflow-hidden font-sans relative z-20 flex items-center justify-center border-t border-slate-200/50 backdrop-blur-sm"
             >
                 <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
                     {/* Fixed Live Label */}
                     <div className="sticky left-0 z-30 py-2 pr-12 flex items-center gap-3 h-full bg-white/0">
                         {/* Glass gradient background for label to mask marquee behind it */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
                         <div className="relative z-10 flex items-center gap-2.5 pl-2">
                             <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
@@ -139,8 +145,9 @@ export function RecentProductsMarquee() {
                                     <span
                                         key={`${store.id}-${i}`}
                                         className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
-                                        onClick={() => window.open(`/map?store=${encodeURIComponent(store.name)}`, '_blank')}
-
+                                        onClick={() => navigateToStoreCoordinates(store.id)}
+                                        onMouseEnter={(e) => handleMouseEnter(e, store)}
+                                        onMouseLeave={handleMouseLeave}
                                     >
                                         {/* Identity Dot: 10px, Split 50/50, Opacity 60->100 */}
                                         <span
@@ -177,10 +184,14 @@ export function RecentProductsMarquee() {
             {hoveredElement && initialCoords && (
                 <div
                     ref={overlayRef}
-                    className="fixed z-[9999] pointer-events-none animate-in fade-in zoom-in-95 duration-300"
+                    className="fixed z-[9999] pointer-events-auto cursor-pointer animate-in fade-in zoom-in-95 duration-300"
                     style={{
                         top: initialCoords.top,
                         left: initialCoords.left
+                    }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (hoveredStore) navigateToStoreCoordinates(hoveredStore.id);
                     }}
                 >
                     <div className="relative">
@@ -188,11 +199,13 @@ export function RecentProductsMarquee() {
                         <img
                             src={hoveredStore?.previewImage}
                             alt={hoveredStore?.name}
-                            className="relative w-[75px] h-[101px] rounded-[10px] object-cover border-[2px] border-white shadow-lg bg-gray-100"
+                            className="relative w-[75px] h-[101px] rounded-[10px] object-cover border-[2px] border-white shadow-lg bg-gray-100 transition-transform group-hover:scale-105"
                         />
                     </div>
                 </div>
             )}
+
+            {/* Quick Look Modal Removed - Direct Navigation Implemented */}
         </>
     );
 }

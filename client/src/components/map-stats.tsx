@@ -18,8 +18,8 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full pt-[120px] pb-[120px] bg-white border-t border-slate-100 flex flex-col justify-center items-center">
-            <div className="boutique-width flex flex-col items-center pb-3">
+        <section className="relative w-full pt-24 pb-24 bg-transparent flex flex-col justify-center items-center">
+            <div className="w-full flex flex-col items-center px-6">
                 {/* Stats Header */}
                 <div className="flex flex-col items-center mb-12">
                     <div className="flex items-center gap-2.5">
@@ -36,7 +36,7 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-[#2D50A0] leading-none opacity-80"
+                            className="font-sans text-[48px] md:text-[80px] font-bold tracking-tighter text-[#2D50A0] leading-none opacity-60"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
                             <Store className="w-4 h-4 opacity-80" strokeWidth={1.5} />
@@ -49,7 +49,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-[#2D50A0] leading-none opacity-80"
+                            className="font-sans text-[48px] md:text-[80px] font-bold tracking-tighter text-[#2D50A0] leading-none opacity-60"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
                             <Map className="w-4 h-4 opacity-80" strokeWidth={1.5} />
@@ -62,7 +62,7 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[48px] md:text-[80px] font-medium tracking-tighter text-[#2D50A0] leading-none opacity-80"
+                            className="font-sans text-[48px] md:text-[80px] font-bold tracking-tighter text-[#2D50A0] leading-none opacity-60"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
                             <Package className="w-4 h-4 opacity-80" strokeWidth={1.5} />

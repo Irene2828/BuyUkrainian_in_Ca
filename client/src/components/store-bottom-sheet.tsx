@@ -52,7 +52,7 @@ export function StoreBottomSheet({ store, onClose, onSeeOnMap }: StoreBottomShee
                         store={store}
                         onClose={onClose}
                         onSeeOnMap={onSeeOnMap}
-                        className="w-full max-w-[400px] shadow-2xl ring-1 ring-black/10 border-white/20"
+                        className="w-full max-w-[400px]"
                     />
                 </motion.div>
             </div>
