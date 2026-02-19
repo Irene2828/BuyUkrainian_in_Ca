@@ -26,7 +26,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:pt-[108px] lg:pb-[60px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:py-[85px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
         >
             {/* Layer 1: Top Left Yellow Glow - Prefooter Style */}
             <div
@@ -36,7 +36,7 @@ export function Hero() {
                     height: '500px',
                     left: '-100px',
                     top: '-100px',
-                    background: 'rgba(255, 212, 39, 0.23)',
+                    background: 'rgba(255, 212, 39, 0.18)',
                     filter: 'blur(100px)',
                 }}
             />
@@ -77,7 +77,7 @@ export function Hero() {
 
             <div className="boutique-width w-full py-10 lg:py-0 flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area */}
-                <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto">
+                <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto md:-mt-12">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
                     <h1
                         className="leading-none w-full antialiased"
@@ -91,7 +91,7 @@ export function Hero() {
                         </span>
                     </h1>
 
-                    <p className="mt-8 mb-8 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
+                    <p className="mt-8 mb-10 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
                         Find, add, and share local stores to support Ukraine's economy with every purchase.
                     </p>
 

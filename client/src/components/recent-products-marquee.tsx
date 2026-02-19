@@ -39,13 +39,13 @@ export function RecentProductsMarquee() {
             if (hoveredElement && overlayRef.current) {
                 const rect = hoveredElement.getBoundingClientRect();
 
-                // Logic: Centered Above
+                // Logic: To the right, vertically centered with the element
                 // Image is 75px wide, 101px tall
-                // Left = rect.left + (rect.width / 2) - (75 / 2)
-                // Top = rect.top - 101 - 12 (gap)
+                // Left = rect.right + 12 (gap to the right)
+                // Top = rect.top + (rect.height / 2) - (101 / 2)
 
-                const top = rect.top - 101 - 10;
-                const left = rect.left + (rect.width / 2) - (75 / 2);
+                const top = rect.top + (rect.height / 2) - (101 / 2);
+                const left = rect.right + 12;
 
                 overlayRef.current.style.top = `${top}px`;
                 overlayRef.current.style.left = `${left}px`;
@@ -88,8 +88,8 @@ export function RecentProductsMarquee() {
         if (imageToUse) {
             // Calculate initial position immediately to prevent slide from 0,0
             const rect = e.currentTarget.getBoundingClientRect();
-            const top = rect.top - 101 - 10;
-            const left = rect.left + (rect.width / 2) - (75 / 2);
+            const top = rect.top + (rect.height / 2) - (101 / 2);
+            const left = rect.right + 12;
 
             setInitialCoords({ top, left });
             setHoveredElement(e.currentTarget);

@@ -85,14 +85,14 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">
-                            Visibility drives support. Every conscious purchase strengthens the Ukrainian economy.
+                            Visibility drives support.<br />Every conscious purchase strengthens the Ukrainian economy.
                         </p>
                     </div>
 
                     {/* 2. Right Column: Actions */}
-                    <div className="flex flex-col items-center md:items-end w-full gap-5">
-                        {/* Copy Card (Glass Style - Refined with Double Stroke) */}
-                        <div className="relative w-full max-w-[624px] px-8 py-4 rounded-[32px] bg-white/95 backdrop-blur-md border-[0.5px] border-black/5 shadow-[0_5px_12px_rgba(0,0,0,0.04),0_2px_5px_rgba(0,0,0,0.025)] text-left group/draft transition-all duration-500">
+                    <div className="flex flex-col items-center md:items-end w-full gap-10">
+                        {/* Copy Card (Glass Style - Swapped to Top) */}
+                        <div className="relative w-full max-w-[624px] px-8 py-4 rounded-[32px] bg-white/95 backdrop-blur-md border-[0.5px] border-black/5 shadow-[0_5px_12px_rgba(0,0,0,0.04),0_2px_5px_rgba(0,0,0,0.025)] text-left group/draft transition-all duration-500 stagger-item">
                             <div className="flex items-center justify-end mb-5">
                                 <button
                                     onClick={handleCopy}
@@ -120,8 +120,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             </p>
                         </div>
 
-                        {/* Social Links - Premium monochromatic refactor */}
-                        <div className="flex flex-col items-center md:items-end gap-5 w-full max-w-[520px] md:pr-4">
+                        {/* Social Links - Swapped to Bottom */}
+                        <div className="flex flex-col items-center md:items-end gap-5 w-full md:pr-4 stagger-item">
                             <button
                                 onClick={handleFacebookShare}
                                 className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
@@ -165,6 +165,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             </button>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section >

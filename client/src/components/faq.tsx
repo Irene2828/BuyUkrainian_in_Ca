@@ -31,7 +31,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative font-sans overflow-hidden pt-36 pb-24 z-10 border-y border-slate-200/50 bg-white">
+    <section id="faq" className="relative font-sans overflow-hidden pt-18 pb-24 z-10 border-b border-slate-200/50 bg-white">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-16 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight section-headline-reveal text-slate-900">

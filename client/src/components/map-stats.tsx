@@ -36,11 +36,11 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[48px] md:text-[80px] font-bold tracking-tighter text-[#2D50A0] leading-none opacity-60"
+                            className="font-sans text-[52px] md:text-[81px] font-light tracking-tight text-[#2D50A0] leading-none opacity-60"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
-                            <Store className="w-4 h-4 opacity-80" strokeWidth={1.5} />
-                            <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Stores Found</span>
+                            <Store className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-70" strokeWidth={1.5} />
+                            <span className="text-[8px] md:text-[10px] font-semibold tracking-widest uppercase">Stores Found</span>
                         </div>
                     </div>
 
@@ -49,11 +49,11 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[48px] md:text-[80px] font-bold tracking-tighter text-[#2D50A0] leading-none opacity-60"
+                            className="font-sans text-[52px] md:text-[81px] font-light tracking-tight text-[#2D50A0] leading-none opacity-60"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
-                            <Map className="w-4 h-4 opacity-80" strokeWidth={1.5} />
-                            <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Provinces Covered</span>
+                            <Map className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-70" strokeWidth={1.5} />
+                            <span className="text-[8px] md:text-[10px] font-semibold tracking-widest uppercase">Provinces Covered</span>
                         </div>
                     </div>
 
@@ -62,11 +62,11 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[48px] md:text-[80px] font-bold tracking-tighter text-[#2D50A0] leading-none opacity-60"
+                            className="font-sans text-[52px] md:text-[81px] font-light tracking-tight text-[#2D50A0] leading-none opacity-60"
                         />
                         <div className="flex items-center gap-2 text-slate-500 mt-2">
-                            <Package className="w-4 h-4 opacity-80" strokeWidth={1.5} />
-                            <span className="text-[13px] font-medium tracking-[0.08em] uppercase">Products listed</span>
+                            <Package className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-70" strokeWidth={1.5} />
+                            <span className="text-[8px] md:text-[10px] font-semibold tracking-widest uppercase">Products listed</span>
                         </div>
                     </div>
                 </div>
