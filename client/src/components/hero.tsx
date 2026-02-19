@@ -26,7 +26,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:pt-[108px] lg:pb-[60px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh] border-b border-slate-200/50"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:pt-[108px] lg:pb-[60px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
         >
             {/* Layer 1: Top Left Yellow Glow - Prefooter Style */}
             <div
@@ -50,7 +50,7 @@ export function Hero() {
                     left: '42%',
                     top: '-300px',
                     transform: 'translateX(-50%)',
-                    background: 'rgba(0, 113, 227, 0.26)',
+                    background: 'rgba(0, 113, 227, 0.15)',
                     filter: 'blur(108px)',
                 }}
             />
@@ -83,7 +83,7 @@ export function Hero() {
                         className="leading-none w-full antialiased"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
+                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-medium tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
                         <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#2D50A0]/70 whitespace-nowrap mt-2">
@@ -91,7 +91,7 @@ export function Hero() {
                         </span>
                     </h1>
 
-                    <p className="mt-8 mb-8 text-[18px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
+                    <p className="mt-8 mb-8 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
                         Find, add, and share local stores to support Ukraine's economy with every purchase.
                     </p>
 
@@ -151,25 +151,35 @@ export function Hero() {
             </div>
 
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
-            <div
-                className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden translate-x-[0%] pointer-events-auto"
-                aria-label="Interactive map of Ukrainian stores in Canada"
-            >
-                <div className="relative w-full h-full">
-                    <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
-                        <InteractiveMap
-                            stores={stores}
-                            selectedStore={null}
-                            onSelectStore={() => { }}
-                            onCloseStore={() => { }}
-                            variant="hero"
-                            isMobile={false}
-                        />
-                    </Suspense>
+            <Link href="/map">
+                <div
+                    className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden pointer-events-auto cursor-pointer group/map-peeking"
+                    aria-label="Interactive map of Ukrainian stores in Canada"
+                >
+                    {/* Inner wrapper for shifted map content */}
+                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[-1%]">
+                        <div className="relative w-full h-full">
+                            <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
+                                <InteractiveMap
+                                    stores={stores}
+                                    selectedStore={null}
+                                    onSelectStore={() => { }}
+                                    onCloseStore={() => { }}
+                                    variant="hero"
+                                    isMobile={false}
+                                />
+                            </Suspense>
+                        </div>
+                    </div>
 
-                    {/* Gradient Alpha Masking - The "Built-in" Feel */}
-                    {/* Left Edge Fade (Stronger to make text legible) */}
-                    <div className="absolute top-0 bottom-0 left-0 w-[400px] z-[20] pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent" />
+                    {/* Static Gradient Alpha Masking - pinned to the container edges */}
+                    {/* Left Edge Fade - REFINED for West Coast Visibility */}
+                    <div
+                        className="absolute top-0 bottom-0 left-0 w-[280px] z-[20] pointer-events-none"
+                        style={{
+                            background: 'linear-gradient(to right, #FFFFFF 0%, #FFFFFF 15%, transparent 70%)'
+                        }}
+                    />
 
                     {/* Top Edge Fade */}
                     <div className="absolute top-0 left-0 right-0 h-[150px] z-[20] pointer-events-none bg-gradient-to-b from-white via-white/50 to-transparent" />
@@ -177,15 +187,11 @@ export function Hero() {
                     {/* Bottom Edge Fade */}
                     <div className="absolute bottom-0 left-0 right-0 h-[100px] z-[20] pointer-events-none bg-gradient-to-t from-white/70 via-white/30 to-transparent" />
                 </div>
-            </div>
+            </Link>
 
             {/* 6. Glass Runway - Trust & Origin Metadata */}
             <div className="absolute bottom-0 left-0 w-full z-30 pointer-events-none bg-white/40 backdrop-blur-md py-3">
-                <div className="boutique-width w-full flex items-center justify-end md:gap-5 md:pr-12 overflow-x-hidden no-scrollbar px-4">
-                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 hidden md:block">
-                        COMMUNITY-DRIVEN
-                    </span>
-                    <span className="text-slate-400 text-[10px] font-light hidden md:block">/</span>
+                <div className="boutique-width w-full flex items-center justify-end md:gap-5 md:pr-0 overflow-x-hidden no-scrollbar px-4">
                     <div className="flex items-center gap-2.5">
                         <div className="w-1 h-1 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
                         <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 italic">

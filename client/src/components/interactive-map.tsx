@@ -424,8 +424,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         <div className="absolute inset-0 bg-[#F5F5F3] opacity-5 mix-blend-multiply" />
       </div>
       <MapContainer
-        center={variant === 'hero' ? [52.0000, -110.0000] : CANADA_CENTER}
-        zoom={INITIAL_MAP_STATE.zoom}
+        center={variant === 'hero' ? [54.0000, -100.0000] : CANADA_CENTER}
+        zoom={variant === 'hero' ? 4.0 : INITIAL_MAP_STATE.zoom}
         minZoom={3.5}
         maxZoom={18}
         scrollWheelZoom={false}
@@ -519,7 +519,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
 
           {/* Main Control Group */}
-          <div className="flex flex-col items-center bg-slate-200/60 backdrop-blur-md border border-slate-300 rounded-full shadow-lg overflow-hidden pointer-events-auto">
+          <div className="flex flex-col items-center bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset rounded-full shadow-lg overflow-hidden pointer-events-auto">
             <TooltipProvider delayDuration={200}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -611,7 +611,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200/60 backdrop-blur-md border border-slate-300 text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
                   aria-label="How to use the map"
                 >
                   <Info className="w-5 h-5 stroke-[2.5]" />

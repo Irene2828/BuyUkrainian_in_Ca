@@ -55,24 +55,17 @@ export function apiStoreToStore(apiStore: ApiStore): Store {
 }
 
 export async function getApprovedStores(): Promise<Store[]> {
-  // Updated endpoint to /api/index as requested by User to match their debug check
-  console.log("Fetching stores from /api/index...");
   try {
-    const response = await fetch(`/api/index`);
-    console.log("Response status:", response.status);
+    const response = await fetch(`/api/locations`);
 
     if (!response.ok) {
-      const txt = await response.text();
-      console.error("Fetch failed:", txt);
       throw new Error("Failed to fetch stores: " + response.statusText);
     }
 
     const json = await response.json();
-    console.log("Raw JSON received:", json);
 
     // Handle both { data: [...] } (new format) and direct [...] (old format) for compatibility
     const data: ApiStore[] = json.data || (Array.isArray(json) ? json : []);
-    console.log("Parsed data items:", data.length);
 
     return data.map(apiStoreToStore);
   } catch (error) {

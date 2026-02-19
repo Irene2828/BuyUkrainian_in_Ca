@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, forwardRef, useImperativeHandle, Suspense, lazy } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
@@ -103,7 +104,9 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
-    staleTime: 1000 * 60 * 5, // 5 minutes fresh (WebSocket handles invalidation)
+    staleTime: 1000 * 60 * 5,   // 5 min: data stays fresh, no refetch on re-focus
+    gcTime: 1000 * 60 * 30,     // 30 min: keep cache alive across page navigations
+    refetchOnWindowFocus: false, // Don't refetch when user switches tabs/windows
   });
 
   // Track if province has ever been set (to distinguish initial mount from clearing)
@@ -272,17 +275,48 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
         <div className="max-w-6xl mx-auto w-full px-6 py-12 md:py-16">
           {/* Gallery Grid: Premium 2-Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 justify-items-center">
-            {filteredStores.slice(0, visibleCount).map((store, index) => (
-              <ListingCard
-                key={store.id}
-                store={store}
-                variant="list"
-                onClick={() => handleSelectStore(store)}
-                className="w-full max-w-[440px] animate-in fade-in slide-in-from-bottom-8 fill-mode-both"
-                style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'both' }}
-              />
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-10 justify-items-center">
+            {filteredStores.slice(0, visibleCount).map((store, index) => {
+              const isActive = selectedStore?.id === store.id;
+              return (
+                <div key={store.id} className="relative w-full max-w-[440px]">
+                  <ListingCard
+                    store={store}
+                    variant="list"
+                    onClick={() => handleSelectStore(store)}
+                    className={cn(
+                      "w-full animate-in fade-in slide-in-from-bottom-8 fill-mode-both border border-transparent transition-all duration-300",
+                      isActive && "bg-white shadow-md border-slate-200 ring-1 ring-slate-100 z-10"
+                    )}
+                    style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'both' }}
+                  />
+
+                  {/* Inline Peek Card (Desktop) */}
+                  <AnimatePresence>
+                    {isActive && !isMobile && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95, x: index % 2 === 0 ? -10 : 10 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className={cn(
+                          "absolute top-0 z-[100] w-[360px] pointer-events-auto",
+                          index % 2 === 0 ? "left-[calc(100%+24px)]" : "right-[calc(100%+24px)]"
+                        )}
+                      >
+                        <StoreCard
+                          store={selectedStore}
+                          onClose={handleCloseStore}
+                          onSeeOnMap={handleSeeOnMap}
+                          variant="modal"
+                          className="shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border border-slate-200/60"
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
 
           {/* Empty State Presentation */}
@@ -309,26 +343,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           )}
         </div>
 
-        {/* Premium Modal Overlay: Ported from Map Selection */}
-        {isModalOpen && selectedStore && (
-          <div
-            className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/20 backdrop-blur-sm animate-in fade-in duration-200"
-            onClick={handleCloseStore}
-          >
-            <div
-              className="w-auto max-w-[90vw] lg:max-w-[900px] mx-4 animate-in zoom-in-[0.98] duration-200 transition-all"
-              style={{ animationTimingFunction: 'cubic-bezier(0.2, 0, 0, 1)' }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <StoreCard
-                store={selectedStore}
-                onClose={handleCloseStore}
-                onSeeOnMap={handleSeeOnMap}
-                variant="modal"
-              />
-            </div>
-          </div>
-        )}
+        {/* Modal removed in favor of inline peek card within the grid loop above for desktop context */}
       </div>
     );
   }

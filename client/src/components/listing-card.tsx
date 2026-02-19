@@ -54,7 +54,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
     return (
         <div
             className={cn(
-                "flex flex-row items-center p-3 rounded-2xl h-28 transition-all duration-300 group cursor-pointer overflow-hidden hover:bg-slate-100/50 hover:shadow-sm",
+                "flex flex-row items-center p-3 rounded-2xl h-28 transition-all duration-300 group cursor-pointer hover:bg-slate-100/50 hover:shadow-sm",
                 className
             )}
             {...props}

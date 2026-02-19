@@ -88,7 +88,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-white/80 backdrop-blur-xl rounded-[32px] flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
+                    "bg-white rounded-[32px] flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
                     "ring-1 ring-inset ring-slate-200/50",
                     "shadow-[0_20px_40px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(0,0,0,0.02)]",
                     "h-auto max-h-[85vh] overflow-hidden relative z-20",
@@ -96,145 +96,150 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 )}
             >
                 {/* 1. Sticky Header Section */}
-                <div className="p-5 pb-3 bg-white/50 backdrop-blur-lg border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-1">
-                    <div className="flex items-center justify-between">
-                        <span className="px-2.5 py-0.5 bg-slate-200/60 backdrop-blur-md text-slate-700 rounded-full border border-slate-300 ring-1 ring-white/40 ring-inset text-[10px] font-bold uppercase tracking-[0.2em] font-ui">
-                            {getCategoryLabel(store.category)}
-                        </span>
+                <div className="p-5 pb-3 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-1.5">
+                    <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                            <h2 className="text-[22px] font-bold text-[#0F172A] leading-tight tracking-tight font-header truncate">
+                                {store.name}
+                            </h2>
+                            {store.website && (
+                                <a
+                                    href={store.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-1.5 rounded-full text-[#2D50A0]/60 hover:text-[#2D50A0] hover:bg-blue-50 transition-all shrink-0"
+                                    title="Visit Website"
+                                >
+                                    <Globe size={18} />
+                                </a>
+                            )}
+                        </div>
                         <button
                             onClick={onClose}
-                            className="bg-slate-100/80 hover:bg-slate-200 p-1.5 rounded-full text-slate-500 transition-colors active:scale-95"
+                            className="bg-slate-100/80 hover:bg-slate-200 p-1.5 rounded-full text-slate-500 transition-colors active:scale-95 shrink-0"
+                            aria-label="Close"
                         >
                             <X size={14} />
                         </button>
                     </div>
-                    <h2 className="text-[22px] font-bold text-[#0F172A] leading-tight tracking-tight font-header truncate">
-                        {store.name}
-                    </h2>
+                    <div className="flex items-center">
+                        <span className="text-[#2D50A0]/70 text-[10px] font-bold uppercase tracking-[0.2em] font-ui">
+                            {getCategoryLabel(store.category)}
+                        </span>
+                    </div>
                 </div>
 
                 {/* 2. Scrollable Content Body */}
-                <div className="overflow-y-auto custom-scrollbar p-5 pt-4 flex flex-col gap-6">
-                    {/* Store Image - The trigger for expansion */}
-                    <div
-                        className={cn(
-                            "relative w-full h-[120px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm cursor-zoom-in group transition-all duration-300",
-                            isImageExpanded && "ring-blue-500/30"
-                        )}
-                        onClick={() => setIsImageExpanded(!isImageExpanded)}
-                    >
-                        <img
-                            src={uniqueImages[currentImageIndex]}
-                            alt={store.name}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <Maximize2 size={24} className="text-white drop-shadow-lg" />
+                <div className="overflow-y-auto custom-scrollbar p-5 pt-4 flex flex-col gap-5">
+                    {/* Compact Image & Info Grid */}
+                    <div className="grid grid-cols-[110px_1fr] gap-4 items-start">
+                        {/* Left Column: Store Image */}
+                        <div
+                            className={cn(
+                                "relative w-[110px] h-[110px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm cursor-zoom-in group transition-all duration-300 shrink-0",
+                                isImageExpanded && "ring-blue-500/30"
+                            )}
+                            onClick={() => setIsImageExpanded(!isImageExpanded)}
+                        >
+                            <img
+                                src={uniqueImages[currentImageIndex]}
+                                alt={store.name}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <Maximize2 size={20} className="text-white drop-shadow-lg" />
+                            </div>
+                        </div>
+
+                        {/* Right Column: Address & Website */}
+                        <div className="flex flex-col gap-2 pt-0.5 min-w-0">
+                            <div className="flex flex-col gap-1.5">
+                                <div className="flex items-start gap-2">
+                                    <MapPin size={14} className="text-slate-400 mt-1 flex-shrink-0" />
+                                    <p className="text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-3 flex-1">
+                                        {store.address}
+                                    </p>
+                                </div>
+                                <div className="flex justify-end pr-1">
+                                    <button
+                                        onClick={handleCopyAddress}
+                                        className={cn(
+                                            "text-[10px] font-bold uppercase tracking-wider transition-colors py-1 px-3 rounded-md flex items-center gap-1.5",
+                                            copied
+                                                ? "text-green-600 bg-green-50"
+                                                : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
+                                        )}
+                                    >
+                                        {copied ? <Check size={11} /> : <Copy size={11} />}
+                                        <span>{copied ? "Copied" : "Copy"}</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Info Stack */}
-                    <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                            <div className="flex items-start gap-3">
-                                <MapPin size={16} className="text-slate-400 mt-1 flex-shrink-0" />
-                                <p className="text-[14px] text-slate-600 font-medium leading-relaxed">
-                                    {store.address}
-                                </p>
-                            </div>
-                            {store.website && (
-                                <div className="flex items-center gap-3">
-                                    <Globe size={16} className="text-[#2D50A0]/60 flex-shrink-0" />
-                                    <a
-                                        href={store.website}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-[14px] font-semibold text-[#2D50A0]/60 hover:text-[#2D50A0] underline underline-offset-4 decoration-[#2D50A0]/20 hover:decoration-[#2D50A0]/40 truncate transition-all"
-                                    >
-                                        {store.website?.replace(/^https?:\/\/(www\.)?/, '')}
-                                    </a>
+                    {/* Horizontal Product Tags */}
+                    <div className="flex flex-col gap-2.5">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-0.5">
+                            Products in store
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                            {(isProductsExpanded ? allProducts : allProducts.slice(0, 6)).map((product, idx) => (
+                                <div
+                                    key={idx}
+                                    className="px-2.5 py-0.5 bg-slate-100 border border-slate-300 ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-medium text-slate-700 transition-colors hover:bg-slate-200 cursor-default"
+                                >
+                                    {product}
                                 </div>
+                            ))}
+                            {hasMoreProducts && (
+                                <button
+                                    onClick={() => setIsProductsExpanded(!isProductsExpanded)}
+                                    className="px-2 py-0.5 rounded-full text-[11px] font-bold text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all active:scale-95"
+                                >
+                                    {isProductsExpanded ? "Show less" : `+${allProducts.length - 6} more`}
+                                </button>
                             )}
-                        </div>
-
-                        {/* Horizontal Product Tags */}
-                        <div className="flex flex-col gap-3">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-0.5">
-                                Products in store
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {(isProductsExpanded ? allProducts : allProducts.slice(0, maxVisibleTags)).map((product, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="px-2.5 py-0.5 bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset rounded-full text-[12px] font-medium text-slate-700 transition-colors hover:bg-slate-200/80 cursor-default"
-                                    >
-                                        {product}
-                                    </div>
-                                ))}
-                                {hasMoreProducts && (
-                                    <button
-                                        onClick={() => setIsProductsExpanded(!isProductsExpanded)}
-                                        className="px-3 py-1 rounded-full text-[12px] font-bold text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all active:scale-95"
-                                    >
-                                        {isProductsExpanded ? "Show less" : `+${allProducts.length - maxVisibleTags} more`}
-                                    </button>
-                                )}
-                                {allProducts.length === 0 && (
-                                    <span className="text-[13px] text-slate-400 italic font-ui">Check website for products</span>
-                                )}
-                            </div>
+                            {allProducts.length === 0 && (
+                                <span className="text-[12px] text-slate-400 italic font-ui">Check website for products</span>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* 3. Sticky Action Row */}
-                <div className="p-4 bg-white border-t border-slate-100 sticky bottom-0 z-20">
-                    <div className="grid grid-cols-4 gap-1">
-                        <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-                            target="_blank" rel="noopener noreferrer"
-                            className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors group"
-                        >
-                            <div className="w-9 h-9 rounded-full bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
-                                <CornerUpRight size={16} />
-                            </div>
-                            <span className="text-[9px] font-bold text-slate-500/60 uppercase tracking-tight">Directions</span>
-                        </a>
+                <div className="p-4 bg-white border-t border-slate-100 sticky bottom-0 z-20 flex flex-col gap-3">
+                    {/* Primary Button: Get Directions */}
+                    <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center gap-2 h-11 bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] rounded-full text-[14px] font-bold text-white transition-all hover:brightness-110 hover:shadow-md group shadow-sm active:scale-[0.98]"
+                    >
+                        <CornerUpRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                        <span>Get Directions</span>
+                    </a>
 
-                        <button
-                            onClick={handleCopyAddress}
-                            className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors group"
-                        >
-                            <div className={cn(
-                                "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300",
-                                copied ? "bg-green-600 text-white" : "bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset text-slate-700 group-hover:bg-slate-900 group-hover:text-white"
-                            )}>
-                                {copied ? <Check size={16} /> : <Copy size={16} />}
-                            </div>
-                            <span className="text-[9px] font-bold text-slate-500/60 uppercase tracking-tight">{copied ? "Copied" : "Copy Address"}</span>
-                        </button>
-
+                    {/* Secondary Actions Row */}
+                    <div className="grid grid-cols-2 gap-2">
                         <button
                             onClick={handleShare}
-                            className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors group"
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-white border-[0.5px] border-black/15 ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold text-black/75 transition-all hover:border-black/40 hover:text-black group active:scale-[0.98]"
                         >
-                            <div className="w-9 h-9 rounded-full bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
-                                <Share2 size={16} />
-                            </div>
-                            <span className="text-[9px] font-bold text-slate-500/60 uppercase tracking-tight">Share Store</span>
+                            <Share2 size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+                            <span>Share Store</span>
                         </button>
 
                         <button
                             onClick={() => setIsImageExpanded(!isImageExpanded)}
-                            className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors group"
+                            className={cn(
+                                "flex items-center justify-center gap-2 px-4 py-2 border-[0.5px] ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold transition-all group active:scale-[0.98]",
+                                isImageExpanded
+                                    ? "bg-slate-900 border-slate-900 text-white hover:bg-slate-800"
+                                    : "bg-white border-black/15 text-black/75 hover:border-black/40 hover:text-black"
+                            )}
                         >
-                            <div className={cn(
-                                "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300",
-                                isImageExpanded ? "bg-slate-900 text-white" : "bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset text-slate-700 group-hover:bg-slate-900 group-hover:text-white"
-                            )}>
-                                <Maximize2 size={16} />
-                            </div>
-                            <span className="text-[9px] font-bold text-slate-500/60 uppercase tracking-tight">Zoom In</span>
+                            <Maximize2 size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+                            <span>{isImageExpanded ? "Collapse" : "Zoom In"}</span>
                         </button>
                     </div>
                 </div>
@@ -249,7 +254,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         exit={{ opacity: 0, x: -40, scale: 0.95 }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         className={cn(
-                            "bg-white/80 backdrop-blur-xl rounded-[32px] overflow-hidden w-[500px] pointer-events-auto",
+                            "bg-white rounded-[32px] overflow-hidden w-[500px] pointer-events-auto",
                             "ring-1 ring-inset ring-slate-200/50 shadow-[0_30px_60px_rgba(0,0,0,0.12)]",
                             "flex flex-col relative z-20"
                         )}
@@ -257,7 +262,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     >
                         <button
                             onClick={() => setIsImageExpanded(false)}
-                            className="absolute top-6 right-6 z-30 p-2 rounded-full bg-slate-900/10 hover:bg-slate-900/20 text-slate-900 backdrop-blur-md transition-all active:scale-95"
+                            className="absolute top-6 right-6 z-30 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 transition-all active:scale-95"
                         >
                             <X size={20} />
                         </button>

@@ -50,7 +50,7 @@ export function HowItWorks() {
 
   return (
     <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-white">
-      <div className="boutique-width px-6 md:px-12">
+      <div className="utility-width px-6 md:px-12">
         {/* Section Header */}
         <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight text-slate-900">
@@ -60,7 +60,7 @@ export function HowItWorks() {
 
         {/* Steps Grid - Animated Stagger */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 w-full items-start"
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10 w-full items-start"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -73,7 +73,7 @@ export function HowItWorks() {
               className="h-full"
             >
               {/* Feature Card: Unified Container */}
-              <div className="group flex flex-col h-full min-h-[480px] bg-white rounded-[32px] p-8 transition-all duration-300">
+              <div className="group flex flex-col h-full min-h-[480px] bg-white rounded-[32px] px-5 py-8 transition-all duration-300">
 
                 {/* Top Section: Illustration (Centered & Fixed Height) */}
                 <div className="w-full h-[220px] min-h-[220px] shrink-0 flex items-center justify-center relative">
@@ -86,10 +86,10 @@ export function HowItWorks() {
 
                 {/* Bottom Section: ContentStack */}
                 <div className="flex flex-col items-start text-left mt-16">
-                  <h3 className="text-slate-900 font-semibold text-lg mb-3 min-h-[56px] flex items-start justify-start">
+                  <h3 className="text-slate-900 font-semibold text-lg mb-2 min-h-[75px] flex items-start justify-start tracking-tight leading-snug">
                     {step.title}
                   </h3>
-                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui max-w-[315px]">
+                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui w-full">
                     {step.text}
                   </p>
                 </div>
