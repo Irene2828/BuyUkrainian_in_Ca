@@ -4,7 +4,8 @@ import { getAuthHeaders, clearAdminSession } from "@/lib/auth";
 export interface ApiStore {
   id: string; // Updated to string (UUID)
   name: string;
-  description: string;
+  // EGRESS OPTIMIZATION: description may be absent in lean API responses
+  description?: string;
   products: string[];
   address: string;
   city: string;
@@ -13,6 +14,7 @@ export interface ApiStore {
   longitude: string | number;
   category: "food" | "clothes" | "other" | "retail";
   website?: string | null;
+  // EGRESS OPTIMIZATION: image/images/email may be absent in lean API responses
   image?: string | null;
   images?: string[] | null;
   email?: string | null;
@@ -39,7 +41,8 @@ export function apiStoreToStore(apiStore: ApiStore): Store {
   return {
     id: apiStore.id.toString(),
     name: apiStore.name,
-    description: apiStore.description,
+    // EGRESS OPTIMIZATION: Graceful defaults for fields absent in lean response
+    description: apiStore.description || "",
     products: Array.isArray(apiStore.products) ? apiStore.products : [],
     address: apiStore.address,
     city: apiStore.city,

@@ -52,8 +52,11 @@ app.use((req, res, next) => {
         const duration = Date.now() - start;
         if (path.startsWith("/api")) {
             let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+            // EGRESS OPTIMIZATION: Truncate logged response to 200 chars
+            // Prevents logging entire store arrays which wastes memory and log egress
             if (capturedJsonResponse) {
-                logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+                const jsonStr = JSON.stringify(capturedJsonResponse);
+                logLine += ` :: ${jsonStr.length > 200 ? jsonStr.slice(0, 200) + '…' : jsonStr}`;
             }
             log(logLine);
         }

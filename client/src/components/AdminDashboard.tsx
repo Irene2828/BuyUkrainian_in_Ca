@@ -261,8 +261,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         mutationFn: ({ id, status }: { id: string; status: "approved" | "rejected" | "pending" }) =>
             updateStoreStatus(id, status),
         onSuccess: () => {
-            queryClient.refetchQueries({ queryKey: ["admin-stores"] });
-            queryClient.refetchQueries({ queryKey: ["stores"] });
+            // EGRESS OPTIMIZATION: invalidate instead of refetch — only fetches when data is accessed
+            queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+            queryClient.invalidateQueries({ queryKey: ["stores"] });
         },
     });
 
@@ -270,8 +271,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         mutationFn: ({ id, updates }: { id: string; updates: { name?: string; address?: string; website?: string; category?: string; products?: string[]; description?: string } }) =>
             updateStore(id, updates),
         onSuccess: (data) => {
-            queryClient.refetchQueries({ queryKey: ["admin-stores"] });
-            queryClient.refetchQueries({ queryKey: ["stores"] });
+            // EGRESS OPTIMIZATION: invalidate instead of refetch
+            queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+            queryClient.invalidateQueries({ queryKey: ["stores"] });
             if (selectedStore && selectedStore.id === data.id) {
                 setSelectedStore(data);
             }
@@ -286,8 +288,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         mutationFn: ({ id, images }: { id: string; images: string[] }) =>
             updateStoreImages(id, images),
         onSuccess: () => {
-            queryClient.refetchQueries({ queryKey: ["admin-stores"] });
-            queryClient.refetchQueries({ queryKey: ["stores"] });
+            // EGRESS OPTIMIZATION: invalidate instead of refetch
+            queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+            queryClient.invalidateQueries({ queryKey: ["stores"] });
             toast({ title: "Images Updated", description: "Store images have been updated." });
         },
         onError: (error: Error) => {
@@ -298,8 +301,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const deleteMutation = useMutation({
         mutationFn: (id: string) => deleteStore(id),
         onSuccess: () => {
-            queryClient.refetchQueries({ queryKey: ["admin-stores"] });
-            queryClient.refetchQueries({ queryKey: ["stores"] });
+            // EGRESS OPTIMIZATION: invalidate instead of refetch
+            queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+            queryClient.invalidateQueries({ queryKey: ["stores"] });
             toast({ title: "Store Deleted", description: "The store has been removed." });
             setIsEditModalOpen(false);
             setSelectedStore(null);

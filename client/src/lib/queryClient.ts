@@ -46,8 +46,12 @@ export const queryClient = new QueryClient({
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
-      refetchOnWindowFocus: true,
-      staleTime: 0,
+      // EGRESS OPTIMIZATION: Data stays fresh for 5 minutes — prevents refetch on every mount
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      // EGRESS OPTIMIZATION: Keep cache alive for 30 minutes across navigations
+      gcTime: 1000 * 60 * 30,   // 30 minutes
+      // EGRESS OPTIMIZATION: Don't refetch when user switches browser tabs
+      refetchOnWindowFocus: false,
       retry: false,
     },
     mutations: {
@@ -57,6 +61,19 @@ export const queryClient = new QueryClient({
 });
 
 // WebSocket setup for real-time updates
+// EGRESS OPTIMIZATION: Debounced invalidation to batch rapid-fire WebSocket events
+let wsInvalidationTimer: ReturnType<typeof setTimeout> | null = null;
+
+function debouncedStoreInvalidation() {
+  if (wsInvalidationTimer) clearTimeout(wsInvalidationTimer);
+  // Wait 2 seconds before invalidating — batches multiple rapid events into one refetch
+  wsInvalidationTimer = setTimeout(() => {
+    queryClient.invalidateQueries({ queryKey: ["/api/stores"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/admin/stores"] });
+    queryClient.invalidateQueries({ queryKey: ["stores"] });
+  }, 2000);
+}
+
 export function setupWebSocketListener() {
   // Vercel Serverless does not support WebSockets. Disable in production to prevent errors.
   if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
@@ -76,10 +93,9 @@ export function setupWebSocketListener() {
     try {
       const data = JSON.parse(event.data);
       if (data.type === "store_updated" || data.type === "store_submitted") {
-        console.log("Received store update event, refreshing data...");
-        // Invalidate all store-related queries
-        queryClient.invalidateQueries({ queryKey: ["/api/stores"] }); // Public stores
-        queryClient.invalidateQueries({ queryKey: ["/api/admin/stores"] }); // Admin stores
+        console.log("Received store update event, debouncing refetch...");
+        // EGRESS OPTIMIZATION: Debounced — batches multiple events into single refetch
+        debouncedStoreInvalidation();
       }
     } catch (error) {
       console.error("Error processing WebSocket message:", error);

@@ -1,4 +1,4 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route } from "wouter";
 import { useEffect } from "react";
 import { queryClient, setupWebSocketListener } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -39,18 +39,18 @@ function Router() {
 import { getApprovedStores } from "./lib/api";
 
 function App() {
-  const [location] = useLocation();
 
   useEffect(() => {
     setupWebSocketListener();
     initPremiumInteractions();
 
-    // Prefetch store data immediately on load to hide network latency
+    // EGRESS OPTIMIZATION: Prefetch store data once on initial load only
+    // Previously re-prefetched on every route change via [location] dependency
     queryClient.prefetchQuery({
       queryKey: ["stores"],
       queryFn: getApprovedStores,
     }).catch(console.error);
-  }, [location]);
+  }, []); // Empty deps = runs once on mount, not on every navigation
 
   return (
     <AccessibilityProvider>

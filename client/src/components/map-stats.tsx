@@ -9,6 +9,7 @@ export function MapStats() {
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
+        // EGRESS OPTIMIZATION: Uses shared 5-min staleTime from queryClient defaults
     });
 
     const stats = {

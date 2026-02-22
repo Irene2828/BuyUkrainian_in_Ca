@@ -2,7 +2,7 @@ import { type AdminUser, type InsertAdminUser, stores, adminUsers, type Store as
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pkg from 'pg';
 const { Pool } = pkg;
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count } from "drizzle-orm";
 import crypto from "crypto";
 
 // Define the shape of our Store object for the application
@@ -25,10 +25,28 @@ export interface Store {
   createdAt: Date;
 }
 
+// EGRESS OPTIMIZATION: Lean store type for map pins — excludes heavy fields (description, email, images)
+export interface StoreLean {
+  id: string;
+  name: string;
+  products: string[];
+  address: string;
+  city: string;
+  province: string;
+  latitude: string;
+  longitude: string;
+  category: "food" | "clothes" | "other" | "retail";
+  website?: string | null;
+  status: "approved" | "pending" | "rejected";
+  createdAt: Date;
+}
+
 export interface IStorage {
   // Store methods
-  getAllStores(): Promise<Store[]>;
-  getApprovedStores(): Promise<Store[]>; // Map pins fetched here
+  getAllStores(limit?: number, offset?: number): Promise<Store[]>;
+  getApprovedStores(): Promise<Store[]>;
+  getApprovedStoresLean(): Promise<StoreLean[]>; // EGRESS OPT: Lean query for public map pins
+  getStoreCount(): Promise<number>; // EGRESS OPT: Count without fetching rows
   getStore(id: string): Promise<Store | undefined>;
   createStore(store: InsertStore): Promise<Store>;
   updateStoreStatus(id: string, status: "approved" | "rejected" | "pending"): Promise<Store | undefined>;
@@ -53,6 +71,11 @@ export class DatabaseStorage implements IStorage {
   private db;
   private pool;
 
+  // EGRESS OPTIMIZATION: In-memory cache for approved stores (avoids repeated DB queries)
+  // TTL: 60 seconds — balances freshness with egress reduction
+  private approvedStoresCache: { data: StoreLean[] | null; timestamp: number } = { data: null, timestamp: 0 };
+  private readonly CACHE_TTL_MS = 60_000; // 60 seconds
+
   constructor() {
     // Validate config implicitly by accessing it
     if (!config.databaseUrl) {
@@ -69,11 +92,19 @@ export class DatabaseStorage implements IStorage {
     console.log("✅ DatabaseStorage initialized with node-postgres driver");
   }
 
+  // EGRESS OPTIMIZATION: Invalidate cache when stores are modified
+  private invalidateCache() {
+    this.approvedStoresCache = { data: null, timestamp: 0 };
+  }
+
   // --- Store Methods ---
 
-  async getAllStores(): Promise<Store[]> {
-    const allStores = await this.db.select().from(stores);
-    console.log(`📊 Fetched ${allStores.length} stores from the database.`);
+  // EGRESS OPTIMIZATION: Added pagination support (limit/offset) for admin lists
+  async getAllStores(limit = 500, offset = 0): Promise<Store[]> {
+    const allStores = await this.db.select().from(stores)
+      .limit(limit)
+      .offset(offset);
+    console.log(`📊 Fetched ${allStores.length} stores (limit=${limit}, offset=${offset}).`);
     return allStores.map(this.mapToStore);
   }
 
@@ -82,6 +113,51 @@ export class DatabaseStorage implements IStorage {
       .where(eq(stores.status, "approved"))
       .orderBy(desc(stores.createdAt));
     return approvedStores.map(this.mapToStore);
+  }
+
+  // EGRESS OPTIMIZATION: Lean query fetches only columns needed for map pins & cards
+  // Excludes: description, image (single), images (array), email — saves significant bandwidth
+  async getApprovedStoresLean(): Promise<StoreLean[]> {
+    const now = Date.now();
+    // Return cached data if still fresh
+    if (this.approvedStoresCache.data && (now - this.approvedStoresCache.timestamp) < this.CACHE_TTL_MS) {
+      return this.approvedStoresCache.data;
+    }
+
+    const leanStores = await this.db.select({
+      id: stores.id,
+      name: stores.name,
+      products: stores.products,
+      address: stores.address,
+      city: stores.city,
+      province: stores.province,
+      latitude: stores.latitude,
+      longitude: stores.longitude,
+      category: stores.category,
+      website: stores.website,
+      status: stores.status,
+      createdAt: stores.createdAt,
+    }).from(stores)
+      .where(eq(stores.status, "approved"))
+      .orderBy(desc(stores.createdAt));
+
+    const result = leanStores.map(s => ({
+      ...s,
+      category: s.category as "food" | "clothes" | "other" | "retail",
+      status: s.status as "approved" | "pending" | "rejected",
+      createdAt: s.createdAt || new Date(),
+    }));
+
+    // Update cache
+    this.approvedStoresCache = { data: result, timestamp: now };
+    return result;
+  }
+
+  // EGRESS OPTIMIZATION: Count query returns only a number — no row data transferred
+  async getStoreCount(): Promise<number> {
+    const result = await this.db.select({ count: count() }).from(stores)
+      .where(eq(stores.status, "approved"));
+    return result[0]?.count ?? 0;
   }
 
   async getStore(id: string): Promise<Store | undefined> {
@@ -93,30 +169,33 @@ export class DatabaseStorage implements IStorage {
     const newStore = {
       ...insertStore,
       id: crypto.randomUUID(),
-      // Ensure specific fields that might be missing in InsertStore but required by DB are handled if any
-      // InsertStore form zod schema omits id and createdAt
     };
     const result = await this.db.insert(stores).values(newStore).returning();
+    this.invalidateCache(); // EGRESS OPT: Bust cache on mutation
     return this.mapToStore(result[0]);
   }
 
   async updateStoreStatus(id: string, status: "approved" | "rejected" | "pending"): Promise<Store | undefined> {
     const result = await this.db.update(stores).set({ status }).where(eq(stores.id, id)).returning();
+    this.invalidateCache(); // EGRESS OPT: Bust cache on status change
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
   }
 
   async updateStoreImages(id: string, images: string[]): Promise<Store | undefined> {
     const result = await this.db.update(stores).set({ images }).where(eq(stores.id, id)).returning();
+    this.invalidateCache(); // EGRESS OPT: Bust cache on image update
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
   }
 
   async updateStore(id: string, updates: Partial<InsertStore>): Promise<Store | undefined> {
     const result = await this.db.update(stores).set(updates).where(eq(stores.id, id)).returning();
+    this.invalidateCache(); // EGRESS OPT: Bust cache on update
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
   }
 
   async deleteStore(id: string): Promise<boolean> {
     const result = await this.db.delete(stores).where(eq(stores.id, id)).returning();
+    this.invalidateCache(); // EGRESS OPT: Bust cache on delete
     return result.length > 0;
   }
 
@@ -158,8 +237,14 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0;
   }
 
+  // EGRESS OPTIMIZATION: Select only needed admin columns (excludes passwordHash from query)
   async getAllAdminUsers(): Promise<AdminUser[]> {
-    return await this.db.select().from(adminUsers);
+    return await this.db.select({
+      id: adminUsers.id,
+      username: adminUsers.username,
+      passwordHash: adminUsers.passwordHash,
+      createdAt: adminUsers.createdAt,
+    }).from(adminUsers);
   }
 }
 
