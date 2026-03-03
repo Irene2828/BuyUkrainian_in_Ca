@@ -49,12 +49,10 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div style="position: relative; width: 32px; height: 32px; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center;">
+      <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
         ${isNewest ? `<div style="position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #0057B8; opacity: 0.15; animation: pulse 2s infinite;"></div>` : ''}
-        <div class="marker-container ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; background: white; box-shadow: 0 4px 14px rgba(0,0,0,0.08), 0 2px 5px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
-          <div style="width: 10px; height: 10px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column;">
-            <div style="width: 100%; height: 50%; background: #0057B8;"></div>
-            <div style="width: 100%; height: 50%; background: #FFD700;"></div>
+        <div class="marker-container premium-map-pin ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; background: #0A2540; box-shadow: 0 4px 10px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #FFD700; box-shadow: 0 0 6px rgba(255, 215, 0, 0.4);">
           </div>
         </div>
       </div>
@@ -159,16 +157,9 @@ const MarkerClusterGroup = ({
           // Exact replication of standard pin style (Circle split blue/yellow) with Refined Shoulder Badge
           return L.divIcon({
             html: `
-              <div class="cluster-badge-wrapper" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                <div class="marker-container" style="width: ${iconSize[0] - 6}px; height: ${iconSize[1] - 6}px; border-radius: 50%; background: white; box-shadow: 0 6px 16px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
-                  <div style="width: 12px; height: 12px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="width: 100%; height: 50%; background: #0057B8;"></div>
-                    <div style="width: 100%; height: 50%; background: #FFD700;"></div>
-                  </div>
-                </div>
-                <!-- Shoulder Badge: Refined Deep Navy -->
-                <div class="cluster-badge" style="position: absolute; top: 0px; right: 0px; width: ${childCount > 9 ? '18px' : '16px'}; height: ${childCount > 9 ? '18px' : '16px'}; background: #0F172A; color: #FFFFFF; border: 2px solid #FFFFFF; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; letter-spacing: -0.025em; line-height: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.08); z-index: 1000; font-family: var(--font-ui); pointer-events: none;">
-                    ${childCount}
+              <div class="cluster-badge-wrapper premium-map-pin" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <div class="marker-container" style="width: ${iconSize[0] - 8}px; height: ${iconSize[1] - 8}px; border-radius: 50%; background: #0A2540; box-shadow: 0 5px 14px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                  <span style="color: #FFFFFF; font-weight: 700; font-size: ${childCount > 9 ? '14px' : '15px'}; font-family: var(--font-sans); letter-spacing: -0.02em;">${childCount}</span>
                 </div>
               </div>
             `,

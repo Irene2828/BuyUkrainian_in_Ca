@@ -149,10 +149,22 @@ export function Hero() {
                 </div>
             </div>
 
+            {/* Aurora Overlay - Soft Lighting ON TOP of Map */}
+            <div className="absolute top-0 right-0 bottom-0 w-[50%] pointer-events-none z-[15] overflow-hidden mix-blend-multiply">
+                {/* Shape 1 (Blue) - Azure Blue, 15% opacity */}
+                <div
+                    className="absolute right-[-10%] top-[-10%] w-[500px] h-[500px] rounded-full bg-[rgba(196,226,255,0.15)] filter blur-[120px]"
+                />
+                {/* Shape 2 (Yellow) - Pale Wheat, 15% opacity */}
+                <div
+                    className="absolute right-[20%] top-[40%] w-[500px] h-[500px] rounded-full bg-[rgba(255,244,204,0.15)] filter blur-[120px]"
+                />
+            </div>
+
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
             <Link href="/map">
                 <div
-                    className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden pointer-events-auto cursor-pointer group/map-peeking"
+                    className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-[10] select-none overflow-hidden pointer-events-auto cursor-pointer group/map-peeking"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{
                         maskImage: 'linear-gradient(to right, transparent, black 15%)',
@@ -173,34 +185,6 @@ export function Hero() {
                                 />
                             </Suspense>
                         </div>
-                    </div>
-
-                    {/* Overlay Ambient Aurora Glows - On Top, Soft Light Blend */}
-                    <div className="absolute inset-0 pointer-events-none z-[20] mix-blend-soft-light">
-                        {/* Aurora Glow: Pale Wheat Yellow */}
-                        <div
-                            className="absolute rounded-full"
-                            style={{
-                                width: '80%',
-                                height: '120%',
-                                right: '-20%',
-                                top: '-20%',
-                                background: 'rgba(255, 244, 204, 0.8)',
-                                filter: 'blur(100px)'
-                            }}
-                        />
-                        {/* Aurora Glow: Azure Blue */}
-                        <div
-                            className="absolute rounded-full"
-                            style={{
-                                width: '70%',
-                                height: '100%',
-                                right: '10%',
-                                top: '10%',
-                                background: 'rgba(196, 226, 255, 0.7)',
-                                filter: 'blur(100px)'
-                            }}
-                        />
                     </div>
                 </div>
             </Link>
