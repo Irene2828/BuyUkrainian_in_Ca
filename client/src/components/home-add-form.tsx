@@ -48,12 +48,34 @@ interface AddressSuggestion {
   };
 }
 
+// Detect Canadian postal code patterns: A1A 1A1, A1A1A1, A1A
+const POSTAL_CODE_REGEX = /^[A-Za-z]\d[A-Za-z]\s?\d?[A-Za-z]?\d?$/;
+
 async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
-  if (query.length < 3) return [];
+  if (query.length < 2) return [];
   try {
-    // Use structured search for better results with specific addresses
+    const trimmed = query.trim();
+    const isPostalCode = POSTAL_CODE_REGEX.test(trimmed);
+
+    // For postal codes, use postalcode= structured param for precise results
+    if (isPostalCode && trimmed.length >= 3) {
+      const postalQuery = trimmed.toUpperCase().replace(/\s/g, '');
+      const formatted = postalQuery.length >= 6
+        ? `${postalQuery.slice(0, 3)} ${postalQuery.slice(3)}`
+        : postalQuery;
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(formatted)}&country=Canada&format=json&limit=8&addressdetails=1`,
+        { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
+      );
+      const results = await response.json();
+      if (results.length > 0) return results;
+      // Fallback to free-text if structured search returns nothing
+    }
+
+    if (trimmed.length < 3) return [];
+
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=ca&format=json&limit=8&addressdetails=1`,
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(trimmed)}&countrycodes=ca&format=json&limit=8&addressdetails=1`,
       { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
     );
     return await response.json();
@@ -98,6 +120,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const addressDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const addressInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -149,13 +173,21 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   };
 
   const handleAddressSelect = (suggestion: AddressSuggestion) => {
-    const street = suggestion.address?.road || "";
-    const houseNum = suggestion.address?.house_number || "";
-    const fullAddress = houseNum ? `${houseNum} ${street}` : street;
+    const addr = suggestion.address;
+    const street = addr?.road || "";
+    const houseNum = addr?.house_number || "";
+    const city = addr?.city || addr?.town || addr?.village || "";
+    const province = addr?.state || "";
+    const postcode = addr?.postcode || "";
 
-    form.setValue("address", fullAddress || suggestion.display_name.split(',')[0]);
-    form.setValue("city", suggestion.address?.city || suggestion.address?.town || suggestion.address?.village || "");
-    form.setValue("province", suggestion.address?.state || "");
+    // Build full readable address: 123 Main St, Toronto, ON M5V 2T6
+    const streetPart = houseNum ? `${houseNum} ${street}` : street;
+    const addressParts = [streetPart, city, province, postcode].filter(Boolean);
+    const fullAddress = addressParts.length > 0 ? addressParts.join(', ') : suggestion.display_name.split(',')[0];
+
+    form.setValue("address", fullAddress);
+    form.setValue("city", city);
+    form.setValue("province", province);
 
     const lat = parseFloat(suggestion.lat);
     const lng = parseFloat(suggestion.lon);
@@ -164,6 +196,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     form.setValue("longitude", lng);
 
     setShowAddressSuggestions(false);
+    setAddressSuggestions([]);
 
     // Fly to location on map
     window.dispatchEvent(new CustomEvent('mapFlyTo', { detail: { lat, lng } }));
@@ -278,7 +311,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
+      <div className="bg-slate-50/95 backdrop-blur-xl rounded-[32px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
         <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
           <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
@@ -297,7 +330,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white/80 backdrop-blur-xl rounded-[32px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-slate-50/95 backdrop-blur-xl rounded-[32px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>
@@ -332,16 +365,26 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <div className="relative group">
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
                       <Input
-                        placeholder="Start typing street address..."
+                        placeholder="Address or postal code (e.g. M5V 2T6)"
                         {...field}
+                        ref={(el) => {
+                          field.ref(el);
+                          (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
+                        }}
+                        autoComplete="street-address"
                         onKeyDown={handleKeyDown}
                         onChange={(e) => {
                           field.onChange(e);
                           handleAddressChange(e.target.value);
                         }}
                         onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
-                        onBlur={() => { setTimeout(() => setShowAddressSuggestions(false), 200); }}
-                        className="h-14 pl-11 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
+                        onBlur={(e) => {
+                          // Only close if focus moves outside the suggestions container
+                          const relatedTarget = e.relatedTarget as HTMLElement | null;
+                          if (suggestionsRef.current && relatedTarget && suggestionsRef.current.contains(relatedTarget)) return;
+                          setTimeout(() => setShowAddressSuggestions(false), 150);
+                        }}
+                        className="h-14 pl-11 rounded-full bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
@@ -358,33 +401,51 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   )}
 
                   {showAddressSuggestions && (
-                    <div className="absolute z-[100] w-full mt-2 bg-white/90 backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-[24px] shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                      {addressSuggestions.map((s, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => handleAddressSelect(s)}
-                          onMouseEnter={() => setActiveIndex(i)}
-                          className={cn(
-                            "w-full px-4 py-3.5 text-left border-b border-gray-50/50 flex items-center gap-3 transition-colors last:border-0 font-ui group outline-none",
-                            activeIndex === i ? "bg-slate-50" : "hover:bg-slate-50"
-                          )}
-                        >
-                          <div className={cn(
-                            "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all",
-                            activeIndex === i ? "bg-slate-200" : "bg-gray-100 group-hover:bg-slate-200"
-                          )}>
-                            <MapPin className={cn(
-                              "w-4 h-4 fill-none stroke-current transition-colors",
-                              activeIndex === i ? "text-slate-900" : "text-gray-400 group-hover:text-slate-900"
-                            )} strokeWidth={2} />
-                          </div>
-                          <span className={cn(
-                            "text-[14px] font-medium line-clamp-1 transition-colors",
-                            activeIndex === i ? "text-black" : "text-gray-700 group-hover:text-black"
-                          )}>{s.display_name}</span>
-                        </button>
-                      ))}
+                    <div ref={suggestionsRef} className="absolute z-[100] w-full mt-2 bg-white backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-[24px] shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                      {addressSuggestions.map((s, i) => {
+                        // Build a clean readable address line
+                        const addr = s.address;
+                        const parts = [
+                          addr?.house_number && addr?.road ? `${addr.house_number} ${addr.road}` : addr?.road,
+                          addr?.city || addr?.town || addr?.village,
+                          addr?.state,
+                          addr?.postcode,
+                        ].filter(Boolean);
+                        const cleanLabel = parts.length > 0 ? parts.join(', ') : s.display_name;
+
+                        return (
+                          <button
+                            key={i}
+                            type="button"
+                            tabIndex={0}
+                            onClick={() => handleAddressSelect(s)}
+                            onMouseEnter={() => setActiveIndex(i)}
+                            className={cn(
+                              "w-full px-4 py-3.5 text-left border-b border-gray-50/50 flex items-center gap-3 transition-colors last:border-0 font-ui group outline-none",
+                              activeIndex === i ? "bg-slate-50" : "hover:bg-slate-50"
+                            )}
+                          >
+                            <div className={cn(
+                              "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all",
+                              activeIndex === i ? "bg-slate-200" : "bg-gray-100 group-hover:bg-slate-200"
+                            )}>
+                              <MapPin className={cn(
+                                "w-4 h-4 fill-none stroke-current transition-colors",
+                                activeIndex === i ? "text-slate-900" : "text-gray-400 group-hover:text-slate-900"
+                              )} strokeWidth={2} />
+                            </div>
+                            <div className="flex flex-col gap-0.5 min-w-0">
+                              <span className={cn(
+                                "text-[14px] font-medium line-clamp-1 transition-colors",
+                                activeIndex === i ? "text-black" : "text-gray-700 group-hover:text-black"
+                              )}>{cleanLabel}</span>
+                              {addr?.postcode && (
+                                <span className="text-[11px] text-slate-400 font-ui">{addr.postcode}</span>
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
                   <FormMessage />

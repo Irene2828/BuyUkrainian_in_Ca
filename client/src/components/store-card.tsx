@@ -88,7 +88,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-white rounded-[32px] flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
+                    "bg-slate-50/95 backdrop-blur-sm rounded-[32px] flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
                     "ring-1 ring-inset ring-slate-200/50",
                     "shadow-[0_20px_40px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(0,0,0,0.02)]",
                     "h-auto max-h-[85vh] overflow-hidden relative z-20",
