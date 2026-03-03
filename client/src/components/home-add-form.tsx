@@ -384,7 +384,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           if (suggestionsRef.current && relatedTarget && suggestionsRef.current.contains(relatedTarget)) return;
                           setTimeout(() => setShowAddressSuggestions(false), 150);
                         }}
-                        className="h-14 pl-11 rounded-[32px] bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
+                        className="h-14 pl-11 rounded-[16px] bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
@@ -465,7 +465,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
                       autoComplete="off"
-                      className="h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -484,7 +484,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -501,7 +501,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <select {...field} className="w-full h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent text-[15px] outline-none focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui appearance-none cursor-pointer text-slate-800">
+                      <select {...field} className="w-full h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent text-[16px] font-normal outline-none focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui appearance-none cursor-pointer text-slate-800">
                         <option value="food">Food & Grocery</option>
                         <option value="clothes">Clothing & Apparel</option>
                         <option value="retail">Retail & Gifts</option>
@@ -528,7 +528,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
                   <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -546,7 +546,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="min-h-[100px] rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -560,7 +560,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <div
                 onClick={() => imageInputRef.current?.click()}
                 className={cn(
-                  "rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 group ring-1 ring-inset shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
+                  "rounded-[16px] p-8 text-center cursor-pointer transition-all duration-300 group ring-1 ring-inset shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
                   imagePreview ? "ring-green-300 bg-green-50" : "ring-slate-900/5 bg-slate-50 hover:ring-slate-900/15"
                 )}
               >
