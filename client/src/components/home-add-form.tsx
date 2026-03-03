@@ -311,7 +311,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="bg-slate-50/95 backdrop-blur-xl rounded-[32px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
+      <div className="bg-slate-50/95 backdrop-blur-xl rounded-[24px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
         <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
           <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
@@ -321,16 +321,16 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-full btn-premium-action flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-[1.01]"
+          className="w-full h-[48px] rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn"
         >
-          Back to the map
+          <span>Back to the map</span>
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-slate-50/95 backdrop-blur-xl rounded-[32px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-slate-50/95 backdrop-blur-xl rounded-[24px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>
@@ -384,7 +384,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           if (suggestionsRef.current && relatedTarget && suggestionsRef.current.contains(relatedTarget)) return;
                           setTimeout(() => setShowAddressSuggestions(false), 150);
                         }}
-                        className="h-14 pl-11 rounded-full bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
+                        className="h-14 pl-11 rounded-[32px] bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
                       />
                       {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
@@ -465,7 +465,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
                       autoComplete="off"
-                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -484,7 +484,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -501,7 +501,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <select {...field} className="w-full h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent text-[15px] outline-none focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui appearance-none cursor-pointer text-slate-800">
+                      <select {...field} className="w-full h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent text-[15px] outline-none focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui appearance-none cursor-pointer text-slate-800">
                         <option value="food">Food & Grocery</option>
                         <option value="clothes">Clothing & Apparel</option>
                         <option value="retail">Retail & Gifts</option>
@@ -528,7 +528,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
                   <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-full bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -546,7 +546,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-[24px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all p-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="min-h-[100px] rounded-[32px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -596,12 +596,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full btn-premium-action flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.98] active:bg-slate-800 transition-all duration-200"
+                className="w-full h-[48px] rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 flex items-center justify-center gap-2 group/submit-btn"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
                 ) : (
-                  <>Submit Store <ArrowRight className="w-5 h-5 fill-none stroke-current" strokeWidth={2} /></>
+                  <><span>Submit Store</span> <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover/submit-btn:translate-x-1 group-hover/submit-btn:text-[#FFF4CC] fill-none stroke-current" strokeWidth={2} /></>
                 )}
               </Button>
 
