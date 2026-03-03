@@ -149,22 +149,10 @@ export function Hero() {
                 </div>
             </div>
 
-            {/* Aurora Overlay - Soft Lighting ON TOP of Map */}
-            <div className="absolute top-0 right-0 bottom-0 w-[50%] pointer-events-none z-[15] overflow-hidden mix-blend-multiply">
-                {/* Shape 1 (Blue) - Azure Blue, 15% opacity */}
-                <div
-                    className="absolute right-[-10%] top-[-10%] w-[500px] h-[500px] rounded-full bg-[rgba(196,226,255,0.15)] filter blur-[120px]"
-                />
-                {/* Shape 2 (Yellow) - Pale Wheat, 15% opacity */}
-                <div
-                    className="absolute right-[20%] top-[40%] w-[500px] h-[500px] rounded-full bg-[rgba(255,244,204,0.15)] filter blur-[120px]"
-                />
-            </div>
-
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
             <Link href="/map">
                 <div
-                    className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-[10] select-none overflow-hidden pointer-events-auto cursor-pointer group/map-peeking"
+                    className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-[10] select-none overflow-hidden hover:cursor-pointer group/map-peeking"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{
                         maskImage: 'linear-gradient(to right, transparent, black 15%)',
@@ -173,7 +161,14 @@ export function Hero() {
                 >
                     {/* Inner wrapper for shifted map content */}
                     <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[4%] -translate-y-[12%]">
-                        <div className="relative w-full h-full">
+                        <div className="relative w-full h-full pointer-events-auto">
+
+                            {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
+                            <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden mix-blend-multiply">
+                                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-[#0057B7] opacity-30 blur-[100px] rounded-full"></div>
+                                <div className="absolute top-[20%] right-[15%] w-[500px] h-[500px] bg-[#FFD900] opacity-30 blur-[100px] rounded-full"></div>
+                            </div>
+
                             <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
                                 <InteractiveMap
                                     stores={stores}
