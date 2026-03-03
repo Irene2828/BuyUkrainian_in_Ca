@@ -49,15 +49,23 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-        ${isNewest ? `<div style="position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #FFFFFF; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
-        <div class="marker-container premium-map-pin ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
-          <div style="width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(to bottom, #0057B7 50%, #FFD900 50%); box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.05);">
-          </div>
+      <div style="position: relative; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+        ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
+        <div class="marker-container premium-map-pin ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 32px; height: 32px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: transparent;">
+            <defs>
+              <linearGradient id="ukraineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="50%" stop-color="#0057B7" />
+                <stop offset="50%" stop-color="#FFD900" />
+              </linearGradient>
+            </defs>
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="url(#ukraineGradient)" stroke="url(#ukraineGradient)"></path>
+            <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#ffffff"></circle>
+          </svg>
         </div>
       </div>
     `,
-    iconSize: [32, 32],
+    iconSize: [40, 40],
     iconAnchor: [16, 16],
     popupAnchor: [0, -16],
   });
@@ -158,9 +166,8 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `
               <div class="cluster-badge-wrapper premium-map-pin" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                <div class="marker-container" style="width: ${iconSize[0] - 8}px; height: ${iconSize[1] - 8}px; border-radius: 50%; background: #ffffff; box-shadow: 0 5px 14px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
-                  <div style="position: absolute; inset: 4px; border-radius: 50%; background: linear-gradient(to bottom, #0057B7 50%, #FFD900 50%); z-index: 0; opacity: 0.85;"></div>
-                  <span style="color: #ffffff; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,0.25); font-size: ${childCount > 9 ? '14px' : '15px'}; font-family: var(--font-sans); letter-spacing: -0.02em; z-index: 10;">${childCount}</span>
+                <div class="marker-container" style="width: ${iconSize[0] - 8}px; height: ${iconSize[1] - 8}px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                  <span style="color: #0057B7; font-weight: 800; font-size: ${childCount > 9 ? '14px' : '15px'}; font-family: var(--font-sans); letter-spacing: -0.02em; z-index: 10;">${childCount}</span>
                 </div>
               </div>
             `,
@@ -197,15 +204,20 @@ const MarkerClusterGroup = ({
   }, [map, group]);
 
 
-  // Update Markers - Each Store ID Creates Unique Marker
-  // CLUSTER LOGIC: If multiple stores share exact same coordinates, spiderfy will correctly
-  // display each as a separate pin with its unique store object and ID.
+  const onSelectStoreRef = useRef(onSelectStore);
+  useEffect(() => {
+    onSelectStoreRef.current = onSelectStore;
+  }, [onSelectStore]);
+
+  const markersMapRef = useRef<Map<string, L.Marker>>(new Map());
+
+  // 1. Structural Layer Construction (Only triggers on hard data/group changes)
   useEffect(() => {
     if (!group) return;
 
     group.clearLayers();
+    markersMapRef.current.clear();
 
-    // Determine newest store based on createdAt timestamp
     const newestStoreId = stores.length > 0
       ? stores.reduce((latest, store) => {
         const current = new Date(store.createdAt || 0).getTime();
@@ -214,15 +226,14 @@ const MarkerClusterGroup = ({
       }, stores[0]).id
       : null;
 
+    const layers: L.Marker[] = [];
+
     stores.forEach(store => {
       if (store.coordinates) {
         if (isWithinCanada(store.coordinates[0], store.coordinates[1])) {
-          const isSelected = selectedStore?.id === store.id;
-          const isAnySelected = !!selectedStore;
-          const isNewest = store.id === newestStoreId;
-
+          // Initialize with default design (will be painted correctly by selection effect below)
           const marker = L.marker(store.coordinates as [number, number], {
-            icon: createUnifiedMarker(isSelected, isAnySelected, isNewest)
+            icon: createUnifiedMarker(false, false, store.id === newestStoreId)
           });
 
           // Hover effect: Show store name
@@ -235,21 +246,51 @@ const MarkerClusterGroup = ({
             sticky: false
           });
 
-          // Check handler passes the specific, unique store object
+          // Surgical Click Handler
           marker.on('click', (e) => {
             console.log("Marker clicked:", store.name, store.id);
-            L.DomEvent.stopPropagation(e); // Prevent map click from firing
-            onSelectStore(store);
+            L.DomEvent.stopPropagation(e);
+            if (onSelectStoreRef.current) {
+              onSelectStoreRef.current(store);
+            }
           });
 
-          group.addLayer(marker);
+          markersMapRef.current.set(store.id, marker);
+          layers.push(marker);
         } else {
           console.warn("Store filtered out by bounds:", store.name, store.coordinates);
         }
       }
     });
 
-  }, [stores, selectedStore, onSelectStore, group]); // Re-run when selection or group changes
+    // Batch add layers for huge performance saving vs adding singularly
+    group.addLayers(layers);
+  }, [stores, group]);
+
+  // 2. Surgical Styling Updates (Runs on selection changes without destroying cluster layout)
+  useEffect(() => {
+    if (!group || stores.length === 0) return;
+
+    const newestStoreId = stores.length > 0
+      ? stores.reduce((latest, store) => {
+        const current = new Date(store.createdAt || 0).getTime();
+        const latestTime = new Date(latest.createdAt || 0).getTime();
+        return current > latestTime ? store : latest;
+      }, stores[0]).id
+      : null;
+
+    const isAnySelected = !!selectedStore;
+
+    stores.forEach((store) => {
+      const marker = markersMapRef.current.get(store.id);
+      if (marker) {
+        const isSelected = selectedStore?.id === store.id;
+        const isNewest = store.id === newestStoreId;
+        // Surgical override of the map icon without destroying DOM element structurally
+        marker.setIcon(createUnifiedMarker(isSelected, isAnySelected, isNewest));
+      }
+    });
+  }, [selectedStore, stores, group]);
 
   return null;
 };

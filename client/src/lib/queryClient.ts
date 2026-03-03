@@ -46,8 +46,8 @@ export const queryClient = new QueryClient({
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
-      // EGRESS OPTIMIZATION: Data stays fresh for 5 minutes — prevents refetch on every mount
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      // EGRESS OPTIMIZATION: Data stays fresh for 10 minutes — aggressively prevents refetch on mounts/focus
+      staleTime: 1000 * 60 * 10, // 10 minutes
       // EGRESS OPTIMIZATION: Keep cache alive for 30 minutes across navigations
       gcTime: 1000 * 60 * 30,   // 30 minutes
       // EGRESS OPTIMIZATION: Don't refetch when user switches browser tabs
