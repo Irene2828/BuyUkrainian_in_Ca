@@ -19,7 +19,7 @@ export function HowItWorks() {
     {
       title: "Want to help the Ukrainian economy?",
       image: "/assets/how-it-works-3.png",
-      text: (<><strong>Share the map</strong> with your network via social media, word of mouth, email, or any other way possible. The more people that use the map, the more you help Ukrainian companies sell products in Canada.</>)
+      text: (<><strong>Share the map</strong> with your network via social media, word of mouth, email, or any other way possible.</>)
     }
   ];
 
