@@ -157,7 +157,7 @@ export function Hero() {
                     aria-label="Interactive map of Ukrainian stores in Canada"
                 >
                     {/* Inner wrapper for shifted map content */}
-                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[-1%]">
+                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[4%] -translate-y-[6%]">
                         <div className="relative w-full h-full">
                             <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
                                 <InteractiveMap
