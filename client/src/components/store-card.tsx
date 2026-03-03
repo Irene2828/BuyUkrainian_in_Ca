@@ -89,7 +89,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             <div
                 className={cn(
                     "bg-slate-50/95 backdrop-blur-sm rounded-[32px] flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
-                    "ring-1 ring-inset ring-slate-200/50",
+                    "border border-slate-200/50 ring-1 ring-white/40 ring-inset",
                     "shadow-[0_20px_40px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(0,0,0,0.02)]",
                     "h-auto max-h-[85vh] overflow-hidden relative z-20",
                     className

@@ -612,7 +612,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200/60 backdrop-blur-md border border-slate-300 ring-1 ring-white/40 ring-inset text-slate-500 hover:text-brand-navy hover:bg-slate-50 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50/90 backdrop-blur-md border border-slate-200/50 ring-1 ring-white/40 ring-inset text-slate-700 hover:text-slate-900 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
                   aria-label="How to use the map"
                 >
                   <Info className="w-5 h-5 stroke-[2.5]" />

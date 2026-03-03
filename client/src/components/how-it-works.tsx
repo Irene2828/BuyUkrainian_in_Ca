@@ -85,7 +85,7 @@ export function HowItWorks() {
                 </div>
 
                 {/* Bottom Section: ContentStack */}
-                <div className="flex flex-col items-start text-left mt-16">
+                <div className="flex flex-col items-start text-left mt-12">
                   <h3 className="text-slate-900 font-semibold text-lg mb-2 min-h-[75px] flex items-start justify-start tracking-tight leading-snug">
                     {step.title}
                   </h3>
