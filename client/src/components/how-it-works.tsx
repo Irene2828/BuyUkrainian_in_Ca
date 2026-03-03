@@ -14,12 +14,12 @@ export function HowItWorks() {
     {
       title: "Found a new product on the shelf?",
       image: "/icon2.png",
-      text: (<><strong>Add it to the map.</strong> Your contribution helps the community find new ways to support Ukraine.</>)
+      text: (<><strong>Add it to the map.</strong> With less than two minutes of your time, you can help the map grow, and help Ukrainian companies sell products in Canada.</>)
     },
     {
       title: "Want to help the Ukrainian economy?",
       image: "/assets/how-it-works-3.png",
-      text: (<><strong>Share the map</strong> with your network. Visibility drives support and strengthens every purchase.</>)
+      text: (<><strong>Share the map</strong> with your network via social media, word of mouth, email, or any other way possible. The more people that use the map, the more you help Ukrainian companies sell products in Canada.</>)
     }
   ];
 

@@ -92,7 +92,7 @@ export function Hero() {
                     </h1>
 
                     <p className="mt-8 mb-10 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
-                        Find, add, and share local stores to support Ukraine's economy with every purchase.
+                        Find, add, and share local stores selling Ukrainian-made products to support Ukraine's economy from Canada
                     </p>
 
                     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
