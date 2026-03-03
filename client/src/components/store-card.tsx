@@ -223,7 +223,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <div className="grid grid-cols-2 gap-2">
                         <button
                             onClick={handleShare}
-                            className="flex items-center justify-center gap-2 px-4 py-2 bg-white border-[0.5px] border-black/15 ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold text-black/75 transition-all hover:border-black/40 hover:text-black group active:scale-[0.98]"
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-white border-[0.5px] border-black/15 ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold text-black/75 transition-all hover:border-black/40 hover:text-black hover:scale-110 active:scale-95 group"
                         >
                             <Share2 size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
                             <span>Share Store</span>
@@ -232,7 +232,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <button
                             onClick={() => setIsImageExpanded(!isImageExpanded)}
                             className={cn(
-                                "flex items-center justify-center gap-2 px-4 py-2 border-[0.5px] ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold transition-all group active:scale-[0.98]",
+                                "flex items-center justify-center gap-2 px-4 py-2 border-[0.5px] ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold transition-all hover:scale-110 active:scale-95 group",
                                 isImageExpanded
                                     ? "bg-slate-900 border-slate-900 text-white hover:bg-slate-800"
                                     : "bg-white border-black/15 text-black/75 hover:border-black/40 hover:text-black"
