@@ -50,9 +50,9 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
     className: 'unified-marker-icon',
     html: `
       <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-        ${isNewest ? `<div style="position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
-        <div class="marker-container premium-map-pin ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; background: #0057B7; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,87,183,0.3), 0 2px 4px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: #FFD900; box-shadow: 0 0 6px rgba(255, 217, 0, 0.4);">
+        ${isNewest ? `<div style="position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #FFFFFF; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
+        <div class="marker-container premium-map-pin ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 28px; height: 28px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(to bottom, #0057B7 50%, #FFD900 50%); box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.05);">
           </div>
         </div>
       </div>
@@ -158,8 +158,9 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `
               <div class="cluster-badge-wrapper premium-map-pin" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                <div class="marker-container" style="width: ${iconSize[0] - 8}px; height: ${iconSize[1] - 8}px; border-radius: 50%; background: #0057B7; border: 2px solid white; box-shadow: 0 5px 14px rgba(0,87,183,0.35), 0 2px 6px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
-                  <span style="color: #FFFFFF; font-weight: 700; font-size: ${childCount > 9 ? '14px' : '15px'}; font-family: var(--font-sans); letter-spacing: -0.02em;">${childCount}</span>
+                <div class="marker-container" style="width: ${iconSize[0] - 8}px; height: ${iconSize[1] - 8}px; border-radius: 50%; background: #ffffff; box-shadow: 0 5px 14px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                  <div style="position: absolute; inset: 4px; border-radius: 50%; background: linear-gradient(to bottom, #0057B7 50%, #FFD900 50%); z-index: 0; opacity: 0.85;"></div>
+                  <span style="color: #ffffff; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,0.25); font-size: ${childCount > 9 ? '14px' : '15px'}; font-family: var(--font-sans); letter-spacing: -0.02em; z-index: 10;">${childCount}</span>
                 </div>
               </div>
             `,
