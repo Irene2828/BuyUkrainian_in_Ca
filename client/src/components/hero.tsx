@@ -28,30 +28,29 @@ export function Hero() {
         <section
             className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:py-[85px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
         >
-            {/* Layer 1: Top Left Yellow Glow - Prefooter Style */}
+            {/* Ambient Glow: Pale Wheat Yellow (Behind Map) */}
             <div
-                className="absolute pointer-events-none rounded-full z-[10]"
+                className="absolute pointer-events-none rounded-full z-[0]"
                 style={{
-                    width: '500px',
-                    height: '500px',
-                    left: '-100px',
-                    top: '-100px',
-                    background: 'rgba(255, 212, 39, 0.18)',
-                    filter: 'blur(100px)',
+                    width: '60vw',
+                    height: '80vh',
+                    right: '-10%',
+                    top: '-10%',
+                    background: 'rgba(255, 244, 204, 0.4)',
+                    filter: 'blur(120px)'
                 }}
             />
 
-            {/* Layer 1.5: Top Center Blue Glow - Prefooter Style */}
+            {/* Ambient Glow: Azure Blue (Behind Map) */}
             <div
-                className="absolute pointer-events-none rounded-full z-[10]"
+                className="absolute pointer-events-none rounded-full z-[0]"
                 style={{
-                    width: '414px',
-                    height: '460px',
-                    left: '42%',
-                    top: '-300px',
-                    transform: 'translateX(-50%)',
-                    background: 'rgba(0, 113, 227, 0.15)',
-                    filter: 'blur(108px)',
+                    width: '50vw',
+                    height: '70vh',
+                    right: '15%',
+                    top: '15%',
+                    background: 'rgba(196, 226, 255, 0.35)',
+                    filter: 'blur(120px)'
                 }}
             />
 
@@ -86,8 +85,8 @@ export function Hero() {
                         <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
-                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#0057B8]/70 whitespace-nowrap mt-2">
-                            {t('hero.subtitle') || 'sold across Canada'}
+                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-slate-900 whitespace-nowrap mt-2">
+                            sold across <span className="relative inline-block"><span className="relative z-10">Canada</span><span className="absolute bottom-1.5 left-0 w-full h-3 bg-[#FFF3C4] rounded-[2px] -z-10"></span></span>
                         </span>
                     </h1>
 
@@ -98,10 +97,10 @@ export function Hero() {
                     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
-                                className="h-[50px] 2xl:h-[54px] px-8 2xl:px-10 w-full md:w-auto rounded-full bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[linear-gradient(to_bottom,#3A3F4F,#3A3F4F)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
+                                className="h-[48px] px-8 2xl:px-10 w-full md:w-auto rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                             >
                                 <span>{t('hero.ctaPrimary') || 'Open Interactive Map'}</span>
-                                <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5" />
+                                <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-300 group-hover/cta-btn:text-[#FFF4CC]" />
                             </Button>
                         </Link>
 
@@ -155,6 +154,10 @@ export function Hero() {
                 <div
                     className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-0 select-none overflow-hidden pointer-events-auto cursor-pointer group/map-peeking"
                     aria-label="Interactive map of Ukrainian stores in Canada"
+                    style={{
+                        maskImage: 'linear-gradient(to right, transparent, black 15%)',
+                        WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%)'
+                    }}
                 >
                     {/* Inner wrapper for shifted map content */}
                     <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[4%] -translate-y-[12%]">
@@ -172,20 +175,33 @@ export function Hero() {
                         </div>
                     </div>
 
-                    {/* Static Gradient Alpha Masking - pinned to the container edges */}
-                    {/* Left Edge Fade - REFINED for West Coast Visibility */}
-                    <div
-                        className="absolute top-0 bottom-0 left-0 w-[280px] z-[20] pointer-events-none"
-                        style={{
-                            background: 'linear-gradient(to right, #FFFFFF 0%, #FFFFFF 15%, transparent 70%)'
-                        }}
-                    />
-
-                    {/* Top Edge Fade */}
-                    <div className="absolute top-0 left-0 right-0 h-[150px] z-[20] pointer-events-none bg-gradient-to-b from-white via-white/50 to-transparent" />
-
-                    {/* Bottom Edge Fade */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[100px] z-[20] pointer-events-none bg-gradient-to-t from-white/70 via-white/30 to-transparent" />
+                    {/* Overlay Ambient Aurora Glows - On Top, Soft Light Blend */}
+                    <div className="absolute inset-0 pointer-events-none z-[20] mix-blend-soft-light">
+                        {/* Aurora Glow: Pale Wheat Yellow */}
+                        <div
+                            className="absolute rounded-full"
+                            style={{
+                                width: '80%',
+                                height: '120%',
+                                right: '-20%',
+                                top: '-20%',
+                                background: 'rgba(255, 244, 204, 0.8)',
+                                filter: 'blur(100px)'
+                            }}
+                        />
+                        {/* Aurora Glow: Azure Blue */}
+                        <div
+                            className="absolute rounded-full"
+                            style={{
+                                width: '70%',
+                                height: '100%',
+                                right: '10%',
+                                top: '10%',
+                                background: 'rgba(196, 226, 255, 0.7)',
+                                filter: 'blur(100px)'
+                            }}
+                        />
+                    </div>
                 </div>
             </Link>
 
