@@ -65,13 +65,13 @@ export async function registerRoutes(
         });
       }
 
-      // EGRESS OPTIMIZATION: Use lean query — fetches only columns needed for map pins
-      // Excludes description, image, images, email to reduce payload size by ~40-60%
+      // EGRESS OPTIMIZATION: Use lean query — excludes description and email
+      // Includes image/images so real store photos display; cached 5 min server + edge
       const stores = await storage.getApprovedStoresLean();
 
-      // EGRESS OPTIMIZATION: Edge caching — 120s fresh, 60s stale-while-revalidate
-      // Increased from 60s to 120s to reduce origin hits
-      res.setHeader("Cache-Control", "public, s-maxage=120, stale-while-revalidate=60");
+      // EGRESS OPTIMIZATION: Edge caching — 300s fresh, 120s stale-while-revalidate
+      // Matches server-side cache TTL of 5 minutes to minimize origin DB hits
+      res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=120");
       res.json({ data: stores });
 
     } catch (error: any) {
@@ -127,7 +127,7 @@ export async function registerRoutes(
     try {
       // EGRESS OPTIMIZATION: Use lean query + edge caching for public store list
       const stores = await storage.getApprovedStoresLean();
-      res.setHeader("Cache-Control", "public, s-maxage=120, stale-while-revalidate=60");
+      res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=120");
       res.json(stores);
     } catch (error) {
       console.error("Error fetching stores:", error);

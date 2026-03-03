@@ -58,10 +58,10 @@ export function Header() {
             />
             {/* Branding Text */}
             <div className="flex flex-col justify-center ml-[-22px] h-10 font-instrument">
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/70 leading-none">
                 Ukrainian Products
               </span>
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none mt-[2px]">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/70 leading-none mt-[2px]">
                 in Canada
               </span>
             </div>

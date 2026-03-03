@@ -25,7 +25,8 @@ export interface Store {
   createdAt: Date;
 }
 
-// EGRESS OPTIMIZATION: Lean store type for map pins — excludes heavy fields (description, email, images)
+// EGRESS OPTIMIZATION: Lean store type for map pins — excludes heavy fields (description, email)
+// Now includes image + images so real store photos display instead of placeholders
 export interface StoreLean {
   id: string;
   name: string;
@@ -37,6 +38,8 @@ export interface StoreLean {
   longitude: string;
   category: "food" | "clothes" | "other" | "retail";
   website?: string | null;
+  image?: string | null;
+  images?: string[] | null;
   status: "approved" | "pending" | "rejected";
   createdAt: Date;
 }
@@ -72,9 +75,9 @@ export class DatabaseStorage implements IStorage {
   private pool;
 
   // EGRESS OPTIMIZATION: In-memory cache for approved stores (avoids repeated DB queries)
-  // TTL: 60 seconds — balances freshness with egress reduction
+  // TTL: 5 minutes — dramatically reduces Supabase egress on free plan
   private approvedStoresCache: { data: StoreLean[] | null; timestamp: number } = { data: null, timestamp: 0 };
-  private readonly CACHE_TTL_MS = 60_000; // 60 seconds
+  private readonly CACHE_TTL_MS = 300_000; // 5 minutes — reduces repeated DB egress
 
   constructor() {
     // Validate config implicitly by accessing it
@@ -115,8 +118,8 @@ export class DatabaseStorage implements IStorage {
     return approvedStores.map(this.mapToStore);
   }
 
-  // EGRESS OPTIMIZATION: Lean query fetches only columns needed for map pins & cards
-  // Excludes: description, image (single), images (array), email — saves significant bandwidth
+  // EGRESS OPTIMIZATION: Lean query — excludes description and email only
+  // Includes image/images so real store photos display. Cached for 5 minutes.
   async getApprovedStoresLean(): Promise<StoreLean[]> {
     const now = Date.now();
     // Return cached data if still fresh
@@ -135,6 +138,8 @@ export class DatabaseStorage implements IStorage {
       longitude: stores.longitude,
       category: stores.category,
       website: stores.website,
+      image: stores.image,
+      images: stores.images,
       status: stores.status,
       createdAt: stores.createdAt,
     }).from(stores)

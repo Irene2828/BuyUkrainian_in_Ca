@@ -424,7 +424,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         <div className="absolute inset-0 bg-[#F5F5F3] opacity-5 mix-blend-multiply" />
       </div>
       <MapContainer
-        center={variant === 'hero' ? [54.0000, -100.0000] : CANADA_CENTER}
+        center={variant === 'hero' ? [50.0000, -88.0000] : CANADA_CENTER}
         zoom={variant === 'hero' ? 4.0 : INITIAL_MAP_STATE.zoom}
         minZoom={3.5}
         maxZoom={18}
@@ -465,6 +465,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         )}
 
         {variant !== "hero" && <MapEvents onMapClick={onCloseStore} />}
+
 
         {/* CLUSTERING IMPLEMENTATION: Replaced direct Marker loop with MarkerClusterGroup */}
         <MarkerClusterGroup

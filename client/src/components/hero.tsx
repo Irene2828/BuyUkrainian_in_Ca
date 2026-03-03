@@ -83,10 +83,10 @@ export function Hero() {
                         className="leading-none w-full antialiased"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-medium tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
+                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
-                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#2D50A0]/70 whitespace-nowrap mt-2">
+                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#0057B8]/70 whitespace-nowrap mt-2">
                             {t('hero.subtitle') || 'sold across Canada'}
                         </span>
                     </h1>

@@ -34,12 +34,14 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/api': {
-        target: 'https://buy-ukrainian-in-cajan23.vercel.app',
+        // Local backend (npm run dev starts tsx on port 3000)
+        // Previous: 'https://buy-ukrainian-in-cajan23.vercel.app'
+        target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
       },
       '/ws': {
-        target: 'https://buy-ukrainian-in-cajan23.vercel.app',
+        target: 'http://localhost:3000',
         ws: true,
         changeOrigin: true,
         secure: false,
