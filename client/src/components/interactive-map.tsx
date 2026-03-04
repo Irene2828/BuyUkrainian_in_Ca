@@ -6,7 +6,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
-import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map, ExternalLink, Navigation, Info } from 'lucide-react';
+import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map as MapIcon, ExternalLink, Navigation, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoreCard } from '@/components/store-card';
@@ -49,10 +49,10 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div style="position: relative; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+      <div style="position: relative; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
         ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
-        <div class="marker-container premium-map-pin ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}" style="width: 32px; height: 32px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: transparent;">
+        <div class="marker-container premium-map-pin flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md relative z-10 ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0" style="color: transparent;">
             <defs>
               <linearGradient id="ukraineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="50%" stop-color="#0057B7" />
@@ -65,9 +65,9 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
         </div>
       </div>
     `,
-    iconSize: [40, 40],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16],
+    iconSize: [48, 48],
+    iconAnchor: [24, 24],
+    popupAnchor: [0, -24],
   });
 };
 
@@ -209,7 +209,7 @@ const MarkerClusterGroup = ({
     onSelectStoreRef.current = onSelectStore;
   }, [onSelectStore]);
 
-  const markersMapRef = useRef<Map<string, L.Marker>>(new Map());
+  const markersMapRef = useRef<globalThis.Map<string, L.Marker>>(new globalThis.Map());
 
   // 1. Structural Layer Construction (Only triggers on hard data/group changes)
   useEffect(() => {

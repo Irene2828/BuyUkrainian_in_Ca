@@ -147,7 +147,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         setShowAddressSuggestions(suggestions.length > 0);
         setActiveIndex(-1); // Reset selection
         setIsSearchingAddress(false);
-      }, 300);
+      }, 800);
     } else {
       setAddressSuggestions([]);
       setShowAddressSuggestions(false);
@@ -401,7 +401,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   )}
 
                   {showAddressSuggestions && (
-                    <div ref={suggestionsRef} className="absolute z-[100] w-full mt-2 bg-white backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-[24px] shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div ref={suggestionsRef} className="absolute z-[100] w-full mt-2 bg-white backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-[16px] shadow-lg overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                       {addressSuggestions.map((s, i) => {
                         // Build a clean readable address line
                         const addr = s.address;

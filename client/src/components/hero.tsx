@@ -164,9 +164,9 @@ export function Hero() {
                         <div className="relative w-full h-full pointer-events-auto">
 
                             {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
-                            <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden mix-blend-multiply">
-                                <div className="absolute top-[-10%] right-[5%] w-[600px] h-[600px] bg-[#0057B7] opacity-10 blur-[120px] rounded-full"></div>
-                                <div className="absolute bottom-[10%] right-[20%] w-[500px] h-[500px] bg-[#FFD900] opacity-15 blur-[120px] rounded-full"></div>
+                            <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none">
+                                <div className="absolute -top-[10%] -right-[5%] w-[450px] h-[450px] bg-[#0057B7] rounded-full blur-[120px] opacity-20"></div>
+                                <div className="absolute bottom-[5%] right-[20%] w-[400px] h-[400px] bg-[#FFD900] rounded-full blur-[120px] opacity-20"></div>
                             </div>
 
                             <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>

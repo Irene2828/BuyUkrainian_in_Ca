@@ -351,8 +351,8 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
                                                         "h-[36px] px-[16px] ml-[4px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                        "bg-slate-900/85 backdrop-blur-md text-white rounded-full shrink-0",
-                                                        "hover:bg-slate-900 active:scale-95 shadow-sm"
+                                                        "bg-[#0A2540] text-white rounded-[32px] shrink-0",
+                                                        "hover:bg-[#0F355C] hover:text-[#FFF4CC] active:scale-95 shadow-sm"
                                                     )}
                                                 >
                                                     <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />

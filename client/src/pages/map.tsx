@@ -54,7 +54,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[3rem] lg:pt-[3.75rem] pb-[86px] border-t border-slate-200/50">
+    <section className="bg-white pt-[72px] lg:pt-[90px] pb-[86px] border-t border-slate-200/50">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">
@@ -113,15 +113,15 @@ function NewlyAddedStores() {
 
       {/* Community Call to Action */}
       <div className="flex flex-col items-center justify-center mt-12 text-center px-4">
-        <p className="text-base font-medium text-slate-800 leading-relaxed mb-4">
+        <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mb-6">
           Know a store we missed? Add it to the map.
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="h-12 px-6 py-2.5 rounded-2xl bg-slate-900/85 backdrop-blur-md text-white font-medium text-[15px] tracking-normal transition-all duration-200 shadow-sm border border-brand-navy/15 hover:bg-slate-900 hover:translate-y-[-1px] active:scale-95 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group flex items-center gap-2"
+          className="h-[48px] px-8 2xl:px-10 rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
         >
-          <Plus className="w-5 h-5" strokeWidth={2} />
           <span>Add a New Store</span>
+          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-300 group-hover/cta-btn:text-[#FFF4CC]" />
         </button>
       </div>
 
