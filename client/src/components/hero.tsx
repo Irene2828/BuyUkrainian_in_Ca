@@ -28,31 +28,7 @@ export function Hero() {
         <section
             className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:py-[85px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
         >
-            {/* Ambient Glow: Pale Wheat Yellow (Behind Map) */}
-            <div
-                className="absolute pointer-events-none rounded-full z-[0]"
-                style={{
-                    width: '60vw',
-                    height: '80vh',
-                    right: '-10%',
-                    top: '-10%',
-                    background: 'rgba(255, 244, 204, 0.4)',
-                    filter: 'blur(120px)'
-                }}
-            />
 
-            {/* Ambient Glow: Azure Blue (Behind Map) */}
-            <div
-                className="absolute pointer-events-none rounded-full z-[0]"
-                style={{
-                    width: '50vw',
-                    height: '70vh',
-                    right: '15%',
-                    top: '15%',
-                    background: 'rgba(196, 226, 255, 0.35)',
-                    filter: 'blur(120px)'
-                }}
-            />
 
             {/* Layer 2: White Glow - Bottom Left (Natural Transition) */}
             <div
@@ -165,8 +141,8 @@ export function Hero() {
 
                             {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
                             <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none">
-                                <div className="absolute -top-[10%] -right-[5%] w-[450px] h-[450px] bg-[#0057B7] rounded-full blur-[120px] opacity-20"></div>
-                                <div className="absolute bottom-[5%] right-[20%] w-[400px] h-[400px] bg-[#FFD900] rounded-full blur-[120px] opacity-20"></div>
+                                <div className="absolute top-[-10%] left-[15%] w-[550px] h-[550px] rounded-full bg-[#0057B7] blur-[150px] opacity-[0.2]"></div>
+                                <div className="absolute bottom-[-10%] right-[5%] w-[550px] h-[550px] rounded-full bg-[#FFD900] blur-[150px] opacity-[0.2]"></div>
                             </div>
 
                             <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>

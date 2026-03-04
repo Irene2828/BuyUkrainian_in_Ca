@@ -50,18 +50,18 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center">
-          <Link href="/" className="flex items-center group">
+          <Link href="/" className="flex items-center group gap-0">
             <img
-              src="/header-logo.png"
-              alt="BuyUkrainian.ca"
-              className="header-logo-img object-contain transition-all duration-500 h-[61px] w-auto ml-[-12px]"
+              src="/assets/newlogo26.png"
+              alt="BuyUkrainian.ca Integrated Crest"
+              className="h-10 w-auto md:h-12"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center ml-[-22px] h-10 font-instrument">
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/70 leading-none">
+            <div className="flex flex-col justify-center h-10 font-instrument pt-1 -ml-1">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/80 leading-none">
                 Ukrainian Products
               </span>
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/70 leading-none mt-[2px]">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/80 leading-none mt-[2px]">
                 in Canada
               </span>
             </div>

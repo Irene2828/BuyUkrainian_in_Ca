@@ -51,8 +51,8 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
     html: `
       <div style="position: relative; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
         ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
-        <div class="marker-container premium-map-pin flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md relative z-10 ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0" style="color: transparent;">
+        <div class="marker-container premium-map-pin flex items-center justify-center relative z-10 ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0 drop-shadow-md" style="color: transparent;">
             <defs>
               <linearGradient id="ukraineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="50%" stop-color="#0057B7" />
@@ -143,52 +143,22 @@ const MarkerClusterGroup = ({
         removeOutsideVisibleBounds: true,
         maxClusterRadius: 50, // Tight clusters
         iconCreateFunction: (cluster) => {
-          const childCount = cluster.getChildCount();
-
-          // Dynamic sizing based on density
-          // Base size matches standard pin (28px) but slightly larger for visibility
-          let sizeClass = 'w-9 h-9'; // 36px
-          let iconSize = [36, 36] as [number, number];
-          let fontSize = '13px';
-
-          if (childCount >= 10) {
-            sizeClass = 'w-11 h-11'; // 44px
-            iconSize = [44, 44];
-            fontSize = '14px';
-          }
-          if (childCount >= 50) {
-            sizeClass = 'w-12 h-12'; // 48px
-            iconSize = [48, 48];
-            fontSize = '15px';
-          }
-
-          // Exact replication of standard pin style (Circle split blue/yellow) with Refined Shoulder Badge
           return L.divIcon({
-            html: `
-              <div class="cluster-badge-wrapper premium-map-pin" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                <div class="marker-container" style="width: ${iconSize[0] - 8}px; height: ${iconSize[1] - 8}px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
-                  <span style="color: #0057B7; font-weight: 800; font-size: ${childCount > 9 ? '14px' : '15px'}; font-family: var(--font-sans); letter-spacing: -0.02em; z-index: 10;">${childCount}</span>
-                </div>
-              </div>
-            `,
+            html: `<div class="relative flex items-center justify-center transition-transform hover:scale-110">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0 drop-shadow-md" style="color: transparent;">
+                  <defs>
+                    <linearGradient id="ukraineGradientCluster" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="50%" stop-color="#0057B7" />
+                      <stop offset="50%" stop-color="#FFD900" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="url(#ukraineGradientCluster)" stroke="url(#ukraineGradientCluster)"></path>
+                  <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#ffffff"></circle>
+                </svg>
+            </div>`,
             className: 'custom-cluster-icon !bg-transparent !border-none !overflow-visible', // Force overflow visible to show the badge
-            iconSize: iconSize
+            iconSize: [32, 32]
           });
-        }
-      });
-
-      // Show tooltip on cluster hover
-      newGroup.on('clustermouseover', (a: any) => {
-        const cluster = a.layer;
-        const count = cluster.getChildCount();
-        if (count > 1) {
-          cluster.bindTooltip("More than one store in the area", {
-            direction: 'top',
-            offset: [0, -20],
-            className: 'premium-map-tooltip',
-            permanent: false,
-            sticky: false
-          }).openTooltip();
         }
       });
 
