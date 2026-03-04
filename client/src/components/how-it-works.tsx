@@ -89,7 +89,7 @@ export function HowItWorks() {
 
                 {/* Bottom Section: ContentStack */}
                 <div className="flex flex-col items-center text-center mt-12 w-full">
-                  <h3 className="text-slate-900 font-semibold text-lg mb-[18px] min-h-[60px] flex flex-col items-center justify-center text-center tracking-tight leading-snug w-full">
+                  <h3 className="text-slate-900 font-semibold text-lg mb-[24px] min-h-[60px] flex flex-col items-center justify-center text-center tracking-tight leading-snug w-full">
                     <span>{step.title}</span>
                   </h3>
                   <p className="text-slate-500 text-[16px] leading-relaxed font-ui w-full text-center">

@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, useMap, GeoJSON, Popup, useMapEvents }
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import { Store } from '@/lib/data';
 import { Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Map as MapIcon, ExternalLink, Navigation, Info } from 'lucide-react';
@@ -44,30 +43,29 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 // Unified Blue/Yellow Pin Marker with Dimming Support - Stabilized (No Shaky Ping)
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
-  // Box-shadow matches tailwind shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
-  // Border 2px white matches ring-2 ring-white
+  const gradId = `ug-${Math.random().toString(36).substr(2, 8)}`;
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
       <div style="position: relative; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
         ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
-        <div class="marker-container premium-map-pin flex items-center justify-center relative z-10 ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0 drop-shadow-md" style="color: transparent;">
+        <div style="display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18)); opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.2)' : 'scale(1)'}; transition: all 0.2s ease;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="ukraineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <linearGradient id="${gradId}" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="50%" stop-color="#0057B7" />
                 <stop offset="50%" stop-color="#FFD900" />
               </linearGradient>
             </defs>
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="url(#ukraineGradient)" stroke="url(#ukraineGradient)"></path>
-            <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#ffffff"></circle>
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="url(#${gradId})" />
+            <circle cx="12" cy="10" r="3" fill="#ffffff" />
           </svg>
         </div>
       </div>
     `,
     iconSize: [48, 48],
-    iconAnchor: [24, 24],
-    popupAnchor: [0, -24],
+    iconAnchor: [24, 48],
+    popupAnchor: [0, -48],
   });
 };
 
@@ -213,7 +211,8 @@ const MarkerClusterGroup = ({
             opacity: 1,
             className: 'premium-map-tooltip',
             permanent: false,
-            sticky: false
+            sticky: false,
+            interactive: false
           });
 
           // Surgical Click Handler

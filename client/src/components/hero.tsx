@@ -52,25 +52,25 @@ export function Hero() {
 
             <div className="boutique-width w-full py-10 lg:py-0 flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area */}
-                <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-auto md:-mt-12">
+                <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-none md:-mt-12">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
                     <h1
-                        className="leading-none w-full antialiased"
+                        className="leading-none w-full antialiased pointer-events-auto"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-slate-900 leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
+                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-[#0057B7] leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
-                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-slate-900 whitespace-nowrap mt-2">
-                            sold across <span className="relative inline-block"><span className="relative z-10">Canada</span><span className="absolute bottom-1.5 left-0 w-full h-3 bg-[#FFF3C4] rounded-[2px] -z-10"></span></span>
+                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#C69500] whitespace-nowrap mt-2">
+                            sold across <span className="relative inline-block"><span className="relative z-10">Canada</span><span className="absolute bottom-1.5 left-0 w-full h-3 bg-[#FFF3C4] rounded-[2px] -z-10 opacity-0"></span></span>
                         </span>
                     </h1>
 
-                    <p className="mt-8 mb-10 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium">
-                        Find, add, and share local stores selling Ukrainian-made products to support Ukraine's economy from Canada
+                    <p className="mt-8 mb-10 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium pointer-events-auto">
+                        Find, add, and share local stores selling Ukrainian-made products<br />to support Ukraine's economy from Canada
                     </p>
 
-                    <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
+                    <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto pointer-events-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
                                 className="h-[48px] px-8 2xl:px-10 w-full md:w-auto rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
@@ -140,9 +140,10 @@ export function Hero() {
                         <div className="relative w-full h-full pointer-events-auto">
 
                             {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
-                            <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none">
-                                <div className="absolute top-[-10%] left-[15%] w-[550px] h-[550px] rounded-full bg-[#0057B7] blur-[150px] opacity-[0.2]"></div>
-                                <div className="absolute bottom-[-10%] right-[5%] w-[550px] h-[550px] rounded-full bg-[#FFD900] blur-[150px] opacity-[0.2]"></div>
+                            {/* opacity-0 = hidden; remove to restore. Values: top-[25%] right-[45%] blue | top-[50%] right-[30%] yellow */}
+                            <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none opacity-0">
+                                <div className="absolute top-[25%] right-[45%] w-[350px] h-[150px] bg-[#0057B7] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
+                                <div className="absolute top-[50%] right-[30%] w-[350px] h-[150px] bg-[#FFD900] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
                             </div>
 
                             <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>

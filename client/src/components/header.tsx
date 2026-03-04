@@ -54,14 +54,14 @@ export function Header() {
             <img
               src="/assets/newlogo26.png"
               alt="BuyUkrainian.ca Integrated Crest"
-              className="h-10 w-auto md:h-12"
+              className="h-10 w-auto md:h-12 -ml-3"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center h-10 font-instrument pt-1 -ml-1">
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/80 leading-none">
+            <div className="flex flex-col justify-center h-10 font-instrument pt-1 -ml-5">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none">
                 Ukrainian Products
               </span>
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/80 leading-none mt-[2px]">
+              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none mt-[2px]">
                 in Canada
               </span>
             </div>
