@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap');
 @import "./GlobalStyles.css";
 @import "./premium-interactions.css";
 @import "./listing-card-fix.css";

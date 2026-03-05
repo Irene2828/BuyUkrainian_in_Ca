@@ -57,11 +57,11 @@ export function Header() {
               className="h-10 2xl:h-[54px] w-auto object-contain shrink-0"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center h-10 font-instrument pt-1 -ml-4">
-              <span className="header-logo-text text-[16.5px] 2xl:text-[18px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none">
+            <div className="flex flex-col justify-center h-10 pt-1 -ml-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <span className="header-logo-text text-[20px] 2xl:text-[22px] font-semibold tracking-tight text-[#0A2540] leading-none">
                 Ukrainian Products
               </span>
-              <span className="header-logo-text text-[16.5px] 2xl:text-[13px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none mt-[2px]">
+              <span className="header-logo-text text-[15px] 2xl:text-[16px] font-medium tracking-tight text-[#0A2540]/80 leading-none mt-[3px] italic">
                 in Canada
               </span>
             </div>
