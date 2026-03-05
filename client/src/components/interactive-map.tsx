@@ -48,7 +48,7 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
         <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
-        <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#BAE6FD]/60 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
+        <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/50 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
 
         ${isNewest ? `<div class="absolute inset-0 border-radius: 50%; border: 2px solid #FFD900; opacity: 0.25; animation: pulse 2s infinite; z-index: 1;"></div>` : ''}
 
@@ -144,7 +144,7 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
                 <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
-                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#BAE6FD]/60 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
+                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/50 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
                 
                 <!-- 2. The Branded Pin with Gold Outline -->
                 <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom">
