@@ -262,3 +262,16 @@ section h3,
     opacity: 1;
     transform: translateY(0);
 }
+
+/* 1. FORCE WHITE MAP BACKGROUND: Seamless Zoom Floor */
+.leaflet-container {
+    background: #ffffff !important;
+    outline: none;
+}
+
+/* 2. ACCELERATE TILE FADING: Snappier Loading */
+.leaflet-tile {
+    filter: brightness(1);
+    /* Ensures no gray tint during load */
+    transition: opacity 200ms linear !important;
+}

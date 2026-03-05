@@ -261,7 +261,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                     <div className="flex flex-col items-start gap-3 pointer-events-none">
 
                                         {/* Control Strip - outer wrapper is position:relative + overflow:visible so dropdowns can escape */}
-                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center min-[1441px]:h-[46px] max-[1440px]:h-[38px] h-[42px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-slate-50/90 backdrop-blur-md border border-slate-200/50 ring-1 ring-white/40 ring-inset shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center min-[1441px]:h-[46px] max-[1440px]:h-[38px] h-[42px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-white/85 backdrop-blur-2xl shadow-[0_8px_30px_rgba(10,37,64,0.08)] rounded-full border-0 px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
                                             {/* Inner scrollable row - overflow-x-auto for mobile, but dropdowns live OUTSIDE this */}
                                             <div className="flex items-center h-full overflow-x-auto scrollbar-hide touch-pan-x">
                                                 {/* Segment 1: Search */}

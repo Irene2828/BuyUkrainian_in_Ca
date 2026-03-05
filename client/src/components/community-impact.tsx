@@ -45,7 +45,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
-        <section className="relative w-full overflow-hidden bg-gradient-to-b from-white to-[#F4F9FF] py-10 md:py-14 border-t border-[#C69500]/20">
+        <section className="relative w-full overflow-hidden bg-gradient-to-b from-white to-[#F4F9FF] py-10 md:py-14 border-t border-slate-200/50">
             {/* Ambient Glow - Matching Hero Atmosphere */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#BAE6FD] blur-[150px] opacity-30 pointer-events-none rounded-t-full z-0"></div>
 
@@ -54,12 +54,12 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <Share2 size={14} className="text-blue-400" />
+                            <Share2 size={14} className="text-[#C69500]" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>
                         </div>
-                        <h2 className="text-[31px] md:text-[41px] font-semibold text-slate-900 leading-tight stagger-item w-full tracking-tight mb-5">
+                        <h2 className="text-[25px] md:text-[33px] font-semibold text-slate-900 leading-tight stagger-item w-full tracking-tight mb-5">
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">

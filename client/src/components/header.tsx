@@ -42,8 +42,8 @@ export function Header() {
   return (
     <header
       className={cn(
-        "relative z-50 bg-[#FFF9EA] transition-all duration-300 ease-in-out font-sans",
-        "border-b border-[#0A2540]/5"
+        "relative z-50 bg-white transition-all duration-300 ease-in-out font-sans",
+        "shadow-[0_4px_24px_rgba(10,37,64,0.04)] border-0"
       )}
     >
       <div className="boutique-width h-[72px] 2xl:h-[96px] flex items-center justify-between relative">

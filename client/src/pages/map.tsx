@@ -192,7 +192,7 @@ export default function MapPage() {
 
               {/* Mobile Metadata */}
               <div className="md:hidden flex justify-center">
-                <div className="flex items-center gap-2.5 bg-slate-50/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-slate-100">
+                <div className="flex items-center gap-2.5 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border-0 shadow-sm">
                   <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.4)]" />
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600">
                     Verified Ukrainian Products

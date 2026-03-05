@@ -48,7 +48,7 @@ const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: b
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
         <!-- Premium Tooltip (Frosted Glass Style) -->
-        <div class="absolute bottom-full left-full mb-[2px] ml-[2px] z-50 pointer-events-none whitespace-nowrap rounded-xl bg-white/70 backdrop-blur-md border border-white/60 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_8px_24px_rgba(10,37,64,0.08)] opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
+        <div class="absolute bottom-full left-full mb-[2px] ml-[2px] z-50 pointer-events-none whitespace-nowrap rounded-xl bg-white/60 backdrop-blur-md px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_8px_24px_rgba(10,37,64,0.08)] border-0 opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
           ${name}
         </div>
 
@@ -164,7 +164,7 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
                 <!-- Premium Tooltip (Frosted Glass Style) -->
-                <div class="absolute bottom-full left-full mb-[2px] ml-[2px] z-50 pointer-events-none whitespace-nowrap rounded-xl bg-white/70 backdrop-blur-md border border-white/60 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_8px_24px_rgba(10,37,64,0.08)] opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
+                <div class="absolute bottom-full left-full mb-[2px] ml-[2px] z-50 pointer-events-none whitespace-nowrap rounded-xl bg-white/60 backdrop-blur-md px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_8px_24px_rgba(10,37,64,0.08)] border-0 opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
                   more than 1 store in the area
                 </div>
 
@@ -509,7 +509,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           maxZoom={20}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           className="map-tile-pane-sovereign"
-          updateWhenIdle={false}
+          updateWhenIdle={true}
           updateWhenZooming={false}
           keepBuffer={2}
         />
@@ -562,7 +562,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
 
           {/* Main Control Group */}
-          <div className="flex flex-col items-center bg-slate-50/90 backdrop-blur-md border border-slate-200/50 ring-1 ring-white/40 ring-inset rounded-full shadow-lg overflow-hidden pointer-events-auto">
+          <div className="flex flex-col items-center bg-white/85 backdrop-blur-2xl shadow-[0_8px_30px_rgba(10,37,64,0.08)] rounded-full border-0 overflow-hidden pointer-events-auto">
             <TooltipProvider delayDuration={200}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -652,12 +652,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           {/* Separated Help Button (32px lower approx via gap-6/8) */}
           <div className="relative group">
             <div className="absolute top-1/2 -translate-y-1/2 right-full mr-4 pointer-events-none z-50 flex items-center">
-              <div className="bg-white/80 backdrop-blur-xl border border-white shadow-[0_8px_32px_rgba(10,37,64,0.08)] rounded-xl px-4 py-2 text-[12px] font-medium tracking-wide text-[#0A2540] whitespace-nowrap opacity-0 translate-x-3 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0">
+              <div className="bg-white/60 backdrop-blur-md shadow-[0_8px_32px_rgba(10,37,64,0.08)] rounded-xl px-4 py-2 text-[12px] font-medium tracking-wide text-[#0A2540] whitespace-nowrap opacity-0 translate-x-3 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 border-0">
                 Pins show local stores selling Ukrainian-made products
               </div>
             </div>
             <button
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50/90 backdrop-blur-md border border-slate-200/50 ring-1 ring-white/40 ring-inset text-slate-700 hover:text-slate-900 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-white/85 backdrop-blur-2xl shadow-[0_8px_30px_rgba(10,37,64,0.08)] border-0 text-slate-700 hover:text-slate-900 transition-all font-medium text-lg pointer-events-auto active:scale-95"
               aria-label="How to use the map"
             >
               <Info className="w-5 h-5 stroke-[2.5]" />
