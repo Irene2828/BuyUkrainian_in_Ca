@@ -91,7 +91,7 @@ export function RecentProductsMarquee() {
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span
                                                 className="font-medium tracking-tight text-slate-400/90 leading-[1.2] mb-0.5"
-                                                style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
+                                                style={{ fontSize: '14px' }}
                                             >
                                                 {store.name}
                                             </span>
