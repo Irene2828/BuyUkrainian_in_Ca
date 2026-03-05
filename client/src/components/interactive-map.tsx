@@ -182,7 +182,7 @@ const MarkerClusterGroup = ({
         const cluster = a.layer;
         cluster.bindTooltip("more than 1 store in the area", {
           direction: 'right',
-          offset: [20, -20],
+          offset: [10, -10],
           opacity: 1,
           className: 'premium-map-tooltip',
           permanent: false,
@@ -242,7 +242,7 @@ const MarkerClusterGroup = ({
           // Hover effect: Show store name
           marker.bindTooltip(store.name, {
             direction: 'right',
-            offset: [20, -20],
+            offset: [10, -10],
             opacity: 1,
             className: 'premium-map-tooltip',
             permanent: false,
