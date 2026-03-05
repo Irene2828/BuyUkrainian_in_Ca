@@ -139,7 +139,7 @@ export function Hero() {
                     }}
                 >
                     {/* Inner wrapper for shifted map content */}
-                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[4%] -translate-y-[12%]">
+                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[4%] -translate-y-[2%] min-[1441px]:-translate-y-[12%]">
                         <div className="relative w-full h-full pointer-events-auto">
 
                             {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
