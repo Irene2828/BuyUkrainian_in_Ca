@@ -47,8 +47,8 @@ const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: b
     className: 'unified-marker-icon',
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
-        <!-- Premium Tooltip (Inverted Style) -->
-        <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-lg bg-[#0A2540] px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-white shadow-xl opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
+        <!-- Premium Tooltip (Frosted Glass Style) -->
+        <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-md bg-white/70 backdrop-blur-md border border-white/60 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_4px_20px_rgba(10,37,64,0.06)] opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
           ${name}
         </div>
 
@@ -164,8 +164,8 @@ const MarkerClusterGroup = ({
         iconCreateFunction: (cluster) => {
           return L.divIcon({
             html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
-                <!-- Premium Tooltip (Inverted Style) -->
-                <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-lg bg-[#0A2540] px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-white shadow-xl opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
+                <!-- Premium Tooltip (Frosted Glass Style) -->
+                <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-md bg-white/70 backdrop-blur-md border border-white/60 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_4px_20px_rgba(10,37,64,0.06)] opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
                   more than 1 store in the area
                 </div>
 
