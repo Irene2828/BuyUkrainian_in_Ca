@@ -81,7 +81,6 @@ const isWithinCanada = (lat: number, lng: number) => {
   return valid;
 };
 
-// Scroll wheel zoom is permanently disabled - users can zoom using +/- buttons only
 
 // Controller to capture the map instance for imperative usage
 function MapController({
@@ -484,7 +483,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         zoom={variant === 'hero' ? 4.2 : INITIAL_MAP_STATE.zoom}
         minZoom={3.5}
         maxZoom={18}
-        scrollWheelZoom={false}
+        scrollWheelZoom={variant !== 'hero'}
         dragging={variant !== 'hero'}
         doubleClickZoom={variant !== 'hero'}
         touchZoom={variant !== 'hero'}
@@ -496,8 +495,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         bounceAtZoomLimits={false}
         maxBounds={CANADA_BOUNDS}
         maxBoundsViscosity={1.0}
-        zoomSnap={0}
-        zoomDelta={0.4}
+        zoomSnap={0.5}
+        zoomDelta={0.5}
+        wheelPxPerZoomLevel={120}
         markerZoomAnimation={true}
         zoomAnimation={true}
         fadeAnimation={true}
