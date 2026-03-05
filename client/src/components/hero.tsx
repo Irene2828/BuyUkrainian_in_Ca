@@ -61,10 +61,10 @@ export function Hero() {
                         className="leading-none w-full antialiased pointer-events-auto"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span className="block text-[2.4375rem] md:text-[3.375rem] font-semibold tracking-tight text-[#0057B7] leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
+                        <span className="block text-[2.4375rem] md:text-[3.0375rem] min-[1441px]:text-[3.375rem] font-semibold tracking-tight text-[#0057B7] leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
-                        <span className="block text-[1.8125rem] md:text-[2.5625rem] font-normal tracking-tight text-[#C69500] whitespace-nowrap mt-2">
+                        <span className="block text-[1.8125rem] md:text-[2.306rem] min-[1441px]:text-[2.5625rem] font-normal tracking-tight text-[#C69500] whitespace-nowrap mt-2">
                             sold across <span className="relative inline-block"><span className="relative z-10">Canada</span><span className="absolute bottom-1.5 left-0 w-full h-3 bg-[#FFF3C4] rounded-[2px] -z-10 opacity-0"></span></span>
                         </span>
                     </h1>
@@ -76,7 +76,7 @@ export function Hero() {
                     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto pointer-events-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
-                                className="h-12 2xl:h-[54px] px-8 2xl:px-8 w-full md:w-auto rounded-full bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-opacity duration-300 shadow-sm hover:opacity-80 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
+                                className="h-[46px] min-[1441px]:h-[54px] px-8 2xl:px-8 w-full md:w-auto rounded-full bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-opacity duration-300 shadow-sm hover:opacity-80 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                             >
                                 <span>{t('hero.ctaPrimary') || 'Open Interactive Map'}</span>
                                 <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-300 group-hover/cta-btn:text-[#FFF4CC]" />
