@@ -86,17 +86,17 @@ export function RecentProductsMarquee() {
                                         className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
                                     >
-                                        <div className="w-1.5 h-1.5 rounded-full bg-[#0057B7]/75 shadow-[0_0_8px_rgba(0,87,183,0.4)] shrink-0" />
+                                        <div className="w-1.5 h-1.5 rounded-full bg-slate-400/80 shadow-[0_0_8px_rgba(148,163,184,0.3)] shrink-0" />
 
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span
-                                                className="font-medium tracking-[-0.02em] text-[#0057B7]/75 leading-[1.2] mb-0.5"
+                                                className="font-medium tracking-tight text-slate-400/90 leading-[1.2] mb-0.5"
                                                 style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
                                             >
                                                 {store.name}
                                             </span>
                                             <span
-                                                className="font-medium text-[#0057B7]/75 leading-[1.2]"
+                                                className="font-medium text-slate-400/80 leading-[1.2]"
                                                 style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
                                             >
                                                 {store.city || 'Location'}, {provinceCode}
