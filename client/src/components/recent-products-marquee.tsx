@@ -63,7 +63,7 @@ export function RecentProductsMarquee() {
                         <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
                         <div className="relative z-10 flex items-center gap-2.5 pl-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#CFA144] shadow-[0_0_6px_rgba(207,161,68,0.5)] shrink-0" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#BAE6FD] shadow-[0_0_8px_rgba(186,230,253,0.8)] shrink-0" />
                             <p className="text-[13px] font-bold tracking-[0.08em] uppercase whitespace-nowrap m-0 font-ui text-slate-900/50">
                                 {t('ticker.label') || 'ADDED THIS MONTH'}
                             </p>
@@ -94,17 +94,17 @@ export function RecentProductsMarquee() {
                                         className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
                                     >
-                                        <div className="w-1.5 h-1.5 rounded-full bg-[#CFA144] shadow-[0_0_6px_rgba(207,161,68,0.5)] shrink-0" />
+                                        <div className="w-1.5 h-1.5 rounded-full bg-[#BAE6FD] shadow-[0_0_8px_rgba(186,230,253,0.8)] shrink-0" />
 
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span
-                                                className="font-medium tracking-[-0.02em] text-[#1A1A19]/80 leading-[1.2] mb-0.5"
+                                                className="font-medium tracking-[-0.02em] text-[#1A1A19]/60 leading-[1.2] mb-0.5"
                                                 style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
                                             >
                                                 {store.name}
                                             </span>
                                             <span
-                                                className="font-medium text-[#555555] leading-[1.2]"
+                                                className="font-medium text-[#555555]/80 leading-[1.2]"
                                                 style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
                                             >
                                                 {store.city || 'Location'}, {provinceCode}

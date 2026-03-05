@@ -60,7 +60,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">
-                            Visibility drives support.<br />Every conscious purchase strengthens the Ukrainian economy.
+                            Support Ukraine with every purchase.<br />No matter where you are.
                         </p>
                     </div>
 
