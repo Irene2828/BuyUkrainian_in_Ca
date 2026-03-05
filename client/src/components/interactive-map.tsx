@@ -55,7 +55,7 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
         <!-- 2. The Branded Pin with Gold Outline -->
         <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
           <svg width="32" height="40" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg" 
-               class="transition-all duration-300"
+               class="transition-all duration-300 group-hover:!filter-none"
                style="filter: drop-shadow(1px 0 0 #0057B7) drop-shadow(-1px 0 0 #0057B7) drop-shadow(0 1px 0 #0057B7) drop-shadow(0 -1px 0 #0057B7);">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" class="fill-[#0057B7] group-hover:fill-[#FFD900] transition-colors duration-300" />
             <circle cx="12" cy="10" r="3" fill="#ffffff" />
@@ -148,7 +148,7 @@ const MarkerClusterGroup = ({
                 
                 <!-- 2. The Branded Pin with Gold Outline -->
                 <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom">
-                  <svg width="32" height="40" viewBox="0 0 24 30" fill="none" class="m-0 transition-all duration-300"
+                  <svg width="32" height="40" viewBox="0 0 24 30" fill="none" class="m-0 transition-all duration-300 group-hover:!filter-none"
                        style="filter: drop-shadow(1px 0 0 #0057B7) drop-shadow(-1px 0 0 #0057B7) drop-shadow(0 1px 0 #0057B7) drop-shadow(0 -1px 0 #0057B7);">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" class="fill-[#0057B7] group-hover:fill-[#FFD900] transition-colors duration-300"></path>
                     <circle cx="12" cy="10" r="3" fill="#ffffff"></circle>
@@ -165,8 +165,8 @@ const MarkerClusterGroup = ({
       newGroup.on('clustermouseover', (a) => {
         const cluster = a.layer;
         cluster.bindTooltip("more than 1 store in the area", {
-          direction: 'top',
-          offset: [0, -15],
+          direction: 'right',
+          offset: [20, -20],
           opacity: 1,
           className: 'premium-map-tooltip',
           permanent: false,
@@ -225,8 +225,8 @@ const MarkerClusterGroup = ({
 
           // Hover effect: Show store name
           marker.bindTooltip(store.name, {
-            direction: 'top',
-            offset: [0, -15],
+            direction: 'right',
+            offset: [20, -20],
             opacity: 1,
             className: 'premium-map-tooltip',
             permanent: false,

@@ -60,8 +60,8 @@ export function HowItWorks() {
         {/* Section Header */}
         <div ref={headerRef} className="w-full mb-12 lg:mb-20 flex justify-center overflow-hidden">
           <h2
-            className="text-3xl md:text-[2.75rem] font-bold text-[#0A2540] tracking-tight leading-tight text-center translate-y-[40px] opacity-0 transition-all duration-1000 ease-out data-[in-view=true]:translate-y-0 data-[in-view=true]:opacity-100"
-            data-in-view={isHeaderInView}
+            className="text-3xl md:text-[2.75rem] font-bold text-[#0A2540] tracking-tight leading-tight text-center translate-y-[40px] opacity-0 transition-all duration-1000 ease-out data-[in-view]:translate-y-0 data-[in-view]:opacity-100"
+            data-in-view={isHeaderInView ? "" : undefined}
           >
             {t('howItWorks.title') || 'When to Use this Map'}
           </h2>
