@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, forwardRef, useImperativeHandle, Suspense, lazy } from "react";
+import { useState, useRef, useEffect, forwardRef, useMemo, useImperativeHandle, Suspense, lazy } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -104,9 +104,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
-    staleTime: 1000 * 60 * 5,   // 5 min: data stays fresh, no refetch on re-focus
-    gcTime: 1000 * 60 * 30,     // 30 min: keep cache alive across page navigations
-    refetchOnWindowFocus: false, // Don't refetch when user switches tabs/windows
+    staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 60 * 24,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   // Track if province has ever been set (to distinguish initial mount from clearing)
@@ -184,26 +185,28 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     return map[p] || p;
   };
 
-  const filteredStores = stores.filter((store) => {
-    const matchesSearch = !searchQuery ||
-      store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredStores = useMemo(() => {
+    return stores.filter((store) => {
+      const matchesSearch = !searchQuery ||
+        store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    const matchesCategory = !category || store.category === category;
-    const storeProvinceFull = getFullProvince(store.province);
-    const matchesProvince = !selectedProvince || storeProvinceFull === selectedProvince;
-    const matchesCity = !selectedCity || store.city === selectedCity;
+      const matchesCategory = !category || store.category === category;
+      const storeProvinceFull = getFullProvince(store.province);
+      const matchesProvince = !selectedProvince || storeProvinceFull === selectedProvince;
+      const matchesCity = !selectedCity || store.city === selectedCity;
 
-    return matchesSearch && matchesCategory && matchesProvince && matchesCity;
-  }).sort((a, b) => {
-    if (sortMode === "name") {
-      return a.name.localeCompare(b.name);
-    }
-    // Sort by createdAt descending (newest first)
-    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-    return dateB - dateA;
-  });
+      return matchesSearch && matchesCategory && matchesProvince && matchesCity;
+    }).sort((a, b) => {
+      if (sortMode === "name") {
+        return a.name.localeCompare(b.name);
+      }
+      // Sort by createdAt descending (newest first)
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateB - dateA;
+    });
+  }, [stores, searchQuery, category, selectedProvince, selectedCity, sortMode]);
 
   const handleSelectStore = (store: Store) => {
     onStoreSelect(store);

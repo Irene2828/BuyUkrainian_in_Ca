@@ -123,7 +123,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
-        staleTime: 1000 * 60 * 5, // 5 minutes fresh before re-fetching
+        staleTime: 1000 * 60 * 30,
+        gcTime: 1000 * 60 * 60 * 24,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
 
     // Stats Calculation (Total)

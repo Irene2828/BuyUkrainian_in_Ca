@@ -10,7 +10,10 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
-        // EGRESS OPTIMIZATION: Uses shared 5-min staleTime from queryClient defaults
+        staleTime: 1000 * 60 * 30,
+        gcTime: 1000 * 60 * 60 * 24,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
 
     const shareMessage = "I just found a great way to support Ukraine locally. Check out this interactive map of Ukrainian-made products in Canada:";

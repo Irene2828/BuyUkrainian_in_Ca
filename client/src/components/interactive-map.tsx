@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, GeoJSON, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -214,12 +214,9 @@ const MarkerClusterGroup = ({
 
   const markersMapRef = useRef<globalThis.Map<string, L.Marker>>(new globalThis.Map());
 
-  // 1. Structural Layer Construction (Only triggers on hard data/group changes)
-  useEffect(() => {
-    if (!group) return;
-
-    group.clearLayers();
-    markersMapRef.current.clear();
+  // 1. Memoize Marker Objects (Expensive Construction)
+  const markerObjects = useMemo(() => {
+    if (!group) return [];
 
     const newestStoreId = stores.length > 0
       ? stores.reduce((latest, store) => {
@@ -229,47 +226,51 @@ const MarkerClusterGroup = ({
       }, stores[0]).id
       : null;
 
-    const layers: L.Marker[] = [];
+    return stores.map(store => {
+      if (!store.coordinates) return null;
+      if (!isWithinCanada(store.coordinates[0], store.coordinates[1])) return null;
 
-    stores.forEach(store => {
-      if (store.coordinates) {
-        if (isWithinCanada(store.coordinates[0], store.coordinates[1])) {
-          // Initialize with default design (will be painted correctly by selection effect below)
-          const marker = L.marker(store.coordinates as [number, number], {
-            icon: createUnifiedMarker(false, false, store.id === newestStoreId)
-          });
+      const marker = L.marker(store.coordinates as [number, number], {
+        icon: createUnifiedMarker(false, false, store.id === newestStoreId)
+      });
 
-          // Hover effect: Show store name
-          marker.bindTooltip(store.name, {
-            direction: 'right',
-            offset: [10, -10],
-            opacity: 1,
-            className: 'premium-map-tooltip',
-            permanent: false,
-            sticky: false,
-            interactive: false
-          });
+      marker.bindTooltip(store.name, {
+        direction: 'right',
+        offset: [10, -10],
+        opacity: 1,
+        className: 'premium-map-tooltip',
+        permanent: false,
+        sticky: false,
+        interactive: false
+      });
 
-          // Surgical Click Handler
-          marker.on('click', (e) => {
-            console.log("Marker clicked:", store.name, store.id);
-            L.DomEvent.stopPropagation(e);
-            if (onSelectStoreRef.current) {
-              onSelectStoreRef.current(store);
-            }
-          });
-
-          markersMapRef.current.set(store.id, marker);
-          layers.push(marker);
-        } else {
-          console.warn("Store filtered out by bounds:", store.name, store.coordinates);
+      marker.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (onSelectStoreRef.current) {
+          onSelectStoreRef.current(store);
         }
-      }
+      });
+
+      return { id: store.id, marker };
+    }).filter((m): m is { id: string; marker: L.Marker } => m !== null);
+  }, [stores, group]);
+
+  // 2. Structural Layer Sync (Re-draw only when markers collection changes)
+  useEffect(() => {
+    if (!group) return;
+
+    group.clearLayers();
+    markersMapRef.current.clear();
+
+    const layers: L.Marker[] = [];
+    markerObjects.forEach(mo => {
+      markersMapRef.current.set(mo.id, mo.marker);
+      layers.push(mo.marker);
     });
 
-    // Batch add layers for huge performance saving vs adding singularly
+    // Batch add layers for huge performance saving
     group.addLayers(layers);
-  }, [stores, group]);
+  }, [markerObjects, group]);
 
   // 2. Surgical Styling Updates (Runs on selection changes without destroying cluster layout)
   useEffect(() => {
@@ -450,6 +451,27 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     return () => window.removeEventListener('clearFilters', handleClearFilters);
   }, []);
 
+  // Memoize User Location Marker to prevent re-renders on every map pan/zoom
+  const userMarker = useMemo(() => {
+    if (!userLocation || !isWithinCanada(userLocation[0], userLocation[1])) return null;
+    return (
+      <Marker
+        position={userLocation}
+        icon={L.divIcon({
+          className: 'user-location-marker',
+          html: `
+            <div class="relative flex items-center justify-center">
+              <div class="location-pulse-ring"></div>
+              <div class="w-3 h-3 rounded-full bg-[#A5D8FF] border-2 border-white shadow-[0_2px_8px_rgba(165,216,255,0.6)] relative z-10"></div>
+            </div>
+          `,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20],
+        })}
+      />
+    );
+  }, [userLocation]);
+
   // Removed automatic fitBounds on mount to strictly respect INITIAL_MAP_STATE calibrabion.
   // This ensures the map doesn't zoom out to show USA labels on load.
 
@@ -516,22 +538,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           onSelectStore={onSelectStore}
         />
 
-        {userLocation && isWithinCanada(userLocation[0], userLocation[1]) && (
-          <Marker
-            position={userLocation}
-            icon={L.divIcon({
-              className: 'user-location-marker',
-              html: `
-                <div class="relative flex items-center justify-center">
-                  <div class="location-pulse-ring"></div>
-                  <div class="w-3 h-3 rounded-full bg-[#A5D8FF] border-2 border-white shadow-[0_2px_8px_rgba(165,216,255,0.6)] relative z-10"></div>
-                </div>
-              `,
-              iconSize: [40, 40],
-              iconAnchor: [20, 20],
-            })}
-          />
-        )}
+        {userMarker}
       </MapContainer>
 
 

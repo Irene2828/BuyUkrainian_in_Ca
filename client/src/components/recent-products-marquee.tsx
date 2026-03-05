@@ -28,7 +28,10 @@ export function RecentProductsMarquee() {
     const { data: stores = [], isLoading } = useQuery({
         queryKey: ["stores"],
         queryFn: getApprovedStores,
-        staleTime: 1000 * 60 * 5, // 5 minutes fresh before re-fetching
+        staleTime: 1000 * 60 * 30,
+        gcTime: 1000 * 60 * 60 * 24,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
 
     if (isLoading) {
