@@ -438,25 +438,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                 </div>
                             )}
 
-                            {/* Map Legend (Pins show...) - Now Bottom Centered */}
-                            {viewMode === "map" && !isZenMode && (
-                                <div
-                                    className={cn(
-                                        "absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 px-4 py-2 rounded-full",
-                                        "bg-white/80 backdrop-blur-md border border-slate-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
-                                        "transition-all duration-500 ease-in-out pointer-events-none",
-                                        selectedStore ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
-                                    )}
-                                >
-                                    <div className="flex -space-x-1 items-center">
-                                        <div className="w-2 h-2 rounded-full bg-[#0047FF] border border-white shadow-sm" />
-                                        <div className="w-2 h-2 rounded-full bg-[#F2D36B] border border-white shadow-sm" />
-                                    </div>
-                                    <span className="text-[12px] md:text-[13px] font-medium text-slate-600 whitespace-nowrap tracking-tight font-ui">
-                                        Pins show local stores selling Ukrainian-made products
-                                    </span>
-                                </div>
-                            )}
+
                         </div>
                     </div>
 

@@ -650,21 +650,19 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           </div>
 
           {/* Separated Help Button (32px lower approx via gap-6/8) */}
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50/90 backdrop-blur-md border border-slate-200/50 ring-1 ring-white/40 ring-inset text-slate-700 hover:text-slate-900 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
-                  aria-label="How to use the map"
-                >
-                  <Info className="w-5 h-5 stroke-[2.5]" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="left" className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg border-none shadow-xl hidden md:block">
-                How it works
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <div className="relative group">
+            <div className="absolute top-1/2 -translate-y-1/2 right-full mr-4 pointer-events-none z-50 flex items-center">
+              <div className="bg-white/80 backdrop-blur-xl border border-white shadow-[0_8px_32px_rgba(10,37,64,0.08)] rounded-xl px-4 py-2 text-[12px] font-medium tracking-wide text-[#0A2540] whitespace-nowrap opacity-0 translate-x-3 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0">
+                Pins show local stores selling Ukrainian-made products
+              </div>
+            </div>
+            <button
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50/90 backdrop-blur-md border border-slate-200/50 ring-1 ring-white/40 ring-inset text-slate-700 hover:text-slate-900 transition-all font-medium text-lg shadow-lg pointer-events-auto active:scale-95"
+              aria-label="How to use the map"
+            >
+              <Info className="w-5 h-5 stroke-[2.5]" />
+            </button>
+          </div>
         </div>
       )}
     </div>
