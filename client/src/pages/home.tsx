@@ -28,11 +28,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-white font-sans text-foreground selection:bg-yellow-accent/30 pt-[80px]">
+    <div className="bg-white font-sans text-foreground selection:bg-yellow-accent/30">
       <Header />
 
       <main>
-        <div className="section-reveal">
+        <div className="section-reveal -mt-[1px] relative z-0">
           <Hero />
 
           {/* 1. Hero-to-How-It-Works Transition Container */}
