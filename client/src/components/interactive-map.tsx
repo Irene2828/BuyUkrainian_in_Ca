@@ -41,12 +41,17 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 
 // Unified Blue/Yellow Pin Marker with Dimming Support
 // Unified Blue/Yellow Pin Marker with Dimming Support - Stabilized (No Shaky Ping)
-const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
+const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
+        <!-- Premium Tooltip (Inverted Style) -->
+        <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-lg bg-[#0A2540] px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-white shadow-xl opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
+          ${name}
+        </div>
+
         <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
         <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/50 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
 
@@ -159,6 +164,11 @@ const MarkerClusterGroup = ({
         iconCreateFunction: (cluster) => {
           return L.divIcon({
             html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
+                <!-- Premium Tooltip (Inverted Style) -->
+                <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-lg bg-[#0A2540] px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-white shadow-xl opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
+                  more than 1 store in the area
+                </div>
+
                 <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
                 <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/50 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
                 
@@ -179,20 +189,11 @@ const MarkerClusterGroup = ({
       });
 
       newGroup.on('clustermouseover', (a) => {
-        const cluster = a.layer;
-        cluster.bindTooltip("more than 1 store in the area", {
-          direction: 'right',
-          offset: [10, -10],
-          opacity: 1,
-          className: 'premium-map-tooltip',
-          permanent: false,
-          sticky: false,
-          interactive: false
-        }).openTooltip();
+        // Handled by manual CSS tooltip in iconCreateFunction
       });
 
       newGroup.on('clustermouseout', (a) => {
-        a.layer.closeTooltip();
+        // Handled by manual CSS tooltip in iconCreateFunction
       });
 
       map.addLayer(newGroup);
@@ -231,18 +232,10 @@ const MarkerClusterGroup = ({
       if (!isWithinCanada(store.coordinates[0], store.coordinates[1])) return null;
 
       const marker = L.marker(store.coordinates as [number, number], {
-        icon: createUnifiedMarker(false, false, store.id === newestStoreId)
+        icon: createUnifiedMarker(store.name, false, false, store.id === newestStoreId)
       });
 
-      marker.bindTooltip(store.name, {
-        direction: 'right',
-        offset: [10, -10],
-        opacity: 1,
-        className: 'premium-map-tooltip',
-        permanent: false,
-        sticky: false,
-        interactive: false
-      });
+      // Hover effect: Handled by manual CSS tooltip in createUnifiedMarker
 
       marker.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
@@ -292,7 +285,7 @@ const MarkerClusterGroup = ({
         const isSelected = selectedStore?.id === store.id;
         const isNewest = store.id === newestStoreId;
         // Surgical override of the map icon without destroying DOM element structurally
-        marker.setIcon(createUnifiedMarker(isSelected, isAnySelected, isNewest));
+        marker.setIcon(createUnifiedMarker(store.name, isSelected, isAnySelected, isNewest));
       }
     });
   }, [selectedStore, stores, group]);

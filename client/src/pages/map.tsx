@@ -121,7 +121,7 @@ function NewlyAddedStores() {
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="h-[48px] px-8 2xl:px-10 rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
+          className="h-[46px] px-6 text-[16px] font-medium rounded-full bg-[#0A2540] text-white transition-all duration-300 lg:h-[54px] lg:px-8 lg:text-[18px] tracking-tight antialiased shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
         >
           <span>Add a New Store</span>
           <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-300 group-hover/cta-btn:text-[#FFF4CC]" />
