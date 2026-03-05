@@ -58,9 +58,9 @@ export function HowItWorks() {
     <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-white">
       <div className="utility-width px-6 md:px-12">
         {/* Section Header */}
-        <div ref={headerRef} className="mb-16 max-w-4xl overflow-hidden">
+        <div ref={headerRef} className="w-full mb-12 lg:mb-20 flex justify-center overflow-hidden">
           <h2
-            className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight text-slate-900 translate-x-[-40px] opacity-0 transition-all duration-1000 ease-out data-[in-view=true]:translate-x-0 data-[in-view=true]:opacity-100"
+            className="text-3xl md:text-[2.75rem] font-bold text-[#0A2540] tracking-tight leading-tight text-center translate-y-[40px] opacity-0 transition-all duration-1000 ease-out data-[in-view=true]:translate-y-0 data-[in-view=true]:opacity-100"
             data-in-view={isHeaderInView}
           >
             {t('howItWorks.title') || 'When to Use this Map'}
