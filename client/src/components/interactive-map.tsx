@@ -50,14 +50,14 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
         <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
         <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/48 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
 
-        ${isNewest ? `<div class="absolute inset-0 border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite; z-index: 1;"></div>` : ''}
+        ${isNewest ? `<div class="absolute inset-0 border-radius: 50%; border: 2px solid #FFD900; opacity: 0.25; animation: pulse 2s infinite; z-index: 1;"></div>` : ''}
 
         <!-- 2. The Branded Pin with Gold Outline -->
         <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom group-hover:-translate-y-1.5" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
           <svg width="32" height="40" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg" 
                style="filter: drop-shadow(1px 0 0 #CFA144) drop-shadow(-1px 0 0 #CFA144) drop-shadow(0 1px 0 #CFA144) drop-shadow(0 -1px 0 #CFA144);">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0057B7" />
-            <circle cx="12" cy="10" r="3" fill="#ffffff" />
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#FFD900" />
+            <circle cx="12" cy="10" r="3" fill="#0057B7" />
           </svg>
         </div>
       </div>
@@ -147,10 +147,10 @@ const MarkerClusterGroup = ({
                 
                 <!-- 2. The Branded Pin with Gold Outline -->
                 <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom group-hover:-translate-y-1.5">
-                  <svg width="32" height="40" viewBox="0 0 24 30" fill="none" stroke="#0057B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0"
+                  <svg width="32" height="40" viewBox="0 0 24 30" fill="none" stroke="#FFD900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0"
                        style="filter: drop-shadow(1px 0 0 #CFA144) drop-shadow(-1px 0 0 #CFA144) drop-shadow(0 1px 0 #CFA144) drop-shadow(0 -1px 0 #CFA144);">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0057B7"></path>
-                    <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#ffffff"></circle>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#FFD900"></path>
+                    <circle cx="12" cy="10" r="3" fill="#0057B7" stroke="#0057B7"></circle>
                   </svg>
                 </div>
             </div>`,
