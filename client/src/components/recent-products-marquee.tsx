@@ -90,13 +90,13 @@ export function RecentProductsMarquee() {
 
                                         <div className="flex flex-col items-start justify-center">
                                             <span
-                                                className="font-medium tracking-tight text-slate-400/90 transition-all duration-200 group-hover:text-slate-400 mb-0.5"
+                                                className="font-medium tracking-tight text-slate-500 transition-all duration-300 group-hover:text-slate-950 mb-0.5"
                                                 style={{ fontSize: '14px' }}
                                             >
                                                 {store.name}
                                             </span>
                                             <span
-                                                className="font-medium text-slate-400/80 transition-all duration-200 group-hover:text-slate-400"
+                                                className="font-medium text-slate-400 transition-all duration-300 group-hover:text-slate-800"
                                                 style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
                                             >
                                                 {store.city || 'Location'}, {provinceCode}
