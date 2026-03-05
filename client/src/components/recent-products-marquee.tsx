@@ -126,7 +126,7 @@ export function RecentProductsMarquee() {
                         <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
                         <div className="relative z-10 flex items-center gap-2.5 pl-2">
-                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#CFA144] shadow-[0_0_6px_rgba(207,161,68,0.5)] shrink-0" />
                             <p className="text-[13px] font-bold tracking-[0.08em] uppercase whitespace-nowrap m-0 font-ui text-slate-900/50">
                                 {t('ticker.label') || 'ADDED THIS MONTH'}
                             </p>
@@ -159,11 +159,7 @@ export function RecentProductsMarquee() {
                                         onMouseEnter={(e) => handleMouseEnter(e, store)}
                                         onMouseLeave={handleMouseLeave}
                                     >
-                                        {/* Identity Dot: 10px, Split 50/50, Opacity 60->100 */}
-                                        <span
-                                            className="shrink-0 w-[10px] h-[10px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
-                                            style={{ background: 'linear-gradient(to bottom, #0057B7 50%, #FFD700 50%)' }}
-                                        />
+                                        <div className="w-1.5 h-1.5 rounded-full bg-[#CFA144] shadow-[0_0_6px_rgba(207,161,68,0.5)] shrink-0" />
 
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span
