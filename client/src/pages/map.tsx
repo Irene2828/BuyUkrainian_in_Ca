@@ -54,7 +54,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[72px] lg:pt-[90px] pb-[86px] border-t border-slate-200/50">
+    <section className="bg-white pt-[108px] lg:pt-[135px] pb-[129px] border-t border-slate-200/50">
       <div className="boutique-width">
         <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
           <div className="flex items-center gap-2.5">

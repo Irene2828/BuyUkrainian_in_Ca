@@ -39,7 +39,7 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
             )}
         >
             {/* Image (Hero) - 1.9:1 Aspect Ratio - 5% Taller than before */}
-            <div className="relative w-full aspect-[1.9/1] overflow-hidden rounded-[4px] bg-slate-50 mb-3">
+            <div className="relative w-full aspect-[1.9/1] overflow-hidden rounded-[4px] bg-slate-50 mb-[18px]">
                 {/* Subtle Inner Border to mimic print quality */}
                 <div className="absolute inset-0 z-10 ring-1 ring-inset ring-black/5 rounded-[4px] pointer-events-none" />
 
@@ -53,7 +53,7 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
             </div>
 
             {/* Typography & Content - Minimalist Centered Gallery Style */}
-            <div className="flex flex-col items-center gap-0.5 px-1 relative text-center">
+            <div className="flex flex-col items-center gap-1.5 px-1 py-1 relative text-center">
                 {/* Title & Action Row - Strictly Centered Unit */}
                 <div className="w-full flex flex-col items-center justify-center mt-0 px-1">
                     <div className="flex items-center gap-1.5 max-w-full group/text">
