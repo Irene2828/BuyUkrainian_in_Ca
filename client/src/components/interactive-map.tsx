@@ -48,15 +48,15 @@ const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewe
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
         <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
-        <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/48 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
+        <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#BAE6FD]/60 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
 
         ${isNewest ? `<div class="absolute inset-0 border-radius: 50%; border: 2px solid #FFD900; opacity: 0.25; animation: pulse 2s infinite; z-index: 1;"></div>` : ''}
 
         <!-- 2. The Branded Pin with Gold Outline -->
-        <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom group-hover:-translate-y-1.5" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
+        <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
           <svg width="32" height="40" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg" 
-               style="filter: drop-shadow(1px 0 0 #0A2540) drop-shadow(-1px 0 0 #0A2540) drop-shadow(0 1px 0 #0A2540) drop-shadow(0 -1px 0 #0A2540);">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0A2540" />
+               style="filter: drop-shadow(1px 0 0 #0057B7) drop-shadow(-1px 0 0 #0057B7) drop-shadow(0 1px 0 #0057B7) drop-shadow(0 -1px 0 #0057B7);">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0057B7" />
             <circle cx="12" cy="10" r="3" fill="#ffffff" />
           </svg>
         </div>
@@ -143,13 +143,13 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
                 <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
-                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/48 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
+                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#BAE6FD]/60 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
                 
                 <!-- 2. The Branded Pin with Gold Outline -->
-                <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom group-hover:-translate-y-1.5">
+                <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom">
                   <svg width="32" height="40" viewBox="0 0 24 30" fill="none" class="m-0"
-                       style="filter: drop-shadow(1px 0 0 #0A2540) drop-shadow(-1px 0 0 #0A2540) drop-shadow(0 1px 0 #0A2540) drop-shadow(0 -1px 0 #0A2540);">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0A2540"></path>
+                       style="filter: drop-shadow(1px 0 0 #0057B7) drop-shadow(-1px 0 0 #0057B7) drop-shadow(0 1px 0 #0057B7) drop-shadow(0 -1px 0 #0057B7);">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0057B7"></path>
                     <circle cx="12" cy="10" r="3" fill="#ffffff"></circle>
                   </svg>
                 </div>

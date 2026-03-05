@@ -51,12 +51,18 @@ export function HowItWorks() {
     }
   };
 
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true, amount: 0.5 });
+
   return (
     <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-white">
       <div className="utility-width px-6 md:px-12">
         {/* Section Header */}
-        <div className="mb-16 max-w-4xl mx-auto flex flex-col gap-6 text-center items-center">
-          <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight text-slate-900">
+        <div ref={headerRef} className="mb-16 max-w-4xl overflow-hidden">
+          <h2
+            className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight text-slate-900 translate-x-[-40px] opacity-0 transition-all duration-1000 ease-out data-[in-view=true]:translate-x-0 data-[in-view=true]:opacity-100"
+            data-in-view={isHeaderInView}
+          >
             {t('howItWorks.title') || 'When to Use this Map'}
           </h2>
         </div>

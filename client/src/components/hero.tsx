@@ -164,20 +164,7 @@ export function Hero() {
                 </div>
             </Link>
 
-            {/* Seamless Glass Runway - Trust & Origin Metadata */}
-            <div className="absolute bottom-0 left-0 w-full z-40 pointer-events-none bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[3px] pt-10 pb-4">
-                <div className="flex items-center justify-end pr-6 md:pr-12 gap-4 w-full">
-                    <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#C69500]">
-                            VERIFIED STORES ONLY
-                        </span>
-                    </div>
-                    <span className="text-slate-300 text-[10px] font-light">/</span>
-                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#C69500]">
-                        MADE IN UKRAINE PRODUCTS
-                    </span>
-                </div>
-            </div>
+
         </section>
     );
 }
