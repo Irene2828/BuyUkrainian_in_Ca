@@ -58,7 +58,7 @@ export function Header() {
             />
             {/* Branding Text */}
             <div className="flex flex-col justify-center h-10 pt-1 -ml-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              <span className="header-logo-text text-[17px] 2xl:text-[18px] font-medium tracking-tight text-[#0A2540]/80 leading-none">
+              <span className="header-logo-text text-[17px] 2xl:text-[18px] font-medium tracking-tight text-[#0A2540]/80 leading-none italic">
                 Ukrainian Products
               </span>
               <span className="header-logo-text text-[15px] 2xl:text-[16px] font-medium tracking-tight text-[#0A2540]/80 leading-none mt-[3px] italic">
