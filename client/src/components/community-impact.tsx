@@ -45,7 +45,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
-        <section className="relative w-full overflow-hidden bg-gradient-to-b from-white to-[#F4F9FF] py-20 md:py-28 border-t border-slate-100">
+        <section className="relative w-full overflow-hidden bg-gradient-to-b from-white to-[#F4F9FF] py-10 md:py-14 border-t border-slate-100">
             {/* Ambient Glow - Matching Hero Atmosphere */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#BAE6FD] blur-[150px] opacity-30 pointer-events-none rounded-t-full z-0"></div>
 

@@ -48,7 +48,7 @@ const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: b
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
         <!-- Premium Tooltip (Frosted Glass Style) -->
-        <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-md bg-white/70 backdrop-blur-md border border-white/60 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_4px_20px_rgba(10,37,64,0.06)] opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
+        <div class="absolute bottom-full left-full mb-1 ml-2 z-50 pointer-events-none whitespace-nowrap rounded-xl bg-white/70 backdrop-blur-md border border-white/60 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_8px_24px_rgba(10,37,64,0.08)] opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
           ${name}
         </div>
 
@@ -58,11 +58,11 @@ const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: b
         ${isNewest ? `<div class="absolute inset-0 border-radius: 50%; border: 2px solid #FFD900; opacity: 0.25; animation: pulse 2s infinite; z-index: 1;"></div>` : ''}
 
         <!-- 2. The Branded Pin with Gold Outline -->
-        <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
+        <div class="relative z-10 w-full h-full transition-all duration-300 ease-out origin-bottom group-hover:-translate-y-1" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
           <svg width="32" height="40" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg" 
                class="transition-all duration-300 group-hover:!filter-none"
                style="filter: drop-shadow(1px 0 0 #0057B7) drop-shadow(-1px 0 0 #0057B7) drop-shadow(0 1px 0 #0057B7) drop-shadow(0 -1px 0 #0057B7);">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" class="fill-[#0057B7] group-hover:fill-[#FFD900] transition-colors duration-300" />
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" class="fill-[#0057B7] transition-colors duration-300" />
             <circle cx="12" cy="10" r="3" fill="#ffffff" />
           </svg>
         </div>
@@ -165,7 +165,7 @@ const MarkerClusterGroup = ({
           return L.divIcon({
             html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
                 <!-- Premium Tooltip (Frosted Glass Style) -->
-                <div class="absolute -top-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap rounded-md bg-white/70 backdrop-blur-md border border-white/60 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_4px_20px_rgba(10,37,64,0.06)] opacity-0 transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100">
+                <div class="absolute bottom-full left-full mb-1 ml-2 z-50 pointer-events-none whitespace-nowrap rounded-xl bg-white/70 backdrop-blur-md border border-white/60 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#0A2540] shadow-[0_8px_24px_rgba(10,37,64,0.08)] opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
                   more than 1 store in the area
                 </div>
 
@@ -173,10 +173,10 @@ const MarkerClusterGroup = ({
                 <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/50 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
                 
                 <!-- 2. The Branded Pin with Gold Outline -->
-                <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom">
+                <div class="relative z-10 w-full h-full transition-all duration-300 ease-out origin-bottom group-hover:-translate-y-1">
                   <svg width="32" height="40" viewBox="0 0 24 30" fill="none" class="m-0 transition-all duration-300 group-hover:!filter-none"
                        style="filter: drop-shadow(1px 0 0 #0057B7) drop-shadow(-1px 0 0 #0057B7) drop-shadow(0 1px 0 #0057B7) drop-shadow(0 -1px 0 #0057B7);">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" class="fill-[#0057B7] group-hover:fill-[#FFD900] transition-colors duration-300"></path>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" class="fill-[#0057B7] transition-colors duration-300"></path>
                     <circle cx="12" cy="10" r="3" fill="#ffffff"></circle>
                   </svg>
                 </div>
