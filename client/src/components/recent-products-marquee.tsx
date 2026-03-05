@@ -88,15 +88,15 @@ export function RecentProductsMarquee() {
                                     >
                                         <div className="w-1.5 h-1.5 rounded-full bg-slate-400/80 shadow-[0_0_8px_rgba(148,163,184,0.3)] shrink-0" />
 
-                                        <div className="flex flex-col items-start justify-center transition-all duration-200 ease-out group-hover:opacity-100">
+                                        <div className="flex flex-col items-start justify-center">
                                             <span
-                                                className="font-medium tracking-tight text-slate-400/90 transition-colors duration-200 group-hover:text-slate-600 mb-0.5"
+                                                className="font-medium tracking-tight text-slate-400/90 transition-all duration-200 group-hover:text-slate-400 mb-0.5"
                                                 style={{ fontSize: '14px' }}
                                             >
                                                 {store.name}
                                             </span>
                                             <span
-                                                className="font-medium text-slate-400/80 transition-colors duration-200 group-hover:text-slate-500"
+                                                className="font-medium text-slate-400/80 transition-all duration-200 group-hover:text-slate-400"
                                                 style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
                                             >
                                                 {store.city || 'Location'}, {provinceCode}
