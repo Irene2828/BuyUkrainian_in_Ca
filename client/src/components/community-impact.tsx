@@ -54,7 +54,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <Share2 size={14} className="text-[#C69500]" />
+                            <Share2 size={14} className="text-blue-400" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>
