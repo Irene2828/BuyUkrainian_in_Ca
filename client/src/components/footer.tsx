@@ -61,7 +61,7 @@ export function Footer() {
         {/* Perfectly Centered Copyright Section (Divider removed from here) */}
         <div className="w-full pt-8 flex justify-center">
           <span
-            className="text-[12px] font-normal text-white/35 tracking-[0.02em] text-center flex items-center justify-center gap-1"
+            className="text-[12px] font-normal text-[#C69500]/50 tracking-[0.02em] text-center flex items-center justify-center gap-1"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Copyright © 2026 BuyUkrainian.ca. All rights reserved
