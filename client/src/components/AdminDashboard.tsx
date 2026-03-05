@@ -490,24 +490,24 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         return result;
     }
 
-    // Geocode helper
+    // Geocode helper using Photon (No more 1s delay!)
     async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay to respect rate limits
             const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address + ", Canada")}&countrycodes=ca&format=json&limit=1&addressdetails=1`,
-                { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca (admin@buyukrainian.ca)' } } // Better UA
+                `https://photon.komoot.io/api/?q=${encodeURIComponent(address + ", Canada")}&limit=1`,
+                { headers: { 'Accept': 'application/json' } }
             );
             if (!response.ok) throw new Error(`Geocoding HTTP ${response.status}`);
 
-            const results = await response.json();
-            if (results.length > 0) {
-                const r = results[0];
+            const data = await response.json();
+            if (data.features && data.features.length > 0) {
+                const f = data.features[0];
+                const p = f.properties;
                 return {
-                    lat: parseFloat(r.lat),
-                    lng: parseFloat(r.lon),
-                    city: r.address?.city || r.address?.town || r.address?.village || r.address?.hamlet || '',
-                    province: r.address?.state || '',
+                    lat: f.geometry.coordinates[1],
+                    lng: f.geometry.coordinates[0],
+                    city: p.city || p.town || p.village || p.district || '',
+                    province: p.state || '',
                 };
             }
             return null;

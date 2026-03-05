@@ -15,7 +15,7 @@ export function Footer() {
       <div className="boutique-width w-full flex flex-col items-center gap-12">
 
         {/* Line Divider above links */}
-        <div className="w-full border-t border-white/5" />
+        <div className="w-full border-t border-[#C69500]/15" />
 
         {/* Top Row: Links & Actions */}
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-10">

@@ -43,29 +43,28 @@ const CANADA_CENTER: [number, number] = INITIAL_MAP_STATE.center;
 // Unified Blue/Yellow Pin Marker with Dimming Support - Stabilized (No Shaky Ping)
 const createUnifiedMarker = (isSelected: boolean, isAnySelected: boolean, isNewest: boolean) => {
   const isDimmed = isAnySelected && !isSelected;
-  const gradId = `ug-${Math.random().toString(36).substr(2, 8)}`;
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div style="position: relative; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
-        ${isNewest ? `<div style="position: absolute; inset: 0; border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite;"></div>` : ''}
-        <div style="display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18)); opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.2)' : 'scale(1)'}; transition: all 0.2s ease;">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="${gradId}" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="50%" stop-color="#0057B7" />
-                <stop offset="50%" stop-color="#FFD900" />
-              </linearGradient>
-            </defs>
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="url(#${gradId})" />
+      <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
+        <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
+        <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/48 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
+
+        ${isNewest ? `<div class="absolute inset-0 border-radius: 50%; border: 2px solid #0057B7; opacity: 0.25; animation: pulse 2s infinite; z-index: 1;"></div>` : ''}
+
+        <!-- 2. The Branded Pin with Gold Outline -->
+        <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom group-hover:-translate-y-1.5" style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.15) translateY(-4px)' : 'scale(1)'};">
+          <svg width="32" height="40" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg" 
+               style="filter: drop-shadow(1px 0 0 #CFA144) drop-shadow(-1px 0 0 #CFA144) drop-shadow(0 1px 0 #CFA144) drop-shadow(0 -1px 0 #CFA144);">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0057B7" />
             <circle cx="12" cy="10" r="3" fill="#ffffff" />
           </svg>
         </div>
       </div>
     `,
-    iconSize: [48, 48],
-    iconAnchor: [24, 48],
-    popupAnchor: [0, -48],
+    iconSize: [32, 40],
+    iconAnchor: [16, 40],
+    popupAnchor: [0, -40],
   });
 };
 
@@ -142,20 +141,22 @@ const MarkerClusterGroup = ({
         maxClusterRadius: 50, // Tight clusters
         iconCreateFunction: (cluster) => {
           return L.divIcon({
-            html: `<div class="relative flex items-center justify-center transition-transform hover:scale-110">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0 drop-shadow-md" style="color: transparent;">
-                  <defs>
-                    <linearGradient id="ukraineGradientCluster" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="50%" stop-color="#0057B7" />
-                      <stop offset="50%" stop-color="#FFD900" />
-                    </linearGradient>
-                  </defs>
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="url(#ukraineGradientCluster)" stroke="url(#ukraineGradientCluster)"></path>
-                  <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#ffffff"></circle>
-                </svg>
+            html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
+                <!-- 1. The Refined Footprint Shadow (Tight & Clean) -->
+                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-[#FFD900]/48 rounded-full blur-[2px] z-0 transition-all duration-300 group-hover:opacity-100"></div>
+                
+                <!-- 2. The Branded Pin with Gold Outline -->
+                <div class="relative z-10 w-full h-full transition-all duration-300 origin-bottom group-hover:-translate-y-1.5">
+                  <svg width="32" height="40" viewBox="0 0 24 30" fill="none" stroke="#0057B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="m-0"
+                       style="filter: drop-shadow(1px 0 0 #CFA144) drop-shadow(-1px 0 0 #CFA144) drop-shadow(0 1px 0 #CFA144) drop-shadow(0 -1px 0 #CFA144);">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#0057B7"></path>
+                    <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#ffffff"></circle>
+                  </svg>
+                </div>
             </div>`,
-            className: 'custom-cluster-icon !bg-transparent !border-none !overflow-visible', // Force overflow visible to show the badge
-            iconSize: [32, 32]
+            className: 'custom-cluster-icon !bg-transparent !border-none !overflow-visible',
+            iconSize: [32, 40],
+            iconAnchor: [16, 40]
           });
         }
       });

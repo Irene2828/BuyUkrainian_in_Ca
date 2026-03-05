@@ -83,16 +83,16 @@ export function HowItWorks() {
                   <img
                     src={step.image}
                     alt={step.altText}
-                    className={`max-h-[200px] w-auto object-contain transition-transform duration-700 ${index === 1 ? 'scale-[1.2]' : 'scale-[1.3]'}`}
+                    className={`max-h-[200px] w-auto object-contain transition-transform duration-700 ${index === 1 ? 'scale-[1.2] [@media(min-width:1670px)]:scale-[1.38]' : 'scale-[1.3] [@media(min-width:1670px)]:scale-[1.5]'}`}
                   />
                 </div>
 
                 {/* Bottom Section: ContentStack */}
                 <div className="flex flex-col items-center text-center mt-12 w-full">
-                  <h3 className="text-slate-900 font-semibold text-lg mb-[24px] min-h-[60px] flex flex-col items-center justify-center text-center tracking-tight leading-snug w-full">
+                  <h3 className="text-slate-900 font-semibold text-[18px] mb-[24px] min-h-[60px] flex flex-col items-center justify-center text-center tracking-tight leading-relaxed w-full">
                     <span>{step.title}</span>
                   </h3>
-                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui w-full text-center">
+                  <p className="text-slate-500 text-[16px] leading-relaxed font-ui w-full text-center px-[10%]">
                     {step.text}
                   </p>
                 </div>

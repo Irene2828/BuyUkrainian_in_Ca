@@ -462,8 +462,10 @@ section h3 {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Tile Cross-Fade Tuning */
-.leaflet-fade-anim .leaflet-tile {
-    transition: opacity 0.2s linear !important;
-    /* Tight 200ms fade */
+/* Map Pins & Shadow Fixes for Premium Glow */
+.unified-marker-icon,
+.custom-cluster-icon {
+    overflow: visible !important;
+    background: transparent !important;
+    border: none !important;
 }

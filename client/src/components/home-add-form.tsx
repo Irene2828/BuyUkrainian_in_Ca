@@ -52,58 +52,72 @@ interface AddressSuggestion {
 const POSTAL_CODE_REGEX = /^[A-Za-z]\d[A-Za-z]\s?\d?[A-Za-z]?\d?$/;
 
 async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
-  if (query.length < 2) return [];
+  if (query.length < 3) return [];
   try {
     const trimmed = query.trim();
-    const isPostalCode = POSTAL_CODE_REGEX.test(trimmed);
-
-    // For postal codes, use postalcode= structured param for precise results
-    if (isPostalCode && trimmed.length >= 3) {
-      const postalQuery = trimmed.toUpperCase().replace(/\s/g, '');
-      const formatted = postalQuery.length >= 6
-        ? `${postalQuery.slice(0, 3)} ${postalQuery.slice(3)}`
-        : postalQuery;
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(formatted)}&country=Canada&format=json&limit=8&addressdetails=1`,
-        { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
-      );
-      const results = await response.json();
-      if (results.length > 0) return results;
-      // Fallback to free-text if structured search returns nothing
-    }
-
-    if (trimmed.length < 3) return [];
-
+    // Use Photon API for faster, fuzzy type-ahead search
+    // We limit to 5 results as requested and focus on Canada results where possible
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(trimmed)}&countrycodes=ca&format=json&limit=8&addressdetails=1`,
-      { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
+      `https://photon.komoot.io/api/?q=${encodeURIComponent(trimmed + ', Canada')}&limit=5`,
+      { headers: { 'Accept': 'application/json' } }
     );
-    return await response.json();
+
+    const data = await response.json();
+    if (!data.features) return [];
+
+    return data.features.map((f: any) => {
+      const p = f.properties;
+
+      // Construct a clean display name similar to Nominatim's but from Photon properties
+      // Photon is often more 'forgiving' with typos
+      const streetPart = p.housenumber ? `${p.housenumber} ${p.street || ''}` : (p.street || '');
+      const locationParts = [
+        streetPart || p.name,
+        p.city || p.town || p.village,
+        p.state,
+        p.postcode
+      ].filter(Boolean);
+
+      return {
+        display_name: locationParts.join(', '),
+        lat: f.geometry.coordinates[1].toString(),
+        lon: f.geometry.coordinates[0].toString(),
+        address: {
+          road: p.street || p.name,
+          house_number: p.housenumber,
+          city: p.city || p.town || p.village,
+          state: p.state,
+          postcode: p.postcode,
+        }
+      };
+    });
   } catch (error) {
-    console.error("Address search error:", error);
+    console.error("Photon address search error:", error);
     return [];
   }
 }
 
-// Geocode a raw address string to coordinates
+// Geocode a raw address string to coordinates using Photon
 async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
   try {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&countrycodes=ca&format=json&limit=1&addressdetails=1`,
-      { headers: { 'Accept': 'application/json', 'User-Agent': 'BuyUkrainian.ca/1.0' } }
+      `https://photon.komoot.io/api/?q=${encodeURIComponent(address)}&limit=1`,
+      { headers: { 'Accept': 'application/json' } }
     );
-    const results = await response.json();
-    if (results.length > 0) {
-      const r = results[0];
+    const data = await response.json();
+    if (data.features && data.features.length > 0) {
+      const f = data.features[0];
+      const p = f.properties;
       return {
-        lat: parseFloat(r.lat),
-        lng: parseFloat(r.lon),
-        city: r.address?.city || r.address?.town || r.address?.village || '',
-        province: r.address?.state || '',
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0],
+        city: p.city || p.town || p.village || '',
+        province: p.state || '',
       };
     }
     return null;
-  } catch {
+  } catch (error) {
+    console.error("Geocoding error:", error);
     return null;
   }
 }
@@ -142,12 +156,15 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     if (value.length >= 3) {
       setIsSearchingAddress(true);
       addressDebounceRef.current = setTimeout(async () => {
-        const suggestions = await searchAddresses(value);
-        setAddressSuggestions(suggestions);
-        setShowAddressSuggestions(suggestions.length > 0);
-        setActiveIndex(-1); // Reset selection
-        setIsSearchingAddress(false);
-      }, 800);
+        try {
+          const suggestions = await searchAddresses(value);
+          setAddressSuggestions(suggestions);
+          setShowAddressSuggestions(suggestions.length > 0);
+          setActiveIndex(-1); // Reset selection
+        } finally {
+          setIsSearchingAddress(false);
+        }
+      }, 400); // Premium 400ms debounce
     } else {
       setAddressSuggestions([]);
       setShowAddressSuggestions(false);
@@ -321,7 +338,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-full h-[48px] rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn"
+          className="w-full h-12 rounded-full bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn"
         >
           <span>Back to the map</span>
         </Button>
@@ -358,14 +375,15 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               name="address"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">
+                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">
                     Location
                   </FormLabel>
+                  <p className="text-[12px] text-slate-400 font-ui mb-2">Type a street address and pick from the list — e.g. <span className="text-slate-500 font-medium">1018 9 Ave SE, Calgary</span></p>
                   <FormControl>
                     <div className="relative group">
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
                       <Input
-                        placeholder="Address or postal code (e.g. M5V 2T6)"
+                        placeholder="e.g. 1018 9 Ave SE, Calgary, AB"
                         {...field}
                         ref={(el) => {
                           field.ref(el);
@@ -391,11 +409,16 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   </FormControl>
 
                   {/* Location Summary - Shows City/Province automatically */}
-                  {(form.getValues("city") || form.getValues("province")) && (
-                    <div className="flex items-center gap-2 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
-                      <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-none stroke-current" strokeWidth={2} />
-                      <span className="text-[13px] font-medium text-slate-400 font-ui">
-                        {form.getValues("city")}, {form.getValues("province")}
+                  {(form.watch("city") || form.watch("province")) && (
+                    <div className="flex flex-col gap-1 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-none stroke-current" strokeWidth={2} />
+                        <span className="text-[13px] font-medium text-slate-400 font-ui">
+                          {form.watch("city")}, {form.watch("province")}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-slate-400/70 font-ui ml-[22px]">
+                        Double-check the address above and edit if needed
                       </span>
                     </div>
                   )}
@@ -596,7 +619,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-[48px] rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 flex items-center justify-center gap-2 group/submit-btn"
+                className="w-full h-12 rounded-full bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 flex items-center justify-center gap-2 group/submit-btn"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />

@@ -42,11 +42,11 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out font-sans",
-        "bg-slate-50/90 backdrop-blur-md border-b border-slate-200/50"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out font-sans",
+        "bg-white/90 backdrop-blur-md border-b border-[#C69500]/20 shadow-[0_8px_30px_rgba(10,37,64,0.06)]"
       )}
     >
-      <div className="boutique-width h-[80px] flex items-center justify-between relative">
+      <div className="boutique-width h-[72px] 2xl:h-[96px] flex items-center justify-between relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center">
@@ -54,14 +54,14 @@ export function Header() {
             <img
               src="/assets/newlogo26.png"
               alt="BuyUkrainian.ca Integrated Crest"
-              className="h-10 w-auto md:h-12 -ml-3"
+              className="h-10 2xl:h-[54px] w-auto object-contain shrink-0"
             />
             {/* Branding Text */}
             <div className="flex flex-col justify-center h-10 font-instrument pt-1 -ml-5">
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none">
+              <span className="header-logo-text text-[16.5px] 2xl:text-[18px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none">
                 Ukrainian Products
               </span>
-              <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none mt-[2px]">
+              <span className="header-logo-text text-[16.5px] 2xl:text-[13px] font-medium tracking-[-0.02em] text-slate-900 opacity-70 leading-none mt-[2px]">
                 in Canada
               </span>
             </div>

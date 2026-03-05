@@ -42,42 +42,16 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
-        <section className={cn(
-            "relative w-full bg-transparent pt-24 pb-16 section-reveal overflow-hidden border-t border-slate-200/50",
-            !hideBorder && "border-b border-brand-navy/10"
-        )}>
-            {/* Background Blobs */}
-            <div
-                className="absolute pointer-events-none rounded-full"
-                style={{
-                    width: '600px',
-                    height: '600px',
-                    left: 'calc(50% - 714px)',
-                    top: '-300px',
-                    background: 'rgba(0, 113, 227, 0.16)',
-                    filter: 'blur(120px)',
-                    zIndex: 0
-                }}
-            />
-            <div
-                className="absolute pointer-events-none rounded-full"
-                style={{
-                    width: '500px',
-                    height: '500px',
-                    left: 'calc(50% + 225px)',
-                    top: '335px',
-                    background: 'rgba(255, 212, 39, 0.23)',
-                    filter: 'blur(100px)',
-                    zIndex: 0
-                }}
-            />
+        <section className="relative w-full overflow-hidden bg-gradient-to-b from-white to-[#F4F9FF] py-20 md:py-28 border-t border-slate-100">
+            {/* Ambient Glow - Matching Hero Atmosphere */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#BAE6FD] blur-[150px] opacity-30 pointer-events-none rounded-t-full z-0"></div>
 
             <div className="boutique-width w-full mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-start">
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <Share2 size={14} className="text-blue-500" />
+                            <Share2 size={14} className="text-[#C69500]" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>

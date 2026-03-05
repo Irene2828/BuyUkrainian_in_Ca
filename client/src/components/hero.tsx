@@ -26,13 +26,16 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white py-[72px] lg:py-[85px] min-h-[500px] lg:min-h-[600px] min-[1440px]:min-h-[85vh] 2xl:py-[13.5vh]"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[85vh] py-24 md:py-32"
         >
+            {/* Soft Atmospheric Sky Glow - Senior Designer Polish (Visible Fix) */}
+            <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-20 pointer-events-none z-[4]"></div>
+
 
 
             {/* Layer 2: White Glow - Bottom Left (Natural Transition) */}
             <div
-                className="absolute bottom-0 left-0 w-full h-[50%] pointer-events-none z-[10]"
+                className="absolute bottom-0 left-0 w-full h-[50%] pointer-events-none z-[1]"
                 style={{
                     background: 'radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.5) 0%, transparent 35%)'
                 }}
@@ -40,7 +43,7 @@ export function Hero() {
 
             {/* Layer 3: Text Protection Mask - Liquid Fade */}
             <div
-                className="absolute inset-0 pointer-events-none z-[5]"
+                className="absolute inset-0 pointer-events-none z-[2]"
                 style={{
                     background: `linear-gradient(to right, 
                         #FFFFFF 0%, 
@@ -51,8 +54,8 @@ export function Hero() {
             />
 
             <div className="boutique-width w-full py-10 lg:py-0 flex items-center relative z-10 h-full pointer-events-none">
-                {/* Main Content Area */}
-                <div className="w-full lg:max-w-[50%] flex flex-col justify-center items-start relative z-20 pointer-events-none md:-mt-12">
+                {/* Main Content Area - Glass Anchored Container */}
+                <div className="relative z-10 max-w-2xl flex flex-col justify-center items-start pointer-events-none md:-mt-12">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
                     <h1
                         className="leading-none w-full antialiased pointer-events-auto"
@@ -66,14 +69,14 @@ export function Hero() {
                         </span>
                     </h1>
 
-                    <p className="mt-8 mb-10 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium pointer-events-auto">
+                    <p className="mt-6 mb-8 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium pointer-events-auto">
                         Find, add, and share local stores selling Ukrainian-made products<br />to support Ukraine's economy from Canada
                     </p>
 
                     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto pointer-events-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
-                                className="h-[48px] px-8 2xl:px-10 w-full md:w-auto rounded-[32px] bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
+                                className="h-12 2xl:h-[54px] px-8 2xl:px-8 w-full md:w-auto rounded-full bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                             >
                                 <span>{t('hero.ctaPrimary') || 'Open Interactive Map'}</span>
                                 <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-300 group-hover/cta-btn:text-[#FFF4CC]" />
@@ -126,9 +129,9 @@ export function Hero() {
             </div>
 
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
-            <Link href="/map">
+            <Link href="/map" className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-[15] select-none overflow-hidden">
                 <div
-                    className="hidden lg:block absolute top-0 right-0 w-[60%] h-full z-[10] select-none overflow-hidden hover:cursor-pointer group/map-peeking"
+                    className="w-full h-full group/map-peeking"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{
                         maskImage: 'linear-gradient(to right, transparent, black 15%)',
