@@ -12,12 +12,6 @@ export function RecentProductsMarquee() {
 
 
 
-    // Hover Tracking State
-    const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const timeoutRef = useRef<NodeJS.Timeout | number | undefined>(undefined);
-    // Initial coords to prevent 0,0 slide
-    const [initialCoords, setInitialCoords] = useState<{ top: number, left: number } | null>(null);
     const [hoveredStore, setHoveredStore] = useState<any | null>(null);
 
 
@@ -29,34 +23,7 @@ export function RecentProductsMarquee() {
 
 
 
-    // Continuous Tracking Effect (Syncs overlay position with moving marquee)
-    useEffect(() => {
-        if (!hoveredElement) return;
 
-        let animationFrameId: number;
-
-        const updatePosition = () => {
-            if (hoveredElement && overlayRef.current) {
-                const rect = hoveredElement.getBoundingClientRect();
-
-                // Logic: To the right, vertically centered with the element
-                // Image is 75px wide, 101px tall
-                // Left = rect.right + 12 (gap to the right)
-                // Top = rect.top + (rect.height / 2) - (101 / 2)
-
-                const top = rect.top + (rect.height / 2) - (101 / 2);
-                const left = rect.right + 12;
-
-                overlayRef.current.style.top = `${top}px`;
-                overlayRef.current.style.left = `${left}px`;
-            }
-            animationFrameId = requestAnimationFrame(updatePosition);
-        };
-
-        // Start tracking loop
-        animationFrameId = requestAnimationFrame(updatePosition);
-        return () => cancelAnimationFrame(animationFrameId);
-    }, [hoveredElement]);
 
     const { data: stores = [], isLoading } = useQuery({
         queryKey: ["stores"],
@@ -81,42 +48,12 @@ export function RecentProductsMarquee() {
 
 
 
-    const handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>, store: any) => {
-        // Only show preview if store has an image
-        const imageToUse = store.image || store.images?.[0];
 
-        if (imageToUse) {
-            // Calculate initial position immediately to prevent slide from 0,0
-            const rect = e.currentTarget.getBoundingClientRect();
-            const top = rect.top + (rect.height / 2) - (101 / 2);
-            const left = rect.right + 12;
-
-            setInitialCoords({ top, left });
-            setHoveredElement(e.currentTarget);
-            setHoveredStore({ ...store, previewImage: imageToUse });
-
-            // 2 Second Timeout Logic
-            if (timeoutRef.current) clearTimeout(timeoutRef.current);
-            timeoutRef.current = setTimeout(() => {
-                setHoveredElement(null);
-                setInitialCoords(null);
-                setHoveredStore(null);
-            }, 2000);
-        }
-    };
-
-    const handleMouseLeave = () => {
-        // Clear immediately on leave to keep UI clean and prevent detached elements
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        setHoveredElement(null);
-        setInitialCoords(null);
-        setHoveredStore(null);
-    };
 
     return (
         <>
             <div
-                className="w-full pt-6 pb-12 overflow-hidden font-sans relative z-20 flex items-center justify-center backdrop-blur-sm"
+                className="w-full pt-3 pb-12 overflow-hidden font-sans relative z-20 flex items-center justify-center backdrop-blur-sm"
             >
                 <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
@@ -156,8 +93,6 @@ export function RecentProductsMarquee() {
                                         key={`${store.id}-${i}`}
                                         className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
-                                        onMouseEnter={(e) => handleMouseEnter(e, store)}
-                                        onMouseLeave={handleMouseLeave}
                                     >
                                         <div className="w-1.5 h-1.5 rounded-full bg-[#CFA144] shadow-[0_0_6px_rgba(207,161,68,0.5)] shrink-0" />
 
@@ -186,30 +121,7 @@ export function RecentProductsMarquee() {
             </div>
 
 
-            {/* Fixed Hover Preview Overlay */}
-            {hoveredElement && initialCoords && (
-                <div
-                    ref={overlayRef}
-                    className="fixed z-[9999] pointer-events-auto cursor-pointer animate-in fade-in zoom-in-95 duration-300"
-                    style={{
-                        top: initialCoords.top,
-                        left: initialCoords.left
-                    }}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        if (hoveredStore) navigateToStoreCoordinates(hoveredStore.id);
-                    }}
-                >
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-black/5 blur-md rounded-[10px]" />
-                        <img
-                            src={hoveredStore?.previewImage}
-                            alt={hoveredStore?.name}
-                            className="relative w-[75px] h-[101px] rounded-[10px] object-cover border-[2px] border-white shadow-lg bg-gray-100 transition-transform group-hover:scale-105"
-                        />
-                    </div>
-                </div>
-            )}
+
 
             {/* Quick Look Modal Removed - Direct Navigation Implemented */}
         </>

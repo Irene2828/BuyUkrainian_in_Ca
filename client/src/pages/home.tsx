@@ -36,7 +36,7 @@ export default function Home() {
           <Hero />
 
           {/* 1. Hero-to-How-It-Works Transition Container */}
-          <div className="relative w-full bg-white pt-6 pb-12">
+          <div className="relative w-full bg-white pt-3 pb-12">
             <RecentProductsMarquee />
           </div>
         </div>

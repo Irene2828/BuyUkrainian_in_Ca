@@ -26,7 +26,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[85vh] py-24 md:py-32"
+            className="relative z-10 w-full overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[85vh] pt-24 pb-6 md:pt-32 md:pb-8"
         >
             {/* Soft Atmospheric Sky Glow - Senior Designer Polish (Visible Fix) */}
             <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-20 pointer-events-none z-[4]"></div>
@@ -89,7 +89,7 @@ export function Hero() {
                                 e.preventDefault(); // Prevent default wouter navigation
                                 document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
                             }}
-                            className="flex items-center gap-2 text-slate-400 text-sm font-medium hover:text-[#0F172A] transition-colors group/how-link"
+                            className="flex items-center gap-2 text-slate-400 text-[14px] font-medium hover:text-[#0F172A] transition-colors group/how-link"
                         >
                             <span>How it works</span>
                             <ChevronDown className="w-4 h-4 transition-transform group-hover/how-link:translate-y-0.5" />
@@ -164,17 +164,17 @@ export function Hero() {
                 </div>
             </Link>
 
-            {/* 6. Glass Runway - Trust & Origin Metadata */}
-            <div className="absolute bottom-0 left-0 w-full z-30 pointer-events-none bg-white/40 backdrop-blur-md py-3">
-                <div className="boutique-width w-full flex items-center justify-end md:gap-5 md:pr-0 overflow-x-hidden no-scrollbar px-4">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-1 h-1 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
-                        <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 italic">
+            {/* Seamless Glass Runway - Trust & Origin Metadata */}
+            <div className="absolute bottom-0 left-0 w-full z-40 pointer-events-none bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[3px] pt-12 pb-4">
+                <div className="flex items-center justify-end pr-6 md:pr-12 gap-4 w-full">
+                    <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
+                        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500">
                             VERIFIED STORES ONLY
                         </span>
                     </div>
-                    <span className="text-slate-400 text-[10px] font-light hidden md:block">/</span>
-                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 hidden md:block">
+                    <span className="text-slate-300 text-[10px] font-light">/</span>
+                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500">
                         MADE IN UKRAINE PRODUCTS
                     </span>
                 </div>
