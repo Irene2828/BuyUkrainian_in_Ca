@@ -79,17 +79,17 @@ export function HowItWorks() {
               <div className="group flex flex-col h-full min-h-[480px] bg-white rounded-[32px] px-5 py-8 transition-all duration-300">
 
                 {/* Top Section: Illustration (Centered & Fixed Height) */}
-                <div className="w-full h-[220px] min-h-[220px] shrink-0 flex items-center justify-center relative">
+                <div className="h-[220px] w-full flex items-center justify-center mb-6 lg:mb-8">
                   <img
                     src={step.image}
                     alt={step.altText}
-                    className={`max-h-[200px] w-auto object-contain transition-transform duration-700 ${index === 1 ? 'scale-[1.2] [@media(min-width:1670px)]:scale-[1.38]' : 'scale-[1.3] [@media(min-width:1670px)]:scale-[1.5]'}`}
+                    className="max-h-full w-auto object-contain transition-transform duration-700"
                   />
                 </div>
 
                 {/* Bottom Section: ContentStack */}
-                <div className="flex flex-col items-center text-center mt-12 w-full">
-                  <h3 className="text-slate-900 font-semibold text-[18px] mb-[24px] min-h-[60px] flex flex-col items-center justify-center text-center tracking-tight leading-relaxed w-full">
+                <div className="flex flex-col items-center text-center w-full">
+                  <h3 className="text-slate-900 font-semibold text-[18px] min-h-[4.5rem] lg:min-h-[5rem] flex items-start justify-center text-center tracking-tight leading-relaxed w-full">
                     <span>{step.title}</span>
                   </h3>
                   <p className="text-slate-500 text-[16px] leading-relaxed font-ui w-full text-center px-[10%]">

@@ -57,18 +57,7 @@ export function RecentProductsMarquee() {
             >
                 <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
-                    {/* Fixed Live Label */}
-                    <div className="sticky left-0 z-30 py-2 pr-12 flex items-center gap-3 h-full bg-white/0">
-                        {/* Glass gradient background for label to mask marquee behind it */}
-                        <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
-                        <div className="relative z-10 flex items-center gap-2.5 pl-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#BAE6FD] shadow-[0_0_8px_rgba(186,230,253,0.8)] shrink-0" />
-                            <p className="text-[13px] font-bold tracking-[0.08em] uppercase whitespace-nowrap m-0 font-ui text-slate-900/50">
-                                {t('ticker.label') || 'ADDED THIS MONTH'}
-                            </p>
-                        </div>
-                    </div>
 
                     {/* Infinite Scroll Ticker */}
                     <div
@@ -94,7 +83,7 @@ export function RecentProductsMarquee() {
                                         className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
                                     >
-                                        <div className="w-1.5 h-1.5 rounded-full bg-[#BAE6FD] shadow-[0_0_8px_rgba(186,230,253,0.8)] shrink-0" />
+                                        <div className="w-1.5 h-1.5 rounded-full bg-[#E2E8F0] shadow-[0_0_8px_rgba(226,232,240,0.6)] shrink-0" />
 
                                         <div className="flex flex-col items-start justify-center transition-opacity duration-200 ease-out group-hover:opacity-70">
                                             <span

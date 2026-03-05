@@ -76,7 +76,7 @@ export function Hero() {
                     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto pointer-events-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
-                                className="h-12 2xl:h-[54px] px-8 2xl:px-8 w-full md:w-auto rounded-full bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
+                                className="h-12 2xl:h-[54px] px-8 2xl:px-8 w-full md:w-auto rounded-full bg-[#0A2540] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight antialiased transition-opacity duration-300 shadow-sm hover:opacity-80 focus-visible:ring-2 focus-visible:ring-brand-navy/20 group/cta-btn flex items-center justify-center gap-2 2xl:gap-3"
                             >
                                 <span>{t('hero.ctaPrimary') || 'Open Interactive Map'}</span>
                                 <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-300 group-hover/cta-btn:text-[#FFF4CC]" />
