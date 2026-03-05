@@ -96,6 +96,22 @@ function MapController({
   return null;
 }
 
+function MapResizeHandler() {
+  const map = useMap();
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Force Leaflet to recalculate the container size
+      setTimeout(() => map.invalidateSize(), 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [map]);
+
+  return null;
+}
+
 function MapEvents({ onMapClick }: { onMapClick: () => void }) {
   useMapEvents({
     click: () => {
@@ -490,6 +506,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         )}
 
         {variant !== "hero" && <MapEvents onMapClick={onCloseStore} />}
+        <MapResizeHandler />
 
 
         {/* CLUSTERING IMPLEMENTATION: Replaced direct Marker loop with MarkerClusterGroup */}
