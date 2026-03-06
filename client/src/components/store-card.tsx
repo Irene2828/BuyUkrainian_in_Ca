@@ -181,11 +181,11 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-0.5">
                             Products in store
                         </p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-3 pt-1 custom-scrollbar">
                             {(isProductsExpanded ? allProducts : allProducts.slice(0, 6)).map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="bg-[#F1F5F9] text-[#0A2540] font-medium px-3 py-1 rounded-full text-[12px] border border-[#E2E8F0] transition-colors hover:bg-[#E2E8F0] cursor-default"
+                                    className="shrink-0 bg-[#F1F5F9] text-[#0A2540] font-medium px-3 py-1 rounded-full text-[12px] border border-[#E2E8F0] transition-colors hover:bg-[#E2E8F0] cursor-default"
                                 >
                                     {product}
                                 </div>
@@ -211,7 +211,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank" rel="noopener noreferrer"
-                        className="bg-[#0A2540] text-white hover:bg-[#0A2540]/90 transition-colors w-full h-[46px] rounded-full font-medium flex items-center justify-center border-0 tracking-tight antialiased shadow-sm active:scale-[0.98] group"
+                        className="bg-[#0A2540] text-white hover:bg-[#0A2540]/90 transition-colors w-full h-[46px] rounded-full font-medium flex items-center justify-center gap-2 border-0 tracking-tight antialiased shadow-sm active:scale-[0.98] group"
                     >
                         <CornerUpRight size={16} className="text-white group-hover:translate-x-0.5 transition-transform" />
                         <span>Get Directions</span>

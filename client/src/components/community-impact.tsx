@@ -45,16 +45,16 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
-        <section className="relative w-full overflow-hidden bg-gradient-to-b from-white to-[#F4F9FF] py-10 md:py-14 border-t border-slate-200/50">
-            {/* Ambient Glow - Matching Hero Atmosphere */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#BAE6FD] blur-[150px] opacity-30 pointer-events-none rounded-t-full z-0"></div>
+        <section className="relative w-full overflow-hidden bg-white pt-12 pb-6 md:pt-20 md:pb-10 border-t border-slate-200/50 mt-12">
+            {/* Ambient Sky Glow - Restored to match Hero atmosphere */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#BAE6FD] blur-[150px] opacity-10 pointer-events-none rounded-b-full z-0"></div>
 
             <div className="boutique-width w-full mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-start">
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <Share2 size={14} className="text-[#C69500]" />
+                            <Share2 size={14} className="text-blue-400" />
                             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>
@@ -109,7 +109,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on Facebook
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
 
                             <button
@@ -121,7 +121,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on Instagram
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
 
                             <button
@@ -139,7 +139,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on X
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
                         </div>
                     </div>

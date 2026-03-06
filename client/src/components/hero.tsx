@@ -29,7 +29,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[75vh] pt-16 pb-4 md:pt-20 md:pb-4"
+            className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[75vh] pt-16 md:pt-20"
         >
             {/* Soft Atmospheric Sky Glow - Senior Designer Polish (Visible Fix) */}
             <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-20 pointer-events-none z-[4]"></div>

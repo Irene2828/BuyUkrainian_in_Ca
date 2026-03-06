@@ -458,19 +458,27 @@ html.dark header.bg-white\/90 {
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
 }
 
-/* Card Scrollbar Override */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 4px;
+    /* Ultra-thin horizontal scroll line */
+    width: 4px;
+  }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(10, 37, 64, 0.15);
+    /* Highly diluted navy brand color */
+    border-radius: 10px;
+    /* Fully rounded pill shape */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(10, 37, 64, 0.25);
+  }
 }
 
 /* ========================================

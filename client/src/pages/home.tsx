@@ -34,11 +34,7 @@ export default function Home() {
       <main>
         <div className="section-reveal -mt-[1px] relative z-0">
           <Hero />
-
-          {/* 1. Hero-to-How-It-Works Transition Container */}
-          <div className="relative w-full bg-white pt-3 pb-12">
-            <RecentProductsMarquee />
-          </div>
+          <RecentProductsMarquee />
         </div>
 
         {/* 2. Seamless How It Works & FAQ block */}

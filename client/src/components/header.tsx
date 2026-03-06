@@ -43,26 +43,26 @@ export function Header() {
     <header
       className={cn(
         "relative z-50 bg-white transition-all duration-300 ease-in-out font-sans",
-        "shadow-[0_4px_24px_rgba(10,37,64,0.04)] border-0"
+        "shadow-[0_4px_24px_rgba(10,37,64,0.04)] border-b border-[#0A2540]/10"
       )}
     >
       <div className="boutique-width h-[72px] 2xl:h-[96px] flex items-center justify-between relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center">
-          <Link href="/" className="flex items-center group gap-0 -ml-2">
+          <Link href="/" className="flex items-center group gap-1.5 pl-2 md:pl-4">
             <img
-              src="/assets/newlogo26.png"
-              alt="BuyUkrainian.ca Integrated Crest"
-              className="h-10 2xl:h-[54px] w-auto object-contain shrink-0"
+              src="/assets/logo-main.png"
+              alt="Buy Ukrainian Products in Canada"
+              className="h-10 2xl:h-12 w-auto object-contain shrink-0 -translate-y-0.5"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center h-10 pt-1 -ml-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              <span className="header-logo-text text-[17px] 2xl:text-[18px] font-medium tracking-tight text-[#0A2540]/80 leading-none">
-                Ukrainian Products
+            <div className="flex flex-col justify-center border-l border-[#0A2540]/15 pl-1.5 select-none">
+              <span className="text-xs md:text-[13px] 2xl:text-sm font-bold tracking-[0.02em] text-[#0A2540] whitespace-nowrap leading-tight uppercase antialiased">
+                UKRAINIAN PRODUCTS
               </span>
-              <span className="header-logo-text text-[15px] 2xl:text-[16px] font-medium tracking-tight text-[#0A2540]/80 leading-none mt-[3px]">
-                in Canada
+              <span className="text-xs md:text-[13px] 2xl:text-sm font-bold tracking-[0.02em] text-[#0A2540] whitespace-nowrap leading-tight uppercase antialiased">
+                IN CANADA
               </span>
             </div>
 
@@ -75,7 +75,7 @@ export function Header() {
             <Link href="/" className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Back to Homepage
-              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
           ) : (
             <nav className="items-center gap-8 flex font-sans antialiased">
@@ -90,12 +90,12 @@ export function Header() {
                 className="group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 text-slate-900 opacity-70"
               >
                 {t('nav.about') || 'About'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
                 <MapPin className="w-4 h-4 opacity-90" />
                 {t('nav.map') || 'View Map'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogTrigger asChild>
@@ -106,7 +106,7 @@ export function Header() {
                   >
                     <Plus className="w-4 h-4 opacity-90" />
                     {t('nav.addStore') || 'Add a Store'}
-                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-current scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </span>
                 </DialogTrigger>
                 <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none">

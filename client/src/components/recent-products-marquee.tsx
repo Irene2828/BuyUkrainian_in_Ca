@@ -56,7 +56,7 @@ export function RecentProductsMarquee() {
     return (
         <>
             <div
-                className="w-full pt-3 pb-12 overflow-hidden font-sans relative z-20 flex items-center justify-center backdrop-blur-sm"
+                className="w-full pt-4 pb-24 overflow-hidden font-sans relative z-10 flex items-center justify-center bg-transparent"
             >
                 <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
 
@@ -67,7 +67,7 @@ export function RecentProductsMarquee() {
                         className="flex flex-1 overflow-hidden group/marquee px-4 h-full items-center"
                         style={{ maskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)' }}
                     >
-                        <div className="flex animate-marquee whitespace-nowrap items-center min-w-full">
+                        <div className="flex animate-marquee whitespace-nowrap items-center min-w-full hover:[animation-play-state:paused]">
                             {repeatedStores.map((store, i) => {
                                 const provinceCode = (() => {
                                     const p = store.province || "";
@@ -83,20 +83,20 @@ export function RecentProductsMarquee() {
                                 return (
                                     <span
                                         key={`${store.id}-${i}`}
-                                        className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer"
+                                        className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer text-[#0A2540]/40 transition-colors duration-300 hover:text-[#0A2540]"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
                                     >
                                         <div className="w-1.5 h-1.5 rounded-full bg-slate-400/80 shadow-[0_0_8px_rgba(148,163,184,0.3)] shrink-0" />
 
                                         <div className="flex flex-col items-start justify-center">
                                             <span
-                                                className="font-medium tracking-tight text-slate-500 transition-all duration-300 group-hover:text-slate-950 mb-0.5"
+                                                className="font-medium tracking-tight transition-all duration-300 mb-0.5"
                                                 style={{ fontSize: '14px' }}
                                             >
                                                 {store.name}
                                             </span>
                                             <span
-                                                className="font-medium text-slate-400 transition-all duration-300 group-hover:text-slate-800"
+                                                className="font-medium transition-all duration-300"
                                                 style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
                                             >
                                                 {store.city || 'Location'}, {provinceCode}
