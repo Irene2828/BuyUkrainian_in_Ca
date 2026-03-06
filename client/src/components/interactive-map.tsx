@@ -469,13 +469,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   return (
     <div
-      className="w-full h-full relative z-0 overflow-hidden bg-[#F9FAFB] passport-map-container animate-in fade-in duration-[1000ms] delay-100 fill-mode-forwards antialiased"
+      className="w-full h-full relative z-0 overflow-hidden bg-white passport-map-container animate-in fade-in duration-[1000ms] delay-100 fill-mode-forwards antialiased"
     >
-      {/* Deep Sea Overlay & Eye-Care Filter */}
+      {/* Eye-Care Filter only — Deep Sea blue gradient removed (was causing blue flash on drag) */}
       <div className="absolute inset-0 z-[400] pointer-events-none" style={{ borderRadius: 'inherit' }}>
-        {/* 1. Deep Sea Gradient */}
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0) 30%, rgba(45, 80, 160, 0.06) 100%)' }} />
-        {/* 2. Eye-Care Multiply Layer */}
         <div className="absolute inset-0 bg-[#F5F5F3] opacity-5 mix-blend-multiply" />
       </div>
       <MapContainer

@@ -97,7 +97,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 <div className="p-5 pb-3 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-1.5">
                     <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-2 min-w-0">
-                            <h2 className="text-[22px] font-bold text-[#0F172A] leading-tight tracking-tight font-header truncate">
+                            <h2 className="text-[22px] font-bold text-[#0A2540] leading-tight tracking-tight font-header truncate">
                                 {store.name}
                             </h2>
                             {store.website && (
@@ -185,7 +185,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             {(isProductsExpanded ? allProducts : allProducts.slice(0, 6)).map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="px-2.5 py-0.5 bg-[#BAE6FD]/40 border border-[#BAE6FD]/70 ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-medium text-[#2D50A0]/80 transition-colors hover:bg-[#BAE6FD]/60 cursor-default"
+                                    className="bg-[#F1F5F9] text-[#0A2540] font-medium px-3 py-1 rounded-full text-[12px] border border-[#E2E8F0] transition-colors hover:bg-[#E2E8F0] cursor-default"
                                 >
                                     {product}
                                 </div>
@@ -211,9 +211,9 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank" rel="noopener noreferrer"
-                        className="w-full flex items-center justify-center gap-2 h-[46px] rounded-full bg-white border-[0.5px] border-black text-black font-medium text-[14px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:bg-slate-50 hover:border-black/40 hover:-translate-y-0.5 active:scale-[0.98] group"
+                        className="bg-[#0A2540] text-white hover:bg-[#0A2540]/90 transition-colors w-full h-[46px] rounded-full font-medium flex items-center justify-center border-0 tracking-tight antialiased shadow-sm active:scale-[0.98] group"
                     >
-                        <CornerUpRight size={16} className="group-hover:translate-x-0.5 transition-transform opacity-70" />
+                        <CornerUpRight size={16} className="text-white group-hover:translate-x-0.5 transition-transform" />
                         <span>Get Directions</span>
                     </a>
 

@@ -450,8 +450,9 @@ section h3 {
    MAP PERFORMANCE & TILE POLISH
    ======================================== */
 .leaflet-container {
-    background-color: #F8F9FA !important;
-    /* Soft warm neutral foundation */
+    background-color: #ffffff !important;
+    /* Pure white: prevents blue-grey flash during drag/zoom when tiles haven't loaded */
+    outline: none;
 }
 
 /* Hardware Acceleration Force */
