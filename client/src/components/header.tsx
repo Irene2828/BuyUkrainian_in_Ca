@@ -54,7 +54,7 @@ export function Header() {
             <img
               src="/assets/logo-main.png"
               alt="Buy Ukrainian Products in Canada"
-              className="h-10 2xl:h-12 w-auto object-contain shrink-0 -translate-y-0.5"
+              className="h-10 2xl:h-12 w-auto object-contain shrink-0 -translate-y-1.5"
             />
             {/* Branding Text */}
             <div className="flex flex-col justify-center border-l border-[#0A2540]/15 pl-1.5 select-none">
