@@ -54,8 +54,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <Share2 size={14} className="text-blue-400" />
-                            <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
+                            <Share2 size={14} className="text-slate-900/70" />
+                            <p className="text-[13px] font-bold tracking-widest text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>
                         </div>
@@ -70,7 +70,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* 2. Right Column: Actions */}
                     <div className="flex flex-col items-center md:items-end w-full gap-10">
                         {/* Copy Card (Glass Style - Swapped to Top) */}
-                        <div className="relative w-full max-w-[624px] px-8 py-4 rounded-[32px] bg-white/95 backdrop-blur-md border-[0.5px] border-black/5 shadow-[0_5px_12px_rgba(0,0,0,0.04),0_2px_5px_rgba(0,0,0,0.025)] text-left group/draft transition-all duration-500 stagger-item">
+                        <div className="relative w-full max-w-[624px] px-8 py-4 rounded-[32px] bg-white/95 backdrop-blur-md border-[0.5px] border-black/5 border-l-[4px] border-l-[#FFD700] shadow-[0_5px_12px_rgba(0,0,0,0.04),0_2px_5px_rgba(0,0,0,0.025)] text-left group/draft transition-all duration-500 stagger-item">
                             <div className="flex items-center justify-end mb-5">
                                 <button
                                     onClick={handleCopy}
@@ -78,7 +78,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                         "flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase transition-all duration-200 ease-out group/copy-btn active:scale-95 select-none",
                                         copied
                                             ? "bg-lime-50 text-lime-700 ring-1 ring-lime-200/50"
-                                            : "bg-slate-100/80 text-slate-600 hover:bg-slate-200 hover:text-slate-900 ring-1 ring-slate-900/5"
+                                            : "bg-[#0057B7] text-white hover:bg-[#0047A0]"
                                     )}
                                     aria-label="Copy suggested post to clipboard"
                                 >
@@ -89,11 +89,11 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     )}
                                     <Copy className={cn(
                                         "w-3 h-3 transition-colors duration-200",
-                                        copied ? "text-lime-600" : "text-slate-400 group-hover/copy-btn:text-slate-600"
+                                        copied ? "text-lime-600" : "text-white/80 group-hover/copy-btn:text-white"
                                     )} strokeWidth={2.5} />
                                 </button>
                             </div>
-                            <p className="text-[13px] md:text-[14px] min-[1441px]:text-[16px] text-slate-500 font-ui italic leading-relaxed font-normal">
+                            <p className="text-[13px] md:text-[14px] min-[1441px]:text-[16px] text-[#0A2540] font-ui italic leading-relaxed font-normal">
                                 "{shareMessage} {shareUrl}"
                             </p>
                         </div>
@@ -102,7 +102,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         <div className="flex flex-col items-center md:items-end gap-5 w-full md:pr-4 stagger-item">
                             <button
                                 onClick={handleFacebookShare}
-                                className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-[#0A2540] hover:text-[#0057B7] transition-all duration-300 pb-1"
                                 aria-label="Share on Facebook"
                             >
                                 <Facebook className="w-4 h-4" strokeWidth={1.5} />
@@ -114,7 +114,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                             <button
                                 onClick={handleInstagramShare}
-                                className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-[#0A2540] hover:text-[#0057B7] transition-all duration-300 pb-1"
                                 aria-label="Share on Instagram"
                             >
                                 <Instagram className="w-4 h-4" strokeWidth={1.5} />
@@ -126,7 +126,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                             <button
                                 onClick={handleXShare}
-                                className="group relative flex items-center gap-3 text-slate-900 transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-[#0A2540] hover:text-[#0057B7] transition-all duration-300 pb-1"
                                 aria-label="Share on X (Twitter)"
                             >
                                 <svg

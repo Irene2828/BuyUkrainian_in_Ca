@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 import { Store } from '@/lib/data';
+import { getStoreImages } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from "@/lib/i18n";
 import { cn } from '@/lib/utils';
@@ -32,8 +34,14 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Image logic
-    const baseImage = store.image || (store.images && store.images.length > 0 ? store.images[0] : null);
+    // Image lazy loading logic
+    const { data: storeImages, isLoading: isImagesLoading } = useQuery({
+        queryKey: ["store-images", store.id],
+        queryFn: () => getStoreImages(store.id),
+        staleTime: 1000 * 60 * 60, // Cache for 1 hour to avoid repeated egress
+    });
+
+    const baseImage = storeImages?.image || (storeImages?.images?.[0]) || store.image || (store.images?.[0]);
     const images = baseImage ? [baseImage] : ["/assets/kyivcake.jpeg"];
     const displayImages = images.length === 1 && baseImage ? [images[0], "/assets/kyivcake.jpeg", "/assets/hero-bg.jpg"] : images;
     const uniqueImages = Array.from(new Set(displayImages)).filter(Boolean);
@@ -96,28 +104,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 {/* 1. Sticky Header Section */}
                 <div className="p-5 pb-3 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-1.5">
                     <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-center gap-2 min-w-0">
-                            <h2 className="text-[22px] font-bold text-[#0A2540] leading-tight tracking-tight font-header truncate">
+                        <div className="flex items-start gap-2 min-w-0">
+                            <h2 className="text-[1.15rem] font-bold text-[#0A2540] leading-tight tracking-tight font-header line-clamp-2 mr-2">
                                 {store.name}
                             </h2>
-                            {store.website && (
-                                <a
-                                    href={store.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-1.5 rounded-full text-[#2D50A0]/60 hover:text-[#2D50A0] hover:bg-blue-50 transition-all shrink-0"
-                                    title="Visit Website"
-                                >
-                                    <Globe size={18} />
-                                </a>
-                            )}
                         </div>
                         <button
                             onClick={onClose}
-                            className="bg-slate-100/80 hover:bg-slate-200 p-1.5 rounded-full text-slate-500 transition-colors active:scale-95 shrink-0"
+                            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-full transition-colors active:scale-95 shrink-0"
                             aria-label="Close"
                         >
-                            <X size={14} />
+                            <X size={16} />
                         </button>
                     </div>
                     <div className="flex items-center">
@@ -134,44 +131,71 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         {/* Left Column: Store Image */}
                         <div
                             className={cn(
-                                "relative w-[110px] h-[110px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm cursor-zoom-in group transition-all duration-300 shrink-0",
+                                "relative w-[110px] h-[110px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm shrink-0",
+                                !isImagesLoading && "cursor-zoom-in group transition-all duration-300",
                                 isImageExpanded && "ring-blue-500/30"
                             )}
-                            onClick={() => setIsImageExpanded(!isImageExpanded)}
+                            onClick={() => !isImagesLoading && setIsImageExpanded(!isImageExpanded)}
                         >
-                            <img
-                                src={uniqueImages[currentImageIndex]}
-                                alt={store.name}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <Maximize2 size={20} className="text-white drop-shadow-lg" />
-                            </div>
+                            {isImagesLoading ? (
+                                <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center">
+                                    <div className="w-8 h-8 rounded-full bg-slate-200" />
+                                </div>
+                            ) : (
+                                <>
+                                    <img
+                                        src={uniqueImages[currentImageIndex]}
+                                        alt={store.name}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                        <Maximize2 size={20} className="text-white drop-shadow-lg" />
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         {/* Right Column: Address & Website */}
                         <div className="flex flex-col gap-2 pt-0.5 min-w-0">
-                            <div className="flex flex-col gap-1.5">
-                                <div className="flex items-start gap-2">
-                                    <MapPin size={14} className="text-slate-400 mt-1 flex-shrink-0" />
-                                    <p className="text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-3 flex-1">
-                                        {store.address}
-                                    </p>
+                            <div className="flex flex-col gap-3">
+                                {/* Address Row */}
+                                <div className="flex items-center gap-3">
+                                    <div className="w-5 flex justify-center shrink-0">
+                                        <MapPin size={14} className="text-slate-400" />
+                                    </div>
+                                    <div className="flex items-center justify-between flex-1 gap-2">
+                                        <p className="text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-3">
+                                            {store.address}
+                                        </p>
+                                        <button
+                                            onClick={handleCopyAddress}
+                                            className={cn(
+                                                "p-1 rounded-full transition-colors flex items-center justify-center shrink-0",
+                                                copied
+                                                    ? "text-green-600 bg-green-50"
+                                                    : "text-slate-400 hover:text-blue-600 hover:bg-slate-50"
+                                            )}
+                                            title={copied ? "Copied" : "Copy Address"}
+                                        >
+                                            {copied ? <Check size={14} /> : <Copy size={14} />}
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="flex justify-end pr-1">
-                                    <button
-                                        onClick={handleCopyAddress}
-                                        className={cn(
-                                            "text-[10px] font-bold uppercase tracking-wider transition-colors py-1 px-3 rounded-md flex items-center gap-1.5",
-                                            copied
-                                                ? "text-green-600 bg-green-50"
-                                                : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
-                                        )}
+
+                                {/* Website Row */}
+                                {store.website && (
+                                    <a
+                                        href={store.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-3 text-[13px] font-medium text-blue-600 hover:text-blue-800 transition-colors w-fit group"
                                     >
-                                        {copied ? <Check size={11} /> : <Copy size={11} />}
-                                        <span>{copied ? "Copied" : "Copy"}</span>
-                                    </button>
-                                </div>
+                                        <div className="w-5 flex justify-center shrink-0">
+                                            <Globe size={14} className="opacity-80 group-hover:opacity-100" />
+                                        </div>
+                                        <span>Visit website</span>
+                                    </a>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -181,25 +205,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-0.5">
                             Products in store
                         </p>
-                        <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-3 pt-1 custom-scrollbar">
-                            {(isProductsExpanded ? allProducts : allProducts.slice(0, 6)).map((product, idx) => (
+                        <div className="flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap pb-2 pt-1 custom-scrollbar">
+                            {allProducts.map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="shrink-0 bg-[#F1F5F9] text-[#0A2540] font-medium px-3 py-1 rounded-full text-[12px] border border-[#E2E8F0] transition-colors hover:bg-[#E2E8F0] cursor-default"
+                                    className="shrink-0 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-xs font-medium cursor-default"
                                 >
                                     {product}
                                 </div>
                             ))}
-                            {hasMoreProducts && (
-                                <button
-                                    onClick={() => setIsProductsExpanded(!isProductsExpanded)}
-                                    className="px-2 py-0.5 rounded-full text-[11px] font-bold text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all active:scale-95"
-                                >
-                                    {isProductsExpanded ? "Show less" : `+${allProducts.length - 6} more`}
-                                </button>
-                            )}
                             {allProducts.length === 0 && (
-                                <span className="text-[12px] text-slate-400 italic font-ui">Check website for products</span>
+                                <span className="text-[12px] text-slate-400 italic font-ui shrink-0">Check website for products</span>
                             )}
                         </div>
                     </div>
@@ -211,32 +227,32 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
                         target="_blank" rel="noopener noreferrer"
-                        className="bg-[#0A2540] text-white hover:bg-[#0A2540]/90 transition-colors w-full h-[46px] rounded-full font-medium flex items-center justify-center gap-2 border-0 tracking-tight antialiased shadow-sm active:scale-[0.98] group"
+                        className="bg-[#0057B7] text-white hover:bg-[#0047A0] transition-colors w-full h-[46px] rounded-full font-medium flex items-center justify-center gap-2 border-0 tracking-tight antialiased shadow-sm active:scale-[0.98] group"
                     >
                         <CornerUpRight size={16} className="text-white group-hover:translate-x-0.5 transition-transform" />
                         <span>Get Directions</span>
                     </a>
 
                     {/* Secondary Actions Row */}
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-3">
                         <button
                             onClick={handleShare}
-                            className="flex items-center justify-center gap-2 px-4 py-2 bg-white border-[0.5px] border-black/15 ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold text-black/75 transition-all hover:border-black/40 hover:text-black hover:scale-110 active:scale-95 group"
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-transparent rounded-lg text-[12px] font-medium text-slate-700 transition-colors duration-200 hover:text-blue-600 hover:bg-slate-50 active:scale-95 group"
                         >
-                            <Share2 size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+                            <Share2 size={13} />
                             <span>Share Store</span>
                         </button>
 
                         <button
                             onClick={() => setIsImageExpanded(!isImageExpanded)}
                             className={cn(
-                                "flex items-center justify-center gap-2 px-4 py-2 border-[0.5px] ring-1 ring-white/10 ring-inset rounded-full text-[12px] font-semibold transition-all hover:scale-110 active:scale-95 group",
+                                "flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[12px] font-medium transition-colors duration-200 active:scale-95 group",
                                 isImageExpanded
-                                    ? "bg-slate-900 border-slate-900 text-white hover:bg-slate-800"
-                                    : "bg-white border-black/15 text-black/75 hover:border-black/40 hover:text-black"
+                                    ? "bg-slate-900 text-white hover:bg-slate-800"
+                                    : "bg-transparent text-slate-700 hover:text-blue-600 hover:bg-slate-50"
                             )}
                         >
-                            <Maximize2 size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+                            <Maximize2 size={13} />
                             <span>{isImageExpanded ? "Collapse" : "Zoom In"}</span>
                         </button>
                     </div>

@@ -55,19 +55,28 @@ export function RecentProductsMarquee() {
 
     return (
         <>
+            <style>
+                {`
+            @keyframes premium-scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+            `}
+            </style>
             <div
                 className="w-full pt-4 pb-24 overflow-hidden font-sans relative z-10 flex items-center justify-center bg-transparent"
             >
-                <div className="boutique-width w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
-
-
-
-                    {/* Infinite Scroll Ticker */}
+                <div className="w-full mx-auto flex items-center h-[50px] md:h-[60px] relative">
+                    {/* Gradient Fade Masks */}
+                    <div className="absolute left-0 top-0 w-16 md:w-32 h-full bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+                    <div className="absolute right-0 top-0 w-16 md:w-32 h-full bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />                    {/* Infinite Scroll Ticker */}
                     <div
-                        className="flex flex-1 overflow-hidden group/marquee px-4 h-full items-center"
-                        style={{ maskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent)' }}
+                        className="flex flex-1 overflow-hidden group/marquee h-full items-center relative"
                     >
-                        <div className="flex animate-marquee whitespace-nowrap items-center min-w-full hover:[animation-play-state:paused]">
+                        <div
+                            className="flex whitespace-nowrap items-center group-hover/marquee:[animation-play-state:paused] w-max"
+                            style={{ animation: 'premium-scroll 345s linear infinite' }}
+                        >
                             {repeatedStores.map((store, i) => {
                                 const provinceCode = (() => {
                                     const p = store.province || "";
@@ -83,25 +92,25 @@ export function RecentProductsMarquee() {
                                 return (
                                     <span
                                         key={`${store.id}-${i}`}
-                                        className="group relative mx-8 flex items-center gap-3 select-none cursor-pointer text-[#0A2540]/40 transition-colors duration-300 hover:text-[#0A2540]"
+                                        className="group relative flex items-center select-none cursor-pointer px-4 md:px-6 transition-opacity duration-300 hover:opacity-80"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
                                     >
-                                        <div className="w-1.5 h-1.5 rounded-full bg-slate-400/80 shadow-[0_0_8px_rgba(148,163,184,0.3)] shrink-0" />
-
-                                        <div className="flex flex-col items-start justify-center">
+                                        <div className="flex items-center justify-center">
                                             <span
-                                                className="font-medium tracking-tight transition-all duration-300 mb-0.5"
-                                                style={{ fontSize: '14px' }}
+                                                className="font-medium tracking-tight text-slate-500 mr-2"
+                                                style={{ fontSize: '15px' }}
                                             >
                                                 {store.name}
                                             </span>
                                             <span
-                                                className="font-medium transition-all duration-300"
-                                                style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
+                                                className="font-normal text-slate-400"
+                                                style={{ fontSize: '14px' }}
                                             >
                                                 {store.city || 'Location'}, {provinceCode}
                                             </span>
                                         </div>
+                                        {/* Divider Dot */}
+                                        <span className="text-slate-300 select-none ml-8 lg:ml-12" style={{ fontSize: '20px' }}>•</span>
                                     </span>
                                 );
                             })}

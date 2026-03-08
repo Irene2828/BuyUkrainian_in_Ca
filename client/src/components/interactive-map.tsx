@@ -51,7 +51,7 @@ const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: b
     html: `
       <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
         <!-- Premium Tooltip (Apple Frosted Glass Style) -->
-        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[100] pointer-events-none whitespace-nowrap rounded-xl bg-white/70 backdrop-blur-md px-3.5 py-1.5 text-[11px] font-bold tracking-wide text-[#0A2540] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/50 opacity-0 transition-all duration-300 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100">
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-[16px] z-[100] pointer-events-none max-w-[160px] text-center whitespace-normal leading-tight rounded-lg bg-white/90 backdrop-blur-xl px-3 py-1.5 text-[13px] font-medium text-[#0A2540] shadow-md border border-slate-100 opacity-0 transition-all duration-300 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
           ${name}
         </div>
 

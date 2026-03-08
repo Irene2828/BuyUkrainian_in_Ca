@@ -48,21 +48,27 @@ export function StoreCardSkeleton() {
 // Store List Item Skeleton
 export function StoreListItemSkeleton() {
     return (
-        <div className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 animate-in fade-in duration-300">
-            {/* Image placeholder */}
-            <Skeleton className="w-[80px] h-[80px] rounded-2xl shrink-0" />
+        <div className="flex items-center justify-between py-4 border-b border-slate-100 w-full">
+            {/* LEFT SIDE (Store Info & Avatar) */}
+            <div className="flex items-center gap-4 min-w-0 pr-4 w-1/2">
+                {/* Avatar placeholder */}
+                <Skeleton className="w-8 h-8 rounded-full shrink-0" />
 
-            <div className="flex-1 min-w-0">
-                {/* Store name */}
-                <Skeleton className="h-5 w-3/4 rounded-lg mb-2" />
-                {/* Category */}
-                <Skeleton className="h-4 w-1/4 rounded-lg mb-2" />
-                {/* Address */}
-                <Skeleton className="h-3 w-2/3 rounded-lg" />
+                <div className="flex flex-col min-w-0 w-full gap-2 mt-0.5">
+                    {/* Store name */}
+                    <Skeleton className="h-5 w-3/4 rounded-lg" />
+                    {/* Category */}
+                    <Skeleton className="h-3 w-1/2 rounded-lg" />
+                </div>
             </div>
 
-            {/* Action button */}
-            <Skeleton className="w-20 h-8 rounded-full shrink-0" />
+            {/* RIGHT SIDE (Location) */}
+            <div className="flex items-center gap-4 shrink-0 w-1/3 justify-end">
+                <div className="flex flex-col items-end w-full">
+                    <Skeleton className="h-4 w-3/4 rounded-lg" />
+                </div>
+                <Skeleton className="w-4 h-4 rounded-full shrink-0" />
+            </div>
         </div>
     );
 }

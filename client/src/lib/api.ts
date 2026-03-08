@@ -77,6 +77,19 @@ export async function getApprovedStores(): Promise<Store[]> {
   }
 }
 
+export async function getStoreImages(id: string): Promise<{ image: string | null; images: string[] | null }> {
+  try {
+    const response = await fetch(`/api/locations/${id}/images`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch store images: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`getStoreImages Error for ${id}:`, error);
+    return { image: null, images: null };
+  }
+}
+
 export async function getAllStores(): Promise<Store[]> {
   const response = await fetch(`/api/admin/stores`, {
     headers: getAuthHeaders(),

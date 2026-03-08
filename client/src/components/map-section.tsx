@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation } from "lucide-react";
-import { ListingCard } from "./listing-card";
+import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation, ChevronRight } from "lucide-react";
+
 
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
@@ -249,10 +249,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     return (
       <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className} bg-[#fcfcfc]`}>
         <div className="w-full h-10 md:h-12 shrink-0" />
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 justify-items-center">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="w-full max-w-[440px]">
+        <div className="flex flex-col w-full max-w-4xl mx-auto px-6 py-4 md:py-8">
+          <div className="flex flex-col w-full">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="w-full">
                 <StoreListItemSkeleton />
               </div>
             ))}
@@ -276,35 +276,70 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         {/* Top Spacer: Maintains visual baseline with map controls */}
         <div className="w-full h-10 md:h-12 shrink-0" />
 
-        <div className="max-w-6xl mx-auto w-full px-6 py-12 md:py-16">
-          {/* Gallery Grid: Premium 2-Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-10 justify-items-center">
+        <div className="flex flex-col w-full max-w-4xl mx-auto px-6 py-4 md:py-8">
+          {/* Index Row Layout Container */}
+          <div className="flex flex-col w-full">
             {filteredStores.slice(0, visibleCount).map((store, index) => {
               const isActive = selectedStore?.id === store.id;
+
+              // Resolve category/tags text
+              const tagsText = store.products?.length > 0
+                ? store.products.join(', ')
+                : store.category.charAt(0).toUpperCase() + store.category.slice(1);
+
+              // Resolve avatar logic
+              let avatarSrc = store.image || (store.images && store.images.length > 0 ? store.images[0] : null);
+
               return (
-                <div key={store.id} className="relative w-full max-w-[440px]">
-                  <ListingCard
-                    store={store}
-                    variant="list"
+                <div key={store.id} className="relative w-full">
+                  <div
                     onClick={() => handleSelectStore(store)}
                     className={cn(
-                      "w-full animate-in fade-in slide-in-from-bottom-8 fill-mode-both border border-transparent transition-all duration-300",
-                      isActive && "bg-white shadow-md border-slate-200 ring-1 ring-slate-100 z-10"
+                      "flex items-center justify-between py-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors w-full animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
+                      isActive && "bg-slate-50"
                     )}
-                    style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'both' }}
-                  />
+                    style={{ animationDelay: `${(index % 12) * 30}ms` }}
+                  >
+                    {/* LEFT SIDE (Store Info & Avatar) */}
+                    <div className="flex items-center gap-4 min-w-0 pr-4">
+                      {/* Avatar / Icon */}
+                      <div className="w-8 h-8 rounded-full bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center border border-slate-200/50">
+                        {avatarSrc ? (
+                          <img src={avatarSrc} alt={store.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-[10px] font-bold text-slate-400 font-ui uppercase">
+                            {store.name.charAt(0)}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Store Text Block */}
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-base font-semibold text-[#0A2540] truncate">{store.name}</span>
+                        <span className="text-xs text-slate-500 truncate mt-0.5">{tagsText}</span>
+                      </div>
+                    </div>
+
+                    {/* RIGHT SIDE (Location) */}
+                    <div className="flex items-center gap-4 shrink-0">
+                      <div className="flex flex-col items-end">
+                        <span className="text-sm text-slate-600 font-medium text-right">{store.city}, {store.province}</span>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-300" />
+                    </div>
+                  </div>
 
                   {/* Inline Peek Card (Desktop) */}
                   <AnimatePresence>
                     {isActive && !isMobile && (
                       <motion.div
-                        initial={{ opacity: 0, scale: 0.95, x: index % 2 === 0 ? -10 : 10 }}
+                        initial={{ opacity: 0, scale: 0.95, x: 10 }}
                         animate={{ opacity: 1, scale: 1, x: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
                         className={cn(
-                          "absolute top-0 z-[100] w-[360px] pointer-events-auto",
-                          index % 2 === 0 ? "left-[calc(100%+24px)]" : "right-[calc(100%+24px)]"
+                          "absolute top-1/2 -translate-y-1/2 z-[100] w-[360px] pointer-events-auto",
+                          "left-[calc(100%+32px)]"
                         )}
                       >
                         <StoreCard

@@ -23,6 +23,26 @@ import { useI18n } from "@/lib/i18n";
 import { CommunityImpact } from "@/components/community-impact";
 import { cn } from "@/lib/utils";
 
+const PROVINCE_TO_ABBR: Record<string, string> = {
+  "Alberta": "AB",
+  "British Columbia": "BC",
+  "Manitoba": "MB",
+  "New Brunswick": "NB",
+  "Newfoundland and Labrador": "NL",
+  "Nova Scotia": "NS",
+  "Ontario": "ON",
+  "Prince Edward Island": "PE",
+  "Quebec": "QC",
+  "Saskatchewan": "SK",
+  "Northwest Territories": "NT",
+  "Nunavut": "NU",
+  "Yukon": "YT"
+};
+
+const getProvinceAbbreviation = (province: string) => {
+  return PROVINCE_TO_ABBR[province] || province;
+};
+
 function NewlyAddedStores() {
   const { t } = useI18n();
   const { data: stores = [], isLoading } = useQuery({
@@ -57,61 +77,46 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[108px] lg:pt-[135px] pb-[129px] border-t border-slate-200/50">
+    <section className="bg-white pt-[108px] lg:pt-[135px] pb-[64px] border-t border-slate-200/50">
       <div className="boutique-width">
-        <div className="mb-6 md:mb-9 max-w-[700px] flex flex-col text-left">
+        <div className="flex justify-between items-center w-full mb-6 group/header-link">
           <div className="flex items-center gap-2.5">
             <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
             <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
               LATEST COMMUNITY ADDITIONS
             </p>
           </div>
-
+          <button
+            onClick={() => {
+              document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }}
+            className="text-sm font-semibold text-[#0057B7]/60 hover:text-[#0047A0] transition-colors flex items-center gap-1 uppercase tracking-wide"
+          >
+            VIEW ALL <ArrowRight className="w-4 h-4 transition-transform group-hover/header-link:translate-x-1" />
+          </button>
         </div>
       </div>
 
-      <div className="boutique-width group/carousel relative">
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full relative"
-        >
-          <CarouselContent className="-ml-8">
-            {newlyAdded.map((store) => (
-              <CarouselItem key={store.id} className="pl-8 basis-full sm:basis-1/2 md:basis-[28%] lg:basis-[22%]">
-                <div className="w-full">
-                  <EditorialStoreCard
-                    store={store}
-                    onClick={() => handleSeeOnMap(store)}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-
-            {/* Final "See more" card */}
-            <CarouselItem className="pl-8 basis-full sm:basis-1/2 md:basis-[28%] lg:basis-[22%]">
-              <div
-                className="flex flex-col items-center justify-center h-full min-h-[220px] gap-3 p-4 rounded-[20px] border border-dashed border-slate-300 bg-slate-50/30 hover:bg-slate-50/50 hover:border-slate-400 transition-all cursor-pointer group"
-                onClick={() => {
-                  document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-              >
-                <div className="h-12 w-12 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-black transition-colors" />
-                </div>
-                <span className="text-sm font-bold text-slate-900 text-center">
-                  View All Stores
+      <div className="boutique-width">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 lg:gap-8 min-h-[140px]">
+          {newlyAdded.slice(0, 4).map((store) => (
+            <div
+              key={store.id}
+              className="flex items-stretch cursor-pointer group"
+              onClick={() => handleSeeOnMap(store)}
+            >
+              <div className="w-1 bg-[#FFD700] group-hover:bg-[#0057B7] transition-colors rounded-full mr-4 shrink-0"></div>
+              <div className="flex flex-col justify-center">
+                <h3 className="text-[#0A2540] font-semibold text-[15px] leading-tight mb-1 group-hover:text-[#0057B7] transition-colors line-clamp-2">
+                  {store.name}
+                </h3>
+                <span className="text-slate-500 text-sm font-medium truncate">
+                  {store.city}, {getProvinceAbbreviation(store.province)}
                 </span>
               </div>
-            </CarouselItem>
-          </CarouselContent>
-
-          <div className="hidden md:block opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
-            <CarouselPrevious className="absolute -left-5 top-[35%] -translate-y-1/2 w-12 h-12 bg-white text-slate-400 border-none shadow-md hover:bg-white hover:text-slate-900 transition-all disabled:opacity-0" />
-            <CarouselNext className="absolute -right-5 top-[35%] -translate-y-1/2 w-12 h-12 bg-white text-slate-400 border-none shadow-md hover:bg-white hover:text-slate-900 transition-all disabled:opacity-0" />
-          </div>
-        </Carousel>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Community Call to Action */}
@@ -121,7 +126,7 @@ function NewlyAddedStores() {
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0A2540] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 2xl:gap-3 group/cta-btn"
+          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 2xl:gap-3 group/cta-btn"
         >
           <span>Add a New Store</span>
           <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-200 group-hover/cta-btn:text-[#FFF4CC]" />

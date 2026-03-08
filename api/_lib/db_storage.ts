@@ -4,6 +4,61 @@ import pkg from 'pg';
 const { Pool } = pkg;
 import { eq, desc, count } from "drizzle-orm";
 import crypto from "crypto";
+import { config } from "./config.js";
+
+// --- SUPABASE STORAGE UTILS ---
+// Custom uploader substituting @supabase/supabase-js to bypass local npm cache blockers
+async function uploadBase64ToStorage(base64String: string, imageId: string): Promise<string | null> {
+  // If it's already a URL, return it
+  if (base64String.startsWith('http')) return base64String;
+
+  // Basic validation that it's a data URI
+  const match = base64String.match(/^data:image\/(png|jpeg|webp|jpg);base64,(.+)$/);
+  if (!match) return null;
+
+  const ext = match[1] === 'jpeg' ? 'jpg' : match[1];
+  const base64Data = match[2];
+  const buffer = Buffer.from(base64Data, "base64");
+
+  const filename = `${imageId}-${crypto.randomBytes(4).toString('hex')}.${ext}`;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !serviceKey) {
+    console.error("❌ [Storage] Missing Supabase URL or Key for upload");
+    return null; // Fallback gracefully if env is broken, though UI might miss images
+  }
+
+  // Supabase Storage REST API Endpoint
+  const url = `${supabaseUrl}/storage/v1/object/store-images/${filename}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${serviceKey}`,
+        "Content-Type": `image/${match[1]}`, // Critical for browser to render
+        "Cache-Control": "3600",
+        "x-upsert": "false" // Don't overwrite existing
+      },
+      body: buffer
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`❌ [Storage] Upload failed: ${response.status}`, errorText);
+      return null;
+    }
+
+    // Return the public URL
+    return `${supabaseUrl}/storage/v1/object/public/store-images/${filename}`;
+  } catch (err) {
+    console.error(`❌ [Storage] Exception during upload:`, err);
+    return null;
+  }
+}
+// ------------------------------
 
 // Define the shape of our Store object for the application
 export interface Store {
@@ -37,9 +92,6 @@ export interface StoreLean {
   latitude: string;
   longitude: string;
   category: "food" | "clothes" | "other" | "retail";
-  website?: string | null;
-  image?: string | null;
-  images?: string[] | null;
   status: "approved" | "pending" | "rejected";
   createdAt: Date;
 }
@@ -51,6 +103,7 @@ export interface IStorage {
   getApprovedStoresLean(): Promise<StoreLean[]>; // EGRESS OPT: Lean query for public map pins
   getStoreCount(): Promise<number>; // EGRESS OPT: Count without fetching rows
   getStore(id: string): Promise<Store | undefined>;
+  getStoreImages(id: string): Promise<{ image: string | null; images: string[] | null } | undefined>; // NEW OPT: Fetch heavy images lazily
   createStore(store: InsertStore): Promise<Store>;
   updateStoreStatus(id: string, status: "approved" | "rejected" | "pending"): Promise<Store | undefined>;
   updateStoreImages(id: string, images: string[]): Promise<Store | undefined>;
@@ -137,9 +190,6 @@ export class DatabaseStorage implements IStorage {
       latitude: stores.latitude,
       longitude: stores.longitude,
       category: stores.category,
-      website: stores.website,
-      image: stores.image,
-      images: stores.images,
       status: stores.status,
       createdAt: stores.createdAt,
     }).from(stores)
@@ -170,11 +220,47 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
   }
 
+  // EGRESS OPTIMIZATION: Heavy payload fetching specific store's base64 strings only when clicked
+  async getStoreImages(id: string): Promise<{ image: string | null; images: string[] | null } | undefined> {
+    const result = await this.db.select({
+      image: stores.image,
+      images: stores.images,
+    }).from(stores).where(eq(stores.id, id));
+
+    return result.length > 0 ? result[0] : undefined;
+  }
+
   async createStore(insertStore: InsertStore): Promise<Store> {
+    const storeId = crypto.randomUUID();
+
+    let uploadedImage: string | null = null;
+    let uploadedImages: string[] = [];
+
+    // Migrate Primary Image Data URI to URL
+    if (insertStore.image && insertStore.image.startsWith('data:image')) {
+      uploadedImage = await uploadBase64ToStorage(insertStore.image, `primary-${storeId}`);
+    }
+
+    // Migrate Array Images
+    if (insertStore.images && insertStore.images.length > 0) {
+      for (let i = 0; i < insertStore.images.length; i++) {
+        const imgData = insertStore.images[i];
+        if (imgData.startsWith('data:image')) {
+          const url = await uploadBase64ToStorage(imgData, `gallery-${storeId}-${i}`);
+          if (url) uploadedImages.push(url);
+        } else {
+          uploadedImages.push(imgData); // Keep if already a URL
+        }
+      }
+    }
+
     const newStore = {
       ...insertStore,
-      id: crypto.randomUUID(),
+      id: storeId,
+      image: uploadedImage || insertStore.image, // Fallback to raw if upload failed (though ideally we just drop it)
+      images: uploadedImages.length > 0 ? uploadedImages : insertStore.images,
     };
+
     const result = await this.db.insert(stores).values(newStore).returning();
     this.invalidateCache(); // EGRESS OPT: Bust cache on mutation
     return this.mapToStore(result[0]);
@@ -187,7 +273,19 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateStoreImages(id: string, images: string[]): Promise<Store | undefined> {
-    const result = await this.db.update(stores).set({ images }).where(eq(stores.id, id)).returning();
+    let uploadedImages: string[] = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const imgData = images[i];
+      if (imgData.startsWith('data:image')) {
+        const url = await uploadBase64ToStorage(imgData, `gallery-${id}-${i}`);
+        if (url) uploadedImages.push(url);
+      } else {
+        uploadedImages.push(imgData);
+      }
+    }
+
+    const result = await this.db.update(stores).set({ images: uploadedImages }).where(eq(stores.id, id)).returning();
     this.invalidateCache(); // EGRESS OPT: Bust cache on image update
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
   }

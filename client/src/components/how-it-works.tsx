@@ -55,10 +55,10 @@ export function HowItWorks() {
   const isHeaderInView = useInView(headerRef, { once: true, amount: 0.5 });
 
   return (
-    <section id="how-it-works" className="py-24 font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="py-16 md:py-20 font-sans overflow-hidden bg-white h-auto">
       <div className="utility-width px-6 md:px-12">
         {/* Section Header */}
-        <div ref={headerRef} className="w-full mb-12 lg:mb-20 flex justify-center overflow-hidden">
+        <div ref={headerRef} className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">
           <h2
             className="text-[31px] md:text-[41px] font-semibold text-slate-900 tracking-tight leading-tight text-center translate-y-[40px] opacity-0 transition-all duration-1000 ease-out data-[in-view]:translate-y-0 data-[in-view]:opacity-100"
             data-in-view={isHeaderInView ? "" : undefined}
@@ -69,7 +69,7 @@ export function HowItWorks() {
 
         {/* Steps Grid - Animated Stagger */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10 w-full items-start"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full items-start mt-8 md:mt-12"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}

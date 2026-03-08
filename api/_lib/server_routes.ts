@@ -92,6 +92,26 @@ export async function registerRoutes(
   app.get("/api", (req, res) => getLocationsHelper(res));
   app.get("/api/index", (req, res) => getLocationsHelper(res));
 
+  // EGRESS OPTIMIZATION: Heavy payload fetching specific store's base64 strings only when clicked
+  // Client makes this call lazily from <StoreCard />
+  app.get("/api/locations/:id/images", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const images = await storage.getStoreImages(id);
+
+      if (!images) {
+        return res.status(404).json({ error: "Store images not found" });
+      }
+
+      // Edge caching — 3600s fresh since store images rarely change
+      res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=120");
+      res.json(images);
+    } catch (e: any) {
+      console.error(`❌ [API] Error fetching images for store ${req.params.id}:`, e);
+      res.status(500).json({ error: "Failed to fetch images" });
+    }
+  });
+
   app.post("/api/locations", securityMiddleware.submissionRateLimit, async (req, res) => {
     // Reuse logic from /api/stores
     try {

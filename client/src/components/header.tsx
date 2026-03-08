@@ -42,22 +42,22 @@ export function Header() {
   return (
     <header
       className={cn(
-        "relative z-50 bg-white transition-all duration-300 ease-in-out font-sans",
-        "shadow-[0_4px_24px_rgba(10,37,64,0.04)] border-b border-[#0A2540]/10"
+        "sticky top-0 z-50 bg-white/80 backdrop-blur-md transition-all duration-300 ease-in-out font-sans",
+        "shadow-[0_4px_24px_rgba(10,37,64,0.04)] border-b border-slate-100"
       )}
     >
       <div className="boutique-width h-[72px] 2xl:h-[96px] flex items-center justify-between relative">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center">
-          <Link href="/" className="flex items-center group gap-1.5 pl-2 md:pl-4">
+          <Link href="/" className="flex items-center group gap-1 pl-0 md:pl-0">
             <img
               src="/assets/logo-main.png"
               alt="Buy Ukrainian Products in Canada"
               className="h-10 2xl:h-12 w-auto object-contain shrink-0 -translate-y-1.5"
             />
             {/* Branding Text */}
-            <div className="flex flex-col justify-center border-l border-[#0A2540]/15 pl-1.5 select-none">
+            <div className="flex flex-col justify-center border-l border-slate-200 pl-1.5 py-0.5 select-none">
               <span className="text-xs md:text-[13px] 2xl:text-sm font-bold tracking-[0.02em] text-[#0A2540] whitespace-nowrap leading-tight uppercase antialiased">
                 UKRAINIAN PRODUCTS
               </span>

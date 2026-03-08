@@ -338,7 +338,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-full h-12 rounded-full bg-[#0A2540] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0F355C] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn"
+          className="w-full h-12 rounded-full bg-[#0057B7] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-sm hover:shadow-[0_4px_24px_rgba(255,232,133,0.2)] hover:bg-[#0047A0] hover:text-[#FFF4CC] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn"
         >
           <span>Back to the map</span>
         </Button>
@@ -619,7 +619,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 2xl:px-8 text-[16px] font-medium tracking-normal rounded-full bg-[#0A2540] text-white transition-all duration-200 shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 group/submit-btn"
+                className="w-full inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 2xl:px-8 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 group/submit-btn"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />

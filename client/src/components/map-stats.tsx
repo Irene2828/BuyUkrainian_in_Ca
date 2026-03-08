@@ -81,7 +81,7 @@ export function MapStats() {
                     </p>
                     <Link href="/map">
                         <Button
-                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0A2540] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 group/cta-btn"
+                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 group/cta-btn"
                         >
                             <span>Open interactive map</span>
                             <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5" />

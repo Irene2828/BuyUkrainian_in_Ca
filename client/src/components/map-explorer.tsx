@@ -252,13 +252,13 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 
                             {/* Top Row for Desktop Alignment */}
-                            <div className="flex items-start justify-start min-[1441px]:pt-9 max-[1440px]:pt-1.5 pt-3 relative">
+                            <div className="flex items-start justify-start pt-[24px] pl-[24px] relative">
                                 {/* 1. Action Island (Top-Left - now aligned with Logo) */}
                                 {/* Action Island Removed - Components Relocated */}
 
                                 {/* 2. Control Strip (Top-Right - Premium Integrated Design) */}
                                 {!isZenMode && (
-                                    <div className="flex flex-col items-start gap-3 pointer-events-none mt-4 md:mt-6">
+                                    <div className="flex flex-col items-start gap-3 pointer-events-none">
 
                                         {/* Control Strip - outer wrapper is position:relative + overflow:visible so dropdowns can escape */}
                                         <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center min-[1441px]:h-[46px] max-[1440px]:h-[38px] h-[42px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-white/95 backdrop-blur-xl border border-[#0A2540]/15 shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full z-40 relative px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
@@ -354,8 +354,8 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
                                                         "h-[36px] px-[16px] ml-[4px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                        "bg-[#0A2540] text-white rounded-[32px] shrink-0",
-                                                        "hover:bg-[#0F355C] hover:text-[#FFF4CC] active:scale-95 shadow-sm"
+                                                        "bg-[#0057B7] text-white rounded-[32px] shrink-0",
+                                                        "hover:bg-[#0047A0] hover:text-[#FFF4CC] active:scale-95 shadow-sm"
                                                     )}
                                                 >
                                                     <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />

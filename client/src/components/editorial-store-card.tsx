@@ -34,15 +34,12 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
         <div
             onClick={onClick}
             className={cn(
-                "group relative flex flex-col cursor-pointer select-none",
+                "group relative flex flex-col cursor-pointer select-none bg-white border border-slate-100 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md",
                 className
             )}
         >
-            {/* Image (Hero) - 1.9:1 Aspect Ratio - 5% Taller than before */}
-            <div className="relative w-full aspect-[1.9/1] overflow-hidden rounded-[4px] bg-slate-50 mb-[18px]">
-                {/* Subtle Inner Border to mimic print quality */}
-                <div className="absolute inset-0 z-10 ring-1 ring-inset ring-black/5 rounded-[4px] pointer-events-none" />
-
+            {/* Image (Hero) - Strict 16:9 Aspect Ratio */}
+            <div className="relative w-full aspect-video overflow-hidden bg-slate-50">
                 <img
                     src={editorialImage}
                     alt={store.name}
@@ -52,22 +49,22 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                 />
             </div>
 
-            {/* Typography & Content - Minimalist Centered Gallery Style */}
-            <div className="flex flex-col items-center gap-1.5 px-1 py-1 relative text-center">
-                {/* Title & Action Row - Strictly Centered Unit */}
-                <div className="w-full flex flex-col items-center justify-center mt-0 px-1">
+            {/* Typography & Content - Padded Area */}
+            <div className="flex flex-col items-center gap-1.5 p-5 relative text-center">
+                {/* Title & Action Row */}
+                <div className="w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-1.5 max-w-full group/text">
                         <h3
-                            className="font-medium tracking-[-0.02em] text-slate-900/65 leading-[1.2] truncate transition-all"
+                            className="font-medium tracking-[-0.02em] text-slate-900 leading-[1.2] truncate transition-all"
                             style={{ fontSize: 'clamp(16px, 1.2vw, 18px)' }}
                         >
                             {store.name}
                         </h3>
                         <ArrowUpRight className="w-[14px] h-[14px] text-slate-400 opacity-60 transition-all duration-300 ease-out group-hover:text-black group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />
                     </div>
-                    {/* Location Row - Matching Homepage Flicker Style */}
+                    {/* Location Row */}
                     <span
-                        className="font-medium text-slate-900/65 leading-[1.2] mt-0.5"
+                        className="font-medium text-slate-500 leading-[1.2] mt-0.5"
                         style={{ fontSize: 'clamp(13px, 0.9vw, 15px)' }}
                     >
                         {store.city}, {store.province}
