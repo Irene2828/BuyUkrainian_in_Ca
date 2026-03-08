@@ -69,10 +69,18 @@ export async function registerRoutes(
       // Includes image/images so real store photos display; cached 5 min server + edge
       const stores = await storage.getApprovedStoresLean();
 
+      // HARD SANITIZATION: Force-strip Base64 images to prevent 5MB payloads in case of DB schema mismatch
+      const sanitizedStores = stores.map((s: any) => {
+        const lean = { ...s };
+        delete lean.image;
+        delete lean.images;
+        return lean;
+      });
+
       // EGRESS OPTIMIZATION: Edge caching — 300s fresh, 120s stale-while-revalidate
       // Matches server-side cache TTL of 5 minutes to minimize origin DB hits
       res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=120");
-      res.json({ data: stores });
+      res.json({ data: sanitizedStores });
 
     } catch (error: any) {
       console.error("❌ [API] Critical Error:", error);

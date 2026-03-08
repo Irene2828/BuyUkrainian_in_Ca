@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { getApprovedStores } from "@/lib/api";
-import { Loader2, ArrowRight, Plus, Package } from "lucide-react";
+import { Loader2, ArrowRight, Plus, Package, MapPin } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -102,9 +102,17 @@ function NewlyAddedStores() {
           {newlyAdded.slice(0, 4).map((store) => (
             <div
               key={store.id}
-              className="flex items-stretch cursor-pointer group"
+              className="relative overflow-hidden group flex items-stretch cursor-pointer rounded-lg -ml-2 pl-2 py-2 pr-4 transition-all"
               onClick={() => handleSeeOnMap(store)}
             >
+              {/* Frosted Glass Overlay with CTA */}
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out rounded-lg pointer-events-none">
+                <button className="flex items-center gap-2 bg-white/90 text-slate-900 ring-1 ring-slate-300 ring-inset text-sm font-medium px-6 py-2 rounded-full shadow-sm hover:bg-white hover:ring-slate-400 hover:text-black translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-auto">
+                  <MapPin className="w-3.5 h-3.5" />
+                  See on Map
+                </button>
+              </div>
+
               <div className="w-1 bg-[#FFD700] group-hover:bg-[#0057B7] transition-colors rounded-full mr-4 shrink-0"></div>
               <div className="flex flex-col justify-center">
                 <h3 className="text-[#0A2540] font-semibold text-[15px] leading-tight mb-1 group-hover:text-[#0057B7] transition-colors line-clamp-2">

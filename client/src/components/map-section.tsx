@@ -15,6 +15,7 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import { MapSkeleton, StoreListItemSkeleton } from "@/components/skeleton-loaders";
 import { EmptyState } from "@/components/empty-state";
 import { StoreCard } from "@/components/store-card";
+import { UkrainianPinIcon } from "@/components/ui/ukrainian-pin-icon";
 
 interface MapSectionProps {
   mode?: "section" | "full";
@@ -185,6 +186,16 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     return map[p] || p;
   };
 
+  const getShortProvince = (p: string) => {
+    const map: Record<string, string> = {
+      "Alberta": "AB", "British Columbia": "BC", "Manitoba": "MB", "New Brunswick": "NB",
+      "Newfoundland and Labrador": "NL", "Nova Scotia": "NS", "Ontario": "ON",
+      "Prince Edward Island": "PE", "Quebec": "QC", "Saskatchewan": "SK",
+      "Northwest Territories": "NT", "Nunavut": "NU", "Yukon": "YT"
+    };
+    return map[p] || p;
+  };
+
   const filteredStores = useMemo(() => {
     return stores.filter((store) => {
       const matchesSearch = !searchQuery ||
@@ -295,15 +306,15 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                   <div
                     onClick={() => handleSelectStore(store)}
                     className={cn(
-                      "flex items-center justify-between py-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors w-full animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
+                      "group flex items-center justify-between py-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors w-full animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
                       isActive && "bg-slate-50"
                     )}
                     style={{ animationDelay: `${(index % 12) * 30}ms` }}
                   >
                     {/* LEFT SIDE (Store Info & Avatar) */}
-                    <div className="flex items-center gap-4 min-w-0 pr-4">
+                    <div className="flex items-start gap-4 min-w-0 pr-4 flex-1">
                       {/* Avatar / Icon */}
-                      <div className="w-8 h-8 rounded-full bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center border border-slate-200/50">
+                      <div className="w-8 h-8 rounded-full bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center border border-slate-200/50 mt-1">
                         {avatarSrc ? (
                           <img src={avatarSrc} alt={store.name} className="w-full h-full object-cover" />
                         ) : (
@@ -314,17 +325,18 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                       </div>
 
                       {/* Store Text Block */}
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col gap-1 min-w-0">
                         <span className="text-base font-semibold text-[#0A2540] truncate">{store.name}</span>
-                        <span className="text-xs text-slate-500 truncate mt-0.5">{tagsText}</span>
+                        <div className="flex items-center gap-1.5">
+                          <UkrainianPinIcon className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span className="text-sm text-slate-600 truncate">{store.city}, {getShortProvince(store.province)}</span>
+                        </div>
+                        <span className="text-xs text-slate-400 group-hover:text-slate-600 transition-colors duration-200 leading-relaxed max-w-2xl">{tagsText}</span>
                       </div>
                     </div>
 
-                    {/* RIGHT SIDE (Location) */}
-                    <div className="flex items-center gap-4 shrink-0">
-                      <div className="flex flex-col items-end">
-                        <span className="text-sm text-slate-600 font-medium text-right">{store.city}, {store.province}</span>
-                      </div>
+                    {/* RIGHT SIDE (Chevron Only) */}
+                    <div className="flex items-center shrink-0 pl-4">
                       <ChevronRight className="w-4 h-4 text-slate-300" />
                     </div>
                   </div>

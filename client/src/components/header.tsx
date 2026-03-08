@@ -42,8 +42,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 bg-white/80 backdrop-blur-md transition-all duration-300 ease-in-out font-sans",
-        "shadow-[0_4px_24px_rgba(10,37,64,0.04)] border-b border-slate-100"
+        "sticky top-0 z-50 bg-white transition-all duration-300 ease-in-out font-sans border-b border-slate-200"
       )}
     >
       <div className="boutique-width h-[72px] 2xl:h-[96px] flex items-center justify-between relative">

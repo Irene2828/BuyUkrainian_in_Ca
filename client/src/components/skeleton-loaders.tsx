@@ -50,24 +50,26 @@ export function StoreListItemSkeleton() {
     return (
         <div className="flex items-center justify-between py-4 border-b border-slate-100 w-full">
             {/* LEFT SIDE (Store Info & Avatar) */}
-            <div className="flex items-center gap-4 min-w-0 pr-4 w-1/2">
+            <div className="flex items-start gap-4 min-w-0 pr-4 flex-1">
                 {/* Avatar placeholder */}
-                <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+                <Skeleton className="w-8 h-8 rounded-full shrink-0 mt-1" />
 
-                <div className="flex flex-col min-w-0 w-full gap-2 mt-0.5">
+                <div className="flex flex-col min-w-0 w-full gap-2 mt-0.5 max-w-md">
                     {/* Store name */}
                     <Skeleton className="h-5 w-3/4 rounded-lg" />
-                    {/* Category */}
-                    <Skeleton className="h-3 w-1/2 rounded-lg" />
+                    {/* Location */}
+                    <div className="flex items-center gap-1.5">
+                        <Skeleton className="h-3 w-3 rounded-full shrink-0" />
+                        <Skeleton className="h-4 w-1/2 rounded-lg" />
+                    </div>
+                    {/* Category/Tags */}
+                    <Skeleton className="h-3 w-full rounded-lg" />
                 </div>
             </div>
 
-            {/* RIGHT SIDE (Location) */}
-            <div className="flex items-center gap-4 shrink-0 w-1/3 justify-end">
-                <div className="flex flex-col items-end w-full">
-                    <Skeleton className="h-4 w-3/4 rounded-lg" />
-                </div>
-                <Skeleton className="w-4 h-4 rounded-full shrink-0" />
+            {/* RIGHT SIDE (Chevron) */}
+            <div className="flex items-center shrink-0 pl-4">
+                <Skeleton className="w-4 h-4 rounded-full" />
             </div>
         </div>
     );
