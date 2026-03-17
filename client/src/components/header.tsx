@@ -49,22 +49,27 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center">
-          <Link href="/" className="flex items-center group gap-1 pl-0 md:pl-0">
-            <img
-              src="/assets/logo-main.png"
-              alt="Buy Ukrainian Products in Canada"
-              className="h-10 2xl:h-12 w-auto object-contain shrink-0 -translate-y-1.5"
+          <Link href="/" className="flex items-center group pl-0 md:pl-0 -ml-1 md:-ml-2">
+            
+            {/* Reverted: Header Logo from assets */}
+            <img 
+              src="/assets/header_logo.png" 
+              alt="BuyUkrainian Logo" 
+              className="h-[42px] 2xl:h-[50px] w-auto shrink-0 -mt-2.5"
             />
+
+            {/* Brand Blue Vertical Divider */}
+            <div className="h-8 w-[2px] bg-[#0057B7] shrink-0 -ml-[13px]" />
+            
             {/* Branding Text */}
-            <div className="flex flex-col justify-center border-l border-slate-200 pl-1.5 py-0.5 select-none">
-              <span className="text-xs md:text-[13px] 2xl:text-sm font-bold tracking-[0.02em] text-[#0A2540] whitespace-nowrap leading-tight uppercase antialiased">
-                UKRAINIAN PRODUCTS
+            <div className="flex flex-col justify-center py-0.5 select-none ml-[9px]">
+              <span className="text-xs md:text-[13px] font-bold tracking-[0.02em] text-[#0057B7] whitespace-nowrap leading-tight uppercase antialiased">
+                Supporting
               </span>
-              <span className="text-xs md:text-[13px] 2xl:text-sm font-bold tracking-[0.02em] text-[#0A2540] whitespace-nowrap leading-tight uppercase antialiased">
-                IN CANADA
+              <span className="text-xs md:text-[13px] font-bold tracking-[0.02em] text-[#0057B7] whitespace-nowrap leading-tight uppercase antialiased">
+                Ukraine's economy
               </span>
             </div>
-
           </Link>
         </div>
 
@@ -74,7 +79,7 @@ export function Header() {
             <Link href="/" className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Back to Homepage
-              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
           ) : (
             <nav className="items-center gap-8 flex font-sans antialiased">
@@ -89,12 +94,12 @@ export function Header() {
                 className="group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 text-slate-900 opacity-70"
               >
                 {t('nav.about') || 'About'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
                 <MapPin className="w-4 h-4 opacity-90" />
                 {t('nav.map') || 'View Map'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogTrigger asChild>
@@ -105,7 +110,7 @@ export function Header() {
                   >
                     <Plus className="w-4 h-4 opacity-90" />
                     {t('nav.addStore') || 'Add a Store'}
-                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </span>
                 </DialogTrigger>
                 <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none">

@@ -107,6 +107,15 @@
   }
 }
 
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.animate-route {
+  animation: route-dash 3s linear infinite;
+}
+
 :root {
   --white: #FFFFFF;
   --black: #000000;

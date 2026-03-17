@@ -29,7 +29,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[75vh] pt-16 md:pt-20"
+            className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-h-[75vh]"
         >
             {/* Soft Atmospheric Sky Glow - Senior Designer Polish (Visible Fix) */}
             <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-20 pointer-events-none z-[4]"></div>
@@ -56,33 +56,33 @@ export function Hero() {
                 }}
             />
 
-            <div className="boutique-width w-full py-10 lg:py-0 flex items-center relative z-10 h-full pointer-events-none">
+            <div className="boutique-width w-full flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area - Glass Anchored Container */}
-                <div className="relative z-10 max-w-2xl flex flex-col justify-center items-start pointer-events-none md:-mt-12">
+                <div className="relative z-10 max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
                     <h1
-                        className="leading-none w-full antialiased pointer-events-auto"
+                        className="leading-[1.1] w-full antialiased pointer-events-auto text-[#0F172A]/65"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span className="block text-[2.4375rem] md:text-[3.0375rem] min-[1441px]:text-[3.375rem] font-semibold tracking-tight text-[#0057B7] leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line">
+                        <span className="block text-[2.4375rem] md:text-[3.0375rem] min-[1441px]:text-[3.375rem] font-semibold tracking-tight leading-[1.1] font-sans max-w-[90%] md:max-w-none whitespace-pre-line text-[#0F172A]/65">
                             {t('hero.title') || 'Discover\nUkrainian Products'}
                         </span>
-                        <span className="block text-[1.8125rem] md:text-[2.306rem] min-[1441px]:text-[2.5625rem] font-normal tracking-tight text-[#C69500] whitespace-nowrap mt-2">
-                            sold across <span className="relative inline-block"><span className="relative z-10">Canada</span><span className="absolute bottom-1.5 left-0 w-full h-3 bg-[#FFF3C4] rounded-[2px] -z-10 opacity-0"></span></span>
+                        <span className="block text-[1.8125rem] md:text-[2.306rem] min-[1441px]:text-[2.5625rem] font-normal tracking-tight whitespace-nowrap text-[#0F172A]/65">
+                            sold across Canada
                         </span>
                     </h1>
 
-                    <p className="mt-6 mb-8 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium pointer-events-auto">
-                        Find, add, and share local stores selling Ukrainian-made products<br />to support Ukraine's economy from Canada
+                    <p className="mt-5 text-[16px] text-slate-600/85 leading-relaxed max-w-md lg:max-w-lg font-medium pointer-events-auto">
+                        A map directory of local stores selling products made in Ukraine.
                     </p>
 
-                    <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto pointer-events-auto">
+                    <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto mt-10 pointer-events-auto">
                         <Link href="/map" className="w-full md:w-auto">
                             <Button
-                                className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 2xl:gap-3 group/cta-btn"
+                                className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#0A2540] transition-all duration-300 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(255,215,0,0.3)] hover:shadow-[0_6px_20px_rgba(255,215,0,0.4)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn border-none"
                             >
                                 <span>{t('hero.ctaPrimary') || 'Open Interactive Map'}</span>
-                                <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-200 group-hover/cta-btn:text-[#FFF4CC]" />
+                                <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
                             </Button>
                         </Link>
 
@@ -92,10 +92,11 @@ export function Hero() {
                                 e.preventDefault(); // Prevent default wouter navigation
                                 document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
                             }}
-                            className="flex items-center gap-2 text-slate-400 text-[14px] font-medium hover:text-[#0F172A] transition-colors group/how-link"
+                            className="relative flex items-center gap-2 text-[#0F172A] text-[15px] font-medium transition-all duration-300 group/how-link opacity-60 hover:opacity-100"
                         >
                             <span>How it works</span>
                             <ChevronDown className="w-4 h-4 transition-transform group-hover/how-link:translate-y-0.5" />
+                            <span className="absolute bottom-[-4px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                         </Link>
                     </div>
 
@@ -132,7 +133,7 @@ export function Hero() {
             </div>
 
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
-            <Link href="/map" className="hidden lg:block absolute top-0 right-0 w-[59%] h-full z-[15] select-none overflow-hidden">
+            <div className="hidden lg:block absolute top-0 right-0 w-[59%] h-full z-20 select-none overflow-hidden">
                 <div
                     className="w-full h-full group/map-peeking"
                     aria-label="Interactive map of Ukrainian stores in Canada"
@@ -142,7 +143,7 @@ export function Hero() {
                     }}
                 >
                     {/* Inner wrapper for shifted map content */}
-                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.12] translate-x-[4%] -translate-y-[2%] min-[1441px]:-translate-y-[12%] min-[1670px]:-translate-y-[4%]">
+                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.18] translate-x-[4%] -translate-y-[2%] min-[1441px]:-translate-y-[12%] min-[1670px]:-translate-y-[4%]">
                         <div className="relative w-full h-full pointer-events-auto">
 
                             {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
@@ -165,7 +166,7 @@ export function Hero() {
                         </div>
                     </div>
                 </div>
-            </Link>
+            </div>
 
 
         </section>

@@ -49,31 +49,55 @@ const createUnifiedMarker = (name: string, isSelected: boolean, isAnySelected: b
   return L.divIcon({
     className: 'unified-marker-icon',
     html: `
-      <div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
+      <div class="relative flex items-center justify-center w-[45px] h-[56px] group cursor-pointer">
         <!-- Premium Tooltip (Apple Frosted Glass Style) -->
-        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-[16px] z-[100] pointer-events-none max-w-[160px] text-center whitespace-normal leading-tight rounded-lg bg-white/90 backdrop-blur-xl px-3 py-1.5 text-[13px] font-medium text-[#0A2540] shadow-md border border-slate-100 opacity-0 transition-all duration-300 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-[16px] z-[100] pointer-events-none w-max max-w-[130px] text-center whitespace-normal leading-tight rounded-lg bg-white/90 backdrop-blur-xl px-3 py-1.5 text-[13px] font-medium text-[#0A2540] shadow-md border border-slate-100 opacity-0 transition-all duration-300 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
           ${name}
         </div>
 
         <!-- Footprint Shadow -->
-        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-black/10 rounded-full blur-[1.5px] z-0 transition-opacity duration-300"></div>
+        <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-6 h-2 bg-black/10 rounded-full blur-[2px] z-0 transition-opacity duration-300"></div>
 
         <!-- Selected State Glow / Aura -->
-        ${isSelected ? `<div class="absolute inset-[-10px] bg-[#FFD700]/25 rounded-full blur-[14px] animate-pulse pointer-events-none"></div>` : ''}
+        ${isSelected ? `<div class="absolute inset-[-14px] bg-[#FFD700]/25 rounded-full blur-[18px] animate-pulse pointer-events-none"></div>` : ''}
 
         <!-- The Branded Pin -->
         <div class="relative z-10 w-full h-full transition-all duration-300 ease-out origin-bottom group-hover:-translate-y-1" 
              style="opacity: ${isDimmed ? '0.4' : '1'}; transform: ${isSelected ? 'scale(1.2) translateY(-2px)' : 'scale(1)'};">
-          <svg width="32" height="40" viewBox="-1 -1 26 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="white" stroke="${pinColor}" stroke-width="2.5" stroke-linejoin="round" />
-            <circle cx="12" cy="10" r="4.5" fill="white" stroke="${innerColor}" stroke-width="2.5" />
+          <svg width="40" height="52" viewBox="-3 -3 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* The Contact Anchor Shadow (Dark Navy, flattened, at the bottom tip) */}
+            <ellipse 
+              cx="12" 
+              cy="22" 
+              rx="4.5" 
+              ry="1.5" 
+              fill="#0A2540" 
+              fill-opacity="0.25" 
+            />
+            {/* Brand Blue Pin with Thin Yellow Edge */}
+            <path 
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" 
+              fill="#0057B7" 
+              stroke="#FFD700" 
+              stroke-width="0.5" 
+              stroke-linejoin="round" 
+            />
+            {/* Inner Core */}
+            <circle 
+              cx="12" 
+              cy="9" 
+              r="3.5" 
+              fill="#FFFFFF" 
+              stroke="#0057B7" 
+              stroke-width="1.25" 
+            />
           </svg>
         </div>
       </div>
     `,
-    iconSize: [32, 40],
-    iconAnchor: [16, 40],
-    popupAnchor: [0, -40],
+    iconSize: [45, 56],
+    iconAnchor: [22.5, 56],
+    popupAnchor: [0, -56],
   });
 };
 
@@ -166,24 +190,50 @@ const MarkerClusterGroup = ({
         iconCreateFunction: (cluster) => {
           const count = cluster.getChildCount();
           return L.divIcon({
-            html: `<div class="relative flex items-center justify-center w-8 h-10 group cursor-pointer">
+            html: `<div class="relative flex items-center justify-center w-[45px] h-[56px] group cursor-pointer">
+                <!-- Cluster Tooltip (Premium Glass Style) -->
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-[16px] z-[100] pointer-events-none w-max max-w-[130px] text-center whitespace-normal leading-tight rounded-lg bg-white/90 backdrop-blur-xl px-3 py-1.5 text-[13px] font-medium text-[#0A2540] shadow-md border border-slate-100 opacity-0 transition-all duration-300 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
+                  ${count} stores in this area
+                </div>
+
                 <!-- Cluster Glow -->
                 <div class="absolute inset-0 bg-[#0057B7]/10 rounded-full animate-pulse blur-md"></div>
                 
                 <!-- The Branded Cluster Pin -->
-                <div class="relative z-10 w-full h-full transition-transform duration-300 group-hover:scale-110">
-                  <svg width="32" height="40" viewBox="-1 -1 26 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="white" stroke="#0057B7" stroke-width="2.5" stroke-linejoin="round" />
-                    <!-- Yellow Outlined Ring for Clusters -->
-                    <circle cx="12" cy="10" r="4.5" fill="white" stroke="#FFD700" stroke-width="2.5" />
-                    <!-- Number goes inside the white space -->
-                    <text x="12" y="11.5" text-anchor="middle" font-size="5" font-weight="900" fill="#0057B7" font-family="Inter, system-ui, sans-serif">${count}</text>
+                <div className="relative z-10 w-full h-full transition-transform duration-300 group-hover:scale-110">
+                  <svg width="40" height="52" viewBox="-3 -3 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* The Contact Anchor Shadow (Dark Navy, flattened, at the bottom tip) */}
+                    <ellipse 
+                      cx="12" 
+                      cy="22" 
+                      rx="4.5" 
+                      ry="1.5" 
+                      fill="#0A2540" 
+                      fill-opacity="0.25" 
+                    />
+                    {/* Brand Blue Pin with Thin Yellow Edge */}
+                    <path 
+                      d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" 
+                      fill="#0057B7" 
+                      stroke="#FFD700" 
+                      stroke-width="0.5" 
+                      stroke-linejoin="round" 
+                    />
+                    {/* Inner Core */}
+                    <circle 
+                      cx="12" 
+                      cy="9" 
+                      r="3.5" 
+                      fill="#FFFFFF" 
+                      stroke="#0057B7" 
+                      stroke-width="1.25" 
+                    />
                   </svg>
                 </div>
             </div>`,
             className: 'custom-cluster-icon !bg-transparent !border-none !overflow-visible',
-            iconSize: [32, 40],
-            iconAnchor: [16, 40]
+            iconSize: [45, 56],
+            iconAnchor: [22.5, 56]
           });
         }
       });
@@ -497,15 +547,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       </div>
       <MapContainer
         center={variant === 'hero' ? [43.5000, -98.0000] : CANADA_CENTER}
-        zoom={variant === 'hero' ? 4.2 : INITIAL_MAP_STATE.zoom}
+        zoom={variant === 'hero' ? 4.4 : INITIAL_MAP_STATE.zoom}
         minZoom={3.5}
         maxZoom={18}
-        scrollWheelZoom={false}
-        dragging={variant !== 'hero'}
-        doubleClickZoom={variant !== 'hero'}
-        touchZoom={variant !== 'hero'}
-        boxZoom={variant !== 'hero'}
-        keyboard={variant !== 'hero'}
+        scrollWheelZoom={true}
+        dragging={true}
+        doubleClickZoom={true}
+        touchZoom={true}
+        boxZoom={true}
+        keyboard={true}
         className="w-full h-full"
         style={{ background: '#ffffff' }}
         zoomControl={false}
@@ -532,11 +582,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           keepBuffer={2}
         />
 
-        {variant !== "hero" && (
-          <div className="absolute bottom-0 right-0 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
-            © CARTO, © OpenStreetMap contributors
-          </div>
-        )}
+        <div className="absolute bottom-2 right-2 z-[1000] text-[9px] text-slate-400 opacity-30 hover:opacity-100 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] font-medium font-ui px-1.5 py-0.5 pointer-events-auto cursor-default">
+          © CARTO, © OpenStreetMap contributors
+        </div>
+
+
 
         {variant !== "hero" && <MapEvents onMapClick={onCloseStore} />}
         <MapResizeHandler />

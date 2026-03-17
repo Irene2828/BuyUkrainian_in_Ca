@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n";
 
 import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
+import { Plus, ArrowUpRight } from "lucide-react";
 
 
 export function RecentProductsMarquee() {
@@ -75,7 +75,7 @@ export function RecentProductsMarquee() {
                     >
                         <div
                             className="flex whitespace-nowrap items-center group-hover/marquee:[animation-play-state:paused] w-max"
-                            style={{ animation: 'premium-scroll 345s linear infinite' }}
+                            style={{ animation: 'premium-scroll 460s linear infinite' }}
                         >
                             {repeatedStores.map((store, i) => {
                                 const provinceCode = (() => {
@@ -92,25 +92,23 @@ export function RecentProductsMarquee() {
                                 return (
                                     <span
                                         key={`${store.id}-${i}`}
-                                        className="group relative flex items-center select-none cursor-pointer px-4 md:px-6 transition-opacity duration-300 hover:opacity-80"
+                                        className="group relative flex items-center select-none cursor-pointer transition-opacity duration-300 hover:opacity-80"
                                         onClick={() => navigateToStoreCoordinates(store.id)}
                                     >
-                                        <div className="flex items-center justify-center">
-                                            <span
-                                                className="font-medium tracking-tight text-slate-500 mr-2"
-                                                style={{ fontSize: '15px' }}
-                                            >
-                                                {store.name}
-                                            </span>
-                                            <span
-                                                className="font-normal text-slate-400"
-                                                style={{ fontSize: '14px' }}
-                                            >
-                                                {store.city || 'Location'}, {provinceCode}
-                                            </span>
+                                        <div className="flex items-center min-w-max">
+                                            {/* Subtle Separator Dot */}
+                                            <div className="w-1 h-1 bg-slate-300/80 rounded-full mx-4 shrink-0"></div>
+                                            
+                                            <div className="flex items-center gap-1.5">
+                                                <span
+                                                    className="font-medium tracking-tight text-slate-500 text-[14px] 2xl:text-[15px]"
+                                                >
+                                                    {store.name}
+                                                </span>
+                                                {/* Direction Arrow - Diagonal and close */}
+                                                <ArrowUpRight className="w-3 h-3 text-slate-400/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                                            </div>
                                         </div>
-                                        {/* Divider Dot */}
-                                        <span className="text-slate-300 select-none ml-8 lg:ml-12" style={{ fontSize: '20px' }}>•</span>
                                     </span>
                                 );
                             })}

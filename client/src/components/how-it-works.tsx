@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 
 export function HowItWorks() {
@@ -51,17 +50,15 @@ export function HowItWorks() {
     }
   };
 
-  const headerRef = useRef(null);
-  const isHeaderInView = useInView(headerRef, { once: true, amount: 0.5 });
+
 
   return (
-    <section id="how-it-works" className="py-16 md:py-20 font-sans overflow-hidden bg-white h-auto">
+    <section id="how-it-works" className="pt-22 pb-24 md:pt-27 md:pb-30 font-sans overflow-hidden bg-white h-auto">
       <div className="utility-width px-6 md:px-12">
         {/* Section Header */}
-        <div ref={headerRef} className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">
+        <div className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">
           <h2
-            className="text-[31px] md:text-[41px] font-semibold text-slate-900 tracking-tight leading-tight text-center translate-y-[40px] opacity-0 transition-all duration-1000 ease-out data-[in-view]:translate-y-0 data-[in-view]:opacity-100"
-            data-in-view={isHeaderInView ? "" : undefined}
+            className="text-[31px] md:text-[41px] font-semibold text-slate-900 tracking-tight leading-tight text-center section-headline-reveal"
           >
             {t('howItWorks.title') || 'When to Use this Map'}
           </h2>
