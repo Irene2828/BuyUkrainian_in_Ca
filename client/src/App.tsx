@@ -1,5 +1,6 @@
 import { Switch, Route } from "wouter";
 import { useEffect } from "react";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import { queryClient, setupWebSocketListener } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import "./App.css"; // Reinforced design styles
@@ -58,9 +59,11 @@ function App() {
         <I18nProvider>
           <QueryClientProvider client={queryClient}>
             <TooltipProvider>
-              <Toaster />
-              <SonnerToaster />
-              <Router />
+              <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                <Toaster />
+                <SonnerToaster />
+                <Router />
+              </APIProvider>
             </TooltipProvider>
           </QueryClientProvider>
         </I18nProvider>

@@ -212,6 +212,10 @@ export async function updateStore(id: string, updates: {
   website?: string;
   products?: string[];
   description?: string;
+  city?: string;
+  province?: string;
+  latitude?: number | string;
+  longitude?: number | string;
 }): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}`, {
     method: "PATCH",

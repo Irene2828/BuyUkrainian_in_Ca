@@ -41,6 +41,28 @@ const changePasswordSchema = z.object({
 const updateStoreSchema = z.object({
   name: z.string().min(1, "Name is required").max(200, "Name too long").optional(),
   address: z.string().min(1, "Address is required").max(500, "Address too long").optional(),
+  website: z.string().max(500, "Website too long").optional().or(z.literal("")),
+  category: z.enum(["food", "clothes", "retail", "other"]).optional(),
+  products: z.array(z.string().min(1).max(100)).optional(),
+  description: z.string().max(2000, "Description too long").optional(),
+  city: z.string().min(2, "City is required").max(120, "City too long").optional(),
+  province: z.string().min(2, "Province is required").max(120, "Province too long").optional(),
+  latitude: z.union([z.string(), z.number()])
+    .transform((value) => String(value))
+    .refine((value) => !isNaN(parseFloat(value)), "Invalid latitude")
+    .refine((value) => {
+      const lat = parseFloat(value);
+      return lat >= 40 && lat <= 85;
+    }, "Location must be within Canada (latitude 40-85)")
+    .optional(),
+  longitude: z.union([z.string(), z.number()])
+    .transform((value) => String(value))
+    .refine((value) => !isNaN(parseFloat(value)), "Invalid longitude")
+    .refine((value) => {
+      const lng = parseFloat(value);
+      return lng >= -140 && lng <= -50;
+    }, "Location must be within Canada (longitude -140 to -50)")
+    .optional(),
 });
 
 export async function registerRoutes(

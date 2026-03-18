@@ -48,29 +48,9 @@ export function StoreCardSkeleton() {
 // Store List Item Skeleton
 export function StoreListItemSkeleton() {
     return (
-        <div className="flex items-center justify-between py-4 border-b border-slate-100 w-full">
-            {/* LEFT SIDE (Store Info & Avatar) */}
-            <div className="flex items-start gap-4 min-w-0 pr-4 flex-1">
-                {/* Avatar placeholder */}
-                <Skeleton className="w-8 h-8 rounded-full shrink-0 mt-1" />
-
-                <div className="flex flex-col min-w-0 w-full gap-2 mt-0.5 max-w-md">
-                    {/* Store name */}
-                    <Skeleton className="h-5 w-3/4 rounded-lg" />
-                    {/* Location */}
-                    <div className="flex items-center gap-1.5">
-                        <Skeleton className="h-3 w-3 rounded-full shrink-0" />
-                        <Skeleton className="h-4 w-1/2 rounded-lg" />
-                    </div>
-                    {/* Category/Tags */}
-                    <Skeleton className="h-3 w-full rounded-lg" />
-                </div>
-            </div>
-
-            {/* RIGHT SIDE (Chevron) */}
-            <div className="flex items-center shrink-0 pl-4">
-                <Skeleton className="w-4 h-4 rounded-full" />
-            </div>
+        <div className="border-l-[3px] border-slate-100 pl-4 py-2 w-full animate-pulse transition-opacity">
+            <Skeleton className="h-5 w-3/4 rounded-lg mb-2" />
+            <Skeleton className="h-4 w-1/2 rounded-lg" />
         </div>
     );
 }

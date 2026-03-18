@@ -268,7 +268,21 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     });
 
     const updateStoreMutation = useMutation({
-        mutationFn: ({ id, updates }: { id: string; updates: { name?: string; address?: string; website?: string; category?: string; products?: string[]; description?: string } }) =>
+        mutationFn: ({ id, updates }: {
+            id: string;
+            updates: {
+                name?: string;
+                address?: string;
+                website?: string;
+                category?: string;
+                products?: string[];
+                description?: string;
+                city?: string;
+                province?: string;
+                latitude?: number | string;
+                longitude?: number | string;
+            }
+        }) =>
             updateStore(id, updates),
         onSuccess: (data) => {
             // EGRESS OPTIMIZATION: invalidate instead of refetch
@@ -552,9 +566,6 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     validWebsite = 'https://' + validWebsite;
                 }
 
-                // Geocode Address
-                let lat = 43.65;
-                let lng = -79.38;
                 let city = draftStore.city || draftStore.address.split(',').pop()?.trim() || 'Toronto';
                 let province = draftStore.province || 'ON';
 
@@ -572,16 +583,21 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     }
                 }
 
-                if (geo) {
-                    lat = geo.lat;
-                    lng = geo.lng;
-                    city = geo.city || city;
-                    province = geo.province || province;
-                    console.log("Geocoded to:", lat, lng);
-                } else {
-                    console.warn("Geocoding failed, using fallback.");
-                    toast({ title: "Warning", description: "Could not geocode address. Using default location.", variant: "destructive" });
+                if (!geo) {
+                    console.warn("Geocoding failed, keeping draft unpublished.");
+                    toast({
+                        title: "Geocoding failed",
+                        description: "Draft was not published. Please verify the address before approving.",
+                        variant: "destructive"
+                    });
+                    return;
                 }
+
+                const lat = geo.lat;
+                const lng = geo.lng;
+                city = geo.city || city;
+                province = geo.province || province;
+                console.log("Geocoded to:", lat, lng);
 
                 const payload = {
                     name: draftStore.name,
@@ -844,6 +860,41 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
         if (hasChanges) {
             const productsArray = editProducts.split(',').map(p => p.trim()).filter(Boolean);
+            const addressChanged = editAddress.trim() !== selectedStore.address.trim();
+
+            let nextCity = selectedStore.city;
+            let nextProvince = selectedStore.province;
+            let nextLatitude = selectedStore.coordinates?.[0];
+            let nextLongitude = selectedStore.coordinates?.[1];
+
+            if (addressChanged) {
+                toast({ title: "Updating map location...", description: "Looking up fresh coordinates for this address." });
+
+                const addressToGeocode = editAddress.replace(/, Canada$/i, "").trim();
+                let geo = await geocodeAddress(addressToGeocode);
+
+                if (!geo) {
+                    const noPostal = addressToGeocode.replace(/[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d/, "").trim();
+                    if (noPostal !== addressToGeocode) {
+                        geo = await geocodeAddress(noPostal);
+                    }
+                }
+
+                if (!geo) {
+                    toast({
+                        title: "Location update failed",
+                        description: "The address could not be geocoded, so the store was not saved. This prevents bad map pins.",
+                        variant: "destructive"
+                    });
+                    return;
+                }
+
+                nextCity = geo.city || nextCity;
+                nextProvince = geo.province || nextProvince;
+                nextLatitude = geo.lat;
+                nextLongitude = geo.lng;
+            }
+
             await updateStoreMutation.mutateAsync({
                 id: selectedStore.id,
                 updates: {
@@ -852,7 +903,11 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     website: editWebsite,
                     category: editCategory,
                     products: productsArray,
-                    description: editDescription
+                    description: editDescription,
+                    city: nextCity,
+                    province: nextProvince,
+                    latitude: nextLatitude,
+                    longitude: nextLongitude,
                 },
             });
         }

@@ -28,9 +28,11 @@ export function Header() {
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('openAddStore', handleOpenAddStore);
+    window.addEventListener('openAddStoreModal', handleOpenAddStore);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('openAddStore', handleOpenAddStore);
+      window.removeEventListener('openAddStoreModal', handleOpenAddStore);
     };
   }, []);
 
@@ -58,16 +60,16 @@ export function Header() {
               className="h-[42px] 2xl:h-[50px] w-auto shrink-0 -mt-2.5"
             />
 
-            {/* Brand Blue Vertical Divider */}
-            <div className="h-8 w-[2px] bg-[#0057B7] shrink-0 -ml-[13px]" />
+            {/* Yellow Vertical Divider */}
+            <div className="h-8 w-[2px] bg-[#FFD700] shrink-0 -ml-[13px]" />
             
             {/* Branding Text */}
             <div className="flex flex-col justify-center py-0.5 select-none ml-[9px]">
-              <span className="text-xs md:text-[13px] font-bold tracking-[0.02em] text-[#0057B7] whitespace-nowrap leading-tight uppercase antialiased">
-                Supporting
+              <span className="text-sm md:text-[15px] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap leading-tight antialiased">
+                Buy Ukrainian
               </span>
-              <span className="text-xs md:text-[13px] font-bold tracking-[0.02em] text-[#0057B7] whitespace-nowrap leading-tight uppercase antialiased">
-                Ukraine's economy
+              <span className="text-sm md:text-[15px] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap leading-tight antialiased">
+                in Canada
               </span>
             </div>
           </Link>
@@ -93,12 +95,12 @@ export function Header() {
                 }}
                 className="group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 text-slate-900 opacity-70"
               >
-                {t('nav.about') || 'About'}
+                {t('nav.howItWorks') || 'How it Works'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
                 <MapPin className="w-4 h-4 opacity-90" />
-                {t('nav.map') || 'View Map'}
+                {t('nav.map') || 'Map'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
@@ -109,7 +111,7 @@ export function Header() {
                     className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
                   >
                     <Plus className="w-4 h-4 opacity-90" />
-                    {t('nav.addStore') || 'Add a Store'}
+                    {t('nav.addStore') || 'Add Store'}
                     <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </span>
                 </DialogTrigger>
@@ -170,22 +172,29 @@ export function Header() {
                     }}
                     className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2"
                   >
-                    {t('nav.about') || 'About'}
+                    {t('nav.howItWorks') || 'How it Works'}
                   </Link>
 
-                  <Link href="/map" className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2">
+                  <Link 
+                    href="/map" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2"
+                  >
                     <MapPin className="w-4 h-4 opacity-70" />
-                    {t('nav.map') || 'View Map'}
+                    {t('nav.map') || 'Map'}
                   </Link>
 
                   <span
                     role="button"
                     tabIndex={0}
-                    onClick={() => setAddStoreDialogOpen(true)}
+                    onClick={() => {
+                        setAddStoreDialogOpen(true);
+                        setMobileMenuOpen(false);
+                    }}
                     className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2 text-left cursor-pointer"
                   >
                     <Plus className="w-4 h-4 opacity-70" />
-                    Add a Store
+                    {t('nav.addStore') || 'Add Store'}
                   </span>
                 </>
               )}

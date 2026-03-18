@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation, ChevronRight } from "lucide-react";
+import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation, ChevronRight, Globe, ArrowUpRight } from "lucide-react";
 
 
 import { getApprovedStores } from "@/lib/api";
@@ -260,14 +260,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     return (
       <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className} bg-[#fcfcfc]`}>
         <div className="w-full h-10 md:h-12 shrink-0" />
-        <div className="flex flex-col w-full max-w-4xl mx-auto px-6 py-4 md:py-8">
-          <div className="flex flex-col w-full">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="w-full">
-                <StoreListItemSkeleton />
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-24 max-w-[1280px] mx-auto pr-[clamp(1.5rem,5vw,4rem)] pl-[calc(clamp(1.5rem,5vw,4rem)+21px)]">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <StoreListItemSkeleton key={i} />
+          ))}
         </div>
       </div>
     );
@@ -287,111 +283,56 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         {/* Top Spacer: Maintains visual baseline with map controls */}
         <div className="w-full h-10 md:h-12 shrink-0" />
 
-        <div className="flex flex-col w-full max-w-4xl mx-auto px-6 py-4 md:py-8">
-          {/* Index Row Layout Container */}
-          <div className="flex flex-col w-full">
-            {filteredStores.slice(0, visibleCount).map((store, index) => {
-              const isActive = selectedStore?.id === store.id;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-24 max-w-[1280px] mx-auto pr-[clamp(1.5rem,5vw,4rem)] pl-[calc(clamp(1.5rem,5vw,4rem)+21px)]">
+          {filteredStores.slice(0, visibleCount).map((store, index) => {
+            const isActive = selectedStore?.id === store.id;
 
-              // Resolve category/tags text
-              const tagsText = store.products?.length > 0
-                ? store.products.join(', ')
-                : store.category.charAt(0).toUpperCase() + store.category.slice(1);
-
-              // Resolve avatar logic
-              let avatarSrc = store.image || (store.images && store.images.length > 0 ? store.images[0] : null);
-
-              return (
-                <div key={store.id} className="relative w-full">
-                  <div
-                    onClick={() => handleSelectStore(store)}
-                    className={cn(
-                      "group flex items-center justify-between py-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors w-full animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
-                      isActive && "bg-slate-50"
-                    )}
-                    style={{ animationDelay: `${(index % 12) * 30}ms` }}
-                  >
-                    {/* LEFT SIDE (Store Info & Avatar) */}
-                    <div className="flex items-start gap-4 min-w-0 pr-4 flex-1">
-                      {/* Avatar / Icon */}
-                      <div className="w-8 h-8 rounded-full bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center border border-slate-200/50 mt-1">
-                        {avatarSrc ? (
-                          <img src={avatarSrc} alt={store.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-[10px] font-bold text-slate-400 font-ui uppercase">
-                            {store.name.charAt(0)}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Store Text Block */}
-                      <div className="flex flex-col gap-1 min-w-0">
-                        <span className="text-base font-semibold text-[#0A2540] truncate">{store.name}</span>
-                        <div className="flex items-center gap-1.5">
-                          <UkrainianPinIcon className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                          <span className="text-sm text-slate-600 truncate">{store.city}, {getShortProvince(store.province)}</span>
-                        </div>
-                        <span className="text-xs text-slate-400 group-hover:text-slate-600 transition-colors duration-200 leading-relaxed max-w-2xl">{tagsText}</span>
-                      </div>
-                    </div>
-
-                    {/* RIGHT SIDE (Chevron Only) */}
-                    <div className="flex items-center shrink-0 pl-4">
-                      <ChevronRight className="w-4 h-4 text-slate-300" />
-                    </div>
-                  </div>
-
-                  {/* Inline Peek Card (Desktop) */}
-                  <AnimatePresence>
-                    {isActive && !isMobile && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95, x: 10 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className={cn(
-                          "absolute top-1/2 -translate-y-1/2 z-[100] w-[360px] pointer-events-auto",
-                          "left-[calc(100%+32px)]"
-                        )}
-                      >
-                        <StoreCard
-                          store={selectedStore}
-                          onClose={handleCloseStore}
-                          onSeeOnMap={handleSeeOnMap}
-                          variant="modal"
-                          className="shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border border-slate-200/60"
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Empty State Presentation */}
-          {filteredStores.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-32 animate-in fade-in duration-700">
-              <EmptyState
-                type="no-results"
-                searchQuery={searchQuery}
-                onClearFilters={handleClearFilters}
-              />
-            </div>
-          )}
-
-          {/* See More Actions: Centered Premium Button */}
-          {visibleCount < filteredStores.length && (
-            <div className="mt-20 flex justify-center pb-20">
-              <button
-                onClick={() => setVisibleCount(c => c + 12)}
-                className="h-12 px-10 rounded-full border border-slate-900 bg-white text-slate-900 font-medium text-sm tracking-wide hover:bg-slate-900 hover:text-white transition-all duration-300 flex items-center gap-2 shadow-sm active:scale-95"
+            return (
+              <div
+                key={store.id}
+                className={cn(
+                  "border-l-[3px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
+                  isActive && "bg-blue-50/50 border-l-[#0057B7]"
+                )}
+                style={{ animationDelay: `${(index % 12) * 30}ms` }}
+                onClick={() => handleSelectStore(store)}
               >
-                {t('map.seeMore') || 'See more stores'} <ArrowDown className="w-4 h-4" />
-              </button>
-            </div>
-          )}
+                <div className="flex items-center gap-1.5 group/title">
+                  <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
+                    {store.name}
+                  </h3>
+                  <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
+                </div>
+                <p className="text-slate-400 text-[13px] mt-1">
+                  {store.city}, {store.province}
+                </p>
+              </div>
+            );
+          })}
         </div>
+
+        {/* Empty State Presentation */}
+        {filteredStores.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-32 animate-in fade-in duration-700">
+            <EmptyState
+              type="no-results"
+              searchQuery={searchQuery}
+              onClearFilters={handleClearFilters}
+            />
+          </div>
+        )}
+
+        {/* See More Actions: Centered Premium Button */}
+        {visibleCount < filteredStores.length && (
+          <div className="mt-8 mb-20 flex justify-center">
+            <button
+              onClick={() => setVisibleCount(c => c + 12)}
+              className="h-11 px-8 rounded-full border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all duration-300 flex items-center gap-2 shadow-sm active:scale-95"
+            >
+              Show more stores <ArrowDown className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Modal removed in favor of inline peek card within the grid loop above for desktop context */}
       </div>

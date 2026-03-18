@@ -40,7 +40,7 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-60"
+                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-40"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Store className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -53,7 +53,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-60"
+                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-40"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Map className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -66,7 +66,7 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-60"
+                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-40"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Package className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -81,10 +81,10 @@ export function MapStats() {
                     </p>
                     <Link href="/map">
                         <Button
-                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 group/cta-btn"
+                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#0A2540] transition-all duration-300 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(255,215,0,0.3)] hover:shadow-[0_6px_20px_rgba(255,215,0,0.4)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn border-none"
                         >
                             <span>Open interactive map</span>
-                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5" />
+                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
                         </Button>
                     </Link>
                 </div>

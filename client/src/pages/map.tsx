@@ -90,9 +90,9 @@ function NewlyAddedStores() {
             onClick={() => {
               document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }}
-            className="text-sm font-semibold text-[#0057B7]/60 hover:text-[#0047A0] transition-colors flex items-center gap-1 uppercase tracking-wide"
+            className="text-[13px] font-medium text-slate-500 hover:text-[#0057B7] transition-colors flex items-center gap-1"
           >
-            VIEW ALL <ArrowRight className="w-4 h-4 transition-transform group-hover/header-link:translate-x-1" />
+            View all <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/header-link:translate-x-1" />
           </button>
         </div>
       </div>
@@ -115,10 +115,10 @@ function NewlyAddedStores() {
 
               <div className="w-1 bg-[#FFD700] group-hover:bg-[#0057B7] transition-colors rounded-full mr-4 shrink-0"></div>
               <div className="flex flex-col justify-center">
-                <h3 className="text-[#0A2540] font-semibold text-[15px] leading-tight mb-1 group-hover:text-[#0057B7] transition-colors line-clamp-2">
+                <h3 className="text-[#0057B7] font-semibold text-[15px] leading-tight mb-1 transition-colors line-clamp-2">
                   {store.name}
                 </h3>
-                <span className="text-slate-500 text-sm font-medium truncate">
+                <span className="text-slate-500 text-[12px] min-[1670px]:text-[14px] font-medium truncate">
                   {store.city}, {getProvinceAbbreviation(store.province)}
                 </span>
               </div>
@@ -134,10 +134,10 @@ function NewlyAddedStores() {
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 2xl:h-[54px] 2xl:px-8 2xl:text-[16px] shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 2xl:gap-3 group/cta-btn"
+          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#0A2540] transition-all duration-300 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(255,215,0,0.3)] hover:shadow-[0_6px_20px_rgba(255,215,0,0.4)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn border-none"
         >
           <span>Add a New Store</span>
-          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-colors duration-200 group-hover/cta-btn:text-[#FFF4CC]" />
+          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
         </button>
       </div>
 

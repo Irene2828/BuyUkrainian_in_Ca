@@ -239,10 +239,13 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
 
             {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
-            <div className={cn(
-                "w-full relative overflow-hidden bg-white",
-                isZenMode ? "h-screen" : "h-[calc(100vh-80px)]"
-            )}>
+            <div 
+                className={cn(
+                    "w-full relative overflow-hidden bg-white",
+                    isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]"
+                )}
+                onWheel={(e) => e.stopPropagation()}
+            >
                 <div className="w-full h-full relative">
 
                     {/* Floating Overlay Islands - Aligned with Header via boutique-width */}
@@ -252,7 +255,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 
                             {/* Top Row for Desktop Alignment */}
-                            <div className="flex items-start justify-start pt-[24px] pl-[24px] relative">
+                            <div className="flex items-start justify-start mt-4 pt-2 pl-6 relative">
                                 {/* 1. Action Island (Top-Left - now aligned with Logo) */}
                                 {/* Action Island Removed - Components Relocated */}
 
@@ -265,11 +268,11 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                             {/* Inner scrollable row - overflow-x-auto for mobile, but dropdowns live OUTSIDE this */}
                                             <div className="flex items-center h-full overflow-x-auto scrollbar-hide touch-pan-x">
                                                 {/* Segment 1: Search */}
-                                                <div className="flex items-center h-[34px] rounded-full px-4 min-w-[260px] group shrink-0 transition-all duration-200">
+                                                <div className="flex items-center h-[34px] rounded-full px-3 min-w-[200px] group shrink-0 transition-all duration-200">
                                                     <Search className="w-3.5 h-3.5 text-slate-500 mr-2 flex-shrink-0" strokeWidth={2.5} />
                                                     <input
                                                         type="text"
-                                                        placeholder="Search product or town..."
+                                                        placeholder="Search product or town"
                                                         value={searchQuery}
                                                         onChange={(e) => {
                                                             setSearchQuery(e.target.value);
@@ -280,9 +283,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     />
                                                 </div>
 
-                                                <div className="w-1.5 shrink-0" />
+                                                <div className="w-[1px] h-4 bg-slate-200/60 shrink-0 mx-1" />
 
-                                                {/* Segment 2: Province Button only (dropdown rendered outside scroll) */}
+                                                {/* Segment 2: Province Button only */}
                                                 <div className="h-[34px] flex items-center rounded-full shrink-0 transition-all duration-200">
                                                     <button
                                                         onClick={() => {
@@ -291,7 +294,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                             setIsProvinceDropdownOpen(open);
                                                         }}
                                                         className={cn(
-                                                            "h-full px-4 flex items-center gap-2 text-[14px] font-medium transition-colors hover:text-slate-900 outline-none",
+                                                            "h-full px-3 flex items-center gap-2 text-[14px] font-medium transition-colors hover:text-slate-900 outline-none",
                                                             selectedProvince ? "text-[#2D50A0]" : "text-slate-700"
                                                         )}
                                                         aria-label="Filter by province"
@@ -301,9 +304,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     </button>
                                                 </div>
 
-                                                <div className="w-1.5 shrink-0" />
+                                                <div className="w-[1px] h-4 bg-slate-200/60 shrink-0 mx-1" />
 
-                                                {/* Segment 3: Category Button only (dropdown rendered outside scroll) */}
+                                                {/* Segment 3: Category Button only */}
                                                 <div className="h-[34px] flex items-center rounded-full shrink-0 transition-all duration-200">
                                                     <button
                                                         onClick={() => {
@@ -312,7 +315,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                             setIsCategoryDropdownOpen(open);
                                                         }}
                                                         className={cn(
-                                                            "h-full px-4 flex items-center gap-2 text-[14px] font-medium transition-colors hover:text-slate-900 outline-none",
+                                                            "h-full px-3 flex items-center gap-2 text-[14px] font-medium transition-colors hover:text-slate-900 outline-none",
                                                             category ? "text-[#2D50A0]" : "text-slate-700"
                                                         )}
                                                         aria-label="Filter by category"
@@ -325,7 +328,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 <div className="w-1.5 shrink-0" />
 
                                                 {/* Segment 4: Map/List Toggle (Simplified) */}
-                                                <div className="relative flex items-center h-[34px] ml-1.5 mr-1.5 w-[210px] shrink-0">
+                                                <div className="relative flex items-center h-[34px] ml-1 mr-1 w-[240px] gap-2 shrink-0">
                                                     <button
                                                         onClick={() => setViewMode("map")}
                                                         className={cn(
@@ -336,7 +339,6 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                         <MapIcon className="w-3.5 h-3.5" />
                                                         <span className="whitespace-nowrap">Map View</span>
                                                     </button>
-
                                                     <button
                                                         onClick={() => setViewMode("list")}
                                                         className={cn(
@@ -353,9 +355,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 <button
                                                     onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
-                                                        "h-[36px] px-[16px] ml-[4px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                        "bg-[#0057B7] text-white rounded-[32px] shrink-0",
-                                                        "hover:bg-[#0047A0] hover:text-[#FFF4CC] active:scale-95 shadow-sm"
+                                                        "h-[36px] px-[12px] ml-[3px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
+                                                        "bg-[#FFD700] text-[#0A2540] rounded-[32px] shrink-0",
+                                                        "hover:brightness-105 active:scale-95 shadow-sm"
                                                     )}
                                                 >
                                                     <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />

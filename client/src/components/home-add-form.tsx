@@ -33,109 +33,18 @@ const formSchema = z.object({
   image: z.string().optional(),
 });
 
-interface AddressSuggestion {
-  display_name: string;
-  lat: string;
-  lon: string;
-  address?: {
-    road?: string;
-    house_number?: string;
-    city?: string;
-    town?: string;
-    village?: string;
-    state?: string;
-    postcode?: string;
-  };
-}
-
-// Detect Canadian postal code patterns: A1A 1A1, A1A1A1, A1A
-const POSTAL_CODE_REGEX = /^[A-Za-z]\d[A-Za-z]\s?\d?[A-Za-z]?\d?$/;
-
-async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
-  if (query.length < 3) return [];
-  try {
-    const trimmed = query.trim();
-    // Use Photon API for faster, fuzzy type-ahead search
-    // We limit to 5 results as requested and focus on Canada results where possible
-    const response = await fetch(
-      `https://photon.komoot.io/api/?q=${encodeURIComponent(trimmed + ', Canada')}&limit=5`,
-      { headers: { 'Accept': 'application/json' } }
-    );
-
-    const data = await response.json();
-    if (!data.features) return [];
-
-    return data.features.map((f: any) => {
-      const p = f.properties;
-
-      // Construct a clean display name similar to Nominatim's but from Photon properties
-      // Photon is often more 'forgiving' with typos
-      const streetPart = p.housenumber ? `${p.housenumber} ${p.street || ''}` : (p.street || '');
-      const locationParts = [
-        streetPart || p.name,
-        p.city || p.town || p.village,
-        p.state,
-        p.postcode
-      ].filter(Boolean);
-
-      return {
-        display_name: locationParts.join(', '),
-        lat: f.geometry.coordinates[1].toString(),
-        lon: f.geometry.coordinates[0].toString(),
-        address: {
-          road: p.street || p.name,
-          house_number: p.housenumber,
-          city: p.city || p.town || p.village,
-          state: p.state,
-          postcode: p.postcode,
-        }
-      };
-    });
-  } catch (error) {
-    console.error("Photon address search error:", error);
-    return [];
-  }
-}
-
-// Geocode a raw address string to coordinates using Photon
-async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
-  try {
-    const response = await fetch(
-      `https://photon.komoot.io/api/?q=${encodeURIComponent(address)}&limit=1`,
-      { headers: { 'Accept': 'application/json' } }
-    );
-    const data = await response.json();
-    if (data.features && data.features.length > 0) {
-      const f = data.features[0];
-      const p = f.properties;
-      return {
-        lat: f.geometry.coordinates[1],
-        lng: f.geometry.coordinates[0],
-        city: p.city || p.town || p.village || '',
-        province: p.state || '',
-      };
-    }
-    return null;
-  } catch (error) {
-    console.error("Geocoding error:", error);
-    return null;
-  }
-}
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
 
 export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
-  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const [isSearchingAddress, setIsSearchingAddress] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const addressDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const imagePreviewRef = useRef<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
+  
+  const places = useMapsLibrary("places");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -151,73 +60,44 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     },
   });
 
-  const handleAddressChange = (value: string) => {
-    if (addressDebounceRef.current) clearTimeout(addressDebounceRef.current);
-    if (value.length >= 3) {
-      setIsSearchingAddress(true);
-      addressDebounceRef.current = setTimeout(async () => {
-        try {
-          const suggestions = await searchAddresses(value);
-          setAddressSuggestions(suggestions);
-          setShowAddressSuggestions(suggestions.length > 0);
-          setActiveIndex(-1); // Reset selection
-        } finally {
-          setIsSearchingAddress(false);
-        }
-      }, 400); // Premium 400ms debounce
-    } else {
-      setAddressSuggestions([]);
-      setShowAddressSuggestions(false);
-      setActiveIndex(-1);
-    }
-  };
+  useEffect(() => {
+    if (!places || !addressInputRef.current) return;
+    
+    const autocomplete = new places.Autocomplete(addressInputRef.current, {
+      componentRestrictions: { country: "ca" },
+      fields: ["geometry", "name", "formatted_address", "address_components"],
+    });
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!showAddressSuggestions) return;
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry || !place.geometry.location) return;
 
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex(prev => (prev < addressSuggestions.length - 1 ? prev + 1 : prev));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex(prev => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === "Enter" && activeIndex >= 0) {
-      e.preventDefault();
-      handleAddressSelect(addressSuggestions[activeIndex]);
-    } else if (e.key === "Escape") {
-      setShowAddressSuggestions(false);
-    }
-  };
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      
+      let street = "";
+      let houseNum = "";
+      let city = "";
+      let prov = "";
 
-  const handleAddressSelect = (suggestion: AddressSuggestion) => {
-    const addr = suggestion.address;
-    const street = addr?.road || "";
-    const houseNum = addr?.house_number || "";
-    const city = addr?.city || addr?.town || addr?.village || "";
-    const province = addr?.state || "";
-    const postcode = addr?.postcode || "";
+      place.address_components?.forEach((comp) => {
+        if (comp.types.includes("street_number")) houseNum = comp.short_name;
+        if (comp.types.includes("route")) street = comp.short_name;
+        if (comp.types.includes("locality")) city = comp.long_name;
+        if (comp.types.includes("administrative_area_level_1")) prov = comp.short_name;
+      });
 
-    // Build full readable address: 123 Main St, Toronto, ON M5V 2T6
-    const streetPart = houseNum ? `${houseNum} ${street}` : street;
-    const addressParts = [streetPart, city, province, postcode].filter(Boolean);
-    const fullAddress = addressParts.length > 0 ? addressParts.join(', ') : suggestion.display_name.split(',')[0];
+      const fullAddress = place.formatted_address || `${houseNum} ${street}, ${city}, ${prov}`;
+      
+      form.setValue("address", fullAddress, { shouldValidate: true });
+      form.setValue("city", city);
+      form.setValue("province", prov);
+      form.setValue("latitude", lat);
+      form.setValue("longitude", lng);
 
-    form.setValue("address", fullAddress);
-    form.setValue("city", city);
-    form.setValue("province", province);
-
-    const lat = parseFloat(suggestion.lat);
-    const lng = parseFloat(suggestion.lon);
-
-    form.setValue("latitude", lat);
-    form.setValue("longitude", lng);
-
-    setShowAddressSuggestions(false);
-    setAddressSuggestions([]);
-
-    // Fly to location on map
-    window.dispatchEvent(new CustomEvent('mapFlyTo', { detail: { lat, lng } }));
-  };
+      window.dispatchEvent(new CustomEvent('mapFlyTo', { detail: { lat, lng } }));
+    });
+  }, [places, form]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -390,21 +270,14 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
                         }}
                         autoComplete="street-address"
-                        onKeyDown={handleKeyDown}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleAddressChange(e.target.value);
-                        }}
-                        onFocus={() => setShowAddressSuggestions(addressSuggestions.length > 0)}
-                        onBlur={(e) => {
-                          // Only close if focus moves outside the suggestions container
-                          const relatedTarget = e.relatedTarget as HTMLElement | null;
-                          if (suggestionsRef.current && relatedTarget && suggestionsRef.current.contains(relatedTarget)) return;
-                          setTimeout(() => setShowAddressSuggestions(false), 150);
-                        }}
                         className="h-14 pl-11 rounded-[16px] bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
+                        onKeyDown={(e) => {
+                          // Prevent enter key from implicitly submitting the form if autocomplete is interacting
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                          }
+                        }}
                       />
-                      {isSearchingAddress && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-black fill-none stroke-current" strokeWidth={2} />}
                     </div>
                   </FormControl>
 
@@ -420,55 +293,6 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       <span className="text-[11px] text-slate-400/70 font-ui ml-[22px]">
                         Double-check the address above and edit if needed
                       </span>
-                    </div>
-                  )}
-
-                  {showAddressSuggestions && (
-                    <div ref={suggestionsRef} className="absolute z-[100] w-full mt-2 bg-white backdrop-blur-md border border-[0.5px] border-slate-200/50 rounded-[16px] shadow-lg overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                      {addressSuggestions.map((s, i) => {
-                        // Build a clean readable address line
-                        const addr = s.address;
-                        const parts = [
-                          addr?.house_number && addr?.road ? `${addr.house_number} ${addr.road}` : addr?.road,
-                          addr?.city || addr?.town || addr?.village,
-                          addr?.state,
-                          addr?.postcode,
-                        ].filter(Boolean);
-                        const cleanLabel = parts.length > 0 ? parts.join(', ') : s.display_name;
-
-                        return (
-                          <button
-                            key={i}
-                            type="button"
-                            tabIndex={0}
-                            onClick={() => handleAddressSelect(s)}
-                            onMouseEnter={() => setActiveIndex(i)}
-                            className={cn(
-                              "w-full px-4 py-3.5 text-left border-b border-gray-50/50 flex items-center gap-3 transition-colors last:border-0 font-ui group outline-none",
-                              activeIndex === i ? "bg-slate-50" : "hover:bg-slate-50"
-                            )}
-                          >
-                            <div className={cn(
-                              "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all",
-                              activeIndex === i ? "bg-slate-200" : "bg-gray-100 group-hover:bg-slate-200"
-                            )}>
-                              <MapPin className={cn(
-                                "w-4 h-4 fill-none stroke-current transition-colors",
-                                activeIndex === i ? "text-slate-900" : "text-gray-400 group-hover:text-slate-900"
-                              )} strokeWidth={2} />
-                            </div>
-                            <div className="flex flex-col gap-0.5 min-w-0">
-                              <span className={cn(
-                                "text-[14px] font-medium line-clamp-1 transition-colors",
-                                activeIndex === i ? "text-black" : "text-gray-700 group-hover:text-black"
-                              )}>{cleanLabel}</span>
-                              {addr?.postcode && (
-                                <span className="text-[11px] text-slate-400 font-ui">{addr.postcode}</span>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
                     </div>
                   )}
                   <FormMessage />

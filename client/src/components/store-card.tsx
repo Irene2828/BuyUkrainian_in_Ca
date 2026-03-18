@@ -23,7 +23,6 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
     const { t } = useI18n();
     const { toast } = useToast();
     const [copied, setCopied] = useState(false);
-    const [isImageExpanded, setIsImageExpanded] = useState(defaultExpanded);
     const [isProductsExpanded, setIsProductsExpanded] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -102,13 +101,25 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 )}
             >
                 {/* 1. Sticky Header Section */}
-                <div className="p-5 pb-3 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-1.5">
-                    <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-2 min-w-0">
-                            <h2 className="text-[1.15rem] font-bold text-[#0A2540] leading-tight tracking-tight font-header line-clamp-2 mr-2">
-                                {store.name}
-                            </h2>
-                        </div>
+                <div className="p-5 pb-4 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-2">
+                    <div className="flex items-start justify-between gap-4">
+                        <h2 
+                            className="text-[15px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2"
+                            style={{ color: '#0057B7' }}
+                        >
+                            {store.name}
+                            {store.website && (
+                                <a 
+                                    href={store.website} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center ml-2 group/web align-middle"
+                                    title="Visit Website"
+                                >
+                                    <Globe size={18} className="text-[#FFD700] drop-shadow-sm transition-transform group-hover/web:scale-110 active:scale-90" strokeWidth={2.5} />
+                                </a>
+                            )}
+                        </h2>
                         <button
                             onClick={onClose}
                             className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-full transition-colors active:scale-95 shrink-0"
@@ -117,6 +128,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             <X size={16} />
                         </button>
                     </div>
+
+                    {/* Brand Divider */}
+                    <div className="h-[2px] w-12 bg-[#FFD700] rounded-full shrink-0" />
+
                     <div className="flex items-center">
                         <span className="text-[#2D50A0]/70 text-[10px] font-bold uppercase tracking-[0.2em] font-ui">
                             {getCategoryLabel(store.category)}
@@ -132,26 +147,19 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <div
                             className={cn(
                                 "relative w-[110px] h-[110px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm shrink-0",
-                                !isImagesLoading && "cursor-zoom-in group transition-all duration-300",
-                                isImageExpanded && "ring-blue-500/30"
+                                !isImagesLoading && "group transition-all duration-300"
                             )}
-                            onClick={() => !isImagesLoading && setIsImageExpanded(!isImageExpanded)}
                         >
                             {isImagesLoading ? (
                                 <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center">
                                     <div className="w-8 h-8 rounded-full bg-slate-200" />
                                 </div>
                             ) : (
-                                <>
-                                    <img
-                                        src={uniqueImages[currentImageIndex]}
-                                        alt={store.name}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                        <Maximize2 size={20} className="text-white drop-shadow-lg" />
-                                    </div>
-                                </>
+                                <img
+                                    src={uniqueImages[currentImageIndex]}
+                                    alt={store.name}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
                             )}
                         </div>
 
@@ -209,7 +217,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             {allProducts.map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="shrink-0 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-xs font-medium cursor-default"
+                                    className="shrink-0 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-[12px] font-medium cursor-default"
                                 >
                                     {product}
                                 </div>
@@ -244,76 +252,16 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         </button>
 
                         <button
-                            onClick={() => setIsImageExpanded(!isImageExpanded)}
-                            className={cn(
-                                "flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[12px] font-medium transition-colors duration-200 active:scale-95 group",
-                                isImageExpanded
-                                    ? "bg-slate-900 text-white hover:bg-slate-800"
-                                    : "bg-transparent text-slate-700 hover:text-blue-600 hover:bg-slate-50"
-                            )}
+                            onClick={() => onSeeOnMap?.(store)}
+                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[12px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-blue-600 hover:bg-slate-50"
                         >
-                            <Maximize2 size={13} />
-                            <span>{isImageExpanded ? "Collapse" : "Zoom In"}</span>
+                            <MapPin size={13} />
+                            <span>Zoom In Map</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Image Expansion (Desktop) */}
-            <AnimatePresence>
-                {isImageExpanded && !isMobile && (
-                    <motion.div
-                        initial={{ opacity: 0, x: -40, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: -40, scale: 0.95 }}
-                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className={cn(
-                            "bg-white rounded-[32px] overflow-hidden w-[500px] pointer-events-auto",
-                            "ring-1 ring-inset ring-slate-200/50 shadow-[0_30px_60px_rgba(0,0,0,0.12)]",
-                            "flex flex-col relative z-20"
-                        )}
-                        style={{ height: 'auto', minHeight: '320px', maxHeight: '85vh' }}
-                    >
-                        <button
-                            onClick={() => setIsImageExpanded(false)}
-                            className="absolute top-6 right-6 z-30 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 transition-all active:scale-95"
-                        >
-                            <X size={20} />
-                        </button>
-
-                        <div className="w-full h-full relative group bg-black/5">
-                            <img
-                                src={uniqueImages[currentImageIndex]}
-                                alt={store.name}
-                                className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-[1.02]"
-                            />
-                            {/* Gradient Overlay for the Close Button legibility */}
-                            <div className="absolute top-0 right-0 left-0 h-24 bg-gradient-to-b from-black/5 to-transparent pointer-events-none" />
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* In-Card Expansion (Mobile Fallback) */}
-            <AnimatePresence>
-                {isImageExpanded && isMobile && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        className="fixed inset-0 z-[3000] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm pointer-events-auto"
-                        onClick={() => setIsImageExpanded(false)}
-                    >
-                        <div className="bg-white rounded-3xl overflow-hidden shadow-2xl relative max-w-sm w-full outline-none ring-1 ring-black/5">
-                            <img src={uniqueImages[currentImageIndex]} className="w-full h-auto object-contain max-h-[70vh]" />
-                            <div className="p-4 flex justify-between items-center bg-white border-t border-slate-100">
-                                <span className="text-sm font-bold text-slate-900">{store.name}</span>
-                                <button className="text-blue-600 font-bold text-sm">Close</button>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </div>
     );
 }
