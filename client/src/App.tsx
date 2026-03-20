@@ -61,7 +61,10 @@ function App() {
         <I18nProvider>
           <QueryClientProvider client={queryClient}>
             <TooltipProvider>
-              <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+              <APIProvider
+                apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+                authReferrerPolicy="origin"
+              >
                 <Toaster />
                 <SonnerToaster />
                 <Router />
