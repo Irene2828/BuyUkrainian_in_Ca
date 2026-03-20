@@ -151,6 +151,61 @@ export class DatabaseStorage implements IStorage {
     this.approvedStoresCache = { data: null, timestamp: 0 };
   }
 
+  private async getApprovedStoresLeanFromSupabase(): Promise<StoreLean[]> {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !serviceKey) {
+      throw new Error("Supabase REST fallback unavailable: missing URL or API key");
+    }
+
+    const query = new URLSearchParams({
+      select: "id,name,products,address,city,province,latitude,longitude,category,status,created_at",
+      status: "eq.approved",
+      order: "created_at.desc",
+    });
+
+    const response = await fetch(`${supabaseUrl}/rest/v1/stores?${query.toString()}`, {
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Supabase REST fallback failed: ${response.status} ${errorText}`);
+    }
+
+    const stores = await response.json() as Array<{
+      id: string;
+      name: string;
+      products: string[] | null;
+      address: string;
+      city: string;
+      province: string;
+      latitude: string;
+      longitude: string;
+      category: string;
+      status: string;
+      created_at: string | null;
+    }>;
+
+    return stores.map((store) => ({
+      id: store.id,
+      name: store.name,
+      products: Array.isArray(store.products) ? store.products : [],
+      address: store.address,
+      city: store.city,
+      province: store.province,
+      latitude: store.latitude,
+      longitude: store.longitude,
+      category: store.category as "food" | "clothes" | "other" | "retail",
+      status: store.status as "approved" | "pending" | "rejected",
+      createdAt: store.created_at ? new Date(store.created_at) : new Date(),
+    }));
+  }
+
   // --- Store Methods ---
 
   // EGRESS OPTIMIZATION: Added pagination support (limit/offset) for admin lists
@@ -178,28 +233,35 @@ export class DatabaseStorage implements IStorage {
       return this.approvedStoresCache.data;
     }
 
-    const leanStores = await this.db.select({
-      id: stores.id,
-      name: stores.name,
-      products: stores.products,
-      address: stores.address,
-      city: stores.city,
-      province: stores.province,
-      latitude: stores.latitude,
-      longitude: stores.longitude,
-      category: stores.category,
-      status: stores.status,
-      createdAt: stores.createdAt,
-    }).from(stores)
-      .where(eq(stores.status, "approved"))
-      .orderBy(desc(stores.createdAt));
+    let result: StoreLean[];
 
-    const result = leanStores.map(s => ({
-      ...s,
-      category: s.category as "food" | "clothes" | "other" | "retail",
-      status: s.status as "approved" | "pending" | "rejected",
-      createdAt: s.createdAt || new Date(),
-    }));
+    try {
+      const leanStores = await this.db.select({
+        id: stores.id,
+        name: stores.name,
+        products: stores.products,
+        address: stores.address,
+        city: stores.city,
+        province: stores.province,
+        latitude: stores.latitude,
+        longitude: stores.longitude,
+        category: stores.category,
+        status: stores.status,
+        createdAt: stores.createdAt,
+      }).from(stores)
+        .where(eq(stores.status, "approved"))
+        .orderBy(desc(stores.createdAt));
+
+      result = leanStores.map(s => ({
+        ...s,
+        category: s.category as "food" | "clothes" | "other" | "retail",
+        status: s.status as "approved" | "pending" | "rejected",
+        createdAt: s.createdAt || new Date(),
+      }));
+    } catch (dbError) {
+      console.warn("⚠️ [DB] Direct Postgres query failed; using Supabase REST fallback for approved stores.", dbError);
+      result = await this.getApprovedStoresLeanFromSupabase();
+    }
 
     // Update cache
     this.approvedStoresCache = { data: result, timestamp: now };
