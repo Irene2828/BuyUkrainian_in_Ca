@@ -9,6 +9,7 @@ import { Store } from "@/lib/data";
 import { StoreBottomSheet } from "@/components/store-bottom-sheet";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -233,15 +234,18 @@ export function Hero() {
         {/* Location Intent Strip */}
         <div className="w-full bg-white border-t-[3px] border-[#FFD700] overflow-hidden">
             <div className="boutique-width flex items-stretch min-[1670px]:pt-[10px]">
-                <div className="flex-1 overflow-x-auto scrollbar-hide min-w-0">
-                    <div className="flex items-stretch min-w-max">
-                        {stores.length > 0 && [...new Map(stores.map(s =>
-                            [`${s.city}-${s.province}`, s]
-                        )).values()].map((store, i) => (
+                    <div className="flex-1 flex items-stretch min-w-0">
+                        {stores.length > 0 && [...new Map(stores
+                            .filter(s => s.city.toLowerCase() !== 'maple')
+                            .map(s => [`${s.city}-${s.province}`, s])
+                        ).values()].map((store, i) => (
                             <button
                                 key={`${store.city}-${store.province}-${i}`}
                                 onClick={() => setLocation(`/map?city=${encodeURIComponent(store.city)}&province=${encodeURIComponent(store.province)}`)}
-                                className="group flex flex-col items-start px-6 py-3 min-[1441px]:px-8 border-r border-slate-100 hover:bg-[#FFFBEB] transition-all duration-200 cursor-pointer text-left min-w-[140px]"
+                                className={cn(
+                                    "group flex-1 flex flex-col items-start py-3 border-r border-slate-100 hover:bg-[#FFFBEB] transition-all duration-200 cursor-pointer text-left",
+                                    i === 0 ? "pl-1 pr-4" : "px-4"
+                                )}
                             >
                                 <span className="text-[14px] font-bold text-slate-800 group-hover:text-[#0057B7] transition-colors duration-200 whitespace-nowrap">
                                     {store.city}
@@ -251,22 +255,19 @@ export function Hero() {
                                 </span>
                             </button>
                         ))}
+                        
+                        <button
+                            onClick={() => setLocation('/map')}
+                            className="group flex-1 flex flex-col items-start px-4 py-3 bg-[#EFF6FF] hover:bg-[#FFFBEB] transition-colors duration-200 cursor-pointer text-left min-w-[140px]"
+                        >
+                            <span className="text-[14px] font-bold text-[#0057B7] whitespace-nowrap group-hover:text-[#0057B7]">
+                                View All
+                            </span>
+                            <span className="text-[10px] text-[#0057B7]/60 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                                Full Map →
+                            </span>
+                        </button>
                     </div>
-                </div>
-
-                <div className="flex-shrink-0 border-l-2 border-[#EFF6FF] ml-4">
-                    <button
-                        onClick={() => setLocation('/map')}
-                        className="group flex flex-col items-start px-6 py-3 bg-[#EFF6FF] hover:bg-[#FFFBEB] transition-colors duration-200 cursor-pointer text-left h-full"
-                    >
-                        <span className="text-[14px] font-bold text-[#0057B7] whitespace-nowrap group-hover:text-[#0057B7]">
-                            View All
-                        </span>
-                        <span className="text-[10px] text-[#0057B7]/60 uppercase tracking-widest mt-0.5 whitespace-nowrap">
-                            Full Map →
-                        </span>
-                    </button>
-                </div>
             </div>
         </div>
         </div>
