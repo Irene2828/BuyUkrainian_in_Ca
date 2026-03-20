@@ -53,7 +53,7 @@ export function HowItWorks() {
 
 
   return (
-    <section id="how-it-works" className="pt-22 pb-24 md:pt-27 md:pb-30 font-sans overflow-hidden bg-white h-auto">
+    <section id="how-it-works" className="pt-[8.25rem] pb-24 md:pt-[10.125rem] md:pb-30 font-sans overflow-hidden bg-white h-auto">
       <div className="utility-width px-6 md:px-12">
         {/* Section Header */}
         <div className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">

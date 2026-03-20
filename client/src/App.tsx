@@ -42,7 +42,7 @@ import { getApprovedStores } from "./lib/api";
 function App() {
 
   useEffect(() => {
-    setupWebSocketListener();
+    const cleanupWebSocket = setupWebSocketListener();
     initPremiumInteractions();
 
     // EGRESS OPTIMIZATION: Prefetch store data once on initial load only
@@ -51,6 +51,8 @@ function App() {
       queryKey: ["stores"],
       queryFn: getApprovedStores,
     }).catch(console.error);
+
+    return cleanupWebSocket;
   }, []); // Empty deps = runs once on mount, not on every navigation
 
   return (

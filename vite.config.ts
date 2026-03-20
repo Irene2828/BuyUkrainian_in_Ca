@@ -32,6 +32,10 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     allowedHosts: true,
+    watch: {
+      // Ignore macOS metadata files on external drives to avoid noisy full-page reloads.
+      ignored: ["**/._*", "**/.DS_Store"],
+    },
     proxy: {
       '/api': {
         // Local backend (npm run dev starts tsx on port 3000)

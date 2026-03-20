@@ -29,9 +29,10 @@ export function Hero() {
     });
 
     return (
+        <>
+        <div className="flex flex-col min-h-[calc(100vh-80px)] min-[1670px]:min-h-[calc(100vh-80px)]">
         <section
-            className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white"
-            style={{ minHeight: 'clamp(560px, 75vh, 900px)' }}
+            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white min-[1670px]:pb-[5%]"
         >
             {/* Soft Atmospheric Sky Glow - Senior Designer Polish (Visible Fix) */}
             <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-20 pointer-events-none z-[4]"></div>
@@ -48,31 +49,35 @@ export function Hero() {
 
             {/* Layer 3: The "Fog" - Text Protection Mask */}
             <div 
-                className="absolute inset-y-0 left-0 w-[80%] pointer-events-none z-10 border-none outline-none" 
+                className="absolute inset-y-0 left-0 w-[85%] pointer-events-none z-10 border-none outline-none" 
                 style={{
-                    background: 'linear-gradient(to right, white 0%, white 45%, rgba(255,255,255,0.6) 62%, rgba(255,255,255,0.15) 75%, transparent 100%)'
+                    background: 'linear-gradient(to right, white 0%, white 50%, rgba(255,255,255,0.7) 65%, rgba(255,255,255,0.2) 78%, transparent 100%)'
                 }}
             />
 
             {/* Layer 4: Bottom Edge Melt */}
-            <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-10" />
 
             <div className="boutique-width w-full flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area - Glass Anchored Container */}
-                <div className="relative z-10 max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none">
+                <div className="relative z-10 w-full max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none py-16">
                     {/* Jobsian Typographic Scale - OPTICAL BALANCE FIX */}
                     <h1
-                        className="leading-[1.25] w-full antialiased pointer-events-auto text-slate-600"
+                        className="leading-[1.25] antialiased pointer-events-auto min-[1670px]:mt-[5%]"
                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                     >
-                        <span 
-                            className="block text-[2.5625rem] md:text-[3.1625rem] min-[1441px]:text-[3.5rem] font-semibold tracking-tight leading-[1.25] font-sans max-w-[90%] md:max-w-none whitespace-pre-line"
-                            style={{ color: '#0057B7' }}
-                        >
-                            {t('hero.title') || 'Discover\nUkrainian Products'}
+                        <span className="block text-[2.4375rem] md:text-[3.0375rem] min-[1441px]:text-[3.375rem] font-semibold tracking-tight text-[#0057B7]">
+                            Discover
                         </span>
-                        <span className="block text-[1.9375rem] md:text-[2.431rem] min-[1441px]:text-[2.6875rem] font-normal tracking-tight whitespace-nowrap text-slate-400">
-                            sold across Canada
+                        <span className="block text-[2.4375rem] md:text-[3.0375rem] min-[1441px]:text-[3.375rem] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap relative">
+                            <span className="relative inline-block">Ukrainian</span>
+                            {" "}Products
+                        </span>
+                        <span className="block text-[1.8125rem] md:text-[2.306rem] min-[1441px]:text-[2.5625rem] font-normal tracking-tight whitespace-nowrap text-slate-400">
+                            sold across{" "}
+                            <span className="relative inline-block">
+                                Canada
+                            </span>
                         </span>
                     </h1>
 
@@ -80,15 +85,15 @@ export function Hero() {
                         className="text-[16px] text-[#0F172A] leading-relaxed max-w-lg font-medium pointer-events-auto"
                         style={{ marginTop: 'clamp(16px, 1.8vw, 28px)' }}
                     >
-                        Support Ukraine's economy with everyday purchases.<br />
-                        Find stores near you or add new ones to the map.
+                        Find Ukrainian-made products near you — and help grow the map.
                     </p>
 
+                    {/* CTA Row - Perfectly Left Aligned */}
                     <div 
-                        className="flex flex-row items-center gap-4 flex-wrap w-full md:w-auto pointer-events-auto"
+                        className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto pointer-events-auto"
                         style={{ marginTop: 'clamp(20px, 2.2vw, 36px)' }}
                     >
-                        <Link href="/map" className="w-full md:w-auto">
+                        <Link href="/map" className="w-full md:w-auto self-start">
                             <Button
                                 className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#0A2540] transition-all duration-300 2xl:h-[54px] 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(255,215,0,0.3)] hover:shadow-[0_6px_20px_rgba(255,215,0,0.4)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn border-none"
                             >
@@ -110,6 +115,7 @@ export function Hero() {
                             <span className="absolute bottom-[-4px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                         </Link>
                     </div>
+
 
                     {/* Mobile Map Preview - Live Map */}
                     <div className="lg:hidden w-full mt-[50px] aspect-[4/3] rounded-[24px] overflow-hidden relative bg-slate-50 border-none outline-none">
@@ -154,10 +160,10 @@ export function Hero() {
                     }}
                 >
                     {/* Inner wrapper for shifted map content */}
-                    <div className="absolute inset-0 transition-all duration-700 ease-out scale-[1.18] translate-x-[4%] -translate-y-[2%] min-[1441px]:-translate-y-[12%] min-[1670px]:-translate-y-[4%] border-none outline-none">
+                    <div className="absolute inset-y-0 -left-[12%] w-[112%] transition-all duration-700 ease-out scale-[1.11] translate-x-[20%] -translate-y-[9%] min-[1441px]:left-0 min-[1441px]:w-full min-[1441px]:scale-[1.18] min-[1441px]:translate-x-[4%] min-[1441px]:-translate-y-[12%] min-[1670px]:scale-[1.18] min-[1670px]:translate-x-[4%] min-[1670px]:-translate-y-[4%] border-none outline-none">
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
                             <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-white via-white/80 to-transparent pointer-events-none z-30" />
-                            <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-30" />
+                            <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-white via-white/60 to-transparent pointer-events-none z-30" />
 
                             {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
                             {/* opacity-0 = hidden; remove to restore. Values: top-[25%] right-[45%] blue | top-[50%] right-[30%] yellow */}
@@ -190,8 +196,81 @@ export function Hero() {
                     </div>
                 </div>
             </div>
+            <div className="hidden lg:flex flex-col items-end gap-2 absolute right-0 top-[12%] z-30 pointer-events-none">
+              {/* Pill 3: Support Economy — longest — yellow border */}
+              <div className="group isolate flex items-center px-4 py-2 border-l-[3px] border-[#0057B7] bg-[#EFF6FF]/60 cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-shadow duration-300">
+                <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
+                  Support Ukraine's Economy
+                </span>
+                <span className="text-[11px] text-[#0057B7]/60 font-medium whitespace-nowrap border-l border-[#0057B7]/10 pl-4 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  — every purchase makes a difference
+                </span>
+              </div>
 
+              {/* Pill 1: Growing Map — shortest — yellow border */}
+              <div className="group isolate flex items-center px-4 py-2 border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/60 cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-shadow duration-300">
+                <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
+                  Up-to-date Growing Map
+                </span>
+                <span className="text-[11px] text-[#0057B7]/60 font-medium whitespace-nowrap border-l border-[#0057B7]/10 pl-4 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  — new stores added by people just like you
+                </span>
+              </div>
+
+              {/* Pill 2: Authentic Goods — medium — blue border */}
+              <div className="group isolate flex items-center px-4 py-2 border-l-[3px] border-[#0057B7] bg-[#EFF6FF]/60 cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-shadow duration-300">
+                <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
+                  Authentic Ukrainian Goods
+                </span>
+                <span className="text-[11px] text-[#0057B7]/60 font-medium whitespace-nowrap border-l border-[#0057B7]/10 pl-4 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  — made in Ukraine products only
+                </span>
+              </div>
+            </div>
 
         </section>
+
+        {/* Location Intent Strip */}
+        <div className="w-full bg-white border-t-[3px] border-[#FFD700] overflow-hidden">
+            <div className="boutique-width flex items-stretch min-[1670px]:pt-[10px]">
+                <div className="flex-1 overflow-x-auto scrollbar-hide min-w-0">
+                    <div className="flex items-stretch min-w-max">
+                        {stores.length > 0 && [...new Map(stores.map(s =>
+                            [`${s.city}-${s.province}`, s]
+                        )).values()].map((store, i) => (
+                            <button
+                                key={`${store.city}-${store.province}-${i}`}
+                                onClick={() => setLocation(`/map?city=${encodeURIComponent(store.city)}&province=${encodeURIComponent(store.province)}`)}
+                                className="group flex flex-col items-start px-6 py-3 min-[1441px]:px-8 border-r border-slate-100 hover:bg-[#FFFBEB] transition-all duration-200 cursor-pointer text-left min-w-[140px]"
+                            >
+                                <span className="text-[14px] font-bold text-slate-800 group-hover:text-[#0057B7] transition-colors duration-200 whitespace-nowrap">
+                                    {store.city}
+                                </span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5 whitespace-nowrap group-hover:text-[#FFD700] transition-colors duration-200">
+                                    {store.province}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex-shrink-0 border-l-2 border-[#EFF6FF] ml-4">
+                    <button
+                        onClick={() => setLocation('/map')}
+                        className="group flex flex-col items-start px-6 py-3 bg-[#EFF6FF] hover:bg-[#FFFBEB] transition-colors duration-200 cursor-pointer text-left h-full"
+                    >
+                        <span className="text-[14px] font-bold text-[#0057B7] whitespace-nowrap group-hover:text-[#0057B7]">
+                            View All
+                        </span>
+                        <span className="text-[10px] text-[#0057B7]/60 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                            Full Map →
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        </>
     );
 }

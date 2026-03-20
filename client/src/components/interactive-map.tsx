@@ -17,8 +17,8 @@ export interface InteractiveMapRef {
   invalidateSize: () => void;
 }
 
-const CANADA_CENTER: [number, number] = [56.2, -91.5];
-const INITIAL_MAP_STATE = { center: CANADA_CENTER, zoom: 4.65 };
+const CANADA_CENTER: [number, number] = [52.0, -94.0];
+const INITIAL_MAP_STATE = { center: CANADA_CENTER, zoom: 4.2 };
 const MAX_CLUSTER_FOCUS_ZOOM = 12;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
 const CLUSTER_TIGHT_SPAN = 0.08;
@@ -467,26 +467,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             </div>
           </TooltipProvider>
 
-          <TooltipProvider delayDuration={120}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/85 backdrop-blur-2xl shadow-[0_8px_30px_rgba(10,37,64,0.08)] border-0 text-slate-700 hover:text-slate-900 transition-all font-medium text-lg pointer-events-auto active:scale-95"
-                  aria-label="Map legend"
-                >
-                  <Info className="w-5 h-5 stroke-[2.5]" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent
-                side="left"
-                sideOffset={16}
-                className={MAP_TOOLTIP_CONTENT_CLASSNAME}
-              >
-                Pins show local stores selling Ukrainian-made products
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         </div>
       )}
 

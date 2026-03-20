@@ -390,7 +390,6 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     </div>
                                                 </div>
                                             )}
-
                                             {/* Category Dropdown — rendered OUTSIDE the overflow-x-auto div */}
                                             {isCategoryDropdownOpen && (
                                                 <div className="absolute top-[calc(100%+8px)] left-[430px] w-48 bg-white border border-slate-200 shadow-lg ring-1 ring-black/5 rounded-xl z-[700] overflow-hidden animate-in fade-in slide-in-from-top-2">
@@ -418,7 +417,16 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                             )}
                                         </div>{/* end outer control strip */}
 
-                                        {/* Legend relocated to bottom center */}
+                                        {/* 3. Helper Micro-Pill - Persistent context below toolbar */}
+                                        <div className="flex items-center gap-3 px-4 py-2 border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/70 backdrop-blur-md shadow-sm mx-auto w-max mt-3 md:ml-6 transition-all animate-in fade-in slide-in-from-top-2 duration-500 pointer-events-auto">
+                                            {/* Helper Text styled as Hero Pillar */}
+                                            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-semibold text-[#0057B7]">
+                                                Pins show local stores
+                                            </span>
+                                            <span className="text-[10px] sm:text-[11px] text-slate-500 font-light hidden xs:inline">
+                                                — selling Ukrainian-made products
+                                            </span>
+                                        </div>
                                     </div>
                                 )}
                             </div>

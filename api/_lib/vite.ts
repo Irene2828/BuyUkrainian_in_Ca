@@ -4,15 +4,25 @@ import { type Server } from "http";
 import viteConfig from "../../vite.config";
 import fs from "fs";
 import path from "path";
-import { nanoid } from "nanoid";
 
 const viteLogger = createLogger();
 
 export async function setupVite(server: Server, app: Express) {
-  const serverOptions = {
+  const mergedServerConfig = {
+    ...(viteConfig.server ?? {}),
     middlewareMode: true,
-    hmr: { server, path: "/vite-hmr" },
+    // Disable HMR for the embedded Express+Vite dev server.
+    // The production build is healthy, but the live-reload channel in this
+    // local setup is causing repeated remounts/full reloads on localhost:3000.
+    hmr: false,
     allowedHosts: true as const,
+  };
+
+  const serverOptions = {
+    ...mergedServerConfig,
+    // In embedded dev, API routes and app WebSockets already live on this same server.
+    // Proxying back to localhost:3000 can create noisy self-referential reconnect loops.
+    proxy: undefined,
   };
 
   const vite = await createViteServer({
@@ -48,10 +58,6 @@ export async function setupVite(server: Server, app: Express) {
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`,
-      );
       const page = await vite.transformIndexHtml(url, template);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {

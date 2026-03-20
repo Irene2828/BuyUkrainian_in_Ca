@@ -7,7 +7,6 @@ import { FAQ } from "@/components/faq";
 import { CommunityImpact } from "@/components/community-impact";
 import { MapStats } from "@/components/map-stats";
 import { Footer } from "@/components/footer";
-import { RecentProductsMarquee } from "@/components/recent-products-marquee";
 
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -34,7 +33,6 @@ export default function Home() {
       <main>
         <div className="section-reveal -mt-[1px] relative z-0">
           <Hero />
-          <RecentProductsMarquee />
         </div>
 
         {/* 2. Seamless How It Works & FAQ block */}

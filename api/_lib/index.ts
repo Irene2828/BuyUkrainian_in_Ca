@@ -14,7 +14,6 @@ const httpServer = createServer(app);
 // =====================
 (async () => {
   // Routes are already registered in ./app.ts
-  setupWebSocket(httpServer);
 
   // ERROR HANDLING is already in ./app.ts
 
@@ -31,7 +30,26 @@ const httpServer = createServer(app);
   // START SERVER
   // =====================
 
-  httpServer.listen(config.port, "0.0.0.0", () => {
-    log(`Server running on http://localhost:${config.port}`);
-  });
+  function startServer(port: number) {
+    const server = httpServer.listen(port, "0.0.0.0")
+      .on("listening", () => {
+        const address = server.address();
+        const actualPort = typeof address === 'string' ? address : address?.port;
+        log(`Server running on http://localhost:${actualPort}`);
+
+        // Only start WebSockets once the server is successfully listening
+        setupWebSocket(httpServer);
+      })
+      .on("error", (err: any) => {
+        if (err.code === "EADDRINUSE" && port !== 0) {
+          log(`Port ${port} is already in use, trying an available port...`);
+          startServer(0);
+        } else {
+          console.error("Server error:", err);
+          process.exit(1);
+        }
+      });
+  }
+
+  startServer(config.port);
 })();

@@ -63,6 +63,8 @@ export const queryClient = new QueryClient({
 // WebSocket setup for real-time updates
 // EGRESS OPTIMIZATION: Debounced invalidation to batch rapid-fire WebSocket events
 let wsInvalidationTimer: ReturnType<typeof setTimeout> | null = null;
+let activeStoreSocket: WebSocket | null = null;
+let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
 function debouncedStoreInvalidation() {
   if (wsInvalidationTimer) clearTimeout(wsInvalidationTimer);
@@ -78,12 +80,22 @@ export function setupWebSocketListener() {
   // Vercel Serverless does not support WebSockets. Disable in production to prevent errors.
   if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
     console.log("WebSockets disabled in production environment");
-    return;
+    return () => {};
+  }
+
+  if (activeStoreSocket && (activeStoreSocket.readyState === WebSocket.OPEN || activeStoreSocket.readyState === WebSocket.CONNECTING)) {
+    return () => {};
+  }
+
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
   }
 
   const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
   const wsUrl = `${protocol}//${window.location.host}/ws`;
   const ws = new WebSocket(wsUrl);
+  activeStoreSocket = ws;
 
   ws.onopen = () => {
     console.log("Connected to WebSocket for real-time updates");
@@ -104,10 +116,32 @@ export function setupWebSocketListener() {
 
   ws.onclose = () => {
     console.log("WebSocket connection closed, attempting to reconnect in 5s...");
-    setTimeout(setupWebSocketListener, 5000);
+    if (activeStoreSocket === ws) {
+      activeStoreSocket = null;
+    }
+
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      setupWebSocketListener();
+    }, 5000);
   };
 
   ws.onerror = (error) => {
     console.error("WebSocket error:", error);
+  };
+
+  return () => {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+
+    if (activeStoreSocket === ws) {
+      activeStoreSocket = null;
+    }
+
+    if (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING) {
+      ws.close();
+    }
   };
 }

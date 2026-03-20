@@ -57,18 +57,18 @@ export function Header() {
             <img 
               src="/assets/header_logo.png" 
               alt="BuyUkrainian Logo" 
-              className="h-[42px] 2xl:h-[50px] w-auto shrink-0 -mt-2.5"
+              className="h-[44.1px] 2xl:h-[52.5px] w-auto shrink-0 -mt-2.5"
             />
 
             {/* Yellow Vertical Divider */}
-            <div className="h-8 w-[2px] bg-[#FFD700] shrink-0 -ml-[13px]" />
+            <div className="h-[33.6px] w-[2.1px] bg-[#FFD700] shrink-0 -ml-[13px]" />
             
             {/* Branding Text */}
             <div className="flex flex-col justify-center py-0.5 select-none ml-[9px]">
-              <span className="text-sm md:text-[15px] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap leading-tight antialiased">
+              <span className="text-sm md:text-[15.75px] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap leading-tight antialiased">
                 Buy Ukrainian
               </span>
-              <span className="text-sm md:text-[15px] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap leading-tight antialiased">
+              <span className="text-sm md:text-[15.75px] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap leading-tight antialiased">
                 in Canada
               </span>
             </div>
@@ -78,7 +78,7 @@ export function Header() {
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-8">
           {location === '/map' ? (
-            <Link href="/" className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 flex items-center gap-2">
+            <Link href="/" className="group relative text-[15px] min-[1670px]:text-[16px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Back to Homepage
               <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
@@ -93,12 +93,12 @@ export function Header() {
                     document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 text-slate-900 opacity-70"
+                className="group relative text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 hover:opacity-100 text-slate-900 opacity-70"
               >
                 {t('nav.howItWorks') || 'How it Works'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
-              <Link href="/map" className={cn("group relative text-[15px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
+              <Link href="/map" className={cn("group relative text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 hover:opacity-100 flex items-center gap-2", location === '/map' ? "text-slate-900 opacity-100" : "text-slate-900 opacity-70")}>
                 <MapPin className="w-4 h-4 opacity-90" />
                 {t('nav.map') || 'Map'}
                 <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0F172A] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
@@ -108,7 +108,7 @@ export function Header() {
                   <span
                     role="button"
                     tabIndex={0}
-                    className="group relative text-[15px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
+                    className="group relative text-[15px] min-[1670px]:text-[15.85px] font-medium text-slate-900 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
                   >
                     <Plus className="w-4 h-4 opacity-90" />
                     {t('nav.addStore') || 'Add Store'}
