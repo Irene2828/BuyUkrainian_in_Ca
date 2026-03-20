@@ -119,8 +119,6 @@ export interface IStorage {
   getAllAdminUsers(): Promise<AdminUser[]>;
 }
 
-import { config } from "./config.js";
-
 // Changes made here for standard Postgres storage (Supabase/Neon/etc).
 // Map pins are served directly from this DB (getApprovedStores) to minimize external API calls.
 export class DatabaseStorage implements IStorage {
