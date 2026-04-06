@@ -40,7 +40,7 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-70"
+                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Store className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -53,7 +53,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-70"
+                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Map className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -66,7 +66,7 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-70"
+                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Package className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
