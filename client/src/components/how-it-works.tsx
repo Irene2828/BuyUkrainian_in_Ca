@@ -15,7 +15,7 @@ export function HowItWorks() {
       title: <>Found a new Ukrainian product<br />in a local store?</>,
       altText: "Found a new Ukrainian product in a local store?",
       image: "/icon2.png",
-      text: (<><strong>Add it to the map.</strong> With less than two minutes of your time, you can help the map grow, and help Ukrainian companies sell products in Canada.</>)
+      text: (<><strong>Add it to the map.</strong> Two minutes of your time helps Ukrainian companies reach more Canadians.</>)
     },
     {
       title: <>Want to help the Ukrainian<br />economy grow?</>,
@@ -53,8 +53,8 @@ export function HowItWorks() {
 
 
   return (
-    <section id="how-it-works" className="pt-[8.25rem] pb-24 md:pt-[10.125rem] md:pb-30 font-sans overflow-hidden bg-white h-auto">
-      <div className="utility-width px-6 md:px-12">
+    <section id="how-it-works" className="pt-[96px] pb-[48px] md:pt-[160px] md:pb-[80px] font-sans overflow-hidden bg-white">
+      <div className="boutique-width">
         {/* Section Header */}
         <div className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">
           <h2
@@ -66,7 +66,7 @@ export function HowItWorks() {
 
         {/* Steps Grid - Animated Stagger */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full items-start mt-8 md:mt-12"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full items-start mt-6 md:mt-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -82,7 +82,7 @@ export function HowItWorks() {
               <div className="group flex flex-col h-full min-h-[480px] bg-white rounded-[32px] px-5 py-8 transition-all duration-300">
 
                 {/* Top Section: Illustration (Centered & Fixed Height) */}
-                <div className="h-[220px] w-full flex items-center justify-center mb-6 lg:mb-8">
+                <div className="h-[220px] min-[1441px]:h-[260px] w-full flex items-center justify-center mb-6 lg:mb-8">
                   <img
                     src={step.image}
                     alt={step.altText}

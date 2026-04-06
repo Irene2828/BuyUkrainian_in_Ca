@@ -22,14 +22,14 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full pt-24 pb-24 bg-transparent flex flex-col justify-center items-center">
-            <div className="w-full flex flex-col items-center px-6">
+        <section className="relative w-full pt-24 pb-[60px] md:pb-[100px] bg-transparent flex flex-col justify-center items-center">
+            <div className="boutique-width w-full flex flex-col items-center">
                 {/* Stats Header */}
                 <div className="flex flex-col items-center mb-12">
                     <div className="flex items-center gap-2.5">
                         <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
                         <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
-                            Contributions to the map by today
+                            The Map Is Growing
                         </p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-40"
+                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-70"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Store className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -53,7 +53,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-40"
+                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-70"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Map className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -66,7 +66,7 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[52px] md:text-[81px] font-bold tracking-tight text-slate-700 leading-none opacity-40"
+                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-70"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Package className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -76,14 +76,14 @@ export function MapStats() {
                 </div>
 
                 <div className="flex flex-col items-center mt-10">
-                    <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mb-6">
-                        Ready to find or add more stores selling made in Ukraine?
+                    <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] md:max-w-none md:whitespace-nowrap mb-6">
+                        Every store on this map was added by someone like you.
                     </p>
                     <Link href="/map">
                         <Button
-                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#0A2540] transition-all duration-300 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(255,215,0,0.3)] hover:shadow-[0_6px_20px_rgba(255,215,0,0.4)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn border-none"
+                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/cta-btn border-none"
                         >
-                            <span>Open interactive map</span>
+                            <span>Add a Store to the Map</span>
                             <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
                         </Button>
                     </Link>

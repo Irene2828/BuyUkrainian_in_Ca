@@ -5,6 +5,7 @@ import { Store } from '@/lib/data';
 import { Plus, Minus, Maximize2, Navigation, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoreCard } from '@/components/store-card';
+import { getBrandedMapPinSize, getBrandedMapPinSvg } from '@/lib/branded-map-pin';
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
@@ -81,6 +82,16 @@ const getEventPosition = (event: any) => {
   const lng = typeof position.lng === "function" ? position.lng() : position.lng;
 
   return isValidCoord(lat, lng) ? { lat, lng } : null;
+};
+
+const buildMarkerIcon = (svg: string, variant: "default" | "active" | "cluster") => {
+  const { width, height } = getBrandedMapPinSize(variant);
+
+  return {
+    url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg.trim())}`,
+    scaledSize: new (window as any).google.maps.Size(width, height),
+    anchor: new (window as any).google.maps.Point(width / 2, height),
+  };
 };
 
 const focusClusterOnMarkers = (map: any, cluster: any, event?: any) => {
@@ -237,7 +248,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   const mapRef = useMap("main-map");
   const [zoom, setZoom] = useState(variant === 'hero' ? 4.0 : INITIAL_MAP_STATE.zoom);
   const [center, setCenter] = useState({ lat: variant === 'hero' ? 49.5 : CANADA_CENTER[0], lng: variant === 'hero' ? -85.0 : CANADA_CENTER[1] });
-  const [hoveredStoreId, setHoveredStoreId] = useState<string | null>(null);
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -373,7 +383,6 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           map={mapRef} 
           onSelectStore={onSelectStore} 
           selectedStore={selectedStore} 
-          hoveredStoreId={hoveredStoreId} 
           setHoveredLabel={setHoveredLabel}
           variant={variant}
         />
@@ -493,7 +502,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 });
 
 // Custom Marker Clusterer Component
-function MarkersClusterer({ stores, map, onSelectStore, selectedStore, hoveredStoreId, setHoveredLabel, variant }: any) {
+function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHoveredLabel, variant }: any) {
   const clusterer = useRef<any>(null);
   const markers = useRef<any[]>([]);
 
@@ -502,34 +511,18 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, hoveredSt
   // Custom Renderer for a premium, clean look
   const renderer = useMemo(() => ({
     render: ({ count, position }: any) => {
-      const svg = `
-<svg width="44" height="56" viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <filter id="ground-blur"><feGaussianBlur stdDeviation="1.5"/></filter>
-  <ellipse cx="22" cy="52" rx="9" ry="3.5" fill="#1e3a8a" opacity="0.25" filter="url(#ground-blur)"/>
-  
-  <path d="M22 2 C 11 2 4 11 4 21 C 4 33 22 52 22 52 C 22 52 40 33 40 21 C 40 11 33 2 22 2 Z" fill="#0057B7CC" stroke="#0057B7" stroke-width="2.5" />
-  <circle cx="22" cy="21" r="7.1" fill="#ffffff" stroke="#EAB308" stroke-width="2.5" />
-
-  <circle cx="36" cy="10" r="8" fill="#ffffff" stroke="#0057B7" stroke-width="1.5"/>
-  <text x="36" y="10.5" dominant-baseline="central" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#0057B7">${count}</text>
-</svg>`;
-      const iconUrl = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg.trim())}`;
-      const iconWidth = 29;
-      const iconHeight = 38;
+      const svg = getBrandedMapPinSvg({ variant: "cluster", count });
+      const countLabel = "More than 1 store in the area";
       
       const marker = new (window as any).google.maps.Marker({
         position,
-        icon: {
-          url: iconUrl,
-          scaledSize: new (window as any).google.maps.Size(iconWidth, iconHeight),
-          anchor: new (window as any).google.maps.Point(iconWidth / 2, iconHeight)
-        },
+        icon: buildMarkerIcon(svg, "cluster"),
         label: "",
-        title: variant === "hero" ? "More than 1 store in the area" : undefined,
+        title: countLabel,
       });
 
       marker.addListener('mouseover', (e: any) => {
-        setHoveredLabel({ text: "More than 1 store in the area", x: e.domEvent.clientX, y: e.domEvent.clientY });
+        setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
       marker.addListener('mouseout', () => {
@@ -538,7 +531,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, hoveredSt
 
       return marker;
     }
-  }), []);
+  }), [setHoveredLabel, variant]);
 
   useEffect(() => {
     if (!map) return;
@@ -567,37 +560,37 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, hoveredSt
       .filter((store: Store) => canRenderStoreMarker(store))
       .map((store: Store) => {
       const isSelected = selectedStore?.id === store.id;
-      const rawSvg = `
-<svg width="44" height="56" viewBox="0 0 44 56" fill="none" opacity="${isDimmed(store.id) ? 0.4 : 1}" xmlns="http://www.w3.org/2000/svg">
-  <filter id="ground-blur-circle">
-    <feGaussianBlur stdDeviation="1.5"/>
-  </filter>
-  <ellipse cx="22" cy="52" rx="9" ry="3.5" fill="#1e3a8a" opacity="0.3" filter="url(#ground-blur-circle)"/>
-  <path d="M22 2 C 11 2 4 11 4 21 C 4 33 22 52 22 52 C 22 52 40 33 40 21 C 40 11 33 2 22 2 Z" fill="#0057B7CC" stroke="#0057B7" stroke-width="2.5" />
-  <circle cx="22" cy="21" r="7.1" fill="#ffffff" stroke="#EAB308" stroke-width="2.5" />
-</svg>`;
-      const iconUrl = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(rawSvg.trim())}`;
-      const iconScale = isSelected ? 1.1 : 1.0;
-      const iconWidth = 29 * iconScale;
-      const iconHeight = 38 * iconScale;
+      const dimmed = isDimmed(store.id);
+      const defaultVariant: "default" | "active" = isSelected ? "active" : "default";
+      const defaultSvg = getBrandedMapPinSvg({
+        variant: defaultVariant,
+        dimmed: dimmed && !isSelected,
+      });
+      const hoverSvg = getBrandedMapPinSvg({
+        variant: "active",
+        dimmed: false,
+      });
+      const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant);
+      const hoverIcon = buildMarkerIcon(hoverSvg, "active");
 
       const marker = new (window as any).google.maps.Marker({
         position: { lat: store.coordinates[0], lng: store.coordinates[1] },
-        icon: {
-          url: iconUrl,
-          scaledSize: new (window as any).google.maps.Size(iconWidth, iconHeight),
-          anchor: new (window as any).google.maps.Point(iconWidth / 2, iconHeight),
-        },
-        title: variant === "hero" ? store.name : undefined,
+        icon: defaultIcon,
+        title: store.name,
+        zIndex: isSelected ? 1000 : dimmed ? 10 : 100,
       });
 
       marker.addListener('click', () => onSelectStore(store));
       
       marker.addListener('mouseover', (e: any) => {
+        marker.setIcon(hoverIcon);
+        marker.setZIndex(1000);
         setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
       marker.addListener('mouseout', () => {
+        marker.setIcon(defaultIcon);
+        marker.setZIndex(isSelected ? 1000 : dimmed ? 10 : 100);
         setHoveredLabel(null);
       });
 
@@ -610,7 +603,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, hoveredSt
       if (clusterer.current) clusterer.current.clearMarkers();
       markers.current.forEach(m => m.setMap(null));
     };
-  }, [stores, map, selectedStore, hoveredStoreId, onSelectStore, variant]);
+  }, [stores, map, selectedStore, onSelectStore, setHoveredLabel, variant]);
 
   return null;
 }

@@ -433,6 +433,15 @@ html.dark header.bg-white\/90 {
     display: none;
   }
 
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* ========================================
      PHANTOM STROKE PREVENTION
      ======================================== */
@@ -1089,6 +1098,7 @@ select:focus-visible {
    1280px+  →  1380px / 1540px  (Wider laptops)
    1441px+  →  1520px / 1680px  (MacBook "More Space" / 16" Default)
    1680px+  →  1640px / 1800px  (External 1080p / Large "More Space")
+   1920px+  →  1760px / 1920px  (iMac / 4K safety net)
    ======================================== */
 
 .boutique-width {
@@ -1159,6 +1169,13 @@ select:focus-visible {
     --text-base: 1.125rem;
     /* 16px → 18px */
     --text-base--line-height: calc(1.75 / 1.125);
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --boutique-max-width: 1760px;
+    --utility-max-width: 1920px;
   }
 }
 
@@ -1276,6 +1293,23 @@ select:focus-visible {
     font-size: 19.5px;
   }
 
+}
+
+/* Hero city strip labels: add a dedicated +1px bump from 1670px+ */
+@media (min-width: 1670px) {
+  .hero-city-strip-label {
+    font-size: 15px;
+  }
+
+  .hero-city-strip-meta {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .hero-trust-pill-detail {
+    font-size: 15px;
+  }
 }
 
 /* ========================================

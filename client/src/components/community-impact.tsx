@@ -45,12 +45,12 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
-        <section className="relative w-full overflow-hidden bg-white pt-12 pb-6 md:pt-20 md:pb-10 border-t border-slate-200/50 mt-12">
+        <section className="relative w-full overflow-hidden bg-white py-[60px] md:py-[100px] border-t border-slate-200">
             {/* Ambient Sky Glow - Restored to match Hero atmosphere */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#BAE6FD] blur-[150px] opacity-10 pointer-events-none rounded-b-full z-0"></div>
 
             <div className="boutique-width w-full mx-auto relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-start">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,624px)] md:justify-between md:gap-16 lg:gap-24 items-start">
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
@@ -63,7 +63,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">
-                            Support Ukraine with every purchase.<br />No matter where you are.
+                            Support Ukraine by sharing the map with others. The more Ukrainian products we buy in Canada - the more this support is felt in Ukraine.
                         </p>
                     </div>
 
@@ -71,7 +71,13 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     <div className="flex flex-col items-center md:items-end w-full gap-10">
                         {/* Copy Card (Glass Style - Swapped to Top) */}
                         <div className="relative w-full max-w-[624px] px-8 py-4 rounded-[32px] bg-white/95 backdrop-blur-md border-[0.5px] border-black/5 border-l-[4px] border-l-[#FFD700] shadow-[0_5px_12px_rgba(0,0,0,0.04),0_2px_5px_rgba(0,0,0,0.025)] text-left group/draft transition-all duration-500 stagger-item">
-                            <div className="flex items-center justify-end mb-5">
+                            <p className="text-[11px] text-slate-400 uppercase tracking-widest mb-4 font-medium">
+                                One way to share it — or use your own words
+                            </p>
+                            <p className="text-[13px] md:text-[14px] min-[1441px]:text-[16px] text-[#0A2540] font-ui italic leading-relaxed font-normal">
+                                "{shareMessage} {shareUrl}"
+                            </p>
+                            <div className="flex items-center justify-end mt-5">
                                 <button
                                     onClick={handleCopy}
                                     className={cn(
@@ -93,16 +99,13 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     )} strokeWidth={2.5} />
                                 </button>
                             </div>
-                            <p className="text-[13px] md:text-[14px] min-[1441px]:text-[16px] text-[#0A2540] font-ui italic leading-relaxed font-normal">
-                                "{shareMessage} {shareUrl}"
-                            </p>
                         </div>
 
                         {/* Social Links - Swapped to Bottom */}
-                        <div className="flex flex-col items-center md:items-end gap-5 w-full md:pr-4 stagger-item">
+                        <div className="flex flex-col items-center md:items-end gap-5 w-full stagger-item">
                             <button
                                 onClick={handleFacebookShare}
-                                className="group relative flex items-center gap-3 text-[#0A2540] hover:text-[#0057B7] transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-[#0A2540]/80 hover:text-[#0057B7] transition-all duration-300 pb-1"
                                 aria-label="Share on Facebook"
                             >
                                 <Facebook className="w-4 h-4" strokeWidth={1.5} />
@@ -114,7 +117,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                             <button
                                 onClick={handleInstagramShare}
-                                className="group relative flex items-center gap-3 text-[#0A2540] hover:text-[#0057B7] transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-[#0A2540]/80 hover:text-[#0057B7] transition-all duration-300 pb-1"
                                 aria-label="Share on Instagram"
                             >
                                 <Instagram className="w-4 h-4" strokeWidth={1.5} />
@@ -126,7 +129,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
                             <button
                                 onClick={handleXShare}
-                                className="group relative flex items-center gap-3 text-[#0A2540] hover:text-[#0057B7] transition-all duration-300 pb-1"
+                                className="group relative flex items-center gap-3 text-[#0A2540]/80 hover:text-[#0057B7] transition-all duration-300 pb-1"
                                 aria-label="Share on X (Twitter)"
                             >
                                 <svg
