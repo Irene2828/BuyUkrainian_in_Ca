@@ -73,6 +73,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
     const [showHint, setShowHint] = useState(false);
     const [showLocateHint, setShowLocateHint] = useState(false);
+    const [tipMinimized, setTipMinimized] = useState(false);
 
     const sidebarRef = useRef<HTMLElement>(null);
     const mapSectionRef = useRef<InteractiveMapRef>(null);
@@ -227,10 +228,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     ];
 
     return (
-        <div className={cn(
-            "w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out font-sans",
-            viewMode === "map" ? "h-auto" : "min-h-[400px]"
-        )}>
+        <div className="w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out font-sans">
 
 
 
@@ -241,16 +239,18 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
             <div 
                 className={cn(
-                    "w-full relative overflow-hidden bg-white",
-                    isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]"
+                    "w-full relative bg-white",
+                    viewMode === "map"
+                        ? cn("overflow-hidden", isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]")
+                        : "h-auto overflow-visible"
                 )}
                 onWheel={(e) => e.stopPropagation()}
             >
-                <div className="w-full h-full relative">
+                <div className={cn("w-full relative", viewMode === "map" ? "h-full" : "h-auto")}>
 
                     {/* Floating Overlay Islands - Aligned with Header via boutique-width */}
                     <div className="absolute inset-0 z-[600] pointer-events-none">
-                        <div className="boutique-width mx-auto h-full relative">
+                        <div className={cn("boutique-width mx-auto relative", viewMode === "map" ? "h-full" : "h-auto")}>
 
                             {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 
@@ -418,15 +418,43 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>{/* end outer control strip */}
 
                                         {/* 3. Helper Micro-Pill - Persistent context below toolbar */}
-                                        <div className="flex items-center gap-3 px-4 py-2 border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/70 backdrop-blur-md shadow-sm mx-auto w-max mt-3 md:ml-6 transition-all animate-in fade-in slide-in-from-top-2 duration-500 pointer-events-auto">
-                                            {/* Helper Text styled as Hero Pillar */}
-                                            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-semibold text-[#0057B7]">
-                                                Pins show local stores
-                                            </span>
-                                            <span className="text-[10px] sm:text-[11px] text-slate-500 font-light hidden xs:inline">
-                                                — selling Ukrainian-made products
-                                            </span>
-                                        </div>
+                                        {viewMode === "map" && (
+                                            <div
+                                                className={cn(
+                                                    "border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/70 backdrop-blur-md shadow-sm mx-auto mt-3 md:ml-6 transition-all animate-in fade-in slide-in-from-top-2 duration-500 pointer-events-auto",
+                                                    tipMinimized
+                                                        ? "flex items-center justify-end px-1.5 py-1.5 w-[34px]"
+                                                        : "flex items-start gap-3 px-4 py-2 w-max"
+                                                )}
+                                            >
+                                                {!tipMinimized && (
+                                                    <div className="flex flex-col items-start gap-0.5">
+                                                        <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
+                                                            Pins show local stores
+                                                        </span>
+                                                        <span className="hero-trust-pill-detail text-[12px] text-[#0057B7]/60 font-medium leading-tight whitespace-nowrap">
+                                                            selling products made in Ukraine
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setTipMinimized(!tipMinimized)}
+                                                    className={cn(
+                                                        "flex items-center justify-center w-5 h-5 rounded text-[#0057B7]/50 hover:text-[#0057B7] transition-colors",
+                                                        tipMinimized && "ml-0",
+                                                        !tipMinimized && "ml-auto"
+                                                    )}
+                                                    aria-label={tipMinimized ? "Expand tip" : "Minimize tip"}
+                                                >
+                                                    {tipMinimized ? (
+                                                        <span className="text-[14px] leading-none">+</span>
+                                                    ) : (
+                                                        <span className="text-[16px] leading-none font-light">−</span>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -453,11 +481,14 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     </div>
 
                     {/* Main Content Stage (Map or List) */}
-                    <div className="w-full h-full relative z-0">
+                    <div className={cn("w-full relative z-0", viewMode === "map" ? "h-full" : "h-auto")}>
                         <MapSection
                             ref={mapSectionRef}
                             mode="full"
-                            className="w-full h-full absolute top-0 left-0"
+                            className={cn(
+                                "w-full",
+                                viewMode === "map" ? "h-full absolute top-0 left-0" : "relative"
+                            )}
                             searchQuery={searchQuery}
                             category={category}
                             viewMode={viewMode}

@@ -9,18 +9,21 @@ export function HowItWorks() {
       title: <>Looking for authentic products<br />Made in Ukraine?</>,
       altText: "Looking for authentic products Made in Ukraine?",
       image: "/assets/how-it-works-1.png",
+      imageClassName: "scale-[1.12]",
       text: (<><strong>Explore</strong> our <strong>verified directory</strong> to find exactly what you need with instant directions.</>)
     },
     {
       title: <>Found a new Ukrainian product<br />in a local store?</>,
       altText: "Found a new Ukrainian product in a local store?",
       image: "/icon2.png",
+      imageClassName: "scale-[1.16]",
       text: (<><strong>Add it to the map.</strong> Two minutes of your time helps Ukrainian companies reach more Canadians.</>)
     },
     {
       title: <>Want to help the Ukrainian<br />economy grow?</>,
       altText: "Want to help the Ukrainian economy grow?",
       image: "/assets/how-it-works-3.png",
+      imageClassName: "scale-[1.12]",
       text: (<><strong>Share the map</strong> with your network via social media, word of mouth, email, or any other way possible.</>)
     }
   ];
@@ -82,11 +85,11 @@ export function HowItWorks() {
               <div className="group flex flex-col h-full min-h-[480px] bg-white rounded-[32px] px-5 py-8 transition-all duration-300">
 
                 {/* Top Section: Illustration (Centered & Fixed Height) */}
-                <div className="h-[220px] min-[1441px]:h-[260px] w-full flex items-center justify-center mb-6 lg:mb-8">
+                <div className="h-[220px] min-[1441px]:h-[260px] w-full flex items-center justify-center overflow-hidden mb-6 lg:mb-8">
                   <img
                     src={step.image}
                     alt={step.altText}
-                    className="max-h-full w-auto object-contain transition-transform duration-700"
+                    className={`h-full w-full object-contain transition-transform duration-700 ${step.imageClassName}`}
                   />
                 </div>
 

@@ -16,18 +16,31 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createStore as apiCreateStore } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle, MapPin, Loader2, X, Upload, Image } from "lucide-react";
+import { CheckCircle, MapPin, Loader2, X, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const optionalTextField = z.preprocess(
+  (value) => typeof value === "string" ? value.trim() : value,
+  z.string().optional().default("")
+);
+
+const optionalUrlField = z.preprocess(
+  (value) => typeof value === "string" ? value.trim() : value,
+  z.union([
+    z.literal(""),
+    z.string().url("Please enter a valid URL (https://...)"),
+  ]).default("")
+);
+
 const formSchema = z.object({
-  city: z.string().optional().default(""),
-  province: z.string().optional().default(""),
-  address: z.string().min(5, "Address is required"),
-  name: z.string().min(2, "Store name is required"),
+  city: optionalTextField,
+  province: optionalTextField,
+  address: z.string().trim().min(5, "Address is required"),
+  name: z.string().trim().min(2, "Store name is required"),
   category: z.enum(["food", "clothes", "retail", "other"]),
-  website: z.string().url("Please enter a valid URL (https://...)").optional().or(z.literal("")),
-  products: z.string().min(2, "List at least one product"),
-  description: z.string().optional().or(z.literal("")),
+  website: optionalUrlField,
+  products: optionalTextField,
+  description: optionalTextField,
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   image: z.string().optional(),
@@ -40,6 +53,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const imagePreviewRef = useRef<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +94,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       let city = "";
       let prov = "";
 
-      place.address_components?.forEach((comp) => {
+      place.address_components?.forEach((comp: any) => {
         if (comp.types.includes("street_number")) houseNum = comp.short_name;
         if (comp.types.includes("route")) street = comp.short_name;
         if (comp.types.includes("locality")) city = comp.long_name;
@@ -99,11 +113,56 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     });
   }, [places, form]);
 
+  useEffect(() => {
+    return () => {
+      if (imagePreviewRef.current) {
+        URL.revokeObjectURL(imagePreviewRef.current);
+      }
+    };
+  }, []);
+
+  const updateImagePreview = (url: string | null) => {
+    if (imagePreviewRef.current) {
+      URL.revokeObjectURL(imagePreviewRef.current);
+    }
+    imagePreviewRef.current = url;
+    setImagePreview(url);
+  };
+
+  async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
+    try {
+      const response = await fetch(
+        `https://photon.komoot.io/api/?q=${encodeURIComponent(address + ", Canada")}&limit=1`,
+        { headers: { Accept: "application/json" } }
+      );
+      if (!response.ok) {
+        throw new Error(`Geocoding HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.features && data.features.length > 0) {
+        const feature = data.features[0];
+        const properties = feature.properties;
+        return {
+          lat: feature.geometry.coordinates[1],
+          lng: feature.geometry.coordinates[0],
+          city: properties.city || properties.town || properties.village || properties.district || "",
+          province: properties.state || "",
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Geocoding error:", error);
+      return null;
+    }
+  }
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      setImagePreview(url);
+      updateImagePreview(url);
 
       // Compress image before converting to base64
       const img = new window.Image();
@@ -231,10 +290,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>
-          <h2 className="text-[20px] font-bold text-gray-900 font-header mb-2">
+          <h2 className="text-[20px] font-bold text-[#0057B7] font-header mb-2">
             Add a store
           </h2>
-          <p className="text-[13px] text-slate-500 font-medium font-ui ms-0.5">
+          <p className="text-[13px] text-slate-400 font-medium font-ui ms-0.5">
             Help the map grow by adding stores selling Ukrainian-made products
           </p>
         </div>
@@ -247,7 +306,25 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
       <div className="px-8 py-6 overflow-y-auto max-h-[70vh] custom-scrollbar">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            onKeyDown={(e) => {
+              const target = e.target as HTMLElement | null;
+              const tagName = target?.tagName;
+
+              // Let Google Places handle Enter on the address field.
+              // For the rest of the form, avoid accidental implicit submit.
+              if (
+                e.key === "Enter" &&
+                target !== addressInputRef.current &&
+                tagName !== "TEXTAREA" &&
+                tagName !== "BUTTON"
+              ) {
+                e.preventDefault();
+              }
+            }}
+            className="space-y-6"
+          >
 
             {/* 1. Location (Identity First) */}
             <FormField
@@ -269,14 +346,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                           field.ref(el);
                           (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
                         }}
-                        autoComplete="street-address"
-                        className="h-14 pl-11 rounded-[16px] bg-white ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
-                        onKeyDown={(e) => {
-                          // Prevent enter key from implicitly submitting the form if autocomplete is interacting
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                          }
-                        }}
+                        autoComplete="off"
+                        className="h-14 pl-11 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
                       />
                     </div>
                   </FormControl>
@@ -312,7 +383,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       placeholder="e.g. European Deli & Bakery"
                       {...field}
                       autoComplete="off"
-                      className="h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -331,7 +402,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Input
                       placeholder="https://example.com"
                       {...field}
-                      className="h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -348,7 +419,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <select {...field} className="w-full h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent text-[16px] font-normal outline-none focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui appearance-none cursor-pointer text-slate-800">
+                      <select {...field} className="w-full h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] text-[16px] font-normal outline-none focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui appearance-none cursor-pointer text-slate-800">
                         <option value="food">Food & Grocery</option>
                         <option value="clothes">Clothing & Apparel</option>
                         <option value="retail">Retail & Gifts</option>
@@ -375,7 +446,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
                   <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
                   <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
+                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -393,7 +464,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <Textarea
                       placeholder="Share what makes this place unique..."
                       {...field}
-                      className="min-h-[100px] rounded-[16px] bg-slate-50 ring-1 ring-inset ring-slate-900/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] border-transparent resize-none font-ui focus:bg-white focus:ring-slate-900/20 focus:ring-1 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      className="min-h-[100px] rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] resize-none font-ui focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -407,8 +478,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <div
                 onClick={() => imageInputRef.current?.click()}
                 className={cn(
-                  "rounded-[16px] p-8 text-center cursor-pointer transition-all duration-300 group ring-1 ring-inset shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
-                  imagePreview ? "ring-green-300 bg-green-50" : "ring-slate-900/5 bg-slate-50 hover:ring-slate-900/15"
+                  "rounded-[16px] p-8 text-center cursor-pointer transition-all duration-300 group border-2 border-dashed shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
+                  imagePreview ? "border-green-300 bg-green-50" : "border-slate-200 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
                 )}
               >
                 {imagePreview ? (
@@ -416,7 +487,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); setImagePreview(null); form.setValue("image", ""); }}
+                      onClick={(e) => { e.stopPropagation(); updateImagePreview(null); form.setValue("image", ""); }}
                       className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
                     >
                       <X className="w-3 h-3 fill-none stroke-current" strokeWidth={2} />
@@ -424,8 +495,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-2">
-                    <Image className="w-8 h-8 text-gray-300 group-hover:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
-                    <p className="text-[13px] text-slate-500 font-ui group-hover:text-black transition-colors">Click to upload a photo</p>
+                    <Image className="w-8 h-8 text-gray-300 group-hover:text-[#0057B7] transition-colors fill-none stroke-current" strokeWidth={2} />
+                    <p className="text-[13px] text-slate-500 font-ui group-hover:text-[#0057B7] transition-colors">Click to upload a photo</p>
                   </div>
                 )}
               </div>
@@ -443,24 +514,23 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 2xl:px-8 text-[16px] font-medium tracking-normal rounded-full bg-[#0057B7] text-white transition-all duration-200 shadow-sm hover:opacity-90 active:opacity-100 focus-visible:ring-2 focus-visible:ring-slate-200 gap-2 group/submit-btn"
+                className="w-full inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/submit-btn border-none"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
                 ) : (
-                  <><span>Submit Store</span> <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover/submit-btn:translate-x-1 group-hover/submit-btn:text-[#FFF4CC] fill-none stroke-current" strokeWidth={2} /></>
+                  <><span>Submit Store</span> <MapPin className="w-4 h-4 transition-transform duration-300 group-hover/submit-btn:translate-y-[-1px] group-hover/submit-btn:text-[#FFF4CC] fill-none stroke-current" strokeWidth={2} /></>
                 )}
               </Button>
 
               <div className="flex flex-col gap-3 px-2">
                 <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
-                  All submissions will be approved by admin volunteers to prevent spam or inaccurate listings.{" "}
-                  <a href="#faq" onClick={onClose} className="text-slate-900 font-medium underline decoration-slate-300 underline-offset-4 hover:decoration-[#B6FF40] transition-all">
-                    Why it matters
-                  </a>
+                  All submissions will be approved by admin volunteers to prevent spam
+                  <span className="block">or inaccurate listings.</span>
                 </p>
 
-                <p className="text-[12px] text-slate-500 text-center font-ui">
+                <p className="text-[12px] text-slate-400 text-center font-ui flex items-center justify-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD700] inline-block" />
                   No personal data is collected.
                 </p>
               </div>

@@ -256,6 +256,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         retry: false,
     });
 
+    const refreshPublicStores = () =>
+        queryClient.invalidateQueries({ queryKey: ["stores"], refetchType: "all" });
+
     // Mutations
     const updateStatusMutation = useMutation({
         mutationFn: ({ id, status }: { id: string; status: "approved" | "rejected" | "pending" }) =>
@@ -263,7 +266,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         onSuccess: () => {
             // EGRESS OPTIMIZATION: invalidate instead of refetch — only fetches when data is accessed
             queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-            queryClient.invalidateQueries({ queryKey: ["stores"] });
+            void refreshPublicStores();
         },
     });
 
@@ -287,7 +290,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         onSuccess: (data) => {
             // EGRESS OPTIMIZATION: invalidate instead of refetch
             queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-            queryClient.invalidateQueries({ queryKey: ["stores"] });
+            void refreshPublicStores();
             if (selectedStore && selectedStore.id === data.id) {
                 setSelectedStore(data);
             }
@@ -304,7 +307,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         onSuccess: () => {
             // EGRESS OPTIMIZATION: invalidate instead of refetch
             queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-            queryClient.invalidateQueries({ queryKey: ["stores"] });
+            void refreshPublicStores();
             toast({ title: "Images Updated", description: "Store images have been updated." });
         },
         onError: (error: Error) => {
@@ -317,7 +320,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         onSuccess: () => {
             // EGRESS OPTIMIZATION: invalidate instead of refetch
             queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-            queryClient.invalidateQueries({ queryKey: ["stores"] });
+            void refreshPublicStores();
             toast({ title: "Store Deleted", description: "The store has been removed." });
             setIsEditModalOpen(false);
             setSelectedStore(null);
@@ -619,7 +622,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 // Remove from drafts
                 setDrafts(prev => prev.filter(d => d.id !== id));
                 queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
-                queryClient.invalidateQueries({ queryKey: ["stores"] });
+                void refreshPublicStores();
                 toast({ title: "Draft Published", description: "Store created successfully." });
             } catch (e: any) {
                 console.error("Draft creation failed:", e);
@@ -639,7 +642,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         try {
             console.log("Updating status for existing store...");
             await updateStatusMutation.mutateAsync({ id, status: "approved" });
-            queryClient.invalidateQueries({ queryKey: ["stores"] });
+            void refreshPublicStores();
             toast({ title: "Store Approved ✓", description: "The store is now live on the map!" });
         } catch (e) {
             console.error("Status update failed:", e);

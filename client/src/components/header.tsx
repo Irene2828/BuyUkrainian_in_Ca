@@ -94,7 +94,7 @@ export function Header() {
             <Link href="/" className="group relative text-[15px] min-[1670px]:text-[16px] font-medium text-slate-900/60 hover:text-[#0057B7] transition-all duration-300 flex items-center gap-2">
               <ArrowLeft className="w-4 h-4 text-current transition-colors duration-300" />
               Back to Homepage
-              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+              <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
             </Link>
           ) : (
             <nav className="items-center gap-8 flex font-sans antialiased">
@@ -109,12 +109,12 @@ export function Header() {
                 className="group relative text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 text-slate-900/60 hover:text-[#0057B7]"
               >
                 {t('nav.howItWorks') || 'How it Works'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Link href="/map" className={cn("group relative text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 flex items-center gap-2", location === '/map' ? "text-slate-900" : "text-slate-900/60 hover:text-[#0057B7]")}>
                 <MapPin className="w-4 h-4 text-current transition-colors duration-300" />
                 {t('nav.map') || 'Map'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogTrigger asChild>
@@ -125,10 +125,10 @@ export function Header() {
                   >
                     <Plus className="w-4 h-4 text-current transition-colors duration-300" />
                     {t('nav.addStore') || 'Add Store'}
-                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </span>
                 </DialogTrigger>
-                <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none">
+                <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
                   <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
                 </DialogContent>
               </Dialog>

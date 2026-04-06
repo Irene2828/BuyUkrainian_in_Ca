@@ -149,7 +149,7 @@ export function Hero() {
                                 className="text-[16px] text-slate-500 leading-relaxed max-w-lg font-normal pointer-events-auto"
                                 style={{ marginTop: 'clamp(16px, calc(0.9vw + 8px), 22px)' }}
                             >
-                                One map to find authentic Ukrainian-made products near you.
+                                One map to find authentic Ukrainian-made products near you
                             </p>
 
                             {/* CTA Row - Left Aligned To Header Branding Text */}
@@ -176,7 +176,7 @@ export function Hero() {
                                 >
                                     <span>How it works</span>
                                     <HelpCircle className="w-4 h-4 text-current transition-colors duration-300" />
-                                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </Link>
                             </div>
 

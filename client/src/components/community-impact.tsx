@@ -63,7 +63,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">
-                            Support Ukraine by sharing the map with others. The more Ukrainian products we buy in Canada - the more this support is felt in Ukraine.
+                            The more Ukrainian products we buy in Canada<br />
+                            - the more this support is felt in Ukraine.
                         </p>
                     </div>
 
@@ -112,7 +113,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on Facebook
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
 
                             <button
@@ -124,7 +125,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on Instagram
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
 
                             <button
@@ -142,7 +143,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on X
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C69500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
                         </div>
                     </div>

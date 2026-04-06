@@ -1377,3 +1377,9 @@ select:focus-visible {
   transform: scale(1.1) !important;
   box-shadow: 0 8px 24px rgba(10, 37, 64, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
+
+/* Google Places Autocomplete inside Radix dialogs */
+.pac-container {
+  z-index: 2200 !important;
+  pointer-events: auto !important;
+}

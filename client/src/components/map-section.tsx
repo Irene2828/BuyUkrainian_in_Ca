@@ -196,14 +196,32 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     return map[p] || p;
   };
 
-  const filteredStores = useMemo(() => {
-    return stores.filter((store) => {
-      const matchesSearch = !searchQuery ||
-        store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        store.products.some(p => p.toLowerCase().includes(searchQuery.toLowerCase()));
+  const normalizeSearchText = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
 
-      const matchesCategory = !category || store.category === category;
+  const filteredStores = useMemo(() => {
+    const normalizedQuery = normalizeSearchText(searchQuery);
+
+    return stores.filter((store) => {
       const storeProvinceFull = getFullProvince(store.province);
+      const storeProvinceShort = getShortProvince(storeProvinceFull);
+      const searchableText = [
+        store.name,
+        store.city,
+        store.address,
+        storeProvinceFull,
+        storeProvinceShort,
+        ...store.products,
+      ]
+        .map(normalizeSearchText)
+        .join(" ");
+
+      const matchesSearch = !normalizedQuery || searchableText.includes(normalizedQuery);
+      const matchesCategory = !category || store.category === category;
       const matchesProvince = !selectedProvince || storeProvinceFull === selectedProvince;
       const matchesCity = !selectedCity || store.city === selectedCity;
 
@@ -258,12 +276,14 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (isLoading && viewMode === "list") {
     return (
-      <div className={`relative ${mode === "full" ? "h-full" : "h-[500px]"} w-full ${className} bg-[#fcfcfc]`}>
+      <div className={`relative w-full ${className} bg-[#fcfcfc]`}>
         <div className="w-full h-10 md:h-12 shrink-0" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-24 max-w-[1280px] mx-auto pr-[clamp(1.5rem,5vw,4rem)] pl-[calc(clamp(1.5rem,5vw,4rem)+21px)]">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <StoreListItemSkeleton key={i} />
-          ))}
+        <div className="boutique-width w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] md:pl-[40px] 2xl:pl-[48px]">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <StoreListItemSkeleton key={i} />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -279,36 +299,38 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col h-full bg-[#fcfcfc] relative overflow-y-auto custom-scrollbar animate-in fade-in duration-500">
+      <div className="flex flex-col bg-[#fcfcfc] relative animate-in fade-in duration-500">
         {/* Top Spacer: Maintains visual baseline with map controls */}
         <div className="w-full h-10 md:h-12 shrink-0" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-24 max-w-[1280px] mx-auto pr-[clamp(1.5rem,5vw,4rem)] pl-[calc(clamp(1.5rem,5vw,4rem)+21px)]">
-          {filteredStores.slice(0, visibleCount).map((store, index) => {
-            const isActive = selectedStore?.id === store.id;
+        <div className="boutique-width w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] md:pl-[40px] 2xl:pl-[48px]">
+            {filteredStores.slice(0, visibleCount).map((store, index) => {
+              const isActive = selectedStore?.id === store.id;
 
-            return (
-              <div
-                key={store.id}
-                className={cn(
-                  "border-l-[3px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
-                  isActive && "bg-blue-50/50 border-l-[#0057B7]"
-                )}
-                style={{ animationDelay: `${(index % 12) * 30}ms` }}
-                onClick={() => handleSelectStore(store)}
-              >
-                <div className="flex items-center gap-1.5 group/title">
-                  <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
-                    {store.name}
-                  </h3>
-                  <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
+              return (
+                <div
+                  key={store.id}
+                  className={cn(
+                    "border-l-[3px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
+                    isActive && "bg-blue-50/50 border-l-[#0057B7]"
+                  )}
+                  style={{ animationDelay: `${(index % 12) * 30}ms` }}
+                  onClick={() => handleSelectStore(store)}
+                >
+                  <div className="flex items-center gap-1.5 group/title">
+                    <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
+                      {store.name}
+                    </h3>
+                    <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
+                  </div>
+                  <p className="text-slate-400 text-[13px] mt-1">
+                    {store.city}, {store.province}
+                  </p>
                 </div>
-                <p className="text-slate-400 text-[13px] mt-1">
-                  {store.city}, {store.province}
-                </p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Empty State Presentation */}

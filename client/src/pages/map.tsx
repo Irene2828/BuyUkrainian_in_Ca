@@ -77,7 +77,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-24 pb-[60px] md:pb-[100px] border-t border-slate-200/50">
+    <section className="bg-white pt-[40px] md:pt-[60px] pb-[60px] md:pb-[100px] border-t border-slate-200/50">
       <div className="boutique-width">
         <div className="flex justify-between items-center w-full mb-6 group/header-link">
           <div className="flex items-center gap-2.5">
@@ -107,13 +107,13 @@ function NewlyAddedStores() {
             >
               {/* Frosted Glass Overlay with CTA */}
               <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out rounded-lg pointer-events-none">
-                <button className="flex items-center gap-2 bg-white/90 text-slate-900 ring-1 ring-slate-300 ring-inset text-sm font-medium px-6 py-2 rounded-full shadow-sm hover:bg-white hover:ring-slate-400 hover:text-black translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-auto">
-                  <MapPin className="w-3.5 h-3.5" />
+                <button className="flex items-center gap-1.5 bg-white/90 text-slate-900 ring-1 ring-slate-300 ring-inset text-[13px] font-medium px-5 py-2 rounded-full shadow-sm hover:bg-white hover:ring-slate-400 hover:text-black translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-auto">
+                  <MapPin className="w-3 h-3" />
                   See on Map
                 </button>
               </div>
 
-              <div className="w-1 bg-[#FFD700] group-hover:bg-[#0057B7] transition-colors rounded-full mr-4 shrink-0"></div>
+              <div className="w-1 bg-[#FFD700] rounded-full mr-4 shrink-0"></div>
               <div className="flex flex-col justify-center">
                 <h3 className="text-[#0057B7] font-semibold text-[15px] leading-tight mb-1 transition-colors line-clamp-2">
                   {store.name}
@@ -128,13 +128,13 @@ function NewlyAddedStores() {
       </div>
 
       {/* Community Call to Action */}
-      <div className="flex flex-col items-center justify-center mt-12 text-center px-4">
-        <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mb-6">
+      <div className="flex flex-col items-center justify-center py-[40px] md:py-[60px] text-center px-4">
+        <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
           Know a store we missed? Add it to the map.
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/cta-btn border-none"
+          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/cta-btn border-none mx-auto"
         >
           <span>Add a New Store</span>
           <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
@@ -180,41 +180,6 @@ export default function MapPage() {
         >
           <MapExplorer isZenMode={isZenMode} onZenModeToggle={() => setIsZenMode(!isZenMode)} />
         </motion.div>
-
-        {/* Trust & Origin Metadata - Integrated below map section */}
-        {!isZenMode && (
-          <div className="w-full bg-gradient-to-b from-white via-white to-white py-6 md:py-8 select-none pointer-events-none overflow-hidden">
-            <div className="boutique-width mx-auto px-6">
-              {/* Desktop Metadata */}
-              <div className="hidden md:flex justify-center items-center gap-5">
-                <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500">
-                  Community-driven map
-                </span>
-                <span className="text-slate-400 text-[10px] font-light">/</span>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
-                  <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500 italic">
-                    Verified stores
-                  </span>
-                </div>
-                <span className="text-slate-400 text-[10px] font-light">/</span>
-                <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-slate-500">
-                  Made in Ukraine only
-                </span>
-              </div>
-
-              {/* Mobile Metadata */}
-              <div className="md:hidden flex justify-center">
-                <div className="flex items-center gap-2.5 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border-0 shadow-sm">
-                  <div className="w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.4)]" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600">
-                    Verified Ukrainian Products
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {!isZenMode && (
           <>
