@@ -6,7 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Lock, AlertCircle, User } from "lucide-react";
 import { login } from "@/lib/auth";
-import { useI18n } from "@/lib/i18n";
+import { SiteBrandLockup } from "@/components/site-brand-lockup";
+
+const adminInputClassName =
+  "h-[48px] rounded-[12px] border border-slate-200 bg-white px-4 text-[#1E293B] shadow-none transition-colors hover:shadow-none focus-visible:border-[#0057B7]/40 focus-visible:ring-0 focus-visible:ring-offset-0";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -14,7 +17,6 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [_, setLocation] = useLocation();
-  const { t } = useI18n();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,33 +38,23 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="space-y-1 text-center pb-8">
-          <div className="flex justify-center mb-6">
-            <div className="flex items-center">
-              <img
-                src="/header-logo.png"
-                alt="BuyUkrainian.ca"
-                className="h-[61px] w-auto object-contain ml-[-12px]"
-              />
-              <div className="flex flex-col justify-center ml-[-22px] h-10 font-instrument">
-                <span className="text-[16.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none">
-                  Ukrainian Products
-                </span>
-                <span className="text-[16.5px] font-medium tracking-[-0.02em] text-[#2D50A0]/70 leading-none mt-[2px]">
-                  in Canada
-                </span>
-              </div>
-            </div>
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
+      <Card className="w-full max-w-[420px] rounded-[24px] border-white bg-white p-0 shadow-[0_4px_24px_rgba(0,0,0,0.06)] ring-1 ring-slate-200/50">
+        <CardHeader className="space-y-0 px-10 pb-8 pt-10 text-center">
+          <div className="mb-8 flex flex-col items-center gap-2">
+            <SiteBrandLockup className="scale-[1.1] origin-center -ml-1" />
           </div>
-          <CardTitle className="text-2xl font-semibold tracking-tight">Admin Login</CardTitle>
-          <CardDescription>Enter your credentials to access the dashboard</CardDescription>
+          <CardTitle className="mt-6 mb-1 text-center text-[22px] font-semibold tracking-tight text-[#0057B7]">
+            Admin access
+          </CardTitle>
+          <CardDescription className="mb-8 text-center text-[14px] text-slate-400">
+            Volunteer dashboard
+          </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-10 pb-10 pt-0">
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-xs font-bold text-slate-400 uppercase tracking-wider font-ui">
+              <Label htmlFor="username" className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
                 Username
               </Label>
               <div className="relative">
@@ -74,13 +66,13 @@ export default function AdminLogin() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   disabled={isLoading}
-                  className="pl-11 h-12 rounded-xl border-slate-200 focus:border-brand-navy/20 focus:ring-brand-navy/5"
+                  className={`${adminInputClassName} pl-11`}
                   data-testid="input-admin-username"
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs font-bold text-slate-400 uppercase tracking-wider font-ui">
+              <Label htmlFor="password" className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
                 Password
               </Label>
               <div className="relative">
@@ -91,7 +83,7 @@ export default function AdminLogin() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`pl-11 h-12 rounded-xl border-slate-200 focus:border-brand-navy/20 focus:ring-brand-navy/5 ${error ? "border-red-500" : ""}`}
+                  className={`${adminInputClassName} pl-11 ${error ? "border-red-400 focus-visible:border-red-400" : ""}`}
                   disabled={isLoading}
                   data-testid="input-admin-password"
                 />
@@ -105,11 +97,11 @@ export default function AdminLogin() {
             </div>
             <Button
               type="submit"
-              className="w-full h-[54px] rounded-full bg-[linear-gradient(to_bottom,#3A3F4F,#2F3341)] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[linear-gradient(to_bottom,#3A3F4F,#3A3F4F)] hover:scale-[1.02] active:scale-[0.98] mt-4"
+              className="mt-4 h-[46px] w-full rounded-full bg-[#0057B7] px-6 text-[16px] font-medium tracking-tight text-white shadow-none transition-colors hover:bg-[#0047A0] hover:shadow-none"
               disabled={isLoading || !password}
               data-testid="button-admin-login"
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
         </CardContent>

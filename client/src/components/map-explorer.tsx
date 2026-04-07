@@ -424,15 +424,15 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     "border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/70 backdrop-blur-md shadow-sm mx-auto mt-3 md:ml-6 transition-all animate-in fade-in slide-in-from-top-2 duration-500 pointer-events-auto",
                                                     tipMinimized
                                                         ? "flex items-center justify-end px-1.5 py-1.5 w-[34px]"
-                                                        : "flex items-start gap-3 px-4 py-2 w-max"
+                                                        : "flex items-center gap-3 px-4 py-2 w-max"
                                                 )}
                                             >
                                                 {!tipMinimized && (
-                                                    <div className="flex flex-col items-start gap-0.5">
+                                                    <div className="flex items-center gap-2 whitespace-nowrap text-left">
                                                         <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
                                                             Pins show local stores
                                                         </span>
-                                                        <span className="hero-trust-pill-detail text-[12px] text-[#0057B7]/60 font-medium leading-tight whitespace-nowrap">
+                                                        <span className="text-[11px] tracking-[0.04em] font-medium text-[#0057B7]/65 whitespace-nowrap">
                                                             selling products made in Ukraine
                                                         </span>
                                                     </div>
@@ -441,16 +441,14 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     type="button"
                                                     onClick={() => setTipMinimized(!tipMinimized)}
                                                     className={cn(
-                                                        "flex items-center justify-center w-5 h-5 rounded text-[#0057B7]/50 hover:text-[#0057B7] transition-colors",
-                                                        tipMinimized && "ml-0",
-                                                        !tipMinimized && "ml-auto"
+                                                        "flex items-center justify-center w-5 h-5 rounded text-[#0057B7]/50 hover:text-[#0057B7] transition-colors"
                                                     )}
                                                     aria-label={tipMinimized ? "Expand tip" : "Minimize tip"}
                                                 >
                                                     {tipMinimized ? (
                                                         <span className="text-[14px] leading-none">+</span>
                                                     ) : (
-                                                        <span className="text-[16px] leading-none font-light">−</span>
+                                                        <X className="h-3.5 w-3.5" strokeWidth={2.1} />
                                                     )}
                                                 </button>
                                             </div>

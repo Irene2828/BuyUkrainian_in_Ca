@@ -47,11 +47,27 @@ import {
 } from "@/components/ui/dialog";
 import { ToastAction } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
+import { SiteBrandLockup } from "@/components/site-brand-lockup";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import imageCompression from 'browser-image-compression';
 import { GripVertical } from 'lucide-react';
+
+const adminInputClassName =
+    "h-[48px] rounded-[12px] border border-slate-200 bg-white px-4 text-sm text-[#1E293B] shadow-none transition-colors hover:shadow-none focus-visible:border-[#0057B7]/40 focus-visible:ring-0 focus-visible:ring-offset-0";
+
+const adminTextareaClassName =
+    "min-h-[104px] rounded-[12px] border border-slate-200 bg-white px-4 py-3 text-sm text-[#1E293B] shadow-none transition-colors hover:shadow-none focus-visible:border-[#0057B7]/40 focus-visible:ring-0 focus-visible:ring-offset-0 resize-none";
+
+const adminPrimaryButtonClassName =
+    "h-[46px] rounded-full bg-[#0057B7] px-6 text-[14px] font-medium tracking-tight text-white shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] transition-all duration-300 hover:bg-[#0047A0] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30";
+
+const adminSectionLabelClassName =
+    "mb-2 mt-4 px-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400/80 border-b border-slate-100 pb-1.5 flex items-center justify-between";
+
+const adminFieldLabelClassName =
+    "mb-2 block text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500";
 
 interface SortableStoreRowProps {
     store: any;
@@ -101,18 +117,18 @@ function SortableStoreRow({
             ref={setNodeRef}
             style={style}
             className={cn(
-                "flex items-center justify-between p-4 transition-all border-b border-gray-50",
+                "flex items-center justify-between gap-4 border-b border-slate-100 p-4 transition-colors",
                 isDragging
-                    ? "shadow-xl scale-[1.02] bg-white z-50 rounded-lg ring-1 ring-black/5"
-                    : "bg-white hover:bg-gray-50",
-                selectedIds.has(store.id) && "bg-blue-50/50"
+                    ? "z-50 scale-[1.02] rounded-[18px] bg-white shadow-xl ring-1 ring-black/5"
+                    : "bg-white hover:bg-[#EFF6FF]/40",
+                selectedIds.has(store.id) && "bg-[#EFF6FF]"
             )}
             onClick={() => openEditModal(store)}
         >
             <div className="flex items-center gap-4 flex-1 min-w-0">
                 {/* Drag Handle for Live Tab */}
                 {activeTab === 'live' && (
-                    <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-gray-300 hover:text-gray-500 p-1">
+                    <div {...attributes} {...listeners} className="p-1 text-slate-300 cursor-grab active:cursor-grabbing hover:text-slate-500">
                         <GripVertical className="w-4 h-4" />
                     </div>
                 )}
@@ -122,10 +138,10 @@ function SortableStoreRow({
                         type="checkbox"
                         checked={selectedIds.has(store.id)}
                         onChange={() => { }}
-                        className="w-4 h-4 rounded border-gray-300 pointer-events-none"
+                        className="w-4 h-4 rounded border-slate-300 pointer-events-none accent-[#0057B7]"
                     />
                 </div>
-                <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden text-gray-300">
+                <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 overflow-hidden text-slate-300">
                     {store.images?.[0] ? (
                         <img src={store.images[0]} className="w-full h-full object-cover" alt="" />
                     ) : (
@@ -133,51 +149,51 @@ function SortableStoreRow({
                     )}
                 </div>
                 <div className="min-w-0 max-w-[200px] md:max-w-[300px] lg:max-w-[400px]">
-                    <p className="font-bold text-[15px] text-black truncate font-ui tracking-tight">{store.name}</p>
-                    <p className="text-[13px] text-gray-500 truncate font-ui">{store.address || store.category}</p>
+                    <p className="truncate text-[15px] font-semibold tracking-tight text-[#1E293B]">{store.name}</p>
+                    <p className="truncate text-[13px] text-slate-500">{store.address || store.category}</p>
                 </div>
             </div>
 
             <div className="flex items-center gap-2">
                 {activeTab === "pending" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
-                            <Edit3 className="w-5 h-5" />
+                        <button onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-full p-1.5 text-slate-400 transition-colors hover:bg-[#EFF6FF] hover:text-[#0057B7]">
+                            <Edit3 className="w-4.5 h-4.5" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 transition-colors">
-                            <Check className="w-5 h-5" />
+                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="rounded-full p-1.5 text-[#0057B7] transition-colors hover:bg-[#EFF6FF]">
+                            <Check className="w-4.5 h-4.5" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleReject(store.id); }} className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors">
-                            <X className="w-5 h-5" />
+                        <button onClick={(e) => { e.stopPropagation(); handleReject(store.id); }} className="rounded-full p-1.5 text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
+                            <X className="w-4.5 h-4.5" />
                         </button>
                     </>
                 )}
                 {activeTab === "trash" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); handleRestore(store.id); }} className="flex items-center gap-1.5 px-3 py-1.5 font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased text-gray-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); handleRestore(store.id); }} className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-[14px] font-medium text-slate-600 transition-colors hover:border-[#0057B7]/30 hover:text-[#0057B7]">
                             <RotateCcw className="w-3.5 h-3.5" /> Restore
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handlePermanentDelete(store.id); }} className="flex items-center gap-1.5 px-3 py-1.5 font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased text-red-600 border border-red-200 rounded-full hover:bg-red-50 transition-colors">
-                            <AlertTriangle className="w-3.5 h-3.5" /> Purge
+                        <button onClick={(e) => { e.stopPropagation(); handlePermanentDelete(store.id); }} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[14px] font-medium text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
+                            <AlertTriangle className="w-3.5 h-3.5" /> Delete
                         </button>
                     </>
                 )}
                 {activeTab === "live" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="text-[13px] font-medium text-gray-500 hover:text-black transition-colors font-ui mr-2">
-                            Edit
+                        <button onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-full p-1.5 text-slate-400 transition-colors hover:bg-[#EFF6FF] hover:text-[#0057B7]">
+                            <Edit3 className="w-4.5 h-4.5" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }} className="rounded-full p-1.5 text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
                             <Trash2 className="w-4 h-4" />
                         </button>
                     </>
                 )}
                 {activeTab === "drafts" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); handleDeleteDraft(store.id); }} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); handleDeleteDraft(store.id); }} className="rounded-full p-1.5 text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
                             <Trash2 className="w-4 h-4" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F172A] text-white rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased hover:bg-slate-800 transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="flex items-center gap-1.5 rounded-full bg-[#0057B7] px-3.5 py-1.5 text-[14px] font-medium tracking-tight text-white transition-colors hover:bg-[#0047A0]">
                             Publish
                         </button>
                     </>
@@ -225,6 +241,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [storeToView, setStoreToView] = useState<Store | null>(null);
+    const [isShortSidebarViewport, setIsShortSidebarViewport] = useState(false);
 
     // Auth check
     useEffect(() => {
@@ -240,6 +257,19 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             }
         });
     }, [setLocation, toast]);
+
+    useEffect(() => {
+        const updateSidebarViewport = () => {
+            setIsShortSidebarViewport(window.innerHeight < 980);
+        };
+
+        updateSidebarViewport();
+        window.addEventListener("resize", updateSidebarViewport);
+
+        return () => {
+            window.removeEventListener("resize", updateSidebarViewport);
+        };
+    }, []);
 
     // Fetch stores
     const { data: stores = [], isLoading } = useQuery({
@@ -1058,67 +1088,40 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 flex font-sans">
+        <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-[#1E293B]">
             {/* Left Sidebar */}
-            <aside className="w-[260px] bg-slate-50/80 backdrop-blur-md border-r border-slate-200/50 flex flex-col fixed h-full z-10">
-                {/* Logo */}
-                {/* Logo */}
-                <div className="p-6 border-b border-gray-50 flex justify-center">
-                    <Link href="/" className="flex items-center group">
-                        <img
-                            src="/header-logo.png"
-                            alt="BuyUkrainian.ca"
-                            className="header-logo-img object-contain transition-all duration-500 h-[61px] w-auto ml-[-12px]"
-                        />
-                        {/* Branding Text */}
-                        <div className="flex flex-col justify-center ml-[-22px] h-10 font-instrument">
-                            <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/70 leading-none">
-                                Ukrainian Products
-                            </span>
-                            <span className="header-logo-text text-[16.5px] font-medium tracking-[-0.02em] text-[#0057B8]/70 leading-none mt-[2px]">
-                                in Canada
-                            </span>
-                        </div>
+            <aside className="fixed inset-y-0 left-0 z-[120] flex h-screen w-[248px] flex-col border-r border-slate-200 bg-white px-4 pt-[28px]" style={{ fontSize: '16px' }}>
+                <div className="shrink-0 pb-[38px]">
+                    <Link href="/" className="block px-2">
+                        <SiteBrandLockup className={cn("origin-left", isShortSidebarViewport ? "scale-[0.96]" : "scale-[0.98]")} />
                     </Link>
                 </div>
 
-                {/* Traffic Pulse */}
-                <div className="px-6 py-4 border-b border-gray-50">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-ui">Traffic Pulse</span>
-                        <TrendingUp className="w-4 h-4 text-slate-300" />
-                    </div>
-                    <div className="h-10 bg-gray-50 rounded-lg flex items-end px-2 pb-1 gap-0.5">
-                        {[30, 45, 25, 60, 80, 55, 70, 90, 65, 75, 85, 95].map((h, i) => (
-                            <div key={i} className="flex-1 bg-slate-300 rounded-t-sm" style={{ height: `${h}%` }} />
-                        ))}
-                    </div>
-                    <p className="text-[10px] text-gray-400 mt-1 font-ui">Last 30 days</p>
-                </div>
-
-                {/* Tab Navigation */}
-                <nav className="flex-1 p-4">
-                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3 px-4 font-ui">
-                        Moderation
-                    </p>
-                    <ul className="space-y-1">
+                <nav className="min-h-0 flex-1 overflow-y-auto pb-2">
+                    <p className={adminSectionLabelClassName}>Moderation</p>
+                    <ul className="space-y-2">
                         {tabs.map((tab) => (
                             <li key={tab.id}>
                                 <button
                                     onClick={() => { setActiveTab(tab.id); setSelectedIds(new Set()); }}
                                     className={cn(
-                                        "w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all",
+                                        "flex w-full items-center gap-4 rounded-[12px] px-4 py-3 text-left text-[14.5px] font-medium transition-all duration-300",
                                         activeTab === tab.id
-                                            ? "bg-[#0F172A] text-white shadow-lg shadow-blue-900/10"
-                                            : "text-[#334155] hover:bg-slate-50"
+                                            ? "bg-[#0057B7]/60 text-white font-semibold shadow-sm"
+                                            : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                                     )}
                                 >
-                                    <div className="flex items-center gap-3">
-                                        <tab.icon className={cn("w-5 h-5", activeTab === tab.id ? "text-white" : "text-slate-400")} />
-                                        {tab.label}
-                                    </div>
+                                    <tab.icon className="h-[18px] w-[18px] shrink-0" />
+                                    <span>{tab.label}</span>
                                     {tab.count > 0 && (
-                                        <span className="text-[12px] px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200/50">
+                                        <span
+                                            className={cn(
+                                                "ml-auto min-w-[20px] rounded-full px-2 py-0.5 text-center text-[11px] font-bold",
+                                                tab.id === "pending"
+                                                    ? "bg-[#FFD700] text-[#1E293B]"
+                                                    : "bg-[#0057B7] text-white"
+                                            )}
+                                        >
                                             {tab.count}
                                         </span>
                                     )}
@@ -1127,35 +1130,48 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         ))}
                     </ul>
 
-                    {/* Stats */}
-                    <div className="mt-8 pt-6 border-t border-gray-100">
-                        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3 px-4 font-ui">
-                            Stats
-                        </p>
-                        <div className="space-y-3 px-4">
-                            <div className="flex items-center justify-between">
-                                <span className="text-[13px] text-gray-500 font-ui">Total Stores</span>
-                                <span className="text-[15px] font-bold text-black font-ui opacity-50">{allStores.length}</span>
+                    <div className="mt-3.5">
+                        <p className={adminSectionLabelClassName}>Stats</p>
+                        <div className="space-y-2 px-2">
+                            <div className="flex items-center justify-between rounded-[12px] border border-slate-200 bg-[#F8FAFC] px-3 py-1.5">
+                                <span className="text-[13px] whitespace-nowrap text-slate-500">Total Stores</span>
+                                <span className="text-[15px] font-semibold text-[#1E293B]">{allStores.length}</span>
                             </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-[13px] text-gray-500 font-ui">Team Members</span>
-                                <span className="text-[15px] font-bold text-black font-ui opacity-50">{adminUsers.length || 1}</span>
+                            <div className="flex items-center justify-between rounded-[12px] border border-slate-200 bg-[#F8FAFC] px-3 py-1.5">
+                                <span className="text-[13px] whitespace-nowrap text-slate-500">Team Members</span>
+                                <span className="text-[15px] font-semibold text-[#1E293B]">{adminUsers.length || 1}</span>
                             </div>
                         </div>
                     </div>
+
+                    {!isShortSidebarViewport && (
+                        <div className="mt-4">
+                            <div className="mb-2 flex items-center justify-between px-2">
+                                <p className={adminSectionLabelClassName}>Traffic Pulse</p>
+                                <TrendingUp className="h-4 w-4 text-slate-300" />
+                            </div>
+                            <div className="rounded-[14px] border border-slate-200 bg-[#F8FAFC] p-2">
+                                <div className="flex h-6 items-end gap-px rounded-lg bg-white px-2 pb-1">
+                                    {[30, 45, 25, 60, 80, 55, 70, 90, 65, 75, 85, 95].map((h, i) => (
+                                        <div key={i} className="flex-1 rounded-t-sm bg-slate-300" style={{ height: `${h}%` }} />
+                                    ))}
+                                </div>
+                                <p className="mt-1 text-[9px] text-slate-400">Last 30 days</p>
+                            </div>
+                        </div>
+                    )}
                 </nav>
 
-                {/* User Section */}
-                <div className="p-4 border-t border-gray-100">
-                    <div className="flex items-center gap-3 px-3 py-2">
-                        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                            <Users className="w-5 h-5 text-gray-500" />
+                <div className="shrink-0 border-t border-slate-200 py-2">
+                    <div className="flex items-center gap-3 px-2 py-1.5">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F8FAFC]">
+                            <Users className="w-5 h-5 text-slate-500" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-[14px] font-semibold text-gray-900 truncate font-ui">Admin User</p>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-[14px] font-semibold text-[#1E293B]">Admin User</p>
                             <button
                                 onClick={handleLogout}
-                                className="font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1"
+                                className="flex items-center gap-1 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-600"
                             >
                                 <LogOut className="w-3 h-3" /> Sign Out
                             </button>
@@ -1165,17 +1181,16 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 ml-[260px] h-screen overflow-y-auto bg-white/50 relative scroll-smooth">
-                {/* Header */}
-                <div className="sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-200/50 px-8 py-6 flex items-center justify-between transition-all duration-300">
+            <main className="relative ml-[248px] h-screen flex-1 overflow-y-auto bg-[#F8FAFC] scroll-smooth">
+                <div className="sticky top-0 z-[100] flex items-center justify-between border-b border-slate-200 bg-white/90 px-16 py-8 backdrop-blur-xl transition-all duration-500">
                     <div>
-                        <h2 className="font-medium tracking-tight font-header text-[24px]">
-                            {activeTab === "pending" ? "Admin Dashboard" :
+                        <h2 className="text-[24px] font-semibold tracking-tight text-[#1E293B]">
+                            {activeTab === "pending" ? "Moderation Queue" :
                                 activeTab === "live" ? "Live Stores" :
                                     activeTab === "trash" ? "Trash" :
-                                        activeTab === "settings" ? "Settings" : "Bulk Drafts"}
+                                        activeTab === "settings" ? "Settings" : "Draft Queue"}
                         </h2>
-                        <p className="text-[18px] text-gray-600 mt-1 font-ui">
+                        <p className="mt-1 text-[14px] text-slate-400">
                             {activeTab === "pending" ? "Hi, admin" :
                                 activeTab === "live" ? "Manage live store listings" :
                                     activeTab === "trash" ? "Restore or permanently delete stores" :
@@ -1183,10 +1198,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         </p>
                     </div>
                     <div className="flex items-center gap-4">
-                        {/* Bulk Import Button */}
                         <button
                             onClick={() => bulkInputRef.current?.click()}
-                            className="flex items-center gap-2 px-8 py-3 bg-[#0F172A] text-white rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 active:scale-[0.98]"
+                            className="flex h-[40px] items-center gap-2 rounded-full bg-[#0057B7] px-5 text-[14px] font-medium text-white transition-colors hover:bg-[#0047A0]"
                         >
                             <Upload className="w-4 h-4" /> Bulk Import
                         </button>
@@ -1200,14 +1214,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <a
                             href="/"
                             target="_blank"
-                            className="flex items-center gap-2 text-[14px] text-gray-500 hover:text-[#D3E4FD] transition-colors font-ui"
+                            className="flex items-center gap-2 text-[14px] text-slate-500 transition-colors hover:text-[#0057B7]"
                         >
                             View Site <ExternalLink className="w-4 h-4" />
                         </a>
                     </div>
                 </div>
                 {/* Content Area */}
-                <div className="p-8 pb-32 space-y-8">
+                <div className="px-16 py-12 pb-32 space-y-12">
 
                     {/* Filter Bar */}
                     {activeTab !== "settings" && (
@@ -1219,9 +1233,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                         type="checkbox"
                                         checked={selectedIds.size === displayedStores.length && displayedStores.length > 0}
                                         onChange={toggleSelectAll}
-                                        className="w-4 h-4 rounded border-gray-300 text-brand-navy focus:ring-brand-navy"
+                                        className="w-4 h-4 rounded border-slate-300 accent-[#0057B7]"
                                     />
-                                    <span className="ml-2 text-sm text-gray-500 font-ui">Select All</span>
+                                    <span className="ml-2 text-sm text-slate-500">Select All</span>
                                 </div>
                             )}
 
@@ -1238,10 +1252,10 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                         key={cat.id || "all"}
                                         onClick={() => setCategoryFilter(cat.id)}
                                         className={cn(
-                                            "px-4 py-2 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all",
+                                            "rounded-full px-4 py-2 text-[14px] font-medium transition-colors",
                                             categoryFilter === cat.id
-                                                ? "bg-[#D3E4FD] text-black"
-                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                                ? "bg-[#0057B7]/60 text-white font-semibold"
+                                                : "border border-slate-200 bg-white text-slate-500 hover:border-[#0057B7]/30 hover:text-[#0057B7]"
                                         )}
                                     >
                                         {cat.label}
@@ -1254,13 +1268,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 placeholder="Filter by city..."
                                 value={cityFilter}
                                 onChange={(e) => setCityFilter(e.target.value)}
-                                className="px-4 py-2 rounded-full border border-gray-200 text-[13px] w-[180px] font-ui focus:border-[#D3E4FD] outline-none"
+                                className="h-[40px] w-[180px] rounded-full border border-slate-200 bg-white px-4 text-[13px] text-[#1E293B] outline-none transition-colors placeholder:text-slate-400 focus:border-[#0057B7]/30"
                             />
                             {/* Sort */}
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value as "date" | "name")}
-                                className="px-4 py-2 rounded-full border border-gray-200 text-[13px] font-ui bg-white outline-none focus:border-[#D3E4FD]"
+                                className="h-[40px] rounded-full border border-slate-200 bg-white px-4 text-[13px] text-[#1E293B] outline-none transition-colors focus:border-[#0057B7]/30"
                             >
                                 <option value="date">Sort: Date Added</option>
                                 <option value="name">Sort: Name</option>
@@ -1270,27 +1284,26 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
                     {/* Bulk Actions Bar */}
                     {selectedIds.size > 0 && (
-                        <div className="fixed bottom-6 left-[calc(260px+32px)] right-8 bg-black text-white p-4 rounded-xl shadow-xl flex items-center justify-between z-50 animate-in slide-in-from-bottom-4">
-                            <span className="text-sm font-medium pl-2">{selectedIds.size} items selected</span>
+                        <div className="fixed bottom-8 left-[calc(248px+64px)] right-16 z-50 flex items-center justify-between rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.12)] animate-in slide-in-from-bottom-6">
+                            <span className="pl-2 text-sm font-medium text-[#1E293B]">{selectedIds.size} items selected</span>
                             <div className="flex items-center gap-3">
                                 <Button
-                                    variant="destructive"
                                     size="sm"
                                     onClick={handleBulkDelete}
                                     disabled={isBulkProcessing}
-                                    className="bg-red-600 hover:bg-red-700 text-white border-none font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased"
+                                    className="rounded-full border-0 bg-transparent px-4 text-[14px] font-medium text-red-400 shadow-none transition-colors hover:bg-red-50 hover:text-red-600"
                                 >
                                     {isBulkProcessing ? (
                                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                                     ) : (
                                         <Trash2 className="w-4 h-4 mr-2" />
                                     )}
-                                    {activeTab === "trash" ? "Purge Selected" : "Delete Selected"}
+                                    {activeTab === "trash" ? "Delete Selected" : "Delete Selected"}
                                 </Button>
                                 {(activeTab === "pending" || activeTab === "drafts") && (
                                     <Button
                                         size="sm"
-                                        className="bg-green-600 hover:bg-green-700 text-white border-none font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased"
+                                        className="h-[40px] rounded-full bg-[#0057B7] px-5 text-[14px] font-medium text-white shadow-none transition-colors hover:bg-[#0047A0]"
                                         onClick={handleBulkApprove}
                                     >
                                         <Check className="w-4 h-4 mr-2" />
@@ -1308,13 +1321,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             onDragLeave={handleDragLeave}
                             onDrop={handleDrop}
                             className={cn(
-                                "mb-8 border-2 border-dashed rounded-2xl p-8 text-center transition-all",
-                                isDragOver ? "border-[#D3E4FD] bg-[#D3E4FD]/10" : "border-gray-200 bg-white"
+                                "mb-8 rounded-[20px] border-2 border-dashed p-8 text-center transition-all",
+                                isDragOver ? "border-[#0057B7]/30 bg-[#EFF6FF]/40" : "border-slate-200 bg-white"
                             )}
                         >
-                            <FileSpreadsheet className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                            <p className="text-[16px] font-medium text-gray-600 mb-2 font-ui">Drop CSV or Excel file here</p>
-                            <p className="text-[13px] text-gray-400 font-ui">Format: Store Name, Address, Category</p>
+                            <FileSpreadsheet className="mx-auto mb-4 h-12 w-12 text-slate-300" />
+                            <p className="mb-2 text-[16px] font-medium text-[#1E293B]">Drop CSV or Excel file here</p>
+                            <p className="text-[13px] text-slate-400">Format: Store Name, Address, Category</p>
                         </div>
                     )}
 
@@ -1324,27 +1337,27 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             {isLoading ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {[1, 2, 3].map((i) => (
-                                        <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6 animate-pulse">
-                                            <div className="h-32 bg-gray-100 rounded-xl mb-4"></div>
-                                            <div className="h-4 bg-gray-100 rounded w-3/4 mb-2"></div>
-                                            <div className="h-3 bg-gray-100 rounded w-1/2"></div>
+                                        <div key={i} className="animate-pulse rounded-[20px] border border-slate-200 bg-white p-6">
+                                            <div className="mb-4 h-32 rounded-xl bg-slate-100"></div>
+                                            <div className="mb-2 h-4 w-3/4 rounded bg-slate-100"></div>
+                                            <div className="h-3 w-1/2 rounded bg-slate-100"></div>
                                         </div>
                                     ))}
                                 </div>
                             ) : displayedStores.length === 0 ? (
-                                <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
-                                    {activeTab === "drafts" ? <FileSpreadsheet className="w-16 h-16 mx-auto text-gray-200 mb-4" /> :
-                                        activeTab === "trash" ? <Trash2 className="w-16 h-16 mx-auto text-gray-200 mb-4" /> :
-                                            <FileText className="w-16 h-16 mx-auto text-gray-200 mb-4" />}
-                                    <p className="text-gray-400 text-lg font-ui">
+                                <div className="rounded-[20px] border border-slate-200 bg-white py-24 text-center">
+                                    {activeTab === "drafts" ? <FileSpreadsheet className="mx-auto mb-4 h-16 w-16 text-slate-200" /> :
+                                        activeTab === "trash" ? <Trash2 className="mx-auto mb-4 h-16 w-16 text-slate-200" /> :
+                                            <FileText className="mx-auto mb-4 h-16 w-16 text-slate-200" />}
+                                    <p className="text-lg text-slate-400">
                                         {activeTab === "pending" ? "No pending submissions" :
                                             activeTab === "live" ? "No live stores yet" :
                                                 activeTab === "trash" ? "Trash is empty" : "No drafts yet"}
                                     </p>
                                 </div>
                             ) : viewMode === "list" ? (
-                                <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-                                    <div className="divide-y divide-gray-50">
+                                <div className="overflow-hidden rounded-[20px] border border-slate-200 bg-white">
+                                    <div>
                                         <DndContext
                                             sensors={sensors}
                                             collisionDetection={closestCenter}
@@ -1373,7 +1386,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                             </SortableContext>
                                         </DndContext>
                                     </div>
-                                    <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 text-[12px] text-gray-500 font-ui">
+                                    <div className="border-t border-slate-200 bg-[#F8FAFC] px-5 py-3 text-[12px] text-slate-500">
                                         Showing {displayedStores.length} items
                                     </div>
                                 </div>
@@ -1398,28 +1411,28 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     )}
                     {/* Settings View */}
                     {activeTab === "settings" && (
-                        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-                            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-                                <h3 className="font-semibold text-lg font-header">Admin Users</h3>
-                                <Button onClick={() => setIsNewUserModalOpen(true)} className="h-12 px-6 rounded-full bg-[#0F172A] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 hover:bg-slate-800 active:scale-[0.98] gap-2">
+                        <div className="overflow-hidden rounded-[20px] border border-slate-200 bg-white">
+                            <div className="flex items-center justify-between border-b border-slate-200 p-5">
+                                <h3 className="text-lg font-semibold tracking-tight text-[#1E293B]">Admin Users</h3>
+                                <Button onClick={() => setIsNewUserModalOpen(true)} className={cn(adminPrimaryButtonClassName, "gap-2")}>
                                     <Plus className="w-4 h-4" /> Add User
                                 </Button>
                             </div>
-                            <div className="divide-y divide-gray-50">
+                            <div className="divide-y divide-slate-100">
                                 {adminUsers.map((user: AdminUser) => (
-                                    <div key={user.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                    <div key={user.id} className="flex items-center justify-between p-4 transition-colors hover:bg-[#EFF6FF]/40">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                                                <User className="w-5 h-5 text-gray-500" />
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F8FAFC]">
+                                                <User className="w-5 h-5 text-slate-500" />
                                             </div>
                                             <div>
-                                                <p className="font-medium text-black font-ui">{user.username}</p>
-                                                <p className="text-xs text-gray-400 font-ui">Created: {new Date(user.createdAt).toLocaleDateString()}</p>
+                                                <p className="font-medium text-[#1E293B]">{user.username}</p>
+                                                <p className="text-xs text-slate-400">Created: {new Date(user.createdAt).toLocaleDateString()}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Button
-                                                className="h-12 px-6 rounded-full bg-[#0F172A] text-white font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 hover:bg-slate-800 active:scale-[0.98] gap-2"
+                                                className={cn(adminPrimaryButtonClassName, "gap-2")}
                                                 size="sm"
                                                 onClick={() => {
                                                     setTargetUserId(user.id);
@@ -1431,12 +1444,11 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                 <Key className="w-4 h-4" /> Change Password
                                             </Button>
                                             <Button
-                                                variant="destructive"
                                                 size="sm"
                                                 onClick={() => {
                                                     if (confirm("Delete this user?")) deleteUserMutation.mutate(user.id);
                                                 }}
-                                                className="h-12 px-6 rounded-full font-medium transition-all duration-200 active:scale-95 bg-red-600 hover:bg-red-700 text-white border-none"
+                                                className="h-[46px] rounded-full bg-transparent px-4 text-red-400 shadow-none transition-colors hover:bg-red-50 hover:text-red-600"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </Button>
@@ -1451,30 +1463,30 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
             {/* Edit Modal */}
             <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-                <DialogContent className="max-w-lg">
+                <DialogContent className="w-full max-w-[520px] rounded-[24px] border-white bg-white p-8 shadow-[0_32px_64px_rgba(0,0,0,0.12)]">
                     <DialogHeader>
-                        <DialogTitle className="text-lg font-semibold font-header">Edit Store Details</DialogTitle>
+                        <DialogTitle className="mb-6 text-[20px] font-semibold tracking-tight text-[#0057B7]">Edit store</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-5 py-4 max-h-[60vh] overflow-y-auto">
                         <div className="space-y-2">
-                            <Label htmlFor="editName" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Store Name</Label>
-                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" className="h-11 rounded-xl" />
+                            <Label htmlFor="editName" className={adminFieldLabelClassName}>Store Name</Label>
+                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" className={adminInputClassName} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editAddress" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Address</Label>
-                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className="h-11 rounded-xl" />
+                            <Label htmlFor="editAddress" className={adminFieldLabelClassName}>Address</Label>
+                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className={adminInputClassName} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editWebsite" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Website</Label>
-                            <Input id="editWebsite" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="https://example.com" className="h-11 rounded-xl" />
+                            <Label htmlFor="editWebsite" className={adminFieldLabelClassName}>Website</Label>
+                            <Input id="editWebsite" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="https://example.com" className={adminInputClassName} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editCategory" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</Label>
+                            <Label htmlFor="editCategory" className={adminFieldLabelClassName}>Category</Label>
                             <select
                                 id="editCategory"
                                 value={editCategory}
                                 onChange={(e) => setEditCategory(e.target.value as any)}
-                                className="w-full h-11 px-4 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-[#D3E4FD] transition-all font-ui"
+                                className={cn("w-full outline-none", adminInputClassName)}
                             >
                                 <option value="food">Food & Grocery</option>
                                 <option value="clothes">Clothing & Apparel</option>
@@ -1483,40 +1495,40 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editProducts" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Products Sold</Label>
-                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="Pierogies, Bread, Sausages..." className="h-11 rounded-xl" />
+                            <Label htmlFor="editProducts" className={adminFieldLabelClassName}>Products Sold</Label>
+                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="Pierogies, Bread, Sausages..." className={adminInputClassName} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editDescription" className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Description</Label>
+                            <Label htmlFor="editDescription" className={adminFieldLabelClassName}>Description</Label>
                             <textarea
                                 id="editDescription"
                                 value={editDescription}
                                 onChange={(e) => setEditDescription(e.target.value)}
                                 placeholder="What makes this store special..."
-                                className="w-full min-h-[80px] px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm outline-none focus:border-[#D3E4FD] transition-all font-ui resize-none"
+                                className={cn("w-full outline-none", adminTextareaClassName)}
                             />
                         </div>
                         <div className="space-y-3">
-                            <Label className="font-ui text-[11px] font-bold text-gray-400 uppercase tracking-wider">Images (max 3)</Label>
+                            <Label className={adminFieldLabelClassName}>Images (max 3)</Label>
                             <div className="grid grid-cols-3 gap-3">
                                 {editImages.map((url, index) => (
-                                    <div key={`url-${index}`} className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group">
+                                    <div key={`url-${index}`} className="relative aspect-square bg-slate-100 rounded-xl overflow-hidden group">
                                         <img src={url} alt="" className="w-full h-full object-cover" />
                                         <button
                                             onClick={() => removeImage(index, false)}
-                                            className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-red-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-600"
                                         >
                                             <X className="w-3 h-3" />
                                         </button>
                                     </div>
                                 ))}
                                 {localImagePreviews.map((url, index) => (
-                                    <div key={`local-${index}`} className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group">
+                                    <div key={`local-${index}`} className="relative aspect-square bg-slate-100 rounded-xl overflow-hidden group">
                                         <img src={url} alt="" className="w-full h-full object-cover" />
-                                        <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-blue-500 text-white text-[10px] rounded font-medium">NEW</div>
+                                        <div className="absolute top-1 left-1 rounded bg-[#0057B7] px-1.5 py-0.5 text-[10px] font-medium text-white">NEW</div>
                                         <button
                                             onClick={() => removeImage(index, true)}
-                                            className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-red-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-600"
                                         >
                                             <X className="w-3 h-3" />
                                         </button>
@@ -1525,20 +1537,20 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 {editImages.length + localImagePreviews.length < 3 && (
                                     <button
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="aspect-square bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-[#D3E4FD] hover:text-[#D3E4FD] transition-colors"
+                                        className="flex aspect-square flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white text-slate-400 transition-colors hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30 hover:text-[#0057B7]"
                                     >
                                         <Upload className="w-6 h-6 mb-1" />
-                                        <span className="text-[11px] font-medium font-ui">Upload</span>
+                                        <span className="text-[11px] font-medium">Upload</span>
                                     </button>
                                 )}
                             </div>
                             <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" multiple className="hidden" />
                         </div>
                     </div>
-                    <DialogFooter className="flex flex-row justify-between items-center pt-6 border-t border-gray-100 sm:justify-between w-full">
+                    <DialogFooter className="w-full items-center justify-between border-t border-slate-100 pt-6 sm:justify-between">
                         <Button
                             variant="ghost"
-                            className="bg-transparent border border-red-100 text-red-500 rounded-full px-6 py-3 font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-colors"
+                            className="gap-1.5 bg-transparent px-0 text-[14px] font-medium text-red-400 shadow-none transition-colors hover:bg-transparent hover:text-red-600"
                             onClick={() => {
                                 if (selectedStore) {
                                     handleMoveToTrash(selectedStore.id, "approved");
@@ -1552,18 +1564,15 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <Button
                                 variant="outline"
                                 onClick={handleResetChanges}
-                                className={cn(
-                                    "bg-transparent border border-slate-200 text-slate-600 rounded-full px-6 py-3 font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-200 active:scale-95",
-                                    hasChanges ? "text-red-600 border-red-200 hover:bg-red-50" : "hover:bg-slate-50"
-                                )}
+                                className="h-[46px] rounded-full bg-transparent px-0 text-[14px] font-medium text-slate-400 shadow-none transition-colors hover:bg-transparent hover:text-slate-600"
                             >
                                 Undo Save
                             </Button>
                             <Button
                                 onClick={handleSaveEdit}
-                                className="bg-[#0F172A] text-white rounded-full px-8 py-3 font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased transition-all duration-300 shadow-md hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98]"
+                                className={cn(adminPrimaryButtonClassName, "px-8")}
                             >
-                                Save Changes
+                                Save changes
                             </Button>
                         </div>
                     </DialogFooter>
@@ -1572,65 +1581,69 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
             {/* Password Change Modal */}
             <Dialog open={isPasswordModalOpen} onOpenChange={setIsPasswordModalOpen}>
-                <DialogContent>
+                <DialogContent className="rounded-[24px] border-white bg-white p-8 shadow-[0_32px_64px_rgba(0,0,0,0.12)]">
                     <DialogHeader>
-                        <DialogTitle>Change Password</DialogTitle>
+                        <DialogTitle className="text-[20px] font-semibold tracking-tight text-[#0057B7]">Change password</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                         <div className="space-y-2">
-                            <Label htmlFor="newPass">New Password</Label>
+                            <Label htmlFor="newPass" className={adminFieldLabelClassName}>New Password</Label>
                             <Input
                                 id="newPass"
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
+                                className={adminInputClassName}
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="confirmPass">Confirm Password</Label>
+                            <Label htmlFor="confirmPass" className={adminFieldLabelClassName}>Confirm Password</Label>
                             <Input
                                 id="confirmPass"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
+                                className={adminInputClassName}
                             />
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button variant="outline" className="font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased px-6 py-2 rounded-full" onClick={() => setIsPasswordModalOpen(false)}>Cancel</Button>
-                        <Button className="bg-[#0F172A] text-white rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased hover:bg-slate-800 transition-colors px-6 py-2" onClick={handlePasswordUpdate}>Update Password</Button>
+                        <Button variant="outline" className="rounded-full border-slate-200 px-6 text-[14px] font-medium text-slate-500" onClick={() => setIsPasswordModalOpen(false)}>Cancel</Button>
+                        <Button className={adminPrimaryButtonClassName} onClick={handlePasswordUpdate}>Update password</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
 
             {/* New User Modal */}
             <Dialog open={isNewUserModalOpen} onOpenChange={setIsNewUserModalOpen}>
-                <DialogContent>
+                <DialogContent className="rounded-[24px] border-white bg-white p-8 shadow-[0_32px_64px_rgba(0,0,0,0.12)]">
                     <DialogHeader>
-                        <DialogTitle>Create New Admin User</DialogTitle>
+                        <DialogTitle className="text-[20px] font-semibold tracking-tight text-[#0057B7]">Create new admin user</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                         <div className="space-y-2">
-                            <Label htmlFor="newUsername">Username</Label>
+                            <Label htmlFor="newUsername" className={adminFieldLabelClassName}>Username</Label>
                             <Input
                                 id="newUsername"
                                 value={newUsername}
                                 onChange={(e) => setNewUsername(e.target.value)}
+                                className={adminInputClassName}
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="newUserPass">Password</Label>
+                            <Label htmlFor="newUserPass" className={adminFieldLabelClassName}>Password</Label>
                             <Input
                                 id="newUserPass"
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
+                                className={adminInputClassName}
                             />
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button variant="outline" className="font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased px-6 py-2 rounded-full" onClick={() => setIsNewUserModalOpen(false)}>Cancel</Button>
-                        <Button className="bg-[#0F172A] text-white rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased hover:bg-slate-800 transition-colors px-6 py-2" onClick={handleCreateUser}>Create User</Button>
+                        <Button variant="outline" className="rounded-full border-slate-200 px-6 text-[14px] font-medium text-slate-500" onClick={() => setIsNewUserModalOpen(false)}>Cancel</Button>
+                        <Button className={adminPrimaryButtonClassName} onClick={handleCreateUser}>Create user</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
@@ -1649,31 +1662,31 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 <div className="flex flex-col gap-3 w-full pt-2">
                                     {activeTab === "pending" && (
                                         <div className="grid grid-cols-2 gap-3">
-                                            <Button className="h-12 bg-green-600 hover:bg-green-700 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased" onClick={() => { handleApprove(storeToView.id); setStoreToView(null); }}>
+                                            <Button className={cn(adminPrimaryButtonClassName, "h-12")} onClick={() => { handleApprove(storeToView.id); setStoreToView(null); }}>
                                                 <CheckCircle className="w-4 h-4 mr-2" /> Approve
                                             </Button>
-                                            <Button variant="destructive" className="h-12 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased" onClick={() => { handleReject(storeToView.id); setStoreToView(null); }}>
+                                            <Button variant="outline" className="h-12 rounded-full border-red-200 bg-white text-red-400 hover:bg-red-50 hover:text-red-600" onClick={() => { handleReject(storeToView.id); setStoreToView(null); }}>
                                                 <XCircle className="w-4 h-4 mr-2" /> Reject
                                             </Button>
                                         </div>
                                     )}
                                     {activeTab === "live" && (
-                                        <Button className="h-12 w-full bg-[#0F172A] hover:bg-slate-800 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased" onClick={() => { openEditModal(storeToView); setStoreToView(null); }}>
+                                        <Button className={cn(adminPrimaryButtonClassName, "h-12 w-full")} onClick={() => { openEditModal(storeToView); setStoreToView(null); }}>
                                             Edit Details
                                         </Button>
                                     )}
                                     {activeTab === "trash" && (
                                         <div className="grid grid-cols-2 gap-3">
-                                            <Button className="h-12 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased" variant="outline" onClick={() => { handleRestore(storeToView.id); setStoreToView(null); }}>
+                                            <Button className="h-12 rounded-full border-slate-200 text-slate-600 hover:border-[#0057B7]/30 hover:text-[#0057B7]" variant="outline" onClick={() => { handleRestore(storeToView.id); setStoreToView(null); }}>
                                                 <RotateCcw className="w-4 h-4 mr-2" /> Restore
                                             </Button>
-                                            <Button className="h-12 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased" variant="destructive" onClick={() => { handlePermanentDelete(storeToView.id); setStoreToView(null); }}>
-                                                <Trash2 className="w-4 h-4 mr-2" /> Purge
+                                            <Button className="h-12 rounded-full border-red-200 bg-white text-red-400 hover:bg-red-50 hover:text-red-600" variant="outline" onClick={() => { handlePermanentDelete(storeToView.id); setStoreToView(null); }}>
+                                                <Trash2 className="w-4 h-4 mr-2" /> Delete
                                             </Button>
                                         </div>
                                     )}
                                     {activeTab === "drafts" && (
-                                        <Button className="h-12 w-full bg-[#0F172A] hover:bg-slate-800 rounded-full font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased" onClick={() => { handleApprove(storeToView.id); setStoreToView(null); }}>
+                                        <Button className={cn(adminPrimaryButtonClassName, "h-12 w-full")} onClick={() => { handleApprove(storeToView.id); setStoreToView(null); }}>
                                             Publish
                                         </Button>
                                     )}
@@ -1685,12 +1698,12 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             </Dialog>
             {/* Bulk Delete Confirmation Dialog */}
             <Dialog open={showBulkDeleteConfirm} onOpenChange={setShowBulkDeleteConfirm}>
-                <DialogContent>
+                <DialogContent className="rounded-[24px] border-white bg-white p-8 shadow-[0_32px_64px_rgba(0,0,0,0.12)]">
                     <DialogHeader>
-                        <DialogTitle>Confirm Bulk Action</DialogTitle>
+                        <DialogTitle className="text-[20px] font-semibold tracking-tight text-[#0057B7]">Confirm bulk action</DialogTitle>
                     </DialogHeader>
                     <div className="py-4">
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-slate-500">
                             {activeTab === 'trash'
                                 ? `Are you sure you want to PERMANENTLY delete these ${selectedIds.size} items? This cannot be undone.`
                                 : `Are you sure you want to move ${selectedIds.size} items to trash?`
@@ -1698,12 +1711,12 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         </p>
                     </div>
                     <DialogFooter>
-                        <Button variant="outline" className="font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased px-6 py-2 rounded-full" onClick={() => setShowBulkDeleteConfirm(false)}>Cancel</Button>
+                        <Button variant="outline" className="rounded-full border-slate-200 px-6 text-[14px] font-medium text-slate-500" onClick={() => setShowBulkDeleteConfirm(false)}>Cancel</Button>
                         <Button
-                            variant="destructive"
+                            variant="outline"
                             onClick={performBulkDelete}
                             disabled={isBulkProcessing}
-                            className="font-medium text-[16px] 2xl:text-[18px] tracking-tight 2xl:tracking-normal antialiased px-6 py-2 rounded-full"
+                            className="rounded-full border-red-200 bg-white px-6 text-[14px] font-medium text-red-400 hover:bg-red-50 hover:text-red-600"
                         >
                             {isBulkProcessing && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                             {activeTab === 'trash' ? "Permanently Delete" : "Move to Trash"}

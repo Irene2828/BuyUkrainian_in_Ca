@@ -92,7 +92,13 @@ export async function registerRoutes(
       const stores = await storage.getApprovedStoresLean();
 
       // HARD SANITIZATION: Force-strip Base64 images to prevent 5MB payloads in case of DB schema mismatch
-      const sanitizedStores = stores.map((s: any) => {
+      // BUG FIX: Filter out stores with coordinates that would pull the map to "nowhere"
+      const sanitizedStores = stores.filter((s: any) => {
+        const lat = parseFloat(s.latitude);
+        const lng = parseFloat(s.longitude);
+        // Exclude 0,0 or coordinates outside logical Canada bounds (Lat 40-85, Lng -145 to -50)
+        return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -145 && lng < -50;
+      }).map((s: any) => {
         const lean = { ...s };
         delete lean.image;
         delete lean.images;
@@ -153,9 +159,11 @@ export async function registerRoutes(
       // ... (Spam check logic omitted for brevity in this specific block, relying on existing logic below if I reuse handler, but I'll duplicate essential logic or call internal function)
       // I will redirect to the main handler or copy the essential parts.
 
-      // Spam Check
-      const combinedText = `${storeData.name} ${storeData.description} ${storeData.products.join(" ")}`;
-      if (detectSpam(combinedText)) return res.status(400).json({ error: "Spam detected" });
+      // Duplicate Check
+      const existingStores = await storage.getAllStores();
+      if (checkDuplicateSubmission(storeData, existingStores)) {
+        return res.status(409).json({ error: "This store has already been submitted and is awaiting review." });
+      }
 
       const newStore = await storage.createStore(storeData);
       broadcast("store_submitted");

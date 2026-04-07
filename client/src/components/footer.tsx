@@ -59,19 +59,12 @@ export function Footer() {
 
         {/* Footer Microcopy */}
         <div className="w-full pt-12 flex justify-center text-center">
-          <div className="inline-flex items-center justify-center gap-2 text-center">
+          <div className="text-center">
             <span
               className="text-[12px] font-normal text-white/35 tracking-[0.02em]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Copyright © 2026 BuyUkrainian.ca. All rights reserved
-            </span>
-
-            <span
-              className="text-[12px] font-normal tracking-[0.02em] text-[#DA291C]/50"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Supporting Ukraine from Canada 🍁
+              Copyright © 2026 BuyUkrainian.ca. Volunteer initiative to support Ukraine from Canada
             </span>
           </div>
         </div>

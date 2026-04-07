@@ -525,8 +525,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
               <div className="flex flex-col gap-3 px-2">
                 <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
-                  All submissions will be approved by admin volunteers to prevent spam
-                  <span className="block">or inaccurate listings.</span>
+                  All submissions will be approved by admin volunteers
+                  <span className="block">to prevent spam or inaccurate listings.</span>
                 </p>
 
                 <p className="text-[12px] text-slate-400 text-center font-ui flex items-center justify-center gap-1.5">

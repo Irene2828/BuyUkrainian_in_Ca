@@ -1,4 +1,4 @@
-import { MapPin, HelpCircle } from "lucide-react";
+import { MapPin, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ import heroFlagsImage from "@/assets/flags_new.jpeg";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
+const noop = () => {};
+const noopSelectStore = (_store?: unknown) => {};
 
 
 export function Hero() {
@@ -32,9 +34,10 @@ export function Hero() {
         new Map(
             stores
                 .filter(s => s.city.toLowerCase() !== 'maple' && s.city.toLowerCase() !== 'etobicoke')
+                .sort((a, b) => a.city.localeCompare(b.city))
                 .map(s => [`${s.city}-${s.province}`, s])
         ).values()
-    );
+    ).slice(0, 6);
 
     return (
         <>
@@ -124,7 +127,7 @@ export function Hero() {
                         />
                     </div>
 
-                    <div className="relative z-10 flex w-full flex-col items-start md:pl-[40px] 2xl:pl-[48px]">
+                    <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="w-full">
                             <h1
                                 className="leading-[1.06] antialiased pointer-events-auto"
@@ -175,7 +178,7 @@ export function Hero() {
                                     className="group relative flex items-center gap-2 text-[15px] font-medium text-slate-900/60 transition-all duration-300 hover:text-[#0057B7]"
                                 >
                                     <span>How it works</span>
-                                    <HelpCircle className="w-4 h-4 text-current transition-colors duration-300" />
+                                    <ChevronDown className="w-4 h-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
                                     <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                 </Link>
                             </div>
@@ -221,8 +224,8 @@ export function Hero() {
                                     <InteractiveMap
                                         stores={stores}
                                         selectedStore={null}
-                                        onSelectStore={() => { }}
-                                        onCloseStore={() => { }}
+                                        onSelectStore={noopSelectStore}
+                                        onCloseStore={noop}
                                         variant="hero"
                                         isMobile={false}
                                     />
@@ -266,10 +269,10 @@ export function Hero() {
 
         </section>
 
-        {/* Location Intent Strip */}
-        <div className="w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden">
+        {/* Location Intent Strip — hidden on mobile */}
+        <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden">
             <div className="boutique-width flex items-stretch">
-                    <div className="flex-1 flex items-stretch min-w-max overflow-x-auto scrollbar-none md:min-w-0 md:justify-between md:overflow-visible md:pl-[40px] 2xl:pl-[48px]">
+                        <div className="flex-1 flex items-stretch md:min-w-0 md:justify-between px-0">
                         {uniqueStores.length > 0 && uniqueStores.map((store, i) => (
                             <motion.div
                                 key={`${store.city}-${store.province}-${i}`}
@@ -278,23 +281,26 @@ export function Hero() {
                                 onMouseLeave={() => setHoveredCity(0)}
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    delay: 0.4 + i * 0.07,
-                                    duration: 0.5,
-                                    ease: [0.16, 1, 0.3, 1],
-                                }}
+                                    transition={{
+                                        delay: 0.2 + i * 0.05,
+                                        duration: 0.5,
+                                        ease: [0.16, 1, 0.3, 1],
+                                    }}
                             >
                                 <button
                                     onClick={() => setLocation(`/map?city=${encodeURIComponent(store.city)}&province=${encodeURIComponent(store.province)}`)}
                                     className={cn(
-                                        "group relative flex w-full flex-col items-start px-[1.1rem] pt-[18px] pb-3 border-r border-slate-100 transition-all duration-200 cursor-pointer text-left",
-                                        i === 0 && "md:pl-[15px] 2xl:pl-[15px]"
+                                        "group relative flex w-full flex-col items-start pr-8 pt-[18px] pb-3 border-r border-slate-100 transition-all duration-200 cursor-pointer text-left",
+                                        i === 0 ? "pl-[54.2px] 2xl:pl-[61.9px]" : "pl-[13px]"
                                     )}
                                 >
                                     {hoveredCity === i && (
                                         <motion.div
                                             layoutId="city-divider"
-                                            className="absolute left-0 top-[15%] hidden h-[70%] w-[2.1px] bg-[#FFD700] md:block"
+                                            className={cn(
+                                                "absolute top-[15%] hidden h-[70%] w-[2.1px] bg-[#FFD700] md:block",
+                                                i === 0 ? "left-[41.2px] 2xl:left-[48.9px]" : "left-0"
+                                            )}
                                             transition={{ type: "spring", stiffness: 80, damping: 22, mass: 1.2 }}
                                         />
                                     )}
@@ -313,20 +319,20 @@ export function Hero() {
                         ))}
 
                         <motion.div
-                            className="shrink-0 md:min-w-0 md:pr-[52px] 2xl:pr-[61px]"
+                            className="shrink-0"
                             onMouseEnter={() => setHoveredCity(uniqueStores.length)}
                             onMouseLeave={() => setHoveredCity(0)}
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{
-                                delay: 0.4 + uniqueStores.length * 0.07,
+                                delay: 0.2 + uniqueStores.length * 0.05,
                                 duration: 0.5,
                                 ease: [0.16, 1, 0.3, 1],
                             }}
                         >
                             <button
                                 onClick={() => setLocation('/map')}
-                                className="group relative flex w-full min-w-[140px] flex-col items-start justify-start bg-white px-[1.1rem] pt-[18px] pb-3 transition-colors duration-200 cursor-pointer text-left"
+                                className="group relative flex h-full flex-col items-start justify-center bg-white px-8 pt-[18px] pb-3 transition-colors duration-200 cursor-pointer text-left"
                             >
                                 {hoveredCity === uniqueStores.length && (
                                     <motion.div

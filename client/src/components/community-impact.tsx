@@ -16,7 +16,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
         refetchOnMount: false,
     });
 
-    const shareMessage = "I just found a great way to support Ukraine locally. Check out this interactive map of Ukrainian-made products in Canada:";
+    const shareMessage = "I just found a great way to support Ukraine in Canada 🇨🇦. Check out this interactive map of Ukrainian-made products:";
     const shareUrl = 'www.buyukrainian.ca';
 
     const [copied, setCopied] = useState(false);
@@ -63,8 +63,8 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             Share the map<br />with your network
                         </h2>
                         <p className="text-[16px] text-slate-600 leading-relaxed font-normal stagger-item">
-                            The more Ukrainian products we buy in Canada<br />
-                            - the more this support is felt in Ukraine.
+                            Let's make it easy to support Ukraine's economy<br />
+                            from anywhere in Canada.
                         </p>
                     </div>
 
