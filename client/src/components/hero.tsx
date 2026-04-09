@@ -4,21 +4,20 @@ import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import heroFlagsImage from "@/assets/flags_new.jpeg";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
 const noop = () => {};
 const noopSelectStore = (_store?: unknown) => {};
+const MAX_CITY_STRIP_CITIES = 6;
 
 
 export function Hero() {
     const { t } = useI18n();
-    const [hoveredCity, setHoveredCity] = useState<number>(0);
     const [, setLocation] = useLocation();
 
     const { data: stores = [] } = useQuery({
@@ -30,14 +29,14 @@ export function Hero() {
         refetchOnMount: false,
     });
 
-    const uniqueStores = Array.from(
+    const cityStripStores = Array.from(
         new Map(
             stores
                 .filter(s => s.city.toLowerCase() !== 'maple' && s.city.toLowerCase() !== 'etobicoke')
                 .sort((a, b) => a.city.localeCompare(b.city))
                 .map(s => [`${s.city}-${s.province}`, s])
         ).values()
-    ).slice(0, 6);
+    ).slice(0, MAX_CITY_STRIP_CITIES);
 
     return (
         <>
@@ -88,59 +87,20 @@ export function Hero() {
             <div className="boutique-width w-full flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area - Glass Anchored Container */}
                 <div className="relative z-10 md:z-30 lg:z-10 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pt-[5rem] pb-[4rem] md:py-[4.5rem]">
-                    {/* Embedded Flag Atmosphere - intentionally wide and unboxed */}
-                    <div
-                        className="absolute z-0 pointer-events-none"
-                        style={{
-                            left: "calc(-1 * min(max(0px, (100vw - var(--boutique-max-width, 1280px)) / 2) + clamp(1.5rem, 5vw, 4rem), 18rem))",
-                            top: "clamp(-5rem, -5vw, -4.5rem)",
-                            width: "clamp(200px, 45vw, 760px)",
-                            height: "clamp(120px, 22vw, 360px)",
-                        }}
-                    >
-                        <div
-                            className="absolute inset-0 transition-opacity duration-1000 opacity-[0.35] md:opacity-[0.56]"
-                            style={{
-                                backgroundImage: `url(${heroFlagsImage})`,
-                                backgroundPosition: "96% 0%",
-                                backgroundRepeat: "no-repeat",
-                                backgroundSize: "39%",
-                                filter: "drop-shadow(0px 4px 12px rgba(0,0,0,0.022)) blur(0.4px)",
-                                transform: "scaleX(-1)",
-                                maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 18%, rgba(0,0,0,0.7) 36%, rgba(0,0,0,0.92) 54%, rgba(0,0,0,0.94) 76%, rgba(0,0,0,0.5) 92%, transparent 100%)",
-                                WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 18%, rgba(0,0,0,0.7) 36%, rgba(0,0,0,0.92) 54%, rgba(0,0,0,0.94) 76%, rgba(0,0,0,0.5) 92%, transparent 100%)",
-                            }}
-                        />
-
-                        <div
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                                background: "linear-gradient(to right, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.016) 22%, rgba(255,255,255,0.008) 42%, transparent 70%), linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.018) 18%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.11) 62%, rgba(255,255,255,0.26) 84%, rgba(255,255,255,0.5) 100%)",
-                            }}
-                        />
-
-                        <div
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                                background: "radial-gradient(ellipse at 46% 10%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.025) 16%, transparent 56%)",
-                            }}
-                        />
-                    </div>
-
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="w-full">
                             <h1
                                 className="leading-[1.06] antialiased pointer-events-auto"
                                 style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                             >
-                                <span className="block text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] font-semibold tracking-tight text-[#0057B7]">
+                                <span className="block text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[3.2rem] font-semibold tracking-tight text-[#0057B7]">
                                     Discover
                                 </span>
-                                <span className="block text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap relative">
+                                <span className="block text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[3.2rem] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap relative">
                                     <span className="relative inline-block">Ukrainian</span>
                                     {" "}Products
                                 </span>
-                                <span className="block text-[calc(1.8125rem-2px)] md:text-[calc(2.1rem-2px)] min-[1500px]:text-[calc(2.25rem-2px)] font-normal tracking-tight whitespace-nowrap text-slate-400">
+                                <span className="block text-[calc(1.8125rem-2px)] md:text-[calc(2.1rem-2px)] min-[1500px]:text-[calc(2.25rem-2px)] min-[1670px]:text-[2.25rem] font-normal tracking-tight whitespace-nowrap text-slate-400">
                                     sold across{" "}
                                     <span className="relative inline-block">
                                         Canada
@@ -162,7 +122,7 @@ export function Hero() {
                             >
                                 <Link href="/map" className="w-full md:w-auto self-start">
                                     <Button
-                                        className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/cta-btn border-none"
+                                        className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-black transition-all duration-300 hover:bg-[#FFE55C] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_6px_18px_rgba(255,215,0,0.28)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.36)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/45 gap-2.5 group/cta-btn border border-[#F1C40F]/70"
                                     >
                                         <span>{t('hero.ctaPrimary') || 'Explore the Map'}</span>
                                         <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
@@ -272,13 +232,11 @@ export function Hero() {
         {/* Location Intent Strip — hidden on mobile */}
         <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden">
             <div className="boutique-width flex items-stretch">
-                        <div className="flex-1 flex items-stretch md:min-w-0 md:justify-between px-0">
-                        {uniqueStores.length > 0 && uniqueStores.map((store, i) => (
+                        <div className="flex-1 flex items-stretch md:min-w-0 px-0">
+                        {cityStripStores.length > 0 && cityStripStores.map((store, i) => (
                             <motion.div
                                 key={`${store.city}-${store.province}-${i}`}
-                                className="shrink-0 min-w-[132px] md:min-w-0"
-                                onMouseEnter={() => setHoveredCity(i)}
-                                onMouseLeave={() => setHoveredCity(0)}
+                                className="min-w-0 flex-1"
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
                                     transition={{
@@ -290,22 +248,12 @@ export function Hero() {
                                 <button
                                     onClick={() => setLocation(`/map?city=${encodeURIComponent(store.city)}&province=${encodeURIComponent(store.province)}`)}
                                     className={cn(
-                                        "group relative flex w-full flex-col items-start pr-8 pt-[18px] pb-3 border-r border-slate-100 transition-all duration-200 cursor-pointer text-left",
-                                        i === 0 ? "pl-[54.2px] 2xl:pl-[61.9px]" : "pl-[13px]"
+                                        "group flex h-full w-full flex-col items-start justify-center border-r border-slate-100 pt-[18px] pb-3 transition-all duration-200 cursor-pointer text-left",
+                                        i === 0 ? "pl-0 pr-4" : "px-4"
                                     )}
                                 >
-                                    {hoveredCity === i && (
-                                        <motion.div
-                                            layoutId="city-divider"
-                                            className={cn(
-                                                "absolute top-[15%] hidden h-[70%] w-[2.1px] bg-[#FFD700] md:block",
-                                                i === 0 ? "left-[41.2px] 2xl:left-[48.9px]" : "left-0"
-                                            )}
-                                            transition={{ type: "spring", stiffness: 80, damping: 22, mass: 1.2 }}
-                                        />
-                                    )}
                                 <span className={cn(
-                                        "hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-bold tracking-[0.0075em] text-slate-800 whitespace-nowrap"
+                                        "hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-bold tracking-[0.0075em] text-[#0057B7] whitespace-nowrap"
                                     )}>
                                         {store.city}
                                     </span>
@@ -319,28 +267,19 @@ export function Hero() {
                         ))}
 
                         <motion.div
-                            className="shrink-0"
-                            onMouseEnter={() => setHoveredCity(uniqueStores.length)}
-                            onMouseLeave={() => setHoveredCity(0)}
+                            className="min-w-0 flex-1"
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{
-                                delay: 0.2 + uniqueStores.length * 0.05,
+                                delay: 0.2 + cityStripStores.length * 0.05,
                                 duration: 0.5,
                                 ease: [0.16, 1, 0.3, 1],
                             }}
                         >
                             <button
                                 onClick={() => setLocation('/map')}
-                                className="group relative flex h-full flex-col items-start justify-center bg-white px-8 pt-[18px] pb-3 transition-colors duration-200 cursor-pointer text-left"
+                                className="group flex h-full w-full flex-col items-start justify-center bg-white px-4 pt-[18px] pb-3 transition-colors duration-200 cursor-pointer text-left"
                             >
-                                {hoveredCity === uniqueStores.length && (
-                                    <motion.div
-                                        layoutId="city-divider"
-                                        className="absolute left-0 top-[15%] hidden h-[70%] w-[2.1px] bg-[#FFD700] md:block"
-                                        transition={{ type: "spring", stiffness: 80, damping: 22, mass: 1.2 }}
-                                    />
-                                )}
                                 <span className="hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-bold tracking-[0.0075em] text-slate-500 whitespace-nowrap group-hover:text-slate-600">
                                     View All
                                 </span>

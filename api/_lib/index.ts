@@ -31,24 +31,39 @@ const httpServer = createServer(app);
   // =====================
 
   function startServer(port: number) {
-    const server = httpServer.listen(port, "0.0.0.0")
-      .on("listening", () => {
-        const address = server.address();
-        const actualPort = typeof address === 'string' ? address : address?.port;
-        log(`Server running on http://localhost:${actualPort}`);
+    const onListening = () => {
+      httpServer.off("error", onError);
 
-        // Only start WebSockets once the server is successfully listening
-        setupWebSocket(httpServer);
-      })
-      .on("error", (err: any) => {
-        if (err.code === "EADDRINUSE" && port !== 0) {
-          log(`Port ${port} is already in use, trying an available port...`);
-          startServer(0);
-        } else {
-          console.error("Server error:", err);
-          process.exit(1);
+      const address = httpServer.address();
+      const actualPort = typeof address === "string" ? address : address?.port;
+      log(`Server running on http://localhost:${actualPort}`);
+
+      // Only start WebSockets once the server is successfully listening.
+      // This retry path must stay idempotent when port 3000 is occupied.
+      setupWebSocket(httpServer);
+    };
+
+    const onError = (err: any) => {
+      httpServer.off("listening", onListening);
+
+      if (err.code === "EADDRINUSE" && port !== 0) {
+        if (port === config.port && port === 3000) {
+          log(`Port ${port} is already in use, trying localhost:${3001}...`);
+          startServer(3001);
+          return;
         }
-      });
+
+        log(`Port ${port} is already in use, trying an available port...`);
+        startServer(0);
+      } else {
+        console.error("Server error:", err);
+        process.exit(1);
+      }
+    };
+
+    httpServer.once("listening", onListening);
+    httpServer.once("error", onError);
+    httpServer.listen(port, "0.0.0.0");
   }
 
   startServer(config.port);

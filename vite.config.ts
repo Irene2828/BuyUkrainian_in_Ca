@@ -11,6 +11,8 @@ export default defineConfig({
     tailwindcss(),
     metaImagesPlugin(),
   ],
+  // Load env vars from the repo root so the client can see VITE_* values from .env.local.
+  envDir: path.resolve(import.meta.dirname),
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
