@@ -54,7 +54,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* 1. Left Column: Message */}
                     <div className="flex flex-col items-start text-left">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <Share2 size={14} className="text-slate-900/70" />
+                            <Share2 size={14} className="text-[#FFD700]" />
                             <p className="text-[13px] font-bold tracking-widest text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
                                 HELP THE PROJECT GROW
                             </p>
@@ -85,7 +85,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                         "flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase transition-all duration-200 ease-out group/copy-btn active:scale-95 select-none",
                                         copied
                                             ? "bg-lime-50 text-lime-700 ring-1 ring-lime-200/50"
-                                            : "bg-[#0057B7] text-white hover:bg-[#0047A0]"
+                                            : "bg-[#0057B7] text-white hover:bg-[#0047A0] border border-[#0057B7]/70 shadow-[0_4px_10px_rgba(0,87,183,0.18)]"
                                     )}
                                     aria-label="Copy suggested post to clipboard"
                                 >
@@ -96,7 +96,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     )}
                                     <Copy className={cn(
                                         "w-3 h-3 transition-colors duration-200",
-                                        copied ? "text-lime-600" : "text-white/80 group-hover/copy-btn:text-white"
+                                        copied ? "text-lime-600" : "text-white"
                                     )} strokeWidth={2.5} />
                                 </button>
                             </div>
@@ -113,7 +113,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on Facebook
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
 
                             <button
@@ -125,7 +125,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on Instagram
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
 
                             <button
@@ -143,7 +143,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                 <span className="text-[15px] font-medium tracking-tight">
                                     Share on X
                                 </span>
-                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                             </button>
                         </div>
                     </div>

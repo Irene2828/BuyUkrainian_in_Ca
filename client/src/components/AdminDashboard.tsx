@@ -1118,8 +1118,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                             className={cn(
                                                 "ml-auto min-w-[20px] rounded-full px-2 py-0.5 text-center text-[11px] font-bold",
                                                 tab.id === "pending"
-                                                    ? "bg-[#FFD700] text-[#1E293B]"
-                                                    : "bg-[#0057B7] text-white"
+                                                    ? "bg-[#0057B7] text-white"
+                                                    : "bg-slate-200 text-slate-700"
                                             )}
                                         >
                                             {tab.count}

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "./GlobalStyles.css";
@@ -9,8 +10,8 @@
 
 @theme {
   /* Colors - Restored to Audit Palette with New Brand Accents */
-  --color-primary-yellow: #F2D36B;
-  --color-accent-yellow: #F2D36B;
+  --color-primary-yellow: #0057B7;
+  --color-accent-yellow: #0057B7;
   --color-primary-blue: #4096FF;
   --color-info-blue: #BBD9FF;
   --color-text-primary: #111111;
@@ -21,7 +22,7 @@
   /* New Requested Brand Accents */
   --color-brand-cyan: #D3E4FD;
   --color-brand-blue-logo: #0047FF;
-  --color-brand-yellow-logo: #F2D36B;
+  --color-brand-yellow-logo: #0057B7;
   --color-brand-navy: #0F172A;
 
   /* Admin Dashboard Colors */
@@ -1123,16 +1124,19 @@ select:focus-visible {
 @media (min-width: 1280px) {
   :root {
     --boutique-max-width: 1380px;
-    --utility-max-width: 1540px;
+    --utility-max-width: 1340px;
   }
 }
 
-/* MacBook "More Space" / 16" Default (1441px – 1679px) */
+/* MacBook "More Space" / 16" Default (1440px+) */
 /* Proportional width expansion for viewports between standard and large monitors */
-@media (min-width: 1441px) {
+@media (min-width: 1440px) {
+  .boutique-width, .utility-width {
+    padding-inline: 2.5rem;
+  }
   :root {
     --boutique-max-width: 1520px;
-    --utility-max-width: 1680px;
+    --utility-max-width: 1440px;
     --container-standard: 1430px;
     --container-large: 1590px;
     --gutter-obsidian-max-width: var(--container-standard);
@@ -1147,14 +1151,31 @@ select:focus-visible {
     --text-base: 1.0625rem;
     /* 16px → 17px */
     --text-base--line-height: calc(1.625 / 1.0625);
+    
+    /* Default Hero Mask */
+    --hero-map-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.04) 6%, rgba(0,0,0,0.12) 14%, rgba(0,0,0,0.3) 24%, rgba(0,0,0,0.58) 34%, rgba(0,0,0,0.82) 44%, black 56%);
   }
 }
 
-/* External 1080p monitors / Large "More Space" (1680px – 1920px) */
-@media (min-width: 1680px) {
+/* Specific 1440px range fix for Hero Blend */
+@media (min-width: 1440px) and (max-width: 1669px) {
+  :root {
+    /* Softer, deeper blend to hide the abrupt cut on 1440px screens */
+    --hero-map-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.02) 4%, rgba(0,0,0,0.08) 12%, rgba(0,0,0,0.22) 22%, rgba(0,0,0,0.48) 36%, rgba(0,0,0,0.78) 54%, black 70%);
+    /* Pull map tiles left so they fill the wider container — eliminates hard edge */
+    --hero-map-tx: 16%;
+    /* Softer ambient glow that dissolves earlier — no visible white wall */
+    --hero-ambient-glow: radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.88) 18%, rgba(255,255,255,0.4) 34%, rgba(255,255,255,0.08) 50%, transparent 62%);
+    /* Center Bridge dissolves across full width — no hard terminus */
+    --hero-center-bridge: linear-gradient(to right, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 20%, transparent 100%);
+  }
+}
+
+/* External 1080p monitors / Large "More Space" (1670px+) */
+@media (min-width: 1670px) {
   :root {
     --boutique-max-width: 1640px;
-    --utility-max-width: 1800px;
+    --utility-max-width: 1600px;
     --container-standard: 1520px;
     --container-large: 1680px;
     --gutter-obsidian-max-width: var(--container-standard);
@@ -1382,4 +1403,44 @@ select:focus-visible {
 .pac-container {
   z-index: 2200 !important;
   pointer-events: auto !important;
+}
+
+/* Hero map focal point lift for wide screens */
+@media (min-width: 1670px) {
+  .hero-map-shifter {
+    transform: scale(1.18) translateX(11%) translateY(-9%) !important;
+  }
+}
+
+/* Hide Google Maps Metadata/Copyright as requested */
+.gm-style-cc, 
+.gmnoprint,
+.gm-style-mtc,
+button[title="Keyboard shortcuts"],
+a[href*="maps.google.com/help/terms"],
+a[href*="google.com/intl/en-US_US/help/terms_maps"],
+a[href*="google.com/maps"],
+a[href^="https://maps.google.com/maps"],
+img[src*="google_logo"],
+img[src*="google4_tracking"] {
+  display: none !important;
+}
+
+/* Explicit Hero Text Vertical Alignments */
+.hero-text-align {
+  transform: none;
+}
+@media (min-width: 768px) {
+  .hero-text-align {
+    transform: translateY(-10%);
+  }
+}
+@media (min-width: 1670px) {
+  .hero-text-align {
+    transform: translateY(-30%);
+  }
+}
+
+.gm-style img {
+  max-width: none !important;
 }

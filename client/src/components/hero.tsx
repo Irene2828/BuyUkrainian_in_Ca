@@ -1,6 +1,5 @@
-import { MapPin, ChevronDown } from "lucide-react";
+import { MapPin, ChevronDown, ArrowRight, Search } from "lucide-react";
 import { Link } from "wouter";
-import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
@@ -17,7 +16,6 @@ const MAX_CITY_STRIP_CITIES = 6;
 
 
 export function Hero() {
-    const { t } = useI18n();
     const [, setLocation] = useLocation();
 
     const { data: stores = [] } = useQuery({
@@ -34,18 +32,42 @@ export function Hero() {
             stores
                 .filter(s => s.city.toLowerCase() !== 'maple' && s.city.toLowerCase() !== 'etobicoke')
                 .sort((a, b) => a.city.localeCompare(b.city))
-                .map(s => [`${s.city}-${s.province}`, s])
+                .map(s => [s.city.toLowerCase(), s])
         ).values()
     ).slice(0, MAX_CITY_STRIP_CITIES);
 
+    const trustPillars = [
+        {
+            title: "Support of Ukraine's Economy",
+            detail: "every purchase goes directly to Ukrainian makers",
+            accentClass: "border-[#0057B7]",
+            surfaceClass: "bg-[#EFF6FF]/70",
+            widthClass: "pr-12",
+        },
+        {
+            title: "Volunteer-Verified Listings",
+            detail: "every listing is reviewed before it appears on the map",
+            accentClass: "border-[#FFD700]",
+            surfaceClass: "bg-[#FFFBEB]/80",
+            widthClass: "pr-2",
+        },
+        {
+            title: "Updated Regularly",
+            detail: "real people, real stores, real Ukrainian products",
+            accentClass: "border-[#0057B7]",
+            surfaceClass: "bg-[#EFF6FF]/70",
+            widthClass: "pr-4",
+        },
+    ];
+
     return (
         <>
-        <div className="flex flex-col h-auto md:h-[calc(100vh-81px)] 2xl:h-[calc(100vh-108px)] min-[1670px]:h-[calc(100vh-108px)] min-[1670px]:max-h-[820px]">
+        <div className="flex flex-col h-auto md:h-[calc(100vh-81px)] 2xl:h-[calc(100vh-108px)] min-[1670px]:h-[calc(100vh-108px)] min-[1670px]:max-h-[820px] bg-white">
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-center animate-in fade-in duration-700 bg-white"
         >
             {/* Soft Atmospheric Sky Glow - Blue (Existing, Refined) */}
-            <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-[0.22] pointer-events-none z-[4]"></div>
+            <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-[#BAE6FD] rounded-full blur-[160px] opacity-[0.22] min-[768px]:max-[1439px]:opacity-[0.35] min-[768px]:max-[1439px]:w-[600px] pointer-events-none z-[4]"></div>
 
             {/* Soft Atmospheric Sky Glow - Canadian Red Hint */}
             <div
@@ -57,96 +79,110 @@ export function Hero() {
 
 
 
-            {/* Ambient Reading Glow - light field rather than a floating slab */}
+            {/* Ambient Reading Glow - Radial anchored top-left to avoid masking Vancouver pin */}
             <div
-                className="absolute left-[-18%] top-[-12%] w-[76%] h-[108%] pointer-events-none z-[6]"
+                className="absolute left-[-12%] top-[-15%] w-[65%] max-[1669px]:w-[76%] h-[75%] pointer-events-none z-[6]"
                 style={{
-                    background: "radial-gradient(ellipse at 30% 36%, rgba(255,255,255,0.64) 0%, rgba(255,255,255,0.42) 24%, rgba(255,255,255,0.16) 48%, rgba(255,255,255,0.035) 64%, transparent 84%), radial-gradient(ellipse at 18% 72%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 24%, transparent 60%)",
+                    background: "var(--hero-ambient-glow, radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.88) 22%, rgba(255,255,255,0.5) 42%, rgba(255,255,255,0.12) 58%, transparent 72%))",
                 }}
             />
 
-            {/* Upper Airlight - keeps the headline readable without reading like a surface */}
+            {/* Upper Airlight - keeps the headline readable */}
             <div
                 className="absolute left-[8%] top-[6%] w-[34%] h-[26%] pointer-events-none z-[7]"
                 style={{
-                    background: "radial-gradient(ellipse at 46% 34%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 24%, transparent 68%)",
+                    background: "radial-gradient(ellipse at 46% 34%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 24%, transparent 68%)",
                 }}
             />
 
-            {/* Center Bridge - a luminous handoff into the map rather than a milky overlay */}
+            {/* Center Bridge - luminous handoff into the map */}
             <div
-                className="absolute inset-y-0 left-[20%] w-[48%] pointer-events-none z-[8]"
+                className="absolute inset-y-0 left-[15%] w-[50%] max-[1669px]:w-[62%] pointer-events-none z-[8]"
                 style={{
-                    background: "linear-gradient(to right, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.052) 22%, rgba(255,255,255,0.018) 48%, transparent 78%), radial-gradient(ellipse at 10% 46%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.042) 18%, transparent 54%)",
+                    background: "var(--hero-center-bridge, linear-gradient(to right, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 20%, transparent 80%))",
                 }}
             />
 
             {/* Bottom Edge Melt */}
-            <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-t from-white/30 to-transparent pointer-events-none z-10" />
+
+            <div
+                className="hidden max-[1439px]:block absolute bottom-0 inset-x-0 h-[35%] pointer-events-none z-[5]"
+                style={{
+                    background: "linear-gradient(to top, rgba(219,234,254,0.25) 0%, rgba(219,234,254,0.08) 50%, transparent 100%)",
+                }}
+            />
 
             <div className="boutique-width w-full flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area - Glass Anchored Container */}
-                <div className="relative z-10 md:z-30 lg:z-10 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pt-[5rem] pb-[4rem] md:py-[4.5rem]">
+                <div className="relative z-10 md:z-30 lg:z-10 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none py-[4.5rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="w-full">
-                            <h1
-                                className="leading-[1.06] antialiased pointer-events-auto"
-                                style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
-                            >
-                                <span className="block text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[3.2rem] font-semibold tracking-tight text-[#0057B7]">
-                                    Discover
-                                </span>
-                                <span className="block text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[3.2rem] font-semibold tracking-tight text-[#0057B7] whitespace-nowrap relative">
-                                    <span className="relative inline-block">Ukrainian</span>
-                                    {" "}Products
-                                </span>
-                                <span className="block text-[calc(1.8125rem-2px)] md:text-[calc(2.1rem-2px)] min-[1500px]:text-[calc(2.25rem-2px)] min-[1670px]:text-[2.25rem] font-normal tracking-tight whitespace-nowrap text-slate-400">
-                                    sold across{" "}
-                                    <span className="relative inline-block">
-                                        Canada
-                                    </span>
-                                </span>
-                            </h1>
+                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(32px,3vw,56px)] min-[1670px]:pt-[clamp(112px,10.5vw,170px)]">
+                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 min-[1280px]:max-[1669px]:ml-[clamp(72px,5vw,92px)] min-[1670px]:ml-[clamp(52px,3.6vw,72px)]">
 
-                            <p 
-                                className="text-[16px] text-slate-500 leading-relaxed max-w-lg font-normal pointer-events-auto"
-                                style={{ marginTop: 'clamp(16px, calc(0.9vw + 8px), 22px)' }}
-                            >
-                                One map to find authentic Ukrainian-made products near you
-                            </p>
+                                {/* Flag Pill Language Toggle - Eyebrow above headline */}
 
-                            {/* CTA Row - Left Aligned To Header Branding Text */}
-                            <div 
-                                className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto pointer-events-auto"
-                                style={{ marginTop: 'clamp(23px, calc(1.65vw + 8px), 35px)' }}
-                            >
-                                <Link href="/map" className="w-full md:w-auto self-start">
-                                    <Button
-                                        className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-black transition-all duration-300 hover:bg-[#FFE55C] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_6px_18px_rgba(255,215,0,0.28)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.36)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/45 gap-2.5 group/cta-btn border border-[#F1C40F]/70"
-                                    >
-                                        <span>{t('hero.ctaPrimary') || 'Explore the Map'}</span>
-                                        <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
-                                    </Button>
-                                </Link>
-
-                                <Link
-                                    href="/#how-it-works"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                                    }}
-                                    className="group relative flex items-center gap-2 text-[15px] font-medium text-slate-900/60 transition-all duration-300 hover:text-[#0057B7]"
+                                <h1
+                                    className="relative z-10 leading-[1.15] min-[1670px]:leading-[1.15] antialiased pointer-events-auto"
+                                    style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span>How it works</span>
-                                    <ChevronDown className="w-4 h-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
-                                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#FFD700] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                                </Link>
+                                    <span className="block font-['Lora'] text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[calc(3.696rem+4px)] font-semibold tracking-[-0.01em] text-[#0057B7]">
+                                        Discover
+                                    </span>
+                                    <span className="block font-['Lora'] text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[calc(3.696rem+4px)] font-semibold tracking-[-0.01em] text-[#0057B7] whitespace-nowrap relative mb-2">
+                                        <span className="relative inline-block">Ukrainian</span>
+                                        {" "}Products
+                                    </span>
+                                    <span className="block font-['Inter'] text-[calc(1.8125rem-2px)] md:text-[calc(2.1rem-2px)] min-[1500px]:text-[calc(2.25rem-2px)] min-[1670px]:text-[calc(2.475rem+4px)] font-medium tracking-normal whitespace-nowrap text-slate-400 mb-6">
+                                        sold across{" "}
+                                        <span className="relative inline-block">
+                                            Canada
+                                        </span>
+                                    </span>
+                                </h1>
+
+                                <p
+                                    className="text-[16px] text-slate-500 leading-relaxed max-w-lg font-normal pointer-events-auto font-['Inter'] mb-8"
+                                    style={{ marginTop: '0' }}
+                                >
+                                    Explore authentic Ukrainian-made products near you
+                                </p>
+
+                                {/* CTA Row - Left Aligned To Header Branding Text */}
+                                <div
+                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4 w-full md:w-auto pointer-events-auto"
+                                    style={{ marginTop: '0' }}
+                                >
+                                    <Link href="/map" className="w-full md:w-auto self-start">
+                                        <Button
+                                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#FFD700] text-[#1E293B] border-none transition-all duration-300 hover:bg-[#FFD700]/90 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(255,215,0,0.15)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn font-['Inter']"
+                                        >
+                                            <span>Find stores near me</span>
+                                            <Search className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-[#1E293B]" />
+                                        </Button>
+                                    </Link>
+
+                                    <Link
+                                        href="/#how-it-works"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                                        }}
+                                        className="group relative flex items-center gap-2 text-[14px] font-normal text-slate-900/60 transition-all duration-300 hover:text-[#0057B7] font-['Inter']"
+                                    >
+                                        <span>How it works</span>
+                                        <ChevronDown className="w-4 h-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
+                                        <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-slate-200 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                    </Link>
+                                </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
+
+
 
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
             <div className="hidden md:block absolute top-0 right-0 w-[59%] h-full z-20 select-none overflow-hidden border-none outline-none">
@@ -159,25 +195,25 @@ export function Hero() {
                     }}
                 >
                     {/* Inner wrapper for shifted map content */}
-                    <div className="absolute inset-y-0 left-0 w-full border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[2%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[1%] min-[1441px]:scale-[1.15] min-[1441px]:translate-x-[6%] min-[1441px]:translate-y-[-4%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[2%] transition-all duration-700 ease-out">
+                    <div
+                        className="absolute inset-y-0 left-0 w-full border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[2%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[1%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-13%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-5%] transition-all duration-700 ease-out"
+                    >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
                             <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-white via-white/80 to-transparent pointer-events-none z-30" />
-                            <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-white via-white/60 to-transparent pointer-events-none z-30" />
+                            <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-white via-white/30 to-transparent pointer-events-none z-30" />
 
-                            {/* AURORA OVERLAY - STRICTLY FOREGROUND (Over Map) */}
-                            {/* opacity-0 = hidden; remove to restore. Values: top-[25%] right-[45%] blue | top-[50%] right-[30%] yellow */}
+
+                            {/* AURORA OVERLAY */}
                             <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none opacity-0">
                                 <div className="absolute top-[25%] right-[45%] w-[350px] h-[150px] bg-[#0057B7] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
                                 <div className="absolute top-[50%] right-[30%] w-[350px] h-[150px] bg-[#FFD900] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
                             </div>
 
-
-
                             <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
-                                <motion.div 
-                                    initial={{ opacity: 0, scale: 1.03 }} 
-                                    animate={{ opacity: 1, scale: 1 }} 
-                                    transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }} 
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 1.03 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
                                     className="w-full h-full cursor-pointer pointer-events-auto"
                                     onClick={() => setLocation('/map')}
                                 >
@@ -195,44 +231,34 @@ export function Hero() {
                     </div>
                 </div>
             </div>
+
             <div className="hidden lg:flex flex-col items-end gap-2 absolute right-0 top-[12%] z-30 pointer-events-none">
-              {/* Pill 3: Support Economy — longest — yellow border */}
-              <div className="group isolate flex items-center pl-4 pr-2 py-2 border-l-[3px] border-[#0057B7] bg-[#EFF6FF]/60 cursor-default pointer-events-auto shadow-sm hover:shadow-md hover:pr-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right">
-                <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
-                  Support of Ukraine's Economy
-                </span>
-                <span className="hero-trust-pill-detail text-[12px] text-[#0057B7]/60 font-medium whitespace-nowrap border-l border-[#0057B7]/10 pl-4 py-0.5 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-[opacity,transform] duration-700 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                  — every purchase goes directly to Ukrainian makers
-                </span>
-              </div>
-
-              {/* Pill 1: Growing Map — shortest — yellow border */}
-              <div className="group isolate flex items-center pl-4 pr-2 py-2 border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/60 cursor-default pointer-events-auto shadow-sm hover:shadow-md hover:pr-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right">
-                <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
-                  Volunteer-Verified Listings
-                </span>
-                <span className="hero-trust-pill-detail text-[12px] text-[#0057B7]/60 font-medium whitespace-nowrap border-l border-[#0057B7]/10 pl-4 py-0.5 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-[opacity,transform] duration-700 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                  — every listing is reviewed before it appears
-                </span>
-              </div>
-
-              {/* Pill 2: Authentic Goods — medium — blue border */}
-              <div className="group isolate flex items-center pl-4 pr-2 py-2 border-l-[3px] border-[#0057B7] bg-[#EFF6FF]/60 cursor-default pointer-events-auto shadow-sm hover:shadow-md hover:pr-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right">
-                <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
-                  Updated Regurarly
-                </span>
-                <span className="hero-trust-pill-detail text-[12px] text-[#0057B7]/60 font-medium whitespace-nowrap border-l border-[#0057B7]/10 pl-4 py-0.5 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-[opacity,transform] duration-700 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                  — real people, real stores, real Ukrainian products
-                </span>
-              </div>
+                {trustPillars.map((pillar) => (
+                    <div
+                        key={pillar.title}
+                        className={cn(
+                            "group isolate flex items-center pl-4 py-2 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md hover:pr-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right",
+                            pillar.accentClass,
+                            pillar.surfaceClass,
+                            pillar.widthClass
+                        )}
+                    >
+                        <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7]/65 group-hover:text-[#0057B7] whitespace-nowrap font-['Inter'] transition-colors duration-700">
+                            {pillar.title}
+                        </span>
+                        <span className="hero-trust-pill-detail text-[13px] text-[#0057B7]/10 font-medium whitespace-nowrap pl-2 py-0.5 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:text-[#0057B7]/80 group-hover:translate-x-0 transition-[color,opacity,transform] duration-700 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)] font-['Inter']">
+                            – {pillar.detail}
+                        </span>
+                    </div>
+                ))}
             </div>
 
         </section>
 
         {/* Location Intent Strip — hidden on mobile */}
-        <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden">
+        <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden mt-[-12px] relative z-20">
             <div className="boutique-width flex items-stretch">
-                        <div className="flex-1 flex items-stretch md:min-w-0 px-0">
+                    <div className="flex-1 flex items-stretch md:min-w-0 px-0 min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)]">
                         {cityStripStores.length > 0 && cityStripStores.map((store, i) => (
                             <motion.div
                                 key={`${store.city}-${store.province}-${i}`}
@@ -253,14 +279,9 @@ export function Hero() {
                                     )}
                                 >
                                 <span className={cn(
-                                        "hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-bold tracking-[0.0075em] text-[#0057B7] whitespace-nowrap"
+                                        "hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-bold tracking-[0.0075em] text-slate-700 whitespace-nowrap font-['Inter']"
                                     )}>
                                         {store.city}
-                                    </span>
-                                    <span className={cn(
-                                        "hero-city-strip-meta text-[9px] text-slate-400 uppercase tracking-widest mt-0.5 whitespace-nowrap",
-                                    )}>
-                                        {store.province}
                                     </span>
                                 </button>
                             </motion.div>
@@ -280,12 +301,12 @@ export function Hero() {
                                 onClick={() => setLocation('/map')}
                                 className="group flex h-full w-full flex-col items-start justify-center bg-white px-4 pt-[18px] pb-3 transition-colors duration-200 cursor-pointer text-left"
                             >
-                                <span className="hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-bold tracking-[0.0075em] text-slate-500 whitespace-nowrap group-hover:text-slate-600">
-                                    View All
-                                </span>
-                                <span className="hero-city-strip-meta text-[9px] text-slate-400 uppercase tracking-widest mt-0.5 whitespace-nowrap group-hover:text-slate-500">
-                                    Full Map →
-                                </span>
+                                <div className="flex items-center gap-1.5 group">
+                                    <span className="hero-city-strip-label text-[13px] md:text-[13px] lg:text-[13px] font-medium tracking-[0.0075em] text-slate-500 whitespace-nowrap group-hover:text-[#0057B7] font-['Inter'] transition-colors">
+                                        View All
+                                    </span>
+                                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-[#0057B7]" strokeWidth={1.8} />
+                                </div>
                             </button>
                         </motion.div>
                     </div>

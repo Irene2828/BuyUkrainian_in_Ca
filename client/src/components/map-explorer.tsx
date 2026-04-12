@@ -356,11 +356,11 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
                                                         "h-[36px] px-[12px] ml-[3px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                        "bg-[#0057B7] text-white rounded-[32px] shrink-0",
-                                                        "hover:bg-[#0047A0] active:scale-95 shadow-sm"
+                                                        "bg-[#FFD700] text-[#1E293B] rounded-[32px] shrink-0 border-none",
+                                                        "hover:bg-[#FFD700]/90 active:scale-95 shadow-[0_4px_12px_rgba(255,215,0,0.18)]"
                                                     )}
                                                 >
-                                                    <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                                    <Plus className="w-3.5 h-3.5 text-[#1E293B]" strokeWidth={2.5} />
                                                     <span>{t('nav.addStore') || 'Pin Store'}</span>
                                                 </button>
                                             </div>{/* end inner scrollable div */}
@@ -428,12 +428,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 )}
                                             >
                                                 {!tipMinimized && (
-                                                    <div className="flex items-center gap-2 whitespace-nowrap text-left">
-                                                        <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7] whitespace-nowrap">
-                                                            Pins show local stores
-                                                        </span>
-                                                        <span className="text-[11px] tracking-[0.04em] font-medium text-[#0057B7]/65 whitespace-nowrap">
-                                                            selling products made in Ukraine
+                                                    <div className="flex items-center gap-1 whitespace-nowrap text-left font-['Inter']">
+                                                        <span className="text-[13px] font-medium text-[#0057B7]/80 whitespace-nowrap">
+                                                            Pins show local stores – selling products made in Ukraine
                                                         </span>
                                                     </div>
                                                 )}

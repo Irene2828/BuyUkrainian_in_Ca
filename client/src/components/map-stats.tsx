@@ -26,9 +26,9 @@ export function MapStats() {
             <div className="boutique-width w-full flex flex-col items-center">
                 {/* Stats Header */}
                 <div className="flex flex-col items-center mb-12">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-premium-pulse" />
-                        <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
+                    <div className="flex items-center gap-2.5 h-full">
+                        <div className="w-2 h-2 bg-[#FFD700] rounded-full animate-premium-pulse shrink-0 relative top-[-1px]" />
+                        <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui leading-none">
                             The Map Is Growing
                         </p>
                     </div>
@@ -40,11 +40,11 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
+                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Store className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[8px] md:text-[10px] font-semibold tracking-widest uppercase">Stores Found</span>
+                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Stores Found</span>
                         </div>
                     </div>
 
@@ -53,11 +53,11 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
+                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Map className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[8px] md:text-[10px] font-semibold tracking-widest uppercase">Provinces Covered</span>
+                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Provinces Covered</span>
                         </div>
                     </div>
 
@@ -66,25 +66,25 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[52px] md:text-[81px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
+                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Package className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[8px] md:text-[10px] font-semibold tracking-widest uppercase">Products listed</span>
+                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Products listed</span>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center mt-10">
-                    <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] md:max-w-none md:whitespace-nowrap mb-6">
+                    <p className="text-[16px] text-slate-600 leading-relaxed font-normal text-center max-w-[40ch] md:max-w-none md:whitespace-nowrap mb-6">
                         Every store on this map was added by someone like you.
                     </p>
                     <Link href="/map">
                         <Button
-                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/cta-btn border-none"
+                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#1E293B] border-none transition-all duration-300 hover:bg-[#FFD700]/90 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(255,215,0,0.15)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn"
                         >
                             <span>Add a Store to the Map</span>
-                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px]" />
+                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-[#1E293B]" />
                         </Button>
                     </Link>
                 </div>

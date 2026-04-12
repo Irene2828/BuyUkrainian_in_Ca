@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle, useEffect, useMemo, useRef } from 'react';
 import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
 import { Map, Marker, useMap, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { Store } from '@/lib/data';
 import { Plus, Minus, Maximize2, Navigation, Info } from 'lucide-react';
@@ -20,6 +21,10 @@ export interface InteractiveMapRef {
 
 const CANADA_CENTER: [number, number] = [52.0, -94.0];
 const INITIAL_MAP_STATE = { center: CANADA_CENTER, zoom: 4.2 };
+const HERO_INITIAL_MAP_STATE = {
+  center: { lat: 48.7, lng: -84.0 },
+  zoom: 3.9,
+};
 const MAX_CLUSTER_FOCUS_ZOOM = 12;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
 const CLUSTER_TIGHT_SPAN = 0.08;
@@ -246,8 +251,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   variant = "default"
 }, ref) => {
   const mapRef = useMap("main-map");
-  const [zoom, setZoom] = useState(variant === 'hero' ? 4.0 : INITIAL_MAP_STATE.zoom);
-  const [center, setCenter] = useState({ lat: variant === 'hero' ? 49.5 : CANADA_CENTER[0], lng: variant === 'hero' ? -85.0 : CANADA_CENTER[1] });
+  const [zoom, setZoom] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom);
+  const [center, setCenter] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.center : { lat: CANADA_CENTER[0], lng: CANADA_CENTER[1] });
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -274,6 +279,13 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       zoomChangedListener.remove();
     };
   }, [mapRef, variant]);
+
+  useEffect(() => {
+    if (variant !== 'hero') return;
+
+    setZoom(HERO_INITIAL_MAP_STATE.zoom);
+    setCenter(HERO_INITIAL_MAP_STATE.center);
+  }, [variant]);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
@@ -480,14 +492,14 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {/* Premium Frosted Tooltip */}
-      {hoveredLabel && (
+      {hoveredLabel && typeof document !== "undefined" && createPortal(
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
           className="fixed z-[9999] pointer-events-none px-4 py-2 rounded-lg bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
-          style={{ 
-            left: hoveredLabel.x, 
+          style={{
+            left: hoveredLabel.x,
             top: hoveredLabel.y - 50,
             transform: 'translateX(-50%)'
           }}
@@ -495,7 +507,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           <span className="text-[14px] font-semibold text-[#0057B7] whitespace-nowrap tracking-tight">
             {hoveredLabel.text}
           </span>
-        </motion.div>
+        </motion.div>,
+        document.body
       )}
     </motion.div>
   );
@@ -518,7 +531,6 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         position,
         icon: buildMarkerIcon(svg, "cluster"),
         label: "",
-        title: countLabel,
       });
 
       marker.addListener('mouseover', (e: any) => {
@@ -576,7 +588,6 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       const marker = new (window as any).google.maps.Marker({
         position: { lat: store.coordinates[0], lng: store.coordinates[1] },
         icon: defaultIcon,
-        title: store.name,
         zIndex: isSelected ? 1000 : dimmed ? 10 : 100,
       });
 
