@@ -356,11 +356,11 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
                                                         "h-[36px] px-[12px] ml-[3px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                        "bg-[#FFD700] text-[#1E293B] rounded-[32px] shrink-0 border-none",
-                                                        "hover:bg-[#FFD700]/90 active:scale-95 shadow-[0_4px_12px_rgba(255,215,0,0.18)]"
+                                                        "bg-[#0057B7] text-white rounded-[32px] shrink-0 border-none",
+                                                        "hover:bg-[#0047A0] active:scale-95 shadow-[0_4px_12px_rgba(0,87,183,0.18)]"
                                                     )}
                                                 >
-                                                    <Plus className="w-3.5 h-3.5 text-[#1E293B]" strokeWidth={2.5} />
+                                                    <Plus className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
                                                     <span>{t('nav.addStore') || 'Pin Store'}</span>
                                                 </button>
                                             </div>{/* end inner scrollable div */}

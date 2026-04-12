@@ -81,10 +81,10 @@ export function MapStats() {
                     </p>
                     <Link href="/map">
                         <Button
-                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-[#1E293B] border-none transition-all duration-300 hover:bg-[#FFD700]/90 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(255,215,0,0.15)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 gap-2.5 group/cta-btn"
+                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn"
                         >
                             <span>Add a Store to the Map</span>
-                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-[#1E293B]" />
+                            <MapPin className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-white" />
                         </Button>
                     </Link>
                 </div>

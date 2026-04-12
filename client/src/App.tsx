@@ -40,6 +40,7 @@ function Router() {
 import { getApprovedStores } from "./lib/api";
 
 function App() {
+  const googleMapsApiKey = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
 
   useEffect(() => {
     const cleanupWebSocket = setupWebSocketListener();
@@ -62,8 +63,11 @@ function App() {
           <QueryClientProvider client={queryClient}>
             <TooltipProvider>
               <APIProvider
-                apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+                apiKey={googleMapsApiKey || "MISSING_GOOGLE_MAPS_API_KEY"}
                 authReferrerPolicy="origin"
+                onError={(error) => {
+                  console.error("[Google Maps] Failed to load map assets", error);
+                }}
               >
                 <Toaster />
                 <SonnerToaster />

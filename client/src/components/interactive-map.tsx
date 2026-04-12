@@ -1,12 +1,13 @@
 import React, { useState, forwardRef, useImperativeHandle, useEffect, useMemo, useRef } from 'react';
 import { motion } from "framer-motion";
 import { createPortal } from "react-dom";
-import { Map, Marker, useMap, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
+import { Map, Marker, useMap, MapCameraChangedEvent, useApiLoadingStatus, APILoadingStatus } from '@vis.gl/react-google-maps';
 import { Store } from '@/lib/data';
-import { Plus, Minus, Maximize2, Navigation, Info } from 'lucide-react';
+import { Plus, Minus, Maximize2, Navigation, Info, RefreshCw, MapPin } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoreCard } from '@/components/store-card';
 import { getBrandedMapPinSize, getBrandedMapPinSvg } from '@/lib/branded-map-pin';
+import { cn } from '@/lib/utils';
 
 export interface InteractiveMapRef {
   focusOnStore: (store: Store) => void;
@@ -31,6 +32,7 @@ const CLUSTER_TIGHT_SPAN = 0.08;
 const UNRESOLVED_CANADA_CENTER = { lat: 56.1304, lng: -106.3468 };
 const UNRESOLVED_COORD_TOLERANCE = 0.05;
 const MAP_TOOLTIP_CONTENT_CLASSNAME = "border-0 bg-white/60 px-4 py-2 text-[12px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md";
+const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
 
 const isValidCoord = (lat: number | null, lng: number | null) =>
   lat !== null && lng !== null &&
@@ -250,10 +252,68 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   isMobile,
   variant = "default"
 }, ref) => {
+  const apiLoadingStatus = useApiLoadingStatus();
   const mapRef = useMap("main-map");
   const [zoom, setZoom] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom);
   const [center, setCenter] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.center : { lat: CANADA_CENTER[0], lng: CANADA_CENTER[1] });
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
+  const mapSurfaceState = useMemo(() => {
+    if (!GOOGLE_MAPS_API_KEY) {
+      return {
+        kind: "unavailable" as const,
+        title: variant === "hero" ? "Map preview unavailable" : "Map unavailable right now",
+        description: variant === "hero"
+          ? "This page was built without the Google Maps connection for the preview."
+          : "This deployment is missing the Google Maps connection, so the store map cannot render yet.",
+      };
+    }
+
+    if (apiLoadingStatus === APILoadingStatus.AUTH_FAILURE) {
+      return {
+        kind: "unavailable" as const,
+        title: variant === "hero" ? "Map preview blocked" : "Map blocked for this site address",
+        description: variant === "hero"
+          ? "Google Maps rejected the current site address for this preview."
+          : "Google Maps rejected this deployment URL. The API key likely needs this domain added to its allowed referrers.",
+      };
+    }
+
+    if (apiLoadingStatus === APILoadingStatus.FAILED) {
+      return {
+        kind: "unavailable" as const,
+        title: variant === "hero" ? "Map preview unavailable" : "Map couldn't load",
+        description: variant === "hero"
+          ? "The preview couldn't finish loading the Google map."
+          : "Google Maps did not finish loading for this page. Store data is still available, but the map canvas couldn't start.",
+      };
+    }
+
+    if (
+      apiLoadingStatus === APILoadingStatus.NOT_LOADED ||
+      apiLoadingStatus === APILoadingStatus.LOADING
+    ) {
+      return {
+        kind: "loading" as const,
+        title: variant === "hero" ? "Loading map preview" : "Loading map",
+        description: variant === "hero"
+          ? "Bringing the store map into view."
+          : "Fetching the Google Maps layer for the latest store view.",
+      };
+    }
+
+    return { kind: "ready" as const };
+  }, [apiLoadingStatus, variant]);
+
+  if (mapSurfaceState.kind !== "ready") {
+    return (
+      <MapSurfaceState
+        variant={variant}
+        title={mapSurfaceState.title}
+        description={mapSurfaceState.description}
+        isLoading={mapSurfaceState.kind === "loading"}
+      />
+    );
+  }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (hoveredLabel) {
@@ -617,6 +677,81 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   }, [stores, map, selectedStore, onSelectStore, setHoveredLabel, variant]);
 
   return null;
+}
+
+interface MapSurfaceStateProps {
+  variant: "default" | "full" | "hero";
+  title: string;
+  description: string;
+  isLoading?: boolean;
+}
+
+function MapSurfaceState({
+  variant,
+  title,
+  description,
+  isLoading = false,
+}: MapSurfaceStateProps) {
+  const isHero = variant === "hero";
+
+  return (
+    <div
+      className={cn(
+        "relative flex h-full w-full overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(186,230,253,0.55),_transparent_44%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)]",
+        isHero ? "items-end justify-end" : "items-center justify-center"
+      )}
+    >
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(135deg,rgba(0,87,183,0.08),transparent_40%,rgba(255,215,0,0.18)_100%)]" />
+      <div
+        className={cn(
+          "relative z-10 pointer-events-auto rounded-[28px] border border-white/80 bg-white/88 shadow-[0_24px_80px_rgba(10,37,64,0.12)] backdrop-blur-xl",
+          isHero ? "m-8 max-w-[360px] p-6" : "mx-6 max-w-[560px] p-8 text-center"
+        )}
+      >
+        <div
+          className={cn(
+            "mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#0057B7]/10 bg-[#EFF6FF] text-[#0057B7]",
+            isLoading && "bg-white"
+          )}
+        >
+          {isLoading ? (
+            <RefreshCw className="h-5 w-5 animate-spin" />
+          ) : (
+            <MapPin className="h-5 w-5" />
+          )}
+        </div>
+
+        <h3
+          className={cn(
+            "font-['Lora'] tracking-[-0.01em] text-[#0A2540]",
+            isHero ? "text-[1.55rem] leading-tight" : "text-[1.8rem] leading-tight"
+          )}
+        >
+          {title}
+        </h3>
+
+        <p
+          className={cn(
+            "mt-3 font-['Inter'] text-slate-500",
+            isHero ? "max-w-[28ch] text-[14px] leading-6" : "mx-auto max-w-[46ch] text-[15px] leading-7"
+          )}
+        >
+          {description}
+        </p>
+
+        {!isLoading && (
+          <p
+            className={cn(
+              "mt-4 font-['Inter'] text-slate-400",
+              isHero ? "text-[12px] leading-5" : "text-[13px] leading-6"
+            )}
+          >
+            Store listings are still available even when the map canvas is not.
+          </p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 InteractiveMap.displayName = "InteractiveMap";

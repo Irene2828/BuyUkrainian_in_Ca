@@ -145,12 +145,15 @@ Navigate to `http://localhost:5001`
 
 ### Environment Variables
 
-Create a `.env` file:
+Create a `.env` or `.env.local` file:
 
 ```env
 DATABASE_URL="your_supabase_connection_string"
 DIRECT_URL="your_direct_connection_string"
+VITE_GOOGLE_MAPS_API_KEY="your_google_maps_browser_key"
 ```
+
+For Vercel deployments, set `VITE_GOOGLE_MAPS_API_KEY` in Project Settings > Environment Variables for every environment you deploy from, then redeploy so Vite can inline it into the client bundle.
 
 ---
 

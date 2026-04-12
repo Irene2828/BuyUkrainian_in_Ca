@@ -14,7 +14,7 @@ export function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { t, language, setLanguage } = useI18n();
+  const { t } = useI18n();
   const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
   const { isVersionB } = useFlagsABTest();
 
@@ -188,6 +188,10 @@ export function Header() {
                     <Plus className="w-4 h-4 opacity-70" />
                     {t('nav.addStore') || 'Add Store'}
                   </span>
+
+                  <div className="pt-2 border-t border-slate-200/80">
+                    <LanguageSwitcher />
+                  </div>
 
 
             </nav>
