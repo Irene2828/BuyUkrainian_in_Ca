@@ -56,7 +56,7 @@ export function HowItWorks() {
 
 
   return (
-    <section id="how-it-works" className="pt-[106px] pb-[48px] md:pt-[176px] md:pb-[80px] font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="pt-[117px] pb-[48px] md:pt-[194px] md:pb-[80px] font-sans overflow-hidden bg-white">
       <div className="boutique-width">
         {/* Section Header */}
         <div className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">

@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
 import { useFlagsABTest } from "@/hooks/use-ab-test";
 import { LanguageSwitcher } from "@/components/language-switcher";
-
+import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 export function Header() {
   const [location] = useLocation();
@@ -66,11 +66,12 @@ export function Header() {
           : "bg-white border-b border-slate-200"
       )}
     >
-      <div className="boutique-width h-[81px] 2xl:h-[108px] flex items-center justify-between relative">
+      <div className="boutique-width h-[81px] 2xl:h-[108px] relative">
+        <div className="flex h-full items-center justify-between min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)]">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-4">
-          <Link href="/" className="flex items-center group min-[1670px]:ml-0 scale-90 min-[1670px]:scale-105 origin-left transition-transform">
+          <Link href="/" className="flex items-center group min-[1670px]:ml-0">
 
 
             {/* Yellow Vertical Divider */}
@@ -89,7 +90,7 @@ export function Header() {
         </div>
 
         {/* Right: Navigation - Desktop */}
-        <div className="hidden md:flex flex-1 items-center justify-end gap-8">
+        <div className="hidden md:flex flex-none items-center justify-end gap-8">
             <nav className="items-center gap-8 flex font-sans antialiased">
               <Link
                 href="/#faq"
@@ -99,30 +100,30 @@ export function Header() {
                     document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="group relative text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 text-[#0057B7]"
+                className={HEADER_NAV_LINK_CLASSNAME}
               >
                 {t('nav.about') || 'About'}
-                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
               </Link>
-              <Link href="/map" className={cn("group relative text-[15px] min-[1670px]:text-[15.85px] transition-all duration-300 flex items-center gap-2 text-[#0057B7]", location === '/map' ? "font-semibold" : "font-medium")}>
+              <Link href="/map" className={cn("flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
                 {t('nav.map') || 'Map'}
-                <span className={cn("absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] transition-transform duration-300 origin-center", location === '/map' ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100")} />
               </Link>
               <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogTrigger asChild>
                   <span
                     role="button"
                     tabIndex={0}
-                    className="group relative text-[15px] min-[1670px]:text-[15.85px] font-medium text-[#0057B7] transition-all duration-300 cursor-pointer outline-none flex items-center gap-2"
+                    className={cn("cursor-pointer outline-none flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME)}
                   >
                     {t('nav.addStore') || 'Add Store'}
-                    <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-[#0057B7] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                   </span>
                 </DialogTrigger>
                 <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
                   <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
                 </DialogContent>
               </Dialog>
+              <span aria-hidden="true" className="text-slate-300 font-normal">
+                |
+              </span>
               <LanguageSwitcher />
             </nav>
         </div>
@@ -146,6 +147,7 @@ export function Header() {
         </div>
 
 
+        </div>
       </div>
 
       {/* Mobile Menu Dropdown */}

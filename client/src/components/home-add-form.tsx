@@ -19,6 +19,9 @@ import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, MapPin, Loader2, X, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const formSectionEyebrowClassName =
+  "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0057B7]/70 font-ui";
+
 const optionalTextField = z.preprocess(
   (value) => typeof value === "string" ? value.trim() : value,
   z.string().optional().default("")
@@ -39,7 +42,13 @@ const formSchema = z.object({
   name: z.string().trim().min(2, "Store name is required"),
   category: z.enum(["food", "clothes", "retail", "other"]),
   website: optionalUrlField,
-  products: optionalTextField,
+  products: z
+    .string()
+    .trim()
+    .refine(
+      (value) => value.split(",").map((product) => product.trim()).filter(Boolean).length > 0,
+      "Please list at least one product"
+    ),
   description: optionalTextField,
   latitude: z.number().optional(),
   longitude: z.number().optional(),
@@ -325,188 +334,209 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             }}
             className="space-y-6"
           >
+            <div className="space-y-7">
+              <div>
+                <span className={formSectionEyebrowClassName}>Required details</span>
+              </div>
 
-            {/* 1. Location (Identity First) */}
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">
-                    Location
-                  </FormLabel>
-                  <p className="text-[12px] text-slate-400 font-ui mb-2">Type a street address and pick from the list — e.g. <span className="text-slate-500 font-medium">1018 9 Ave SE, Calgary</span></p>
-                  <FormControl>
-                    <div className="relative group">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
-                      <Input
-                        placeholder="e.g. 1018 9 Ave SE, Calgary, AB"
-                        {...field}
-                        ref={(el) => {
-                          field.ref(el);
-                          (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
-                        }}
-                        autoComplete="off"
-                        className="h-14 pl-11 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
-                      />
-                    </div>
-                  </FormControl>
+              {/* 1. Location (Identity First) */}
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">
+                      Location
+                    </FormLabel>
+                    <p className="text-[12px] text-slate-400 font-ui mb-2">Type a street address and pick from the list — e.g. <span className="text-slate-500 font-medium">1018 9 Ave SE, Calgary</span></p>
+                    <FormControl>
+                      <div className="relative group">
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
+                        <Input
+                          placeholder="e.g. 1018 9 Ave SE, Calgary, AB"
+                          {...field}
+                          ref={(el) => {
+                            field.ref(el);
+                            (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
+                          }}
+                          autoComplete="off"
+                          className="h-14 pl-11 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
+                        />
+                      </div>
+                    </FormControl>
 
-                  {/* Location Summary - Shows City/Province automatically */}
-                  {(form.watch("city") || form.watch("province")) && (
-                    <div className="flex flex-col gap-1 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-none stroke-current" strokeWidth={2} />
-                        <span className="text-[13px] font-medium text-slate-400 font-ui">
-                          {form.watch("city")}, {form.watch("province")}
+                    {/* Location Summary - Shows City/Province automatically */}
+                    {(form.watch("city") || form.watch("province")) && (
+                      <div className="flex flex-col gap-1 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-none stroke-current" strokeWidth={2} />
+                          <span className="text-[13px] font-medium text-slate-400 font-ui">
+                            {form.watch("city")}, {form.watch("province")}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-slate-400/70 font-ui ml-[22px]">
+                          Double-check the address above and edit if needed
                         </span>
                       </div>
-                      <span className="text-[11px] text-slate-400/70 font-ui ml-[22px]">
-                        Double-check the address above and edit if needed
-                      </span>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* 2. Business Name */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Business name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g. European Deli & Bakery"
+                        {...field}
+                        autoComplete="off"
+                        className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* 3. Category */}
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <select {...field} className="w-full h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] text-[16px] font-normal outline-none focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui appearance-none cursor-pointer text-slate-800">
+                          <option value="food">Food & Grocery</option>
+                          <option value="clothes">Clothing & Apparel</option>
+                          <option value="retail">Retail & Gifts</option>
+                          <option value="other">Other</option>
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* 4. Products Sold */}
+              <FormField
+                control={form.control}
+                name="products"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
+                    <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
+                    <FormControl>
+                      <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4 pt-1">
+              <div className="flex items-center gap-4">
+                <div className="h-px flex-1 bg-[#0057B7]/12" />
+                <div className="flex items-center gap-2 rounded-full border border-[#0057B7]/10 bg-white/75 px-3 py-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#0057B7]" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0057B7]/70 font-ui">
+                    Optional details
+                  </span>
+                </div>
+                <div className="h-px flex-1 bg-[#0057B7]/12" />
+              </div>
+
+            </div>
+
+            <div className="space-y-7">
+              {/* 5. Website (Optional) */}
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Website (Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://example.com"
+                        {...field}
+                        className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* 6. Description */}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Brief Store Info (Optional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Share what makes this place unique..."
+                        {...field}
+                        className="min-h-[100px] rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] resize-none font-ui focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* 7. Image Upload Zone */}
+              <div>
+                <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-3">Store Photo (Optional)</label>
+                <div
+                  onClick={() => imageInputRef.current?.click()}
+                  className={cn(
+                    "rounded-[16px] p-8 text-center cursor-pointer transition-all duration-300 group border-2 border-dashed shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
+                    imagePreview ? "border-green-300 bg-green-50" : "border-slate-200 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
+                  )}
+                >
+                  {imagePreview ? (
+                    <div className="relative">
+                      <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); updateImagePreview(null); form.setValue("image", ""); }}
+                        className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
+                      >
+                        <X className="w-3 h-3 fill-none stroke-current" strokeWidth={2} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <Image className="w-8 h-8 text-gray-300 group-hover:text-[#0057B7] transition-colors fill-none stroke-current" strokeWidth={2} />
+                      <p className="text-[13px] text-slate-500 font-ui group-hover:text-[#0057B7] transition-colors">Click to upload a photo</p>
                     </div>
                   )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 2. Business Name */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Business name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g. European Deli & Bakery"
-                      {...field}
-                      autoComplete="off"
-                      className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 3. Website (Optional) */}
-            <FormField
-              control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Website (Optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://example.com"
-                      {...field}
-                      className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 3. Category */}
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <select {...field} className="w-full h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] text-[16px] font-normal outline-none focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui appearance-none cursor-pointer text-slate-800">
-                        <option value="food">Food & Grocery</option>
-                        <option value="clothes">Clothing & Apparel</option>
-                        <option value="retail">Retail & Gifts</option>
-                        <option value="other">Other</option>
-                      </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 4. Products Sold (Optional / Supplemental) */}
-            <FormField
-              control={form.control}
-              name="products"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
-                  <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
-                  <FormControl>
-                    <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 5. Description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Brief Store Info (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Share what makes this place unique..."
-                      {...field}
-                      className="min-h-[100px] rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] resize-none font-ui focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* 6. Image Upload Zone */}
-            <div>
-              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-3">Store Photo (Optional)</label>
-              <div
-                onClick={() => imageInputRef.current?.click()}
-                className={cn(
-                  "rounded-[16px] p-8 text-center cursor-pointer transition-all duration-300 group border-2 border-dashed shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
-                  imagePreview ? "border-green-300 bg-green-50" : "border-slate-200 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
-                )}
-              >
-                {imagePreview ? (
-                  <div className="relative">
-                    <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
-                    <button
-                      type="button"
-                      onClick={(e) => { e.stopPropagation(); updateImagePreview(null); form.setValue("image", ""); }}
-                      className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
-                    >
-                      <X className="w-3 h-3 fill-none stroke-current" strokeWidth={2} />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-2">
-                    <Image className="w-8 h-8 text-gray-300 group-hover:text-[#0057B7] transition-colors fill-none stroke-current" strokeWidth={2} />
-                    <p className="text-[13px] text-slate-500 font-ui group-hover:text-[#0057B7] transition-colors">Click to upload a photo</p>
-                  </div>
-                )}
+                </div>
+                <input
+                  type="file"
+                  ref={imageInputRef}
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
               </div>
-              <input
-                type="file"
-                ref={imageInputRef}
-                onChange={handleImageUpload}
-                accept="image/*"
-                className="hidden"
-              />
             </div>
 
             {/* Submit Button */}
@@ -529,10 +559,6 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <span className="block">to prevent spam or inaccurate listings.</span>
                 </p>
 
-                <p className="text-[12px] text-slate-400 text-center font-ui flex items-center justify-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] inline-block" />
-                  No personal data is collected.
-                </p>
               </div>
             </div>
 

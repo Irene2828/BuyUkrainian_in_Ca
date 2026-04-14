@@ -77,7 +77,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[40px] md:pt-[60px] pb-[60px] md:pb-[100px] border-t border-slate-200/50">
+    <section className="bg-white pt-[32px] md:pt-[40px] pb-[40px] md:pb-[60px]">
       <div className="boutique-width">
         <div className="md:pl-[40px] 2xl:pl-[48px]">
           <div className="flex justify-between items-center w-full mb-6 group/header-link">
@@ -134,13 +134,13 @@ function NewlyAddedStores() {
       </div>
 
       {/* Community Call to Action */}
-      <div className="flex flex-col items-center justify-center py-[40px] md:py-[60px] text-center px-4">
+      <div className="flex flex-col items-center justify-center py-[24px] md:py-[40px] text-center px-4">
         <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
           Know a store we missed? Add it to the map.
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:px-9 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn border-none mx-auto"
+          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn border-none mx-auto"
         >
           <span>Add a New Store</span>
           <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-white" />
@@ -194,7 +194,7 @@ export default function MapPage() {
             </div>
 
             <div className="section-reveal">
-              <CommunityImpact hideBorder />
+              <CommunityImpact />
             </div>
           </>
         )}

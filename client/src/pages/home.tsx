@@ -48,7 +48,7 @@ export default function Home() {
         <div className="section-reveal relative bg-white">
           <div className="relative z-10">
             <MapStats />
-            <CommunityImpact hideBorder />
+            <CommunityImpact />
           </div>
         </div>
       </main>

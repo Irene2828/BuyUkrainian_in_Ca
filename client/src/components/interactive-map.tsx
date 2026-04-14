@@ -20,10 +20,13 @@ export interface InteractiveMapRef {
   invalidateSize: () => void;
 }
 
-const CANADA_CENTER: [number, number] = [52.0, -94.0];
-const INITIAL_MAP_STATE = { center: CANADA_CENTER, zoom: 4.2 };
+const FULL_MAP_INITIAL_CENTER: [number, number] = [54.0, -90.5];
+const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 const HERO_INITIAL_MAP_STATE = {
-  center: { lat: 48.7, lng: -84.0 },
+  // The hero crop hides the southern edge more aggressively than the full map,
+  // so the hero camera needs a more noticeable southward center to lift
+  // Ontario-area pins comfortably into view.
+  center: { lat: 46.2, lng: -84.0 },
   zoom: 3.9,
 };
 const MAX_CLUSTER_FOCUS_ZOOM = 12;
@@ -255,7 +258,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   const apiLoadingStatus = useApiLoadingStatus();
   const mapRef = useMap("main-map");
   const [zoom, setZoom] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom);
-  const [center, setCenter] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.center : { lat: CANADA_CENTER[0], lng: CANADA_CENTER[1] });
+  const [center, setCenter] = useState(
+    variant === 'hero'
+      ? HERO_INITIAL_MAP_STATE.center
+      : { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] }
+  );
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
   const mapSurfaceState = useMemo(() => {
     if (!GOOGLE_MAPS_API_KEY) {
@@ -370,7 +377,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     },
     resetView: () => {
       if (!mapRef) return;
-      mapRef.panTo({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1] });
+      mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
       mapRef.setZoom(INITIAL_MAP_STATE.zoom);
     },
     zenView: () => {},
@@ -403,8 +410,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       <Map
         id="main-map"
-        defaultCenter={center}
-        defaultZoom={zoom}
+        center={center}
+        zoom={zoom}
         disableDefaultUI={true}
         gestureHandling="cooperative"
         minZoom={variant === 'hero' ? 3.5 : 4}
@@ -538,7 +545,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                 ariaLabel="Reset to national view"
                 onClick={() => {
                   if (mapRef) {
-                    mapRef.panTo({ lat: CANADA_CENTER[0], lng: CANADA_CENTER[1] });
+                    mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
                     mapRef.setZoom(INITIAL_MAP_STATE.zoom);
                   }
                 }}

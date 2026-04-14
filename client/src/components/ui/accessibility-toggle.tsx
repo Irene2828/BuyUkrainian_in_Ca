@@ -1,6 +1,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useAccessibility } from "@/contexts/accessibility-context";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Universal Access Toggle
@@ -9,15 +10,16 @@ import { cn } from "@/lib/utils";
  */
 export function AccessibilityToggle({ className }: { className?: string }) {
     const { accessibleMode, toggleAccessibleMode } = useAccessibility();
+    const { t } = useI18n();
 
     return (
         <button
             onClick={toggleAccessibleMode}
-            className={cn("uppercase transition-colors bg-transparent border-none p-0 outline-none focus:outline-none", className)}
-            aria-label={accessibleMode ? "Disable high-contrast mode" : "Enable high-contrast mode"}
+            className={cn("transition-colors bg-transparent border-none p-0 outline-none focus:outline-none", className)}
+            aria-label={accessibleMode ? t("common.accessibility.disable") : t("common.accessibility.enable")}
             aria-pressed={accessibleMode}
         >
-            ACCESSIBILITY
+            {t("common.accessibility.label")}
         </button>
     );
 }

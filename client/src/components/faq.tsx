@@ -9,21 +9,21 @@ export function FAQ() {
 
   const faqs = [
     {
-      question: t('faq.q1') || 'What is BuyUkrainian.ca?',
-      answer: t('faq.a1') || 'BuyUkrainian.ca is a community-driven map that helps people find Ukrainian-made products sold across Canada.'
+      question: t("faq.items.item1.question"),
+      answer: t("faq.items.item1.answer"),
     },
     {
-      question: t('faq.q2') || 'How can I add a store?',
-      answer: t('faq.a2') || 'Select the "Add a store" button, fill in the details including name, products, and address.'
+      question: t("faq.items.item2.question"),
+      answer: t("faq.items.item2.answer"),
     },
     {
-      question: t('faq.q3') || 'Why do additions need review?',
-      answer: t('faq.a3') || 'Additions are reviewed by the community to keep the map accurate and useful.'
+      question: t("faq.items.item3.question"),
+      answer: t("faq.items.item3.answer"),
     },
     {
-      question: t('faq.q4') || 'Can I update store details?',
-      answer: t('faq.a4') || 'Currently, you can contact us to update information. We\'re working on a feature to allow community edits in the future.'
-    }
+      question: t("faq.items.item4.question"),
+      answer: t("faq.items.item4.answer"),
+    },
   ];
 
   const toggleItem = (index: number) => {
@@ -31,11 +31,11 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative font-sans overflow-hidden py-[48px] md:py-[80px] z-10 border-b border-slate-200/50 bg-white">
+    <section id="faq" className="relative font-sans overflow-hidden py-[48px] md:py-[80px] z-10 bg-white">
       <div className="boutique-width relative z-10 w-full">
         <div className="mb-8 lg:mb-12 max-w-3xl mx-auto flex flex-col gap-6 text-center items-center">
           <h2 className="text-[31px] md:text-[41px] font-semibold tracking-tight leading-tight section-headline-reveal text-slate-900">
-            About the Project
+            {t("faq.title")}
           </h2>
 
         </div>

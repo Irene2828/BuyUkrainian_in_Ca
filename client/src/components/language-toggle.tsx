@@ -1,11 +1,11 @@
-import { useI18n, Language } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
 export function LanguageToggle() {
   const { language, setLanguage } = useI18n();
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'ua' : 'en');
+    setLanguage(language === "en" ? "uk" : "en");
   };
 
   return (
@@ -20,8 +20,8 @@ export function LanguageToggle() {
         EN
       </span>
       <span className="text-gray-300 dark:text-gray-600">/</span>
-      <span className={`transition-opacity ${language === 'ua' ? 'opacity-100 font-bold' : 'opacity-50'}`}>
-        UA
+      <span className={`transition-opacity ${language === 'uk' ? 'opacity-100 font-bold' : 'opacity-50'}`}>
+        UK
       </span>
     </Button>
   );

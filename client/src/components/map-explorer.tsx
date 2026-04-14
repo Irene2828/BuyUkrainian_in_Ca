@@ -149,6 +149,25 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
         return () => window.removeEventListener('clearFilters', handleClearFilters);
     }, []);
 
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const provinceParam = searchParams.get('province');
+        const cityParam = searchParams.get('city');
+
+        if (provinceParam) {
+            const decodedProvince = decodeURIComponent(provinceParam).trim();
+            const normalizedProvince = PROVINCE_MAP[decodedProvince.toUpperCase()] || decodedProvince;
+
+            if (PROVINCE_CENTERS[normalizedProvince]) {
+                setSelectedProvince(normalizedProvince);
+            }
+        }
+
+        if (cityParam) {
+            setSelectedCity(decodeURIComponent(cityParam));
+        }
+    }, []);
+
     // Handle URL Query Params (Deep Linking to Store)
     useEffect(() => {
         if (stores.length === 0) return;
