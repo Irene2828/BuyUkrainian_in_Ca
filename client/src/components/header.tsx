@@ -70,11 +70,9 @@ export function Header() {
       <div className="boutique-width h-[81px] 2xl:h-[108px] relative">
         <div className="flex h-full items-center justify-between min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)]">
 
-        {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center justify-start gap-4">
+        {/* Left: Logo & Branding + Navigation */}
+        <div className="flex-1 flex items-center justify-start gap-12">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
-
-
             {/* Yellow Vertical Divider */}
             <div className="h-[33.6px] w-[2.1px] bg-[#FFD700] shrink-0 ml-[1.3px]" />
 
@@ -88,47 +86,51 @@ export function Header() {
               </span>
             </div>
           </Link>
+
+          {/* Desktop Nav Links - moved next to logo */}
+          <nav className="hidden md:flex items-center gap-8 font-sans antialiased">
+            <Link
+              href="/#faq"
+              onClick={(e) => {
+                if (location === '/') {
+                  e.preventDefault();
+                  document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className={HEADER_NAV_LINK_CLASSNAME}
+            >
+              {t('nav.about') || 'About'}
+            </Link>
+            <Link href="/map" className={cn("flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+              {t('nav.map') || 'Map'}
+            </Link>
+            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+              <DialogTrigger asChild>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  className={cn("cursor-pointer outline-none flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME)}
+                >
+                  {t('nav.addStore') || 'Add Store'}
+                </span>
+              </DialogTrigger>
+              <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
+                <GoogleMapsProvider>
+                  <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                </GoogleMapsProvider>
+              </DialogContent>
+            </Dialog>
+          </nav>
         </div>
 
-        {/* Right: Navigation - Desktop */}
-        <div className="hidden md:flex flex-none items-center justify-end gap-8">
-            <nav className="items-center gap-8 flex font-sans antialiased">
-              <Link
-                href="/#faq"
-                onClick={(e) => {
-                  if (location === '/') {
-                    e.preventDefault();
-                    document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className={HEADER_NAV_LINK_CLASSNAME}
-              >
-                {t('nav.about') || 'About'}
-              </Link>
-              <Link href="/map" className={cn("flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                {t('nav.map') || 'Map'}
-              </Link>
-              <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-                <DialogTrigger asChild>
-                  <span
-                    role="button"
-                    tabIndex={0}
-                    className={cn("cursor-pointer outline-none flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME)}
-                  >
-                    {t('nav.addStore') || 'Add Store'}
-                  </span>
-                </DialogTrigger>
-                <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
-                  <GoogleMapsProvider>
-                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-                  </GoogleMapsProvider>
-                </DialogContent>
-              </Dialog>
+        {/* Right: Language Switcher - Desktop */}
+        <div className="hidden md:flex flex-none items-center justify-end">
+            <div className="flex items-center gap-6">
               <span aria-hidden="true" className="text-slate-300 font-normal">
                 |
               </span>
               <LanguageSwitcher />
-            </nav>
+            </div>
         </div>
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
