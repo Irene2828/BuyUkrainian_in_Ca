@@ -162,14 +162,14 @@ export function Hero() {
                                     className="relative z-10 leading-[1.08] min-[1670px]:leading-[1.08] antialiased pointer-events-auto"
                                     style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-semibold tracking-[-0.03em] text-[#0057B7]">
+                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-medium tracking-[-0.03em] text-[#0057B7]">
                                         Discover
                                     </span>
-                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-semibold tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-3">
+                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-medium tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-3">
                                         <span className="relative inline-block">Ukrainian</span>
                                         {" "}Products
                                     </span>
-                                    <span className="block font-['Inter'] text-[calc(2.1rem-2px)] md:text-[calc(2.4rem-2px)] min-[1500px]:text-[calc(2.6rem-2px)] min-[1670px]:text-[calc(2.85rem+4px)] font-medium tracking-[-0.03em] whitespace-nowrap text-slate-400 mb-6">
+                                    <span className="block font-['Inter'] text-[calc(2.1rem-2px)] md:text-[calc(2.4rem-2px)] min-[1500px]:text-[calc(2.6rem-2px)] min-[1670px]:text-[calc(2.85rem+4px)] font-normal tracking-[-0.03em] whitespace-nowrap text-slate-400 mb-6">
                                         sold across{" "}
                                         <span className="relative inline-block">
                                             Canada
