@@ -93,12 +93,12 @@ export function Hero() {
                 src={heroFlagsBlend}
                 alt=""
                 aria-hidden="true"
-                className="absolute top-0 left-0 z-[5] opacity-100 pointer-events-none"
+                className="absolute -top-4 -left-4 z-[5] opacity-100 pointer-events-none"
                 style={{
-                    width: "520px",
+                    width: "560px",
                     height: "auto",
-                    maskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 115%)",
-                    WebkitMaskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 115%)",
+                    maskImage: "radial-gradient(ellipse at 15% 15%, black 0%, transparent 115%)",
+                    WebkitMaskImage: "radial-gradient(ellipse at 15% 15%, black 0%, transparent 115%)",
                 }}
             />
 
@@ -162,10 +162,10 @@ export function Hero() {
                                     className="relative z-10 leading-[1.08] min-[1670px]:leading-[1.08] antialiased pointer-events-auto"
                                     style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-medium tracking-[-0.03em] text-[#0057B7]">
+                                    <span className="block font-['Lora'] text-[calc(3rem)] md:text-[calc(3.4rem)] min-[1500px]:text-[calc(3.7rem)] min-[1670px]:text-[calc(4.25rem+6px)] font-medium tracking-[-0.03em] text-[#0057B7]">
                                         Discover
                                     </span>
-                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-medium tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-3">
+                                    <span className="block font-['Lora'] text-[calc(3rem)] md:text-[calc(3.4rem)] min-[1500px]:text-[calc(3.7rem)] min-[1670px]:text-[calc(4.25rem+6px)] font-medium tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-3">
                                         <span className="relative inline-block">Ukrainian</span>
                                         {" "}Products
                                     </span>
