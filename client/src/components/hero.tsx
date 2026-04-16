@@ -93,12 +93,12 @@ export function Hero() {
                 src={heroFlagsBlend}
                 alt=""
                 aria-hidden="true"
-                className="absolute top-0 left-1/2 -translate-x-1/2 z-[5] opacity-100 pointer-events-none"
+                className="absolute top-0 left-0 z-[5] opacity-100 pointer-events-none"
                 style={{
                     width: "520px",
                     height: "auto",
-                    maskImage: "radial-gradient(ellipse at 50% 20%, black 0%, transparent 115%)",
-                    WebkitMaskImage: "radial-gradient(ellipse at 50% 20%, black 0%, transparent 115%)",
+                    maskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 115%)",
+                    WebkitMaskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 115%)",
                 }}
             />
 
@@ -159,17 +159,17 @@ export function Hero() {
                                 {/* Flag Pill Language Toggle - Eyebrow above headline */}
 
                                 <h1
-                                    className="relative z-10 leading-[1.15] min-[1670px]:leading-[1.15] antialiased pointer-events-auto"
+                                    className="relative z-10 leading-[1.08] min-[1670px]:leading-[1.08] antialiased pointer-events-auto"
                                     style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span className="block font-['Lora'] text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[calc(3.696rem+4px)] font-semibold tracking-[0.05em] uppercase text-[#0057B7]">
+                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-semibold tracking-[-0.03em] text-[#0057B7]">
                                         Discover
                                     </span>
-                                    <span className="block font-['Lora'] text-[calc(2.578rem-2px)] md:text-[calc(2.9rem-2px)] min-[1500px]:text-[calc(3.2rem-2px)] min-[1670px]:text-[calc(3.696rem+4px)] font-semibold tracking-[0.05em] uppercase text-[#0057B7] whitespace-nowrap relative mb-2">
+                                    <span className="block font-['Lora'] text-[calc(3rem-2px)] md:text-[calc(3.4rem-2px)] min-[1500px]:text-[calc(3.7rem-2px)] min-[1670px]:text-[calc(4.25rem+4px)] font-semibold tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-3">
                                         <span className="relative inline-block">Ukrainian</span>
                                         {" "}Products
                                     </span>
-                                    <span className="block font-['Inter'] text-[calc(1.8125rem-2px)] md:text-[calc(2.1rem-2px)] min-[1500px]:text-[calc(2.25rem-2px)] min-[1670px]:text-[calc(2.475rem+4px)] font-medium tracking-[0.05em] uppercase whitespace-nowrap text-slate-400 mb-6">
+                                    <span className="block font-['Inter'] text-[calc(2.1rem-2px)] md:text-[calc(2.4rem-2px)] min-[1500px]:text-[calc(2.6rem-2px)] min-[1670px]:text-[calc(2.85rem+4px)] font-medium tracking-[-0.03em] whitespace-nowrap text-slate-400 mb-6">
                                         sold across{" "}
                                         <span className="relative inline-block">
                                             Canada
@@ -178,7 +178,7 @@ export function Hero() {
                                 </h1>
 
                                 <p
-                                    className="text-[16px] text-slate-500 leading-relaxed max-w-lg font-normal pointer-events-auto font-['Inter'] mb-8"
+                                    className="text-[16px] text-slate-500 leading-relaxed max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-8"
                                     style={{ marginTop: '0' }}
                                 >
                                     Explore authentic Ukrainian-made products near you
@@ -191,7 +191,7 @@ export function Hero() {
                                 >
                                     <Link href="/map" className="w-full md:w-auto self-start">
                                         <Button
-                                            className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn font-['Inter']"
+                                            className="inline-flex items-center justify-center h-[44px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn font-['Inter']"
                                         >
                                             <span>Find stores near me</span>
                                             <Search className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-white" />
@@ -274,40 +274,39 @@ export function Hero() {
                 </div>
             </div>
 
-
+            <div className="hidden lg:flex flex-col items-end gap-2 absolute right-0 top-[12%] z-30 pointer-events-none">
+                {trustPillars.map((pillar) => (
+                    <div
+                        key={pillar.title}
+                        className={cn(
+                            "group isolate flex items-center overflow-hidden pl-5 pr-5 py-2.5 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-right w-max max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]",
+                            pillar.accentClass,
+                            pillar.surfaceClass
+                        )}
+                    >
+                        <span className="shrink-0 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7]/65 group-hover:text-[#0057B7] whitespace-nowrap font-['Inter'] transition-colors duration-[1200ms]">
+                            {pillar.title}
+                        </span>
+                        <span className="transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] w-[70px] lg:w-[100px] group-hover:w-0 block shrink-0" aria-hidden="true" />
+                        <span className="hero-trust-pill-detail inline-flex items-center overflow-hidden max-w-0 opacity-0 translate-x-2 pl-0 py-0.5 text-[14px] text-[#0057B7]/10 font-medium whitespace-nowrap group-hover:max-w-[1000px] group-hover:opacity-100 group-hover:text-[#0057B7]/80 group-hover:translate-x-0 group-hover:pl-3 transition-[max-width,color,opacity,transform,padding] duration-[1200ms] delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-['Inter']">
+                            <span className="shrink-0 mr-4">–</span>
+                            <span>{pillar.detail}</span>
+                        </span>
+                        <span className="ml-2 pr-1 opacity-20 group-hover:opacity-0 transition-opacity duration-[1000ms] shrink-0 text-[#0057B7]">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+                ))}
+            </div>
 
             <div className="pointer-events-none absolute bottom-0 right-0 z-[25] hidden md:max-[1439px]:block h-[10px] w-[59%] bg-white" />
 
         </section>
-        
-        {/* Trust Pillars Row - Now localized under hero as 3 columns */}
-        <div className="w-full bg-white border-b border-slate-100 relative z-20">
-            <div className="boutique-width">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                    {trustPillars.map((pillar, idx) => (
-                        <div
-                            key={pillar.title}
-                            className={cn(
-                                "group flex flex-col items-start justify-center px-8 py-10 space-y-3 transition-all duration-500",
-                                pillar.surfaceClass,
-                                idx !== 2 ? "md:border-r border-slate-100" : ""
-                            )}
-                        >
-                            <div className={cn("w-1 h-8 shrink-0 mb-1", pillar.accentClass.replace('border-', 'bg-').split(' ')[0])} />
-                            <h3 className="text-[12px] uppercase tracking-[0.2em] font-bold text-[#0057B7]/80 group-hover:text-[#0057B7] transition-colors font-['Inter']">
-                                {pillar.title}
-                            </h3>
-                            <p className="text-[15px] text-slate-500/90 font-medium leading-relaxed font-['Inter']">
-                                {pillar.detail}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
 
         {/* Location Intent Strip — hidden on mobile */}
-        <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden relative z-20">
+        <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden mt-[-12px] min-[1280px]:max-[1669px]:mt-[-24px] min-[1670px]:mt-[-28px] relative z-20">
             <div className="boutique-width flex items-stretch">
                     <div className="flex-1 flex items-stretch md:min-w-0 px-0 min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)]">
                         {PROVINCE_STRIP.map((province, i) => (
