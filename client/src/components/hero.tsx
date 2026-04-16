@@ -151,9 +151,9 @@ export function Hero() {
 
             <div className="boutique-width w-full flex items-center relative z-10 h-full pointer-events-none">
                 {/* Main Content Area - Glass Anchored Container */}
-                <div className="relative z-10 md:z-30 lg:z-10 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none py-[4.5rem]">
+                <div className="relative z-10 md:z-30 lg:z-10 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none py-[4rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(32px,3vw,56px)] min-[1670px]:pt-[clamp(112px,10.5vw,170px)]">
+                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(24px,2.5vw,48px)] min-[1670px]:pt-[clamp(88px,8.5vw,140px)]">
                             <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 md:ml-[clamp(72px,7vw,104px)] min-[1280px]:max-[1669px]:ml-[clamp(118px,7.8vw,148px)] min-[1670px]:ml-[clamp(96px,5.8vw,124px)]">
 
                                 {/* Flag Pill Language Toggle - Eyebrow above headline */}
