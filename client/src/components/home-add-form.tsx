@@ -345,15 +345,14 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 name="address"
                 render={({ field }) => (
                   <FormItem className="relative">
-                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">
                       Location
                     </FormLabel>
-                    <p className="text-[12px] text-slate-400 font-ui mb-2">Type a street address and pick from the list — e.g. <span className="text-slate-500 font-medium">1018 9 Ave SE, Calgary</span></p>
                     <FormControl>
                       <div className="relative group">
                         <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors fill-none stroke-current" strokeWidth={2} />
                         <Input
-                          placeholder="e.g. 1018 9 Ave SE, Calgary, AB"
+                          placeholder="Type street address to search..."
                           {...field}
                           ref={(el) => {
                             field.ref(el);
@@ -374,9 +373,6 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                             {form.watch("city")}, {form.watch("province")}
                           </span>
                         </div>
-                        <span className="text-[11px] text-slate-400/70 font-ui ml-[22px]">
-                          Double-check the address above and edit if needed
-                        </span>
                       </div>
                     )}
                     <FormMessage />
@@ -437,10 +433,9 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 name="products"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-1">Products</FormLabel>
-                    <p className="text-[12px] text-slate-500 font-ui mb-2 leading-tight">Type products found in a store separated by comma</p>
+                    <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Products</FormLabel>
                     <FormControl>
-                      <Input placeholder="List main items (e.g. Varenyky, Borscht)..." {...field} className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
+                      <Input placeholder="e.g. Varenyky, Borscht, Gifts (separate by comma)" {...field} className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -555,10 +550,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
               <div className="flex flex-col gap-3 px-2">
                 <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
-                  All submissions will be approved by admin volunteers
-                  <span className="block">to prevent spam or inaccurate listings.</span>
+                  Stores are reviewed before appearing on the map.
                 </p>
-
               </div>
             </div>
 

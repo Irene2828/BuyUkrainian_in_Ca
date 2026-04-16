@@ -16,6 +16,7 @@ import { MapSkeleton, StoreListItemSkeleton } from "@/components/skeleton-loader
 import { EmptyState } from "@/components/empty-state";
 import { StoreCard } from "@/components/store-card";
 import { UkrainianPinIcon } from "@/components/ui/ukrainian-pin-icon";
+import { GoogleMapsProvider } from "@/components/google-maps-provider";
 
 interface MapSectionProps {
   mode?: "section" | "full";
@@ -260,10 +261,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         onViewChange("map");
         // Slight delay to allow view transition to complete
         setTimeout(() => {
-          mapRef.current?.flyToLocation(store.coordinates![0], store.coordinates![1], 14.5);
+          mapRef.current?.flyToLocation(store.coordinates![0], store.coordinates![1], 16);
         }, 100);
       } else {
-        mapRef.current?.flyToLocation(store.coordinates[0], store.coordinates[1], 14.5);
+        mapRef.current?.flyToLocation(store.coordinates[0], store.coordinates[1], 16);
       }
     }
   };
@@ -372,17 +373,19 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
       {/* Locate Me Button - Glassmorphism 44px square, 20px below Add a Store */}
 
       <ErrorBoundary fallbackType="map">
-        <InteractiveMap
-          ref={mapRef}
-          stores={filteredStores}
-          selectedStore={selectedStore}
-          onSelectStore={handleSelectStore}
-          onCloseStore={handleCloseStore}
-          onFlightChange={onFlightChange}
-          extraControls={extraControls}
-          userLocation={userLocation}
-          isMobile={isMobile}
-        />
+        <GoogleMapsProvider>
+          <InteractiveMap
+            ref={mapRef}
+            stores={filteredStores}
+            selectedStore={selectedStore}
+            onSelectStore={handleSelectStore}
+            onCloseStore={handleCloseStore}
+            onFlightChange={onFlightChange}
+            extraControls={extraControls}
+            userLocation={userLocation}
+            isMobile={isMobile}
+          />
+        </GoogleMapsProvider>
       </ErrorBoundary>
 
       {/* Mobile Bottom Sheet - Replaces Popup on Small Screens */}

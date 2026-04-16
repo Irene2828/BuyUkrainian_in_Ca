@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
 import { useFlagsABTest } from "@/hooks/use-ab-test";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 export function Header() {
@@ -118,7 +119,9 @@ export function Header() {
                   </span>
                 </DialogTrigger>
                 <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
-                  <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                  <GoogleMapsProvider>
+                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                  </GoogleMapsProvider>
                 </DialogContent>
               </Dialog>
               <span aria-hidden="true" className="text-slate-300 font-normal">

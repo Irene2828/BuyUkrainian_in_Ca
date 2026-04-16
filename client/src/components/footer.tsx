@@ -8,8 +8,8 @@ export function Footer() {
   const footerRailClassName =
     "w-full px-0 pr-4 min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)]";
   return (
-    <footer className="bg-[#0F1623] text-[var(--white)] font-sans overflow-hidden relative pt-[calc(clamp(5rem,10vh,10rem)-48px)] md:pt-[calc(clamp(5rem,10vh,10rem)-64px)] pb-[clamp(3rem,6vh,6rem)]">
-      <div className="boutique-width w-full flex flex-col items-stretch pt-[72px] md:pt-[88px]">
+    <footer className="bg-[#0F1623] text-[var(--white)] font-sans overflow-hidden relative pt-[calc(clamp(4.5rem,8vh,8rem)-48px)] md:pt-[calc(clamp(4.5rem,8vh,8rem)-64px)] pb-[clamp(3rem,6vh,6rem)]">
+      <div className="boutique-width w-full min-h-[220px] md:min-h-[260px] flex flex-col items-stretch justify-between pt-[48px] md:pt-[60px]">
 
         <div className="w-full">
           <div className={footerRailClassName}>
@@ -43,13 +43,19 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="w-full pt-[25px] mt-12 flex justify-center text-center">
-          <div className="min-h-[40px] flex items-center justify-center text-center">
+        <div className="w-full pt-[24px] flex justify-center text-center">
+          <div className="min-h-[48px] flex flex-col items-center justify-center text-center gap-1">
             <p
-              className="text-[12px] font-normal text-slate-500/80 tracking-[0.02em]"
+              className="text-[12px] font-normal text-slate-500/80 tracking-[0.02em] leading-tight"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Volunteer initiative to support Ukraine from Canada / Copyright © 2026 BuyUkrainian.ca
+              Volunteer initiative to support Ukraine from Canada
+            </p>
+            <p
+              className="text-[12px] font-normal text-slate-500/80 tracking-[0.02em] leading-tight"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Copyright © 2026 BuyUkrainian.ca
             </p>
           </div>
         </div>

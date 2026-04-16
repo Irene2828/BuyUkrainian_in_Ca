@@ -6,7 +6,7 @@ import { Store } from '@/lib/data';
 import { Plus, Minus, Maximize2, Navigation, Info, RefreshCw, MapPin } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoreCard } from '@/components/store-card';
-import { getBrandedMapPinSize, getBrandedMapPinSvg } from '@/lib/branded-map-pin';
+import { getBrandedMapPinSize, getBrandedMapPinSvg, type BrandedMapPinVariant } from '@/lib/branded-map-pin';
 import { cn } from '@/lib/utils';
 
 export interface InteractiveMapRef {
@@ -94,7 +94,7 @@ const getEventPosition = (event: any) => {
   return isValidCoord(lat, lng) ? { lat, lng } : null;
 };
 
-const buildMarkerIcon = (svg: string, variant: "default" | "active" | "cluster") => {
+const buildMarkerIcon = (svg: string, variant: BrandedMapPinVariant) => {
   const { width, height } = getBrandedMapPinSize(variant);
 
   return {
@@ -104,71 +104,41 @@ const buildMarkerIcon = (svg: string, variant: "default" | "active" | "cluster")
   };
 };
 
-const focusClusterOnMarkers = (map: any, cluster: any, event?: any) => {
-  const clickedPosition = getEventPosition(event);
-  const currentZoom = typeof map.getZoom === "function" ? map.getZoom() ?? 4 : 4;
+const focusClusterOnMarkers = (
+  map: any, 
+  cluster: any, 
+  event: any, 
+  setZoomState: (z: number) => void, 
+  setCenterState: (c: {lat: number, lng: number}) => void
+) => {
+  const currentZoom = typeof map?.getZoom === "function" ? map.getZoom() ?? 4 : 4;
+  let targetPosition = null;
 
-  // Always trust the point the user actually clicked first.
-  // This keeps Calgary clicks centered on Calgary even if the cluster
-  // contains a stray marker farther away.
-  if (clickedPosition) {
-    map.panTo(clickedPosition);
-    map.setZoom(Math.min(currentZoom + CLUSTER_CLICK_ZOOM_STEP, MAX_CLUSTER_FOCUS_ZOOM));
-    return;
+  // Attempt 1: Use the cached cluster.position property provided natively by Google Maps V2+
+  if (cluster && cluster.position) {
+    targetPosition = {
+      lat: typeof cluster.position.lat === "function" ? cluster.position.lat() : cluster.position.lat,
+      lng: typeof cluster.position.lng === "function" ? cluster.position.lng() : cluster.position.lng
+    };
   }
-
-  const clusterMarkers = Array.isArray(cluster?.markers) ? cluster.markers : [];
-  const positions: Array<{ lat: number; lng: number }> = clusterMarkers
-    .map((marker: any) => getMarkerPosition(marker))
-    .filter((position: { lat: number; lng: number } | null): position is { lat: number; lng: number } => position !== null);
-
-  if (positions.length === 0) {
-    const clusterPosition = getClusterPosition(cluster);
-
-    if (!clusterPosition) return;
-
-    map.panTo(clusterPosition);
-    map.setZoom(Math.min(currentZoom + CLUSTER_CLICK_ZOOM_STEP, MAX_CLUSTER_FOCUS_ZOOM));
-    return;
-  }
-
-  if (positions.length === 1) {
-    map.panTo(positions[0]);
-    map.setZoom(MAX_CLUSTER_FOCUS_ZOOM);
-    return;
-  }
-
-  const bounds = new (window as any).google.maps.LatLngBounds();
-  let minLat = positions[0].lat;
-  let maxLat = positions[0].lat;
-  let minLng = positions[0].lng;
-  let maxLng = positions[0].lng;
-
-  positions.forEach((position: { lat: number; lng: number }) => {
-    bounds.extend(position);
-    minLat = Math.min(minLat, position.lat);
-    maxLat = Math.max(maxLat, position.lat);
-    minLng = Math.min(minLng, position.lng);
-    maxLng = Math.max(maxLng, position.lng);
-  });
-
-  const latSpan = maxLat - minLat;
-  const lngSpan = maxLng - minLng;
-
-  if (latSpan < CLUSTER_TIGHT_SPAN && lngSpan < CLUSTER_TIGHT_SPAN) {
-    map.panTo(bounds.getCenter());
-    map.setZoom(MAX_CLUSTER_FOCUS_ZOOM);
-    return;
-  }
-
-  (window as any).google.maps.event.addListenerOnce(map, "idle", () => {
-    const nextZoom = map.getZoom();
-    if (typeof nextZoom === "number" && nextZoom > MAX_CLUSTER_FOCUS_ZOOM) {
-      map.setZoom(MAX_CLUSTER_FOCUS_ZOOM);
+  // Attempt 2: Guaranteed fallback - lock onto the first raw marker actually assigned to this cluster
+  else if (cluster && cluster.markers && cluster.markers.length > 0) {
+    const firstMarker = cluster.markers[0];
+    const pos = firstMarker.getPosition ? firstMarker.getPosition() : firstMarker.position;
+    if (pos) {
+      targetPosition = {
+        lat: typeof pos.lat === "function" ? pos.lat() : pos.lat,
+        lng: typeof pos.lng === "function" ? pos.lng() : pos.lng
+      };
     }
-  });
+  }
 
-  map.fitBounds(bounds, 72);
+  // Use React state setters so the controlled Map component actually respects the change.
+  if (targetPosition && isValidCoord(targetPosition.lat, targetPosition.lng)) {
+    const targetZoom = Math.min(currentZoom + CLUSTER_CLICK_ZOOM_STEP, MAX_CLUSTER_FOCUS_ZOOM);
+    setZoomState(targetZoom);
+    setCenterState(targetPosition);
+  }
 };
 
 interface MapControlButtonProps {
@@ -311,22 +281,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     return { kind: "ready" as const };
   }, [apiLoadingStatus, variant]);
 
-  if (mapSurfaceState.kind !== "ready") {
-    return (
-      <MapSurfaceState
-        variant={variant}
-        title={mapSurfaceState.title}
-        description={mapSurfaceState.description}
-        isLoading={mapSurfaceState.kind === "loading"}
-      />
-    );
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (hoveredLabel) {
-      setHoveredLabel(prev => prev ? { ...prev, x: e.clientX, y: e.clientY } : null);
+  // All hooks MUST be called before any early return (React Rules of Hooks)
+  useEffect(() => {
+    if (selectedStore) {
+      setHoveredLabel(null);
     }
-  };
+  }, [selectedStore]);
 
   useEffect(() => {
     if (!mapRef || variant === 'hero') return;
@@ -356,41 +316,60 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
-      if (!mapRef || !store.coordinates || !canRenderStoreMarker(store)) return;
+      if (!store.coordinates || !canRenderStoreMarker(store)) return;
       const [lat, lng] = store.coordinates;
       if (!isValidCoord(lat, lng)) {
         console.warn('Store has invalid coordinates:', store.name);
         return;
       }
-      mapRef.panTo({ lat, lng });
-      mapRef.setZoom(14);
+      setZoom(16);
+      setCenter({ lat, lng });
     },
     flyToProvince: (lat: number, lng: number, z: number) => {
-      if (!mapRef || !isValidCoord(lat, lng)) return;
-      mapRef.panTo({ lat, lng });
-      mapRef.setZoom(z);
+      if (!isValidCoord(lat, lng)) return;
+      setZoom(z);
+      setCenter({ lat, lng });
     },
     flyToLocation: (lat: number, lng: number, z: number = 16) => {
-      if (!mapRef || !isValidCoord(lat, lng)) return;
-      mapRef.panTo({ lat, lng });
-      mapRef.setZoom(z);
+      if (!isValidCoord(lat, lng)) return;
+      setZoom(z);
+      setCenter({ lat, lng });
     },
     resetView: () => {
-      if (!mapRef) return;
-      mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
-      mapRef.setZoom(INITIAL_MAP_STATE.zoom);
+      setZoom(INITIAL_MAP_STATE.zoom);
+      setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
     },
     zenView: () => {},
     zoomIn: () => {
-      if (mapRef) mapRef.setZoom(mapRef.getZoom()! + 1);
+      setZoom(prev => typeof prev === 'number' ? prev + 1 : prev);
     },
     zoomOut: () => {
-      if (mapRef) mapRef.setZoom(mapRef.getZoom()! - 1);
+      setZoom(prev => typeof prev === 'number' ? prev - 1 : prev);
     },
     invalidateSize: () => {
       if (mapRef) (window as any).google.maps.event.trigger(mapRef, 'resize');
     }
   }));
+
+  // Early return AFTER all hooks have been called
+  if (mapSurfaceState.kind !== "ready") {
+    return (
+      <MapSurfaceState
+        variant={variant}
+        title={mapSurfaceState.title}
+        description={mapSurfaceState.description}
+        isLoading={mapSurfaceState.kind === "loading"}
+      />
+    );
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (selectedStore) return;
+
+    if (hoveredLabel) {
+      setHoveredLabel(prev => prev ? { ...prev, x: e.clientX, y: e.clientY } : null);
+    }
+  };
 
   const handleCameraChange = (ev: MapCameraChangedEvent) => {
     setZoom(ev.detail.zoom);
@@ -448,7 +427,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         }}
         onCameraChanged={handleCameraChange}
         onClick={() => {
-           if (variant !== 'hero') onCloseStore();
+           if (variant !== 'hero') {
+             setHoveredLabel(null);
+             onCloseStore();
+           }
         }}
       >
         {(() => {
@@ -464,6 +446,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           selectedStore={selectedStore} 
           setHoveredLabel={setHoveredLabel}
           variant={variant}
+          setZoomState={setZoom}
+          setCenterState={setCenter}
         />
 
         {userLocation && (
@@ -480,24 +464,29 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Floating UI Elements */}
       {selectedStore && !isMobile && variant !== "hero" && (
-        <div className="absolute left-6 top-[88px] bottom-8 z-[1000] w-auto flex items-center animate-in slide-in-from-left-4 fade-in duration-300 pointer-events-none">
-          <div className="pointer-events-auto">
-            <StoreCard
-              store={selectedStore}
-              onClose={onCloseStore}
-              onSeeOnMap={(s) => {
-                if (mapRef && s.coordinates) {
-                  const [lat, lng] = s.coordinates;
-                  if (isValidCoord(lat, lng)) {
-                    mapRef.panTo({ lat, lng });
-                    mapRef.setZoom(14);
-                  } else {
-                    console.warn('Store has invalid coordinates:', s.name);
-                  }
-                }
-              }}
-              variant="map"
-            />
+        <div className="absolute inset-x-0 top-[156px] bottom-8 z-[1000] pointer-events-none">
+          <div className="boutique-width mx-auto h-full">
+            <div className="flex h-full items-start pl-6 animate-in slide-in-from-left-4 fade-in duration-300">
+              <div className="pointer-events-auto">
+                <StoreCard
+                  key={selectedStore.id}
+                  store={selectedStore}
+                  onClose={onCloseStore}
+                  onSeeOnMap={(s) => {
+                    if (s.coordinates) {
+                      const [lat, lng] = s.coordinates;
+                      if (isValidCoord(lat, lng)) {
+                        setZoom(16);
+                        setCenter({ lat, lng });
+                      } else {
+                        console.warn('Store has invalid coordinates:', s.name);
+                      }
+                    }
+                  }}
+                  variant="map"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -520,7 +509,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                 label="Zoom in"
                 ariaLabel="Zoom in map"
                 onClick={() => {
-                  if (mapRef) mapRef.setZoom(mapRef.getZoom()! + 1);
+                  setZoom(prev => typeof prev === 'number' ? prev + 1 : prev);
                 }}
               >
                 <Plus className="w-4 h-4 stroke-[2.5]" />
@@ -532,7 +521,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                 label="Zoom out"
                 ariaLabel="Zoom out map"
                 onClick={() => {
-                  if (mapRef) mapRef.setZoom(mapRef.getZoom()! - 1);
+                  setZoom(prev => typeof prev === 'number' ? prev - 1 : prev);
                 }}
               >
                 <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -544,10 +533,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                 label="Zoom to all Canada"
                 ariaLabel="Reset to national view"
                 onClick={() => {
-                  if (mapRef) {
-                    mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
-                    mapRef.setZoom(INITIAL_MAP_STATE.zoom);
-                  }
+                  setZoom(INITIAL_MAP_STATE.zoom);
+                  setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
                 }}
               >
                 <Maximize2 className="w-4 h-4 stroke-[2.5]" />
@@ -559,19 +546,19 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {/* Premium Frosted Tooltip */}
-      {hoveredLabel && typeof document !== "undefined" && createPortal(
+      {!selectedStore && hoveredLabel && typeof document !== "undefined" && createPortal(
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="fixed z-[9999] pointer-events-none px-4 py-2 rounded-lg bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+          className="fixed z-[9999] pointer-events-none px-3 py-1.5 rounded-[12px] bg-white backdrop-blur-xl shadow-[0_8px_24px_rgba(10,37,64,0.12)]"
           style={{
             left: hoveredLabel.x,
             top: hoveredLabel.y - 50,
             transform: 'translateX(-50%)'
           }}
         >
-          <span className="text-[14px] font-semibold text-[#0057B7] whitespace-nowrap tracking-tight">
+          <span className="text-[13px] font-semibold text-[#0057B7] whitespace-nowrap tracking-tight">
             {hoveredLabel.text}
           </span>
         </motion.div>,
@@ -582,7 +569,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 });
 
 // Custom Marker Clusterer Component
-function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHoveredLabel, variant }: any) {
+function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHoveredLabel, variant, setZoomState, setCenterState }: any) {
   const clusterer = useRef<any>(null);
   const markers = useRef<any[]>([]);
 
@@ -601,6 +588,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       });
 
       marker.addListener('mouseover', (e: any) => {
+        if (selectedStore) return;
         setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
@@ -610,7 +598,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
 
       return marker;
     }
-  }), [setHoveredLabel, variant]);
+  }), [selectedStore, setHoveredLabel, variant]);
 
   useEffect(() => {
     if (!map) return;
@@ -618,14 +606,28 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       clusterer.current = new (window as any).markerClusterer.MarkerClusterer({
         map,
         renderer,
-        onClusterClick: (event: any, cluster: any, map: any) => {
-          event?.stop?.();
-          event?.domEvent?.stopPropagation?.();
-          focusClusterOnMarkers(map, cluster, event);
+        onClusterClick: (...args: any[]) => {
+          // Detect if we're using v2+ (single object with {event, cluster, map}) or v1 (event, cluster, map)
+          const isV2 = args[0] && !!args[0].cluster && !!args[0].map;
+          
+          const event = isV2 ? args[0].event : args[0];
+          const cluster = isV2 ? args[0].cluster : args[1];
+          const clusterMap = isV2 ? args[0].map : (args[2] || map);
+
+          if (event) {
+            if (typeof event.stop === 'function') event.stop();
+            if (typeof event.stopPropagation === 'function') event.stopPropagation();
+            if (typeof event.preventDefault === 'function') event.preventDefault();
+            if (event.domEvent && typeof event.domEvent.stopPropagation === 'function') event.domEvent.stopPropagation();
+            if (event.domEvent && typeof event.domEvent.preventDefault === 'function') event.domEvent.preventDefault();
+          }
+
+          focusClusterOnMarkers(clusterMap, cluster, event, setZoomState, setCenterState);
+          return false; // Crucial for MarkerClusterer v2 to prevent its default fitBounds
         }
       });
     }
-  }, [map, renderer]);
+  }, [map, renderer, setZoomState, setCenterState]);
 
   useEffect(() => {
     if (!clusterer.current || !map) return;
@@ -640,17 +642,17 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       .map((store: Store) => {
       const isSelected = selectedStore?.id === store.id;
       const dimmed = isDimmed(store.id);
-      const defaultVariant: "default" | "active" = isSelected ? "active" : "default";
+      const defaultVariant: "default" | "selected" = isSelected ? "selected" : "default";
       const defaultSvg = getBrandedMapPinSvg({
         variant: defaultVariant,
         dimmed: dimmed && !isSelected,
       });
       const hoverSvg = getBrandedMapPinSvg({
-        variant: "active",
+        variant: "hover",
         dimmed: false,
       });
       const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant);
-      const hoverIcon = buildMarkerIcon(hoverSvg, "active");
+      const hoverIcon = buildMarkerIcon(hoverSvg, "hover");
 
       const marker = new (window as any).google.maps.Marker({
         position: { lat: store.coordinates[0], lng: store.coordinates[1] },
@@ -658,10 +660,17 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         zIndex: isSelected ? 1000 : dimmed ? 10 : 100,
       });
 
-      marker.addListener('click', () => onSelectStore(store));
+      marker.addListener('click', () => {
+        setHoveredLabel(null);
+        onSelectStore(store);
+      });
       
       marker.addListener('mouseover', (e: any) => {
-        marker.setIcon(hoverIcon);
+        if (selectedStore) return;
+
+        if (!isSelected) {
+          marker.setIcon(hoverIcon);
+        }
         marker.setZIndex(1000);
         setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });

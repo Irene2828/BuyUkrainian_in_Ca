@@ -22,25 +22,24 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full pt-24 pb-[60px] md:pb-[100px] bg-transparent flex flex-col justify-center items-center">
+        <section className="relative w-full pt-[88px] md:pt-[96px] pb-[72px] md:pb-[112px] bg-transparent flex flex-col justify-center items-center">
             <div className="boutique-width w-full flex flex-col items-center">
-                {/* Stats Header */}
-                <div className="flex flex-col items-center mb-12">
-                    <div className="flex items-center gap-2.5 h-full">
-                        <div className="w-2 h-2 bg-[#FFD700] rounded-full animate-premium-pulse shrink-0 relative top-[-1px]" />
-                        <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui leading-none">
-                            The Map Is Growing
-                        </p>
+                <div className="flex max-w-[560px] flex-col items-center text-center mb-10 md:mb-12">
+                    <div className="mb-3 flex h-[2px] w-12 overflow-hidden rounded-full" aria-hidden="true">
+                        <span className="w-1/2 bg-[#0057B7]" />
+                        <span className="w-1/2 bg-[#FFD700]" />
                     </div>
+                    <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui leading-none">
+                        The Map Is Growing
+                    </p>
                 </div>
 
-                {/* Stats Row - Apple Editorial Style */}
                 <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24 mb-7">
                     <div className="flex flex-col items-center gap-3">
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
+                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.64]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Store className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -53,7 +52,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
+                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.64]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Map className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
@@ -66,18 +65,18 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.56]"
+                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.64]"
                         />
                         <div className="flex items-center gap-2 text-[#0A2540] mt-2">
                             <Package className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Products listed</span>
+                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Products Listed</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center mt-10">
-                    <p className="text-[16px] text-slate-600 leading-relaxed font-normal text-center max-w-[40ch] md:max-w-none md:whitespace-nowrap mb-6">
-                        Every store on this map was added by someone like you.
+                <div className="flex flex-col items-center mt-8">
+                    <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mx-auto mb-5">
+                        Every store on this map was added by<br />someone like you.
                     </p>
                     <Link href="/map">
                         <Button

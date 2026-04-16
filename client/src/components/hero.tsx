@@ -3,11 +3,12 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import heroFlagsBlend from "@/assets/flags-clean-transparent.png";
+import heroFlagsBlend from "@/assets/flags-clean-transparent-960.png";
+import { GoogleMapsProvider } from "@/components/google-maps-provider";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -25,6 +26,7 @@ const PROVINCE_STRIP = [
 
 export function Hero() {
     const [, setLocation] = useLocation();
+    const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(false);
 
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
@@ -40,24 +42,46 @@ export function Hero() {
             title: "Support of Ukraine's Economy",
             detail: "every purchase goes directly to Ukrainian makers",
             accentClass: "border-[#0057B7]",
-            surfaceClass: "bg-[#EFF6FF]/70",
-            widthClass: "pr-6",
+            surfaceClass: "bg-[#EFF6FF]/70"
         },
         {
             title: "Volunteer-Verified Listings",
             detail: "every listing is reviewed before it appears on the map",
             accentClass: "border-[#FFD700]",
-            surfaceClass: "bg-[#FFFBEB]/80",
-            widthClass: "pr-4",
+            surfaceClass: "bg-[#FFFBEB]/80"
         },
         {
             title: "Updated Regularly",
             detail: "real people, real stores, real Ukrainian products",
             accentClass: "border-[#0057B7]",
-            surfaceClass: "bg-[#EFF6FF]/70",
-            widthClass: "pr-2",
+            surfaceClass: "bg-[#EFF6FF]/70"
         },
     ];
+
+    useEffect(() => {
+        const win = window as Window & {
+            requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+            cancelIdleCallback?: (handle: number) => void;
+        };
+
+        if (win.requestIdleCallback) {
+            const idleId = win.requestIdleCallback(() => {
+                setShouldRenderHeroMap(true);
+            }, { timeout: 900 });
+
+            return () => {
+                win.cancelIdleCallback?.(idleId);
+            };
+        }
+
+        const timeoutId = window.setTimeout(() => {
+            setShouldRenderHeroMap(true);
+        }, 220);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, []);
 
     return (
         <>
@@ -69,12 +93,12 @@ export function Hero() {
                 src={heroFlagsBlend}
                 alt=""
                 aria-hidden="true"
-                className="absolute top-0 left-0 z-[2] opacity-100 pointer-events-none"
+                className="absolute top-0 left-0 z-[5] opacity-100 pointer-events-none"
                 style={{
                     width: "520px",
                     height: "auto",
-                    maskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 91%)",
-                    WebkitMaskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 91%)",
+                    maskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 115%)",
+                    WebkitMaskImage: "radial-gradient(ellipse at 20% 20%, black 0%, transparent 115%)",
                 }}
             />
 
@@ -95,7 +119,7 @@ export function Hero() {
             <div
                 className="absolute left-[-12%] top-[-15%] w-[65%] max-[1669px]:w-[76%] h-[75%] pointer-events-none z-[6]"
                 style={{
-                    background: "var(--hero-ambient-glow, radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.88) 22%, rgba(255,255,255,0.5) 42%, rgba(255,255,255,0.12) 58%, transparent 72%))",
+                    background: "var(--hero-ambient-glow, radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.76) 22%, rgba(255,255,255,0.34) 42%, rgba(255,255,255,0.08) 58%, transparent 72%))",
                 }}
             />
 
@@ -130,7 +154,7 @@ export function Hero() {
                 <div className="relative z-10 md:z-30 lg:z-10 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none py-[4.5rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(32px,3vw,56px)] min-[1670px]:pt-[clamp(112px,10.5vw,170px)]">
-                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 min-[1280px]:max-[1669px]:ml-[clamp(72px,5vw,92px)] min-[1670px]:ml-[clamp(52px,3.6vw,72px)]">
+                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 md:ml-[clamp(72px,7vw,104px)] min-[1280px]:max-[1669px]:ml-[clamp(118px,7.8vw,148px)] min-[1670px]:ml-[clamp(96px,5.8vw,124px)]">
 
                                 {/* Flag Pill Language Toggle - Eyebrow above headline */}
 
@@ -221,24 +245,30 @@ export function Hero() {
                                 <div className="absolute top-[50%] right-[30%] w-[350px] h-[150px] bg-[#FFD900] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
                             </div>
 
-                            <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 1.03 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-                                    className="w-full h-full cursor-pointer pointer-events-auto"
-                                    onClick={() => setLocation('/map')}
-                                >
-                                    <InteractiveMap
-                                        stores={stores}
-                                        selectedStore={null}
-                                        onSelectStore={noopSelectStore}
-                                        onCloseStore={noop}
-                                        variant="hero"
-                                        isMobile={false}
-                                    />
-                                </motion.div>
-                            </Suspense>
+                            {shouldRenderHeroMap ? (
+                                <GoogleMapsProvider>
+                                    <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 1.03 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                                            className="w-full h-full cursor-pointer pointer-events-auto"
+                                            onClick={() => setLocation('/map')}
+                                        >
+                                            <InteractiveMap
+                                                stores={stores}
+                                                selectedStore={null}
+                                                onSelectStore={noopSelectStore}
+                                                onCloseStore={noop}
+                                                variant="hero"
+                                                isMobile={false}
+                                            />
+                                        </motion.div>
+                                    </Suspense>
+                                </GoogleMapsProvider>
+                            ) : (
+                                <div className="w-full h-full bg-[linear-gradient(180deg,rgba(255,255,255,0.86)_0%,rgba(255,255,255,0.58)_35%,rgba(219,234,254,0.22)_100%)]" />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -249,22 +279,22 @@ export function Hero() {
                     <div
                         key={pillar.title}
                         className={cn(
-                            "group isolate flex items-center pl-4 py-2 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md hover:pr-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right",
+                            "group isolate flex items-center overflow-hidden pl-5 pr-5 py-2.5 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-right min-w-[300px] w-max max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]",
                             pillar.accentClass,
-                            pillar.surfaceClass,
-                            pillar.widthClass
+                            pillar.surfaceClass
                         )}
                     >
-                        <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7]/65 group-hover:text-[#0057B7] whitespace-nowrap font-['Inter'] transition-colors duration-700">
+                        <span className="shrink-0 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7]/65 group-hover:text-[#0057B7] whitespace-nowrap font-['Inter'] transition-colors duration-[1200ms]">
                             {pillar.title}
                         </span>
-                        <span className="ml-auto pl-3 pr-1 opacity-20 group-hover:opacity-0 transition-opacity duration-500 shrink-0 text-[#0057B7]">
+                        <span className="hero-trust-pill-detail inline-flex items-center overflow-hidden max-w-0 opacity-0 translate-x-2 pl-0 py-0.5 text-[14px] text-[#0057B7]/10 font-medium whitespace-nowrap group-hover:max-w-[1000px] group-hover:opacity-100 group-hover:text-[#0057B7]/80 group-hover:translate-x-0 group-hover:pl-3 transition-[max-width,color,opacity,transform,padding] duration-[1200ms] delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-['Inter']">
+                            <span className="shrink-0 mr-4">–</span>
+                            <span>{pillar.detail}</span>
+                        </span>
+                        <span className="ml-2 pr-1 opacity-20 group-hover:opacity-0 transition-opacity duration-[1000ms] shrink-0 text-[#0057B7]">
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                                 <path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                        </span>
-                        <span className="hero-trust-pill-detail text-[13px] text-[#0057B7]/10 font-medium whitespace-nowrap pl-2 py-0.5 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:text-[#0057B7]/80 group-hover:translate-x-0 transition-[color,opacity,transform] duration-700 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)] font-['Inter']">
-                            {"–\u00A0\u00A0"}{pillar.detail}
                         </span>
                     </div>
                 ))}

@@ -96,12 +96,12 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             <div
                 className={cn(
                     "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border-0 flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
-                    "h-auto max-h-[85vh] overflow-hidden relative z-20",
+                    "h-[560px] max-h-[85vh] overflow-hidden relative z-20",
                     className
                 )}
             >
                 {/* 1. Sticky Header Section */}
-                <div className="p-5 pb-4 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-2">
+                <div className="shrink-0 p-5 pb-4 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-2">
                     <div className="flex items-start justify-between gap-4">
                         <h2 
                             className="text-[15px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2"
@@ -140,7 +140,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 </div>
 
                 {/* 2. Scrollable Content Body */}
-                <div className="overflow-y-auto custom-scrollbar p-5 pt-4 flex flex-col gap-5">
+                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-5 pt-4 flex flex-col gap-5">
                     {/* Compact Image & Info Grid */}
                     <div className="grid grid-cols-[110px_1fr] gap-4 items-start">
                         {/* Left Column: Store Image */}
@@ -230,19 +230,18 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 </div>
 
                 {/* 3. Sticky Action Row */}
-                <div className="p-4 bg-white border-t border-slate-100 sticky bottom-0 z-20 flex flex-col gap-3">
-                    {/* Primary Button: Get Directions */}
-                    <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`}
-                        target="_blank" rel="noopener noreferrer"
-                        className="bg-[#0057B7] text-white hover:bg-[#0047A0] transition-colors w-full h-[46px] rounded-full font-medium flex items-center justify-center gap-2 border-0 tracking-tight antialiased shadow-sm active:scale-[0.98] group"
+                <div className="shrink-0 mt-auto p-4 bg-white border-t border-slate-100 z-20 flex flex-col gap-3 min-h-[128px]">
+                    <button
+                        onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
+                        data-testid="get-directions-btn"
+                        className="bg-[#0057B7] !flex text-white hover:bg-[#0047A0] transition-all duration-300 w-full min-h-[46px] shrink-0 rounded-full text-[16px] font-medium items-center justify-center gap-2 border-0 tracking-tight shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-[0.98] group"
                     >
-                        <CornerUpRight size={16} className="text-white group-hover:translate-x-0.5 transition-transform" />
+                        <CornerUpRight size={18} className="text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         <span>Get Directions</span>
-                    </a>
+                    </button>
 
                     {/* Secondary Actions Row */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-3 shrink-0">
                         <button
                             onClick={handleShare}
                             className="flex items-center justify-center gap-2 px-4 py-2 bg-transparent rounded-lg text-[12px] font-medium text-slate-700 transition-colors duration-200 hover:text-blue-600 hover:bg-slate-50 active:scale-95 group"
