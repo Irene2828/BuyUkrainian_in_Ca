@@ -74,7 +74,7 @@ export function MapStats() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center mt-[24px] md:mt-[40px]">
+                <div className="flex flex-col items-center mt-6 md:mt-10">
                     <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mx-auto mb-5">
                         Every store on this map was added by someone like you.
                     </p>
