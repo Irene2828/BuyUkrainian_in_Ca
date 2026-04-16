@@ -279,7 +279,7 @@ export function Hero() {
                     <div
                         key={pillar.title}
                         className={cn(
-                            "group isolate flex items-center overflow-hidden pl-5 pr-5 py-2.5 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-right min-w-[390px] w-max max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]",
+                            "group isolate flex items-center overflow-hidden pl-5 pr-[72px] lg:pr-[96px] group-hover:pr-5 py-2.5 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-right w-max max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]",
                             pillar.accentClass,
                             pillar.surfaceClass
                         )}
