@@ -102,16 +102,42 @@ export function Hero() {
                 }}
             />
 
+            {/* Soft Atmospheric Sky Glow - Luminous White (Clean Refresh) */}
+            <div className="absolute top-[-15%] left-0 w-[800px] h-[700px] bg-white rounded-full blur-[160px] opacity-[0.45] min-[768px]:max-[1439px]:opacity-[0.6] min-[768px]:max-[1439px]:w-[600px] pointer-events-none z-[4]"></div>
 
-            {/* Soft Atmospheric Sky Glow - Blue (Moved to far right, underlying map only) */}
-            <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#BAE6FD] rounded-full blur-[140px] opacity-[0.14] pointer-events-none z-[4]"></div>
+            {/* Soft Atmospheric Sky Glow - Canadian Red Hint */}
+            <div
+                className="absolute top-[-20%] right-0 w-[850px] h-[750px] bg-[#DA291C] rounded-full blur-[170px] opacity-[0.06] pointer-events-none z-[4]"
+                style={{
+                    transform: "translateX(20%)",
+                }}
+            />
 
-            {/* Soft Atmospheric Sky Glow - Canadian Red Hint (Moved to far right) */}
-            <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-[#DA291C] rounded-full blur-[140px] opacity-[0.04] pointer-events-none z-[4]"></div>
 
-            {/* Pure White Structural Base for Content Area */}
-            <div className="absolute inset-y-0 left-0 w-[50%] bg-white z-[5] pointer-events-none" />
 
+            {/* Ambient Reading Glow - Radial anchored top-left to avoid masking Vancouver pin */}
+            <div
+                className="absolute left-[-12%] top-[-15%] w-[65%] max-[1669px]:w-[76%] h-[75%] pointer-events-none z-[6]"
+                style={{
+                    background: "var(--hero-ambient-glow, radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.76) 22%, rgba(255,255,255,0.34) 42%, rgba(255,255,255,0.08) 58%, transparent 72%))",
+                }}
+            />
+
+            {/* Upper Airlight - keeps the headline readable */}
+            <div
+                className="absolute left-[8%] top-[6%] w-[34%] h-[26%] pointer-events-none z-[7]"
+                style={{
+                    background: "radial-gradient(ellipse at 46% 34%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 24%, transparent 68%)",
+                }}
+            />
+
+            {/* Center Bridge - luminous handoff into the map */}
+            <div
+                className="absolute inset-y-0 left-[15%] w-[50%] max-[1669px]:w-[62%] pointer-events-none z-[8]"
+                style={{
+                    background: "var(--hero-center-bridge, linear-gradient(to right, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 20%, transparent 80%))",
+                }}
+            />
 
             {/* Bottom Edge Melt */}
             <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-t from-white/30 to-transparent pointer-events-none z-10" />
@@ -119,7 +145,7 @@ export function Hero() {
             <div
                 className="hidden max-[1439px]:block absolute bottom-0 inset-x-0 h-[35%] pointer-events-none z-[5]"
                 style={{
-                    background: "linear-gradient(to top, rgba(219,234,254,0.25) 0%, rgba(219,234,254,0.08) 50%, transparent 100%)",
+                    background: "linear-gradient(to top, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 50%, transparent 100%)",
                 }}
             />
 
@@ -200,8 +226,8 @@ export function Hero() {
                     className="w-full h-full group/map-peeking border-none outline-none"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{ 
-                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.5) 25%, black 45%)',
-                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.5) 25%, black 45%)' 
+                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 12%, rgba(0,0,0,0.27) 26%, rgba(0,0,0,0.77) 42%, black 58%)',
+                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 12%, rgba(0,0,0,0.27) 26%, rgba(0,0,0,0.77) 42%, black 58%)' 
                     }}
                 >
                     {/* Inner wrapper for shifted map content */}
