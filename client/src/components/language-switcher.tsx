@@ -1,39 +1,51 @@
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { Globe } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const LANGUAGE_OPTIONS = [
-  { code: "en", shortLabel: "EN" },
-  { code: "fr-CA", shortLabel: "FR" },
-  { code: "uk", shortLabel: "UKR" },
+  { code: "en", label: "English", shortLabel: "EN" },
+  { code: "fr-CA", label: "Français", shortLabel: "FR" },
+  { code: "uk", label: "Українська", shortLabel: "UKR" },
 ] as const;
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const { language, setLanguage } = useI18n();
 
   return (
-    <div className={cn("flex items-center gap-2 text-[13px] tracking-[0.08em] antialiased", className)} aria-label="Language selector">
-      {LANGUAGE_OPTIONS.map((option, index) => (
-        <span key={option.code} className="flex items-center gap-2">
-          {index > 0 && <span aria-hidden="true" className="text-slate-300 font-normal">·</span>}
-          <span
-            role="button"
-            tabIndex={0}
-            onClick={() => setLanguage(option.code)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                setLanguage(option.code);
-              }
-            }}
-            className={cn(
-              "cursor-pointer select-none transition-colors",
-              language === option.code ? "text-slate-800 font-medium" : "text-slate-400 font-normal hover:text-slate-600",
-            )}
+    <div className={cn("flex items-center antialiased", className)}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button 
+            className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-slate-100 transition-colors text-slate-500 hover:text-slate-900 outline-none border-none bg-transparent cursor-pointer"
+            aria-label="Change language"
           >
-            {option.shortLabel}
-          </span>
-        </span>
-      ))}
+            <Globe className="w-[18px] h-[18px]" strokeWidth={2} />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-[140px] bg-white border border-slate-200 shadow-xl rounded-xl p-1 z-[100]">
+          {LANGUAGE_OPTIONS.map((option) => (
+            <DropdownMenuItem
+              key={option.code}
+              onClick={() => setLanguage(option.code)}
+              className={cn(
+                "flex items-center justify-between px-3 py-2 text-[13px] font-medium rounded-lg cursor-pointer transition-colors outline-none",
+                language === option.code 
+                  ? "bg-slate-50 text-[#0057B7]" 
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+              )}
+            >
+              <span>{option.label}</span>
+              <span className="text-[10px] opacity-40 font-bold uppercase tracking-wider">{option.shortLabel}</span>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
