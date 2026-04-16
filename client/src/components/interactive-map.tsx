@@ -639,16 +639,13 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
     // Create new markers
     markers.current = stores
       .filter((store: Store) => canRenderStoreMarker(store))
-      .map((store: Store, i: number) => {
+      .map((store: Store) => {
       const isSelected = selectedStore?.id === store.id;
       const dimmed = isDimmed(store.id);
-      const pingDelays = ["0s", "0.8s", "1.6s"];
-      const pinDelay = variant === "hero" ? pingDelays[i % 3] : undefined;
       const defaultVariant: "default" | "selected" = isSelected ? "selected" : "default";
       const defaultSvg = getBrandedMapPinSvg({
         variant: defaultVariant,
         dimmed: dimmed && !isSelected,
-        pingDelay: pinDelay
       });
       const hoverSvg = getBrandedMapPinSvg({
         variant: "hover",

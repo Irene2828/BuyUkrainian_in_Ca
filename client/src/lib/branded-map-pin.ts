@@ -4,7 +4,6 @@ interface BrandedMapPinOptions {
   variant: BrandedMapPinVariant;
   count?: number;
   dimmed?: boolean;
-  pingDelay?: string;
 }
 
 interface BrandedMapPinSize {
@@ -76,21 +75,6 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   <text x="34.5" y="11.3" dominant-baseline="central" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${countFontSize}" font-weight="700" fill="${BADGE_TEXT_BLUE}">${countLabel}</text>`
     : "";
 
-  const pingAnimation = pingDelay 
-    ? `
-  <style>
-    @keyframes ping {
-      0% { transform: scale(1); opacity: 0.6; }
-      100% { transform: scale(3.5); opacity: 0; }
-    }
-    .ping-circle {
-      transform-origin: 22px 50px;
-      animation: ping 2.5s ease-out infinite;
-    }
-  </style>
-  <circle class="ping-circle" cx="22" cy="50" r="4.5" fill="#F5C242" opacity="0" style="animation-delay: ${pingDelay}" />`
-    : "";
-
   return `
 <svg width="44" height="56" viewBox="0 0 44 56" fill="none" opacity="${opacity}" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
   <defs>
@@ -103,7 +87,6 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   </defs>
   <ellipse cx="22" cy="52.9" rx="${shadowRx}" ry="${shadowRy}" fill="${SHADOW_COLOR}" fill-opacity="${shadowOpacity}" filter="url(#pinShadowBlur)" />
   ${contactRing}
-  ${pingAnimation}
   ${activeGlow}
   ${selectedHalo}
   ${activeHalo}
