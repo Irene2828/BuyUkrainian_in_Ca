@@ -34,7 +34,7 @@ export function MapStats() {
                     </p>
                 </div>
 
-                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24 mb-7">
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24">
                     <div className="flex flex-col items-center gap-3">
                         <AnimatedCounter
                             end={stats.stores}
@@ -74,9 +74,9 @@ export function MapStats() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center mt-8">
+                <div className="flex flex-col items-center mt-[24px] md:mt-[40px]">
                     <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mx-auto mb-5">
-                        Every store on this map was added by<br />someone like you.
+                        Every store on this map was added by someone like you.
                     </p>
                     <Link href="/map">
                         <Button
