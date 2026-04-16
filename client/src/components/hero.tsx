@@ -165,7 +165,7 @@ export function Hero() {
                                     <span className="block font-['Lora'] text-[calc(3rem)] md:text-[calc(3.4rem)] min-[1500px]:text-[calc(3.7rem)] min-[1670px]:text-[calc(4.25rem+6px)] font-medium tracking-[-0.03em] text-[#0057B7]">
                                         Discover
                                     </span>
-                                    <span className="block font-['Lora'] text-[calc(3rem)] md:text-[calc(3.4rem)] min-[1500px]:text-[calc(3.7rem)] min-[1670px]:text-[calc(4.25rem+6px)] font-medium tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-3">
+                                    <span className="block font-['Lora'] text-[calc(3rem)] md:text-[calc(3.4rem)] min-[1500px]:text-[calc(3.7rem)] min-[1670px]:text-[calc(4.25rem+6px)] font-medium tracking-[-0.03em] text-[#0057B7] whitespace-nowrap relative mb-[9px]">
                                         <span className="relative inline-block">Ukrainian</span>
                                         {" "}Products
                                     </span>
