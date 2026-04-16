@@ -308,7 +308,7 @@ export function Hero() {
         {/* Location Intent Strip — hidden on mobile */}
         <div className="hidden md:block w-full max-w-[1920px] mx-auto bg-white border-t border-slate-200 overflow-hidden mt-[-12px] min-[1280px]:max-[1669px]:mt-[-24px] min-[1670px]:mt-[-28px] relative z-20">
             <div className="boutique-width flex items-stretch">
-                    <div className="flex-1 flex items-stretch md:min-w-0 px-0 min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)]">
+                    <div className="flex-1 flex items-stretch md:min-w-0 px-0 md:pl-[clamp(72px,7vw,104px)] min-[1280px]:max-[1669px]:pl-[clamp(118px,7.8vw,148px)] min-[1670px]:pl-[clamp(96px,5.8vw,124px)]">
                         {PROVINCE_STRIP.map((province, i) => (
                             <motion.div
                                 key={province.abbr}
