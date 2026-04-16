@@ -235,7 +235,7 @@ export function Hero() {
                         className="absolute inset-y-0 left-0 w-full border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-7%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-9%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[6%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[8%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
-                            <div className="absolute top-0 inset-x-0 h-2/5 bg-gradient-to-b from-white to-transparent pointer-events-none z-30" />
+                            <div className="absolute top-0 inset-x-0 h-2/5 bg-gradient-to-b from-white via-white/90 to-transparent pointer-events-none z-[50]" />
                             <div className="hidden md:max-[1439px]:block absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-white via-white/30 to-transparent pointer-events-none z-30" />
 
 
