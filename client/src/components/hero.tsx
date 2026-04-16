@@ -181,7 +181,7 @@ export function Hero() {
                                     className="text-[16px] text-slate-500 leading-relaxed max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-8"
                                     style={{ marginTop: '0' }}
                                 >
-                                    Explore authentic Ukrainian-made products near you
+                                    Explore authentic Ukrainian-made products near you - or add new stores to the map!
                                 </p>
 
                                 {/* CTA Row - Left Aligned To Header Branding Text */}
