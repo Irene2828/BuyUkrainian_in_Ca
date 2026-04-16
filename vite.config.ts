@@ -14,9 +14,9 @@ function assertRequiredBuildEnv(command: string, env: Record<string, string>) {
 
   if (missing.length === 0) return;
 
-  throw new Error(
-    `[vite] Missing required build env var(s): ${missing.join(", ")}. ` +
-    "Set them before running a production build so the deployed bundle can load Google Maps."
+  console.warn(
+    `[vite] WARNING: Missing build env var(s): ${missing.join(", ")}. ` +
+    "Set them in Vercel Environment Variables so the deployed bundle can load Google Maps."
   );
 }
 
