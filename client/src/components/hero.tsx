@@ -279,7 +279,7 @@ export function Hero() {
                     <div
                         key={pillar.title}
                         className={cn(
-                            "group isolate flex items-center overflow-hidden pl-5 pr-[72px] lg:pr-[96px] group-hover:pr-5 py-2.5 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-right w-max max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]",
+                            "group isolate flex items-center overflow-hidden pl-5 pr-5 py-2.5 border-l-[3px] cursor-default pointer-events-auto shadow-sm hover:shadow-md transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-right w-max max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]",
                             pillar.accentClass,
                             pillar.surfaceClass
                         )}
@@ -287,6 +287,7 @@ export function Hero() {
                         <span className="shrink-0 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#0057B7]/65 group-hover:text-[#0057B7] whitespace-nowrap font-['Inter'] transition-colors duration-[1200ms]">
                             {pillar.title}
                         </span>
+                        <span className="transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] w-[70px] lg:w-[100px] group-hover:w-0 block shrink-0" aria-hidden="true" />
                         <span className="hero-trust-pill-detail inline-flex items-center overflow-hidden max-w-0 opacity-0 translate-x-2 pl-0 py-0.5 text-[14px] text-[#0057B7]/10 font-medium whitespace-nowrap group-hover:max-w-[1000px] group-hover:opacity-100 group-hover:text-[#0057B7]/80 group-hover:translate-x-0 group-hover:pl-3 transition-[max-width,color,opacity,transform,padding] duration-[1200ms] delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] font-['Inter']">
                             <span className="shrink-0 mr-4">–</span>
                             <span>{pillar.detail}</span>
