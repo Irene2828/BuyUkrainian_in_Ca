@@ -193,7 +193,7 @@ export function Hero() {
                                         <Button
                                             className="inline-flex items-center justify-center h-[44px] px-6 text-[16px] font-medium tracking-[0.01em] rounded-[32px] bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn font-['Inter']"
                                         >
-                                            <span>Find stores near me</span>
+                                            <span>Explore the Map</span>
                                             <Search className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-white" />
                                         </Button>
                                     </Link>
