@@ -45,12 +45,7 @@ export function Footer() {
 
         <div className="w-full pt-[24px] flex justify-center text-center">
           <div className="min-h-[48px] flex flex-col items-center justify-center text-center gap-1">
-            <p
-              className="text-[12px] font-normal text-slate-500/80 tracking-[0.02em] leading-tight"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Volunteer initiative to support Ukraine from Canada
-            </p>
+
             <p
               className="text-[12px] font-normal text-slate-500/80 tracking-[0.02em] leading-tight"
               style={{ fontFamily: "'Inter', sans-serif" }}
