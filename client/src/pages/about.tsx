@@ -51,7 +51,7 @@ export default function AboutPage() {
             </div>
 
             <div className="bg-gradient-to-br from-blue-50 to-yellow-50 dark:from-blue-950/50 dark:to-yellow-950/50 rounded-3xl p-8 md:p-12 mb-16">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-[var(--color-section-headline)] section-headline-reveal">Why BuyUkrainian?</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold font-['Lora'] tracking-tight mb-6 text-center text-[var(--color-section-headline)] section-headline-reveal">Why BuyUkrainian?</h2>
               <div className="grid sm:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-blue-accent/10 flex items-center justify-center mx-auto mb-4">
@@ -84,7 +84,7 @@ export default function AboutPage() {
             </div>
 
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-4 text-[var(--color-section-headline)] section-headline-reveal">Ready to Explore?</h2>
+              <h2 className="text-2xl font-semibold font-['Lora'] tracking-tight mb-4 text-[var(--color-section-headline)] section-headline-reveal">Ready to Explore?</h2>
               <p className="text-muted-foreground mb-6">
                 Discover Ukrainian products in your area or add a location you know about.
               </p>

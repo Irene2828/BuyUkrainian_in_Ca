@@ -558,7 +558,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             transform: 'translateX(-50%)'
           }}
         >
-          <span className="text-[13px] font-semibold text-[#0057B7] whitespace-nowrap tracking-tight">
+          <span className="text-[12px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap">
             {hoveredLabel.text}
           </span>
         </motion.div>,

@@ -79,7 +79,7 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white pt-[32px] md:pt-[40px] pb-[40px] md:pb-[60px]">
       <div className="boutique-width">
-        <div className="md:pl-[40px] 2xl:pl-[48px]">
+        <div className="min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)] md:pl-[40px]">
           <div className="flex justify-between items-center w-full mb-6 group/header-link">
             <div className="flex items-center gap-2.5">
               <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
@@ -100,16 +100,16 @@ function NewlyAddedStores() {
       </div>
 
       <div className="boutique-width">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-10 min-h-[140px] md:pl-[40px] 2xl:pl-[48px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-8 items-start min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)] md:pl-[40px]">
           {newlyAdded.slice(0, 4).map((store) => (
             <div
               key={store.id}
               className="relative group cursor-pointer"
               onClick={() => handleSeeOnMap(store)}
             >
-              {/* Frosted Glass Overlay with CTA */}
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none">
-                <button className="flex items-center gap-1.5 bg-white/90 text-slate-900 ring-1 ring-slate-300 ring-inset text-[13px] font-medium px-5 py-2 rounded-full shadow-sm hover:bg-white hover:ring-slate-400 hover:text-black translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-auto">
+              {/* Frosted Glass Overlay with CTA - Centered vertically and static */}
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none rounded-xl">
+                <button className="flex items-center gap-1.5 bg-white/95 text-slate-900 ring-1 ring-slate-200 ring-inset text-[13px] font-medium px-5 py-2.5 rounded-full shadow-md hover:bg-white hover:ring-slate-300 hover:text-black transition-all duration-300 ease-out pointer-events-auto">
                   <MapPin className="w-3 h-3" />
                   See on Map
                 </button>

@@ -271,8 +271,8 @@ html.dark header.bg-white\/90 {
 /* LOCKED: Hero Title Typography System */
 .hero-title {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 28px;
-  line-height: 36px;
+  font-size: 22px;
+  line-height: 29px;
   font-weight: 500;
   letter-spacing: -2.2px;
   color: #000000;
@@ -296,15 +296,15 @@ html.dark header.bg-white\/90 {
 
 @media (min-width: 640px) {
   .hero-title {
-    font-size: 36px;
-    line-height: 44px;
+    font-size: 29px;
+    line-height: 35px;
   }
 }
 
 @media (min-width: 768px) {
   .hero-title {
-    font-size: 48px;
-    line-height: 56px;
+    font-size: 38px;
+    line-height: 45px;
   }
 }
 
@@ -434,6 +434,15 @@ html.dark header.bg-white\/90 {
     display: none;
   }
 
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -441,6 +450,45 @@ html.dark header.bg-white\/90 {
 
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+
+  .hero-mobile-canopy {
+    display: block;
+    height: clamp(80px, 16svh, 110px);
+    left: 0;
+  }
+
+  .hero-canopy-safe-content {
+    background: #ffffff;
+    padding-top: calc(clamp(80px, 16svh, 110px) + 0.5rem);
+  }
+
+  @media (min-width: 768px) {
+    .hero-mobile-canopy {
+      display: none;
+    }
+
+    .hero-canopy-safe-content {
+      background: transparent;
+      padding-top: 4rem;
+    }
+  }
+
+  @media (max-height: 450px) and (max-width: 1023.98px) {
+    .hero-mobile-canopy {
+      display: block;
+      height: clamp(60px, 15svh, 80px);
+      left: 0;
+    }
+
+    .hero-desktop-flag {
+      display: none !important;
+    }
+
+    .hero-canopy-safe-content {
+      background: #ffffff !important;
+      padding-top: calc(clamp(60px, 15svh, 80px) + 0.5rem) !important;
+    }
   }
 
   /* ========================================

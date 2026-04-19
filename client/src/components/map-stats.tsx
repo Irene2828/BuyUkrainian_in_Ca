@@ -22,59 +22,61 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full pt-[88px] md:pt-[96px] pb-[72px] md:pb-[112px] bg-transparent flex flex-col justify-center items-center">
+        <section className="relative w-full pt-[70px] pb-[104px] md:pt-[116px] md:pb-[174px] bg-transparent flex flex-col justify-center items-center">
             <div className="boutique-width w-full flex flex-col items-center">
-                <div className="flex max-w-[560px] flex-col items-center text-center mb-10 md:mb-12">
-                    <div className="mb-3 flex h-[2px] w-12 overflow-hidden rounded-full" aria-hidden="true">
-                        <span className="w-1/2 bg-[#0057B7]" />
-                        <span className="w-1/2 bg-[#FFD700]" />
-                    </div>
+                <div className="flex max-w-[560px] flex-col items-center text-center mb-12 md:mb-16">
                     <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui leading-none">
                         The Map Is Growing
                     </p>
                 </div>
 
-                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-16 md:gap-24">
-                    <div className="flex flex-col items-center gap-3">
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-12 md:gap-14 min-[1670px]:gap-20">
+                    <div className="flex flex-row items-baseline gap-4 md:gap-6">
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.64]"
+                            className="font-sans text-[42px] md:text-[64px] min-[1670px]:text-[72px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.68]"
                         />
-                        <div className="flex items-center gap-2 text-[#0A2540] mt-2">
-                            <Store className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Stores Found</span>
+                        <div className="flex items-center gap-2 text-[#0A2540] mb-0 pb-1 md:pb-2">
+                            <Store className="w-3.5 h-3.5 md:w-4 md:h-4" strokeWidth={1.5} />
+                            <span className="text-[12px] md:text-[13px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Stores Found</span>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center gap-3">
+                    {/* Hairline Divider */}
+                    <div className="hidden md:block w-px h-16 bg-slate-200/60" aria-hidden="true" />
+
+                    <div className="flex flex-row items-baseline gap-4 md:gap-6">
                         <AnimatedCounter
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.64]"
+                            className="font-sans text-[42px] md:text-[64px] min-[1670px]:text-[72px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.68]"
                         />
-                        <div className="flex items-center gap-2 text-[#0A2540] mt-2">
-                            <Map className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Provinces Covered</span>
+                        <div className="flex items-center gap-2 text-[#0A2540] mb-0 pb-1 md:pb-2">
+                            <Map className="w-3.5 h-3.5 md:w-4 md:h-4" strokeWidth={1.5} />
+                            <span className="text-[12px] md:text-[13px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Provinces Covered</span>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center gap-3">
+                    {/* Hairline Divider */}
+                    <div className="hidden md:block w-px h-16 bg-slate-200/60" aria-hidden="true" />
+
+                    <div className="flex flex-row items-baseline gap-4 md:gap-6">
                         <AnimatedCounter
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[52px] md:text-[77px] min-[1670px]:text-[85px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.64]"
+                            className="font-sans text-[42px] md:text-[64px] min-[1670px]:text-[72px] font-semibold tracking-tight tabular-nums text-[#0057B7] leading-none opacity-[0.68]"
                         />
-                        <div className="flex items-center gap-2 text-[#0A2540] mt-2">
-                            <Package className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={1.5} />
-                            <span className="text-[10px] md:text-[10px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Products Listed</span>
+                        <div className="flex items-center gap-2 text-[#0A2540] mb-0 pb-1 md:pb-2">
+                            <Package className="w-3.5 h-3.5 md:w-4 md:h-4" strokeWidth={1.5} />
+                            <span className="text-[12px] md:text-[13px] min-[1670px]:text-[16px] font-semibold tracking-widest uppercase">Products Listed</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center mt-6 md:mt-10">
+                <div className="flex flex-col items-center mt-12 md:mt-20">
                     <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center px-4 max-w-none mx-auto mb-5">
                         Every store on this map was added by someone like you.
                     </p>

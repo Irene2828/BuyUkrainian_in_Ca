@@ -56,12 +56,12 @@ export function HowItWorks() {
 
 
   return (
-    <section id="how-it-works" className="pt-[117px] pb-[48px] md:pt-[194px] md:pb-[80px] font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="pt-[117px] pb-[58px] md:pt-[194px] md:pb-[97px] font-sans overflow-hidden bg-white">
       <div className="boutique-width">
         {/* Section Header */}
-        <div className="w-full mb-4 md:mb-8 flex justify-center overflow-hidden">
+        <div className="w-full mb-10 md:mb-14 flex flex-col items-center overflow-hidden">
           <h2
-            className="text-[31px] md:text-[41px] font-semibold text-slate-900 tracking-tight leading-tight text-center section-headline-reveal"
+            className="text-[31px] md:text-[41px] font-semibold font-['Lora'] text-slate-900 tracking-tight leading-tight text-center section-headline-reveal"
           >
             {t('howItWorks.title') || 'When to Use this Map'}
           </h2>

@@ -11,7 +11,7 @@ interface BrandedMapPinSize {
   height: number;
 }
 
-const PIN_PATH =
+export const BRANDED_MAP_PIN_PATH =
   "M22 3.5 C12.4 3.5 5 10.9 5 20.5 C5 26.8 8.1 32.3 12.2 37.7 L22 50 L31.8 37.7 C35.9 32.3 39 26.8 39 20.5 C39 10.9 31.6 3.5 22 3.5 Z";
 
 const OUTLINE_BLUE = "#0057B7";
@@ -53,21 +53,18 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
 
   const activeGlow = isHover
     ? `
-  <path d="${PIN_PATH}" fill="none" stroke="${RING_YELLOW}" stroke-opacity="0.22" stroke-width="5.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />
-  <circle cx="21.3" cy="18.9" r="9.4" fill="none" stroke="${RING_YELLOW}" stroke-opacity="0.16" stroke-width="2.4" filter="url(#pinGlowBlur)" />`
+  <path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${RING_YELLOW}" stroke-opacity="0.28" stroke-width="6.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />`
     : "";
 
   const activeHalo = isHover
-    ? `<path d="${PIN_PATH}" fill="none" stroke="${WHITE}" stroke-width="6.4" stroke-linejoin="round" />`
+    ? `<path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.96" stroke-width="5.2" stroke-linejoin="round" />`
     : "";
 
   const selectedHalo = isSelected
-    ? `<path d="${PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.92" stroke-width="4.4" stroke-linejoin="round" />`
+    ? `<path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.92" stroke-width="4.4" stroke-linejoin="round" />`
     : "";
 
-  const contactRing = isHover
-    ? `<ellipse cx="22" cy="52.9" rx="4.6" ry="1.5" fill="none" stroke="${BADGE_TEXT_BLUE}" stroke-opacity="0.14" stroke-width="1.1" />`
-    : "";
+  const contactRing = "";
 
   const badge = isCluster
     ? `
@@ -82,7 +79,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
       <feGaussianBlur stdDeviation="1.25" />
     </filter>
     <filter id="pinGlowBlur" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="1.7" />
+      <feGaussianBlur stdDeviation="2.2" />
     </filter>
   </defs>
   <ellipse cx="22" cy="52.9" rx="${shadowRx}" ry="${shadowRy}" fill="${SHADOW_COLOR}" fill-opacity="${shadowOpacity}" filter="url(#pinShadowBlur)" />
@@ -91,7 +88,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   ${selectedHalo}
   ${activeHalo}
   <path
-    d="${PIN_PATH}"
+    d="${BRANDED_MAP_PIN_PATH}"
     fill="${WHITE}"
     stroke="${OUTLINE_BLUE}"
     stroke-width="${isHover ? 3.4 : isSelected ? 3.15 : 3}"
