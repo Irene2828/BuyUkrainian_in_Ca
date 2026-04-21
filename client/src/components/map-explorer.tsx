@@ -258,7 +258,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
             <div 
                 className={cn(
-                    "w-full relative bg-white",
+                    "w-full relative bg-white border-b border-slate-100",
                     viewMode === "map"
                         ? cn("overflow-hidden", isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]")
                         : "h-auto overflow-visible"
@@ -374,13 +374,13 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 <button
                                                     onClick={() => setAddStoreDialogOpen(true)}
                                                     className={cn(
-                                                        "h-[36px] px-[12px] ml-[3px] flex items-center justify-center gap-2 font-medium text-[14px] transition-all duration-300",
-                                                        "bg-[#0057B7] text-white rounded-[32px] shrink-0 border-none",
-                                                        "hover:bg-[#0047A0] active:scale-95 shadow-[0_4px_12px_rgba(0,87,183,0.18)]"
+                                                        "h-[36px] px-[12px] ml-[3px] flex items-center justify-center gap-2.5 font-medium text-[13px] tracking-tight transition-all duration-300",
+                                                        "bg-[#FFD700] text-slate-950 rounded-[32px] shrink-0 border-none",
+                                                        "hover:bg-[#FFC000] active:scale-95 shadow-[0_4px_12px_rgba(255,215,0,0.18)]"
                                                     )}
                                                 >
-                                                    <Plus className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
                                                     <span>{t('nav.addStore') || 'Pin Store'}</span>
+                                                    <Plus className="w-3.5 h-3.5 text-slate-950" strokeWidth={3} />
                                                 </button>
                                             </div>{/* end inner scrollable div */}
 

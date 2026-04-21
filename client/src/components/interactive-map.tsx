@@ -20,7 +20,7 @@ export interface InteractiveMapRef {
   invalidateSize: () => void;
 }
 
-const FULL_MAP_INITIAL_CENTER: [number, number] = [54.0, -90.5];
+const FULL_MAP_INITIAL_CENTER: [number, number] = [52.5, -95.0];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 const HERO_INITIAL_MAP_STATE = {
   // The hero crop hides the southern edge more aggressively than the full map,
@@ -494,7 +494,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {variant !== "hero" && (
         <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
           <TooltipProvider delayDuration={120}>
-            <div className="flex flex-col items-center bg-white/85 backdrop-blur-2xl shadow-[0_8px_30px_rgba(10,37,64,0.08)] rounded-full border-0 overflow-hidden pointer-events-auto">
+            <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
               <MapControlButton
                 label="Locate me"
                 ariaLabel="Center on my location"
@@ -572,6 +572,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHoveredLabel, variant, setZoomState, setCenterState }: any) {
   const clusterer = useRef<any>(null);
   const markers = useRef<any[]>([]);
+  const hasAnimatedEntrance = useRef(false);
 
   const isDimmed = (id: string) => selectedStore !== null && selectedStore.id !== id;
 
@@ -629,6 +630,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
     }
   }, [map, renderer, setZoomState, setCenterState]);
 
+
   useEffect(() => {
     if (!clusterer.current || !map) return;
 
@@ -637,56 +639,77 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
     clusterer.current.clearMarkers();
 
     // Create new markers
-    markers.current = stores
+    const newMarkers = stores
       .filter((store: Store) => canRenderStoreMarker(store))
-      .map((store: Store) => {
-      const isSelected = selectedStore?.id === store.id;
-      const dimmed = isDimmed(store.id);
-      const defaultVariant: "default" | "selected" = isSelected ? "selected" : "default";
-      const defaultSvg = getBrandedMapPinSvg({
-        variant: defaultVariant,
-        dimmed: dimmed && !isSelected,
-      });
-      const hoverSvg = getBrandedMapPinSvg({
-        variant: "hover",
-        dimmed: false,
-      });
-      const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant);
-      const hoverIcon = buildMarkerIcon(hoverSvg, "hover");
+      .map((store: Store, index: number) => {
+        const isSelected = selectedStore?.id === store.id;
+        const dimmed = isDimmed(store.id);
+        const defaultVariant: "default" | "selected" = isSelected ? "selected" : "default";
+        const defaultSvg = getBrandedMapPinSvg({
+          variant: defaultVariant,
+          dimmed: dimmed && !isSelected,
+        });
+        const hoverSvg = getBrandedMapPinSvg({
+          variant: "hover",
+          dimmed: false,
+        });
+        const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant);
+        const hoverIcon = buildMarkerIcon(hoverSvg, "hover");
 
-      const marker = new (window as any).google.maps.Marker({
-        position: { lat: store.coordinates[0], lng: store.coordinates[1] },
-        icon: defaultIcon,
-        zIndex: isSelected ? 1000 : dimmed ? 10 : 100,
+        const marker = new (window as any).google.maps.Marker({
+          position: { lat: store.coordinates[0], lng: store.coordinates[1] },
+          icon: defaultIcon,
+          zIndex: isSelected ? 1000 : dimmed ? 10 : 100,
+          // No animation — we handle the staggered reveal ourselves for buttery-smooth entrance
+          animation: null,
+          opacity: (!hasAnimatedEntrance.current && variant === 'hero') ? 0 : 1,
+        });
+
+        marker.addListener('click', () => {
+          setHoveredLabel(null);
+          onSelectStore(store);
+        });
+        
+        marker.addListener('mouseover', (e: any) => {
+          if (selectedStore) return;
+
+          if (!isSelected) {
+            marker.setIcon(hoverIcon);
+          }
+          marker.setZIndex(1000);
+          setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
+        });
+
+        marker.addListener('mouseout', () => {
+          marker.setIcon(defaultIcon);
+          marker.setZIndex(isSelected ? 1000 : dimmed ? 10 : 100);
+          setHoveredLabel(null);
+        });
+
+        return marker;
       });
 
-      marker.addListener('click', () => {
-        setHoveredLabel(null);
-        onSelectStore(store);
+    markers.current = newMarkers;
+
+    // Staggered fade-in arrival for hero variant — 60ms cascade via rAF batching
+    if (!hasAnimatedEntrance.current && variant === 'hero') {
+      const STAGGER_MS = 60;
+      newMarkers.forEach((marker, i) => {
+        const delay = i * STAGGER_MS;
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            marker.setOpacity(1);
+            clusterer.current?.addMarker(marker);
+          });
+        }, delay);
       });
-      
-      marker.addListener('mouseover', (e: any) => {
-        if (selectedStore) return;
-
-        if (!isSelected) {
-          marker.setIcon(hoverIcon);
-        }
-        marker.setZIndex(1000);
-        setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
-      });
-
-      marker.addListener('mouseout', () => {
-        marker.setIcon(defaultIcon);
-        marker.setZIndex(isSelected ? 1000 : dimmed ? 10 : 100);
-        setHoveredLabel(null);
-      });
-
-      return marker;
-    });
-
-    clusterer.current.addMarkers(markers.current);
+      hasAnimatedEntrance.current = true;
+    } else {
+      clusterer.current.addMarkers(newMarkers);
+    }
 
     return () => {
+      // Don't clear on every render if we want to preserve status, but we must for stores changes
       if (clusterer.current) clusterer.current.clearMarkers();
       markers.current.forEach(m => m.setMap(null));
     };

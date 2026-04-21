@@ -16,7 +16,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createStore as apiCreateStore } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, MapPin, Loader2, X, Image } from "lucide-react";
+import { CheckCircle, ArrowUpRight, Loader2, X, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSectionEyebrowClassName =
@@ -286,7 +286,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-full h-12 rounded-full bg-[#0057B7] text-white font-medium text-[16px] tracking-tight antialiased transition-all duration-300 shadow-[0_6px_18px_rgba(0,87,183,0.24)] hover:shadow-[0_10px_24px_rgba(0,87,183,0.32)] hover:bg-[#0047A0] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border border-[#0057B7]/70"
+          className="w-full h-12 rounded-full bg-[#FFD700] text-slate-950 font-bold text-[16px] tracking-tight antialiased transition-all duration-300 shadow-[0_6px_18px_rgba(255,215,0,0.24)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.32)] hover:bg-[#FFC000] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border-none"
         >
           <span>Back to the map</span>
         </Button>
@@ -444,17 +444,9 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             </div>
 
             <div className="space-y-4 pt-1">
-              <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-[#0057B7]/12" />
-                <div className="flex items-center gap-2 rounded-full border border-[#0057B7]/10 bg-white/75 px-3 py-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#0057B7]" />
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0057B7]/70 font-ui">
-                    Optional details
-                  </span>
-                </div>
-                <div className="h-px flex-1 bg-[#0057B7]/12" />
+              <div>
+                <span className={formSectionEyebrowClassName}>Optional details</span>
               </div>
-
             </div>
 
             <div className="space-y-7">
@@ -539,12 +531,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/submit-btn"
+                className="w-full inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-slate-950 border-none transition-all duration-300 hover:bg-[#FFC000] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(255,215,0,0.18)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/40 gap-2.5 group/submit-btn"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
                 ) : (
-                  <><span>Submit Store</span> <MapPin className="w-4 h-4 transition-transform duration-300 group-hover/submit-btn:translate-y-[-1px] fill-none stroke-current" strokeWidth={2} /></>
+                  <><span>Submit Store</span> <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/submit-btn:scale-110 fill-none stroke-current" strokeWidth={2} /></>
                 )}
               </Button>
 

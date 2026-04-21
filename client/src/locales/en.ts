@@ -227,7 +227,7 @@ const en = {
     },
   },
   stats: {
-    eyebrow: "The map is growing",
+    eyebrow: "Keep the map growing",
     storesFound: "Stores found",
     provincesCovered: "Provinces covered",
     productsListed: "Products listed",

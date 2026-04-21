@@ -79,8 +79,8 @@ function NewlyAddedStores() {
   return (
     <section className="bg-white pt-[32px] md:pt-[40px] pb-[40px] md:pb-[60px]">
       <div className="boutique-width">
-        <div className="min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)] md:pl-[40px]">
-          <div className="flex justify-between items-center w-full mb-6 group/header-link">
+        <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
+          <div className="flex justify-between items-center w-full mb-6 group/header-link ml-[1.3px]">
             <div className="flex items-center gap-2.5">
               <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
               <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
@@ -100,7 +100,8 @@ function NewlyAddedStores() {
       </div>
 
       <div className="boutique-width">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-8 items-start min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:pl-[clamp(52px,3.6vw,72px)] md:pl-[40px]">
+        <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-8 items-start ml-[1.3px]">
           {newlyAdded.slice(0, 4).map((store) => (
             <div
               key={store.id}
@@ -109,41 +110,41 @@ function NewlyAddedStores() {
             >
               {/* Frosted Glass Overlay with CTA - Centered vertically and static */}
               <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none rounded-xl">
-                <button className="flex items-center gap-1.5 bg-white/95 text-slate-900 ring-1 ring-slate-200 ring-inset text-[13px] font-medium px-5 py-2.5 rounded-full shadow-md hover:bg-white hover:ring-slate-300 hover:text-black transition-all duration-300 ease-out pointer-events-auto">
-                  <MapPin className="w-3 h-3" />
+                <button className="flex items-center gap-2 bg-white/95 text-slate-900 ring-1 ring-slate-200 ring-inset text-[13px] font-medium px-5 py-2.5 rounded-full shadow-md hover:bg-white hover:ring-slate-300 hover:text-black transition-all duration-300 ease-out pointer-events-auto group/btn">
                   See on Map
+                  <MapPin className="w-3 h-3 transition-transform duration-300 group-hover/btn:scale-110" />
                 </button>
               </div>
 
-              <div className="border-l-[3px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all">
+              <div className="border-l-[2px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all">
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-1.5 group/title">
                     <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
                       {store.name}
                     </h3>
-                    <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5 shrink-0" />
                   </div>
-                  <span className="text-slate-400 text-[13px] mt-1">
+                  <span className="text-slate-600 text-[13px] mt-1">
                     {store.city}, {getProvinceAbbreviation(store.province)}
                   </span>
                 </div>
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
 
       {/* Community Call to Action */}
-      <div className="flex flex-col items-center justify-center py-[24px] md:py-[40px] text-center px-4">
+      <div className="flex flex-col items-center justify-center pt-[48px] md:pt-[80px] pb-[24px] md:pb-[40px] text-center px-4">
         <p className="text-[18px] font-medium text-slate-800 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
           Know a store we missed? Add it to the map.
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#0057B7] text-white border-none transition-all duration-300 hover:bg-[#0047A0] 2xl:h-[54px] 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn border-none mx-auto"
+          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-slate-950 border-none transition-all duration-300 hover:bg-[#FFC000] 2xl:h-[54px] 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(255,215,0,0.18)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/40 gap-2.5 group/cta-btn border-none mx-auto"
         >
           <span>Add a New Store</span>
-          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:translate-y-[-1px] text-white" />
+          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:scale-110 text-slate-950" />
         </button>
       </div>
 

@@ -367,6 +367,15 @@ html.dark header.bg-white\/90 {
     /* line-height: 1.6; Inherited from body */
   }
 
+  /* Orphan Prevention - Editorial Precision */
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p, li, blockquote {
+    text-wrap: pretty;
+  }
+
   /* Global Button System - Premium with Tactile Press */
   .btn-strict {
     @apply h-[46px] p-4 font-medium rounded-full flex items-center justify-center transition-all bg-black text-white border border-transparent;

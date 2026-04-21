@@ -11,6 +11,8 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
+import newLogo from "@/assets/newlogo.png";
+
 export function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -67,23 +69,18 @@ export function Header() {
           : "bg-white border-b border-slate-200"
       )}
     >
-      <div className="boutique-width h-[81px] 2xl:h-[108px] relative">
-        <div className="flex h-full items-center justify-between min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)]">
+      <div className="boutique-width h-[73px] 2xl:h-[97px] relative">
+        <div className="flex h-full items-center justify-between px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-4">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
-
-
-            {/* Yellow Vertical Divider */}
-            <div className="h-[33.6px] w-[2.1px] bg-[#FFD700] shrink-0 ml-[1.3px]" />
-
             {/* Branding Text */}
-            <div className="flex flex-col justify-center gap-[1.5px] py-px select-none ml-[11.7px]">
-              <span className="text-[14.5px] md:text-[15.5px] font-semibold tracking-[-0.045em] text-[#1E293B] opacity-80 whitespace-nowrap leading-[0.94] antialiased">
+            <div className="flex flex-col justify-center gap-[1.5px] py-px select-none">
+              <span className="text-[14.7px] md:text-[15.75px] font-semibold tracking-[-0.045em] text-[#1E293B] opacity-80 whitespace-nowrap leading-[0.94] antialiased">
                 Buy Ukrainian
               </span>
-              <span className="text-[14.5px] md:text-[15.5px] font-semibold tracking-[-0.045em] text-[#1E293B] opacity-80 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[14.7px] md:text-[15.75px] font-semibold tracking-[-0.045em] text-[#1E293B] opacity-80 whitespace-nowrap leading-[0.94] antialiased">
                 in Canada
               </span>
             </div>
@@ -188,10 +185,10 @@ export function Header() {
                         setAddStoreDialogOpen(true);
                         setMobileMenuOpen(false);
                     }}
-                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2 text-left cursor-pointer"
+                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center justify-between gap-2 text-left cursor-pointer"
                   >
-                    <Plus className="w-4 h-4 opacity-70" />
                     {t('nav.addStore') || 'Add Store'}
+                    <Plus className="w-4 h-4 opacity-70" />
                   </span>
 
                   <div className="pt-2 border-t border-slate-200/80">

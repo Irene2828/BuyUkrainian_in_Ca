@@ -234,9 +234,9 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="bg-[#0057B7] !flex text-white hover:bg-[#0047A0] transition-all duration-300 w-full min-h-[46px] shrink-0 rounded-full text-[16px] font-medium items-center justify-center gap-2 border-0 tracking-tight shadow-[0_4px_12px_0_rgba(0,87,183,0.18)] hover:shadow-[0_6px_16px_rgba(0,87,183,0.28)] hover:scale-[1.02] active:scale-[0.98] group"
+                        className="bg-transparent border-[1.5px] border-slate-900 !flex text-slate-900 hover:bg-slate-900 hover:text-white transition-all duration-300 w-full h-[46px] shrink-0 rounded-full text-[16px] font-medium items-center justify-center gap-2.5 tracking-tight hover:shadow-sm hover:scale-[1.02] active:scale-[0.95] group"
                     >
-                        <CornerUpRight size={18} className="text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        <CornerUpRight size={18} className="text-slate-900 group-hover:text-white group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         <span>Get Directions</span>
                     </button>
 
@@ -244,17 +244,17 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <div className="grid grid-cols-2 gap-3 shrink-0">
                         <button
                             onClick={handleShare}
-                            className="flex items-center justify-center gap-2 px-4 py-2 bg-transparent rounded-lg text-[12px] font-medium text-slate-700 transition-colors duration-200 hover:text-blue-600 hover:bg-slate-50 active:scale-95 group"
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-transparent rounded-lg text-[13px] font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900 hover:bg-slate-100 active:scale-95 group"
                         >
-                            <Share2 size={13} />
+                            <Share2 size={13} className="opacity-80" />
                             <span>Share Store</span>
                         </button>
 
                         <button
                             onClick={() => onSeeOnMap?.(store)}
-                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[12px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-blue-600 hover:bg-slate-50"
+                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-slate-900 hover:bg-slate-100"
                         >
-                            <MapPin size={13} />
+                            <MapPin size={13} className="opacity-80" />
                             <span>Zoom In Map</span>
                         </button>
                     </div>

@@ -6,10 +6,10 @@ import { FOOTER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 export function Footer() {
   const { t } = useI18n();
   const footerRailClassName =
-    "w-full px-0 pr-4 min-[1280px]:max-[1669px]:pl-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)]";
+    "w-full px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]";
   return (
-    <footer className="bg-[#0F1623] text-[var(--white)] font-sans overflow-hidden relative pt-[calc(clamp(4.5rem,8vh,8rem)-48px)] md:pt-[calc(clamp(4.5rem,8vh,8rem)-64px)] pb-[clamp(3rem,6vh,6rem)]">
-      <div className="boutique-width w-full min-h-[220px] md:min-h-[260px] flex flex-col items-stretch justify-between pt-[48px] md:pt-[60px]">
+    <footer className="bg-[#0F1623] text-[var(--white)] font-sans overflow-hidden relative pt-[calc(clamp(4.5rem,8vh,8rem)-48px)] md:pt-[calc(clamp(4.5rem,8vh,8rem)-64px)] pb-[clamp(2rem,3.75vh,3.75rem)]">
+      <div className="boutique-width w-full min-h-[216px] md:min-h-[261px] flex flex-col items-stretch justify-between pt-[43px] md:pt-[54px]">
 
         <div className="w-full">
           <div className={footerRailClassName}>
@@ -43,7 +43,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="w-full pt-[24px] flex justify-center text-center">
+        <div className="w-full mt-auto pt-[135px] flex justify-center text-center">
           <div className="min-h-[48px] flex flex-col items-center justify-center text-center gap-1">
 
             <p
