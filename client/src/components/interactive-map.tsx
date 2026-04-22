@@ -465,8 +465,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {/* Floating UI Elements */}
       {selectedStore && !isMobile && variant !== "hero" && (
         <div className="absolute inset-x-0 bottom-8 z-[1000] pointer-events-none" style={{ top: '160px' }}>
-          <div className="boutique-width mx-auto h-full px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
-            <div className="flex h-full items-start animate-in slide-in-from-left-4 fade-in duration-300">
+          <div className="boutique-width mx-auto h-full">
+            <div className="flex h-full items-start pl-6 animate-in slide-in-from-left-4 fade-in duration-300">
               <div className="pointer-events-auto">
                 <StoreCard
                   key={selectedStore.id}
@@ -492,11 +492,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {variant !== "hero" && (
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-[1000] pointer-events-none">
-          <div className="boutique-width mx-auto px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
-            <div className="flex justify-end">
-              <TooltipProvider delayDuration={120}>
-                <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
+          <TooltipProvider delayDuration={120}>
+            <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
               <MapControlButton
                 label="Locate me"
                 ariaLabel="Center on my location"
