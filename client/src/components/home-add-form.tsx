@@ -16,7 +16,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createStore as apiCreateStore } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, ArrowUpRight, Loader2, X, Image } from "lucide-react";
+import { CheckCircle, ArrowUpRight, Loader2, X, Image, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSectionEyebrowClassName =
@@ -276,7 +276,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="bg-slate-50/95 backdrop-blur-xl rounded-[24px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
+      <div className="bg-white backdrop-blur-xl rounded-[24px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
         <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
           <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
         </div>
@@ -295,7 +295,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-slate-50/95 backdrop-blur-xl rounded-[24px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white backdrop-blur-xl rounded-[24px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden ring-1 ring-inset ring-slate-200/50 transition-all duration-500 ease-in-out">
       {/* Header */}
       <div className="bg-[#F8F9FA]/50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
         <div>
@@ -359,7 +359,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                             (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
                           }}
                           autoComplete="off"
-                          className="h-14 pl-11 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
+                          className="h-14 pl-11 rounded-lg border border-slate-200 bg-white focus:border-slate-900 focus:bg-white focus:ring-1 focus:ring-slate-900 transition-all font-ui text-[15px] text-slate-800 placeholder:text-slate-500"
                         />
                       </div>
                     </FormControl>
@@ -392,7 +392,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                         placeholder="e.g. European Deli & Bakery"
                         {...field}
                         autoComplete="off"
-                        className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                        className="h-14 px-4 rounded-lg border border-slate-200 bg-white focus:border-slate-900 focus:bg-white focus:ring-1 focus:ring-slate-900 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                       />
                     </FormControl>
                     <FormMessage />
@@ -409,7 +409,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Category</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <select {...field} className="w-full h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] text-[16px] font-normal outline-none focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui appearance-none cursor-pointer text-slate-800">
+                        <select {...field} className="w-full h-14 px-4 rounded-lg border border-slate-200 bg-white text-[16px] font-normal outline-none focus:border-slate-900 focus:bg-white focus:ring-1 focus:ring-slate-900 transition-all font-ui appearance-none cursor-pointer text-slate-800">
                           <option value="food">Food & Grocery</option>
                           <option value="clothes">Clothing & Apparel</option>
                           <option value="retail">Retail & Gifts</option>
@@ -435,7 +435,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   <FormItem>
                     <FormLabel className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2">Products</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Varenyky, Borscht, Gifts (separate by comma)" {...field} className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
+                      <Input placeholder="e.g. Varenyky, Borscht, Gifts (separate by comma)" {...field} className="h-14 px-4 rounded-lg border border-slate-200 bg-white focus:border-slate-900 focus:bg-white focus:ring-1 focus:ring-slate-900 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -461,7 +461,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       <Input
                         placeholder="https://example.com"
                         {...field}
-                        className="h-14 px-4 rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                        className="h-14 px-4 rounded-lg border border-slate-200 bg-white focus:border-slate-900 focus:bg-white focus:ring-1 focus:ring-slate-900 transition-all font-ui text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                       />
                     </FormControl>
                     <FormMessage />
@@ -480,7 +480,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       <Textarea
                         placeholder="Share what makes this place unique..."
                         {...field}
-                        className="min-h-[100px] rounded-[16px] border border-slate-200 bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] resize-none font-ui focus:border-[#0057B7]/30 focus:bg-white focus:ring-1 focus:ring-[#0057B7]/10 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
+                        className="min-h-[100px] rounded-lg border border-slate-200 bg-white resize-none font-ui focus:border-slate-900 focus:bg-white focus:ring-1 focus:ring-slate-900 transition-all px-5 py-4 text-[16px] font-normal text-slate-800 placeholder:text-slate-500"
                       />
                     </FormControl>
                     <FormMessage />
@@ -494,8 +494,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 <div
                   onClick={() => imageInputRef.current?.click()}
                   className={cn(
-                    "rounded-[16px] p-8 text-center cursor-pointer transition-all duration-300 group border-2 border-dashed shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]",
-                    imagePreview ? "border-green-300 bg-green-50" : "border-slate-200 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
+                    "rounded-lg p-8 text-center cursor-pointer transition-all duration-300 group border-2 border-dashed",
+                    imagePreview ? "border-green-300 bg-green-50" : "border-dashed border-slate-300 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
                   )}
                 >
                   {imagePreview ? (
