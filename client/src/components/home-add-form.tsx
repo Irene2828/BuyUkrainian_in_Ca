@@ -495,7 +495,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                   onClick={() => imageInputRef.current?.click()}
                   className={cn(
                     "rounded-lg p-8 text-center cursor-pointer transition-all duration-300 group border-2 border-dashed",
-                    imagePreview ? "border-green-300 bg-green-50" : "border-dashed border-slate-300 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
+                    imagePreview ? "border-green-300 bg-green-50" : "border-slate-300 bg-white hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30"
                   )}
                 >
                   {imagePreview ? (

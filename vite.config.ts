@@ -56,6 +56,8 @@ export default defineConfig(({ command, mode }) => {
       watch: {
         // Ignore macOS metadata files on external drives to avoid noisy full-page reloads.
         ignored: ["**/._*", "**/.DS_Store"],
+        usePolling: true,
+        interval: 100,
       },
       proxy: {
         '/api': {
