@@ -256,7 +256,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
 
             {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
-            <div 
+            <div
                 className={cn(
                     "w-full relative bg-white border-b border-slate-100",
                     viewMode === "map"
@@ -274,7 +274,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 
                             {/* Top Row for Desktop Alignment */}
-                            <div className="flex items-start justify-start mt-4 pt-2 pl-6 relative">
+                            <div className="flex items-start justify-start mt-4 pt-2 pl-4 sm:pl-6 lg:pl-8 relative">
                                 {/* 1. Action Island (Top-Left - now aligned with Logo) */}
                                 {/* Action Island Removed - Components Relocated */}
 

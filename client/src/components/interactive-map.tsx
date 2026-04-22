@@ -492,7 +492,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {variant !== "hero" && (
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
+        <div className="absolute right-4 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
           <TooltipProvider delayDuration={120}>
             <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
               <MapControlButton
