@@ -56,10 +56,8 @@ export function HowItWorks() {
       <div className="boutique-width relative w-full h-full">
             <div className="boutique-width w-full flex flex-col px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
             {/* Top: Centered Section Header */}
-            <div className="w-full flex flex-col items-center mb-10 lg:mb-18">
-              <h2
-                className="text-[31px] md:text-[41px] font-semibold font-['Lora'] text-slate-900 tracking-tight leading-[1.1] text-center section-headline-reveal"
-              >
+            <div className="w-full h-full flex flex-col items-center mb-7 md:mb-14 lg:mb-18">
+              <h2 className="text-[31px] md:text-[41px] font-semibold font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-900 text-center">
                 {t('howItWorks.title') || 'When to Use this Map'}
               </h2>
             </div>

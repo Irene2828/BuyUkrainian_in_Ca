@@ -208,12 +208,6 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       setIsSubmitted(true);
-      toast({
-        title: "Store submitted successfully",
-        description: "Thank you for contributing to the community map!",
-        variant: "default",
-        className: "bg-slate-50 border-l-4 border-slate-900 text-slate-800", // Neutral accent styling
-      });
     },
     onError: (error: Error) => {
       toast({
@@ -276,17 +270,15 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="bg-white backdrop-blur-xl rounded-[24px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-2xl ring-1 ring-inset ring-slate-200/50">
-        <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
-          <CheckCircle className="w-12 h-12 text-green-500 fill-none stroke-current" strokeWidth={2} />
-        </div>
+      <div className="bg-white backdrop-blur-xl rounded-[24px] p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.18)] ring-1 ring-inset ring-slate-200/50">
+        <CheckCircle className="w-16 h-16 text-[#0057B7] mb-6 animate-in zoom-in duration-500" strokeWidth={1.5} />
         <h3 className="text-[24px] font-bold mb-4 font-header text-gray-900">Thanks for helping the map grow</h3>
         <p className="text-slate-500 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
           Your store will appear on the map once verified.
         </p>
         <Button
           onClick={onClose}
-          className="w-full h-12 rounded-full bg-[#FFD700] text-slate-950 font-bold text-[16px] tracking-tight antialiased transition-all duration-300 shadow-[0_6px_18px_rgba(255,215,0,0.24)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.32)] hover:bg-[#FFC000] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border-none"
+          className="w-auto px-8 mx-auto h-12 rounded-full bg-[#FFD700] text-slate-950 font-bold text-[16px] tracking-tight antialiased transition-all duration-300 shadow-[0_6px_18px_rgba(255,215,0,0.24)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.32)] hover:bg-[#FFC000] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border-none"
         >
           <span>Back to the map</span>
         </Button>
