@@ -464,9 +464,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       {/* Floating UI Elements */}
       {selectedStore && !isMobile && variant !== "hero" && (
-        <div className="absolute inset-x-0 bottom-8 z-[1000] pointer-events-none" style={{ top: '160px' }}>
+        <div className="absolute inset-x-0 bottom-8 z-[1000] pointer-events-none" style={{ top: '88px' }}>
           <div className="boutique-width mx-auto h-full">
-            <div className="flex h-full items-start pl-6 animate-in slide-in-from-left-4 fade-in duration-300">
+            <div className="flex h-full items-start pl-4 sm:pl-6 lg:pl-8 animate-in slide-in-from-left-4 fade-in duration-300">
               <div className="pointer-events-auto">
                 <StoreCard
                   key={selectedStore.id}

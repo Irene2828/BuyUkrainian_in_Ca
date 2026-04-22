@@ -437,7 +437,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         className={cn(
                                             "w-14 h-14 p-0 rounded-full flex items-center justify-center transition-all duration-300",
                                             "bg-slate-900/85 backdrop-blur-md text-white",
-                                            "shadow-2xl shadow-slate-900/20 border border-brand-navy/15",
+                                            "shadow-[0_8px_30px_rgba(10,37,64,0.12)] border border-brand-navy/15",
                                             "hover:scale-105 active:scale-95"
                                         )}
                                     >
