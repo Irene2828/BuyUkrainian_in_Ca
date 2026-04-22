@@ -234,10 +234,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="bg-transparent border-[1.5px] border-slate-900 !flex text-slate-900 hover:bg-slate-900 hover:text-white transition-all duration-300 w-full h-[46px] shrink-0 rounded-full text-[16px] font-medium items-center justify-center gap-2.5 tracking-tight hover:shadow-sm hover:scale-[1.02] active:scale-[0.95] group"
+                        className="bg-[#FFD700] flex items-center justify-center gap-2.5 text-slate-950 transition-all duration-300 w-full h-[46px] shrink-0 rounded-full text-[16px] font-medium tracking-tight hover:shadow-[0_4px_15px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-[0.98] font-['Inter'] antialiased group"
                     >
-                        <CornerUpRight size={18} className="text-slate-900 group-hover:text-white group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         <span>Get Directions</span>
+                        <CornerUpRight size={18} className="text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
 
                     {/* Secondary Actions Row */}

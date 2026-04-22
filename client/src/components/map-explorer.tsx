@@ -369,19 +369,6 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                         <span className="whitespace-nowrap">List View</span>
                                                     </button>
                                                 </div>
-                                                {/* Segment 5: Add Store Button */}
-                                                <div className="w-[1px] h-5 bg-slate-200 mx-1 shrink-0" />
-                                                <button
-                                                    onClick={() => setAddStoreDialogOpen(true)}
-                                                    className={cn(
-                                                        "h-[36px] px-[12px] ml-[3px] flex items-center justify-center gap-2.5 font-medium text-[13px] tracking-tight transition-all duration-300",
-                                                        "bg-[#FFD700] text-slate-950 rounded-[32px] shrink-0 border-none",
-                                                        "hover:bg-[#FFC000] active:scale-95 shadow-[0_4px_12px_rgba(255,215,0,0.18)]"
-                                                    )}
-                                                >
-                                                    <span>{t('nav.addStore') || 'Pin Store'}</span>
-                                                    <Plus className="w-3.5 h-3.5 text-slate-950" strokeWidth={3} />
-                                                </button>
                                             </div>{/* end inner scrollable div */}
 
                                             {/* Province Dropdown — rendered OUTSIDE the overflow-x-auto div, as a direct child of the position:relative outer strip */}
@@ -437,38 +424,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>{/* end outer control strip */}
 
                                         {/* 3. Helper Micro-Pill - Persistent context below toolbar */}
-                                        {viewMode === "map" && (
-                                            <div
-                                                className={cn(
-                                                    "border-l-[3px] border-[#FFD700] bg-[#FFFBEB]/70 backdrop-blur-md shadow-sm mx-auto mt-3 md:ml-6 transition-all animate-in fade-in slide-in-from-top-2 duration-500 pointer-events-auto",
-                                                    tipMinimized
-                                                        ? "flex items-center justify-end px-1.5 py-1.5 w-[34px]"
-                                                        : "flex items-center gap-3 px-4 py-2 w-max"
-                                                )}
-                                            >
-                                                {!tipMinimized && (
-                                                    <div className="flex items-center gap-1 whitespace-nowrap text-left font-['Inter']">
-                                                        <span className="text-[13px] font-medium text-[#0057B7]/80 whitespace-nowrap">
-                                                            Pins show local stores – selling products made in Ukraine
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setTipMinimized(!tipMinimized)}
-                                                    className={cn(
-                                                        "flex items-center justify-center w-5 h-5 rounded text-[#0057B7]/50 hover:text-[#0057B7] transition-colors"
-                                                    )}
-                                                    aria-label={tipMinimized ? "Expand tip" : "Minimize tip"}
-                                                >
-                                                    {tipMinimized ? (
-                                                        <span className="text-[14px] leading-none">+</span>
-                                                    ) : (
-                                                        <X className="h-3.5 w-3.5" strokeWidth={2.1} />
-                                                    )}
-                                                </button>
-                                            </div>
-                                        )}
+
                                     </div>
                                 )}
                             </div>
