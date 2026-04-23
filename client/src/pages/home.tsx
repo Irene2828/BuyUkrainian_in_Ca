@@ -35,6 +35,10 @@ export default function Home() {
           <Hero />
         </div>
 
+        <div className="section-reveal bg-white">
+          <MapStats />
+        </div>
+
         {/* 2. Seamless How It Works & FAQ block */}
         <div className="section-reveal bg-white">
           <HowItWorks />
@@ -44,10 +48,9 @@ export default function Home() {
           <FAQ />
         </div>
 
-        {/* 3. Transition into Stats & Community */}
+        {/* 3. Transition into Community Impact */}
         <div className="section-reveal relative bg-white">
           <div className="relative z-10">
-            <MapStats />
             <CommunityImpact />
           </div>
         </div>

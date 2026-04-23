@@ -10,19 +10,46 @@ export function HowItWorks() {
       title: <>Looking for authentic products<br />Made in Ukraine?</>,
       altText: "Looking for authentic products Made in Ukraine?",
       icon: Search,
-      text: (<><strong>Explore</strong> our <strong>verified directory</strong> to find exactly what you need with instant directions.</>)
+      text: (
+        <>
+          <strong 
+            onClick={() => document.getElementById('map')?.scrollIntoView({ behavior: 'smooth' })}
+            className="font-semibold text-slate-900 hover:text-slate-600 transition-colors cursor-pointer inline-block"
+          >
+            Explore
+          </strong> our <strong>verified directory</strong> to find exactly what you need with instant directions.
+        </>
+      )
     },
     {
       title: <>Found a new Ukrainian product<br />in a local store?</>,
       altText: "Found a new Ukrainian product in a local store?",
       icon: Plus,
-      text: (<><strong>Add it to the map.</strong> Two minutes of your time helps Ukrainian companies reach more Canadians.</>)
+      text: (
+        <>
+          <strong 
+            onClick={() => window.dispatchEvent(new Event('openAddStore'))}
+            className="font-semibold text-slate-900 hover:text-slate-600 transition-colors cursor-pointer inline-block"
+          >
+            Add it to the map.
+          </strong> Two minutes of your time helps Ukrainian companies reach more Canadians.
+        </>
+      )
     },
     {
       title: <>Want to help the Ukrainian<br />economy grow?</>,
       altText: "Want to help the Ukrainian economy grow?",
       icon: Share2,
-      text: (<><strong>Share the map</strong> with your network via social media, word of mouth, email, or any other way possible.</>)
+      text: (
+        <>
+          <strong 
+            onClick={() => document.getElementById('share')?.scrollIntoView({ behavior: 'smooth' })}
+            className="font-semibold text-slate-900 hover:text-slate-600 transition-colors cursor-pointer inline-block"
+          >
+            Share the map
+          </strong> with your network via social media, word of mouth, email, or any other way possible.
+        </>
+      )
     }
   ];
 
@@ -52,14 +79,15 @@ export function HowItWorks() {
   };
 
   return (
-    <section id="how-it-works" className="pt-[85px] pb-[52px] md:pt-[140px] md:pb-[88px] font-sans overflow-hidden bg-white">
-      <div className="boutique-width relative w-full h-full">
-            <div className="boutique-width w-full flex flex-col px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
+    <section id="how-it-works" className="pt-[85px] pb-[85px] md:pt-[140px] md:pb-[140px] font-sans overflow-hidden bg-white">
+      <div className="relative w-full h-full">
+            <div className="max-w-6xl mx-auto w-full flex flex-col px-4 sm:px-6 lg:px-8">
             {/* Top: Centered Section Header */}
-            <div className="w-full h-full flex flex-col items-center mb-7 md:mb-14 lg:mb-18">
+            <div className="w-full h-full flex flex-col items-center mb-10 md:mb-16 lg:mb-20">
               <h2 className="text-[31px] md:text-[41px] font-semibold font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-900 text-center">
-                {t('howItWorks.title') || 'When to Use this Map'}
+                {t('howItWorks.title') || 'How it works'}
               </h2>
+              <div className="w-16 h-1 bg-yellow-400 rounded-full mt-4 mx-auto" />
             </div>
 
             {/* Bottom: Steps Grid - Animated Stagger */}
@@ -79,21 +107,21 @@ export function HowItWorks() {
                   {/* Feature Card: Unified Container (Zero Padding for Flush Alignment) */}
                   <div className="group flex flex-col h-full bg-white transition-all duration-300">
 
-                    {/* Top Section: Oversized Architectural Icon */}
-                    <div className="w-full flex items-center justify-center mb-6 lg:mb-8 mt-2">
+                    {/* Top Section: Icon Container */}
+                    <div className="w-12 h-12 rounded-xl bg-transparent border border-[#0057B7] flex items-center justify-center text-[#0057B7] mb-6 shrink-0">
                        <step.icon 
-                        className="h-[3.6rem] md:h-[4.4rem] lg:h-[5.2rem] w-auto text-slate-300/90 antialiased"
-                        strokeWidth={0.75}
+                        className="w-6 h-6 antialiased"
+                        strokeWidth={1}
                         aria-hidden="true"
                        />
                     </div>
 
-                    {/* Bottom Section: ContentStack (Centered Alignment for Icon Harmony) */}
-                    <div className="flex flex-col items-center justify-center w-full">
-                      <h3 className="text-slate-900 font-semibold text-[18px] min-h-[4.5rem] lg:min-h-[5rem] flex items-start justify-center text-center tracking-tight leading-relaxed w-full">
+                    {/* Bottom Section: Left-aligned ContentStack */}
+                    <div className="flex flex-col items-start w-full">
+                      <h3 className="text-slate-900 font-semibold text-lg tracking-tight leading-snug mb-4 text-left">
                         <span>{step.title}</span>
                       </h3>
-                      <p className="text-slate-600/95 text-[16px] leading-relaxed font-ui w-full text-center max-w-[85%] mx-auto">
+                      <p className="text-slate-600/95 text-[15px] leading-relaxed font-ui w-full text-left">
                         {step.text}
                       </p>
                     </div>

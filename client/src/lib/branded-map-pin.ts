@@ -91,7 +91,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
     d="${BRANDED_MAP_PIN_PATH}"
     fill="${WHITE}"
     stroke="${OUTLINE_BLUE}"
-    stroke-width="${isHover ? 3.4 : isSelected ? 3.15 : 3}"
+    stroke-width="${isHover ? 2.8 : isSelected ? 2.5 : 2.4}"
     stroke-linejoin="round"
   />
   <circle
@@ -100,7 +100,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
     r="7.6"
     fill="${WHITE}"
     stroke="${RING_YELLOW}"
-    stroke-width="${isHover ? 3.2 : isSelected ? 3.1 : 3}"
+    stroke-width="${isHover ? 2.6 : isSelected ? 2.5 : 2.4}"
   />
   ${badge}
 </svg>`;

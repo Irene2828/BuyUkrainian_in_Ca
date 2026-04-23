@@ -437,14 +437,13 @@ export function Hero() {
             <div className="boutique-width">
                 <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] transition-all duration-300">
                     <div className="flex h-full items-center justify-between gap-6">
-                    {/* Context Label - Fixed on left */}
-                    <div className="shrink-0 flex items-center gap-2">
-                        <div className="relative flex h-[7px] w-[7px]">
+                    <div className="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm z-10 text-[11px] text-[#0057B7] font-medium antialiased">
+                        <div className="relative flex h-[5px] w-[5px]">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-[7px] w-[7px] bg-[#FFD700]"></span>
+                          <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                         </div>
-                        <span className="text-[13px] font-medium tracking-[0.08em] text-slate-400 uppercase font-['Inter'] antialiased whitespace-nowrap">
-                            Added this month:
+                        <span className="whitespace-nowrap font-['Inter'] tracking-wider">
+                            ADDED THIS MONTH
                         </span>
                     </div>
 
@@ -472,7 +471,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[14px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[15px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>

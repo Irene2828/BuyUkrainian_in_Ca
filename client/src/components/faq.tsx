@@ -31,18 +31,25 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative font-sans overflow-hidden pt-[70px] pb-[52px] md:pt-[118px] md:pb-[88px] z-10 bg-white">
-      <div className="boutique-width relative z-10 w-full">
-        <div className="boutique-width w-full flex flex-col px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
-          {/* Top: Centered Section Header */}
-          <div className="w-full h-full flex flex-col items-center mb-7 md:mb-14 lg:mb-18">
-            <h2 className="text-[31px] md:text-[41px] font-semibold font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-900 text-center">
-              {t("faq.title")}
+    <section id="faq" className="relative font-sans overflow-hidden pt-[85px] pb-[85px] md:pt-[140px] md:pb-[140px] z-10 bg-white">
+      <div className="relative z-10 w-full">
+        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 px-4 sm:px-6 lg:px-8">
+          {/* Left Column: Heading + Descriptive Paragraph */}
+          <div className="lg:col-span-5 flex flex-col items-start text-left pt-2">
+            <h2 className="text-[31px] md:text-[41px] font-semibold font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-900 mb-10">
+              <span className="relative inline-block">
+                About
+                <div className="w-full h-1 bg-yellow-400 rounded-full absolute -bottom-2 left-0" />
+              </span>
+              {" the project"}
             </h2>
+            <p className="text-slate-600 text-[18px] leading-relaxed max-w-[95%] antialiased font-ui">
+              {t("aboutPage.intro") || "BuyUkrainian.ca is a community-powered platform that helps Canadians discover products made in Ukraine and support the businesses bringing them to shelves across the country."}
+            </p>
           </div>
 
-          {/* Bottom: Accordion - Focused Width with constraint */}
-          <div className="w-full max-w-lg flex flex-col mx-auto">
+          {/* Right Column: Accordion Items */}
+          <div className="lg:col-span-7 w-full flex flex-col lg:pl-[10%]">
             {faqs.map((faq, i) => (
               <details
                 key={i}

@@ -110,7 +110,7 @@ export function Header() {
                   <span
                     role="button"
                     tabIndex={0}
-                    className={cn("cursor-pointer outline-none flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME)}
+                    className="cursor-pointer outline-none flex items-center gap-2 px-4 py-1.5 rounded-full ring-1 ring-slate-200 hover:ring-slate-300 text-slate-900 text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 hover:bg-slate-50"
                   >
                     {t('nav.addStore') || 'Add Store'}
                   </span>

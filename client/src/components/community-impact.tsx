@@ -42,14 +42,19 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
 
     return (
         <section
-            className="relative w-full overflow-hidden pt-[96px] md:pt-[128px] pb-[108px] md:pb-[144px] bg-slate-50/40 border-t border-slate-200"
+            id="share"
+            className="relative w-full overflow-hidden pt-[50px] pb-[100px] md:pt-[90px] md:pb-[180px] bg-slate-50/40 border-t border-slate-200"
         >
-            <div className="boutique-width w-full mx-auto relative z-10">
-                <div className="boutique-width w-full flex flex-col px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] mx-auto">
+            <div className="relative z-10 w-full">
+                <div className="max-w-6xl mx-auto w-full flex flex-col px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                         
                         {/* Left Column: Section Header */}
-                        <div className="lg:col-span-4 w-full flex flex-col items-start gap-4 text-left">
+                        <div className="lg:col-span-4 w-full flex flex-col items-start gap-3 text-left">
+                            <div className="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm text-[11px] text-[#0057B7] font-medium antialiased mb-1 tracking-wider uppercase">
+                                <Share2 className="w-3 h-3 text-[#FFD700]" strokeWidth={2.5} />
+                                <span>HELP THE PROJECT GROW</span>
+                            </div>
                             <h2 className="text-[25px] md:text-[33px] font-semibold font-['Lora'] tracking-tight leading-[1.1] text-slate-900 section-headline-reveal">
                                 Share the map <br /> with your network:
                             </h2>
