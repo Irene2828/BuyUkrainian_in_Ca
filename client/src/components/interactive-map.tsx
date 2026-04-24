@@ -392,7 +392,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         center={center}
         zoom={zoom}
         disableDefaultUI={true}
-        gestureHandling="cooperative"
+        gestureHandling={variant === 'hero' ? 'none' : 'cooperative'}
         minZoom={variant === 'hero' ? 3.5 : 4}
         restriction={variant === 'hero' ? {
           latLngBounds: {
@@ -416,7 +416,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           minZoom: variant === 'hero' ? zoom : 4,
           draggable: variant !== 'hero',
           scrollwheel: false,
-          gestureHandling: 'cooperative',
+          gestureHandling: variant === 'hero' ? 'none' : 'cooperative',
           zoomControl: false,
           mapTypeControl: false,
           streetViewControl: false,
@@ -492,56 +492,59 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       )}
 
       {variant !== "hero" && (
-        <div className="absolute right-4 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-center gap-6 pointer-events-none">
-          <TooltipProvider delayDuration={120}>
-            <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
-              <MapControlButton
-                label="Locate me"
-                ariaLabel="Center on my location"
-                onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
-              >
-                <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
-              </MapControlButton>
+        <div className="absolute inset-0 z-[1000] pointer-events-none">
+          <div className="boutique-width mx-auto h-full relative">
+            <div className="absolute right-[22.8px] md:right-[38px] lg:right-[60.8px] min-[1280px]:max-[1669px]:right-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:right-[clamp(49.4px,3.42vw,68.4px)] top-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pointer-events-none">
+              <TooltipProvider delayDuration={120}>
+                <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
+                  <MapControlButton
+                    label="Locate me"
+                    ariaLabel="Center on my location"
+                    onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
+                  >
+                    <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
+                  </MapControlButton>
 
-              <div className="w-6 h-[1px] bg-zinc-100" />
+                  <div className="w-6 h-[1px] bg-zinc-100" />
 
-              <MapControlButton
-                label="Zoom in"
-                ariaLabel="Zoom in map"
-                onClick={() => {
-                  setZoom(prev => typeof prev === 'number' ? prev + 1 : prev);
-                }}
-              >
-                <Plus className="w-4 h-4 stroke-[2.5]" />
-              </MapControlButton>
+                  <MapControlButton
+                    label="Zoom in"
+                    ariaLabel="Zoom in map"
+                    onClick={() => {
+                      setZoom(prev => typeof prev === 'number' ? prev + 1 : prev);
+                    }}
+                  >
+                    <Plus className="w-4 h-4 stroke-[2.5]" />
+                  </MapControlButton>
 
-              <div className="w-6 h-[1px] bg-zinc-100" />
+                  <div className="w-6 h-[1px] bg-zinc-100" />
 
-              <MapControlButton
-                label="Zoom out"
-                ariaLabel="Zoom out map"
-                onClick={() => {
-                  setZoom(prev => typeof prev === 'number' ? prev - 1 : prev);
-                }}
-              >
-                <Minus className="w-4 h-4 stroke-[2.5]" />
-              </MapControlButton>
+                  <MapControlButton
+                    label="Zoom out"
+                    ariaLabel="Zoom out map"
+                    onClick={() => {
+                      setZoom(prev => typeof prev === 'number' ? prev - 1 : prev);
+                    }}
+                  >
+                    <Minus className="w-4 h-4 stroke-[2.5]" />
+                  </MapControlButton>
 
-              <div className="w-6 h-[1px] bg-zinc-100" />
+                  <div className="w-6 h-[1px] bg-zinc-100" />
 
-              <MapControlButton
-                label="Zoom to all Canada"
-                ariaLabel="Reset to national view"
-                onClick={() => {
-                  setZoom(INITIAL_MAP_STATE.zoom);
-                  setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
-                }}
-              >
-                <Maximize2 className="w-4 h-4 stroke-[2.5]" />
-              </MapControlButton>
+                  <MapControlButton
+                    label="Zoom to all Canada"
+                    ariaLabel="Reset to national view"
+                    onClick={() => {
+                      setZoom(INITIAL_MAP_STATE.zoom);
+                      setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+                    }}
+                  >
+                    <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+                  </MapControlButton>
+                </div>
+              </TooltipProvider>
             </div>
-          </TooltipProvider>
-
+          </div>
         </div>
       )}
 
@@ -608,6 +611,8 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         map,
         renderer,
         onClusterClick: (...args: any[]) => {
+          if (variant === 'hero') return false;
+          
           // Detect if we're using v2+ (single object with {event, cluster, map}) or v1 (event, cluster, map)
           const isV2 = args[0] && !!args[0].cluster && !!args[0].map;
           
@@ -628,7 +633,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         }
       });
     }
-  }, [map, renderer, setZoomState, setCenterState]);
+  }, [map, renderer, setZoomState, setCenterState, variant]);
 
 
   useEffect(() => {
@@ -666,6 +671,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         });
 
         marker.addListener('click', () => {
+          if (variant === 'hero') return;
           setHoveredLabel(null);
           onSelectStore(store);
         });

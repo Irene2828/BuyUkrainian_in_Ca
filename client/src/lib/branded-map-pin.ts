@@ -53,11 +53,11 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
 
   const activeGlow = isHover
     ? `
-  <path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${RING_YELLOW}" stroke-opacity="0.28" stroke-width="6.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />`
+  <path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${OUTLINE_BLUE}" stroke-opacity="0.28" stroke-width="6.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />`
     : "";
 
   const activeHalo = isHover
-    ? `<path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.96" stroke-width="5.2" stroke-linejoin="round" />`
+    ? `<path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.6" stroke-width="5.2" stroke-linejoin="round" />`
     : "";
 
   const selectedHalo = isSelected
@@ -91,16 +91,17 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
     d="${BRANDED_MAP_PIN_PATH}"
     fill="${WHITE}"
     stroke="${OUTLINE_BLUE}"
+    stroke-opacity="0.8"
     stroke-width="${isHover ? 2.8 : isSelected ? 2.5 : 2.4}"
     stroke-linejoin="round"
   />
   <circle
-    cx="21.3"
-    cy="18.9"
-    r="7.6"
-    fill="${WHITE}"
+    cx="22"
+    cy="20.5"
+    r="7.5"
+    fill="none"
     stroke="${RING_YELLOW}"
-    stroke-width="${isHover ? 2.6 : isSelected ? 2.5 : 2.4}"
+    stroke-width="2.4"
   />
   ${badge}
 </svg>`;

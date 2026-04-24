@@ -32,7 +32,7 @@ export function OpportunityCard({ isVisible, onClear, onAddStore }: OpportunityC
                     <div className="flex flex-col gap-3 items-center">
                         <button
                             onClick={() => onAddStore ? onAddStore() : window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                            className="group relative inline-flex items-center justify-center gap-2.5 bg-[#FFD700] text-slate-950 px-6 py-2.5 rounded-full text-[14px] font-medium tracking-tight transition-all shadow-[0_4px_12px_rgba(255,215,0,0.22)] hover:bg-[#FFC000] hover:scale-105 hover:shadow-[0_6px_16px_rgba(255,215,0,0.32)] active:scale-95 border-none"
+                            className="group relative inline-flex items-center justify-center gap-2.5 bg-[#FFD700] text-slate-950 px-6 py-2.5 rounded-full text-[14px] font-medium tracking-tight transition-all shadow-[0_4px_12px_rgba(255,215,0,0.22)] hover:bg-[#FFEB64] hover:scale-105 hover:shadow-[0_6px_16px_rgba(255,215,0,0.32)] active:scale-95 border-none"
                         >
                             <span>Add a Store</span>
                             <Plus className="w-4 h-4 text-slate-950 transition-transform duration-300 group-hover:scale-110" />

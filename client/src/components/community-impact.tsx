@@ -41,112 +41,101 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
+        <>
         <section
             id="share"
-            className="relative w-full overflow-hidden pt-[50px] pb-[100px] md:pt-[90px] md:pb-[180px] bg-slate-50/40 border-t border-slate-200"
+            className="relative w-full overflow-hidden bg-white"
         >
-            <div className="relative z-10 w-full">
-                <div className="max-w-6xl mx-auto w-full flex flex-col px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-                        
-                        {/* Left Column: Section Header */}
-                        <div className="lg:col-span-4 w-full flex flex-col items-start gap-3 text-left">
-                            <div className="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm text-[11px] text-[#0057B7] font-medium antialiased mb-1 tracking-wider uppercase">
-                                <Share2 className="w-3 h-3 text-[#FFD700]" strokeWidth={2.5} />
-                                <span>HELP THE PROJECT GROW</span>
-                            </div>
-                            <h2 className="text-[25px] md:text-[33px] font-semibold font-['Lora'] tracking-tight leading-[1.1] text-slate-900 section-headline-reveal">
-                                Share the map <br /> with your network:
-                            </h2>
-                        </div>
+            <div className="relative z-10 w-full pb-6 md:pb-10">
+                <div className="max-w-6xl mx-auto w-full relative px-4 sm:px-6 lg:px-8 pt-12 md:pt-24">
+                    {/* Asymmetrical Framing Accents - Aligned with FAQ headline */}
+                    <div className="absolute top-0 left-0 w-[42%] h-[3px] bg-[#FFD700] pointer-events-none" aria-hidden="true" />
+                    
+                    <div className="max-w-3xl mx-auto w-full flex flex-col items-center text-center">
+                        {/* Section Eyebrow */}
+                        <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-slate-400 mb-2 antialiased">
+                            Help the project grow
+                        </span>
 
-                        {/* Right Column: Premium Interaction Block */}
-                        <div className="lg:col-span-8 w-full flex flex-col items-start lg:-mt-2.5">
-                            
-                            {/* Boutique Container */}
-                            <div className="bg-white/60 backdrop-blur-md rounded-none border-l-[2.5px] border-[#FFD700] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.9)] p-5 md:p-6 lg:p-8 w-full flex flex-col relative overflow-hidden group/share-container">
+                        {/* Section Header */}
+                        <h2 className="text-[28px] md:text-[38px] font-medium font-['Lora'] tracking-tight leading-[1.15] text-[#0057B7] section-headline-reveal antialiased mb-5">
+                            Share the map with your network:
+                        </h2>
+ 
+                        {/* Suggested Post - Pull Quote Style with Inline Copy */}
+                        <div className="flex flex-col items-center relative w-full mb-10">
+                            {/* Pull Quote Typography */}
+                            <div className="relative max-w-3xl">
+                                <span className="text-[0.92rem] md:text-[1.2rem] italic font-['Lora'] leading-relaxed text-slate-600 tracking-tight antialiased inline">
+                                    "{shareMessage}"
+                                </span>
                                 
-                                <div className="flex flex-col items-start w-full">
+                                <button 
+                                    onClick={() => {
+                                        handleCopy();
+                                        setCopied(true);
+                                        setTimeout(() => setCopied(false), 2000);
+                                    }}
+                                    className="inline-flex items-center group text-slate-400 hover:text-[#FFD700] transition-all duration-300 active:scale-95 ml-4 opacity-100"
+                                    title="Copy suggested text"
+                                >
+                                    <Copy className="h-4 w-4" strokeWidth={2.5} />
                                     
-                                    {/* Suggested Post Block */}
-                                    <div className="flex flex-col items-start relative w-full mb-6 md:mb-8">
-                                        <div className="flex items-center justify-between w-full mb-4">
-                                            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased">
-                                                Suggested Post
-                                            </span>
-                                            <button 
-                                                onClick={() => {
-                                                    handleCopy();
-                                                    setCopied(true);
-                                                    setTimeout(() => setCopied(false), 2000);
-                                                }}
-                                                className="flex items-center group text-slate-400 hover:text-[#0057B7] transition-all duration-300 active:scale-95"
-                                                title="Copy suggested text"
-                                            >
-                                                <span className="text-[10.5px] font-bold uppercase tracking-widest mr-2 font-['Inter']">Copy</span>
-                                                <Copy className="h-3.5 w-3.5 mr-3" strokeWidth={2.5} />
-                                                
-                                                {copied && (
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#0057B7] animate-in fade-in slide-in-from-right-1 duration-300">
-                                                        Copied
-                                                    </span>
-                                                )}
-                                            </button>
-                                        </div>
+                                    {copied && (
+                                        <span className="absolute -top-6 right-0 text-[10px] font-bold uppercase tracking-widest text-[#0057B7] animate-in fade-in slide-in-from-bottom-1 duration-300">
+                                            Copied
+                                        </span>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+ 
+                        {/* Social Row & Call to Action */}
+                        <div className="flex flex-col items-center w-full gap-6 mb-12">
+                            <div className="flex flex-col items-center gap-3">
+                                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.25em] font-medium text-slate-500 antialiased">
+                                    or write your own text
+                                </span>
+                                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased">
+                                    Post To:
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-8 md:gap-10">
+                                <button
+                                    onClick={handleFacebookShare}
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#004494]"
+                                    aria-label="Share on Facebook"
+                                >
+                                    <Facebook className="h-[26px] w-[26px]" strokeWidth={1.2} />
+                                </button>
 
-                                        {/* Editorial Template - Sculptural Block */}
-                                        <div className="relative">
-                                            <span className="text-[19.5px] italic font-['Lora'] leading-[1.65] text-slate-700 tracking-tight block antialiased">
-                                                "{shareMessage}"
-                                            </span>
-                                        </div>
-                                    </div>
+                                <button
+                                    onClick={handleInstagramShare}
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#004494]"
+                                    aria-label="Share on Instagram"
+                                >
+                                    <Instagram className="h-[26px] w-[26px]" strokeWidth={1.2} />
+                                </button>
 
-                                    {/* Social Destination Row - Centered Under Text */}
-                                    <div className="flex flex-col items-center w-full mt-auto">
-                                        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-                                            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased">
-                                                Post To:
-                                            </span>
-                                            <div className="flex items-center gap-6">
-                                                <button
-                                                    onClick={handleFacebookShare}
-                                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0F1623]/80 hover:text-[#0F1623]"
-                                                    aria-label="Share on Facebook"
-                                                >
-                                                    <Facebook className="h-[24px] w-[24px]" strokeWidth={1.5} />
-                                                </button>
-
-                                                <button
-                                                    onClick={handleInstagramShare}
-                                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0F1623]/80 hover:text-[#0F1623]"
-                                                    aria-label="Share on Instagram"
-                                                >
-                                                    <Instagram className="h-[24px] w-[24px]" strokeWidth={1.5} />
-                                                </button>
-
-                                                <button
-                                                    onClick={handleXShare}
-                                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0F1623]/80 hover:text-[#0F1623]"
-                                                    aria-label="Share on X (Twitter)"
-                                                >
-                                                    <svg
-                                                        className="h-[22px] w-[22px]"
-                                                        viewBox="0 0 24 24"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button
+                                    onClick={handleXShare}
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#004494]"
+                                    aria-label="Share on X (Twitter)"
+                                >
+                                    <svg
+                                        className="h-[24px] w-[24px]"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                    >
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        </>
     );
 }

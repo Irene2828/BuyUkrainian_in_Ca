@@ -65,7 +65,7 @@ export function Header() {
       className={cn(
         "sticky top-0 z-50 transition-all duration-500 ease-in-out font-sans",
         isScrolled
-          ? "bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_12px_rgba(0,0,0,0.06)]"
+          ? "bg-white/80 backdrop-blur-md border-b border-slate-200/40"
           : "bg-white border-b border-slate-200"
       )}
     >
@@ -88,8 +88,8 @@ export function Header() {
         </div>
 
         {/* Right: Navigation - Desktop */}
-        <div className="hidden md:flex flex-none items-center justify-end gap-8">
-            <nav className="items-center gap-8 flex font-sans antialiased">
+        <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 font-sans antialiased">
+            <nav className="flex items-center gap-6 lg:gap-8">
               <Link
                 href="/#faq"
                 onClick={(e) => {
@@ -105,27 +105,26 @@ export function Header() {
               <Link href="/map" className={cn("flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
                 {t('nav.map') || 'Map'}
               </Link>
-              <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-                <DialogTrigger asChild>
-                  <span
-                    role="button"
-                    tabIndex={0}
-                    className="cursor-pointer outline-none flex items-center gap-2 px-4 py-1.5 rounded-full ring-1 ring-slate-200 hover:ring-slate-300 text-slate-900 text-[15px] min-[1670px]:text-[15.85px] font-medium transition-all duration-300 hover:bg-slate-50"
-                  >
-                    {t('nav.addStore') || 'Add Store'}
-                  </span>
-                </DialogTrigger>
-                <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
-                  <GoogleMapsProvider>
-                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-                  </GoogleMapsProvider>
-                </DialogContent>
-              </Dialog>
-              <span aria-hidden="true" className="text-slate-300 font-normal">
-                |
-              </span>
-              <LanguageSwitcher />
             </nav>
+            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
+              <DialogTrigger asChild>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  className={cn("cursor-pointer outline-none", HEADER_NAV_LINK_CLASSNAME)}
+                >
+                  {t('nav.addStore') || 'Add Store'}
+                </span>
+              </DialogTrigger>
+              <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
+                <GoogleMapsProvider>
+                  <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                </GoogleMapsProvider>
+              </DialogContent>
+            </Dialog>
+            <div className="flex items-center gap-5 lg:gap-6 pl-1 border-l border-slate-200/80">
+              <LanguageSwitcher />
+            </div>
         </div>
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">

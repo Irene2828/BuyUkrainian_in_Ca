@@ -95,7 +95,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border-0 flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
+                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border border-[#0A2540]/15 flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
                     "h-[560px] max-h-[85vh] overflow-hidden relative z-20",
                     className
                 )}
@@ -234,7 +234,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="bg-[#FFD700] flex items-center justify-center gap-2.5 text-slate-950 transition-all duration-300 w-full h-[46px] shrink-0 rounded-full text-[16px] font-medium tracking-tight hover:shadow-[0_4px_15px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-[0.98] font-['Inter'] antialiased group"
+                        className="bg-[#FFD700] hover:bg-[#FFEB64] flex items-center justify-center gap-2.5 text-slate-950 transition-all duration-300 w-full h-[46px] shrink-0 rounded-full text-[16px] font-medium tracking-tight hover:shadow-[0_4px_15px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-[0.98] font-['Inter'] antialiased group"
                     >
                         <span>Get Directions</span>
                         <CornerUpRight size={18} className="text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

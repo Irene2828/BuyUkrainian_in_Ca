@@ -278,7 +278,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-auto px-8 mx-auto h-12 rounded-full bg-[#FFD700] text-slate-950 font-bold text-[16px] tracking-tight antialiased transition-all duration-300 shadow-[0_6px_18px_rgba(255,215,0,0.24)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.32)] hover:bg-[#FFC000] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border-none"
+          className="w-auto px-8 mx-auto h-12 rounded-full bg-[#FFD700] text-slate-950 font-bold text-[16px] tracking-tight antialiased transition-all duration-300 shadow-[0_6px_18px_rgba(255,215,0,0.24)] hover:shadow-[0_10px_24px_rgba(255,215,0,0.32)] hover:bg-[#FFEB64] hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border-none"
         >
           <span>Back to the map</span>
         </Button>
@@ -523,7 +523,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-slate-950 border-none transition-all duration-300 hover:bg-[#FFC000] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(255,215,0,0.18)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/40 gap-2.5 group/submit-btn"
+                className="w-full inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-slate-950 border-none transition-all duration-300 hover:bg-[#FFEB64] 2xl:h-[54px] 2xl:text-[16px] shadow-[0_4px_12px_0_rgba(255,215,0,0.18)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/40 gap-2.5 group/submit-btn"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />

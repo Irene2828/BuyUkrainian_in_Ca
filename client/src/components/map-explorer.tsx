@@ -7,7 +7,7 @@ import {
     UtensilsCrossed, ShoppingBag, Gift, Store as StoreIcon,
     ToyBrick, BookOpen, Bookmark,
     Eye, EyeOff, CheckCircle, HelpCircle,
-    Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronRight, Navigation, ExternalLink
+    Plus, Minus, Home, Maximize2, X, MapPin, Copy, Mail, Facebook, Twitter, Instagram, Sparkles, ChevronDown, ChevronUp, ChevronRight, Navigation, ExternalLink
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "wouter";
@@ -74,6 +74,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     const [showHint, setShowHint] = useState(false);
     const [showLocateHint, setShowLocateHint] = useState(false);
     const [tipMinimized, setTipMinimized] = useState(false);
+    const [moderationExpanded, setModerationExpanded] = useState(false);
 
     const sidebarRef = useRef<HTMLElement>(null);
     const mapSectionRef = useRef<InteractiveMapRef>(null);
@@ -270,6 +271,50 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     {/* Floating Overlay Islands - Aligned with Header via boutique-width */}
                     <div className="absolute inset-0 z-[600] pointer-events-none">
                         <div className={cn("boutique-width mx-auto relative", viewMode === "map" ? "h-full" : "h-auto")}>
+                            
+                            {/* Desktop Trust Pillar - Moderation (Bottom Left Alignment) */}
+                            {viewMode === "map" && !isZenMode && (
+                                <div className="hidden md:flex absolute bottom-12 left-0 pl-4 sm:pl-6 lg:pl-8 pointer-events-none">
+                                    <div
+                                        className={cn(
+                                            "group isolate flex flex-col items-start overflow-hidden px-[44px] py-[30px] border-l-[3px] border-[#0057B7] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-left w-fit bg-white/25 backdrop-blur-lg rounded-none shadow-sm relative",
+                                            "max-w-[600px]"
+                                        )}
+                                    >
+                                        {/* Collapse/Expand Toggle */}
+                                        <button 
+                                            onClick={() => setModerationExpanded(!moderationExpanded)}
+                                            className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center text-slate-400 hover:text-[#0057B7] transition-colors duration-200 focus:outline-none"
+                                            title={moderationExpanded ? "Collapse" : "Expand"}
+                                        >
+                                            {moderationExpanded ? (
+                                                <ChevronUp className="w-4 h-4" />
+                                            ) : (
+                                                <ChevronDown className="w-4 h-4" />
+                                            )}
+                                        </button>
+
+                                        <div className="flex items-center justify-start gap-3 text-left">
+                                            <span className="shrink-0 text-[11px] uppercase tracking-[0.24em] font-bold text-[#0057B7] whitespace-nowrap font-['Inter'] antialiased">
+                                                Need help?
+                                            </span>
+                                        </div>
+                                        <div className={cn(
+                                            "grid transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.25,1,0.5,1)]",
+                                            moderationExpanded ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0"
+                                        )}>
+                                            <div className="overflow-hidden">
+                                                <div className="flex flex-col items-start pt-3 pb-2 px-4 mt-1 bg-white/70 backdrop-blur-sm rounded-none">
+                                                    <div className="flex items-center justify-start text-[14.5px] text-slate-500 leading-relaxed font-normal text-left font-['Inter']">
+                                                        <span className="shrink-0 mr-4 text-slate-300">–</span>
+                                                        <span className="max-w-[300px] tracking-[0.0125em] whitespace-pre-wrap">Contact our volunteer team for help with listings or moderation.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Pins now anchor cards directly via Leaflet Popups in InteractiveMap */}
 

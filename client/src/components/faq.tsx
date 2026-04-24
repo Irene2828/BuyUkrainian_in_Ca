@@ -31,17 +31,13 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative font-sans overflow-hidden pt-[85px] pb-[85px] md:pt-[140px] md:pb-[140px] z-10 bg-white">
+    <section id="faq" className="relative font-sans overflow-hidden py-12 md:py-16 z-10 bg-white">
       <div className="relative z-10 w-full">
-        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 px-4 sm:px-6 lg:px-8 items-start relative pt-12 pb-12">
           {/* Left Column: Heading + Descriptive Paragraph */}
-          <div className="lg:col-span-5 flex flex-col items-start text-left pt-2">
-            <h2 className="text-[31px] md:text-[41px] font-semibold font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-900 mb-10">
-              <span className="relative inline-block">
-                About
-                <div className="w-full h-1 bg-yellow-400 rounded-full absolute -bottom-2 left-0" />
-              </span>
-              {" the project"}
+          <div className="lg:col-span-5 flex flex-col items-start text-left pt-0 self-start">
+            <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-[#0057B7] mb-10 antialiased -mt-1.5">
+              About the project
             </h2>
             <p className="text-slate-600 text-[18px] leading-relaxed max-w-[95%] antialiased font-ui">
               {t("aboutPage.intro") || "BuyUkrainian.ca is a community-powered platform that helps Canadians discover products made in Ukraine and support the businesses bringing them to shelves across the country."}
@@ -53,7 +49,9 @@ export function FAQ() {
             {faqs.map((faq, i) => (
               <details
                 key={i}
-                className="group border-t border-slate-100 first:border-t-0"
+                className={cn(
+                  "group border-b border-slate-100 last:border-b-0 border-l-2 border-transparent pl-4 sm:pl-6 transition-all duration-300"
+                )}
                 open={openIndex === i}
                 onClick={(e) => {
                   e.preventDefault();
@@ -62,7 +60,7 @@ export function FAQ() {
               >
                 <summary className="flex justify-between items-center w-full py-8 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg">
                   <span className={cn(
-                    "text-[18px] font-semibold text-slate-800 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
+                    "text-[18px] font-medium text-slate-700 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
                   )}>
                     {faq.question}
                   </span>

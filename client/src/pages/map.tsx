@@ -81,17 +81,20 @@ function NewlyAddedStores() {
       <div className="boutique-width">
         <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
           <div className="flex justify-between items-center w-full mb-6 group/header-link ml-[1.3px]">
-            <div className="flex items-center gap-2.5">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-premium-pulse" />
-              <p className="text-[13px] font-bold tracking-[0.08em] text-slate-900/70 uppercase whitespace-nowrap m-0 font-ui">
+            <div className="shrink-0 flex items-center gap-1.5 z-10 text-[11px] text-slate-500 font-medium antialiased">
+              <div className="relative flex h-[5px] w-[5px]">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
+              </div>
+              <span className="whitespace-nowrap font-['Inter'] tracking-wider uppercase">
                 LATEST COMMUNITY ADDITIONS
-              </p>
+              </span>
             </div>
             <button
               onClick={() => {
                 document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }}
-              className="text-[13px] font-medium text-slate-500 hover:text-[#0057B7] transition-colors flex items-center gap-1"
+              className="text-[11px] font-medium text-slate-400 hover:text-[#0057B7] transition-colors flex items-center gap-1.5 tracking-wider font-['Inter'] uppercase"
             >
               View all <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/header-link:translate-x-1" />
             </button>

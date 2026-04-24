@@ -130,13 +130,13 @@ export function Hero() {
 
     return (
         <>
-        <div className="flex flex-col h-auto md:min-h-[calc(100vh-81px)] 2xl:min-h-[calc(100vh-108px)] min-[1670px]:min-h-[calc(100vh-108px)] bg-white justify-between">
+        <div className="flex flex-col h-auto md:min-h-[calc(100vh-81px)] 2xl:min-h-[calc(100vh-108px)] min-[1670px]:min-h-[calc(100vh-108px)] bg-[radial-gradient(ellipse_120%_100%_at_top_left,_var(--tw-gradient-stops))] from-[#F8F9FA] via-white via-[60%] to-white justify-between">
         <section
-            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-3 mt-[4vh] animate-in fade-in duration-700 bg-white"
+            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
         >
 
             {/* Soft Atmospheric Sky Glow - Luminous White (Clean Refresh) */}
-            <div className="absolute top-[-6%] left-[-4%] w-[250px] h-[210px] md:top-[-15%] md:left-0 md:w-[800px] md:h-[700px] bg-white rounded-full blur-[92px] md:blur-[160px] opacity-[0.78] md:opacity-[0.38] lg:opacity-[0.44] min-[768px]:max-[1439px]:opacity-[0.52] min-[768px]:max-[1439px]:w-[600px] pointer-events-none z-[4]"></div>
+            <div className="absolute top-[-6%] left-[-4%] w-[250px] h-[210px] md:top-[-15%] md:left-0 md:w-[800px] md:h-[700px] bg-[#F8F9FA] rounded-full blur-[92px] md:blur-[160px] opacity-[0.78] md:opacity-[0.38] lg:opacity-[0.44] min-[768px]:max-[1439px]:opacity-[0.52] min-[768px]:max-[1439px]:w-[600px] pointer-events-none z-[4]"></div>
 
 
 
@@ -174,6 +174,7 @@ export function Hero() {
                 }}
             />
             <div className="absolute inset-x-0 bottom-0 h-[44%] bg-white pointer-events-none z-[8] md:hidden" />
+            <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none z-[80]" />
 
             {/* National Anchor Ribbon - Aligned with Logo Divider */}
             {/* We recreate the exact boutique-width wrapper hierarchy to perfectly align with the header across all breakpoints */}
@@ -183,8 +184,8 @@ export function Hero() {
                         <div 
                             className="hidden md:block absolute w-[2.1px] ml-[1.3px]"
                             style={{
-                                top: '2%',
-                                bottom: '23%',
+                                top: '7%',
+                                bottom: '18%',
                                 background: '#FFD700',
                                 opacity: 0.6,
                                 maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
@@ -195,8 +196,8 @@ export function Hero() {
                         <div 
                             className="hidden md:block absolute w-[2.1px] ml-[clamp(15.3px,1.615vw,29.75px)]"
                             style={{
-                                top: '12%',
-                                bottom: '13%',
+                                top: '17%',
+                                bottom: '8%',
                                 background: '#0057B7',
                                 opacity: 0.80,
                                 maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
@@ -210,10 +211,10 @@ export function Hero() {
 
             <div className="boutique-width w-full flex items-center relative z-30 h-full pointer-events-none">
                 <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] w-full">
-                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none bg-white pb-[11.75rem] md:bg-transparent md:py-[4.8rem]">
+                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(110px,10vw,175px)]">
-                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 -translate-y-[5vh] md:ml-[clamp(67.4px,6.74vw,93.8px)] min-[1280px]:max-[1669px]:ml-[clamp(107.8px,8.08vw,134.8px)] min-[1670px]:ml-[clamp(93.8px,6.04vw,117.3px)]">
+                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 translate-y-[2vh] md:ml-[clamp(67.4px,6.74vw,93.8px)] min-[1280px]:max-[1669px]:ml-[clamp(107.8px,8.08vw,134.8px)] min-[1670px]:ml-[clamp(93.8px,6.04vw,117.3px)]">
 
                                 
 
@@ -240,18 +241,18 @@ export function Hero() {
                                 </h1>
 
                                 <p
-                                    className="text-[17px] md:text-[18px] text-slate-500 leading-relaxed max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-9"
+                                    className="text-[17px] md:text-[18px] text-slate-500 leading-relaxed max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-10 min-[1670px]:mb-14"
                                 >
                                     Find stores selling products made in Ukraine near you
                                 </p>
 
                                 {/* CTA Row - Left Aligned To Header Branding Text */}
                                 <div
-                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4 w-full md:w-auto pointer-events-auto"
+                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-6 md:gap-8 w-full md:w-auto pointer-events-auto"
                                 >
                                     <Link href="/map" className="w-full md:w-auto self-start">
                                         <button
-                                            className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#FFD700] text-slate-950 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-[0_12px_32px_-8px_rgba(255,215,0,0.45)] hover:shadow-[0_20px_48px_-12px_rgba(255,215,0,0.55)] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
+                                            className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#FFD700] hover:bg-[#FFEB64] text-slate-950 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-[0_12px_32px_-8px_rgba(255,215,0,0.45)] hover:shadow-[0_20px_48px_-12px_rgba(255,215,0,0.55)] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
                                         >
                                             <span>Explore the Map</span>
                                             <ArrowUpRight 
@@ -329,7 +330,7 @@ export function Hero() {
 
 
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
-            <div className="hidden md:block absolute top-[5%] right-0 w-[59%] bottom-0 z-20 select-none overflow-hidden border-none outline-none">
+            <div className="hidden md:block absolute top-0 right-0 w-[59%] bottom-0 z-20 select-none overflow-hidden border-none outline-none">
                 <div
                     className="w-full h-full group/map-peeking border-none outline-none"
                     aria-label="Interactive map of Ukrainian stores in Canada"
@@ -343,9 +344,9 @@ export function Hero() {
                         className="absolute top-0 left-0 w-full h-[140%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-38%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-36%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-34%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-32%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
-                            <div className="absolute top-0 inset-x-0 h-[70%] bg-gradient-to-b from-white via-white/95 via-white/80 via-white/40 via-white/10 to-transparent pointer-events-none z-[50]" />
-                            <div className="absolute right-0 inset-y-0 w-1/3 bg-gradient-to-l from-white via-white/95 via-white/40 to-transparent pointer-events-none z-[60]" />
-                            <div className="absolute top-0 right-0 w-[45%] h-[45%] bg-[radial-gradient(circle_at_top_right,white_0%,white_40%,rgba(255,255,255,0.7)_60%,rgba(255,255,255,0.2)_80%,transparent_100%)] pointer-events-none z-[70]" />
+                            <div className="absolute top-0 inset-x-0 h-[10%] bg-gradient-to-b from-white via-white/60 via-white/10 to-transparent pointer-events-none z-[50]" />
+                            <div className="absolute right-0 inset-y-0 w-[22%] bg-gradient-to-l from-white/90 via-white/30 to-transparent pointer-events-none z-[60]" />
+                            <div className="absolute top-0 right-0 w-[35%] h-[25%] bg-[radial-gradient(circle_at_top_right,white_0%,rgba(255,255,255,0.8)_30%,rgba(255,255,255,0.3)_60%,transparent_100%)] pointer-events-none z-[70]" />
 
 
 
@@ -406,16 +407,16 @@ export function Hero() {
                                 )}
                             >
                                 <div className="flex items-center justify-end gap-3 text-right">
-                                    <span className="shrink-0 text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7] group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
+                                    <span className="shrink-0 text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/80 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
                                         {pillar.title}
                                     </span>
                                 </div>
                                 <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100">
                                     <div className="overflow-hidden">
                                         <div className="hero-trust-pill-detail flex flex-col items-end pt-3 pb-2 px-4 mt-1 bg-white/70 backdrop-blur-sm rounded-none opacity-0 transition-opacity duration-300 delay-0 group-hover:opacity-100 group-hover:delay-100">
-                                            <div className="flex items-center justify-end text-[14.5px] text-[#0057B7]/80 leading-relaxed font-medium text-right font-['Inter']">
+                                            <div className="flex items-center justify-end text-[14.5px] text-slate-500 leading-relaxed font-normal text-right font-['Inter']">
                                                 <span className="max-w-[500px] tracking-[0.0125em] whitespace-pre-wrap group-hover:whitespace-nowrap">{pillar.detail}</span>
-                                                <span className="shrink-0 ml-4 text-[#0057B7]/40">–</span>
+                                                <span className="shrink-0 ml-4 text-slate-300">–</span>
                                             </div>
                                         </div>
                                     </div>
@@ -437,7 +438,7 @@ export function Hero() {
             <div className="boutique-width">
                 <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] transition-all duration-300">
                     <div className="flex h-full items-center justify-between gap-6">
-                    <div className="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm z-10 text-[11px] text-[#0057B7] font-medium antialiased">
+                    <div className="shrink-0 flex items-center gap-1.5 z-10 text-[11px] text-slate-500 font-medium antialiased">
                         <div className="relative flex h-[5px] w-[5px]">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
