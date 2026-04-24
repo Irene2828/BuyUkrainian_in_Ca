@@ -81,12 +81,12 @@ function NewlyAddedStores() {
       <div className="boutique-width">
         <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
           <div className="flex justify-between items-center w-full mb-6 group/header-link ml-[1.3px]">
-            <div className="shrink-0 flex items-center gap-1.5 z-10 text-[11px] text-slate-500 font-medium antialiased">
+            <div className="shrink-0 flex items-center gap-2 z-10">
               <div className="relative flex h-[5px] w-[5px]">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
               </div>
-              <span className="whitespace-nowrap font-['Inter'] tracking-wider uppercase">
+              <span className="text-[11.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-['Inter'] antialiased">
                 LATEST COMMUNITY ADDITIONS
               </span>
             </div>

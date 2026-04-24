@@ -335,8 +335,8 @@ export function Hero() {
                     className="w-full h-full group/map-peeking border-none outline-none"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{ 
-                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 85%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 85%, transparent 100%)' 
+                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 88%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 88%, transparent 100%)' 
                     }}
                 >
                     {/* Inner wrapper for shifted map content */}
@@ -344,9 +344,9 @@ export function Hero() {
                         className="absolute top-0 left-0 w-full h-[140%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-38%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-36%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-34%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-32%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
-                            <div className="absolute top-0 inset-x-0 h-[10%] bg-gradient-to-b from-white via-white/60 via-white/10 to-transparent pointer-events-none z-[50]" />
-                            <div className="absolute right-0 inset-y-0 w-[22%] bg-gradient-to-l from-white/90 via-white/30 to-transparent pointer-events-none z-[60]" />
-                            <div className="absolute top-0 right-0 w-[35%] h-[25%] bg-[radial-gradient(circle_at_top_right,white_0%,rgba(255,255,255,0.8)_30%,rgba(255,255,255,0.3)_60%,transparent_100%)] pointer-events-none z-[70]" />
+                            <div className="absolute top-0 inset-x-0 h-[20%] bg-gradient-to-b from-white via-white/40 via-white/5 to-transparent pointer-events-none z-[50]" />
+                            <div className="absolute right-0 inset-y-0 w-[15%] bg-gradient-to-l from-white/50 via-white/10 to-transparent pointer-events-none z-[60]" />
+                            <div className="absolute top-0 right-0 w-[50%] h-[40%] bg-[radial-gradient(circle_at_top_right,white_0%,rgba(255,255,255,0.7)_35%,rgba(255,255,255,0.2)_65%,transparent_100%)] pointer-events-none z-[70]" />
 
 
 
@@ -387,7 +387,7 @@ export function Hero() {
                         </div>
                     </div>
                     {/* Bottom Fade - pinned to actual container floor, independent of map translation */}
-                    <div className="absolute bottom-0 inset-x-0 h-[18%] bg-gradient-to-t from-white via-white/80 via-white/30 to-transparent pointer-events-none z-[80]" />
+                    <div className="absolute bottom-0 inset-x-0 h-[10%] bg-gradient-to-t from-white via-white/30 via-white/5 to-transparent pointer-events-none z-[80]" />
                     {/* Frosted Glass Bridge */}
                     <div className="absolute bottom-0 inset-x-0 h-[48px] bg-white/10 backdrop-blur-[12px] z-[85] border-t border-white/20 pointer-events-none" />
                 </div>
@@ -411,12 +411,12 @@ export function Hero() {
                                         {pillar.title}
                                     </span>
                                 </div>
-                                <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100">
+                                <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100">
                                     <div className="overflow-hidden">
                                         <div className="hero-trust-pill-detail flex flex-col items-end pt-3 pb-2 px-4 mt-1 bg-white/70 backdrop-blur-sm rounded-none opacity-0 transition-opacity duration-300 delay-0 group-hover:opacity-100 group-hover:delay-100">
                                             <div className="flex items-center justify-end text-[14.5px] text-slate-500 leading-relaxed font-normal text-right font-['Inter']">
-                                                <span className="max-w-[500px] tracking-[0.0125em] whitespace-pre-wrap group-hover:whitespace-nowrap">{pillar.detail}</span>
-                                                <span className="shrink-0 ml-4 text-slate-300">–</span>
+                                                <span className="max-w-0 group-hover:max-w-[500px] overflow-hidden whitespace-nowrap tracking-[0.0125em] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-0 group-hover:opacity-100">{pillar.detail}</span>
+                                                <span className="shrink-0 ml-4 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">–</span>
                                             </div>
                                         </div>
                                     </div>
@@ -438,12 +438,12 @@ export function Hero() {
             <div className="boutique-width">
                 <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] transition-all duration-300">
                     <div className="flex h-full items-center justify-between gap-6">
-                    <div className="shrink-0 flex items-center gap-1.5 z-10 text-[11px] text-slate-500 font-medium antialiased">
+                    <div className="shrink-0 flex items-center gap-2 z-10">
                         <div className="relative flex h-[5px] w-[5px]">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                         </div>
-                        <span className="whitespace-nowrap font-['Inter'] tracking-wider">
+                        <span className="text-[11.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-['Inter'] antialiased">
                             ADDED THIS MONTH
                         </span>
                     </div>

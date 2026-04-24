@@ -14,7 +14,7 @@ export function Footer() {
           {/* Left Anchor: Brand & Mission */}
           <div className="md:col-span-6 flex flex-col items-start justify-start">
             <p className="text-[14.5px] leading-relaxed max-w-md mb-12 opacity-80 text-slate-300">
-                A grassroots, community-powered directory helping Canadians discover products made in Ukraine and supporting the local businesses that bring them to our shelves.
+                Volunteer initiative to support Ukraine from Canada
             </p>
             <span className="text-[13px] font-normal tracking-tight opacity-40 mt-auto">
               © 2026 BuyUkrainian.ca

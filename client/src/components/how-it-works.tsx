@@ -107,11 +107,13 @@ export function HowItWorks() {
                   variants={columnVariants}
                   className={cn(
                     "h-full",
-                    index !== 0 && "md:border-l-[2px] md:border-[#FFD700] md:pl-8 lg:pl-12"
+                    index === 0 && "md:pr-8 lg:pr-12",
+                    index === 1 && "md:border-l-[2px] md:border-[#FFD700] md:px-8 lg:px-12",
+                    index === 2 && "md:border-l-[2px] md:border-[#FFD700] md:pl-8 lg:pl-12"
                   )}
                 >
                   {/* Feature Card: Unified Container */}
-                  <div className="group flex flex-col h-full bg-white transition-all duration-300 max-w-[85%] md:max-w-[90%]">
+                  <div className="group flex flex-col h-full bg-white transition-all duration-300 w-full">
 
                     {/* Top Section: Icon Container - Glass Effect */}
                     <div className="w-12 h-12 rounded-2xl bg-white/40 backdrop-blur-md border border-[#0057B7]/25 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 ease-out">

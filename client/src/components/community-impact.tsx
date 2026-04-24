@@ -58,7 +58,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         </span>
 
                         {/* Section Header */}
-                        <h2 className="text-[28px] md:text-[38px] font-medium font-['Lora'] tracking-tight leading-[1.15] text-[#0057B7] section-headline-reveal antialiased mb-5">
+                        <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] text-[#0057B7] mb-8 md:mb-10 antialiased">
                             Share the map with your network:
                         </h2>
  

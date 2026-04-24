@@ -58,7 +58,10 @@ export function FAQ() {
                   toggleItem(i);
                 }}
               >
-                <summary className="flex justify-between items-center w-full py-8 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg">
+                <summary className={cn(
+                  "flex justify-between items-center w-full pb-8 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg",
+                  i === 0 ? "pt-1" : "pt-8"
+                )}>
                   <span className={cn(
                     "text-[18px] font-medium text-slate-700 leading-snug pr-6 transition-colors duration-200 group-hover:text-slate-600",
                   )}>
