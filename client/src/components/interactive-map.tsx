@@ -37,6 +37,21 @@ const UNRESOLVED_COORD_TOLERANCE = 0.05;
 const MAP_TOOLTIP_CONTENT_CLASSNAME = "border-0 bg-white/60 px-4 py-2 text-[12px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md";
 const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
 
+const PROVINCE_LABELS = [
+  { name: "BC", top: "45%", left: "7%" },
+  { name: "AB", top: "50%", left: "18%" },
+  { name: "SK", top: "52%", left: "28%" },
+  { name: "MB", top: "55%", left: "38%" },
+  { name: "ON", top: "64%", left: "54%" },
+  { name: "QC", top: "54%", left: "69%" },
+  { name: "NB", top: "72%", left: "77%" },
+  { name: "NS", top: "78%", left: "81%" },
+  { name: "NL", top: "48%", left: "84%" },
+  { name: "YT", top: "25%", left: "8%" },
+  { name: "NT", top: "25%", left: "20%" },
+  { name: "NU", top: "25%", left: "43%" },
+];
+
 const isValidCoord = (lat: number | null, lng: number | null) =>
   lat !== null && lng !== null &&
   lat !== 0 && lng !== 0 &&
@@ -190,7 +205,10 @@ const FULL_MAP_BASE_STYLE: google.maps.MapTypeStyle[] = [
   { featureType: 'landscape.man_made', stylers: [{ color: '#ffffff' }] },
   { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#b0c4d8' }, { weight: 1 }] },
   { featureType: 'administrative.province', elementType: 'geometry.stroke', stylers: [{ color: '#c8d8e8' }, { weight: 0.5 }] },
-  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
   { featureType: 'transit', stylers: [{ visibility: 'off' }] },
   { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#f0f4f8' }] },
   { featureType: 'road', elementType: 'labels', stylers: [{ visibility: 'off' }] },
@@ -208,7 +226,10 @@ const FULL_MAP_WITH_LABELS: google.maps.MapTypeStyle[] = [
 const HERO_MAP_STYLE = [
   { elementType: 'labels', stylers: [{ visibility: 'off' }] },
   { featureType: 'road', stylers: [{ visibility: 'off' }] },
-  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
   { featureType: 'transit', stylers: [{ visibility: 'off' }] },
   { featureType: 'water', stylers: [{ color: '#c8dff0' }] },
   { featureType: 'landscape.natural', stylers: [{ color: '#ffffff' }] },
@@ -377,6 +398,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   };
 
   const isDimmed = (selected: boolean) => selectedStore !== null && !selected;
+  const isNationalZoom = zoom <= 5.5;
 
   return (
     <motion.div 
@@ -461,6 +483,24 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           />
         )}
       </Map>
+
+      {/* Provincial Labels Overlay - National Watermarks */}
+      {variant !== 'hero' && (
+        <div className={cn(
+          "absolute inset-0 pointer-events-none z-[5] transition-opacity duration-700 ease-in-out",
+          isNationalZoom ? "opacity-100" : "opacity-0"
+        )}>
+          {PROVINCE_LABELS.map((label) => (
+            <span
+              key={label.name}
+              className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-['Inter'] antialiased"
+              style={{ top: label.top, left: label.left }}
+            >
+              {label.name}
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Floating UI Elements */}
       {selectedStore && !isMobile && variant !== "hero" && (

@@ -15,7 +15,7 @@ export function AccessibilityToggle({ className }: { className?: string }) {
     return (
         <button
             onClick={toggleAccessibleMode}
-            className={cn("transition-colors bg-transparent border-none p-0 outline-none focus:outline-none", className)}
+            className={cn("transition-colors bg-transparent border-none p-0 cursor-pointer", className)}
             aria-label={accessibleMode ? t("common.accessibility.disable") : t("common.accessibility.enable")}
             aria-pressed={accessibleMode}
         >

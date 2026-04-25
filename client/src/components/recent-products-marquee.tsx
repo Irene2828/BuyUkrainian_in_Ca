@@ -72,7 +72,7 @@ export function RecentProductsMarquee() {
                                         <div className="flex items-center min-w-max">
                                             <div className="flex items-center gap-6">
                                                 <span
-                                                    className="font-medium tracking-tight text-slate-500 text-[14px] 2xl:text-[15px]"
+                                                    className="font-medium tracking-tight text-slate-500 text-[12px]"
                                                 >
                                                     {store.name}
                                                 </span>

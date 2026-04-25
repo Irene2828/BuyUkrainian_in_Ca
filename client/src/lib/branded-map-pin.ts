@@ -14,9 +14,8 @@ interface BrandedMapPinSize {
 export const BRANDED_MAP_PIN_PATH =
   "M22 3.5 C12.4 3.5 5 10.9 5 20.5 C5 26.8 8.1 32.3 12.2 37.7 L22 50 L31.8 37.7 C35.9 32.3 39 26.8 39 20.5 C39 10.9 31.6 3.5 22 3.5 Z";
 
-const OUTLINE_BLUE = "#0057B7";
-const RING_YELLOW = "#FFD700";
-const BADGE_TEXT_BLUE = "#0057B7";
+const PIN_BLUE = "#0057B7";
+const CLUSTER_GREY = "#64748b";
 const WHITE = "#FFFFFF";
 const SHADOW_COLOR = "#334155";
 
@@ -47,13 +46,13 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   const isCluster = variant === "cluster";
   const countLabel = getCountLabel(count);
   const countFontSize = getCountFontSize(countLabel);
-  const shadowOpacity = isHover ? 0.18 : isSelected ? 0.15 : isCluster ? 0.16 : 0.14;
+  const shadowOpacity = isHover ? 0.22 : isSelected ? 0.20 : isCluster ? 0.20 : 0.18;
   const shadowRx = isHover ? 7.6 : isSelected ? 7.1 : isCluster ? 7.2 : 6.8;
   const shadowRy = isHover ? 2.5 : isSelected ? 2.35 : 2.3;
 
   const activeGlow = isHover
     ? `
-  <path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${OUTLINE_BLUE}" stroke-opacity="0.28" stroke-width="6.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />`
+  <path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${PIN_BLUE}" stroke-opacity="0.22" stroke-width="6.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />`
     : "";
 
   const activeHalo = isHover
@@ -68,8 +67,8 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
 
   const badge = isCluster
     ? `
-  <circle cx="34.5" cy="11" r="7.5" fill="${WHITE}" stroke="${BADGE_TEXT_BLUE}" stroke-width="2" />
-  <text x="34.5" y="11.3" dominant-baseline="central" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${countFontSize}" font-weight="700" fill="${BADGE_TEXT_BLUE}">${countLabel}</text>`
+  <circle cx="34.5" cy="11" r="7.5" fill="${WHITE}" stroke="${CLUSTER_GREY}" stroke-width="2" />
+  <text x="34.5" y="11.3" dominant-baseline="central" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${countFontSize}" font-weight="700" fill="${CLUSTER_GREY}">${countLabel}</text>`
     : "";
 
   return `
@@ -90,18 +89,10 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   <path
     d="${BRANDED_MAP_PIN_PATH}"
     fill="${WHITE}"
-    stroke="${OUTLINE_BLUE}"
-    stroke-opacity="0.8"
+    stroke="${PIN_BLUE}"
+    stroke-opacity="0.7"
     stroke-width="${isHover ? 2.8 : isSelected ? 2.5 : 2.4}"
     stroke-linejoin="round"
-  />
-  <circle
-    cx="22"
-    cy="20.5"
-    r="7.5"
-    fill="none"
-    stroke="${RING_YELLOW}"
-    stroke-width="2.4"
   />
   ${badge}
 </svg>`;

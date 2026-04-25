@@ -106,12 +106,15 @@ export function HowItWorks() {
                   key={index}
                   variants={columnVariants}
                   className={cn(
-                    "h-full",
+                    "h-full relative",
                     index === 0 && "md:pr-8 lg:pr-12",
-                    index === 1 && "md:border-l-[2px] md:border-[#FFD700] md:px-8 lg:px-12",
-                    index === 2 && "md:border-l-[2px] md:border-[#FFD700] md:pl-8 lg:pl-12"
+                    index === 1 && "md:px-8 lg:px-12",
+                    index === 2 && "md:pl-8 lg:pl-12"
                   )}
                 >
+                  {index > 0 && (
+                    <div className="hidden md:block absolute left-0 top-[5%] bottom-[5%] w-[2px] bg-[#FFD700] pointer-events-none" aria-hidden="true" />
+                  )}
                   {/* Feature Card: Unified Container */}
                   <div className="group flex flex-col h-full bg-white transition-all duration-300 w-full">
 

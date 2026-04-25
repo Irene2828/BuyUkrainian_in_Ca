@@ -501,26 +501,21 @@ html.dark header.bg-white\/90 {
   }
 
   /* ========================================
-     PHANTOM STROKE PREVENTION
+     ACCESSIBILITY & FOCUS SYSTEM
      ======================================== */
 
-  /* Disable default browser focus rings globally */
-  *:focus {
-    @apply outline-none;
+  /* Ensure keyboard users always have a clear focus indicator.
+     DO NOT remove focus rings without a high-contrast replacement.
+     Accessibility is a core project requirement. */
+
+  /* Premium Focus State - Consistent, high-contrast, yet refined halo */
+  :focus-visible {
+    @apply outline-none ring-4 ring-blue-100/60 border-transparent transition-all duration-200;
   }
 
-  /* Disable rings and borders on focus unless explicitly styled */
-  button:focus,
-  input:focus,
-  select:focus,
-  textarea:focus,
-  a:focus {
-    @apply outline-none ring-0;
-  }
-
-  /* Premium Focus State - Apply this class for Obsidian-style focus */
-  .premium-focus:focus {
-    @apply outline-none ring-1 ring-gray-200 border-gray-200;
+  /* Specific handling for rounded elements */
+  .rounded-full:focus-visible {
+    @apply rounded-full;
   }
 }
 
@@ -818,12 +813,7 @@ html.dark header.bg-white\/90 {
     font-weight: 600 !important;
   }
 
-  /* Focus Rings → Ultra High Contrast */
-  .accessible-mode *:focus-visible {
-    outline: 3px solid #000000 !important;
-    outline-offset: 2px !important;
-    box-shadow: none !important;
-  }
+  /* Focus Rings handled by global :focus-visible rule */
 
   /* SVG Icons → Increased Stroke */
   .accessible-mode svg {
@@ -860,16 +850,8 @@ html.dark header.bg-white\/90 {
 /* ========================================
    SURGICAL STROKE EXTERMINATION
    ======================================== */
-.province-select-trigger:focus,
-.province-select-trigger:focus-visible,
-.province-select-trigger[data-state='open'] {
-  outline: none !important;
-  box-shadow: none !important;
-  border-color: #E5E7EB !important;
-  /* gray-200 */
-  --tw-ring-offset-width: 0px !important;
-  --tw-ring-color: transparent !important;
-  --tw-ring-shadow: none !important;
+.province-select-trigger:focus-visible {
+  @apply ring-4 ring-blue-100/60;
 }
 
 /* ========================================
@@ -911,57 +893,17 @@ html.dark header.bg-white\/90 {
   background-color: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* Kill all focus rings inside any dropdown */
-[class*="dropdown"] button:focus,
-[class*="dropdown"] button:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-}
+/* Dropdown focus handled by global system */
 
 /* ========================================
-   NUCLEAR BUTTON FOCUS RING KILLER
-   ======================================== */
-button {
-  -webkit-tap-highlight-color: transparent !important;
-}
+/* Button focus handled by global system */
 
-button:focus,
-button:focus-visible,
-button:active,
-button:-moz-focusring {
-  outline: none !important;
-  box-shadow: none !important;
-  border-color: inherit !important;
-}
-
-/* Specifically target buttons inside scrollable containers (dropdowns) */
-.custom-scrollbar button,
-.overflow-y-auto button {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.custom-scrollbar button:focus,
-.custom-scrollbar button:focus-visible,
-.overflow-y-auto button:focus,
-.overflow-y-auto button:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  border-bottom: 1px solid #F9FAFB !important;
-}
+/* Focus state handled by global :focus-visible rule */
 
 @layer base {
-
-  select,
   select:focus,
-  select:hover,
-  button,
-  button:focus,
-  button:hover {
-    outline: none !important;
-    ring: 0 !important;
-    box-shadow: none !important;
+  button:focus {
+    outline: none;
   }
 }
 
@@ -1086,62 +1028,9 @@ html.dark .city-labels-layer {
   z-index: 600;
 }
 
-/* ========================================
-   GLOBAL BUTTON RESET (NUCLEAR OPTION)
-   ======================================== */
-button,
-[role="button"],
-.btn-premium-action,
-[class*="dialog-trigger"] {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  --tw-ring-color: transparent !important;
-  --tw-ring-offset-width: 0px !important;
-  appearance: none !important;
-}
+/* Button resets handled by global focus system */
 
-button:focus,
-button:focus-visible,
-button:active,
-button:hover {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* Specific fix for Header 'Add a Store' button if it has a class like dialog trigger */
-button[data-state='open'],
-button[data-state='closed'] {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* GLOBAL FOCUS RESET - "Premium Focus" */
-:focus-visible {
-  outline: none !important;
-  box-shadow: 0 0 0 4px rgba(197, 224, 245, 0.6) !important;
-  /* Soft Blue Halo */
-  border-radius: 4px;
-  /* Gentle rounding */
-  border-color: transparent !important;
-  /* Kill borders */
-}
-
-/* Specific Kill for Buttons/Links to avoid double rings */
-button:focus,
-a:focus {
-  outline: none !important;
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  transition: box-shadow 0.2s ease-out;
-}
+/* Global focus behavior is defined in @layer base */
 
 /* Ensure round elements get round focus */
 .rounded-full:focus-visible {

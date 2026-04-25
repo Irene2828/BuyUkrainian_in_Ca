@@ -47,14 +47,14 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
             className="relative w-full overflow-hidden bg-white"
         >
             <div className="relative z-10 w-full pb-6 md:pb-10">
-                <div className="max-w-6xl mx-auto w-full relative px-4 sm:px-6 lg:px-8 pt-12 md:pt-24">
-                    {/* Asymmetrical Framing Accents - Aligned with FAQ headline */}
-                    <div className="absolute top-0 left-0 w-[42%] h-[3px] bg-[#FFD700] pointer-events-none" aria-hidden="true" />
+                <div className="max-w-6xl mx-auto w-full relative px-4 sm:px-6 lg:px-8 pt-20 md:pt-32">
+                    {/* Brand Yellow Top Edge Divider */}
+                    <div className="absolute top-0 inset-x-0 h-[2px] bg-[#FFD700]" aria-hidden="true" />
                     
                     <div className="max-w-3xl mx-auto w-full flex flex-col items-center text-center">
                         {/* Section Eyebrow */}
                         <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-slate-400 mb-2 antialiased">
-                            Help the project grow
+                            HELP GROW THE PROJECT
                         </span>
 
                         {/* Section Header */}
@@ -93,9 +93,6 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         {/* Social Row & Call to Action */}
                         <div className="flex flex-col items-center w-full gap-6 mb-12">
                             <div className="flex flex-col items-center gap-3">
-                                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.25em] font-medium text-slate-500 antialiased">
-                                    or write your own text
-                                </span>
                                 <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased">
                                     Post To:
                                 </span>
@@ -130,6 +127,19 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                     </svg>
                                 </button>
+                            </div>
+
+                            {/* Centered Framing Accents - Anchoring the bottom */}
+                            <div className="relative w-full mt-12 mb-4">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[42%] h-[3px] bg-[#0057B7] opacity-80 pointer-events-none" aria-hidden="true" />
+                                <div 
+                                    className="absolute left-1/2 -translate-x-1/2 h-[3px] bg-[#FFD700] pointer-events-none" 
+                                    style={{ 
+                                        top: 'clamp(15.3px, 1.615vw, 29.75px)',
+                                        width: '37.8%'
+                                    }} 
+                                    aria-hidden="true" 
+                                />
                             </div>
                         </div>
                     </div>

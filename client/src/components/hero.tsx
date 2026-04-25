@@ -332,21 +332,23 @@ export function Hero() {
             {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
             <div className="hidden md:block absolute top-0 right-0 w-[59%] bottom-0 z-20 select-none overflow-hidden border-none outline-none">
                 <div
-                    className="w-full h-full group/map-peeking border-none outline-none"
+                    className="w-full h-full group/map-peeking border-none outline-none relative"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{ 
-                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 88%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 88%, transparent 100%)' 
+                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)',
+                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)' 
                     }}
                 >
+                    {/* Fixed Viewport Overlays - Water Color Bridge to White Header */}
+                    <div className="absolute top-0 inset-x-0 h-[60px] bg-gradient-to-b from-[#c8dff0] via-[#c8dff0]/90 to-transparent pointer-events-none z-[60]" />
+                    <div className="absolute right-0 inset-y-0 w-[15%] bg-gradient-to-l from-[#c8dff0]/50 via-[#c8dff0]/10 to-transparent pointer-events-none z-[60]" />
+                    <div className="absolute top-0 right-0 w-[75%] h-[300px] bg-[radial-gradient(ellipse_100%_100%_at_top_right,_#c8dff0_0%,_#c8dff0_25%,_#c8dff0/60_45%,_transparent_80%)] pointer-events-none z-[70]" />
+
                     {/* Inner wrapper for shifted map content */}
                     <div
                         className="absolute top-0 left-0 w-full h-[140%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-38%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-36%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-34%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-32%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
-                            <div className="absolute top-0 inset-x-0 h-[20%] bg-gradient-to-b from-white via-white/40 via-white/5 to-transparent pointer-events-none z-[50]" />
-                            <div className="absolute right-0 inset-y-0 w-[15%] bg-gradient-to-l from-white/50 via-white/10 to-transparent pointer-events-none z-[60]" />
-                            <div className="absolute top-0 right-0 w-[50%] h-[40%] bg-[radial-gradient(circle_at_top_right,white_0%,rgba(255,255,255,0.7)_35%,rgba(255,255,255,0.2)_65%,transparent_100%)] pointer-events-none z-[70]" />
 
 
 
@@ -472,7 +474,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[15px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[12px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>

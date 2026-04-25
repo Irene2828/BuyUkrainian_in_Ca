@@ -277,13 +277,15 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (isLoading && viewMode === "list") {
     return (
-      <div className={`relative w-full ${className} bg-[#fcfcfc]`}>
+      <div className={`relative w-full ${className} bg-white`}>
         <div className="w-full h-10 md:h-12 shrink-0" />
-        <div className="boutique-width w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] md:pl-[40px] 2xl:pl-[48px]">
+        <div className="boutique-width">
+          <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] items-start ml-[1.3px]">
             {Array.from({ length: 12 }).map((_, i) => (
               <StoreListItemSkeleton key={i} />
             ))}
+            </div>
           </div>
         </div>
       </div>
@@ -300,12 +302,13 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col bg-[#fcfcfc] relative animate-in fade-in duration-500">
+      <div className="flex flex-col bg-white relative animate-in fade-in duration-500">
         {/* Top Spacer: Maintains visual baseline with map controls */}
         <div className="w-full h-10 md:h-12 shrink-0" />
 
-        <div className="boutique-width w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] md:pl-[40px] 2xl:pl-[48px]">
+        <div className="boutique-width">
+          <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] items-start ml-[1.3px]">
             {filteredStores.slice(0, visibleCount).map((store, index) => {
               const isActive = selectedStore?.id === store.id;
 
@@ -313,24 +316,27 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                 <div
                   key={store.id}
                   className={cn(
-                    "border-l-[3px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
-                    isActive && "bg-blue-50/50 border-l-[#0057B7]"
+                    "border-l-[2px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
+                    isActive && "border-l-[#0057B7]"
                   )}
                   style={{ animationDelay: `${(index % 12) * 30}ms` }}
                   onClick={() => handleSelectStore(store)}
                 >
-                  <div className="flex items-center gap-1.5 group/title">
-                    <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
-                      {store.name}
-                    </h3>
-                    <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
+                  <div className="flex flex-col justify-center">
+                    <div className="flex items-center gap-1.5 group/title">
+                      <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
+                        {store.name}
+                      </h3>
+                      <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
+                    </div>
+                    <p className="text-slate-600 text-[13px] mt-1">
+                      {store.city}, {store.province}
+                    </p>
                   </div>
-                  <p className="text-slate-400 text-[13px] mt-1">
-                    {store.city}, {store.province}
-                  </p>
                 </div>
               );
             })}
+            </div>
           </div>
         </div>
 
@@ -350,7 +356,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           <div className="mt-8 mb-20 flex justify-center">
             <button
               onClick={() => setVisibleCount(c => c + 12)}
-              className="h-11 px-8 rounded-full border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all duration-300 flex items-center gap-2 shadow-sm active:scale-95"
+              className="h-11 px-8 rounded-full border border-slate-200/80 bg-white text-slate-700 font-medium text-sm hover:bg-slate-50 transition-all duration-300 flex items-center gap-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-95"
             >
               Show more stores <ArrowDown className="w-4 h-4" />
             </button>

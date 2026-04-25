@@ -95,7 +95,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border border-[#0A2540]/15 flex flex-col w-[360px] transition-all duration-500 pointer-events-auto",
+                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border border-[#0A2540]/15 flex flex-col w-[calc(100vw-2rem)] md:w-[420px] transition-all duration-500 pointer-events-auto",
                     "h-[560px] max-h-[85vh] overflow-hidden relative z-20",
                     className
                 )}
@@ -141,8 +141,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
 
                 {/* 2. Scrollable Content Body */}
                 <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-5 pt-4 flex flex-col gap-5">
-                    {/* Compact Image & Info Grid */}
-                    <div className="grid grid-cols-[110px_1fr] gap-4 items-start">
+                    {/* Compact Image & Info Grid - Increased gap for editorial breathing room */}
+                    <div className="grid grid-cols-[110px_1fr] gap-6 items-start">
                         {/* Left Column: Store Image */}
                         <div
                             className={cn(
@@ -240,19 +240,21 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <CornerUpRight size={18} className="text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
 
-                    {/* Secondary Actions Row */}
-                    <div className="grid grid-cols-2 gap-3 shrink-0">
+                    {/* Secondary Actions Row - Flex layout for better distribution on wider card */}
+                    <div className="flex items-center gap-3 shrink-0">
                         <button
                             onClick={handleShare}
-                            className="flex items-center justify-center gap-2 px-4 py-2 bg-transparent rounded-lg text-[13px] font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900 hover:bg-slate-100 active:scale-95 group"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-transparent rounded-lg text-[13px] font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900 hover:bg-slate-100 active:scale-95 group"
                         >
                             <Share2 size={13} className="opacity-80" />
                             <span>Share Store</span>
                         </button>
+                        
+                        <div className="w-[1px] h-4 bg-slate-100 shrink-0" />
 
                         <button
                             onClick={() => onSeeOnMap?.(store)}
-                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-slate-900 hover:bg-slate-100"
                         >
                             <MapPin size={13} className="opacity-80" />
                             <span>Zoom In Map</span>
