@@ -8,7 +8,7 @@ export function Footer() {
 
   return (
     <footer className="bg-slate-900 text-slate-100 font-sans overflow-hidden py-16 md:py-24 antialiased">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <div className="content-width">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Left Anchor: Brand & Mission */}
@@ -32,7 +32,7 @@ export function Footer() {
               <nav className="flex flex-col gap-2.5" aria-label="Contact Links">
                 <a 
                   href="mailto:hello@buyukrainian.ca" 
-                  className="text-[15px] font-normal tracking-tight text-slate-400 hover:text-white transition-all duration-200"
+                  className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white transition-all duration-200"
                 >
                   Email Us
                 </a>
@@ -47,16 +47,16 @@ export function Footer() {
               <nav className="flex flex-col gap-2.5" aria-label="Legal Links">
                 <Link 
                   href="/privacy" 
-                  className="text-[15px] font-normal tracking-tight text-slate-400 hover:text-white transition-all duration-200"
+                  className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white transition-all duration-200"
                 >
                   {t('common.labels.privacyPolicy') || 'Privacy Policy'}
                 </Link>
                 <div className="flex items-center">
-                  <AccessibilityToggle className="text-[15px] font-normal tracking-tight text-slate-400 hover:text-white p-0 h-auto bg-transparent border-none transition-all duration-200 cursor-pointer" />
+                  <AccessibilityToggle className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white p-0 h-auto bg-transparent border-none transition-all duration-200 cursor-pointer" />
                 </div>
                 <Link 
                   href="/admin/login" 
-                  className="text-[15px] font-normal tracking-tight text-slate-400 hover:text-white transition-all duration-200"
+                  className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white transition-all duration-200"
                 >
                   {t('common.labels.adminAccess') || 'Admin Access'}
                 </Link>

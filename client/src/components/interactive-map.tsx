@@ -111,11 +111,14 @@ const getEventPosition = (event: any) => {
 
 const buildMarkerIcon = (svg: string, variant: BrandedMapPinVariant) => {
   const { width, height } = getBrandedMapPinSize(variant);
+  
+  // Classic map pin coordinate tip is always anchored at y = 32 inside the 42x42 canvas
+  const anchorY = 32;
 
   return {
     url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg.trim())}`,
     scaledSize: new (window as any).google.maps.Size(width, height),
-    anchor: new (window as any).google.maps.Point(width / 2, height),
+    anchor: new (window as any).google.maps.Point(width / 2, anchorY),
   };
 };
 

@@ -70,7 +70,7 @@ export function Header() {
       )}
     >
       <div className="boutique-width h-[73px] 2xl:h-[97px] relative">
-        <div className="flex h-full items-center justify-between px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)]">
+        <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-4">

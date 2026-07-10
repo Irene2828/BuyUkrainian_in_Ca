@@ -78,7 +78,7 @@ function NewlyAddedStores() {
 
   return (
     <section className="bg-white pt-[32px] md:pt-[40px] pb-[40px] md:pb-[60px]">
-      <div className="boutique-width">
+      <div className="content-width">
         <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
           <div className="flex justify-between items-center w-full mb-6 group/header-link ml-[1.3px]">
             <div className="shrink-0 flex items-center gap-2 z-10">
@@ -102,7 +102,7 @@ function NewlyAddedStores() {
         </div>
       </div>
 
-      <div className="boutique-width">
+      <div className="content-width">
         <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-8 items-start ml-[1.3px]">
           {newlyAdded.slice(0, 4).map((store) => (

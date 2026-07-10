@@ -85,10 +85,10 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="pb-16 md:pb-20 pt-0 font-sans overflow-hidden bg-white">
       <div className="relative w-full h-full">
-            <div className="max-w-6xl mx-auto w-full flex flex-col px-4 sm:px-6 lg:px-8">
+            <div className="content-width flex flex-col">
             {/* Top: Centered Section Header */}
             <div className="w-full h-full flex flex-col items-center mb-10 md:mb-16 lg:mb-20">
-              <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-[#0057B7] text-center antialiased">
+              <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-950 text-center antialiased">
                 {t('howItWorks.title') || 'How it works'}
               </h2>
             </div>

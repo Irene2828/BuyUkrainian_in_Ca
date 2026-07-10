@@ -35,7 +35,7 @@ export default function Home() {
           <Hero />
         </div>
 
-        <div className="section-reveal bg-white">
+        <div className="section-reveal bg-slate-50">
           <MapStats />
         </div>
 

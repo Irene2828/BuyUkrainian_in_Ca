@@ -180,7 +180,7 @@ export function Hero() {
             {/* We recreate the exact boutique-width wrapper hierarchy to perfectly align with the header across all breakpoints */}
             <div className="absolute inset-0 w-full h-full pointer-events-none z-[9]">
                 <div className="boutique-width h-full relative">
-                    <div className="min-[1280px]:max-[1669px]:pl-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:pl-[clamp(49.4px,3.42vw,68.4px)] h-full relative">
+                    <div className="h-full relative">
                         <div 
                             className="hidden md:block absolute w-[2.1px] ml-[1.3px]"
                             style={{
@@ -210,29 +210,29 @@ export function Hero() {
             </div>
 
             <div className="boutique-width w-full flex items-center relative z-30 h-full pointer-events-none">
-                <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] w-full">
+                <div className="w-full">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(110px,10vw,175px)]">
-                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 translate-y-[2vh] md:ml-[clamp(67.4px,6.74vw,93.8px)] min-[1280px]:max-[1669px]:ml-[clamp(107.8px,8.08vw,134.8px)] min-[1670px]:ml-[clamp(93.8px,6.04vw,117.3px)]">
+                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
+                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px]">
 
                                 
 
                                 {/* Flag Pill Language Toggle - Eyebrow above headline */}
 
                                 <h1
-                                    className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.04] md:leading-[1.08] min-[1670px]:leading-[1.08] antialiased pointer-events-auto mb-6"
+                                    className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.04] md:leading-[1.08] min-[1670px]:leading-[1.08] antialiased pointer-events-auto mb-3 md:mb-4"
                                     style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span className="flex items-baseline gap-[0.3em] font-['Lora'] text-[clamp(2.16rem,8.8vw,2.68rem)] md:text-[2.82rem] min-[1500px]:text-[3.17rem] min-[1670px]:text-[3.87rem] font-medium tracking-[-0.03em] text-[#0057B7]">
+                                    <span className="flex items-baseline gap-[0.3em] font-['Lora'] text-[clamp(2.16rem,8.8vw,2.68rem)] md:text-[2.82rem] min-[1500px]:text-[3.17rem] min-[1670px]:text-[3.48rem] font-medium tracking-[-0.03em] text-[#0057B7]">
                                         Discover
-
+ 
                                     </span>
-                                    <span className="block font-['Lora'] text-[clamp(2.16rem,8.8vw,2.68rem)] md:text-[2.82rem] min-[1500px]:text-[3.17rem] min-[1670px]:text-[3.87rem] font-medium tracking-[-0.03em] text-[#0057B7] md:whitespace-nowrap relative">
+                                    <span className="block font-['Lora'] text-[clamp(2.16rem,8.8vw,2.68rem)] md:text-[2.82rem] min-[1500px]:text-[3.17rem] min-[1670px]:text-[3.48rem] font-medium tracking-[-0.03em] text-[#0057B7] md:whitespace-nowrap relative">
                                         <span className="relative inline-block">Ukrainian</span>
                                         {" "}Products
                                     </span>
-                                    <span className="block font-['Inter'] text-[clamp(1.36rem,6.16vw,1.8rem)] md:text-[1.94rem] min-[1500px]:text-[2.2rem] min-[1670px]:text-[2.64rem] font-normal tracking-[-0.03em] md:whitespace-nowrap text-slate-600 opacity-[0.80]">
+                                    <span className="block translate-y-[10%] font-['Inter'] text-[clamp(1.36rem,6.16vw,1.8rem)] md:text-[1.94rem] min-[1500px]:text-[2.2rem] min-[1670px]:text-[2.37rem] font-normal tracking-[-0.03em] md:whitespace-nowrap text-slate-600 opacity-[0.80]">
                                         sold across{" "}
                                         <span className="relative inline-block">
                                             Canada
@@ -241,22 +241,22 @@ export function Hero() {
                                 </h1>
 
                                 <p
-                                    className="text-[17px] md:text-[18px] text-slate-500 leading-relaxed max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-10 min-[1670px]:mb-14"
+                                    className="text-[17px] md:text-[18px] min-[1670px]:text-[16px] text-slate-500 leading-snug max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-[20px] md:mb-[26px] min-[1670px]:mb-[36px]"
                                 >
                                     Find stores selling products made in Ukraine near you
                                 </p>
 
                                 {/* CTA Row - Left Aligned To Header Branding Text */}
                                 <div
-                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-6 md:gap-8 w-full md:w-auto pointer-events-auto"
+                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-6 md:gap-8 w-full md:w-auto pointer-events-auto min-[1670px]:mt-2"
                                 >
                                     <Link href="/map" className="w-full md:w-auto self-start">
                                         <button
-                                            className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#FFD700] hover:bg-[#FFEB64] text-slate-950 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-[0_12px_32px_-8px_rgba(255,215,0,0.45)] hover:shadow-[0_20px_48px_-12px_rgba(255,215,0,0.55)] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
+                                            className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#FFD700] hover:bg-[#FFEB64] text-slate-950 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#FFD700]/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
                                         >
                                             <span>Explore the Map</span>
                                             <ArrowUpRight 
-                                                className="w-5 h-5 ml-2.5 transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
+                                                className="w-5 h-5 ml-2.5 text-slate-950 transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
                                                 strokeWidth={1.5}
                                             />
                                         </button>
@@ -340,9 +340,9 @@ export function Hero() {
                     }}
                 >
                     {/* Fixed Viewport Overlays - Water Color Bridge to White Header */}
-                    <div className="absolute top-0 inset-x-0 h-[60px] bg-gradient-to-b from-[#c8dff0] via-[#c8dff0]/90 to-transparent pointer-events-none z-[60]" />
+                    <div className="absolute top-0 inset-x-0 h-[60px] md:h-[50px] xl:h-[40px] bg-gradient-to-b from-[#c8dff0]/85 via-[#c8dff0]/40 to-transparent xl:from-[#c8dff0]/30 xl:via-[#c8dff0]/10 pointer-events-none z-[60]" />
                     <div className="absolute right-0 inset-y-0 w-[15%] bg-gradient-to-l from-[#c8dff0]/50 via-[#c8dff0]/10 to-transparent pointer-events-none z-[60]" />
-                    <div className="absolute top-0 right-0 w-[75%] h-[300px] bg-[radial-gradient(ellipse_100%_100%_at_top_right,_#c8dff0_0%,_#c8dff0_25%,_#c8dff0/60_45%,_transparent_80%)] pointer-events-none z-[70]" />
+                    <div className="absolute top-0 right-0 w-[75%] h-[300px] md:h-[240px] xl:h-[180px] bg-[radial-gradient(ellipse_100%_100%_at_top_right,_#c8dff0_0%,_#c8dff0_20%,_rgba(200,223,240,0.4)_35%,_transparent_60%)] xl:bg-[radial-gradient(ellipse_100%_100%_at_top_right,_rgba(200,223,240,0.4)_0%,_rgba(200,223,240,0.15)_20%,_transparent_45%)] pointer-events-none z-[70]" />
 
                     {/* Inner wrapper for shifted map content */}
                     <div
@@ -397,7 +397,7 @@ export function Hero() {
             {/* Desktop Trust Pillars - Anchored to Macro-Grid Right Boundary */}
             <div className="hidden lg:flex pointer-events-none absolute inset-x-0 top-[9%] z-30">
                 <div className="boutique-width w-full mx-auto">
-                    <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] w-full">
+                    <div className="w-full">
                         <div className="flex h-full flex-col items-end gap-2">
                         {trustPillars.map((pillar) => (
                             <div
@@ -436,16 +436,16 @@ export function Hero() {
 
 
         {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative -translate-y-1/2">
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative -translate-y-1/2 min-[1670px]:translate-y-[10%]">
             <div className="boutique-width">
-                <div className="px-[22.8px] md:px-[38px] lg:px-[60.8px] min-[1280px]:max-[1669px]:px-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:px-[clamp(49.4px,3.42vw,68.4px)] transition-all duration-300">
+                <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
                     <div className="shrink-0 flex items-center gap-2 z-10">
                         <div className="relative flex h-[5px] w-[5px]">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                         </div>
-                        <span className="text-[11.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-['Inter'] antialiased">
+                        <span className="text-[12.8px] font-semibold tracking-widest text-slate-500 uppercase whitespace-nowrap font-['Inter'] antialiased">
                             ADDED THIS MONTH
                         </span>
                     </div>
@@ -474,7 +474,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] font-semibold text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>

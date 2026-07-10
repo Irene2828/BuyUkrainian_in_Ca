@@ -47,9 +47,9 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
             className="relative w-full overflow-hidden bg-white"
         >
             <div className="relative z-10 w-full pb-6 md:pb-10">
-                <div className="max-w-6xl mx-auto w-full relative px-4 sm:px-6 lg:px-8 pt-20 md:pt-32">
+                <div className="content-width relative pt-20 md:pt-32">
                     {/* Brand Yellow Top Edge Divider */}
-                    <div className="absolute top-0 inset-x-0 h-[2px] bg-[#FFD700]" aria-hidden="true" />
+                    <div className="absolute top-0 inset-x-0 h-[2px] bg-slate-200" aria-hidden="true" />
                     
                     <div className="max-w-3xl mx-auto w-full flex flex-col items-center text-center">
                         {/* Section Eyebrow */}
@@ -58,7 +58,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                         </span>
 
                         {/* Section Header */}
-                        <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] text-[#0057B7] mb-8 md:mb-10 antialiased">
+                        <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] text-slate-950 mb-8 md:mb-10 antialiased">
                             Share the map with your network:
                         </h2>
  

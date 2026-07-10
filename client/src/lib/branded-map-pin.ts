@@ -11,89 +11,92 @@ interface BrandedMapPinSize {
   height: number;
 }
 
-export const BRANDED_MAP_PIN_PATH =
-  "M22 3.5 C12.4 3.5 5 10.9 5 20.5 C5 26.8 8.1 32.3 12.2 37.7 L22 50 L31.8 37.7 C35.9 32.3 39 26.8 39 20.5 C39 10.9 31.6 3.5 22 3.5 Z";
-
 const PIN_BLUE = "#0057B7";
-const CLUSTER_GREY = "#64748b";
+const PIN_YELLOW = "#FFD700";
 const WHITE = "#FFFFFF";
-const SHADOW_COLOR = "#334155";
 
+// Standard canvas size is 42x42 to allow elegant shadows and hover liftoff space
 const PIN_SIZES: Record<BrandedMapPinVariant, BrandedMapPinSize> = {
-  default: { width: 30, height: 38 },
-  hover: { width: 34, height: 43 },
-  selected: { width: 32, height: 40 },
-  cluster: { width: 34, height: 43 },
-};
-
-const getCountLabel = (count: number) => {
-  if (count > 99) return "99+";
-  return String(count);
-};
-
-const getCountFontSize = (label: string) => {
-  if (label.length >= 3) return 6.6;
-  if (label.length === 2) return 8;
-  return 9;
+  default: { width: 42, height: 42 },
+  hover: { width: 42, height: 42 },
+  selected: { width: 42, height: 42 },
+  cluster: { width: 42, height: 42 },
 };
 
 export const getBrandedMapPinSize = (variant: BrandedMapPinVariant) => PIN_SIZES[variant];
 
 export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: BrandedMapPinOptions) {
-  const opacity = dimmed ? 0.4 : 1;
+  const opacity = dimmed ? 0.45 : 1;
   const isHover = variant === "hover";
   const isSelected = variant === "selected";
   const isCluster = variant === "cluster";
-  const countLabel = getCountLabel(count);
-  const countFontSize = getCountFontSize(countLabel);
-  const shadowOpacity = isHover ? 0.22 : isSelected ? 0.20 : isCluster ? 0.20 : 0.18;
-  const shadowRx = isHover ? 7.6 : isSelected ? 7.1 : isCluster ? 7.2 : 6.8;
-  const shadowRy = isHover ? 2.5 : isSelected ? 2.35 : 2.3;
+  
+  // Center of canvas is 21. Standard anchor tip is 32.
+  // Hover lift state shifts the pin up by exactly 2px (tip becomes 30, center becomes 12)
+  const pinYOffset = isHover ? -2 : 0;
+  
+  const startY = 4.5 + pinYOffset;
+  const tangentY = 19 + pinYOffset;
+  const tipY = 32 + pinYOffset;
+  const centerY = 14 + pinYOffset;
+  
+  // Classic map pin path: rounded top head (radius 9.5) tapering into a sharp coordinate pointer
+  const pinPath = `M 21 ${startY} A 9.5 9.5 0 0 1 29.08 ${tangentY} L 21 ${tipY} L 12.92 ${tangentY} A 9.5 9.5 0 0 1 21 ${startY} Z`;
 
-  const activeGlow = isHover
-    ? `
-  <path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${PIN_BLUE}" stroke-opacity="0.22" stroke-width="6.8" stroke-linejoin="round" filter="url(#pinGlowBlur)" />`
-    : "";
-
-  const activeHalo = isHover
-    ? `<path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.6" stroke-width="5.2" stroke-linejoin="round" />`
-    : "";
-
-  const selectedHalo = isSelected
-    ? `<path d="${BRANDED_MAP_PIN_PATH}" fill="none" stroke="${WHITE}" stroke-opacity="0.92" stroke-width="4.4" stroke-linejoin="round" />`
-    : "";
-
-  const contactRing = "";
-
-  const badge = isCluster
-    ? `
-  <circle cx="34.5" cy="11" r="7.5" fill="${WHITE}" stroke="${CLUSTER_GREY}" stroke-width="2" />
-  <text x="34.5" y="11.3" dominant-baseline="central" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${countFontSize}" font-weight="700" fill="${CLUSTER_GREY}">${countLabel}</text>`
-    : "";
+  // Dynamic colors & shadows based on selection
+  const pinBg = isSelected ? PIN_YELLOW : PIN_BLUE;
+  const strokeColor = WHITE;
+  const strokeWidth = isCluster ? 2 : 1.75;
+  const shadowFilter = isHover ? "hover-shadow" : "premium-shadow";
+  
+  let innerCore = "";
+  
+  if (isCluster) {
+    const countLabel = count > 99 ? "99+" : String(count);
+    innerCore = `
+      <!-- Upright Cluster Count Typography -->
+      <text 
+        x="21" 
+        y="${centerY + 0.5}" 
+        dominant-baseline="central" 
+        text-anchor="middle" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="9.5" 
+        font-weight="700" 
+        fill="${WHITE}"
+      >${countLabel}</text>`;
+  } else if (isSelected) {
+    // Selected marker: Inverted Blue Core inside Yellow selected pin
+    innerCore = `
+      <circle cx="21" cy="${centerY}" r="3" fill="${PIN_BLUE}" />`;
+  } else {
+    // Default marker: Crisp White Core dot inside Blue default pin
+    innerCore = `
+      <circle cx="21" cy="${centerY}" r="3" fill="${WHITE}" />`;
+  }
 
   return `
-<svg width="44" height="56" viewBox="0 0 44 56" fill="none" opacity="${opacity}" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+<svg width="42" height="42" viewBox="0 0 42 42" fill="none" opacity="${opacity}" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
   <defs>
-    <filter id="pinShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="1.25" />
+    <!-- Soft, organic ambient shadows below the pin base for visual depth -->
+    <filter id="premium-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.12" />
     </filter>
-    <filter id="pinGlowBlur" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="2.2" />
+    <filter id="hover-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5.5" flood-color="#000000" flood-opacity="0.18" />
     </filter>
   </defs>
-  <ellipse cx="22" cy="52.9" rx="${shadowRx}" ry="${shadowRy}" fill="${SHADOW_COLOR}" fill-opacity="${shadowOpacity}" filter="url(#pinShadowBlur)" />
-  ${contactRing}
-  ${activeGlow}
-  ${selectedHalo}
-  ${activeHalo}
+  
+  <!-- Classic Map Pin Silhouette with crisp White Stroke Outline -->
   <path
-    d="${BRANDED_MAP_PIN_PATH}"
-    fill="${WHITE}"
-    stroke="${PIN_BLUE}"
-    stroke-opacity="0.7"
-    stroke-width="${isHover ? 2.8 : isSelected ? 2.5 : 2.4}"
-    stroke-linejoin="round"
+    d="${pinPath}"
+    fill="${pinBg}"
+    stroke="${strokeColor}"
+    stroke-width="${strokeWidth}"
+    filter="url(#${shadowFilter})"
   />
-  ${badge}
-</svg>`;
+  
+  <!-- Centered Inner Core (Text or Dot) -->
+  ${innerCore}
+</svg>`.trim();
 }

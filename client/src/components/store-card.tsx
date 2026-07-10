@@ -95,16 +95,16 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border border-[#0A2540]/15 flex flex-col w-[calc(100vw-2rem)] md:w-[420px] transition-all duration-500 pointer-events-auto",
-                    "h-[560px] max-h-[85vh] overflow-hidden relative z-20",
+                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border border-[#0A2540]/15 flex flex-col w-[calc(100vw-2rem)] md:w-[460px] xl:w-[390px] min-[1670px]:w-[480px] transition-all duration-500 pointer-events-auto",
+                    "h-auto max-h-[90vh] overflow-hidden relative z-20",
                     className
                 )}
             >
                 {/* 1. Sticky Header Section */}
-                <div className="shrink-0 p-5 pb-4 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-2">
+                <div className="shrink-0 p-5 pb-4 min-[1670px]:p-6 min-[1670px]:pb-5 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-2">
                     <div className="flex items-start justify-between gap-4">
                         <h2 
-                            className="text-[15px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2"
+                            className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2"
                             style={{ color: '#0057B7' }}
                         >
                             {store.name}
@@ -133,20 +133,20 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <div className="h-[2px] w-12 bg-[#FFD700] rounded-full shrink-0" />
 
                     <div className="flex items-center">
-                        <span className="text-[#2D50A0]/70 text-[10px] font-bold uppercase tracking-[0.2em] font-ui">
+                        <span className="text-[#2D50A0]/70 text-[10px] xl:text-[10px] min-[1670px]:text-[11px] font-bold uppercase tracking-[0.2em] font-ui">
                             {getCategoryLabel(store.category)}
                         </span>
                     </div>
                 </div>
 
-                {/* 2. Scrollable Content Body */}
-                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-5 pt-4 flex flex-col gap-5">
+                {/* 2. Content Body (Dynamic & Fit) */}
+                <div className="shrink-0 p-5 pt-4 min-[1670px]:p-6 min-[1670px]:pt-5 flex flex-col gap-5">
                     {/* Compact Image & Info Grid - Increased gap for editorial breathing room */}
-                    <div className="grid grid-cols-[110px_1fr] gap-6 items-start">
+                    <div className="grid grid-cols-[110px_1fr] xl:grid-cols-[96px_1fr] gap-6 xl:gap-4.5 items-start">
                         {/* Left Column: Store Image */}
                         <div
                             className={cn(
-                                "relative w-[110px] h-[110px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm shrink-0",
+                                "relative w-[110px] h-[110px] xl:w-[96px] xl:h-[96px] min-[1670px]:w-[110px] min-[1670px]:h-[110px] rounded-2xl overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm shrink-0",
                                 !isImagesLoading && "group transition-all duration-300"
                             )}
                         >
@@ -172,7 +172,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                                         <MapPin size={14} className="text-slate-400" />
                                     </div>
                                     <div className="flex items-center justify-between flex-1 gap-2">
-                                        <p className="text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-3">
+                                        <p className="text-[13px] xl:text-[13px] min-[1670px]:text-[14.5px] text-slate-600 font-medium leading-relaxed line-clamp-3">
                                             {store.address}
                                         </p>
                                         <button
@@ -196,7 +196,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                                         href={store.website}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-3 text-[13px] font-medium text-blue-600 hover:text-blue-800 transition-colors w-fit group"
+                                        className="flex items-center gap-3 text-[13px] xl:text-[13px] min-[1670px]:text-[14.5px] font-medium text-blue-600 hover:text-blue-800 transition-colors w-fit group"
                                     >
                                         <div className="w-5 flex justify-center shrink-0">
                                             <Globe size={14} className="opacity-80 group-hover:opacity-100" />
@@ -209,42 +209,42 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     </div>
 
                     {/* Horizontal Product Tags */}
-                    <div className="flex flex-col gap-2.5">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-0.5">
+                    <div className="flex flex-col gap-2">
+                        <p className="text-[10px] xl:text-[10px] min-[1670px]:text-[11px] font-bold text-slate-400 uppercase tracking-widest px-0.5">
                             Products in store
                         </p>
                         <div className="flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap pb-2 pt-1 custom-scrollbar">
                             {allProducts.map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="shrink-0 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-[12px] font-medium cursor-default"
+                                    className="shrink-0 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full text-[11.5px] xl:text-[11.5px] min-[1670px]:text-[12.5px] font-medium cursor-default"
                                 >
                                     {product}
                                 </div>
                             ))}
                             {allProducts.length === 0 && (
-                                <span className="text-[12px] text-slate-400 italic font-ui shrink-0">Check website for products</span>
+                                <span className="text-[11.5px] text-slate-400 italic font-ui shrink-0">Check website for products</span>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {/* 3. Sticky Action Row */}
-                <div className="shrink-0 mt-auto p-4 bg-white border-t border-slate-100 z-20 flex flex-col gap-3 min-h-[128px]">
+                {/* 3. Action Row (Natural Fit) */}
+                <div className="shrink-0 mt-auto p-4 pb-5 min-[1670px]:p-5 bg-white border-t border-slate-100 z-20 flex flex-col gap-3">
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="bg-[#FFD700] hover:bg-[#FFEB64] flex items-center justify-center gap-2.5 text-slate-950 transition-all duration-300 w-full h-[46px] shrink-0 rounded-full text-[16px] font-medium tracking-tight hover:shadow-[0_4px_15px_rgba(255,215,0,0.25)] hover:scale-[1.02] active:scale-[0.98] font-['Inter'] antialiased group"
+                        className="bg-[#FFD700] hover:bg-[#FFEB64] flex items-center justify-center gap-2.5 text-slate-950 transition-all duration-300 w-full h-[46px] min-[1670px]:h-[50px] shrink-0 rounded-full text-[14px] xl:text-[14.5px] min-[1670px]:text-[15.5px] font-semibold tracking-tight hover:shadow-[0_4px_12px_rgba(255,215,0,0.22)] hover:scale-[1.02] active:scale-[0.98] font-['Inter'] antialiased group"
                     >
                         <span>Get Directions</span>
-                        <CornerUpRight size={18} className="text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        <CornerUpRight size={16} className="text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
 
-                    {/* Secondary Actions Row - Flex layout for better distribution on wider card */}
+                    {/* Secondary Actions Row */}
                     <div className="flex items-center gap-3 shrink-0">
                         <button
                             onClick={handleShare}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-transparent rounded-lg text-[13px] font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900 hover:bg-slate-100 active:scale-95 group"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-transparent rounded-lg text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900 hover:bg-slate-100 active:scale-95 group"
                         >
                             <Share2 size={13} className="opacity-80" />
                             <span>Share Store</span>
@@ -254,7 +254,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
 
                         <button
                             onClick={() => onSeeOnMap?.(store)}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-slate-900 hover:bg-slate-100"
                         >
                             <MapPin size={13} className="opacity-80" />
                             <span>Zoom In Map</span>

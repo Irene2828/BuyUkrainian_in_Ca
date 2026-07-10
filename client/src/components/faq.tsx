@@ -33,10 +33,10 @@ export function FAQ() {
   return (
     <section id="faq" className="relative font-sans overflow-hidden py-12 md:py-16 z-10 bg-white">
       <div className="relative z-10 w-full">
-        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 px-4 sm:px-6 lg:px-8 items-start relative pt-12 pb-12">
+        <div className="content-width grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative pt-12 pb-12">
           {/* Left Column: Heading + Descriptive Paragraph */}
           <div className="lg:col-span-5 flex flex-col items-start text-left pt-0 self-start">
-            <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-[#0057B7] mb-10 antialiased -mt-1.5">
+            <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] section-headline-reveal text-slate-950 mb-10 antialiased -mt-1.5">
               About the project
             </h2>
             <p className="text-slate-600 text-[18px] leading-relaxed max-w-[95%] antialiased font-ui">
