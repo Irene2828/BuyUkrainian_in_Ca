@@ -44,7 +44,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     return (
         <section
             id="share"
-            className="relative w-full overflow-hidden bg-white py-8 md:py-12"
+            className="relative w-full overflow-hidden bg-slate-50 py-8 md:py-12"
         >
             <div className="content-width flex justify-center items-center">
                 {/* Composition Container */}

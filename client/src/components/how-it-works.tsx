@@ -24,7 +24,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="font-sans overflow-hidden bg-white">
+    <section id="how-it-works" className="font-sans overflow-hidden bg-slate-50">
       <div className="w-full flex flex-col md:flex-row">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
