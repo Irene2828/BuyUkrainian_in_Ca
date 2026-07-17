@@ -24,7 +24,7 @@ export function MapStats() {
     return (
         <section className="relative w-full pt-12 md:pt-16 pb-12 md:pb-20 bg-white flex flex-col justify-center items-center">
             <div className="content-width flex flex-col items-center">
-                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-[6.6rem] lg:gap-x-[9.9rem] gap-y-16 md:gap-y-0">
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-[3.3rem] lg:gap-x-[4.9rem] gap-y-16 md:gap-y-0">
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
                         <Store className="w-[24px] h-[24px] text-slate-500 mb-1" strokeWidth={1.25} />
                         <AnimatedCounter
@@ -34,6 +34,9 @@ export function MapStats() {
                         />
                         <span className="text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Stores Found</span>
                     </div>
+
+                    {/* Diagonal Divider 1 */}
+                    <div className="hidden md:block w-[2px] h-[90px] bg-[#FFD700] rotate-[15deg] opacity-60" aria-hidden="true" />
 
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
                         <Map className="w-[24px] h-[24px] text-slate-500 mb-1" strokeWidth={1.25} />
@@ -45,6 +48,9 @@ export function MapStats() {
                         />
                         <span className="text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Provinces Covered</span>
                     </div>
+
+                    {/* Diagonal Divider 2 */}
+                    <div className="hidden md:block w-[2px] h-[90px] bg-[#FFD700] rotate-[15deg] opacity-60" aria-hidden="true" />
 
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
                         <Package className="w-[24px] h-[24px] text-slate-500 mb-1" strokeWidth={1.25} />

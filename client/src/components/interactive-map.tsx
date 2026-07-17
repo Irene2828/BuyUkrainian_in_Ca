@@ -534,51 +534,14 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         </div>
       )}
 
-      {/* Floating UI Elements */}
-      {selectedStore && !isMobile && variant !== "hero" && (
-        <div className="absolute inset-x-0 bottom-8 z-[1000] pointer-events-none" style={{ top: '88px' }}>
-          <div className="boutique-width mx-auto h-full">
-            <div className="flex h-full items-start pl-0 animate-in slide-in-from-left-4 fade-in duration-300">
-              <div className="pointer-events-auto">
-                <StoreCard
-                  key={selectedStore.id}
-                  store={selectedStore}
-                  onClose={onCloseStore}
-                  onSeeOnMap={(s) => {
-                    if (s.coordinates) {
-                      const [lat, lng] = s.coordinates;
-                      if (isValidCoord(lat, lng)) {
-                        setZoom(16);
-                        setCenter({ lat, lng });
-                      } else {
-                        console.warn('Store has invalid coordinates:', s.name);
-                      }
-                    }
-                  }}
-                  variant="map"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {variant !== "hero" && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className="boutique-width mx-auto h-full relative">
-            <div className="absolute right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem] top-4 pt-2 flex flex-row items-center pointer-events-none">
+            <div className="absolute right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem] top-4 pt-2 flex flex-col items-end pointer-events-none">
               <TooltipProvider delayDuration={120}>
-                <div className="flex flex-row items-center bg-[#c8dff0]/85 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#b0c4d8]/60 overflow-hidden pointer-events-auto h-[42px] min-[1441px]:h-[46px] px-[6px]">
-                  <MapControlButton
-                    label="Locate me"
-                    ariaLabel="Center on my location"
-                    onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
-                  >
-                    <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
-                  </MapControlButton>
-
-                  <div className="w-[1px] h-5 bg-[#0A2540]/10 mx-0.5" />
-
+                <div className="flex flex-col items-center bg-white shadow-xl rounded-none border border-slate-300 overflow-hidden pointer-events-auto w-[42px] min-[1441px]:w-[46px]">
                   <MapControlButton
                     label="Zoom in"
                     ariaLabel="Zoom in map"
@@ -590,10 +553,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                       });
                     }}
                   >
-                    <Plus className="w-4 h-4 stroke-[2.5]" />
+                    <Plus className="w-4 h-4 stroke-[2.5] text-[#00387b]" />
                   </MapControlButton>
 
-                  <div className="w-[1px] h-5 bg-[#0A2540]/10 mx-0.5" />
+                  <div className="w-full h-[1px] bg-[#0057B7]/20" />
 
                   <MapControlButton
                     label="Zoom out"
@@ -606,10 +569,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                       });
                     }}
                   >
-                    <Minus className="w-4 h-4 stroke-[2.5]" />
+                    <Minus className="w-4 h-4 stroke-[2.5] text-[#00387b]" />
                   </MapControlButton>
 
-                  <div className="w-[1px] h-5 bg-[#0A2540]/10 mx-0.5" />
+                  <div className="w-full h-[1px] bg-[#0057B7]/20" />
 
                   <MapControlButton
                     label="Zoom to all Canada"
@@ -623,7 +586,17 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                       }
                     }}
                   >
-                    <Maximize2 className="w-4 h-4 stroke-[2.5]" />
+                    <Maximize2 className="w-4 h-4 stroke-[2.5] text-[#00387b]" />
+                  </MapControlButton>
+
+                  <div className="w-full h-[1px] bg-[#0057B7]/20" />
+
+                  <MapControlButton
+                    label="Locate me"
+                    ariaLabel="Center on my location"
+                    onClick={() => window.dispatchEvent(new CustomEvent('locateMe'))}
+                  >
+                    <Navigation className="w-4 h-4 stroke-[2.5] fill-none text-[#00387b]" />
                   </MapControlButton>
                 </div>
               </TooltipProvider>

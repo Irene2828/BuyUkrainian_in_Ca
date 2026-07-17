@@ -65,8 +65,8 @@ export function Header() {
       className={cn(
         "sticky top-0 z-50 transition-all duration-500 ease-in-out font-sans",
         isScrolled
-          ? "bg-white/80 backdrop-blur-md border-b border-slate-200/40"
-          : "bg-white border-b border-slate-200"
+          ? "bg-slate-50/80 backdrop-blur-md border-b border-slate-200/40"
+          : "bg-slate-50 border-b border-slate-200"
       )}
     >
       <div className="boutique-width h-[73px] 2xl:h-[97px] relative">
@@ -132,7 +132,7 @@ export function Header() {
                   className={cn("cursor-pointer outline-none flex items-center gap-1", HEADER_NAV_LINK_CLASSNAME)}
                 >
                   <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-                  <span>{t('nav.addStore') || 'Add Stores'}</span>
+                  <span>Add Stores</span>
                 </span>
               </DialogTrigger>
               <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
@@ -206,7 +206,7 @@ export function Header() {
                     }}
                     className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center justify-between gap-2 text-left cursor-pointer"
                   >
-                    {t('nav.addStore') || 'Add Store'}
+                    Add Stores
                     <Plus className="w-4 h-4 opacity-70" />
                   </span>
 

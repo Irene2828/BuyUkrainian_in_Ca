@@ -76,7 +76,7 @@ function NewlyAddedStores() {
   };
 
   return (
-    <section className="bg-white pt-[32px] md:pt-[40px] pb-[40px] md:pb-[60px]">
+    <section className="bg-slate-50 pt-[32px] md:pt-[40px] pb-[40px] md:pb-[60px]">
       <div className="content-width">
         <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
           <div className="flex justify-between items-center w-full mb-6 group/header-link ml-[1.3px]">
@@ -111,21 +111,22 @@ function NewlyAddedStores() {
               onClick={() => handleSeeOnMap(store)}
             >
               {/* Frosted Glass Overlay with CTA - Centered vertically and static */}
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none rounded-xl">
-                <button className="flex items-center gap-2 bg-white/95 text-slate-900 ring-1 ring-slate-200 ring-inset text-[13px] font-medium px-5 py-2.5 rounded-full shadow-md hover:bg-white hover:ring-slate-300 hover:text-black transition-all duration-300 ease-out pointer-events-auto group/btn">
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none rounded-none border border-[#00387b]/10">
+                <button className="flex items-center gap-2 bg-white text-[#0057B7] border border-[#0057B7] text-[13px] font-medium px-5 py-2.5 rounded-none shadow-xl transition-all duration-300 ease-out pointer-events-auto group/btn">
                   See on Map
-                  <MapPin className="w-3 h-3 transition-transform duration-300 group-hover/btn:scale-110" />
+                  <MapPin className="w-3 h-3 transition-transform duration-300 group-hover/btn:scale-110 text-[#0057B7]" />
                 </button>
               </div>
 
-              <div className="border-l-[2px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all">
-                <div className="flex flex-col justify-center">
+              <div className="bg-white p-5 cursor-pointer transition-all duration-300 rounded-none">
+                <div className="flex flex-col justify-center gap-2">
                   <div className="flex items-center gap-1.5 group/title">
-                    <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
+                    <h3 className="text-slate-900 font-semibold text-[16px] tracking-tight leading-tight antialiased line-clamp-2">
                       {store.name}
                     </h3>
                   </div>
-                  <span className="text-slate-600 text-[13px] mt-1">
+                  <div className="h-[2px] w-8 bg-[#FFD700] rounded-none shrink-0" />
+                  <span className="text-slate-500 font-medium text-[13px] mt-1">
                     {store.city}, {getProvinceAbbreviation(store.province)}
                   </span>
                 </div>
@@ -173,12 +174,12 @@ export default function MapPage() {
 
   return (
     <div className={cn(
-      "bg-white min-h-screen flex flex-col font-sans selection:bg-blue-100 transition-all duration-500",
-      isZenMode ? "pt-0" : "pt-0"
+      "bg-slate-50 min-h-screen flex flex-col font-sans selection:bg-blue-100 transition-all duration-500",
+      isZenMode ? "bg-[#0057B7]" : ""
     )}>
       {!isZenMode && <Header />}
       <main className="flex flex-col flex-1">
-        {!isZenMode && <div className="w-full h-0 bg-white shrink-0" />}
+        {!isZenMode && <div className="w-full h-0 bg-slate-50 shrink-0" />}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
