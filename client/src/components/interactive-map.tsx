@@ -150,11 +150,15 @@ const focusClusterOnMarkers = (
     }
   }
 
-  // Use React state setters so the controlled Map component actually respects the change.
+  // Update React state for internal logic
   if (targetPosition && isValidCoord(targetPosition.lat, targetPosition.lng)) {
     const targetZoom = Math.min(currentZoom + CLUSTER_CLICK_ZOOM_STEP, MAX_CLUSTER_FOCUS_ZOOM);
     setZoomState(targetZoom);
     setCenterState(targetPosition);
+    
+    // Also imperatively update the map since it uses defaultCenter/defaultZoom now
+    if (map && typeof map.setZoom === 'function') map.setZoom(targetZoom);
+    if (map && typeof map.panTo === 'function') map.panTo(targetPosition);
   }
 };
 
@@ -475,6 +479,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         }}
         onCameraChanged={handleCameraChange}
         onClick={() => {
+           if ((window as any).__isMarkerClick) return;
            if (variant !== 'hero') {
              setHoveredLabel(null);
              onCloseStore();
@@ -578,7 +583,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     label="Zoom in"
                     ariaLabel="Zoom in map"
                     onClick={() => {
-                      setZoom(prev => typeof prev === 'number' ? prev + 1 : prev);
+                      setZoom(prev => {
+                        const next = typeof prev === 'number' ? prev + 1 : prev;
+                        if (mapRef && typeof next === 'number') mapRef.setZoom(next);
+                        return next;
+                      });
                     }}
                   >
                     <Plus className="w-4 h-4 stroke-[2.5]" />
@@ -590,7 +599,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     label="Zoom out"
                     ariaLabel="Zoom out map"
                     onClick={() => {
-                      setZoom(prev => typeof prev === 'number' ? prev - 1 : prev);
+                      setZoom(prev => {
+                        const next = typeof prev === 'number' ? prev - 1 : prev;
+                        if (mapRef && typeof next === 'number') mapRef.setZoom(next);
+                        return next;
+                      });
                     }}
                   >
                     <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -604,6 +617,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     onClick={() => {
                       setZoom(INITIAL_MAP_STATE.zoom);
                       setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+                      if (mapRef) {
+                        mapRef.setZoom(INITIAL_MAP_STATE.zoom);
+                        mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+                      }
                     }}
                   >
                     <Maximize2 className="w-4 h-4 stroke-[2.5]" />
@@ -756,7 +773,14 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
           opacity: (!hasAnimatedEntrance.current && variant === 'hero') ? 0 : 1,
         });
 
-        marker.addListener('click', () => {
+        marker.addListener('click', (e: any) => {
+          (window as any).__isMarkerClick = true;
+          setTimeout(() => { (window as any).__isMarkerClick = false; }, 300);
+          
+          if (e) {
+            if (typeof e.stop === 'function') e.stop();
+            if (e.domEvent && typeof e.domEvent.stopPropagation === 'function') e.domEvent.stopPropagation();
+          }
           if (callbacks.current.variant === 'hero') return;
           callbacks.current.setHoveredLabel(null);
           callbacks.current.onSelectStore(store);
