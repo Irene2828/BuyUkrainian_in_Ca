@@ -97,7 +97,7 @@ const en = {
   },
   nav: {
     about: "Mission",
-    map: "View Map",
+    map: "Map",
     addStore: "Add Store",
   },
   seo: {

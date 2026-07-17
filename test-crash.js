@@ -1,18 +1,45 @@
 import puppeteer from 'puppeteer';
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   
-  page.on('console', msg => console.log('BROWSER_LOG:', msg.text()));
-  page.on('pageerror', error => console.log('BROWSER_ERROR:', error.message));
+  page.on('console', msg => {
+    if (msg.type() === 'error') {
+      console.log('BROWSER ERROR:', msg.text());
+    }
+  });
+
+  page.on('pageerror', error => {
+    console.log('PAGE ERROR:', error.message);
+  });
+
+  await page.goto('http://localhost:3001/map', { waitUntil: 'networkidle2' });
   
-  try {
-    await page.goto('http://localhost:5173', { waitUntil: 'networkidle0', timeout: 10000 });
-  } catch(e) {
-    console.log('GOTO_ERROR:', e.message);
-  }
+  console.log('Page loaded. Clicking a pin...');
   
-  await new Promise(r => setTimeout(r, 3000));
+  await page.waitForTimeout(2000);
+  
+  await page.evaluate(() => {
+    const listItems = document.querySelectorAll('.cursor-pointer');
+    let clicked = false;
+    listItems.forEach(el => {
+      if (el.textContent.includes('See on Map') && !clicked) {
+        el.click();
+        clicked = true;
+      }
+    });
+  });
+  
+  await page.waitForTimeout(1000);
+  
+  // Try to grab the error message from the UI
+  const errorMsg = await page.evaluate(() => {
+    const errEl = document.querySelector('.text-red-500');
+    return errEl ? errEl.textContent : null;
+  });
+  
+  console.log('UI ERROR MESSAGE:', errorMsg);
+  
   await browser.close();
 })();

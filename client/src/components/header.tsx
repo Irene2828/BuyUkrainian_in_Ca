@@ -121,7 +121,7 @@ export function Header() {
               </Link>
               <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
                 <Map className="w-3.5 h-3.5 stroke-[2.5]" />
-                <span>{t('nav.map') || 'Map View'}</span>
+                <span>{t('nav.map') || 'Map'}</span>
               </Link>
             </nav>
             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>

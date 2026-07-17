@@ -568,7 +568,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           <div className="boutique-width mx-auto h-full relative">
             <div className="absolute right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem] top-4 pt-2 flex flex-row items-center pointer-events-none">
               <TooltipProvider delayDuration={120}>
-                <div className="flex flex-row items-center bg-[#E5E7EB]/90 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#D1D5DB] overflow-hidden pointer-events-auto h-[42px] min-[1441px]:h-[46px] px-[6px]">
+                <div className="flex flex-row items-center bg-[#c8dff0]/85 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#b0c4d8]/60 overflow-hidden pointer-events-auto h-[42px] min-[1441px]:h-[46px] px-[6px]">
                   <MapControlButton
                     label="Locate me"
                     ariaLabel="Center on my location"

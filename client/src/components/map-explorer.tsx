@@ -258,7 +258,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
             <div
                 className={cn(
-                    "w-full relative bg-white border-b border-slate-100",
+                    "w-full relative bg-white border-b border-slate-200",
                     viewMode === "map"
                         ? cn("overflow-hidden", isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]")
                         : "h-auto overflow-visible"
@@ -285,7 +285,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                     <div className="flex flex-col items-start gap-3 pointer-events-none">
 
                                         {/* Control Strip - outer wrapper is position:relative + overflow:visible so dropdowns can escape */}
-                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center min-[1441px]:h-[46px] max-[1440px]:h-[38px] h-[42px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-[#E5E7EB]/90 backdrop-blur-xl border border-[#D1D5DB] shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full z-40 px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
+                                        <div ref={sidebarRef as React.RefObject<HTMLDivElement>} className="pointer-events-auto relative flex items-center min-[1441px]:h-[46px] max-[1440px]:h-[38px] h-[42px] w-fit max-w-[calc(100vw-32px)] md:max-w-[960px] bg-[#c8dff0]/85 backdrop-blur-xl border border-[#b0c4d8]/60 shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full z-40 px-[8px] transition-all duration-500 animate-in fade-in slide-in-from-left-4">
                                             {/* Inner scrollable row - overflow-x-auto for mobile, but dropdowns live OUTSIDE this */}
                                             <div className="flex items-center h-full overflow-x-auto scrollbar-hide touch-pan-x">
                                                 {/* Segment 1: Search */}

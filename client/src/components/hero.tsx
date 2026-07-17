@@ -130,21 +130,35 @@ export function Hero() {
         };
     }, []);
 
-    const textRef = useRef<HTMLDivElement>(null);
-    const [blueWidth, setBlueWidth] = useState('60%');
+    const h1Ref = useRef<HTMLHeadingElement>(null);
+    const [blueWidth, setBlueWidth] = useState('55%');
 
     useEffect(() => {
+        if (!h1Ref.current) return;
+
         const updateWidth = () => {
-            if (textRef.current) {
-                const rect = textRef.current.getBoundingClientRect();
-                const symmetricalWidth = rect.left + rect.width + rect.left;
-                const requiredWidth = (symmetricalWidth * 1.09) + 9; // Extended by 9% + 9px
+            if (h1Ref.current) {
+                const rect = h1Ref.current.getBoundingClientRect();
+                // Mathematical symmetry: right space = left space (which is rect.left)
+                const requiredWidth = (rect.left * 2) + rect.width;
                 setBlueWidth(`${requiredWidth}px`);
             }
         };
-        updateWidth();
+
+        const observer = new ResizeObserver(() => {
+            updateWidth();
+        });
+        
+        observer.observe(h1Ref.current);
         window.addEventListener('resize', updateWidth);
-        return () => window.removeEventListener('resize', updateWidth);
+        
+        // Initial measurement
+        updateWidth();
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', updateWidth);
+        };
     }, []);
 
     return (
@@ -153,16 +167,17 @@ export function Hero() {
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
         >
-            <div className="hidden md:block absolute top-0 left-0 bottom-[calc(4rem+6.5px)] bg-[#0057B7] z-[25]" style={{ width: blueWidth, transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-            <div className="hidden md:block absolute top-0 right-0 w-full bottom-[calc(4rem+6.5px)] bg-white z-[-2]" />
+            <div className="hidden md:block absolute top-0 left-0 bottom-[4rem] bg-[#0057B7] z-[25]" style={{ width: blueWidth, transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+            <div className="hidden md:block absolute top-0 right-0 w-full bottom-[4rem] bg-white z-[-2]" />
 
             <div className="boutique-width w-full flex items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full">
-                    <div ref={textRef} className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
+                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
                             <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
                                     <h1
+                                        ref={h1Ref}
                                         className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
@@ -207,11 +222,11 @@ export function Hero() {
                                         <div className="flex flex-col md:flex-row gap-4 items-center self-start md:self-start w-full md:w-auto relative z-20 pointer-events-auto">
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-none bg-white/80 hover:bg-white/90 text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-tight rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Explore the Map</span>
                                                     <ArrowUpRight 
-                                                        className="w-5 h-5 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
+                                                        className="w-5 h-5 2xl:w-6 2xl:h-6 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
                                                         strokeWidth={1.5}
                                                     />
                                                 </button>
