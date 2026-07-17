@@ -19,47 +19,50 @@ export function Footer() {
           </div>
 
           {/* Right Anchor: Navigation Columns */}
-          <div className="md:col-span-8 flex flex-col sm:flex-row gap-16 md:justify-end">
+          <div className="md:col-span-8 flex flex-col gap-6 items-start md:items-end">
             
-            {/* CONTACT Cluster */}
-            <div className="flex flex-col items-start justify-start gap-4">
-              <h3 className="text-[#FFD700] text-[12px] font-bold uppercase tracking-[0.2em] opacity-90">
-                Contact
-              </h3>
-              <nav className="flex flex-col gap-2.5" aria-label="Contact Links">
-                <a 
-                  href="mailto:hello@buyukrainian.ca" 
-                  className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
-                >
-                  Email Us
-                </a>
-              </nav>
-            </div>
+            <div className="flex flex-col items-start">
+              {/* 3x Longer Decor Lines */}
+              <div className="flex flex-col gap-1.5 pointer-events-none mb-6" aria-hidden="true">
+                <div className="h-[1px] w-[192px] bg-[#FFD700]" />
+                <div className="h-[1px] w-[72px] bg-[#FFD700]" />
+              </div>
 
-            {/* LEGAL Cluster */}
-            <div className="flex flex-col items-start justify-start gap-4">
-              <h3 className="text-[#FFD700] text-[12px] font-bold uppercase tracking-[0.2em] opacity-90">
-                Legal
-              </h3>
-              <nav className="flex flex-col gap-2.5" aria-label="Legal Links">
-                <Link 
-                  href="/privacy" 
-                  className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
-                >
-                  {t('common.labels.privacyPolicy') || 'Privacy Policy'}
-                </Link>
-                <div className="flex items-center">
-                  <AccessibilityToggle className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] p-0 h-auto bg-transparent border-none transition-colors duration-200 cursor-pointer" />
-                </div>
-                <Link 
-                  href="/admin/login" 
-                  className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
-                >
-                  {t('common.labels.adminAccess') || 'Admin Access'}
-                </Link>
-              </nav>
-            </div>
+              <div className="flex flex-col sm:flex-row gap-16 md:gap-24 w-full">
+              {/* Contact Column */}
+              <div className="flex flex-col items-start justify-start">
+                <nav className="flex flex-col gap-2.5" aria-label="Contact Links">
+                  <a 
+                    href="mailto:hello@buyukrainian.ca" 
+                    className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                  >
+                    Email Us
+                  </a>
+                </nav>
+              </div>
 
+              {/* Legal Column */}
+              <div className="flex flex-col items-start justify-start">
+                <nav className="flex flex-col gap-2.5" aria-label="Legal Links">
+                  <Link 
+                    href="/privacy" 
+                    className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                  >
+                    {t('common.labels.privacyPolicy') || 'Privacy Policy'}
+                  </Link>
+                  <div className="flex items-center">
+                    <AccessibilityToggle className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] p-0 h-auto bg-transparent border-none transition-colors duration-200 cursor-pointer" />
+                  </div>
+                  <Link 
+                    href="/admin/login" 
+                    className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                  >
+                    {t('common.labels.adminAccess') || 'Admin Access'}
+                  </Link>
+                </nav>
+              </div>
+            </div>
+          </div>
           </div>
 
         </div>

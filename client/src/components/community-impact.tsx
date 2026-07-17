@@ -53,10 +53,10 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     {/* Background Yellow Square (Right) */}
                     <div className="absolute top-0 right-0 w-[45%] h-[90%] bg-[#FFD700] z-0 translate-x-[10%] translate-y-[5%]" />
 
-                    {/* Main Content Block (White with Silver Grey border) */}
+                    {/* Main Content Block (White with Brand Blue border) */}
                     <div 
-                        className="relative z-10 bg-white border border-solid md:border-2 w-11/12 md:w-full py-5 px-6 md:px-16 text-center flex flex-col items-center"
-                        style={{ borderColor: '#CBD5E1' }}
+                        className="relative z-10 bg-white border border-solid w-11/12 md:w-full py-5 px-6 md:px-16 text-center flex flex-col items-center"
+                        style={{ borderColor: '#0057B7' }}
                     >
                         
                         {/* Section Eyebrow */}
@@ -65,7 +65,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: 0, ease: "easeOut" }}
-                            className="text-[12px] uppercase tracking-[0.25em] font-bold text-slate-500 mb-2 antialiased"
+                            className="text-[12px] uppercase tracking-[0.25em] font-bold text-[#0057B7] mb-2 antialiased"
                         >
                             SUPPORT THE PROJECT
                         </motion.span>
@@ -90,7 +90,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             className="flex flex-col items-center relative w-full mb-3"
                         >
                             <div className="relative max-w-2xl bg-slate-50 py-2.5 px-6 md:py-3 md:px-8 rounded-none border border-slate-200">
-                                <span className="text-base md:text-[18px] italic font-medium leading-relaxed text-slate-800 tracking-[0.02em] antialiased inline">
+                                <span className="text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline">
                                     "{shareMessage}"
                                 </span>
                                 
@@ -129,7 +129,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                             <div className="flex items-center gap-8 md:gap-10">
                                 <button
                                     onClick={handleFacebookShare}
-                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#00387b]"
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-slate-400 hover:text-[#0057B7]"
                                     aria-label="Share on Facebook"
                                 >
                                     <Facebook className="h-[26px] w-[26px]" strokeWidth={1.5} />
@@ -137,7 +137,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
  
                                 <button
                                     onClick={handleInstagramShare}
-                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#00387b]"
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-slate-400 hover:text-[#0057B7]"
                                     aria-label="Share on Instagram"
                                 >
                                     <Instagram className="h-[26px] w-[26px]" strokeWidth={1.5} />
@@ -145,7 +145,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
  
                                 <button
                                     onClick={handleXShare}
-                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#00387b]"
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-slate-400 hover:text-[#0057B7]"
                                     aria-label="Share on X (Twitter)"
                                 >
                                     <svg
