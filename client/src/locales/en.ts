@@ -96,8 +96,8 @@ const en = {
     },
   },
   nav: {
-    about: "About",
-    map: "Map",
+    about: "Mission",
+    map: "View Map",
     addStore: "Add Store",
   },
   seo: {

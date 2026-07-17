@@ -3,10 +3,12 @@ import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
 
+import { AboutProject } from "@/components/about-project";
 import { FAQ } from "@/components/faq";
 import { CommunityImpact } from "@/components/community-impact";
 import { MapStats } from "@/components/map-stats";
 import { Footer } from "@/components/footer";
+import { AddStoreCTA } from "@/components/add-store-cta";
 
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -39,6 +41,10 @@ export default function Home() {
           <MapStats />
         </div>
 
+        <div className="section-reveal bg-white">
+          <AboutProject className="!pb-12 md:!pb-16" />
+        </div>
+
         {/* 2. Seamless How It Works & FAQ block */}
         <div className="section-reveal bg-white">
           <HowItWorks />
@@ -53,6 +59,10 @@ export default function Home() {
           <div className="relative z-10">
             <CommunityImpact />
           </div>
+        </div>
+
+        <div className="section-reveal bg-white">
+          <AddStoreCTA />
         </div>
       </main>
       <Footer />

@@ -44,7 +44,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   const pinPath = `M 21 ${startY} A 9.5 9.5 0 0 1 29.08 ${tangentY} L 21 ${tipY} L 12.92 ${tangentY} A 9.5 9.5 0 0 1 21 ${startY} Z`;
 
   // Dynamic colors & shadows based on selection
-  const pinBg = isSelected ? PIN_YELLOW : PIN_BLUE;
+  const pinBg = isSelected ? PIN_BLUE : PIN_YELLOW;
   const strokeColor = WHITE;
   const strokeWidth = isCluster ? 2 : 1.75;
   const shadowFilter = isHover ? "hover-shadow" : "premium-shadow";
@@ -63,16 +63,16 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
         font-family="system-ui, -apple-system, sans-serif" 
         font-size="9.5" 
         font-weight="700" 
-        fill="${WHITE}"
+        fill="${PIN_BLUE}"
       >${countLabel}</text>`;
   } else if (isSelected) {
-    // Selected marker: Inverted Blue Core inside Yellow selected pin
+    // Selected marker: Inverted Yellow Core inside Blue selected pin
+    innerCore = `
+      <circle cx="21" cy="${centerY}" r="3" fill="${PIN_YELLOW}" />`;
+  } else {
+    // Default marker: Blue Core dot inside Yellow default pin
     innerCore = `
       <circle cx="21" cy="${centerY}" r="3" fill="${PIN_BLUE}" />`;
-  } else {
-    // Default marker: Crisp White Core dot inside Blue default pin
-    innerCore = `
-      <circle cx="21" cy="${centerY}" r="3" fill="${WHITE}" />`;
   }
 
   return `

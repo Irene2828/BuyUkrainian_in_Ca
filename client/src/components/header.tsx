@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin, ArrowLeft } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin, ArrowLeft, Map } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
@@ -73,18 +73,35 @@ export function Header() {
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center justify-start gap-4">
+        <div className="flex-1 flex items-center justify-start gap-2">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
-            {/* Branding Text */}
-            <div className="flex flex-col justify-center gap-[1.5px] py-px select-none">
-              <span className="text-[14.7px] md:text-[15.75px] font-semibold tracking-[-0.045em] text-[#1E293B] opacity-80 whitespace-nowrap leading-[0.94] antialiased">
+            {/* Branding Text with Oval Frame */}
+            <div className="relative flex flex-col justify-center gap-[1.5px] px-4 py-2 select-none">
+              {/* Split-color Oval Stroke Frame */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none p-[1.5px]" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <clipPath id="clip-top" clipPathUnits="objectBoundingBox">
+                    <rect x="-0.05" y="-0.05" width="1.1" height="0.55" />
+                  </clipPath>
+                  <clipPath id="clip-bottom" clipPathUnits="objectBoundingBox">
+                    <rect x="-0.05" y="0.5" width="1.1" height="0.55" />
+                  </clipPath>
+                </defs>
+                <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#0057B7" strokeWidth="1.5" fill="none" clipPath="url(#clip-top)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
+                <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#FFD700" strokeWidth="1.5" fill="none" clipPath="url(#clip-bottom)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
+              </svg>
+              <span className="text-[11.7px] md:text-[12.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 Buy Ukrainian
               </span>
-              <span className="text-[14.7px] md:text-[15.75px] font-semibold tracking-[-0.045em] text-[#1E293B] opacity-80 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 in Canada
               </span>
             </div>
           </Link>
+          <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
+          <span className="hidden lg:block text-[12px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-['Inter']">
+            Volunteer initiative to support Ukraine from Canada
+          </span>
         </div>
 
         {/* Right: Navigation - Desktop */}
@@ -100,10 +117,11 @@ export function Header() {
                 }}
                 className={HEADER_NAV_LINK_CLASSNAME}
               >
-                {t('nav.about') || 'About'}
+                {t('nav.about') || 'Mission'}
               </Link>
-              <Link href="/map" className={cn("flex items-center gap-2", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                {t('nav.map') || 'Map'}
+              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                <Map className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span>{t('nav.map') || 'Map View'}</span>
               </Link>
             </nav>
             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
@@ -111,9 +129,10 @@ export function Header() {
                 <span
                   role="button"
                   tabIndex={0}
-                  className={cn("cursor-pointer outline-none", HEADER_NAV_LINK_CLASSNAME)}
+                  className={cn("cursor-pointer outline-none flex items-center gap-1", HEADER_NAV_LINK_CLASSNAME)}
                 >
-                  {t('nav.addStore') || 'Add Store'}
+                  <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>{t('nav.addStore') || 'Add Stores'}</span>
                 </span>
               </DialogTrigger>
               <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
@@ -130,8 +149,8 @@ export function Header() {
         <div className="flex md:hidden items-center gap-3">
           {!isScrolled && location !== '/map' && (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-gray-100 transition-colors text-slate-900 no-underline">
-              <MapPin className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
-              <span className="text-[14px] font-normal">{t('nav.map') || 'Explore the map'}</span>
+              <Map className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
+              <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>
             </Link>
           )}
 
@@ -166,7 +185,7 @@ export function Header() {
                     }}
                     className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2"
                   >
-                    {t('nav.about') || 'About'}
+                    {t('nav.about') || 'Mission'}
                   </Link>
 
                   <Link 
@@ -174,7 +193,8 @@ export function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn("text-[16px] text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2", location === '/map' ? "font-semibold" : "font-medium")}
                   >
-                    {t('nav.map') || 'Map'}
+                    <Map className="w-4 h-4" />
+                    <span>{t('nav.map') || 'Map View'}</span>
                   </Link>
 
                   <span

@@ -1,0 +1,105 @@
+import { MapPin, ChevronDown, ArrowRight, Search, ArrowUpRight, Info } from "lucide-react";
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getApprovedStores } from "@/lib/api";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { useLocation } from "wouter";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import heroFlagsBlend from "@/assets/flags_bg.png";
+import mapleLeaf from "@/assets/maple_leaf.png";
+import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
+import { GoogleMapsProvider } from "@/components/google-maps-provider";
+
+// Lazy load the map to ensure fast initial page load
+const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
+const noop = () => {};
+const noopSelectStore = (_store?: unknown) => {};
+const PROVINCE_STRIP = [
+    { label: "British Columbia", abbr: "BC" },
+    { label: "Alberta", abbr: "AB" },
+    { label: "Manitoba", abbr: "MB" },
+    { label: "Ontario", abbr: "ON" },
+    { label: "Quebec", abbr: "QC" },
+    { label: "Nova Scotia", abbr: "NS" },
+];
+const PROVINCE_NAME_TO_ABBR: Record<string, string> = {
+    Alberta: "AB",
+    "British Columbia": "BC",
+    Manitoba: "MB",
+    "New Brunswick": "NB",
+    "Newfoundland and Labrador": "NL",
+    "Nova Scotia": "NS",
+    Ontario: "ON",
+    "P
+            };
+        }
+
+        const timeoutId = window.setTimeout(() => {
+            setShouldRenderHeroMap(true);
+        }, 220);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, []);
+
+    return (
+        <>
+        <div className="flex flex-col h-auto md:min-h-[calc(100vh-81px)] 2xl:min-h-[calc(100vh-108px)] min-[1670px]:min-h-[calc(100vh-108px)] bg-[#0057B7] md:bg-transparent justify-between relative">
+        <section
+            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
+        >
+            <div className="hidden md:block absolute top-0 left-0 w-[64%] h-full bg-[#0057B7] z-[-1]" />
+            <div className="hidden md:block absolute top-0 right-0 w-[36%] h-full bg-white z-[-1]" />
+
+
+            <div className="boutique-width w-full flex items-center relative z-30 h-full pointer-events-none">
+                <div className="w-full">
+                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
+                    <div className="relative z-10 flex w-full flex-col items-start">
+                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
+                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
+
+                                    <h1
+                                        className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold"
+                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
+                                    >
+                                        <span 
+                                            className="block font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[4rem] min-[1500px]:text-[4.5rem] min-[1670px]:text-[5rem] tracking-[-0.02em] mb-0 text-transparent"
+                                            style={{ 
+                                                backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
+                                                backgroundSize: '120%',
+                                                backgroundPosition: 'center 60%',
+                                                WebkitBackgroundClip: 'text',
+                                                backgroundClip: 'text',
+                                                color: 'transparent',
+                                                filter: 'brightness(1.3)'
+                                            }}
+                                        >
+                                 
+
+
+
+                            {/* AURORA OVERLAY */}
+                            <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none opacity-0">
+                                <div className="absolute top-[25%] right-[45%] w-[350px] h-[150px] bg-[#0057B7] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
+                                <div className="absolute top-[50%] right-[30%] w-[350px] h-[150px] bg-[#FFD900] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
+                            </div>
+
+                            {shouldRenderHeroMap ? (
+                                <GoogleMapsProvider>
+                                    <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 1.05 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ duration: 0.8, ease: "easeOut" }}
+                                            className="w-full h-full cursor-grab active:cursor-grabbing pointer-events-auto will-change-transform"
+                                        >
+                                            <InteractiveMap
+                                                stores={stores}
+                                                selectedStore={null}
+                                                onSelectStore={noopSelectStore}
+                                                onCloseStore={noop}
+                                                variant="hero"

@@ -7,16 +7,13 @@ export function Footer() {
   const [location] = useLocation();
 
   return (
-    <footer className="bg-slate-900 text-slate-100 font-sans overflow-hidden py-16 md:py-24 antialiased">
+    <footer className="bg-[#00387b] text-[#E2E8F0] font-sans overflow-hidden py-8 md:py-12 antialiased">
       <div className="content-width">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Left Anchor: Brand & Mission */}
           <div className="md:col-span-4 flex flex-col items-start justify-start">
-            <p className="text-[14.7px] font-medium leading-relaxed max-w-[280px] mb-8 text-slate-300 antialiased">
-              Volunteer initiative to support Ukraine from Canada
-            </p>
-            <span className="text-[13px] font-normal tracking-wide text-slate-500 mt-auto antialiased">
+            <span className="text-[13px] font-normal tracking-wide text-[#E2E8F0]/70 antialiased">
               © 2026 BuyUkrainian.ca
             </span>
           </div>
@@ -26,13 +23,13 @@ export function Footer() {
             
             {/* CONTACT Cluster */}
             <div className="flex flex-col items-start justify-start gap-4">
-              <h3 className="text-white text-[12px] font-bold uppercase tracking-[0.2em] opacity-60">
+              <h3 className="text-[#FFD700] text-[12px] font-bold uppercase tracking-[0.2em] opacity-90">
                 Contact
               </h3>
               <nav className="flex flex-col gap-2.5" aria-label="Contact Links">
                 <a 
                   href="mailto:hello@buyukrainian.ca" 
-                  className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white transition-all duration-200"
+                  className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
                 >
                   Email Us
                 </a>
@@ -41,22 +38,22 @@ export function Footer() {
 
             {/* LEGAL Cluster */}
             <div className="flex flex-col items-start justify-start gap-4">
-              <h3 className="text-white text-[12px] font-bold uppercase tracking-[0.2em] opacity-60">
+              <h3 className="text-[#FFD700] text-[12px] font-bold uppercase tracking-[0.2em] opacity-90">
                 Legal
               </h3>
               <nav className="flex flex-col gap-2.5" aria-label="Legal Links">
                 <Link 
                   href="/privacy" 
-                  className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white transition-all duration-200"
+                  className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
                 >
                   {t('common.labels.privacyPolicy') || 'Privacy Policy'}
                 </Link>
                 <div className="flex items-center">
-                  <AccessibilityToggle className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white p-0 h-auto bg-transparent border-none transition-all duration-200 cursor-pointer" />
+                  <AccessibilityToggle className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] p-0 h-auto bg-transparent border-none transition-colors duration-200 cursor-pointer" />
                 </div>
                 <Link 
                   href="/admin/login" 
-                  className="text-[15px] font-light tracking-tight text-slate-400 hover:text-white transition-all duration-200"
+                  className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
                 >
                   {t('common.labels.adminAccess') || 'Admin Access'}
                 </Link>

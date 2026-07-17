@@ -65,6 +65,8 @@ export const queryClient = new QueryClient({
 let wsInvalidationTimer: ReturnType<typeof setTimeout> | null = null;
 let activeStoreSocket: WebSocket | null = null;
 let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+let reconnectAttempts = 0;
+const MAX_RECONNECT_ATTEMPTS = 5;
 
 function debouncedStoreInvalidation() {
   if (wsInvalidationTimer) clearTimeout(wsInvalidationTimer);
@@ -99,6 +101,7 @@ export function setupWebSocketListener() {
 
   ws.onopen = () => {
     console.log("Connected to WebSocket for real-time updates");
+    reconnectAttempts = 0; // Reset counter on successful connection
   };
 
   ws.onmessage = (event) => {
@@ -115,15 +118,22 @@ export function setupWebSocketListener() {
   };
 
   ws.onclose = () => {
-    console.log("WebSocket connection closed, attempting to reconnect in 5s...");
+    console.log("WebSocket connection closed.");
     if (activeStoreSocket === ws) {
       activeStoreSocket = null;
     }
 
-    reconnectTimer = setTimeout(() => {
-      reconnectTimer = null;
-      setupWebSocketListener();
-    }, 5000);
+    reconnectAttempts++;
+    if (reconnectAttempts <= MAX_RECONNECT_ATTEMPTS) {
+      const delay = Math.min(5000 * reconnectAttempts, 30000);
+      console.log(`WebSocket: reconnect attempt ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS} in ${delay}ms`);
+      reconnectTimer = setTimeout(() => {
+        reconnectTimer = null;
+        setupWebSocketListener();
+      }, delay);
+    } else {
+      console.log("WebSocket: max reconnect attempts reached, giving up.");
+    }
   };
 
   ws.onerror = (error) => {

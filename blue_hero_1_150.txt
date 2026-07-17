@@ -1,0 +1,74 @@
+Created At: 2026-07-16T20:09:11Z
+Completed At: 2026-07-16T20:09:11Z
+File Path: `file:///Volumes/Transcend/DevSandbox/BuyUkrainian.ca/client/src/components/hero.tsx`
+Total Lines: 399
+Total Bytes: 23889
+Showing lines 1 to 150
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { MapPin, ChevronDown, ArrowRight, Search, ArrowUpRight, Info } from "lucide-react";
+2: import { Link } from "wouter";
+3: import { Button } from "@/components/ui/button";
+4: import { useQuery } from "@tanstack/react-query";
+5: import { getApprovedStores } from "@/lib/api";
+6: import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+7: import { useLocation } from "wouter";
+8: import { motion } from "framer-motion";
+9: import { cn } from "@/lib/utils";
+10: import heroFlagsBlend from "@/assets/flags_bg.png";
+11: import mapleLeaf from "@/assets/maple_leaf.png";
+12: import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
+13: import { GoogleMapsProvider } from "@/components/google-maps-provider";
+14: 
+15: // Lazy load the map to ensure fast initial page load
+16: const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
+17: const noop = () => {};
+18: const noopSelectStore = (_store?: unknown) => {};
+19: const PROVINCE_STRIP = [
+20:     { label: "British Columbia", abbr: "BC" },
+21:     { label: "Alberta", abbr: "AB" },
+22:     { label: "Manitoba", abbr: "MB" },
+23:     { label: "Ontario", abbr: "ON" },
+24:     { label: "Quebec", abbr: "QC" },
+25:     { label: "Nova Scotia", abbr: "NS" },
+26: ];
+27: const PROVINCE_NAME_TO_ABBR: Record<string, string> = {
+28:     Alberta: "AB",
+29:     "British Columbia": "BC",
+30:     Manitoba: "MB",
+31:     "New Brunswick": "NB",
+32:     "Newfoundland and Labrador": "NL",
+33:     "Nova Scotia": "NS",
+34:     Ontario: "ON",
+35:     "P
+<truncated 3381 bytes>
+        win.cancelIdleCallback?.(idleId);
+122:             };
+123:         }
+124: 
+125:         const timeoutId = window.setTimeout(() => {
+126:             setShouldRenderHeroMap(true);
+127:         }, 220);
+128: 
+129:         return () => {
+130:             window.clearTimeout(timeoutId);
+131:         };
+132:     }, []);
+133: 
+134:     return (
+135:         <>
+136:         <div className="flex flex-col h-auto md:min-h-[calc(100vh-81px)] 2xl:min-h-[calc(100vh-108px)] min-[1670px]:min-h-[calc(100vh-108px)] bg-[#0057B7] md:bg-transparent justify-between relative">
+137:         <section
+138:             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
+139:         >
+140:             <div className="hidden md:block absolute top-0 left-0 w-[64%] h-full bg-[#0057B7] z-[-1]" />
+141:             <div className="hidden md:block absolute top-0 right-0 w-[36%] h-full bg-white z-[-1]" />
+142: 
+143: 
+144:             <div className="boutique-width w-full flex items-center relative z-30 h-full pointer-events-none">
+145:                 <div className="w-full">
+146:                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
+147:                     <div className="relative z-10 flex w-full flex-col items-start">
+148:                         <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
+149:                             <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
+150: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

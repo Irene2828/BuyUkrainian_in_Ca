@@ -1,0 +1,25 @@
+--- client/src/components/interactive-map.tsx
++++ client/src/components/interactive-map.tsx
+@@ -627,6 +627,7 @@
+ 
+   useEffect(() => {
+     callbacks.current = { onSelectStore, setHoveredLabel, selectedStore, variant, scale };
+   }, [onSelectStore, setHoveredLabel, selectedStore, variant, scale]);
+ 
+   // Custom Renderer for a premium, clean look
+   const renderer = useMemo(() => {
++    try {
+     return {
+       render: ({ count, position }: any) => {
+         const svg = getBrandedMapPinSvg({ variant: "cluster", count });
+@@ -654,12 +655,16 @@
+         return marker;
+       }
+     }
++    } catch (e) { console.error("RENDERER ERROR", e); return { render: () => null } }
+   }, [scale]);
+ 
+   useEffect(() => {
++    try {
+     if (!map) return;
+     if (!clusterer.current && (window as any).markerClusterer) {

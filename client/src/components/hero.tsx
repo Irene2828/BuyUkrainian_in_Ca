@@ -3,11 +3,13 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import heroFlagsBlend from "@/assets/flags_bg.png";
+import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
+import mapleLeafIcon from "@/assets/maple_leaf.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 
 // Lazy load the map to ensure fast initial page load
@@ -128,153 +130,108 @@ export function Hero() {
         };
     }, []);
 
+    const textRef = useRef<HTMLDivElement>(null);
+    const [blueWidth, setBlueWidth] = useState('60%');
+
+    useEffect(() => {
+        const updateWidth = () => {
+            if (textRef.current) {
+                const rect = textRef.current.getBoundingClientRect();
+                const symmetricalWidth = rect.left + rect.width + rect.left;
+                const requiredWidth = (symmetricalWidth * 1.09) + 9; // Extended by 9% + 9px
+                setBlueWidth(`${requiredWidth}px`);
+            }
+        };
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+        return () => window.removeEventListener('resize', updateWidth);
+    }, []);
+
     return (
         <>
-        <div className="flex flex-col h-auto md:min-h-[calc(100vh-81px)] 2xl:min-h-[calc(100vh-108px)] min-[1670px]:min-h-[calc(100vh-108px)] bg-[radial-gradient(ellipse_120%_100%_at_top_left,_var(--tw-gradient-stops))] from-[#F8F9FA] via-white via-[60%] to-white justify-between">
+                <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] 2xl:min-h-[calc(85vh-108px)] min-[1670px]:min-h-[calc(85vh-108px)] bg-[#0057B7] md:bg-transparent justify-between relative">
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
         >
-
-            {/* Soft Atmospheric Sky Glow - Luminous White (Clean Refresh) */}
-            <div className="absolute top-[-6%] left-[-4%] w-[250px] h-[210px] md:top-[-15%] md:left-0 md:w-[800px] md:h-[700px] bg-[#F8F9FA] rounded-full blur-[92px] md:blur-[160px] opacity-[0.78] md:opacity-[0.38] lg:opacity-[0.44] min-[768px]:max-[1439px]:opacity-[0.52] min-[768px]:max-[1439px]:w-[600px] pointer-events-none z-[4]"></div>
-
-
-
-            {/* Ambient Reading Glow - Radial anchored top-left to avoid masking Vancouver pin */}
-            <div
-                className="absolute left-[-10%] top-[-4%] w-[64%] h-[26%] md:left-[-12%] md:top-[-15%] md:w-[65%] max-[1669px]:md:w-[76%] md:h-[75%] pointer-events-none z-[6]"
-                style={{
-                    background: "var(--hero-ambient-glow, radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.76) 22%, rgba(255,255,255,0.34) 42%, rgba(255,255,255,0.08) 58%, transparent 72%))",
-                }}
-            />
-
-            {/* Upper Airlight - keeps the headline readable */}
-            <div
-                className="absolute left-[8%] top-[6%] w-[34%] h-[26%] pointer-events-none z-[7] hidden md:block"
-                style={{
-                    background: "radial-gradient(ellipse at 46% 34%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 24%, transparent 68%)",
-                }}
-            />
-
-            {/* Center Bridge - luminous handoff into the map */}
-            <div
-                className="absolute inset-y-0 left-[15%] w-[50%] max-[1669px]:w-[62%] pointer-events-none z-[8] hidden md:block"
-                style={{
-                    background: "var(--hero-center-bridge, linear-gradient(to right, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 20%, transparent 80%))",
-                }}
-            />
-
-            {/* Bottom Edge Melt */}
-            <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-t from-white/30 to-transparent pointer-events-none z-10" />
-
-            <div
-                className="hidden md:max-[1439px]:block absolute bottom-0 inset-x-0 h-[35%] pointer-events-none z-[5]"
-                style={{
-                    background: "linear-gradient(to top, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 50%, transparent 100%)",
-                }}
-            />
-            <div className="absolute inset-x-0 bottom-0 h-[44%] bg-white pointer-events-none z-[8] md:hidden" />
-            <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none z-[80]" />
-
-            {/* National Anchor Ribbon - Aligned with Logo Divider */}
-            {/* We recreate the exact boutique-width wrapper hierarchy to perfectly align with the header across all breakpoints */}
-            <div className="absolute inset-0 w-full h-full pointer-events-none z-[9]">
-                <div className="boutique-width h-full relative">
-                    <div className="h-full relative">
-                        <div 
-                            className="hidden md:block absolute w-[2.1px] ml-[1.3px]"
-                            style={{
-                                top: '7%',
-                                bottom: '18%',
-                                background: '#FFD700',
-                                opacity: 0.6,
-                                maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-                                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-                            }}
-                            aria-hidden="true"
-                        />
-                        <div 
-                            className="hidden md:block absolute w-[2.1px] ml-[clamp(15.3px,1.615vw,29.75px)]"
-                            style={{
-                                top: '17%',
-                                bottom: '8%',
-                                background: '#0057B7',
-                                opacity: 0.80,
-                                maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-                                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-                            }}
-                            aria-hidden="true"
-                        />
-                    </div>
-                </div>
-            </div>
+            <div className="hidden md:block absolute top-0 left-0 bottom-[calc(4rem+6.5px)] bg-[#0057B7] z-[25]" style={{ width: blueWidth, transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+            <div className="hidden md:block absolute top-0 right-0 w-full bottom-[calc(4rem+6.5px)] bg-white z-[-2]" />
 
             <div className="boutique-width w-full flex items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full">
-                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
+                    <div ref={textRef} className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
-                            <div className="relative z-10 flex flex-col items-start hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px]">
-
-                                
-
-                                {/* Flag Pill Language Toggle - Eyebrow above headline */}
-
-                                <h1
-                                    className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.04] md:leading-[1.08] min-[1670px]:leading-[1.08] antialiased pointer-events-auto mb-3 md:mb-4"
-                                    style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
-                                >
-                                    <span className="flex items-baseline gap-[0.3em] font-['Lora'] text-[clamp(2.16rem,8.8vw,2.68rem)] md:text-[2.82rem] min-[1500px]:text-[3.17rem] min-[1670px]:text-[3.48rem] font-medium tracking-[-0.03em] text-[#0057B7]">
-                                        Discover
- 
-                                    </span>
-                                    <span className="block font-['Lora'] text-[clamp(2.16rem,8.8vw,2.68rem)] md:text-[2.82rem] min-[1500px]:text-[3.17rem] min-[1670px]:text-[3.48rem] font-medium tracking-[-0.03em] text-[#0057B7] md:whitespace-nowrap relative">
-                                        <span className="relative inline-block">Ukrainian</span>
-                                        {" "}Products
-                                    </span>
-                                    <span className="block translate-y-[10%] font-['Inter'] text-[clamp(1.36rem,6.16vw,1.8rem)] md:text-[1.94rem] min-[1500px]:text-[2.2rem] min-[1670px]:text-[2.37rem] font-normal tracking-[-0.03em] md:whitespace-nowrap text-slate-600 opacity-[0.80]">
-                                        sold across{" "}
-                                        <span className="relative inline-block">
-                                            Canada
-                                        </span>
-                                    </span>
-                                </h1>
-
-                                <p
-                                    className="text-[17px] md:text-[18px] min-[1670px]:text-[16px] text-slate-500 leading-snug max-w-lg font-normal tracking-tight pointer-events-auto font-['Inter'] mb-[20px] md:mb-[26px] min-[1670px]:mb-[36px]"
-                                >
-                                    Find stores selling products made in Ukraine near you
-                                </p>
-
-                                {/* CTA Row - Left Aligned To Header Branding Text */}
-                                <div
-                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-6 md:gap-8 w-full md:w-auto pointer-events-auto min-[1670px]:mt-2"
-                                >
-                                    <Link href="/map" className="w-full md:w-auto self-start">
-                                        <button
-                                            className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-[32px] bg-[#FFD700] hover:bg-[#FFEB64] text-slate-950 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#FFD700]/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
-                                        >
-                                            <span>Explore the Map</span>
-                                            <ArrowUpRight 
-                                                className="w-5 h-5 ml-2.5 text-slate-950 transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
-                                                strokeWidth={1.5}
-                                            />
-                                        </button>
-                                    </Link>
-
-                                    <Link
-                                        href="/#how-it-works"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                                        }}
-                                        className="group relative flex items-center gap-2 text-[14px] font-normal text-slate-600 transition-all duration-300 hover:text-[#0057B7] font-['Inter']"
+                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
+                                    <h1
+                                        className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold"
+                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
-                                        <span>How it works</span>
-                                        <ChevronDown className="w-4 h-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
-                                        <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-slate-200 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
-                                    </Link>
-                                </div>
+                                        <span 
+                                            className="block font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] min-[1500px]:text-[4.5rem] min-[1670px]:text-[5rem] tracking-[-0.02em] mb-0 text-transparent"
+                                            style={{ 
+                                                backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
+                                                backgroundSize: '120%',
+                                                backgroundPosition: 'center 60%',
+                                                WebkitBackgroundClip: 'text',
+                                                backgroundClip: 'text',
+                                                color: 'transparent',
+                                                filter: 'brightness(1.3)'
+                                            }}
+                                        >
+                                            DISCOVER
+                                        </span>
+                                        <div className="md:ml-0">
+                                            <span 
+                                                className="block font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] min-[1500px]:text-[4.5rem] min-[1670px]:text-[5rem] tracking-[-0.02em] mb-2 whitespace-nowrap text-transparent"
+                                                style={{ 
+                                                    backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
+                                                    backgroundSize: '120%',
+                                                    backgroundPosition: 'center 60%',
+                                                    WebkitBackgroundClip: 'text',
+                                                    backgroundClip: 'text',
+                                                    color: 'transparent',
+                                                    filter: 'brightness(1.3)'
+                                                }}
+                                            >
+                                                UKRAINIAN PRODUCTS
+                                            </span>
+                                        </div>
+                                    </h1>
+                                    
+                                    {/* Subline and CTA Wrapper */}
+                                    <div className="flex flex-col items-start self-start w-full mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 gap-4">
+                                        <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.8rem] lg:text-[2.34rem] min-[1500px]:text-[2.6rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
+                                            sold across Canada 
+                                            <img src={mapleLeafIcon} alt="" className="inline-block w-[0.8em] h-[0.8em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
+                                        </span>
+                                        <div className="flex flex-col md:flex-row gap-4 items-center self-start md:self-start w-full md:w-auto relative z-20 pointer-events-auto">
+                                            <Link href="/map" className="w-full md:w-auto self-start">
+                                                <button
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[52px] px-6 text-[16px] font-medium tracking-tight rounded-none bg-white/80 hover:bg-white/90 text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
+                                                >
+                                                    <span>Explore the Map</span>
+                                                    <ArrowUpRight 
+                                                        className="w-5 h-5 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
+                                                        strokeWidth={1.5}
+                                                    />
+                                                </button>
+                                            </Link>
+                                            
+                                            <Link
+                                                href="/#how-it-works"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                                                }}
+                                                className="group relative flex items-center gap-2 text-[14px] font-normal text-white/90 transition-all duration-300 hover:text-white font-['Inter']"
+                                            >
+                                                <span>How it works</span>
+                                                <ChevronDown className="w-4 h-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
+                                                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-white/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                                            </Link>
+                                        </div>
+                                    </div>
+
 
                                 <div className="md:hidden mt-6 flex w-[calc(100%+1rem)] gap-3 overflow-x-auto snap-x snap-mandatory hide-scrollbar pr-[8.5rem] pb-1 pointer-events-auto">
                                     {trustPillars.map((pillar) => (
@@ -329,8 +286,7 @@ export function Hero() {
 
 
 
-            {/* Desktop Peeking Map Container - FULL BLEED LIVE MAP */}
-            <div className="hidden md:block absolute top-0 right-0 w-[59%] bottom-0 z-20 select-none overflow-hidden border-none outline-none">
+            <div className="hidden md:block absolute top-0 right-0 w-[50%] bottom-[4rem] z-20 select-none overflow-hidden border-none outline-none">
                 <div
                     className="w-full h-full group/map-peeking border-none outline-none relative"
                     aria-label="Interactive map of Ukrainian stores in Canada"
@@ -388,10 +344,7 @@ export function Hero() {
                             )}
                         </div>
                     </div>
-                    {/* Bottom Fade - pinned to actual container floor, independent of map translation */}
-                    <div className="absolute bottom-0 inset-x-0 h-[10%] bg-gradient-to-t from-white via-white/30 via-white/5 to-transparent pointer-events-none z-[80]" />
-                    {/* Frosted Glass Bridge */}
-                    <div className="absolute bottom-0 inset-x-0 h-[48px] bg-white/10 backdrop-blur-[12px] z-[85] border-t border-white/20 pointer-events-none" />
+
                 </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to Macro-Grid Right Boundary */}
@@ -413,16 +366,7 @@ export function Hero() {
                                         {pillar.title}
                                     </span>
                                 </div>
-                                <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100">
-                                    <div className="overflow-hidden">
-                                        <div className="hero-trust-pill-detail flex flex-col items-end pt-3 pb-2 px-4 mt-1 bg-white/70 backdrop-blur-sm rounded-none opacity-0 transition-opacity duration-300 delay-0 group-hover:opacity-100 group-hover:delay-100">
-                                            <div className="flex items-center justify-end text-[14.5px] text-slate-500 leading-relaxed font-normal text-right font-['Inter']">
-                                                <span className="max-w-0 group-hover:max-w-[500px] overflow-hidden whitespace-nowrap tracking-[0.0125em] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-0 group-hover:opacity-100">{pillar.detail}</span>
-                                                <span className="shrink-0 ml-4 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">–</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         ))}
                         </div>
@@ -436,19 +380,10 @@ export function Hero() {
 
 
         {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative -translate-y-1/2 min-[1670px]:translate-y-[10%]">
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative -translate-y-[100%] min-[1670px]:-translate-y-[20%]">
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
-                    <div className="shrink-0 flex items-center gap-2 z-10">
-                        <div className="relative flex h-[5px] w-[5px]">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
-                        </div>
-                        <span className="text-[12.8px] font-semibold tracking-widest text-slate-500 uppercase whitespace-nowrap font-['Inter'] antialiased">
-                            ADDED THIS MONTH
-                        </span>
-                    </div>
 
                     {/* Scrolling Ticker — masked for smooth transition */}
                     <div 
@@ -474,7 +409,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] font-semibold text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>

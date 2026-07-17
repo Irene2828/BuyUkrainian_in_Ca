@@ -55,9 +55,16 @@ export default defineConfig(({ command, mode }) => {
       allowedHosts: true,
       watch: {
         // Ignore macOS metadata files on external drives to avoid noisy full-page reloads.
-        ignored: ["**/._*", "**/.DS_Store"],
-        usePolling: true,
-        interval: 100,
+        // usePolling disabled: polling every 100ms on an external drive was causing
+        // spurious change events from macOS ._* metadata files → infinite reload loop.
+        usePolling: false,
+        ignored: [
+          "**/._*",
+          "**/.DS_Store",
+          "**/node_modules/**",
+          "**/.git/**",
+          "**/dist/**",
+        ],
       },
       proxy: {
         '/api': {

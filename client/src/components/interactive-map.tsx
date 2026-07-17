@@ -23,11 +23,8 @@ export interface InteractiveMapRef {
 const FULL_MAP_INITIAL_CENTER: [number, number] = [52.5, -95.0];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 const HERO_INITIAL_MAP_STATE = {
-  // The hero crop hides the southern edge more aggressively than the full map,
-  // so the hero camera needs a more noticeable southward center to lift
-  // Ontario-area pins comfortably into view.
-  center: { lat: 46.2, lng: -84.0 },
-  zoom: 3.9,
+  center: { lat: 52.5, lng: -108.0 },
+  zoom: 4.1,
 };
 const MAX_CLUSTER_FOCUS_ZOOM = 12;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
@@ -109,16 +106,18 @@ const getEventPosition = (event: any) => {
   return isValidCoord(lat, lng) ? { lat, lng } : null;
 };
 
-const buildMarkerIcon = (svg: string, variant: BrandedMapPinVariant) => {
+const buildMarkerIcon = (svg: string, variant: BrandedMapPinVariant, scale: number = 1) => {
   const { width, height } = getBrandedMapPinSize(variant);
+  const scaledWidth = width * scale;
+  const scaledHeight = height * scale;
   
   // Classic map pin coordinate tip is always anchored at y = 32 inside the 42x42 canvas
-  const anchorY = 32;
+  const anchorY = 32 * scale;
 
   return {
     url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg.trim())}`,
-    scaledSize: new (window as any).google.maps.Size(width, height),
-    anchor: new (window as any).google.maps.Point(width / 2, anchorY),
+    scaledSize: new (window as any).google.maps.Size(scaledWidth, scaledHeight),
+    anchor: new (window as any).google.maps.Point(scaledWidth / 2, anchorY),
   };
 };
 
@@ -173,7 +172,7 @@ function MapControlButton({ label, ariaLabel, onClick, children }: MapControlBut
         <button
           type="button"
           onClick={onClick}
-          className="flex h-10 w-10 items-center justify-center text-slate-700 transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95"
+          className="flex h-10 w-10 items-center justify-center text-slate-700 transition-all hover:bg-black/10 hover:text-slate-900 active:scale-95"
           aria-label={ariaLabel}
         >
           {children}
@@ -417,7 +416,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         center={center}
         zoom={zoom}
         disableDefaultUI={true}
-        gestureHandling={variant === 'hero' ? 'none' : 'cooperative'}
+        gestureHandling="cooperative"
         minZoom={variant === 'hero' ? 3.5 : 4}
         restriction={variant === 'hero' ? {
           latLngBounds: {
@@ -439,9 +438,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         options={{
           maxZoom: variant === 'hero' ? zoom : 18,
           minZoom: variant === 'hero' ? zoom : 4,
-          draggable: variant !== 'hero',
+          draggable: true,
           scrollwheel: false,
-          gestureHandling: variant === 'hero' ? 'none' : 'cooperative',
+          gestureHandling: "cooperative",
           zoomControl: false,
           mapTypeControl: false,
           streetViewControl: false,
@@ -473,6 +472,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           variant={variant}
           setZoomState={setZoom}
           setCenterState={setCenter}
+          zoom={zoom}
         />
 
         {userLocation && (
@@ -509,7 +509,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {selectedStore && !isMobile && variant !== "hero" && (
         <div className="absolute inset-x-0 bottom-8 z-[1000] pointer-events-none" style={{ top: '88px' }}>
           <div className="boutique-width mx-auto h-full">
-            <div className="flex h-full items-start pl-4 sm:pl-6 lg:pl-8 animate-in slide-in-from-left-4 fade-in duration-300">
+            <div className="flex h-full items-start pl-0 animate-in slide-in-from-left-4 fade-in duration-300">
               <div className="pointer-events-auto">
                 <StoreCard
                   key={selectedStore.id}
@@ -537,9 +537,9 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {variant !== "hero" && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className="boutique-width mx-auto h-full relative">
-            <div className="absolute right-[22.8px] md:right-[38px] lg:right-[60.8px] min-[1280px]:max-[1669px]:right-[clamp(68.4px,4.75vw,87.4px)] min-[1670px]:right-[clamp(49.4px,3.42vw,68.4px)] top-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pointer-events-none">
+            <div className="absolute right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem] top-4 pt-2 flex flex-row items-center pointer-events-none">
               <TooltipProvider delayDuration={120}>
-                <div className="flex flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#0A2540]/15 overflow-hidden pointer-events-auto">
+                <div className="flex flex-row items-center bg-[#E5E7EB]/90 backdrop-blur-xl shadow-[0_8px_30px_rgba(10,37,64,0.12)] rounded-full border border-[#D1D5DB] overflow-hidden pointer-events-auto h-[42px] min-[1441px]:h-[46px] px-[6px]">
                   <MapControlButton
                     label="Locate me"
                     ariaLabel="Center on my location"
@@ -548,7 +548,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     <Navigation className="w-4 h-4 stroke-[2.5] fill-none" />
                   </MapControlButton>
 
-                  <div className="w-6 h-[1px] bg-zinc-100" />
+                  <div className="w-[1px] h-5 bg-[#0A2540]/10 mx-0.5" />
 
                   <MapControlButton
                     label="Zoom in"
@@ -560,7 +560,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     <Plus className="w-4 h-4 stroke-[2.5]" />
                   </MapControlButton>
 
-                  <div className="w-6 h-[1px] bg-zinc-100" />
+                  <div className="w-[1px] h-5 bg-[#0A2540]/10 mx-0.5" />
 
                   <MapControlButton
                     label="Zoom out"
@@ -572,7 +572,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     <Minus className="w-4 h-4 stroke-[2.5]" />
                   </MapControlButton>
 
-                  <div className="w-6 h-[1px] bg-zinc-100" />
+                  <div className="w-[1px] h-5 bg-[#0A2540]/10 mx-0.5" />
 
                   <MapControlButton
                     label="Zoom to all Canada"
@@ -615,12 +615,21 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 });
 
 // Custom Marker Clusterer Component
-function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHoveredLabel, variant, setZoomState, setCenterState }: any) {
+function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHoveredLabel, variant, setZoomState, setCenterState, zoom }: any) {
   const clusterer = useRef<any>(null);
-  const markers = useRef<any[]>([]);
+  const markersMap = useRef<Map<string, any>>(new globalThis.Map());
   const hasAnimatedEntrance = useRef(false);
 
-  const isDimmed = (id: string) => selectedStore !== null && selectedStore.id !== id;
+  // Keep refs for callbacks and selectedStore to avoid stale closures in event listeners
+  const callbacks = useRef({ onSelectStore, setHoveredLabel, selectedStore, variant, scale: 1 });
+
+  // 30% larger pins when zoomed out (zoom <= 5.5) on the main map page
+  const isZoomedOut = variant !== 'hero' && zoom <= 5.5;
+  const scale = isZoomedOut ? 1.3 : 1;
+
+  useEffect(() => {
+    callbacks.current = { onSelectStore, setHoveredLabel, selectedStore, variant, scale };
+  }, [onSelectStore, setHoveredLabel, selectedStore, variant, scale]);
 
   // Custom Renderer for a premium, clean look
   const renderer = useMemo(() => ({
@@ -630,22 +639,22 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       
       const marker = new (window as any).google.maps.Marker({
         position,
-        icon: buildMarkerIcon(svg, "cluster"),
+        icon: buildMarkerIcon(svg, "cluster", scale),
         label: "",
       });
 
       marker.addListener('mouseover', (e: any) => {
-        if (selectedStore) return;
-        setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
+        if (callbacks.current.selectedStore) return;
+        callbacks.current.setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
       marker.addListener('mouseout', () => {
-        setHoveredLabel(null);
+        callbacks.current.setHoveredLabel(null);
       });
 
       return marker;
     }
-  }), [selectedStore, setHoveredLabel, variant]);
+  }), [scale]);
 
   useEffect(() => {
     if (!map) return;
@@ -654,7 +663,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         map,
         renderer,
         onClusterClick: (...args: any[]) => {
-          if (variant === 'hero') return false;
+          if (callbacks.current.variant === 'hero') return false;
           
           // Detect if we're using v2+ (single object with {event, cluster, map}) or v1 (event, cluster, map)
           const isV2 = args[0] && !!args[0].cluster && !!args[0].map;
@@ -675,73 +684,89 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
           return false; // Crucial for MarkerClusterer v2 to prevent its default fitBounds
         }
       });
+    } else if (clusterer.current) {
+      clusterer.current.setRenderer(renderer);
+      clusterer.current.repaint();
     }
-  }, [map, renderer, setZoomState, setCenterState, variant]);
+  }, [map, renderer, setZoomState, setCenterState]);
 
-
+  // Handle marker creation based ONLY on stores array changing
   useEffect(() => {
     if (!clusterer.current || !map) return;
 
     // Remove old markers
-    markers.current.forEach(m => m.setMap(null));
+    Array.from(markersMap.current.values()).forEach((m: any) => m.setMap(null));
     clusterer.current.clearMarkers();
+    markersMap.current.clear();
 
-    // Create new markers
-    const newMarkers = stores
+    const newMarkers: any[] = [];
+    
+    stores
       .filter((store: Store) => canRenderStoreMarker(store))
-      .map((store: Store, index: number) => {
+      .forEach((store: Store) => {
+        const { selectedStore, variant, scale } = callbacks.current;
         const isSelected = selectedStore?.id === store.id;
-        const dimmed = isDimmed(store.id);
-        const defaultVariant: "default" | "selected" = isSelected ? "selected" : "default";
+        const dimmed = selectedStore !== null && selectedStore.id !== store.id;
+        const defaultVariant = isSelected ? "selected" : "default";
+        
         const defaultSvg = getBrandedMapPinSvg({
           variant: defaultVariant,
           dimmed: dimmed && !isSelected,
         });
-        const hoverSvg = getBrandedMapPinSvg({
-          variant: "hover",
-          dimmed: false,
-        });
-        const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant);
-        const hoverIcon = buildMarkerIcon(hoverSvg, "hover");
+        const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant, scale);
 
         const marker = new (window as any).google.maps.Marker({
-          position: { lat: store.coordinates[0], lng: store.coordinates[1] },
+          position: { lat: store.coordinates![0], lng: store.coordinates![1] },
           icon: defaultIcon,
           zIndex: isSelected ? 1000 : dimmed ? 10 : 100,
-          // No animation — we handle the staggered reveal ourselves for buttery-smooth entrance
           animation: null,
           opacity: (!hasAnimatedEntrance.current && variant === 'hero') ? 0 : 1,
         });
 
         marker.addListener('click', () => {
-          if (variant === 'hero') return;
-          setHoveredLabel(null);
-          onSelectStore(store);
+          if (callbacks.current.variant === 'hero') return;
+          callbacks.current.setHoveredLabel(null);
+          callbacks.current.onSelectStore(store);
         });
         
         marker.addListener('mouseover', (e: any) => {
-          if (selectedStore) return;
+          if (callbacks.current.selectedStore) return;
 
-          if (!isSelected) {
+          const isCurrentlySelected = callbacks.current.selectedStore?.id === store.id;
+          if (!isCurrentlySelected) {
+            const hoverSvg = getBrandedMapPinSvg({
+              variant: "hover",
+              dimmed: false,
+            });
+            const hoverIcon = buildMarkerIcon(hoverSvg, "hover", callbacks.current.scale);
             marker.setIcon(hoverIcon);
           }
           marker.setZIndex(1000);
-          setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
+          callbacks.current.setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
         });
 
         marker.addListener('mouseout', () => {
-          marker.setIcon(defaultIcon);
-          marker.setZIndex(isSelected ? 1000 : dimmed ? 10 : 100);
-          setHoveredLabel(null);
+          const isCurrentlySelected = callbacks.current.selectedStore?.id === store.id;
+          const isCurrentlyDimmed = callbacks.current.selectedStore !== null && callbacks.current.selectedStore.id !== store.id;
+          
+          const restoreVariant = isCurrentlySelected ? "selected" : "default";
+          const restoreSvg = getBrandedMapPinSvg({
+            variant: restoreVariant,
+            dimmed: isCurrentlyDimmed && !isCurrentlySelected,
+          });
+          const restoreIcon = buildMarkerIcon(restoreSvg, restoreVariant, callbacks.current.scale);
+          
+          marker.setIcon(restoreIcon);
+          marker.setZIndex(isCurrentlySelected ? 1000 : isCurrentlyDimmed ? 10 : 100);
+          callbacks.current.setHoveredLabel(null);
         });
 
-        return marker;
+        markersMap.current.set(store.id, marker);
+        newMarkers.push(marker);
       });
 
-    markers.current = newMarkers;
-
-    // Staggered fade-in arrival for hero variant — 60ms cascade via rAF batching
-    if (!hasAnimatedEntrance.current && variant === 'hero') {
+    // Staggered fade-in arrival for hero variant
+    if (!hasAnimatedEntrance.current && callbacks.current.variant === 'hero') {
       const STAGGER_MS = 60;
       newMarkers.forEach((marker, i) => {
         const delay = i * STAGGER_MS;
@@ -758,11 +783,31 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
     }
 
     return () => {
-      // Don't clear on every render if we want to preserve status, but we must for stores changes
       if (clusterer.current) clusterer.current.clearMarkers();
-      markers.current.forEach(m => m.setMap(null));
+      Array.from(markersMap.current.values()).forEach((m: any) => m.setMap(null));
+      markersMap.current.clear();
     };
-  }, [stores, map, selectedStore, onSelectStore, setHoveredLabel, variant]);
+  }, [stores, map]);
+
+  // Handle marker styling when selectedStore or scale changes without recreating markers
+  useEffect(() => {
+    if (markersMap.current.size === 0) return;
+    
+    markersMap.current.forEach((marker, storeId) => {
+      const isSelected = selectedStore?.id === storeId;
+      const dimmed = selectedStore !== null && selectedStore.id !== storeId;
+      
+      const defaultVariant = isSelected ? "selected" : "default";
+      const defaultSvg = getBrandedMapPinSvg({
+        variant: defaultVariant,
+        dimmed: dimmed && !isSelected,
+      });
+      const defaultIcon = buildMarkerIcon(defaultSvg, defaultVariant, scale);
+      
+      marker.setIcon(defaultIcon);
+      marker.setZIndex(isSelected ? 1000 : dimmed ? 10 : 100);
+    });
+  }, [selectedStore, scale]);
 
   return null;
 }

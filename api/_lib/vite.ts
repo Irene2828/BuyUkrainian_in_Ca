@@ -21,10 +21,8 @@ export async function setupVite(server: Server, app: Express) {
   const mergedServerConfig = {
     ...(viteConfig.server ?? {}),
     middlewareMode: true,
-    // Disable HMR for the embedded Express+Vite dev server.
-    // The production build is healthy, but the live-reload channel in this
-    // local setup is causing repeated remounts/full reloads on localhost:3000.
-    hmr: false,
+    // Enable HMR for local development so React updates properly.
+    hmr: true,
     allowedHosts: true as const,
   };
 
@@ -40,9 +38,9 @@ export async function setupVite(server: Server, app: Express) {
     configFile: false,
     customLogger: {
       ...viteLogger,
+      // Don't crash the whole server on Vite errors — just log them.
       error: (msg, options) => {
         viteLogger.error(msg, options);
-        process.exit(1);
       },
     },
     server: serverOptions,

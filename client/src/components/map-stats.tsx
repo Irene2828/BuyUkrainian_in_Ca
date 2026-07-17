@@ -22,7 +22,7 @@ export function MapStats() {
     };
 
     return (
-        <section className="relative w-full pt-[3.3rem] md:pt-[4.4rem] pb-[6.6rem] md:pb-[8.8rem] bg-white flex flex-col justify-center items-center">
+        <section className="relative w-full pt-12 md:pt-16 pb-12 md:pb-20 bg-white flex flex-col justify-center items-center">
             <div className="content-width flex flex-col items-center">
                 <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-[6.6rem] lg:gap-x-[9.9rem] gap-y-16 md:gap-y-0">
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">

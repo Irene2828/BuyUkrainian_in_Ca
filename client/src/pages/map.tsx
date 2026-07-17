@@ -20,7 +20,6 @@ import { StoreCard } from "@/components/store-card";
 import { Store } from "@/lib/data";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
-import { CommunityImpact } from "@/components/community-impact";
 import { cn } from "@/lib/utils";
 
 const PROVINCE_TO_ABBR: Record<string, string> = {
@@ -144,10 +143,11 @@ function NewlyAddedStores() {
         </p>
         <button
           onClick={() => setAddStoreDialogOpen(true)}
-          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-full bg-[#FFD700] text-slate-950 border-none transition-all duration-300 hover:bg-[#FFC000] 2xl:h-[54px] 2xl:text-[17px] shadow-[0_4px_12px_0_rgba(255,215,0,0.18)] hover:shadow-[0_6px_16px_rgba(255,215,0,0.28)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#FFD700]/40 gap-2.5 group/cta-btn border-none mx-auto"
+          className="inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-tight rounded-none bg-white text-[#0057B7] border border-solid border-[#0057B7] transition-colors duration-300 hover:bg-[#0057B7] hover:text-white 2xl:h-[54px] 2xl:text-[17px] focus-visible:ring-2 focus-visible:ring-[#0057B7]/40 gap-2.5 group/cta-btn mx-auto"
+          style={{ border: '1px solid #0057B7' }}
         >
           <span>Add a New Store</span>
-          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:scale-110 text-slate-950" />
+          <Plus className="w-4 h-4 2xl:w-5 2xl:h-5 transition-transform duration-300 group-hover/cta-btn:scale-110 text-[#0057B7] group-hover/cta-btn:text-white" />
         </button>
       </div>
 
@@ -195,10 +195,6 @@ export default function MapPage() {
           <>
             <div className="section-reveal relative z-10 bg-transparent pt-0 pb-0">
               <NewlyAddedStores />
-            </div>
-
-            <div className="section-reveal">
-              <CommunityImpact />
             </div>
           </>
         )}

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Facebook, Instagram, Copy, Share2 } from "lucide-react";
+import { Facebook, Instagram, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }) {
     const [copied, setCopied] = useState(false);
@@ -41,32 +42,55 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
     };
 
     return (
-        <>
         <section
             id="share"
-            className="relative w-full overflow-hidden bg-white"
+            className="relative w-full overflow-hidden bg-white py-8 md:py-12"
         >
-            <div className="relative z-10 w-full pb-6 md:pb-10">
-                <div className="content-width relative pt-20 md:pt-32">
-                    {/* Brand Yellow Top Edge Divider */}
-                    <div className="absolute top-0 inset-x-0 h-[2px] bg-slate-200" aria-hidden="true" />
+            <div className="content-width flex justify-center items-center">
+                {/* Composition Container */}
+                <div className="relative w-full max-w-4xl mx-auto min-h-[400px] flex items-center justify-center">
                     
-                    <div className="max-w-3xl mx-auto w-full flex flex-col items-center text-center">
+                    {/* Background Yellow Square (Right) */}
+                    <div className="absolute top-0 right-0 w-[45%] h-[90%] bg-[#FFD700] z-0 translate-x-[10%] translate-y-[5%]" />
+
+                    {/* Main Content Block (White with Silver Grey border) */}
+                    <div 
+                        className="relative z-10 bg-white border border-solid md:border-2 w-11/12 md:w-full py-5 px-6 md:px-16 text-center flex flex-col items-center"
+                        style={{ borderColor: '#CBD5E1' }}
+                    >
+                        
                         {/* Section Eyebrow */}
-                        <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-slate-400 mb-2 antialiased">
-                            HELP GROW THE PROJECT
-                        </span>
+                        <motion.span 
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: 0, ease: "easeOut" }}
+                            className="text-[12px] uppercase tracking-[0.25em] font-bold text-slate-500 mb-2 antialiased"
+                        >
+                            SUPPORT THE PROJECT
+                        </motion.span>
 
                         {/* Section Header */}
-                        <h2 className="text-[31px] md:text-[41px] font-medium font-['Lora'] tracking-tight leading-[1.1] text-slate-950 mb-8 md:mb-10 antialiased">
-                            Share the map with your network:
-                        </h2>
- 
+                        <motion.h2 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                            className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-['Inter']"
+                        >
+                            Share the map with your network
+                        </motion.h2>
+  
                         {/* Suggested Post - Pull Quote Style with Inline Copy */}
-                        <div className="flex flex-col items-center relative w-full mb-10">
-                            {/* Pull Quote Typography */}
-                            <div className="relative max-w-3xl">
-                                <span className="text-[0.92rem] md:text-[1.2rem] italic font-['Lora'] leading-relaxed text-slate-600 tracking-tight antialiased inline">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 25 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                            className="flex flex-col items-center relative w-full mb-3"
+                        >
+                            <div className="relative max-w-2xl bg-slate-50 py-2.5 px-6 md:py-3 md:px-8 rounded-none border border-slate-200">
+                                <span className="text-base md:text-[18px] italic font-medium leading-relaxed text-slate-800 tracking-[0.02em] antialiased inline">
                                     "{shareMessage}"
                                 </span>
                                 
@@ -76,47 +100,52 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                         setCopied(true);
                                         setTimeout(() => setCopied(false), 2000);
                                     }}
-                                    className="inline-flex items-center group text-slate-400 hover:text-[#FFD700] transition-all duration-300 active:scale-95 ml-4 opacity-100"
+                                    className="inline-flex items-center group text-slate-400 hover:text-[#0057B7] transition-colors ml-4 relative"
                                     title="Copy suggested text"
                                 >
-                                    <Copy className="h-4 w-4" strokeWidth={2.5} />
+                                    <Copy className="h-5 w-5" strokeWidth={2} />
                                     
                                     {copied && (
-                                        <span className="absolute -top-6 right-0 text-[10px] font-bold uppercase tracking-widest text-[#0057B7] animate-in fade-in slide-in-from-bottom-1 duration-300">
+                                        <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-white bg-[#0057B7] px-2 py-1 shadow-md border border-white/20 animate-in fade-in duration-300">
                                             Copied
                                         </span>
                                     )}
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
  
                         {/* Social Row & Call to Action */}
-                        <div className="flex flex-col items-center w-full gap-6 mb-12">
-                            <div className="flex flex-col items-center gap-3">
-                                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased">
-                                    Post To:
-                                </span>
-                            </div>
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+                            className="flex flex-col items-center w-full gap-1"
+                        >
+                            <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased mb-0.5">
+                                Post To:
+                            </span>
+                            
                             <div className="flex items-center gap-8 md:gap-10">
                                 <button
                                     onClick={handleFacebookShare}
-                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#004494]"
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#00387b]"
                                     aria-label="Share on Facebook"
                                 >
-                                    <Facebook className="h-[26px] w-[26px]" strokeWidth={1.2} />
+                                    <Facebook className="h-[26px] w-[26px]" strokeWidth={1.5} />
                                 </button>
-
+ 
                                 <button
                                     onClick={handleInstagramShare}
-                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#004494]"
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#00387b]"
                                     aria-label="Share on Instagram"
                                 >
-                                    <Instagram className="h-[26px] w-[26px]" strokeWidth={1.2} />
+                                    <Instagram className="h-[26px] w-[26px]" strokeWidth={1.5} />
                                 </button>
-
+ 
                                 <button
                                     onClick={handleXShare}
-                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#004494]"
+                                    className="group inline-flex items-center justify-center transition-colors duration-200 text-[#0057B7] hover:text-[#00387b]"
                                     aria-label="Share on X (Twitter)"
                                 >
                                     <svg
@@ -128,24 +157,11 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     </svg>
                                 </button>
                             </div>
-
-                            {/* Centered Framing Accents - Anchoring the bottom */}
-                            <div className="relative w-full mt-12 mb-4">
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[42%] h-[3px] bg-[#0057B7] opacity-80 pointer-events-none" aria-hidden="true" />
-                                <div 
-                                    className="absolute left-1/2 -translate-x-1/2 h-[3px] bg-[#FFD700] pointer-events-none" 
-                                    style={{ 
-                                        top: 'clamp(15.3px, 1.615vw, 29.75px)',
-                                        width: '37.8%'
-                                    }} 
-                                    aria-hidden="true" 
-                                />
-                            </div>
-                        </div>
+                        </motion.div>
+ 
                     </div>
                 </div>
             </div>
         </section>
-        </>
     );
 }

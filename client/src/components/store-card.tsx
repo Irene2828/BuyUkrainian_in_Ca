@@ -95,13 +95,13 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-white/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border border-[#0A2540]/15 flex flex-col w-[calc(100vw-2rem)] md:w-[460px] xl:w-[390px] min-[1670px]:w-[480px] transition-all duration-500 pointer-events-auto",
+                    "bg-white/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-3xl border-2 border-slate-300 flex flex-col w-[calc(100vw-2rem)] md:w-[460px] xl:w-[390px] min-[1670px]:w-[480px] transition-all duration-500 pointer-events-auto",
                     "h-auto max-h-[90vh] overflow-hidden relative z-20",
                     className
                 )}
             >
                 {/* 1. Sticky Header Section */}
-                <div className="shrink-0 p-5 pb-4 min-[1670px]:p-6 min-[1670px]:pb-5 bg-white border-b border-slate-100/50 sticky top-0 z-20 flex flex-col gap-2">
+                <div className="shrink-0 p-5 pb-4 min-[1670px]:p-6 min-[1670px]:pb-5 bg-transparent border-b border-slate-200/60 sticky top-0 z-20 flex flex-col gap-2">
                     <div className="flex items-start justify-between gap-4">
                         <h2 
                             className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2"
@@ -230,14 +230,15 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 </div>
 
                 {/* 3. Action Row (Natural Fit) */}
-                <div className="shrink-0 mt-auto p-4 pb-5 min-[1670px]:p-5 bg-white border-t border-slate-100 z-20 flex flex-col gap-3">
+                <div className="shrink-0 mt-auto p-4 pb-5 min-[1670px]:p-5 bg-transparent border-t border-slate-200/60 z-20 flex flex-col gap-3">
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="bg-[#FFD700] hover:bg-[#FFEB64] flex items-center justify-center gap-2.5 text-slate-950 transition-all duration-300 w-full h-[46px] min-[1670px]:h-[50px] shrink-0 rounded-full text-[14px] xl:text-[14.5px] min-[1670px]:text-[15.5px] font-semibold tracking-tight hover:shadow-[0_4px_12px_rgba(255,215,0,0.22)] hover:scale-[1.02] active:scale-[0.98] font-['Inter'] antialiased group"
+                        className="group relative inline-flex items-center justify-center h-[46px] min-[1670px]:h-[50px] shrink-0 text-[16px] font-medium tracking-tight rounded-none bg-white text-[#0057B7] transition-all duration-300 hover:bg-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 font-['Inter'] antialiased pointer-events-auto w-full"
+                        style={{ border: '1px solid #0057B7' }}
                     >
                         <span>Get Directions</span>
-                        <CornerUpRight size={16} className="text-slate-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        <CornerUpRight size={16} className="text-[#0057B7] ml-2.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                     </button>
 
                     {/* Secondary Actions Row */}
