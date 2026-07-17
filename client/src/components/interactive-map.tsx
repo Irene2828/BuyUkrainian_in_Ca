@@ -347,27 +347,51 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       }
       setZoom(16);
       setCenter({ lat, lng });
+      if (mapRef) {
+        mapRef.setZoom(16);
+        mapRef.panTo({ lat, lng });
+      }
     },
     flyToProvince: (lat: number, lng: number, z: number) => {
       if (!isValidCoord(lat, lng)) return;
       setZoom(z);
       setCenter({ lat, lng });
+      if (mapRef) {
+        mapRef.setZoom(z);
+        mapRef.panTo({ lat, lng });
+      }
     },
     flyToLocation: (lat: number, lng: number, z: number = 16) => {
       if (!isValidCoord(lat, lng)) return;
       setZoom(z);
       setCenter({ lat, lng });
+      if (mapRef) {
+        mapRef.setZoom(z);
+        mapRef.panTo({ lat, lng });
+      }
     },
     resetView: () => {
       setZoom(INITIAL_MAP_STATE.zoom);
       setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+      if (mapRef) {
+        mapRef.setZoom(INITIAL_MAP_STATE.zoom);
+        mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+      }
     },
     zenView: () => {},
     zoomIn: () => {
-      setZoom(prev => typeof prev === 'number' ? prev + 1 : prev);
+      setZoom(prev => {
+        const next = typeof prev === 'number' ? prev + 1 : prev;
+        if (mapRef && typeof next === 'number') mapRef.setZoom(next);
+        return next;
+      });
     },
     zoomOut: () => {
-      setZoom(prev => typeof prev === 'number' ? prev - 1 : prev);
+      setZoom(prev => {
+        const next = typeof prev === 'number' ? prev - 1 : prev;
+        if (mapRef && typeof next === 'number') mapRef.setZoom(next);
+        return next;
+      });
     },
     invalidateSize: () => {
       if (mapRef) (window as any).google.maps.event.trigger(mapRef, 'resize');
@@ -413,8 +437,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
       <Map
         id="main-map"
-        center={center}
-        zoom={zoom}
+        defaultCenter={center}
+        defaultZoom={zoom}
         disableDefaultUI={true}
         gestureHandling="cooperative"
         minZoom={variant === 'hero' ? 3.5 : 4}
@@ -685,8 +709,17 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         }
       });
     } else if (clusterer.current) {
-      clusterer.current.setRenderer(renderer);
-      clusterer.current.repaint();
+      if (typeof clusterer.current.setRenderer === 'function') {
+        clusterer.current.setRenderer(renderer);
+      } else {
+        clusterer.current.renderer = renderer;
+      }
+      
+      if (typeof clusterer.current.render === 'function') {
+        clusterer.current.render();
+      } else if (typeof clusterer.current.repaint === 'function') {
+        clusterer.current.repaint();
+      }
     }
   }, [map, renderer, setZoomState, setCenterState]);
 
