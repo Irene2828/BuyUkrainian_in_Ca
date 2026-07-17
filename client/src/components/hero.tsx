@@ -132,6 +132,8 @@ export function Hero() {
 
     const h1Ref = useRef<HTMLHeadingElement>(null);
     const [blueWidth, setBlueWidth] = useState('55%');
+    const [isMapHovered, setIsMapHovered] = useState(false);
+    const [hasMapHoveredOnce, setHasMapHoveredOnce] = useState(false);
 
     useEffect(() => {
         if (!h1Ref.current) return;
@@ -175,7 +177,22 @@ export function Hero() {
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
-                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
+                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
+                                    {/* Decor Lines */}
+                                    <div className="flex flex-col gap-2 mb-[24px] pointer-events-none" aria-hidden="true">
+                                        <motion.div 
+                                            initial={{ scaleX: 0, opacity: 0 }}
+                                            animate={{ scaleX: 1, opacity: 1 }}
+                                            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                                            className="h-[1px] w-[64px] bg-[#FFD700] origin-left" 
+                                        />
+                                        <motion.div 
+                                            initial={{ scaleX: 0, opacity: 0 }}
+                                            animate={{ scaleX: 1, opacity: 1 }}
+                                            transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                            className="h-[1px] w-[24px] bg-[#FFD700] origin-left" 
+                                        />
+                                    </div>
                                     <h1
                                         ref={h1Ref}
                                         className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold"
@@ -317,7 +334,7 @@ export function Hero() {
 
                     {/* Inner wrapper for shifted map content */}
                     <div
-                        className="absolute top-0 left-0 w-full h-[140%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-38%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-36%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-34%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-32%] transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 w-full h-[170%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-38%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-36%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-34%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-32%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
 
@@ -334,14 +351,21 @@ export function Hero() {
                                     <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
                                         <motion.div
                                             initial={{ opacity: 0, scale: 1 }}
-                                            animate={{ opacity: 1, scale: 1.015 }}
+                                            animate={{ 
+                                                opacity: 1, 
+                                                scale: isMapHovered ? 1.03 : 1.015 
+                                            }}
                                             transition={{ 
-                                                duration: 10, 
-                                                ease: "easeOut",
-                                                opacity: { duration: 1.2, ease: "easeOut" }
+                                                opacity: { duration: 1.2, ease: "easeOut" },
+                                                scale: { duration: isMapHovered ? 0.6 : (hasMapHoveredOnce ? 1.2 : 10), ease: "easeOut" }
                                             }}
                                             className="w-full h-full cursor-pointer pointer-events-auto will-change-transform"
                                             onClick={() => setLocation('/map')}
+                                            onMouseEnter={() => {
+                                                setIsMapHovered(true);
+                                                setHasMapHoveredOnce(true);
+                                            }}
+                                            onMouseLeave={() => setIsMapHovered(false)}
                                         >
                                             <InteractiveMap
                                                 stores={stores}
