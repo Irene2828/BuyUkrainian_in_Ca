@@ -328,7 +328,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
           <DialogTitle className="text-[22px] font-bold text-white font-header mb-2">
             Add a store
           </DialogTitle>
-          <DialogDescription className="text-[13px] text-white/65 font-medium font-ui ms-0.5">
+          <DialogDescription className="text-[15px] text-white/65 font-medium font-ui ms-0.5">
             Help the map grow by adding stores selling Ukrainian-made products
           </DialogDescription>
         </div>
