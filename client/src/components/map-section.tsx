@@ -322,7 +322,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
               return (
                 <div
                   key={store.id}
-                    className="pt-2 pb-2 cursor-pointer transition-colors animate-in fade-in slide-in-from-bottom-2 fill-mode-both"
+                    className={cn(
+                      "p-3 cursor-pointer transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 fill-mode-both rounded-none border border-transparent",
+                      isActive && "bg-white/40 backdrop-blur-md border-[#0057B7]/25 shadow-[0_8px_32px_rgba(0,87,183,0.04)]"
+                    )}
                     style={{ animationDelay: `${(index % 12) * 30}ms` }}
                     onClick={() => handleSelectStore(store)}
                   >
