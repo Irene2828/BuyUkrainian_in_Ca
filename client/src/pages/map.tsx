@@ -73,7 +73,7 @@ function NewlyAddedStores() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
               </div>
-              <span className="text-[11.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-['Inter'] antialiased">
+              <span className="text-reveal text-[11.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-['Inter'] antialiased">
                 LATEST COMMUNITY ADDITIONS
               </span>
             </div>

@@ -32,7 +32,7 @@ export function MapStats() {
                             duration={2000}
                             className="font-['Inter'] text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
                         />
-                        <span className="text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Stores Found</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Stores Found</span>
                     </div>
 
                     {/* Diagonal Divider 1 */}
@@ -46,7 +46,7 @@ export function MapStats() {
                             delay={200}
                             className="font-['Inter'] text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
                         />
-                        <span className="text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Provinces Covered</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>Provinces Covered</span>
                     </div>
 
                     {/* Diagonal Divider 2 */}
@@ -60,7 +60,7 @@ export function MapStats() {
                             delay={400}
                             className="font-['Inter'] text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
                         />
-                        <span className="text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Products Listed</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>Products Listed</span>
                     </div>
                 </div>
             </div>
