@@ -61,27 +61,27 @@ export function CommunityImpact() {
                             className="flex flex-col items-center relative w-full mb-3"
                         >
                             <div className="relative max-w-2xl bg-white py-2.5 px-6 md:py-3 md:px-8 rounded-none">
-                                <span className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline-block" style={{ transitionDelay: "80ms" }}>
-                                    "{shareMessage}"
-                                </span>
-                                
-                                <button 
-                                    onClick={() => {
-                                        handleCopy();
-                                        setCopied(true);
-                                        setTimeout(() => setCopied(false), 2000);
-                                    }}
-                                    className="inline-flex items-center group text-slate-400 hover:text-[#0057B7] transition-all duration-300 hover:scale-[1.05] active:scale-95 ml-4 relative"
-                                    title="Copy suggested text"
-                                >
-                                    <Copy className="h-5 w-5" strokeWidth={2} />
+                                <div className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline flex flex-wrap items-center justify-center gap-x-2">
+                                    <span>"{shareMessage}"</span>
                                     
-                                    {copied && (
-                                        <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-white bg-[#0057B7] px-2 py-1 shadow-md border border-white/20 animate-in fade-in duration-300">
-                                            Copied
-                                        </span>
-                                    )}
-                                </button>
+                                    <button 
+                                        onClick={() => {
+                                            handleCopy();
+                                            setCopied(true);
+                                            setTimeout(() => setCopied(false), 2000);
+                                        }}
+                                        className="inline-flex items-center group text-slate-400 hover:text-[#0057B7] transition-all duration-300 hover:scale-[1.05] active:scale-95 relative"
+                                        title="Copy suggested text"
+                                    >
+                                        <Copy className="h-5 w-5" strokeWidth={2} />
+                                        
+                                        {copied && (
+                                            <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-white bg-[#0057B7] px-2 py-1 shadow-md border border-white/20 animate-in fade-in duration-300">
+                                                Copied
+                                            </span>
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </div>
  
