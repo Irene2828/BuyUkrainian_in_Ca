@@ -27,10 +27,10 @@ const optionalSectionEyebrowClassName =
   "text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60 font-ui";
 
 const formLabelClassName =
-  "text-[10px] font-semibold text-white/75 uppercase tracking-[0.15em] font-ui block mb-2";
+  "text-[10px] font-semibold text-white/95 uppercase tracking-[0.15em] font-ui block mb-2";
 
 const optionalFormLabelClassName =
-  "text-[10px] font-semibold text-white/55 uppercase tracking-[0.15em] font-ui block mb-2";
+  "text-[10px] font-semibold text-white/78 uppercase tracking-[0.15em] font-ui block mb-2";
 
 const formMessageClassName =
   "text-[12px] font-medium text-[#FFD700]/95";
@@ -376,7 +376,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     </FormLabel>
                     <FormControl>
                       <div className="relative group">
-                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/55 group-focus-within:text-[#FFD700] transition-colors fill-none stroke-current" strokeWidth={2} />
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/70 group-focus-within:text-white/85 transition-colors fill-none stroke-current" strokeWidth={2} />
                         <Input
                           placeholder="Search street address"
                           {...field}
