@@ -256,7 +256,7 @@ export function Hero() {
                         <div className="mt-5 grid gap-2.5 [@media(max-height:700px)]:mt-4" style={{ transform: 'translateY(12px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
-                                    <span>Explore the Map</span>
+                                    <span>Find stores near me</span>
                                     <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-1" strokeWidth={1.5} />
                                 </button>
                             </Link>
@@ -372,7 +372,7 @@ export function Hero() {
                                                 <button
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
                                                 >
-                                                    <span>Explore the Map</span>
+                                                    <span>Find stores near me</span>
                                                     <ArrowUpRight 
                                                         className="w-5 h-5 2xl:w-6 2xl:h-6 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:translate-x-1" 
                                                         strokeWidth={1.5}
@@ -614,7 +614,7 @@ function HeroVariantB({
                                 <div className="mt-5 grid gap-2.5" style={{ transform: 'translateY(12px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                         <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
-                                            <span>Explore the Map</span>
+                                            <span>Find stores near me</span>
                                             <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-1" strokeWidth={1.5} />
                                         </button>
                                     </Link>
@@ -740,7 +740,7 @@ function HeroVariantB({
                                     <div className="flex items-center gap-8 self-start md:self-end relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
                                         <Link href="/map">
                                             <button className="group/cta-btn relative inline-flex h-[46px] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
-                                                <span>Explore the Map</span>
+                                                <span>Find stores near me</span>
                                                 <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-1" strokeWidth={1.5} />
                                             </button>
                                         </Link>
