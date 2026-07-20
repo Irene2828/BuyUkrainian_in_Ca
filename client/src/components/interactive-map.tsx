@@ -695,6 +695,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
         // Projection is available after the map has laid out. Retry briefly so
         // the initial label remains anchored on first paint as well as resize.
         const showHint = (attempt = 0) => {
+          if (callbacks.current.selectedStore || (window as any).__hasInteractedWithMapPins) return;
           const screenPosition = getMapScreenPosition(map, position);
           if (screenPosition) {
             callbacks.current.setHoveredLabel({ text: countLabel, ...screenPosition });
@@ -706,6 +707,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       }
 
       marker.addListener('mouseover', (e: any) => {
+        (window as any).__hasInteractedWithMapPins = true;
         if (callbacks.current.selectedStore) return;
         marker.setIcon(buildMarkerIcon(hoverSvg, "cluster", callbacks.current.scale));
         marker.setZIndex(1000);
@@ -811,7 +813,8 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
           callbacks.current.onSelectStore(store);
         });
         
-        marker.addListener('mouseover', (e: any) => {
+         marker.addListener('mouseover', (e: any) => {
+          (window as any).__hasInteractedWithMapPins = true;
           if (callbacks.current.selectedStore) return;
 
           const isCurrentlySelected = callbacks.current.selectedStore?.id === store.id;
