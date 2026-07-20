@@ -331,8 +331,8 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                       <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
                         {store.name}
                       </h3>
-                      {/* Short horizontal blue line under the name */}
-                      <div className="h-[2px] w-6 bg-[#0057B7] mt-1" />
+                      {/* Short horizontal line under the name: brand blue when active, brand yellow by default */}
+                      <div className={cn("h-[2px] w-6 mt-1 transition-colors duration-300", isActive ? "bg-[#0057B7]" : "bg-[#FFD700]")} />
                     </div>
                     <p className="text-slate-600 text-[13px] mt-1.5">
                       {store.city}, {store.province}
