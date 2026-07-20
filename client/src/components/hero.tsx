@@ -70,21 +70,21 @@ export function Hero() {
         {
             title: "Local support of Ukraine's economy",
             detail: "every purchase goes directly to Ukrainian makers",
-            accentClass: "border-[#FFD700]",
+            accentClass: "border-[#0057B7]/70",
             surfaceClass: "bg-[#EFF6FF]/70",
             dotClass: "bg-[#0057B7]",
         },
         {
             title: "Volunteer-Verified Listings",
             detail: "every listing is reviewed before it appears on the map",
-            accentClass: "border-[#0057B7]",
+            accentClass: "border-[#0057B7]/70",
             surfaceClass: "bg-[#FFFBEB]/80",
             dotClass: "bg-[#FFD700]",
         },
         {
             title: "Updated Regularly",
             detail: "real people, real stores, real Ukrainian products",
-            accentClass: "border-[#FFD700]",
+            accentClass: "border-[#0057B7]/70",
             surfaceClass: "bg-[#EFF6FF]/70",
             dotClass: "bg-[#0057B7]",
         },
@@ -156,35 +156,7 @@ export function Hero() {
     }, [heroVariant, setHeroVariantInUrl]);
 
     const h1Ref = useRef<HTMLHeadingElement>(null);
-    const [blueWidth, setBlueWidth] = useState('55%');
-
-    useEffect(() => {
-        if (!h1Ref.current) return;
-
-        const updateWidth = () => {
-            if (h1Ref.current) {
-                const rect = h1Ref.current.getBoundingClientRect();
-                // Keep the headline-centered math, then let the blue panel breathe slightly into the map.
-                const requiredWidth = (rect.left * 2) + rect.width + (window.innerWidth * 0.015);
-                setBlueWidth(`${requiredWidth}px`);
-            }
-        };
-
-        const observer = new ResizeObserver(() => {
-            updateWidth();
-        });
-        
-        observer.observe(h1Ref.current);
-        window.addEventListener('resize', updateWidth);
-        
-        // Initial measurement
-        updateWidth();
-
-        return () => {
-            observer.disconnect();
-            window.removeEventListener('resize', updateWidth);
-        };
-    }, []);
+    const blueWidth = '63%';
 
     const handleHowItWorksClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -208,8 +180,8 @@ export function Hero() {
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
         >
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(255,255,255,0.26)_0%,rgba(255,255,255,0.18)_48%,rgba(0,87,183,0.18)_68%,rgba(0,87,183,0.14)_100%)] md:block" aria-hidden="true" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.16)_48%,rgba(0,87,183,0.2)_68%,rgba(0,87,183,0.16)_100%)] md:block" aria-hidden="true" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.16)_0%,rgba(0,87,183,0.2)_32%,rgba(255,255,255,0.16)_52%,rgba(255,255,255,0.24)_100%)] md:block" aria-hidden="true" />
             <div className="md:hidden relative w-full overflow-hidden bg-white font-['Inter']">
                 <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-6 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-5">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
@@ -313,18 +285,18 @@ export function Hero() {
                     )}
                 </Link>
             </div>
-            <div className="hidden md:block absolute top-0 left-0 bottom-[4rem] bg-[#0057B7] z-[25]" style={{ width: blueWidth, transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-            <div className="hidden md:block absolute top-0 right-0 w-full bottom-[4rem] bg-white z-[-2]" />
+            <div className="hidden md:block absolute top-0 right-0 bottom-[4rem] bg-[#0057B7] z-[25]" style={{ width: blueWidth, transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+            <div className="hidden md:block absolute top-0 left-0 w-full bottom-[4rem] bg-white z-[-2]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
-                <div className="w-full">
+                <div className="w-full flex justify-start pl-[38%]">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
-                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
+                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[28px] lg:ml-[36px] xl:ml-[42px]">
                                     <div className="mb-[24px] h-[10px] pointer-events-none" aria-hidden="true" />
                                     <h1
                                         ref={h1Ref}
-                                        className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold"
+                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold text-left"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
@@ -343,7 +315,7 @@ export function Hero() {
                                         </span>
                                         <div className="md:ml-0">
                                             <span 
-                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] tracking-[-0.02em] mb-2 whitespace-nowrap text-transparent"
+                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[3.82rem] tracking-[-0.02em] mb-2 whitespace-nowrap text-transparent"
                                                 style={{ 
                                                     backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                     backgroundSize: '120%',
@@ -362,13 +334,13 @@ export function Hero() {
                                     </h1>
                                     
                                     {/* Subline and CTA Wrapper */}
-                                    <div className="flex flex-col items-start self-start w-full mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.8rem] lg:text-[2.34rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
+                                    <div className="flex w-full flex-col items-end self-start mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 gap-4">
+                                        <span className="relative z-10 flex items-center self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.8rem] lg:text-[2.34rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
                                             sold across Canada 
                                             <img src={mapleLeafIcon} alt="" className="inline-block w-[1.6em] h-[1.6em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                                         </span>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-start md:self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
-                                            <Link href="/map" className="w-full md:w-auto self-start">
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
+                                            <Link href="/map" className="w-full md:w-auto self-end">
                                                 <button
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
                                                 >
@@ -419,33 +391,41 @@ export function Hero() {
             </div>
             </div>
 
-            <div className="hidden md:block absolute top-0 right-0 w-[50%] bottom-[4rem] z-20 select-none overflow-hidden border-none outline-none">
+            <div className="hidden md:block absolute top-0 left-0 w-[50%] bottom-[4rem] z-20 select-none overflow-hidden border-none outline-none">
                 <div
                     className="w-full h-full group/map-peeking border-none outline-none relative"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                     style={{ 
-                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)',
-                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)' 
+                        maskImage: 'linear-gradient(to left, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)',
+                        WebkitMaskImage: 'linear-gradient(to left, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)' 
                     }}
                 >
+                    <div
+                        className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(90deg,rgba(0,87,183,0.18)_0%,rgba(0,87,183,0.12)_46%,rgba(0,87,183,0.22)_100%)] mix-blend-multiply"
+                        aria-hidden="true"
+                    />
+                    <div
+                        className="pointer-events-none absolute bottom-0 left-0 z-[76] h-[34%] w-[58%] bg-[radial-gradient(ellipse_90%_80%_at_0%_100%,rgba(255,255,255,0.28)_0%,rgba(255,255,255,0.12)_38%,rgba(255,255,255,0)_72%)]"
+                        aria-hidden="true"
+                    />
                     {/* Fixed Viewport Overlays - Water Color Bridge to White Header */}
                     <div className="absolute top-0 inset-x-0 h-[78px] md:h-[72px] xl:h-[64px] bg-gradient-to-b from-[#c8dff0]/95 via-[#c8dff0]/58 to-transparent xl:from-[#c8dff0]/68 xl:via-[#c8dff0]/32 pointer-events-none z-[60]" />
-                    <div className="absolute top-0 right-0 h-[48%] w-[28%] bg-[radial-gradient(ellipse_100%_90%_at_100%_0%,rgba(200,223,240,0.58)_0%,rgba(200,223,240,0.24)_45%,rgba(255,255,255,0)_78%)] pointer-events-none z-[60]" />
-                    <div className="absolute top-0 right-0 w-[78%] h-[330px] md:h-[270px] xl:h-[210px] bg-[radial-gradient(ellipse_100%_100%_at_top_right,_#c8dff0_0%,_#c8dff0_24%,_rgba(200,223,240,0.5)_40%,_transparent_64%)] xl:bg-[radial-gradient(ellipse_100%_100%_at_top_right,_rgba(200,223,240,0.62)_0%,_rgba(200,223,240,0.28)_28%,_transparent_52%)] pointer-events-none z-[70]" />
+                    <div className="absolute top-0 left-0 h-[48%] w-[28%] bg-[radial-gradient(ellipse_100%_90%_at_0%_0%,rgba(200,223,240,0.58)_0%,rgba(200,223,240,0.24)_45%,rgba(255,255,255,0)_78%)] pointer-events-none z-[60]" />
+                    <div className="absolute top-0 left-0 w-[78%] h-[330px] md:h-[270px] xl:h-[210px] bg-[radial-gradient(ellipse_100%_100%_at_top_left,_#c8dff0_0%,_#c8dff0_24%,_rgba(200,223,240,0.5)_40%,_transparent_64%)] xl:bg-[radial-gradient(ellipse_100%_100%_at_top_left,_rgba(200,223,240,0.62)_0%,_rgba(200,223,240,0.28)_28%,_transparent_52%)] pointer-events-none z-[70]" />
                     <div
-                        className="absolute left-0 top-0 h-[58%] w-[46%] bg-[linear-gradient(90deg,rgba(0,87,183,0.6)_0%,rgba(0,87,183,0.32)_34%,rgba(73,143,203,0.14)_62%,rgba(255,255,255,0)_100%)] mix-blend-multiply pointer-events-none z-[66]"
+                        className="absolute right-0 top-0 h-[58%] w-[46%] bg-[linear-gradient(270deg,rgba(0,87,183,0.6)_0%,rgba(0,87,183,0.32)_34%,rgba(73,143,203,0.14)_62%,rgba(255,255,255,0)_100%)] mix-blend-multiply pointer-events-none z-[66]"
                         style={{
                             maskImage: 'linear-gradient(to bottom, black 0%, black 46%, rgba(0,0,0,0.54) 68%, transparent 100%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 46%, rgba(0,0,0,0.54) 68%, transparent 100%)'
                         }}
                     />
-                    <div className="absolute left-0 top-0 h-[62%] w-[54%] bg-[radial-gradient(ellipse_86%_72%_at_0%_22%,rgba(0,87,183,0.22)_0%,rgba(0,87,183,0.12)_44%,rgba(200,223,240,0.06)_66%,rgba(255,255,255,0)_100%)] pointer-events-none z-[67]" />
-                    <div className="absolute top-0 left-0 h-[170px] w-[72%] bg-[radial-gradient(ellipse_90%_120%_at_0%_0%,rgba(200,223,240,0.22)_0%,rgba(200,223,240,0.1)_38%,rgba(255,255,255,0)_74%)] pointer-events-none z-[68]" />
-                    <div className="absolute top-0 right-0 h-[170px] w-[76%] bg-[radial-gradient(ellipse_95%_120%_at_100%_0%,rgba(237,247,253,0.48)_0%,rgba(200,223,240,0.18)_42%,rgba(255,255,255,0)_78%)] pointer-events-none z-[69]" />
+                    <div className="absolute right-0 top-0 h-[62%] w-[54%] bg-[radial-gradient(ellipse_86%_72%_at_100%_22%,rgba(0,87,183,0.22)_0%,rgba(0,87,183,0.12)_44%,rgba(200,223,240,0.06)_66%,rgba(255,255,255,0)_100%)] pointer-events-none z-[67]" />
+                    <div className="absolute top-0 right-0 h-[170px] w-[72%] bg-[radial-gradient(ellipse_90%_120%_at_100%_0%,rgba(200,223,240,0.22)_0%,rgba(200,223,240,0.1)_38%,rgba(255,255,255,0)_74%)] pointer-events-none z-[68]" />
+                    <div className="absolute top-0 left-0 h-[170px] w-[76%] bg-[radial-gradient(ellipse_95%_120%_at_0%_0%,rgba(237,247,253,0.48)_0%,rgba(200,223,240,0.18)_42%,rgba(255,255,255,0)_78%)] pointer-events-none z-[69]" />
 
                     {/* Inner wrapper for shifted map content */}
                     <div
-                        className="absolute top-0 left-0 w-full h-[170%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-44%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-42%] min-[1280px]:scale-[1.15] min-[1280px]:translate-x-[6%] min-[1280px]:translate-y-[-40%] transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 w-full h-[170%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[-8%] md:translate-y-[-44%] lg:scale-[1.11] lg:translate-x-[-14%] lg:translate-y-[-42%] min-[1280px]:scale-[1.15] min-[1280px]:translate-x-[-6%] min-[1280px]:translate-y-[-40%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
 
@@ -493,21 +473,21 @@ export function Hero() {
                 </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to Macro-Grid Right Boundary */}
-            <div className="hidden lg:flex pointer-events-none absolute inset-x-0 top-[9%] z-30">
+            <div className="hidden lg:flex pointer-events-none absolute inset-x-0 top-[9%] z-[90]">
                 <div className="boutique-width w-full mx-auto">
                     <div className="w-full">
-                        <div className="flex h-full flex-col items-end gap-2">
+                        <div className="flex h-full flex-col items-start gap-2">
                         {trustPillars.map((pillar) => (
                             <div
                                 key={pillar.title}
                                 className={cn(
-                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 border-r-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/20 backdrop-blur-md rounded-none",
+                                    "group isolate flex flex-col items-start overflow-hidden px-[22px] py-2.5 border-l-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-left w-fit bg-white/50 backdrop-blur-md rounded-none",
                                     pillar.accentClass,
                                     "max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]"
                                 )}
                             >
-                                <div className="flex items-center justify-end gap-3 text-right">
-                                    <span className="shrink-0 text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/80 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
+                                <div className="flex items-center justify-start gap-3 text-left">
+                                    <span className="shrink-0 text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
                                         {pillar.title}
                                     </span>
                                 </div>
@@ -712,7 +692,7 @@ function HeroVariantB({
                                         pillar.accentClass
                                     )}
                                 >
-                                    <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0057B7] antialiased">
+                                    <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0057B7]/70 antialiased">
                                         {pillar.title}
                                     </span>
                                 </div>

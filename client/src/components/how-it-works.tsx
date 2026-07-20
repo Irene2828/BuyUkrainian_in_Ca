@@ -21,7 +21,7 @@ export function HowItWorks() {
 
   return (
     <section id="how-it-works" className="font-sans overflow-hidden bg-white">
-      <div className="w-full flex flex-col md:flex-row">
+      <div className="w-full flex flex-col md:flex-row-reverse">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
         <div className="w-full md:w-[38%] bg-[#FFD700] p-8 md:p-16 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
