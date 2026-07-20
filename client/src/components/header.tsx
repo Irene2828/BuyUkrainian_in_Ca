@@ -76,7 +76,7 @@ export function Header() {
         <div className="flex-1 flex items-center justify-start gap-2">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
             {/* Branding Text with Oval Frame */}
-            <div className="relative flex flex-col justify-center gap-[1.5px] px-[18px] py-[9px] select-none">
+            <div className="relative flex flex-col justify-center gap-[1.5px] px-[18px] py-[9px] min-[1670px]:px-[20px] min-[1670px]:py-[10px] select-none">
               {/* Split-color Oval Stroke Frame */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none p-[1.5px]" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -90,16 +90,16 @@ export function Header() {
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#0057B7" strokeWidth="1.5" fill="none" clipPath="url(#clip-top)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#FFD700" strokeWidth="1.5" fill="none" clipPath="url(#clip-bottom)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
               </svg>
-              <span className="text-[11.7px] md:text-[12.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] min-[1670px]:text-[13.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 Buy Ukrainian
               </span>
-              <span className="text-[11.7px] md:text-[12.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] min-[1670px]:text-[13.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 in Canada
               </span>
             </div>
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
-          <span className="hidden lg:block text-[12px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-['Inter']">
+          <span className="hidden lg:block text-[12px] min-[1670px]:text-[13px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-['Inter']">
             Volunteer initiative to support Ukraine from Canada
           </span>
         </div>
