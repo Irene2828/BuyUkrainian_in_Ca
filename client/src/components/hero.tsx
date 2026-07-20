@@ -177,7 +177,6 @@ export function Hero() {
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:max-[1440px]:min-h-[calc(100svh-73px)] md:max-[1440px]:pt-[5vh] md:max-[1440px]:pb-[5vh] min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
         >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.16)_0%,rgba(0,87,183,0.2)_32%,rgba(255,255,255,0.16)_52%,rgba(255,255,255,0.24)_100%)] md:block" aria-hidden="true" />
 
             <div className="md:hidden relative w-full overflow-hidden bg-white font-['Inter']">
                 <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-6 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-5">
@@ -279,7 +278,7 @@ export function Hero() {
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
-                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh]">
+                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] max-[1670px]:translate-y-[3vh]">
                                     <h1
                                         ref={h1Ref}
                                         className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] min-[1670px]:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-right"
@@ -375,7 +374,7 @@ export function Hero() {
             </div>
             </div>
 
-            <div className="hidden md:block absolute right-[28px] top-[44%] h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
+            <div className="hidden md:block absolute right-[28px] top-[44%] max-[1670px]:top-[50%] h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
                 <div
                     className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
                     aria-label="Interactive map of Ukrainian stores in Canada"
@@ -443,7 +442,7 @@ export function Hero() {
                 </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
-            <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(44%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
+            <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(44%-29%+24px)] max-[1670px]:top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
                 <div className="w-full">
                     <div className="w-full">
                         <div className="flex h-full flex-col items-end gap-2 pr-6">
