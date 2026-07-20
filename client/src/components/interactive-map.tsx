@@ -23,8 +23,8 @@ export interface InteractiveMapRef {
 const FULL_MAP_INITIAL_CENTER: [number, number] = [52.5, -95.0];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 const HERO_INITIAL_MAP_STATE = {
-  center: { lat: 52.5, lng: -108.0 },
-  zoom: 4.1,
+  center: { lat: 50.25, lng: -119.4 },
+  zoom: 4.75,
 };
 const MAX_CLUSTER_FOCUS_ZOOM = 12;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
@@ -369,7 +369,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
     setZoom(HERO_INITIAL_MAP_STATE.zoom);
     setCenter(HERO_INITIAL_MAP_STATE.center);
-  }, [variant]);
+    if (mapRef) {
+      mapRef.setZoom(HERO_INITIAL_MAP_STATE.zoom);
+      mapRef.panTo(HERO_INITIAL_MAP_STATE.center);
+    }
+  }, [mapRef, variant]);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {

@@ -156,7 +156,6 @@ export function Hero() {
     }, [heroVariant, setHeroVariantInUrl]);
 
     const h1Ref = useRef<HTMLHeadingElement>(null);
-    const blueWidth = '63%';
 
     const handleHowItWorksClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -176,7 +175,7 @@ export function Hero() {
 
     return (
         <>
-                <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] bg-[#0057B7] md:bg-transparent justify-between relative">
+                <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] bg-white justify-between relative">
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
         >
@@ -285,22 +284,21 @@ export function Hero() {
                     )}
                 </Link>
             </div>
-            <div className="hidden md:block absolute top-0 right-0 bottom-[4rem] bg-[#0057B7] z-[25]" style={{ width: blueWidth, transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
-            <div className="hidden md:block absolute top-0 left-0 w-full bottom-[4rem] bg-white z-[-2]" />
+            <div className="hidden md:block absolute inset-x-0 top-0 bottom-[4rem] bg-[#0057B7] z-[25]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
-                <div className="w-full flex justify-start pl-[38%]">
+                <div className="w-full flex justify-start pl-[43%] min-[1440px]:pl-[42%]">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
-                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[28px] lg:ml-[36px] xl:ml-[42px]">
+                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[28px] lg:ml-[36px] xl:ml-[42px]">
                                     <div className="mb-[24px] h-[10px] pointer-events-none" aria-hidden="true" />
                                     <h1
                                         ref={h1Ref}
-                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.95] md:leading-[0.95] min-[1670px]:leading-[0.95] antialiased mb-6 md:mb-10 text-white uppercase font-bold text-left"
+                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] min-[1670px]:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-right"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
-                                            className="block font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] tracking-[-0.02em] mb-0 text-transparent"
+                                            className="block w-full text-left font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.02em] mb-0 text-transparent"
                                             style={{ 
                                                 backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                 backgroundSize: '120%',
@@ -313,9 +311,9 @@ export function Hero() {
                                         >
                                             DISCOVER
                                         </span>
-                                        <div className="md:ml-0">
+                                        <div className="md:ml-0 flex w-full justify-end">
                                             <span 
-                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[3.82rem] tracking-[-0.02em] mb-2 whitespace-nowrap text-transparent"
+                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.02em] mb-1 whitespace-nowrap text-transparent"
                                                 style={{ 
                                                     backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                     backgroundSize: '120%',
@@ -327,19 +325,19 @@ export function Hero() {
                                                 }}
                                             >
                                                 UKRAINIAN PRODUCTS
-                                                <span className="pointer-events-none absolute left-0 bottom-[7px] h-[2px] w-[92%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                                <span className="pointer-events-none absolute left-[4%] bottom-[2px] h-px w-[54%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
+                                                <span className="pointer-events-none absolute left-0 bottom-[11px] h-[2px] w-[92%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
+                                                <span className="pointer-events-none absolute left-[4%] bottom-[7px] h-px w-[54%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
                                             </span>
                                         </div>
                                     </h1>
                                     
                                     {/* Subline and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-end self-start mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.8rem] lg:text-[2.34rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
+                                    <div className="flex w-full flex-col items-end self-end mt-[-2.2rem] md:mt-[-3.25rem] mb-6 md:mb-10 gap-4">
+                                        <span className="relative z-10 flex items-center self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.71rem] lg:text-[2.22rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
                                             sold across Canada 
                                             <img src={mapleLeafIcon} alt="" className="inline-block w-[1.6em] h-[1.6em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                                         </span>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(3vh)' }}>
                                             <Link href="/map" className="w-full md:w-auto self-end">
                                                 <button
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
@@ -391,41 +389,23 @@ export function Hero() {
             </div>
             </div>
 
-            <div className="hidden md:block absolute top-0 left-0 w-[50%] bottom-[4rem] z-20 select-none overflow-hidden border-none outline-none">
+            <div className="hidden md:block absolute left-[28px] top-[44%] h-[58%] w-[42%] min-[1440px]:left-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none overflow-hidden border-none outline-none bg-white">
                 <div
                     className="w-full h-full group/map-peeking border-none outline-none relative"
                     aria-label="Interactive map of Ukrainian stores in Canada"
-                    style={{ 
-                        maskImage: 'linear-gradient(to left, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)',
-                        WebkitMaskImage: 'linear-gradient(to left, transparent 0%, rgba(0,0,0,0.01) 8%, rgba(0,0,0,0.27) 18%, rgba(0,0,0,0.77) 32%, black 50%, black 100%)' 
-                    }}
                 >
                     <div
-                        className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(90deg,rgba(0,87,183,0.18)_0%,rgba(0,87,183,0.12)_46%,rgba(0,87,183,0.22)_100%)] mix-blend-multiply"
+                        className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(90deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0)_42%,rgba(0,87,183,0.08)_100%)]"
                         aria-hidden="true"
                     />
                     <div
-                        className="pointer-events-none absolute bottom-0 left-0 z-[76] h-[34%] w-[58%] bg-[radial-gradient(ellipse_90%_80%_at_0%_100%,rgba(255,255,255,0.28)_0%,rgba(255,255,255,0.12)_38%,rgba(255,255,255,0)_72%)]"
+                        className="pointer-events-none absolute inset-0 z-[80] shadow-[inset_0_0_34px_rgba(255,255,255,0.92),inset_0_0_0_1px_rgba(255,255,255,0.46)]"
                         aria-hidden="true"
                     />
-                    {/* Fixed Viewport Overlays - Water Color Bridge to White Header */}
-                    <div className="absolute top-0 inset-x-0 h-[78px] md:h-[72px] xl:h-[64px] bg-gradient-to-b from-[#c8dff0]/95 via-[#c8dff0]/58 to-transparent xl:from-[#c8dff0]/68 xl:via-[#c8dff0]/32 pointer-events-none z-[60]" />
-                    <div className="absolute top-0 left-0 h-[48%] w-[28%] bg-[radial-gradient(ellipse_100%_90%_at_0%_0%,rgba(200,223,240,0.58)_0%,rgba(200,223,240,0.24)_45%,rgba(255,255,255,0)_78%)] pointer-events-none z-[60]" />
-                    <div className="absolute top-0 left-0 w-[78%] h-[330px] md:h-[270px] xl:h-[210px] bg-[radial-gradient(ellipse_100%_100%_at_top_left,_#c8dff0_0%,_#c8dff0_24%,_rgba(200,223,240,0.5)_40%,_transparent_64%)] xl:bg-[radial-gradient(ellipse_100%_100%_at_top_left,_rgba(200,223,240,0.62)_0%,_rgba(200,223,240,0.28)_28%,_transparent_52%)] pointer-events-none z-[70]" />
-                    <div
-                        className="absolute right-0 top-0 h-[58%] w-[46%] bg-[linear-gradient(270deg,rgba(0,87,183,0.6)_0%,rgba(0,87,183,0.32)_34%,rgba(73,143,203,0.14)_62%,rgba(255,255,255,0)_100%)] mix-blend-multiply pointer-events-none z-[66]"
-                        style={{
-                            maskImage: 'linear-gradient(to bottom, black 0%, black 46%, rgba(0,0,0,0.54) 68%, transparent 100%)',
-                            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 46%, rgba(0,0,0,0.54) 68%, transparent 100%)'
-                        }}
-                    />
-                    <div className="absolute right-0 top-0 h-[62%] w-[54%] bg-[radial-gradient(ellipse_86%_72%_at_100%_22%,rgba(0,87,183,0.22)_0%,rgba(0,87,183,0.12)_44%,rgba(200,223,240,0.06)_66%,rgba(255,255,255,0)_100%)] pointer-events-none z-[67]" />
-                    <div className="absolute top-0 right-0 h-[170px] w-[72%] bg-[radial-gradient(ellipse_90%_120%_at_100%_0%,rgba(200,223,240,0.22)_0%,rgba(200,223,240,0.1)_38%,rgba(255,255,255,0)_74%)] pointer-events-none z-[68]" />
-                    <div className="absolute top-0 left-0 h-[170px] w-[76%] bg-[radial-gradient(ellipse_95%_120%_at_0%_0%,rgba(237,247,253,0.48)_0%,rgba(200,223,240,0.18)_42%,rgba(255,255,255,0)_78%)] pointer-events-none z-[69]" />
 
                     {/* Inner wrapper for shifted map content */}
                     <div
-                        className="absolute top-0 left-0 w-full h-[170%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[-8%] md:translate-y-[-44%] lg:scale-[1.11] lg:translate-x-[-14%] lg:translate-y-[-42%] min-[1280px]:scale-[1.15] min-[1280px]:translate-x-[-6%] min-[1280px]:translate-y-[-40%] transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-5%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-31%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-30%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-29%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
 
@@ -473,10 +453,10 @@ export function Hero() {
                 </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to Macro-Grid Right Boundary */}
-            <div className="hidden lg:flex pointer-events-none absolute inset-x-0 top-[9%] z-[90]">
+            <div className="hidden lg:flex pointer-events-none absolute inset-x-0 top-[19%] z-[90]">
                 <div className="boutique-width w-full mx-auto">
                     <div className="w-full">
-                        <div className="flex h-full flex-col items-start gap-2">
+                        <div className="flex h-full flex-col items-start gap-2 translate-x-[2%]">
                         {trustPillars.map((pillar) => (
                             <div
                                 key={pillar.title}
@@ -505,7 +485,7 @@ export function Hero() {
 
 
         {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative" style={HERO_TICKER_LIFT_STYLE}>
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white" style={HERO_TICKER_LIFT_STYLE}>
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
