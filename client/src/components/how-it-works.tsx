@@ -21,10 +21,10 @@ export function HowItWorks() {
 
   return (
     <section id="how-it-works" className="font-sans overflow-hidden bg-white">
-      <div className="w-full flex flex-col md:flex-row-reverse">
+      <div className="w-full flex flex-col md:flex-row">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
-        <div className="w-full md:w-[38%] bg-[#FFD700] p-8 md:p-16 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
+        <div className="w-full md:w-[38%] bg-[#FFD700] p-8 md:pl-16 md:pr-20 lg:pr-24 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
           {/* White Photo Frame - Centered with barely visible shadow */}
           <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative">
             <img 

@@ -40,12 +40,12 @@ export function CommunityImpact() {
                     
                     {/* Background Yellow Square (Right) */}
                     <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-end">
-                        <div className="share-slide-right h-[85%] w-[40%] translate-x-[10%] bg-[#FFD700]" />
+                        <div className="h-[85%] w-[40%] translate-x-[10%] bg-[#FFD700]" />
                     </div>
 
                     {/* Main Content Block (White with Brand Blue border) */}
                     <div 
-                        className="share-slide-left relative z-10 bg-white border border-solid w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center"
+                        className="relative z-10 bg-white border border-solid w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center transition-transform duration-300 ease-out hover:scale-[1.01]"
                         style={{ borderColor: '#0057B7' }}
                     >
                         

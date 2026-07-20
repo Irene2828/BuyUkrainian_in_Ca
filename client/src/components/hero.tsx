@@ -177,10 +177,11 @@ export function Hero() {
         <>
                 <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
-            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
+            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:max-[1440px]:pt-[5vh] md:max-[1440px]:pb-[5vh] min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
         >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
             <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.16)_0%,rgba(0,87,183,0.2)_32%,rgba(255,255,255,0.16)_52%,rgba(255,255,255,0.24)_100%)] md:block" aria-hidden="true" />
+
             <div className="md:hidden relative w-full overflow-hidden bg-white font-['Inter']">
                 <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-6 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-5">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
@@ -210,7 +211,7 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex items-center text-[clamp(1.32rem,6.2vw,1.75rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.25rem]">
+                        <div className="mt-[5px] flex items-center text-[clamp(1.386rem,6.51vw,1.8375rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.3125rem]">
                             sold across Canada
                             <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.64em] w-[1.64em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                         </div>
@@ -277,12 +278,11 @@ export function Hero() {
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-[4rem] bg-[#0057B7] z-[25]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
-                <div className="w-full flex justify-start pl-[43%] min-[1440px]:pl-[42%]">
+                <div className="w-full flex justify-start">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
-                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[28px] lg:ml-[36px] xl:ml-[42px]">
-                                    <div className="mb-[24px] h-[10px] pointer-events-none" aria-hidden="true" />
+                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh]">
                                     <h1
                                         ref={h1Ref}
                                         className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] min-[1670px]:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-right"
@@ -316,19 +316,17 @@ export function Hero() {
                                                 }}
                                             >
                                                 UKRAINIAN PRODUCTS
-                                                <span className="pointer-events-none absolute left-0 bottom-[11px] h-[2px] w-[92%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                                <span className="pointer-events-none absolute left-[4%] bottom-[7px] h-px w-[54%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
                                             </span>
                                         </div>
                                     </h1>
                                     
                                     {/* Subline and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-end self-end mt-[-2.2rem] md:mt-[-3.25rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.71rem] lg:text-[2.22rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
+                                    <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
+                                        <span className="relative z-10 flex items-center self-end font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
                                             sold across Canada 
                                             <img src={mapleLeafIcon} alt="" className="inline-block w-[1.6em] h-[1.6em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                                         </span>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(3vh)' }}>
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(2vh)' }}>
                                             <Link href="/map" className="w-full md:w-auto self-end">
                                                 <button
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
@@ -380,13 +378,13 @@ export function Hero() {
             </div>
             </div>
 
-            <div className="hidden md:block absolute left-[28px] top-[44%] h-[58%] w-[42%] min-[1440px]:left-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
+            <div className="hidden md:block absolute right-[28px] top-[44%] h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
                 <div
-                    className="w-full h-full border-none outline-none relative overflow-hidden bg-white"
+                    className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                 >
                     <div
-                        className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(90deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0)_42%,rgba(0,87,183,0.08)_100%)]"
+                        className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(135deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0.10)_38%,rgba(255,255,255,0)_58%,rgba(0,87,183,0.06)_100%)]"
                         aria-hidden="true"
                     />
                     <div
@@ -447,22 +445,22 @@ export function Hero() {
                     TAP TO EXPLORE THE MAP
                 </div>
             </div>
-            {/* Desktop Trust Pillars - Anchored to Macro-Grid Right Boundary */}
-            <div className="hidden lg:flex pointer-events-none absolute inset-x-0 top-[19%] z-[90]">
-                <div className="boutique-width w-full mx-auto">
+            {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
+            <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(44%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
+                <div className="w-full">
                     <div className="w-full">
-                        <div className="flex h-full flex-col items-start gap-2 translate-x-[2%]">
+                        <div className="flex h-full flex-col items-end gap-2 pr-6">
                         {trustPillars.map((pillar) => (
                             <div
                                 key={pillar.title}
                                 className={cn(
-                                    "group isolate flex flex-col items-start overflow-hidden px-[22px] py-2.5 border-l-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-left w-fit bg-white/50 backdrop-blur-md rounded-none",
+                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 border-r-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/50 backdrop-blur-md rounded-none",
                                     pillar.accentClass,
                                     "max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]"
                                 )}
                             >
-                                <div className="flex items-center justify-start gap-3 text-left">
-                                    <span className="shrink-0 text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
+                                <div className="flex items-center justify-end gap-3 text-right">
+                                    <span className="shrink-0 text-right text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
                                         {pillar.title}
                                     </span>
                                 </div>
@@ -547,6 +545,7 @@ function HeroVariantB({
                 <section className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden bg-white font-sans min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700">
                     <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
+
                     <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-['Inter']">
                         <div className="relative px-5 pt-7 pb-7 text-slate-700">
                             <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
@@ -557,7 +556,7 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex items-center text-[clamp(1.45rem,6.8vw,1.95rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex items-center text-[clamp(1.5225rem,7.14vw,2.0475rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     sold across Canada
                                     <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.52em] w-[1.52em]" aria-hidden="true" />
                                 </div>
@@ -676,19 +675,22 @@ function HeroVariantB({
 
                         <div className="boutique-width relative z-20 mx-auto flex min-h-[calc(85vh-81px)] items-center translate-y-[5vh]">
                             <div className="relative ml-[64px] w-fit max-w-[calc(100vw-160px)] pointer-events-auto lg:max-w-[760px]">
+                                {/* Golden stroke ornament — above Discover, left-aligned */}
+                                <div className="pointer-events-none self-start mb-[18px] flex flex-col items-start gap-[4px]" aria-hidden="true">
+                                    <span className="block h-[2px] w-[200px] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" />
+                                    <span className="block h-px w-[110px] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" />
+                                </div>
                                 <h1 className="mb-6 md:mb-10 w-fit font-['Lora'] text-[clamp(3.25rem,4.7vw,4rem)] font-semibold leading-[1.03] tracking-normal text-[#0057B7] antialiased">
                                     <span className="block">Discover</span>
                                     <span className="block whitespace-nowrap">
                                         <span className="relative inline-block pb-4">
                                             Ukrainian
-                                            <span className="pointer-events-none absolute left-0 bottom-[5px] h-[2px] w-[96%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                            <span className="pointer-events-none absolute left-[5%] bottom-0 h-px w-[56%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
                                         </span>{" "}
                                         Products
                                     </span>
                                 </h1>
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-4">
-                                    <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.9rem,2.65vw,3rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                    <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600">
                                         sold across Canada
                                         <img src={mapleLeafIcon} alt="" className="ml-3 inline-block h-[1.44em] w-[1.44em]" aria-hidden="true" />
                                     </span>
