@@ -97,20 +97,24 @@ const getClusterPosition = (cluster: any) => {
 };
 
 const getMapScreenPosition = (map: any, position: any) => {
-  const clusterPosition = getClusterPosition({ position });
   const projection = map?.getProjection?.();
   const bounds = map?.getBounds?.();
   const mapDiv = map?.getDiv?.();
   const zoom = map?.getZoom?.();
 
-  if (!clusterPosition || !projection || !bounds || !mapDiv || typeof zoom !== "number") {
+  if (!projection || !bounds || !mapDiv || typeof zoom !== "number" || !position) {
     return null;
   }
+
+  const lat = typeof position.lat === "function" ? position.lat() : position.lat;
+  const lng = typeof position.lng === "function" ? position.lng() : position.lng;
+
+  if (!isValidCoord(lat, lng)) return null;
 
   const northEast = projection.fromLatLngToPoint(bounds.getNorthEast());
   const southWest = projection.fromLatLngToPoint(bounds.getSouthWest());
   const point = projection.fromLatLngToPoint(
-    new (window as any).google.maps.LatLng(clusterPosition.lat, clusterPosition.lng)
+    new (window as any).google.maps.LatLng(lat, lng)
   );
   const scale = 2 ** zoom;
   const rect = mapDiv.getBoundingClientRect();
