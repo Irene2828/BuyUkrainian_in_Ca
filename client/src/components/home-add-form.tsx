@@ -27,10 +27,10 @@ const optionalSectionEyebrowClassName =
   "text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60 font-ui";
 
 const formLabelClassName =
-  "text-[10px] font-semibold text-white/95 uppercase tracking-[0.15em] font-ui block mb-2";
+  "text-[11px] font-semibold text-white/95 uppercase tracking-[0.15em] font-ui block mb-2";
 
 const optionalFormLabelClassName =
-  "text-[10px] font-semibold text-white/78 uppercase tracking-[0.15em] font-ui block mb-2";
+  "text-[11px] font-semibold text-white/78 uppercase tracking-[0.15em] font-ui block mb-2";
 
 const formMessageClassName =
   "text-[12px] font-medium text-[#FFD700]/95";
