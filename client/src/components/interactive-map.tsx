@@ -680,35 +680,14 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   const renderer = useMemo(() => ({
     render: ({ count, position }: any) => {
       const countLabel = "More than 1 store in the area";
-      const isHeroHint = callbacks.current.variant === "hero"
-        && !hasShownHeroHoverHint.current
-        && !callbacks.current.selectedStore;
       const defaultSvg = getBrandedMapPinSvg({ variant: "cluster", count });
       const hoverSvg = getBrandedMapPinSvg({ variant: "cluster", count, hovered: true });
       
       const marker = new (window as any).google.maps.Marker({
         position,
-        icon: buildMarkerIcon(isHeroHint ? hoverSvg : defaultSvg, "cluster", scale),
-        zIndex: isHeroHint ? 1000 : undefined,
+        icon: buildMarkerIcon(defaultSvg, "cluster", scale),
         label: "",
       });
-
-      if (isHeroHint) {
-        hasShownHeroHoverHint.current = true;
-
-        // Projection is available after the map has laid out. Retry briefly so
-        // the initial label remains anchored on first paint as well as resize.
-        const showHint = (attempt = 0) => {
-          if (callbacks.current.selectedStore || (window as any).__hasInteractedWithMapPins) return;
-          const screenPosition = getMapScreenPosition(map, position);
-          if (screenPosition) {
-            callbacks.current.setHoveredLabel({ text: countLabel, ...screenPosition });
-          } else if (attempt < 4) {
-            window.setTimeout(() => showHint(attempt + 1), 80);
-          }
-        };
-        window.setTimeout(showHint, 0);
-      }
 
       marker.addListener('mouseover', (e: any) => {
         (window as any).__hasInteractedWithMapPins = true;
