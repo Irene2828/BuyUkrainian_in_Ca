@@ -359,19 +359,27 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           </div>
         )}
 
-        {/* See More Actions: Centered Premium Button */}
+        {/* See More Actions: blue arrow-only icon so it's always visible */}
         {visibleCount < filteredStores.length && (
-          <div className="mt-8 mb-20 flex justify-center">
+          <div className="mt-6 mb-10 flex justify-center">
             <button
+              aria-label="Show more stores"
               onClick={() => setVisibleCount(c => c + 12)}
-              className="inline-flex items-center justify-center gap-2 bg-transparent border-0 p-0 text-[16px] 2xl:text-[17px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:text-[#0047A0] hover:scale-[1.02] active:scale-95"
+              className="group inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#0057B7]/8 hover:bg-[#0057B7]/15 transition-all duration-200 active:scale-95 border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/40"
             >
-              Show more stores <ArrowDown className="w-4 h-4" />
+              <ArrowDown className="w-5 h-5 text-[#0057B7] group-hover:translate-y-0.5 transition-transform duration-200" strokeWidth={2} />
             </button>
           </div>
         )}
 
-        {/* Modal removed in favor of inline peek card within the grid loop above for desktop context */}
+        {/* Mobile bottom sheet: tapping list item shows same card as map pin tap */}
+        {isMobile && selectedStore && (
+          <StoreBottomSheet
+            store={selectedStore}
+            onClose={handleCloseStore}
+            onSeeOnMap={handleSeeOnMap}
+          />
+        )}
       </div>
     );
   }

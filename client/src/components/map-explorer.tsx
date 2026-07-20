@@ -271,19 +271,16 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
 
 
-            {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
             <div
                 className={cn(
                     "w-full relative bg-white border-y border-slate-200",
-                    viewMode === "map"
-                        ? isZenMode
-                            ? "h-screen overflow-hidden"
-                            : "h-auto overflow-visible md:h-[85vh] md:max-h-[900px] md:overflow-hidden"
-                        : "h-auto overflow-visible"
+                    isZenMode
+                        ? "h-screen overflow-hidden"
+                        : "h-[calc(100vh-96px)] min-h-[540px] max-h-[760px] overflow-hidden md:h-[85vh] md:max-h-[900px]"
                 )}
                 onWheel={(e) => e.stopPropagation()}
             >
-                <div className={cn("w-full relative flex flex-col md:flex-row", viewMode === "map" ? "h-auto md:h-full" : "h-auto")}>
+                <div className="w-full h-full relative flex flex-col md:flex-row">
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
                     {!isZenMode && (viewMode === "map" || viewMode === "list") && (
@@ -424,7 +421,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     )}
 
                     {/* Main Content Stage (Map or List) */}
-                    <div className={cn("map-column-wrapper flex-1 relative z-0", viewMode === "map" ? "h-[calc(100vh-96px)] min-h-[540px] max-h-[760px] overflow-hidden md:h-full md:min-h-0 md:max-h-none" : "h-auto")}>
+                    <div className={cn("map-column-wrapper flex-1 relative z-0 h-full overflow-hidden", viewMode === "list" && "overflow-y-auto custom-scrollbar")}>
                         {/* Map/List View Toggle (Floating on Map) */}
                         <div className="absolute top-4 left-4 z-[1000] pointer-events-auto">
                             <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">

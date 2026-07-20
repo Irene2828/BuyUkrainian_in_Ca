@@ -61,7 +61,7 @@ export function CommunityImpact() {
                             className="flex flex-col items-center relative w-full mb-3"
                         >
                             <div className="relative max-w-2xl bg-white py-2.5 px-6 md:py-3 md:px-8 rounded-none">
-                                <div className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline flex flex-wrap items-center justify-center gap-x-2">
+                                <div className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline flex flex-wrap items-center justify-center gap-x-4">
                                     <span>"{shareMessage}"</span>
                                     
                                     <button 
