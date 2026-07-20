@@ -554,7 +554,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>
