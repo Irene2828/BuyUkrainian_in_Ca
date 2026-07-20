@@ -27,7 +27,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
           >
             <Globe className="w-4 h-4 text-slate-500" strokeWidth={1.5} />
             <span className="flex items-center gap-1.5 text-[16px] leading-none mb-[1px]">
-              🇨🇦 <span className="text-[13px] font-semibold text-slate-600 tracking-tight">EN</span>
+              🇨🇦 <span className="text-[13px] font-semibold text-slate-600 tracking-normal">EN</span>
             </span>
           </button>
         </DropdownMenuTrigger>

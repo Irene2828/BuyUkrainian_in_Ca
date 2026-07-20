@@ -63,20 +63,24 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 transition-all duration-500 ease-in-out font-sans",
+        "sticky top-0 z-50 transition-all duration-500 ease-in-out font-sans backdrop-blur-xl",
         isScrolled
-          ? "bg-slate-50/80 backdrop-blur-md border-b border-slate-200/40"
-          : "bg-slate-50 border-b border-slate-200"
+          ? "bg-white/80 border-b border-slate-200/40"
+          : "bg-white/90 border-b border-slate-200/70"
       )}
     >
-      <div className="boutique-width h-[73px] 2xl:h-[97px] relative">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#0057B7]/[0.14] via-[#0057B7]/[0.055] to-[#0057B7]/0"
+      />
+      <div className="boutique-width h-[73px] 2xl:h-[97px] relative z-10">
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-2">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
             {/* Branding Text with Oval Frame */}
-            <div className="relative flex flex-col justify-center gap-[1.5px] px-4 py-2 select-none">
+            <div className="relative flex flex-col justify-center gap-[1.5px] px-[18px] py-[9px] select-none">
               {/* Split-color Oval Stroke Frame */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none p-[1.5px]" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -171,7 +175,7 @@ export function Header() {
       {/* Mobile Menu Dropdown */}
       {
         mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-slate-50 border-b border-slate-100 shadow-lg z-40">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg z-40">
             <nav className="flex flex-col p-4 gap-4 antialiased" style={{ fontFamily: "'Inter', sans-serif" }}>
 
               <Link
@@ -183,7 +187,7 @@ export function Header() {
                         setMobileMenuOpen(false);
                       }
                     }}
-                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2"
+                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center gap-2"
                   >
                     {t('nav.about') || 'Mission'}
                   </Link>
@@ -191,7 +195,7 @@ export function Header() {
                   <Link 
                     href="/map" 
                     onClick={() => setMobileMenuOpen(false)}
-                    className={cn("text-[16px] text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center gap-2", location === '/map' ? "font-semibold" : "font-medium")}
+                    className={cn("text-[16px] text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center gap-2", location === '/map' ? "font-semibold" : "font-medium")}
                   >
                     <Map className="w-4 h-4" />
                     <span>{t('nav.map') || 'Map View'}</span>
@@ -204,7 +208,7 @@ export function Header() {
                         setAddStoreDialogOpen(true);
                         setMobileMenuOpen(false);
                     }}
-                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-tight flex items-center justify-between gap-2 text-left cursor-pointer"
+                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center justify-between gap-2 text-left cursor-pointer"
                   >
                     Add Stores
                     <Plus className="w-4 h-4 opacity-70" />

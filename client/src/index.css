@@ -1304,25 +1304,20 @@ html.dark .city-labels-layer {
 }
 
 /* ========================================
-   PREMIUM CTA LETTER-SPACING (Apple/Airbnb style)
+   CTA LETTER-SPACING RESET
    ========================================
-   When font-size bumps up on larger screens, characters
-   at body-size need slightly more breathing room for
-   optical balance. Apple uses ~0.007em–0.012em positive
-   tracking on buttons and body text.
+   Keep button/link text neutral across desktop breakpoints.
    ======================================== */
 @media (min-width: 1680px) {
 
-  /* Hero CTA & primary action buttons — subtle open tracking */
   .text-\[16px\],
   .text-\[15px\] {
-    letter-spacing: 0.008em;
+    letter-spacing: 0;
   }
 
-  /* Navigation links & secondary actions */
   .text-\[14px\],
   .text-\[13px\] {
-    letter-spacing: 0.005em;
+    letter-spacing: 0;
   }
 }
 

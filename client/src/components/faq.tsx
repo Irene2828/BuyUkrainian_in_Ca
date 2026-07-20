@@ -28,7 +28,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-slate-50 py-24 font-sans overflow-hidden">
+    <section id="faq" className="bg-white py-24 font-sans overflow-hidden">
       <div className="content-width flex flex-col justify-center items-center gap-16">
 
         {/* Accordion Container */}

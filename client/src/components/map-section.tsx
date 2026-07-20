@@ -316,7 +316,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                 <div
                   key={store.id}
                   className={cn(
-                    "border-l-[2px] border-[#FFD700] pl-4 py-2 cursor-pointer hover:opacity-80 transition-all animate-in fade-in slide-in-from-bottom-2 fill-mode-both",
+                    "border-l-[2px] border-l-[#0057B7] pl-4 py-2 cursor-pointer transition-colors animate-in fade-in slide-in-from-bottom-2 fill-mode-both hover:border-l-[#0057B7]",
                     isActive && "border-l-[#0057B7]"
                   )}
                   style={{ animationDelay: `${(index % 12) * 30}ms` }}
@@ -324,7 +324,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                 >
                   <div className="flex flex-col justify-center">
                     <div className="flex items-center gap-1.5 group/title">
-                      <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
+                      <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
                         {store.name}
                       </h3>
                       <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
@@ -356,7 +356,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           <div className="mt-8 mb-20 flex justify-center">
             <button
               onClick={() => setVisibleCount(c => c + 12)}
-              className="h-11 px-8 rounded-full border border-slate-200/80 bg-white text-slate-700 font-medium text-sm hover:bg-slate-50 transition-all duration-300 flex items-center gap-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-95"
+              className="inline-flex items-center justify-center gap-2 bg-transparent border-0 p-0 text-[16px] 2xl:text-[17px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:text-[#0047A0] hover:scale-[1.02] active:scale-95"
             >
               Show more stores <ArrowDown className="w-4 h-4" />
             </button>

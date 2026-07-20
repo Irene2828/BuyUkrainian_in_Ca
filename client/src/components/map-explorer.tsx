@@ -83,6 +83,21 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
         setIsCategoryDropdownOpen(false);
     };
 
+    const handleSeeOnMap = (store: Store) => {
+        setSelectedStore(store);
+        setViewMode("map");
+
+        const nextUrl = new URL(window.location.href);
+        nextUrl.pathname = "/map";
+        nextUrl.searchParams.set("store", String(store.id));
+        window.history.replaceState({}, "", nextUrl.toString());
+
+        window.setTimeout(() => {
+            mapSectionRef.current?.invalidateSize();
+            mapSectionRef.current?.focusOnStore(store);
+        }, 120);
+    };
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
@@ -247,7 +262,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     ];
 
     return (
-        <div className="w-full bg-slate-50 flex flex-col transition-[height] duration-300 ease-in-out font-sans">
+        <div className="w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out font-sans">
 
 
 
@@ -258,7 +273,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             {/* 2. Immersive Map Canvas - Edge-to-Edge Workspace */}
             <div
                 className={cn(
-                    "w-full relative bg-slate-50 border-y border-slate-200",
+                    "w-full relative bg-white border-y border-slate-200",
                     viewMode === "map"
                         ? cn("overflow-hidden", isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]")
                         : "h-auto overflow-visible"
@@ -269,7 +284,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
                     {!isZenMode && viewMode === "map" && (
-                        <div className="w-full md:w-[420px] bg-gradient-to-br from-[#00387b] to-[#0057B7] flex flex-col z-[500] shrink-0 border-r border-[#00387b] pointer-events-auto h-auto md:h-full shadow-2xl">
+                        <div className="w-full md:w-[420px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl">
                             
                             {/* Geometric Toolbar */}
                             <div className="p-4 border-b border-white/15" ref={sidebarRef as React.RefObject<HTMLDivElement>}>
@@ -299,9 +314,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     closeAllDropdowns();
                                                     setIsProvinceDropdownOpen(open);
                                                 }}
-                                                className="w-full h-[44px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13px] tracking-wider font-medium text-white hover:bg-white/20 transition-colors rounded-none"
+                                                className="w-full h-[44px] bg-white/10 border border-white/25 px-3.5 flex items-center justify-between text-[13px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors rounded-none"
                                             >
-                                                <span className="truncate">{selectedProvince || "Province"}</span>
+                                                <span className="truncate pr-2">{selectedProvince || "Province"}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isProvinceDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isProvinceDropdownOpen && (
@@ -338,9 +353,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                     closeAllDropdowns();
                                                     setIsCategoryDropdownOpen(open);
                                                 }}
-                                                className="w-full h-[44px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13px] tracking-wider font-medium text-white hover:bg-white/20 transition-colors rounded-none"
+                                                className="w-full h-[44px] bg-white/10 border border-white/25 px-3.5 flex items-center justify-between text-[13px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors rounded-none"
                                             >
-                                                <span className="truncate">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                                <span className="truncate pr-2">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isCategoryDropdownOpen && (
@@ -379,6 +394,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                     <StoreCard 
                                         store={selectedStore} 
                                         onClose={() => setSelectedStore(null)} 
+                                        onSeeOnMap={handleSeeOnMap}
                                         variant="map" 
                                     />
                                 ) : (
@@ -391,12 +407,13 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                         </div>
                     )}
 
-                    {/* Action Island (Bottom-Right FAB for Mobile) */}
-                    {!isZenMode && (
-                        <div className="md:hidden absolute bottom-6 right-4 z-[600] pointer-events-auto">
+                    {/* Add Store FAB */}
+                    {!isZenMode && viewMode === "map" && (
+                        <div className="absolute bottom-6 right-4 md:right-6 z-[600] pointer-events-auto">
                             <button
+                                aria-label="Add a new store"
                                 onClick={() => setAddStoreDialogOpen(true)}
-                                className="w-14 h-14 bg-[#FFD700] text-[#00387b] rounded-none flex items-center justify-center shadow-xl border border-[#00387b]/20 hover:scale-105 active:scale-95 transition-all"
+                                className="h-[56px] w-[56px] p-0 bg-[#FFD700] text-[#0057B7] rounded-[32px] flex items-center justify-center shadow-xl border border-[#FFD700] hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 transition-all duration-300"
                             >
                                 <Plus className="w-6 h-6" strokeWidth={2.5} />
                             </button>
@@ -407,12 +424,12 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     <div className={cn("flex-1 relative z-0", viewMode === "map" ? "h-[50vh] md:h-full" : "h-auto")}>
                         {/* Map/List View Toggle (Floating on Map) */}
                         <div className="absolute top-4 left-4 z-[1000] pointer-events-auto">
-                            <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[200px]">
+                            <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
                                 <button
                                     onClick={() => setViewMode("map")}
                                     className={cn(
-                                        "flex-1 flex items-center justify-center gap-2 h-full text-[13px] tracking-wider transition-colors rounded-none",
-                                        viewMode === "map" ? "bg-[#0057B7] text-white font-bold" : "text-[#0057B7] hover:bg-slate-50"
+                                        "flex-1 flex items-center justify-center gap-3 h-full text-[13.5px] tracking-normal transition-colors rounded-none bg-transparent",
+                                        viewMode === "map" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
                                     )}
                                 >
                                     <MapIcon className="w-4 h-4" /> Map
@@ -420,8 +437,8 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                 <button
                                     onClick={() => setViewMode("list")}
                                     className={cn(
-                                        "flex-1 flex items-center justify-center gap-2 h-full text-[13px] tracking-wider transition-colors rounded-none",
-                                        viewMode === "list" ? "bg-[#0057B7] text-white font-bold" : "text-[#0057B7] hover:bg-slate-50"
+                                        "flex-1 flex items-center justify-center gap-3 h-full text-[13.5px] tracking-normal transition-colors rounded-none bg-transparent",
+                                        viewMode === "list" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
                                     )}
                                 >
                                     <List className="w-4 h-4" /> List

@@ -16,7 +16,7 @@ button,
 a,
 [role="button"],
 .cta {
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
 }
 
 /* Global Section Headline Enforcement (Removed to allow utility classes) */

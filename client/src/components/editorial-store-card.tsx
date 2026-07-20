@@ -34,18 +34,22 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
         <div
             onClick={onClick}
             className={cn(
-                "group relative flex flex-col cursor-pointer select-none bg-white border border-slate-100 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md",
+                "group relative flex flex-col cursor-pointer select-none bg-white border border-slate-100 shadow-sm rounded-[20px] overflow-hidden transition-all duration-300 hover:shadow-md",
                 className
             )}
         >
             {/* Image (Hero) - Strict 16:9 Aspect Ratio */}
-            <div className="relative w-full aspect-video overflow-hidden bg-slate-50">
+            <div className="relative w-full aspect-video overflow-hidden bg-white">
                 <img
                     src={editorialImage}
                     alt={store.name}
                     className="w-full h-full object-cover will-change-transform transition-transform duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02] group-hover:brightness-[0.98] opacity-0 animate-in fade-in fill-mode-forwards"
                     onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
                     loading="eager"
+                />
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/70 via-[#0057B7]/20 to-transparent backdrop-blur-[2px]"
                 />
             </div>
 
@@ -54,7 +58,7 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                 {/* Title & Action Row */}
                 <div className="w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-1.5 max-w-full group/text">
-                        <h3 className="text-[#0057B7] font-semibold text-[15px] tracking-tight leading-tight antialiased truncate transition-all">
+                        <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased truncate transition-all">
                             {store.name}
                         </h3>
                         <ArrowUpRight className="w-[14px] h-[14px] text-slate-400 opacity-60 transition-all duration-300 ease-out group-hover:text-black group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />

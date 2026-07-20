@@ -34,7 +34,7 @@ export function Footer() {
                 <nav className="flex flex-col gap-2.5" aria-label="Contact Links">
                   <a 
                     href="mailto:hello@buyukrainian.ca" 
-                    className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
                   >
                     Email Us
                   </a>
@@ -46,16 +46,16 @@ export function Footer() {
                 <nav className="flex flex-col gap-2.5" aria-label="Legal Links">
                   <Link 
                     href="/privacy" 
-                    className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
                   >
                     {t('common.labels.privacyPolicy') || 'Privacy Policy'}
                   </Link>
                   <div className="flex items-center">
-                    <AccessibilityToggle className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] p-0 h-auto bg-transparent border-none transition-colors duration-200 cursor-pointer" />
+                    <AccessibilityToggle className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] p-0 h-auto bg-transparent border-none transition-colors duration-200 cursor-pointer" />
                   </div>
                   <Link 
                     href="/admin/login" 
-                    className="text-[15px] font-medium tracking-tight text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
                   >
                     {t('common.labels.adminAccess') || 'Admin Access'}
                   </Link>

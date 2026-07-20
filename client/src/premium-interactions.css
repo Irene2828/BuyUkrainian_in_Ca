@@ -152,7 +152,7 @@
     --btn-hover-bg: #FFFFFF;
     --btn-hover-text: #000000;
     --btn-hover-border: #000000;
-    --btn-hover-transition: 200ms ease-out;
+    --btn-hover-transition: 300ms ease-out;
 }
 
 /* Base Button Styling — Prepare for seamless hover */
@@ -161,14 +161,13 @@ button,
 a[role="button"],
 [class*="Button"],
 .btn-cta {
-    will-change: background-color, color, border-color;
+    will-change: background-color, color, border-color, scale;
     transition:
         background-color var(--btn-hover-transition),
         color var(--btn-hover-transition),
         border-color var(--btn-hover-transition),
-        transform var(--btn-hover-transition);
-    /* Ensure 1px border at rest to prevent geometry jump on hover */
-    border: 1px solid transparent;
+        transform var(--btn-hover-transition),
+        scale var(--btn-hover-transition);
 }
 
 
@@ -305,9 +304,7 @@ a:focus-visible {
    ======================================== */
 /* Use GPU acceleration for transforms */
 .premium-parallax-hero,
-.premium-parallax-text,
-button,
-a[role="button"] {
+.premium-parallax-text {
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;

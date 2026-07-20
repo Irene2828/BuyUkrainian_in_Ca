@@ -58,21 +58,28 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
     };
 
     const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(String(store.id))}`;
         const shareData = {
             title: store.name,
             text: `Check out ${store.name} on BuyUkrainian.ca!`,
-            url: window.location.href
+            url: shareUrl
         };
 
         if (navigator.share) {
             try {
                 await navigator.share(shareData);
+                return;
             } catch (err) {
                 console.error('Error sharing:', err);
             }
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-            toast({ title: "Link Copied", description: "Map link copied to clipboard." });
+        }
+
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            toast({ title: "Link Copied", description: "Store map link copied to clipboard." });
+        } catch (err) {
+            console.error('Error copying share link:', err);
+            toast({ title: "Share Link", description: shareUrl });
         }
     };
 
@@ -95,14 +102,19 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
             {/* Primary Data Card */}
             <div
                 className={cn(
-                    "bg-slate-50 shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-none border-[3px] border-[#FFD700] flex flex-col w-full transition-all duration-500 pointer-events-auto",
+                    "bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-[20px] border border-white/50 flex flex-col w-full transition-all duration-500 pointer-events-auto",
                     "h-auto max-h-[90vh] overflow-hidden relative z-20",
+                    variant === 'map' && "md:w-[90%] md:mx-auto",
                     className
                 )}
             >
                 {/* 1. Sticky Header Section */}
-                <div className="shrink-0 p-4 pb-3 min-[1670px]:p-5 min-[1670px]:pb-4 bg-transparent border-b border-slate-200/60 sticky top-0 z-20 flex flex-col gap-1.5">
-                    <div className="flex items-start justify-between gap-4">
+                <div className="relative shrink-0 overflow-hidden p-4 pb-3 min-[1670px]:p-5 min-[1670px]:pb-4 bg-white/[0.82] backdrop-blur-xl border-b border-[#0057B7]/20 sticky top-0 z-20 flex flex-col gap-1.5">
+                    <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-b from-[#0057B7]/0 via-[#0057B7]/[0.055] to-[#0057B7]/[0.16]"
+                    />
+                    <div className="relative z-10 flex items-start justify-between gap-4">
                         <h2 
                             className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2 text-slate-900"
                         >
@@ -115,22 +127,22 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                                     className="inline-flex items-center ml-2 group/web align-middle"
                                     title="Visit Website"
                                 >
-                                    <Globe size={18} className="text-[#FFD700] drop-shadow-sm transition-transform group-hover/web:scale-110 active:scale-90" strokeWidth={2.5} />
+                                    <Globe size={18} className="text-[#0057B7] drop-shadow-sm transition-transform group-hover/web:scale-110 active:scale-90" strokeWidth={2.5} />
                                 </a>
                             )}
                         </h2>
                         <button
                             onClick={onClose}
-                            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-none transition-colors active:scale-95 shrink-0"
+                            className="text-slate-400 hover:text-[#0057B7] hover:bg-[#0057B7]/10 p-1.5 rounded-none transition-colors active:scale-95 shrink-0"
                             aria-label="Close"
                         >
                             <X size={16} />
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-2.5">
-                        <div className="h-[2px] w-6 bg-[#FFD700] rounded-none shrink-0" />
-                        <span className="text-[#2D50A0]/70 text-[10px] xl:text-[10px] min-[1670px]:text-[11px] font-bold uppercase tracking-[0.2em] font-ui leading-none pt-[1px]">
+                    <div className="relative z-10 flex items-center gap-2.5">
+                        <div className="h-[2px] w-6 bg-[#0057B7] rounded-none shrink-0" />
+                        <span className="text-[#0057B7]/80 text-[10px] xl:text-[10px] min-[1670px]:text-[11px] font-bold uppercase tracking-[0.2em] font-ui leading-none pt-[1px]">
                             {getCategoryLabel(store.category)}
                         </span>
                     </div>
@@ -196,7 +208,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             {allProducts.map((product, idx) => (
                                 <div
                                     key={idx}
-                                    className="shrink-0 bg-transparent border border-slate-300 text-[#00387b] px-2.5 py-1 rounded-none text-[11.5px] xl:text-[11.5px] min-[1670px]:text-[12.5px] font-medium cursor-default"
+                                    className="shrink-0 bg-transparent border border-slate-300 text-slate-500 px-2.5 py-1 rounded-full text-[11.5px] xl:text-[11.5px] min-[1670px]:text-[12.5px] font-medium cursor-default"
                                 >
                                     {product}
                                 </div>
@@ -213,28 +225,25 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="group relative inline-flex items-center justify-center h-[42px] min-[1670px]:h-[46px] shrink-0 text-[15px] font-medium tracking-tight rounded-none bg-white text-[#0057B7] transition-all duration-300 hover:bg-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 font-['Inter'] antialiased pointer-events-auto w-full"
-                        style={{ border: '1px solid #0057B7' }}
+                        className="group relative inline-flex items-center justify-center h-[42px] min-[1670px]:h-[46px] shrink-0 px-6 text-[15px] font-medium tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 font-['Inter'] antialiased pointer-events-auto w-full"
                     >
                         <span>Get Directions</span>
-                        <CornerUpRight size={16} className="text-[#0057B7] ml-2.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                        <CornerUpRight size={16} className="text-current ml-2.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
 
                     {/* Secondary Actions Row */}
                     <div className="flex items-center gap-3 shrink-0">
                         <button
                             onClick={handleShare}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-transparent rounded-none text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900 hover:bg-slate-100 active:scale-95 group"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 group"
                         >
                             <Share2 size={13} className="opacity-80" />
                             <span>Share Store</span>
                         </button>
                         
-                        <div className="w-[1px] h-4 bg-slate-100 shrink-0" />
-
                         <button
                             onClick={() => onSeeOnMap?.(store)}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium transition-colors duration-200 active:scale-95 group bg-transparent text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 group"
                         >
                             <MapPin size={13} className="opacity-80" />
                             <span>Zoom In Map</span>

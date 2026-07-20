@@ -23,8 +23,7 @@ export default function AboutPage() {
                 <span className="text-yellow-accent">Products</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                BuyUkrainian.ca is a community-driven platform that helps Canadians discover
-                authentic Ukrainian products and support Ukrainian-owned businesses across the country.
+                BuyUkrainian.ca is a grassroots non-profit initiative to help Ukraine’s economy by helping people find products from Ukraine in Canadian stores.
               </p>
             </div>
 
@@ -90,13 +89,13 @@ export default function AboutPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/map">
-                  <Button className="rounded-full px-8 h-12 bg-blue-accent hover:bg-blue-600 text-white" data-testid="button-explore-map">
+                  <Button className="rounded-[32px] px-8 h-12 bg-[#0057B7] hover:bg-[#0047A0] hover:scale-[1.02] tracking-normal text-white" data-testid="button-explore-map">
                     <MapPin className="w-5 h-5 mr-2" />
                     Explore the Map
                   </Button>
                 </Link>
                 <Link href="/map">
-                  <Button variant="outline" className="rounded-full px-8 h-12" data-testid="button-add-location">
+                  <Button variant="outline" className="rounded-[32px] px-8 h-12 tracking-normal" data-testid="button-add-location">
                     Add a Location
                   </Button>
                 </Link>

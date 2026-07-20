@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
 // Map-specific error fallback
 function MapErrorFallback({ onRetry, error }: { onRetry: () => void, error?: Error | null }) {
     return (
-        <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-[32px] flex flex-col items-center justify-center p-8 text-center">
+        <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-[20px] flex flex-col items-center justify-center p-8 text-center">
             <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6">
                 <MapPin className="w-10 h-10 text-gray-400" />
             </div>
@@ -66,7 +66,7 @@ function MapErrorFallback({ onRetry, error }: { onRetry: () => void, error?: Err
             </p>
             <button
                 onClick={onRetry}
-                className="inline-flex items-center gap-2 h-12 px-6 bg-black text-white rounded-full font-medium text-[14px] hover:bg-black/90 active:scale-95 transition-all font-ui"
+                className="inline-flex items-center gap-2 h-12 px-6 bg-[#0057B7] text-white rounded-[32px] font-medium tracking-normal text-[14px] hover:bg-[#0047A0] hover:scale-[1.02] active:scale-95 transition-all duration-300 font-ui"
             >
                 <RefreshCw className="w-4 h-4" />
                 Try Again
@@ -90,7 +90,7 @@ function ListErrorFallback({ onRetry, error }: { onRetry: () => void, error?: Er
             </p>
             <button
                 onClick={onRetry}
-                className="inline-flex items-center gap-2 h-10 px-5 bg-gray-100 text-gray-800 rounded-full font-medium text-[14px] hover:bg-gray-200 active:scale-95 transition-all font-ui"
+                className="inline-flex items-center gap-2 h-10 px-5 border border-[#0057B7] bg-white/55 backdrop-blur-md text-[#0057B7] rounded-[32px] font-medium tracking-normal text-[14px] hover:bg-white/75 hover:scale-[1.02] active:scale-95 transition-all duration-300 font-ui"
             >
                 <RefreshCw className="w-4 h-4" />
                 Retry
@@ -114,7 +114,7 @@ function GenericErrorFallback({ onRetry, error }: { onRetry: () => void, error?:
             </p>
             <button
                 onClick={onRetry}
-                className="inline-flex items-center gap-2 h-10 px-5 bg-gray-900 text-white rounded-full font-medium text-[13px] hover:bg-gray-800 active:scale-95 transition-all font-ui"
+                className="inline-flex items-center gap-2 h-10 px-5 bg-[#0057B7] text-white rounded-[32px] font-medium tracking-normal text-[13px] hover:bg-[#0047A0] hover:scale-[1.02] active:scale-95 transition-all duration-300 font-ui"
             >
                 <RefreshCw className="w-4 h-4" />
                 Try Again

@@ -35,18 +35,18 @@ const MAP_TOOLTIP_CONTENT_CLASSNAME = "border-0 bg-white/60 px-4 py-2 text-[12px
 const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
 
 const PROVINCE_LABELS = [
-  { name: "BC", top: "45%", left: "7%" },
-  { name: "AB", top: "50%", left: "18%" },
-  { name: "SK", top: "52%", left: "28%" },
-  { name: "MB", top: "55%", left: "38%" },
-  { name: "ON", top: "64%", left: "54%" },
-  { name: "QC", top: "54%", left: "69%" },
-  { name: "NB", top: "72%", left: "77%" },
-  { name: "NS", top: "78%", left: "81%" },
-  { name: "NL", top: "48%", left: "84%" },
-  { name: "YT", top: "25%", left: "8%" },
-  { name: "NT", top: "25%", left: "20%" },
-  { name: "NU", top: "25%", left: "43%" },
+  { name: "BC", top: "50%", left: "7%" },
+  { name: "AB", top: "55%", left: "18%" },
+  { name: "SK", top: "57%", left: "28%" },
+  { name: "MB", top: "60%", left: "38%" },
+  { name: "ON", top: "69%", left: "54%" },
+  { name: "QC", top: "59%", left: "69%" },
+  { name: "NB", top: "77%", left: "77%" },
+  { name: "NS", top: "82%", left: "81%" },
+  { name: "NL", top: "53%", left: "84%" },
+  { name: "YT", top: "30%", left: "8%" },
+  { name: "NT", top: "30%", left: "20%" },
+  { name: "NU", top: "30%", left: "43%" },
 ];
 
 const isValidCoord = (lat: number | null, lng: number | null) =>
@@ -211,6 +211,7 @@ const FULL_MAP_BASE_STYLE: google.maps.MapTypeStyle[] = [
   { featureType: 'landscape.man_made', stylers: [{ color: '#ffffff' }] },
   { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#b0c4d8' }, { weight: 1 }] },
   { featureType: 'administrative.province', elementType: 'geometry.stroke', stylers: [{ color: '#c8d8e8' }, { weight: 0.5 }] },
+  { featureType: 'administrative.province', elementType: 'labels', stylers: [{ visibility: 'off' }] },
   { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
   { featureType: 'poi', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
   { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
@@ -321,7 +322,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     const applyZoomStyle = () => {
       const currentZoom = mapRef.getZoom() ?? 4;
       mapRef.setOptions({
-        styles: currentZoom <= 5 ? FULL_MAP_NO_LABELS : FULL_MAP_WITH_LABELS
+        styles: isMobile || currentZoom <= 5 ? FULL_MAP_NO_LABELS : FULL_MAP_WITH_LABELS
       });
     };
 
@@ -332,7 +333,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     return () => {
       zoomChangedListener.remove();
     };
-  }, [mapRef, variant]);
+  }, [mapRef, variant, isMobile]);
 
   useEffect(() => {
     if (variant !== 'hero') return;
@@ -519,7 +520,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {/* Provincial Labels Overlay - National Watermarks */}
       {variant !== 'hero' && (
         <div className={cn(
-          "absolute inset-0 pointer-events-none z-[5] transition-opacity duration-700 ease-in-out",
+          "absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out",
           isNationalZoom ? "opacity-100" : "opacity-0"
         )}>
           {PROVINCE_LABELS.map((label) => (

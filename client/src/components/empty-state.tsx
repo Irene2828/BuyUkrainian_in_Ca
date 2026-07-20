@@ -61,7 +61,7 @@ export function EmptyState({ type, searchQuery, onClearFilters }: EmptyStateProp
             {config.showClearButton && onClearFilters && (
                 <button
                     onClick={onClearFilters}
-                    className="inline-flex items-center gap-2 h-12 px-6 bg-black text-white rounded-full font-medium text-[16px] hover:bg-black/90 active:scale-95 transition-all font-ui"
+                    className="inline-flex items-center gap-2 h-12 px-6 bg-[#0057B7] text-white rounded-[32px] font-medium tracking-normal text-[16px] hover:bg-[#0047A0] hover:scale-[1.02] active:scale-95 transition-all duration-300 font-ui"
                 >
                     <X className="w-4 h-4" />
                     Clear Filters
@@ -74,7 +74,7 @@ export function EmptyState({ type, searchQuery, onClearFilters }: EmptyStateProp
 // Specific empty state for map view
 export function MapEmptyState({ onClearFilters }: { onClearFilters?: () => void }) {
     return (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[32px]">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-[500] rounded-[20px]">
             <div className="text-center p-8">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <MapPin className="w-8 h-8 text-gray-400" />
@@ -88,7 +88,7 @@ export function MapEmptyState({ onClearFilters }: { onClearFilters?: () => void 
                 {onClearFilters && (
                     <button
                         onClick={onClearFilters}
-                        className="inline-flex items-center gap-2 h-10 px-5 bg-gray-100 text-gray-800 rounded-full font-medium text-[14px] hover:bg-gray-200 transition-all font-ui"
+                        className="inline-flex items-center gap-2 h-10 px-5 border border-[#0057B7] bg-white/55 backdrop-blur-md text-[#0057B7] rounded-[32px] font-medium tracking-normal text-[14px] hover:bg-white/75 hover:scale-[1.02] transition-all duration-300 font-ui"
                     >
                         Reset View
                     </button>

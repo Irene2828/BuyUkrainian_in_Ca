@@ -22,13 +22,13 @@ export default function NotFound() {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/">
-            <Button className="rounded-full px-6 h-11 bg-blue-accent hover:bg-blue-600 text-white" data-testid="button-go-home">
+            <Button className="rounded-[32px] px-6 h-11 bg-[#0057B7] hover:bg-[#0047A0] hover:scale-[1.02] tracking-normal text-white" data-testid="button-go-home">
               <Home className="w-4 h-4 mr-2" />
               Go Home
             </Button>
           </Link>
           <Link href="/map">
-            <Button variant="outline" className="rounded-full px-6 h-11" data-testid="button-explore-map">
+            <Button variant="outline" className="rounded-[32px] px-6 h-11 tracking-normal" data-testid="button-explore-map">
               <MapPin className="w-4 h-4 mr-2" />
               Explore Map
             </Button>

@@ -29,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-slate-50 font-sans text-foreground selection:bg-yellow-accent/30">
+    <div className="bg-white font-sans text-foreground selection:bg-yellow-accent/30">
       <Header />
 
       <main>
@@ -37,31 +37,33 @@ export default function Home() {
           <Hero />
         </div>
 
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <MapStats />
         </div>
 
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <AboutProject className="!pb-12 md:!pb-16" />
         </div>
 
         {/* 2. Seamless How It Works & FAQ block */}
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <HowItWorks />
         </div>
 
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <FAQ />
         </div>
 
+        <div className="h-px w-full bg-[#0057B7]/10" aria-hidden="true" />
+
         {/* 3. Transition into Community Impact */}
-        <div className="section-reveal relative bg-slate-50">
+        <div className="section-reveal relative bg-white">
           <div className="relative z-10">
             <CommunityImpact />
           </div>
         </div>
 
-        <div className="section-reveal bg-slate-50">
+        <div className="section-reveal bg-white">
           <AddStoreCTA />
         </div>
       </main>

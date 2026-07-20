@@ -19,7 +19,7 @@ function Skeleton({ className }: { className?: string }) {
 // Store Card Skeleton - Following 32-24-16 rhythm
 export function StoreCardSkeleton() {
     return (
-        <div className="bg-white rounded-[32px] p-6 shadow-sm border border-gray-100 animate-in fade-in duration-300">
+        <div className="bg-white rounded-[20px] p-6 shadow-sm border border-gray-100 animate-in fade-in duration-300">
             {/* Category Tag - 32px element */}
             <div className="flex gap-2 mb-4">
                 <Skeleton className="h-6 w-16 rounded-full" />
@@ -58,7 +58,7 @@ export function StoreListItemSkeleton() {
 // Map Section Skeleton
 export function MapSkeleton() {
     return (
-        <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-gray-100 to-gray-50 rounded-[32px] relative overflow-hidden">
+        <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-gray-100 to-gray-50 rounded-[20px] relative overflow-hidden">
             {/* Simulated map tiles */}
             <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 gap-px opacity-30">
                 {Array.from({ length: 16 }).map((_, i) => (

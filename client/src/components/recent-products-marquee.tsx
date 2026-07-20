@@ -22,7 +22,7 @@ export function RecentProductsMarquee() {
     });
 
     if (isLoading) {
-        return <div className="h-[200px] flex items-center justify-center bg-transparent rounded-[32px] overflow-hidden">
+        return <div className="h-[200px] flex items-center justify-center bg-transparent rounded-[20px] overflow-hidden">
             <div className="w-full px-8 flex gap-6 overflow-hidden">
                 {Array.from({ length: 4 }).map((_, i) => (
                     <div key={i} className="h-16 w-64 bg-slate-100/50 rounded-2xl animate-pulse shrink-0" />

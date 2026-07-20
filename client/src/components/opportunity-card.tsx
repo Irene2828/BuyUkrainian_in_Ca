@@ -20,7 +20,7 @@ export function OpportunityCard({ isVisible, onClear, onAddStore }: OpportunityC
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="absolute inset-x-0 top-1/2 -translate-y-1/2 mx-auto w-full max-w-[340px] z-[500] pointer-events-auto"
             >
-                <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 text-center shadow-xl border border-white/40 ring-1 ring-slate-900/5">
+                <div className="bg-white/80 backdrop-blur-xl rounded-[20px] p-6 text-center shadow-xl border border-white/40 ring-1 ring-slate-900/5">
                     <h3 className="text-slate-900 font-semibold tracking-tight text-lg mb-2 text-center">
                         No stores here yet
                     </h3>
@@ -32,15 +32,15 @@ export function OpportunityCard({ isVisible, onClear, onAddStore }: OpportunityC
                     <div className="flex flex-col gap-3 items-center">
                         <button
                             onClick={() => onAddStore ? onAddStore() : window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                            className="group relative inline-flex items-center justify-center gap-2.5 bg-[#FFD700] text-slate-950 px-6 py-2.5 rounded-full text-[14px] font-medium tracking-tight transition-all shadow-[0_4px_12px_rgba(255,215,0,0.22)] hover:bg-[#FFEB64] hover:scale-105 hover:shadow-[0_6px_16px_rgba(255,215,0,0.32)] active:scale-95 border-none"
+                            className="group relative inline-flex items-center justify-center gap-2.5 bg-[#FFD700] text-[#0057B7] px-6 py-2.5 rounded-[32px] text-[14px] font-medium tracking-normal transition-all duration-300 shadow-none hover:bg-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 border border-[#FFD700] hover:border-[#0057B7]"
                         >
                             <span>Add a Store</span>
-                            <Plus className="w-4 h-4 text-slate-950 transition-transform duration-300 group-hover:scale-110" />
+                            <Plus className="w-4 h-4 text-current transition-transform duration-300 group-hover:scale-110" />
                         </button>
 
                         <button
                             onClick={onClear}
-                            className="text-slate-400 hover:text-slate-600 text-xs font-medium transition-colors"
+                            className="inline-flex items-center justify-center h-9 px-4 rounded-[32px] border border-[#0057B7]/20 bg-white/55 text-[#0057B7] text-[13px] font-medium tracking-normal transition-all duration-300 hover:border-[#0057B7] hover:bg-white/75 hover:scale-[1.02] active:scale-95"
                         >
                             Clear Filters
                         </button>
