@@ -141,8 +141,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     </div>
 
                     <div className="relative z-10 flex items-center gap-2.5">
-                        <div className="h-[2px] w-6 bg-[#0057B7] rounded-none shrink-0" />
-                        <span className="text-[#0057B7]/80 text-[10px] xl:text-[10px] min-[1670px]:text-[11px] font-bold uppercase tracking-[0.2em] font-ui leading-none pt-[1px]">
+                        <div className="h-[2px] w-6 bg-[#0057B7]/80 rounded-none shrink-0" />
+                        <span className="text-[#0057B7]/65 text-[10px] xl:text-[10px] min-[1670px]:text-[11px] font-bold uppercase tracking-[0.2em] font-ui leading-none pt-[1px]">
                             {getCategoryLabel(store.category)}
                         </span>
                     </div>
