@@ -18,6 +18,7 @@ import { Store } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
+import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -471,7 +472,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             {/* Add Store Dialog */}
             <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
                 <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none overflow-visible">
-                    <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                    <GoogleMapsProvider>
+                        <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
+                    </GoogleMapsProvider>
                 </DialogContent>
             </Dialog>
         </div>
