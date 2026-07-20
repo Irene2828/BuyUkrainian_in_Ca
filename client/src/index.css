@@ -31,7 +31,7 @@
   --color-admin-text-dark: #1A1A1A;
 
   /* Semantic Re-mapping */
-  --color-background: #FFFFFF;
+  --color-background: #FAFAFA;
   --color-foreground: var(--color-text-primary);
 
   --color-primary: var(--color-text-primary);
@@ -50,9 +50,9 @@
   --color-input: #E5E7EB;
   --color-ring: var(--color-brand-cyan);
 
-  --color-card: #FFFFFF;
+  --color-card: #FAFAFA;
   --color-card-foreground: var(--color-text-primary);
-  --color-popover: #FFFFFF;
+  --color-popover: #FAFAFA;
   --color-popover-foreground: var(--color-text-primary);
   --color-destructive: #EF4444;
   --color-destructive-foreground: var(--white);
@@ -125,8 +125,8 @@
   /* ========================================
      THEME ENGINE - LIGHT MODE (Default)
      ======================================== */
-  --bg-primary: #FBFBFB;
-  --bg-secondary: #FFFFFF;
+  --bg-primary: #F5F5F7;
+  --bg-secondary: #FAFAFA;
   --bg-tertiary: #FAFAFA;
   --text-main: #1D1D1F;
   --text-secondary: #8E8E93;
@@ -134,10 +134,10 @@
   --border-subtle: #E5E5E5;
   --border-medium: #D2D2D7;
   --map-water: #C5E0F5;
-  --map-land: #FFFFFF;
-  --card-bg: #FFFFFF;
-  --dropdown-bg: #FFFFFF;
-  --search-bg: #FFFFFF;
+  --map-land: #FAFAFA;
+  --card-bg: #FAFAFA;
+  --dropdown-bg: #FAFAFA;
+  --search-bg: #FAFAFA;
   --search-border: #D2D2D7;
   --toggle-bg: rgba(255, 255, 255, 0.9);
   --overlay-bg: rgba(0, 0, 0, 0.4);
