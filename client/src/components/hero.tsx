@@ -49,6 +49,8 @@ const PROVINCE_NAME_TO_ABBR: Record<string, string> = {
     Yukon: "YT",
 };
 
+const HERO_TICKER_LIFT_STYLE = { transform: "translateY(-96%)" };
+
 
 export function Hero() {
     const [, setLocation] = useLocation();
@@ -202,7 +204,7 @@ export function Hero() {
 
     return (
         <>
-                <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] 2xl:min-h-[calc(85vh-108px)] min-[1670px]:min-h-[calc(85vh-108px)] bg-[#0057B7] md:bg-transparent justify-between relative">
+                <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] bg-[#0057B7] md:bg-transparent justify-between relative">
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 animate-in fade-in duration-700"
         >
@@ -251,7 +253,7 @@ export function Hero() {
                             <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.64em] w-[1.64em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                         </div>
 
-                        <div className="mt-5 grid gap-2.5 [@media(max-height:700px)]:mt-4">
+                        <div className="mt-5 grid gap-2.5 [@media(max-height:700px)]:mt-4" style={{ transform: 'translateY(12px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Explore the Map</span>
@@ -315,9 +317,9 @@ export function Hero() {
             <div className="hidden md:block absolute top-0 right-0 w-full bottom-[4rem] bg-white z-[-2]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full">
-                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
+                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative w-full min-[1280px]:max-[1669px]:pt-[clamp(30px,3.5vw,60px)] min-[1670px]:pt-[clamp(121px,11vw,192px)]">
+                        <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
                             <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] md:ml-[50px] lg:ml-[65px] xl:ml-[75px] md:-translate-x-[10%]">
                                     <div className="mb-[24px] h-[10px] pointer-events-none" aria-hidden="true" />
                                     <h1
@@ -326,7 +328,7 @@ export function Hero() {
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
-                                            className="block font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] min-[1500px]:text-[4.5rem] min-[1670px]:text-[5rem] tracking-[-0.02em] mb-0 text-transparent"
+                                            className="block font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] tracking-[-0.02em] mb-0 text-transparent"
                                             style={{ 
                                                 backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                 backgroundSize: '120%',
@@ -341,7 +343,7 @@ export function Hero() {
                                         </span>
                                         <div className="md:ml-0">
                                             <span 
-                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] min-[1500px]:text-[4.5rem] min-[1670px]:text-[5rem] tracking-[-0.02em] mb-2 whitespace-nowrap text-transparent"
+                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.2rem] lg:text-[4rem] tracking-[-0.02em] mb-2 whitespace-nowrap text-transparent"
                                                 style={{ 
                                                     backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                     backgroundSize: '120%',
@@ -361,11 +363,11 @@ export function Hero() {
                                     
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex flex-col items-start self-start w-full mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.8rem] lg:text-[2.34rem] min-[1500px]:text-[2.6rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
+                                        <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.56rem,5.2vw,1.95rem)] md:text-[1.8rem] lg:text-[2.34rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
                                             sold across Canada 
                                             <img src={mapleLeafIcon} alt="" className="inline-block w-[1.6em] h-[1.6em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                                         </span>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-start md:self-end w-full md:w-auto relative z-20 pointer-events-auto translate-y-[15%]">
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-start md:self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
@@ -427,9 +429,9 @@ export function Hero() {
                     }}
                 >
                     {/* Fixed Viewport Overlays - Water Color Bridge to White Header */}
-                    <div className="absolute top-0 inset-x-0 h-[60px] md:h-[50px] xl:h-[40px] bg-gradient-to-b from-[#c8dff0]/85 via-[#c8dff0]/40 to-transparent xl:from-[#c8dff0]/30 xl:via-[#c8dff0]/10 pointer-events-none z-[60]" />
-                    <div className="absolute top-0 right-0 h-[44%] w-[24%] bg-[radial-gradient(ellipse_100%_90%_at_100%_0%,rgba(200,223,240,0.4)_0%,rgba(200,223,240,0.16)_45%,rgba(255,255,255,0)_78%)] pointer-events-none z-[60]" />
-                    <div className="absolute top-0 right-0 w-[75%] h-[300px] md:h-[240px] xl:h-[180px] bg-[radial-gradient(ellipse_100%_100%_at_top_right,_#c8dff0_0%,_#c8dff0_20%,_rgba(200,223,240,0.4)_35%,_transparent_60%)] xl:bg-[radial-gradient(ellipse_100%_100%_at_top_right,_rgba(200,223,240,0.4)_0%,_rgba(200,223,240,0.15)_20%,_transparent_45%)] pointer-events-none z-[70]" />
+                    <div className="absolute top-0 inset-x-0 h-[78px] md:h-[72px] xl:h-[64px] bg-gradient-to-b from-[#c8dff0]/95 via-[#c8dff0]/58 to-transparent xl:from-[#c8dff0]/68 xl:via-[#c8dff0]/32 pointer-events-none z-[60]" />
+                    <div className="absolute top-0 right-0 h-[48%] w-[28%] bg-[radial-gradient(ellipse_100%_90%_at_100%_0%,rgba(200,223,240,0.58)_0%,rgba(200,223,240,0.24)_45%,rgba(255,255,255,0)_78%)] pointer-events-none z-[60]" />
+                    <div className="absolute top-0 right-0 w-[78%] h-[330px] md:h-[270px] xl:h-[210px] bg-[radial-gradient(ellipse_100%_100%_at_top_right,_#c8dff0_0%,_#c8dff0_24%,_rgba(200,223,240,0.5)_40%,_transparent_64%)] xl:bg-[radial-gradient(ellipse_100%_100%_at_top_right,_rgba(200,223,240,0.62)_0%,_rgba(200,223,240,0.28)_28%,_transparent_52%)] pointer-events-none z-[70]" />
                     <div
                         className="absolute left-0 top-0 h-[58%] w-[46%] bg-[linear-gradient(90deg,rgba(0,87,183,0.6)_0%,rgba(0,87,183,0.32)_34%,rgba(73,143,203,0.14)_62%,rgba(255,255,255,0)_100%)] mix-blend-multiply pointer-events-none z-[66]"
                         style={{
@@ -443,7 +445,7 @@ export function Hero() {
 
                     {/* Inner wrapper for shifted map content */}
                     <div
-                        className="absolute top-0 left-0 w-full h-[170%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-44%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-42%] min-[1280px]:max-[1669px]:scale-[1.15] min-[1280px]:max-[1669px]:translate-x-[6%] min-[1280px]:max-[1669px]:translate-y-[-40%] min-[1670px]:scale-[1.12] min-[1670px]:translate-x-[6%] min-[1670px]:translate-y-[-38%] transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 w-full h-[170%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[0%] md:scale-[1.06] md:translate-x-[8%] md:translate-y-[-44%] lg:scale-[1.11] lg:translate-x-[14%] lg:translate-y-[-42%] min-[1280px]:scale-[1.15] min-[1280px]:translate-x-[6%] min-[1280px]:translate-y-[-40%] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
 
@@ -523,7 +525,7 @@ export function Hero() {
 
 
         {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative -translate-y-[95%] min-[1670px]:-translate-y-[23%]">
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative" style={HERO_TICKER_LIFT_STYLE}>
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
@@ -586,7 +588,7 @@ function HeroVariantB({
 }: HeroVariantBProps) {
     return (
         <>
-            <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] 2xl:min-h-[calc(85vh-108px)] min-[1670px]:min-h-[calc(85vh-108px)] bg-white justify-between relative">
+            <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] bg-white justify-between relative">
                 <section className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
                     <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
@@ -609,7 +611,7 @@ function HeroVariantB({
                                     sold across Canada
                                     <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.52em] w-[1.52em]" aria-hidden="true" />
                                 </div>
-                                <div className="mt-5 grid gap-2.5">
+                                <div className="mt-5 grid gap-2.5" style={{ transform: 'translateY(12px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                         <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                             <span>Explore the Map</span>
@@ -655,7 +657,7 @@ function HeroVariantB({
                         </Link>
                     </div>
 
-                    <div className="hidden md:block relative z-10 min-h-[calc(85vh-81px)] 2xl:min-h-[calc(85vh-108px)] min-[1670px]:min-h-[calc(85vh-108px)] overflow-hidden bg-white">
+                    <div className="hidden md:block relative z-10 min-h-[calc(85vh-81px)] overflow-hidden bg-white">
                         <div className="pointer-events-none absolute left-0 top-0 z-[11] h-[74%] w-[78%] bg-[radial-gradient(ellipse_96%_86%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_34%,rgba(200,223,240,0.055)_56%,rgba(255,255,255,0)_84%)]" aria-hidden="true" />
                         <div
                             className="absolute inset-y-0 right-0 z-0 w-[64%] select-none overflow-hidden"
@@ -695,8 +697,9 @@ function HeroVariantB({
                                     <div className="h-full w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(219,234,254,0.25)_100%)]" />
                                 )}
                             </div>
-                            <div className="pointer-events-none absolute inset-y-0 left-0 w-[45%] bg-gradient-to-r from-white via-white/78 to-transparent" />
-                        </div>
+                        <div className="pointer-events-none absolute inset-y-0 left-0 w-[45%] bg-gradient-to-r from-white via-white/78 to-transparent" />
+                        <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[190px] bg-[linear-gradient(180deg,rgba(200,223,240,0.68)_0%,rgba(200,223,240,0.3)_42%,rgba(255,255,255,0)_100%)]" />
+                    </div>
 
                         <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_92%_110%_at_0%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_28%,rgba(255,255,255,0.72)_49%,rgba(255,255,255,0.24)_70%,rgba(255,255,255,0)_90%)]" />
 
@@ -717,8 +720,8 @@ function HeroVariantB({
                         </div>
 
                         <div className="boutique-width relative z-20 mx-auto flex min-h-[calc(85vh-81px)] items-center translate-y-[5vh]">
-                            <div className="relative ml-[64px] w-fit max-w-[calc(100vw-160px)] pointer-events-auto lg:max-w-[760px] min-[1670px]:ml-[74px] min-[1670px]:max-w-[840px]">
-                                <h1 className="mb-6 md:mb-10 w-fit font-['Lora'] text-[clamp(3.25rem,4.7vw,5.1rem)] font-semibold leading-[1.03] tracking-normal text-[#0057B7] antialiased">
+                            <div className="relative ml-[64px] w-fit max-w-[calc(100vw-160px)] pointer-events-auto lg:max-w-[760px]">
+                                <h1 className="mb-6 md:mb-10 w-fit font-['Lora'] text-[clamp(3.25rem,4.7vw,4rem)] font-semibold leading-[1.03] tracking-normal text-[#0057B7] antialiased">
                                     <span className="block">Discover</span>
                                     <span className="block whitespace-nowrap">
                                         <span className="relative inline-block pb-4">
@@ -734,7 +737,7 @@ function HeroVariantB({
                                         sold across Canada
                                         <img src={mapleLeafIcon} alt="" className="ml-3 inline-block h-[1.44em] w-[1.44em]" aria-hidden="true" />
                                     </span>
-                                    <div className="flex items-center gap-8 self-start md:self-end relative z-20 pointer-events-auto translate-y-[15%]">
+                                    <div className="flex items-center gap-8 self-start md:self-end relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
                                         <Link href="/map">
                                             <button className="group/cta-btn relative inline-flex h-[46px] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Explore the Map</span>
@@ -764,7 +767,7 @@ function HeroVariantB({
 
 function HeroTickerRow({ stores }: { stores: Store[] }) {
     return (
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[95%] min-[1670px]:-translate-y-[23%]">
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white" style={HERO_TICKER_LIFT_STYLE}>
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">

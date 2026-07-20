@@ -49,7 +49,7 @@ export function StoreList({ stores, onSelectStore }: StoreListProps) {
             </div>
 
             {/* Right - Chevron Only */}
-            <ChevronRight className="w-5 h-5 text-gray-300 shrink-0 ml-2" />
+
           </div>
         ))}
       </div>

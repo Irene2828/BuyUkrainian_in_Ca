@@ -433,6 +433,25 @@ html.dark header.bg-white\/90 {
     width: 100% !important;
   }
 
+  /* Admin surfaces intentionally use the map/form blue control language. */
+  .admin-store-dialog select.admin-store-select,
+  .admin-shell select.admin-filter-select {
+    height: 52px !important;
+    border: 1px solid rgba(255, 255, 255, 0.26) !important;
+    border-radius: 0 !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-position: right 14px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 14px !important;
+    color: #ffffff !important;
+  }
+
+  .admin-shell select.admin-filter-select {
+    height: 38px !important;
+    padding: 0 30px 0 12px !important;
+  }
+
   /* Hide scrollbar utility */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -677,6 +696,36 @@ html.dark header.bg-white\/90 {
   will-change: auto;
 }
 
+/* The share composition is the one intentional visual block transition. */
+.share-slide-left,
+.share-slide-right {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity 840ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1180ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.share-slide-left {
+  transform: translate3d(-12%, 0, 0);
+}
+
+.share-slide-right {
+  transform: translate3d(12%, 0, 0);
+  transition-delay: 100ms;
+}
+
+.share-slide-left.is-visible,
+.share-slide-right.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+.share-slide-right.is-visible {
+  transform: translate3d(0, 0, 0);
+}
+
 /* Card and visual containers remain stable during scroll. */
 .stagger-container .stagger-item {
   opacity: 1;
@@ -721,6 +770,8 @@ html.dark header.bg-white\/90 {
   .section-reveal,
   .text-reveal,
   .section-headline-reveal,
+  .share-slide-left,
+  .share-slide-right,
   .stagger-container .stagger-item {
     opacity: 1 !important;
     transform: none !important;

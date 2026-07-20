@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AdminStoreCard, BrandCircle } from "@/components/AdminStoreCard";
+import { AdminStoreCard, BrandCircle, StatusBadge } from "@/components/AdminStoreCard";
 import { StoreCard } from "@/components/store-card";
 import {
     FileText,
@@ -53,21 +53,22 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { CSS } from '@dnd-kit/utilities';
 import imageCompression from 'browser-image-compression';
 import { GripVertical } from 'lucide-react';
+import "./admin-dashboard.css";
 
 const adminInputClassName =
-    "h-[48px] rounded-[12px] border border-slate-200 bg-white px-4 text-sm text-[#1E293B] shadow-none transition-colors hover:shadow-none focus-visible:border-[#0057B7]/40 focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[48px] rounded-none border border-[#dbe7f3] bg-white px-4 text-sm text-[#243b53] shadow-none transition-colors hover:shadow-none focus-visible:border-[#6ea8dc] focus-visible:ring-4 focus-visible:ring-[#0057B7]/10 focus-visible:ring-offset-0";
 
 const adminTextareaClassName =
-    "min-h-[104px] rounded-[12px] border border-slate-200 bg-white px-4 py-3 text-sm text-[#1E293B] shadow-none transition-colors hover:shadow-none focus-visible:border-[#0057B7]/40 focus-visible:ring-0 focus-visible:ring-offset-0 resize-none";
+    "min-h-[104px] rounded-none border border-[#dbe7f3] bg-white px-4 py-3 text-sm text-[#243b53] shadow-none transition-colors hover:shadow-none focus-visible:border-[#6ea8dc] focus-visible:ring-4 focus-visible:ring-[#0057B7]/10 focus-visible:ring-offset-0 resize-none";
 
 const adminPrimaryButtonClassName =
-    "h-[46px] rounded-full bg-[#0057B7] px-6 text-[14px] font-medium tracking-tight text-white shadow-[0_4px_14px_0_rgba(0,87,183,0.26)] transition-all duration-300 hover:bg-[#0047A0] hover:shadow-[0_6px_20px_rgba(0,87,183,0.34)] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30";
+    "h-[46px] rounded-none bg-[#0057B7] px-6 text-[14px] font-bold tracking-tight text-white shadow-[0_6px_16px_rgba(0,87,183,0.2)] transition-all duration-300 hover:bg-[#004798] hover:shadow-[0_8px_20px_rgba(0,87,183,0.28)] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#0057B7]/30";
 
 const adminSectionLabelClassName =
-    "mb-2 mt-4 px-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400/80 border-b border-slate-100 pb-1.5 flex items-center justify-between";
+    "mb-2 mt-4 px-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#91A4B8] border-b border-[#E6EEF6] pb-1.5 flex items-center justify-between";
 
 const adminFieldLabelClassName =
-    "mb-2 block text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500";
+    "mb-2 block text-[10px] font-bold uppercase tracking-[0.15em] text-[#567089]";
 
 interface SortableStoreRowProps {
     store: any;
@@ -117,11 +118,11 @@ function SortableStoreRow({
             ref={setNodeRef}
             style={style}
             className={cn(
-                "flex items-center justify-between gap-4 border-b border-slate-100 p-4 transition-colors",
+                "flex items-center justify-between gap-4 border-b border-[#e6eef6] p-4 transition-colors last:border-b-0 max-md:items-start max-md:gap-3 max-md:p-3",
                 isDragging
-                    ? "z-50 scale-[1.02] rounded-[18px] bg-white shadow-xl ring-1 ring-black/5"
-                    : "bg-white hover:bg-[#EFF6FF]/40",
-                selectedIds.has(store.id) && "bg-[#EFF6FF]"
+                    ? "z-50 scale-[1.02] rounded-none bg-white shadow-xl ring-1 ring-[#9cc1e5]"
+                    : "bg-white hover:bg-[#f8fbff]",
+                selectedIds.has(store.id) && "bg-[#eaf3fc]"
             )}
             onClick={() => openEditModal(store)}
         >
@@ -141,59 +142,63 @@ function SortableStoreRow({
                         className="w-4 h-4 rounded border-slate-300 pointer-events-none accent-[#0057B7]"
                     />
                 </div>
-                <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 overflow-hidden text-slate-300">
+                <div className="h-11 w-11 rounded-none bg-[#f3f8fd] flex items-center justify-center shrink-0 overflow-hidden text-[#8da7bf] ring-1 ring-[#dbe7f3]">
                     {store.images?.[0] ? (
                         <img src={store.images[0]} className="w-full h-full object-cover" alt="" />
                     ) : (
                         <Image className="w-5 h-5" />
                     )}
                 </div>
-                <div className="min-w-0 max-w-[200px] md:max-w-[300px] lg:max-w-[400px]">
-                    <p className="truncate text-[15px] font-semibold tracking-tight text-[#1E293B]">{store.name}</p>
-                    <p className="truncate text-[13px] text-slate-500">{store.address || store.category}</p>
+                <div className="min-w-0 max-w-[200px] md:max-w-[360px] lg:max-w-[520px]">
+                    <div className="mb-1 flex min-w-0 flex-wrap items-center gap-2">
+                        <p className="truncate text-[15px] font-bold tracking-tight text-[#102A43]">{store.name}</p>
+                        <StatusBadge status={store.status} />
+                    </div>
+                    <p className="truncate text-[12px] text-[#71869B]">{store.address || store.category}</p>
+                    <p className="mt-1 truncate text-[11px] text-[#9AABBB]">{store.products?.length ? store.products.slice(0, 3).join(" · ") : "No products listed"}</p>
                 </div>
             </div>
 
             <div className="flex items-center gap-2">
                 {activeTab === "pending" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-full p-1.5 text-slate-400 transition-colors hover:bg-[#EFF6FF] hover:text-[#0057B7]">
+                        <button title="Edit store" aria-label="Edit store" onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-none p-2 text-[#71869B] transition-colors hover:bg-[#eaf3fc] hover:text-[#0057B7]">
                             <Edit3 className="w-4.5 h-4.5" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="rounded-full p-1.5 text-[#0057B7] transition-colors hover:bg-[#EFF6FF]">
+                        <button title="Approve store" aria-label="Approve store" onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="rounded-none p-2 text-[#197044] transition-colors hover:bg-[#f0fbf5]">
                             <Check className="w-4.5 h-4.5" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleReject(store.id); }} className="rounded-full p-1.5 text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
+                        <button title="Reject store" aria-label="Reject store" onClick={(e) => { e.stopPropagation(); handleReject(store.id); }} className="rounded-none p-2 text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
                             <X className="w-4.5 h-4.5" />
                         </button>
                     </>
                 )}
                 {activeTab === "trash" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); handleRestore(store.id); }} className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-[14px] font-medium text-slate-600 transition-colors hover:border-[#0057B7]/30 hover:text-[#0057B7]">
+                        <button onClick={(e) => { e.stopPropagation(); handleRestore(store.id); }} className="flex items-center gap-1.5 rounded-none border border-[#dbe7f3] px-3 py-1.5 text-[12px] font-bold text-[#567089] transition-colors hover:border-[#9cc1e5] hover:text-[#0057B7]">
                             <RotateCcw className="w-3.5 h-3.5" /> Restore
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handlePermanentDelete(store.id); }} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[14px] font-medium text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
+                        <button onClick={(e) => { e.stopPropagation(); handlePermanentDelete(store.id); }} className="flex items-center gap-1.5 rounded-none px-3 py-1.5 text-[12px] font-bold text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
                             <AlertTriangle className="w-3.5 h-3.5" /> Delete
                         </button>
                     </>
                 )}
                 {activeTab === "live" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-full p-1.5 text-slate-400 transition-colors hover:bg-[#EFF6FF] hover:text-[#0057B7]">
+                        <button title="Edit store" aria-label="Edit store" onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-none p-2 text-[#71869B] transition-colors hover:bg-[#eaf3fc] hover:text-[#0057B7]">
                             <Edit3 className="w-4.5 h-4.5" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }} className="rounded-full p-1.5 text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
+                        <button title="Move to trash" aria-label="Move to trash" onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }} className="rounded-none p-2 text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
                             <Trash2 className="w-4 h-4" />
                         </button>
                     </>
                 )}
                 {activeTab === "drafts" && (
                     <>
-                        <button onClick={(e) => { e.stopPropagation(); handleDeleteDraft(store.id); }} className="rounded-full p-1.5 text-red-400 transition-colors hover:bg-red-50 hover:text-red-600">
+                        <button title="Delete draft" aria-label="Delete draft" onClick={(e) => { e.stopPropagation(); handleDeleteDraft(store.id); }} className="rounded-none p-2 text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
                             <Trash2 className="w-4 h-4" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="flex items-center gap-1.5 rounded-full bg-[#0057B7] px-3.5 py-1.5 text-[14px] font-medium tracking-tight text-white transition-colors hover:bg-[#0047A0]">
+                        <button onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="flex items-center gap-1.5 rounded-none bg-[#0057B7] px-3.5 py-1.5 text-[14px] font-medium tracking-tight text-white transition-colors hover:bg-[#0047A0]">
                             Publish
                         </button>
                     </>
@@ -228,7 +233,6 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [isDragOver, setIsDragOver] = useState(false);
     const [drafts, setDrafts] = useState<any[]>([]);
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-    const [cityFilter, setCityFilter] = useState<string>("");
     const [sortBy, setSortBy] = useState<"date" | "name">("date");
     const fileInputRef = useRef<HTMLInputElement>(null);
     const bulkInputRef = useRef<HTMLInputElement>(null);
@@ -463,14 +467,6 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         // Apply category filter
         if (categoryFilter) {
             items = items.filter((s: any) => s.category === categoryFilter);
-        }
-        // Apply city filter
-        if (cityFilter.trim()) {
-            const query = cityFilter.toLowerCase();
-            items = items.filter((s: any) =>
-                s.address?.toLowerCase().includes(query) ||
-                s.city?.toLowerCase().includes(query)
-            );
         }
         // Sort (Override manual sort if header sort is clicked)
         if (sortBy === "name") {
@@ -1081,34 +1077,35 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     const tabs: { id: TabType; label: string; icon: any; count: number; color: string }[] = [
         { id: "pending", label: "Pending", icon: FileText, count: pendingStores.length, color: "orange" },
-        { id: "live", label: "Live", icon: MapPin, count: liveStores.length, color: "green" },
-        { id: "trash", label: "Trash", icon: Trash2, count: trashedStores.length, color: "red" },
+        { id: "live", label: "Approved", icon: MapPin, count: liveStores.length, color: "green" },
+        { id: "trash", label: "Deleted", icon: Trash2, count: trashedStores.length, color: "red" },
         { id: "drafts", label: "Drafts", icon: FileSpreadsheet, count: drafts.length, color: "blue" },
         { id: "settings", label: "Settings", icon: Settings, count: adminUsers.length, color: "gray" },
     ];
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-[#1E293B]">
+        <div className="admin-shell min-h-screen flex font-sans">
             {/* Left Sidebar */}
-            <aside className="fixed inset-y-0 left-0 z-[120] flex h-screen w-[248px] flex-col border-r border-slate-200 bg-white px-4 pt-[28px]" style={{ fontSize: '16px' }}>
-                <div className="shrink-0 pb-[38px]">
+            <aside className="admin-sidebar fixed inset-y-0 left-0 z-[120] flex h-screen w-[248px] flex-col px-4 pt-[28px] max-md:static max-md:h-auto max-md:min-h-0 max-md:w-full max-md:px-4 max-md:py-4" style={{ fontSize: '16px' }}>
+                <div className="admin-sidebar-brand shrink-0 pb-[38px] max-md:pb-0">
                     <Link href="/" className="block px-2">
                         <SiteBrandLockup className={cn("origin-left", isShortSidebarViewport ? "scale-[0.96]" : "scale-[0.98]")} />
                     </Link>
+                    <span className="admin-mobile-menu-label">Admin workspace</span>
                 </div>
 
                 <nav className="min-h-0 flex-1 overflow-y-auto pb-2">
-                    <p className={adminSectionLabelClassName}>Moderation</p>
+                    <p className={cn("admin-section-label", adminSectionLabelClassName)}>Moderation</p>
                     <ul className="space-y-2">
                         {tabs.map((tab) => (
                             <li key={tab.id}>
                                 <button
                                     onClick={() => { setActiveTab(tab.id); setSelectedIds(new Set()); }}
                                     className={cn(
-                                        "flex w-full items-center gap-4 rounded-[12px] px-4 py-3 text-left text-[14.5px] font-medium transition-all duration-300",
+                                        "admin-sidebar-nav-button flex w-full items-center gap-4 rounded-none px-4 py-3 text-left text-[14.5px] font-medium transition-all duration-300",
                                         activeTab === tab.id
-                                            ? "bg-[#0057B7]/60 text-white font-semibold shadow-sm"
-                                            : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                                            ? "is-active font-semibold"
+                                            : "text-[#6B8198] hover:bg-[#F4F8FC] hover:text-[#102A43]"
                                     )}
                                 >
                                     <tab.icon className="h-[18px] w-[18px] shrink-0" />
@@ -1116,10 +1113,10 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                     {tab.count > 0 && (
                                         <span
                                             className={cn(
-                                                "ml-auto min-w-[20px] rounded-full px-2 py-0.5 text-center text-[11px] font-bold",
+                                                "ml-auto min-w-[20px] rounded-none px-2 py-0.5 text-center text-[11px] font-bold",
                                                 tab.id === "pending"
-                                                    ? "bg-[#0057B7] text-white"
-                                                    : "bg-slate-200 text-slate-700"
+                                                    ? "bg-[#FFD700] text-[#102A43]"
+                                                    : "bg-[#EAF3FC] text-[#567089]"
                                             )}
                                         >
                                             {tab.count}
@@ -1130,39 +1127,9 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         ))}
                     </ul>
 
-                    <div className="mt-3.5">
-                        <p className={adminSectionLabelClassName}>Stats</p>
-                        <div className="space-y-2 px-2">
-                            <div className="flex items-center justify-between rounded-[12px] border border-slate-200 bg-[#F8FAFC] px-3 py-1.5">
-                                <span className="text-[13px] whitespace-nowrap text-slate-500">Total Stores</span>
-                                <span className="text-[15px] font-semibold text-[#1E293B]">{allStores.length}</span>
-                            </div>
-                            <div className="flex items-center justify-between rounded-[12px] border border-slate-200 bg-[#F8FAFC] px-3 py-1.5">
-                                <span className="text-[13px] whitespace-nowrap text-slate-500">Team Members</span>
-                                <span className="text-[15px] font-semibold text-[#1E293B]">{adminUsers.length || 1}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {!isShortSidebarViewport && (
-                        <div className="mt-4">
-                            <div className="mb-2 flex items-center justify-between px-2">
-                                <p className={adminSectionLabelClassName}>Traffic Pulse</p>
-                                <TrendingUp className="h-4 w-4 text-slate-300" />
-                            </div>
-                            <div className="rounded-[14px] border border-slate-200 bg-[#F8FAFC] p-2">
-                                <div className="flex h-6 items-end gap-px rounded-lg bg-white px-2 pb-1">
-                                    {[30, 45, 25, 60, 80, 55, 70, 90, 65, 75, 85, 95].map((h, i) => (
-                                        <div key={i} className="flex-1 rounded-t-sm bg-slate-300" style={{ height: `${h}%` }} />
-                                    ))}
-                                </div>
-                                <p className="mt-1 text-[9px] text-slate-400">Last 30 days</p>
-                            </div>
-                        </div>
-                    )}
                 </nav>
 
-                <div className="shrink-0 border-t border-slate-200 py-2">
+                <div className="admin-sidebar-footer shrink-0 border-t border-[#E6EEF6] py-2">
                     <div className="flex items-center gap-3 px-2 py-1.5">
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F8FAFC]">
                             <Users className="w-5 h-5 text-slate-500" />
@@ -1181,66 +1148,61 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             </aside>
 
             {/* Main Content */}
-            <main className="relative ml-[248px] h-screen flex-1 overflow-y-auto bg-[#F8FAFC] scroll-smooth">
-                <div className="sticky top-0 z-[100] flex items-center justify-between border-b border-slate-200 bg-white/90 px-16 py-8 backdrop-blur-xl transition-all duration-500">
-                    <div>
-                        <h2 className="text-[24px] font-semibold tracking-tight text-[#1E293B]">
-                            {activeTab === "pending" ? "Moderation Queue" :
-                                activeTab === "live" ? "Live Stores" :
-                                    activeTab === "trash" ? "Trash" :
-                                        activeTab === "settings" ? "Settings" : "Draft Queue"}
-                        </h2>
-                        <p className="mt-1 text-[14px] text-slate-400">
-                            {activeTab === "pending" ? "Hi, admin" :
-                                activeTab === "live" ? "Manage live store listings" :
-                                    activeTab === "trash" ? "Restore or permanently delete stores" :
-                                        activeTab === "settings" ? "Manage admin users and passwords" : "Import and review bulk uploads"}
-                        </p>
+            <main className="admin-main relative ml-[248px] h-screen flex-1 overflow-y-auto scroll-smooth max-md:ml-0 max-md:h-auto">
+                <div className="admin-topbar sticky top-0 z-[100] flex flex-col gap-3 px-8 py-4 backdrop-blur-xl transition-all duration-300 max-md:static max-md:gap-3 max-md:px-[18px] max-md:py-3">
+                    <div className="admin-topbar-row flex items-center justify-between gap-8 max-md:flex-col max-md:items-stretch max-md:gap-3">
+                        <nav className="admin-main-tabs" aria-label="Store status">
+                            {tabs.filter((tab) => tab.id === "pending" || tab.id === "live" || tab.id === "trash").map((tab) => (
+                                <button
+                                    key={`quick-${tab.id}`}
+                                    type="button"
+                                    aria-current={activeTab === tab.id ? "page" : undefined}
+                                    onClick={() => { setActiveTab(tab.id); setSelectedIds(new Set()); }}
+                                    className={cn("admin-main-tab", activeTab === tab.id && "is-active")}
+                                >
+                                    <span>{tab.label}</span>
+                                </button>
+                            ))}
+                        </nav>
+                        <div className="admin-topbar-actions flex items-center gap-4 max-md:w-full max-md:flex-col max-md:items-stretch max-md:gap-[10px]">
+                            <button
+                                onClick={() => bulkInputRef.current?.click()}
+                                className="flex h-[42px] items-center gap-2 rounded-none border border-[#0057B7] bg-transparent px-5 text-[13px] font-bold text-[#0057B7] shadow-none transition-colors hover:bg-[#0057B7] hover:text-white max-md:justify-center"
+                            >
+                                <Upload className="w-4 h-4" /> Bulk Import
+                            </button>
+                            <input
+                                type="file"
+                                ref={bulkInputRef}
+                                onChange={(e) => e.target.files && handleBulkImport(e.target.files)}
+                                accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                className="hidden"
+                            />
+                            <a
+                                href="/"
+                                target="_blank"
+                                className="flex items-center gap-2 text-[13px] font-semibold text-[#6B8198] transition-colors hover:text-[#0057B7] max-md:justify-center"
+                            >
+                                View Site <ExternalLink className="w-4 h-4" />
+                            </a>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <button
-                            onClick={() => bulkInputRef.current?.click()}
-                            className="flex h-[40px] items-center gap-2 rounded-full bg-[#0057B7] px-5 text-[14px] font-medium text-white transition-colors hover:bg-[#0047A0]"
-                        >
-                            <Upload className="w-4 h-4" /> Bulk Import
-                        </button>
-                        <input
-                            type="file"
-                            ref={bulkInputRef}
-                            onChange={(e) => e.target.files && handleBulkImport(e.target.files)}
-                            accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            className="hidden"
-                        />
-                        <a
-                            href="/"
-                            target="_blank"
-                            className="flex items-center gap-2 text-[14px] text-slate-500 transition-colors hover:text-[#0057B7]"
-                        >
-                            View Site <ExternalLink className="w-4 h-4" />
-                        </a>
-                    </div>
-                </div>
-                {/* Content Area */}
-                <div className="px-16 py-12 pb-32 space-y-12">
 
-                    {/* Filter Bar */}
                     {activeTab !== "settings" && (
-                        <div className="mb-6 flex flex-wrap items-center gap-3">
-                            {/* Bulk Selection Header if items exist */}
+                        <div className="admin-header-filters flex min-w-0 items-center gap-4 border-t border-[#e6eef6] pt-3 max-md:flex-wrap max-md:gap-3">
                             {displayedStores.length > 0 && (
-                                <div className="mr-4 flex items-center">
+                                <label className="flex shrink-0 items-center">
                                     <input
                                         type="checkbox"
                                         checked={selectedIds.size === displayedStores.length && displayedStores.length > 0}
                                         onChange={toggleSelectAll}
-                                        className="w-4 h-4 rounded border-slate-300 accent-[#0057B7]"
+                                        className="h-4 w-4 rounded border-[#b6c8d9] accent-[#0057B7]"
                                     />
-                                    <span className="ml-2 text-sm text-slate-500">Select All</span>
-                                </div>
+                                    <span className="ml-2 text-[12px] font-semibold text-[#6B8198]">Select all</span>
+                                </label>
                             )}
 
-                            {/* Category Chips */}
-                            <div className="flex items-center gap-2">
+                            <div className="admin-filter-scroll flex-1">
                                 {[
                                     { id: null, label: "All" },
                                     { id: "food", label: "Food" },
@@ -1251,47 +1213,38 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                     <button
                                         key={cat.id || "all"}
                                         onClick={() => setCategoryFilter(cat.id)}
-                                        className={cn(
-                                            "rounded-full px-4 py-2 text-[14px] font-medium transition-colors",
-                                            categoryFilter === cat.id
-                                                ? "bg-[#0057B7]/60 text-white font-semibold"
-                                                : "border border-slate-200 bg-white text-slate-500 hover:border-[#0057B7]/30 hover:text-[#0057B7]"
-                                        )}
+                                        className={cn("admin-filter-chip", categoryFilter === cat.id && "is-active")}
                                     >
                                         {cat.label}
                                     </button>
                                 ))}
                             </div>
-                            {/* City Search */}
-                            <input
-                                type="text"
-                                placeholder="Filter by city..."
-                                value={cityFilter}
-                                onChange={(e) => setCityFilter(e.target.value)}
-                                className="h-[40px] w-[180px] rounded-full border border-slate-200 bg-white px-4 text-[13px] text-[#1E293B] outline-none transition-colors placeholder:text-slate-400 focus:border-[#0057B7]/30"
-                            />
-                            {/* Sort */}
+
                             <select
+                                aria-label="Sort stores"
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value as "date" | "name")}
-                                className="h-[40px] rounded-full border border-slate-200 bg-white px-4 text-[13px] text-[#1E293B] outline-none transition-colors focus:border-[#0057B7]/30"
+                                className="admin-filter-select shrink-0"
                             >
-                                <option value="date">Sort: Date Added</option>
+                                <option value="date">Sort: Date added</option>
                                 <option value="name">Sort: Name</option>
                             </select>
                         </div>
                     )}
+                </div>
+                {/* Content Area */}
+                <div className="admin-content space-y-6 px-8 py-6 pb-24 max-md:space-y-5 max-md:px-4 max-md:py-4 max-md:pb-[72px]">
 
                     {/* Bulk Actions Bar */}
                     {selectedIds.size > 0 && (
-                        <div className="fixed bottom-8 left-[calc(248px+64px)] right-16 z-50 flex items-center justify-between rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.12)] animate-in slide-in-from-bottom-6">
-                            <span className="pl-2 text-sm font-medium text-[#1E293B]">{selectedIds.size} items selected</span>
-                            <div className="flex items-center gap-3">
+                        <div className="fixed bottom-5 left-[calc(248px+40px)] right-10 z-50 flex items-center justify-between gap-4 rounded-none border border-[#cfe0ef] bg-[#102A43] p-4 text-white shadow-[0_18px_40px_rgba(16,42,67,0.25)] animate-in slide-in-from-bottom-6 max-md:bottom-3 max-md:left-3 max-md:right-3 max-md:flex-col max-md:items-stretch">
+                            <span className="text-[13px] font-bold">{selectedIds.size} item{selectedIds.size === 1 ? "" : "s"} selected</span>
+                            <div className="flex items-center justify-end gap-2 max-md:grid max-md:grid-cols-2">
                                 <Button
                                     size="sm"
                                     onClick={handleBulkDelete}
                                     disabled={isBulkProcessing}
-                                    className="rounded-full border-0 bg-transparent px-4 text-[14px] font-medium text-red-400 shadow-none transition-colors hover:bg-red-50 hover:text-red-600"
+                                    className="h-10 rounded-none border border-[#5d7286] bg-transparent px-4 text-[12px] font-bold text-[#ffd1d1] shadow-none transition-colors hover:bg-[#3a4d60] hover:text-white"
                                 >
                                     {isBulkProcessing ? (
                                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -1303,7 +1256,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 {(activeTab === "pending" || activeTab === "drafts") && (
                                     <Button
                                         size="sm"
-                                        className="h-[40px] rounded-full bg-[#0057B7] px-5 text-[14px] font-medium text-white shadow-none transition-colors hover:bg-[#0047A0]"
+                                        className="h-10 rounded-none bg-[#FFD700] px-5 text-[12px] font-extrabold text-[#102A43] shadow-none transition-colors hover:bg-[#ffe66b]"
                                         onClick={handleBulkApprove}
                                     >
                                         <Check className="w-4 h-4 mr-2" />
@@ -1321,13 +1274,13 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             onDragLeave={handleDragLeave}
                             onDrop={handleDrop}
                             className={cn(
-                                "mb-8 rounded-[20px] border-2 border-dashed p-8 text-center transition-all",
-                                isDragOver ? "border-[#0057B7]/30 bg-[#EFF6FF]/40" : "border-slate-200 bg-white"
+                                "rounded-[18px] border-2 border-dashed p-8 text-center transition-all",
+                                isDragOver ? "border-[#6ea8dc] bg-[#eaf3fc]" : "border-[#cfe0ef] bg-white"
                             )}
                         >
-                            <FileSpreadsheet className="mx-auto mb-4 h-12 w-12 text-slate-300" />
-                            <p className="mb-2 text-[16px] font-medium text-[#1E293B]">Drop CSV or Excel file here</p>
-                            <p className="text-[13px] text-slate-400">Format: Store Name, Address, Category</p>
+                            <FileSpreadsheet className="mx-auto mb-4 h-10 w-10 text-[#6ea8dc]" />
+                            <p className="mb-2 text-[16px] font-bold text-[#102A43]">Drop CSV or Excel file here</p>
+                            <p className="text-[13px] text-[#71869B]">Format: Store Name, Address, Category</p>
                         </div>
                     )}
 
@@ -1345,18 +1298,27 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                     ))}
                                 </div>
                             ) : displayedStores.length === 0 ? (
-                                <div className="rounded-[20px] border border-slate-200 bg-white py-24 text-center">
-                                    {activeTab === "drafts" ? <FileSpreadsheet className="mx-auto mb-4 h-16 w-16 text-slate-200" /> :
-                                        activeTab === "trash" ? <Trash2 className="mx-auto mb-4 h-16 w-16 text-slate-200" /> :
-                                            <FileText className="mx-auto mb-4 h-16 w-16 text-slate-200" />}
-                                    <p className="text-lg text-slate-400">
-                                        {activeTab === "pending" ? "No pending submissions" :
-                                            activeTab === "live" ? "No live stores yet" :
-                                                activeTab === "trash" ? "Trash is empty" : "No drafts yet"}
-                                    </p>
+                                <div className="admin-list-panel admin-empty">
+                                    <div>
+                                        <div className="admin-empty-icon mx-auto mb-4">
+                                            {activeTab === "drafts" ? <FileSpreadsheet className="h-6 w-6" /> :
+                                                activeTab === "trash" ? <Trash2 className="h-6 w-6" /> :
+                                                    <FileText className="h-6 w-6" />}
+                                        </div>
+                                        <p className="text-[17px] font-bold tracking-[-0.02em] text-[#102A43]">
+                                            {activeTab === "pending" ? "No pending submissions" :
+                                                activeTab === "live" ? "No live stores yet" :
+                                                    activeTab === "trash" ? "Trash is empty" : "No drafts yet"}
+                                        </p>
+                                        <p className="mt-2 text-[13px] text-[#71869B]">You're all caught up in this view.</p>
+                                    </div>
                                 </div>
                             ) : viewMode === "list" ? (
-                                <div className="overflow-hidden rounded-[20px] border border-slate-200 bg-white">
+                                <div className="admin-list-panel">
+                                    <div className="admin-list-header">
+                                        <span className="admin-list-header-label">{activeTab === "pending" ? "Submissions to review" : activeTab === "live" ? "Published stores" : activeTab === "trash" ? "Removed listings" : "Imported drafts"}</span>
+                                        <span className="text-[12px] font-semibold text-[#91A4B8]">{displayedStores.length} result{displayedStores.length === 1 ? "" : "s"}</span>
+                                    </div>
                                     <div>
                                         <DndContext
                                             sensors={sensors}
@@ -1386,8 +1348,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                             </SortableContext>
                                         </DndContext>
                                     </div>
-                                    <div className="border-t border-slate-200 bg-[#F8FAFC] px-5 py-3 text-[12px] text-slate-500">
-                                        Showing {displayedStores.length} items
+                                    <div className="border-t border-[#e6eef6] bg-[#fbfdff] px-5 py-3 text-[11px] font-semibold text-[#91A4B8]">
+                                        Showing {displayedStores.length} item{displayedStores.length === 1 ? "" : "s"}
                                     </div>
                                 </div>
                             ) : (
@@ -1411,28 +1373,31 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     )}
                     {/* Settings View */}
                     {activeTab === "settings" && (
-                        <div className="overflow-hidden rounded-[20px] border border-slate-200 bg-white">
-                            <div className="flex items-center justify-between border-b border-slate-200 p-5">
-                                <h3 className="text-lg font-semibold tracking-tight text-[#1E293B]">Admin Users</h3>
-                                <Button onClick={() => setIsNewUserModalOpen(true)} className={cn(adminPrimaryButtonClassName, "gap-2")}>
+                        <div className="admin-list-panel">
+                            <div className="flex items-center justify-between gap-4 border-b border-[#e6eef6] bg-[#fbfdff] p-5 max-md:items-start max-md:flex-col">
+                                <div>
+                                    <p className="admin-eyebrow mb-2">Access control</p>
+                                    <h3 className="text-[20px] font-bold tracking-[-0.025em] text-[#102A43]">Admin users</h3>
+                                </div>
+                                <Button onClick={() => setIsNewUserModalOpen(true)} className={cn(adminPrimaryButtonClassName, "gap-2 max-md:w-full") }>
                                     <Plus className="w-4 h-4" /> Add User
                                 </Button>
                             </div>
-                            <div className="divide-y divide-slate-100">
+                            <div className="divide-y divide-[#e6eef6]">
                                 {adminUsers.map((user: AdminUser) => (
-                                    <div key={user.id} className="flex items-center justify-between p-4 transition-colors hover:bg-[#EFF6FF]/40">
+                                    <div key={user.id} className="flex items-center justify-between gap-4 p-5 transition-colors hover:bg-[#f8fbff] max-md:items-start max-md:flex-col">
                                         <div className="flex items-center gap-4">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F8FAFC]">
-                                                <User className="w-5 h-5 text-slate-500" />
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-[#eaf3fc]">
+                                                <User className="w-5 h-5 text-[#0057B7]" />
                                             </div>
                                             <div>
-                                                <p className="font-medium text-[#1E293B]">{user.username}</p>
-                                                <p className="text-xs text-slate-400">Created: {new Date(user.createdAt).toLocaleDateString()}</p>
+                                                <p className="font-bold text-[#102A43]">{user.username}</p>
+                                                <p className="text-xs text-[#91A4B8]">Created: {new Date(user.createdAt).toLocaleDateString()}</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 max-md:w-full">
                                             <Button
-                                                className={cn(adminPrimaryButtonClassName, "gap-2")}
+                                                className={cn(adminPrimaryButtonClassName, "gap-2 max-md:flex-1")}
                                                 size="sm"
                                                 onClick={() => {
                                                     setTargetUserId(user.id);
@@ -1441,14 +1406,15 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                     setIsPasswordModalOpen(true);
                                                 }}
                                             >
-                                                <Key className="w-4 h-4" /> Change Password
+                                                <Key className="w-4 h-4" /> Change password
                                             </Button>
                                             <Button
                                                 size="sm"
                                                 onClick={() => {
                                                     if (confirm("Delete this user?")) deleteUserMutation.mutate(user.id);
                                                 }}
-                                                className="h-[46px] rounded-full bg-transparent px-4 text-red-400 shadow-none transition-colors hover:bg-red-50 hover:text-red-600"
+                                                aria-label={`Delete ${user.username}`}
+                                                className="h-[46px] rounded-[10px] bg-transparent px-4 text-[#ae3c3c] shadow-none transition-colors hover:bg-[#fff4f4] hover:text-[#8f2d2d]"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </Button>
@@ -1463,72 +1429,77 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
             {/* Edit Modal */}
             <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-                <DialogContent className="w-full max-w-[520px] rounded-[24px] border-white bg-white p-8 shadow-[0_32px_64px_rgba(0,0,0,0.12)]">
+                <DialogContent className="admin-store-dialog w-full p-0">
                     <DialogHeader>
-                        <DialogTitle className="mb-6 text-[20px] font-semibold tracking-tight text-[#0057B7]">Edit store</DialogTitle>
+                        <DialogTitle className="admin-store-dialog-title border-b border-white/15 px-8 py-7 text-[22px] font-bold tracking-tight">Edit store</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-5 py-4 max-h-[60vh] overflow-y-auto">
+                    <div className="admin-store-dialog-body space-y-6 px-8 py-7">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#FFD700]">Required details</p>
                         <div className="space-y-2">
-                            <Label htmlFor="editName" className={adminFieldLabelClassName}>Store Name</Label>
-                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" className={adminInputClassName} />
+                            <Label htmlFor="editName" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Store Name</Label>
+                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" className="admin-store-input" />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editAddress" className={adminFieldLabelClassName}>Address</Label>
-                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className={adminInputClassName} />
+                            <Label htmlFor="editAddress" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Address</Label>
+                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className="admin-store-input" />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="editWebsite" className={adminFieldLabelClassName}>Website</Label>
-                            <Input id="editWebsite" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="https://example.com" className={adminInputClassName} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="editCategory" className={adminFieldLabelClassName}>Category</Label>
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                          <div className="space-y-2">
+                            <Label htmlFor="editCategory" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Category</Label>
                             <select
                                 id="editCategory"
                                 value={editCategory}
                                 onChange={(e) => setEditCategory(e.target.value as any)}
-                                className={cn("w-full outline-none", adminInputClassName)}
+                                className="admin-store-select"
                             >
                                 <option value="food">Food & Grocery</option>
                                 <option value="clothes">Clothing & Apparel</option>
                                 <option value="retail">Retail & Gifts</option>
                                 <option value="other">Other</option>
                             </select>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="editWebsite" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Website</Label>
+                            <Input id="editWebsite" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="https://example.com" className="admin-store-input" />
+                          </div>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="editProducts" className={adminFieldLabelClassName}>Products Sold</Label>
-                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="Pierogies, Bread, Sausages..." className={adminInputClassName} />
+                            <Label htmlFor="editProducts" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Products Sold</Label>
+                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="Pierogies, Bread, Sausages..." className="admin-store-input" />
                         </div>
+                        <div className="admin-store-divider border-t pt-6">
+                          <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/60">Optional details</p>
                         <div className="space-y-2">
-                            <Label htmlFor="editDescription" className={adminFieldLabelClassName}>Description</Label>
+                            <Label htmlFor="editDescription" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Description</Label>
                             <textarea
                                 id="editDescription"
                                 value={editDescription}
                                 onChange={(e) => setEditDescription(e.target.value)}
                                 placeholder="What makes this store special..."
-                                className={cn("w-full outline-none", adminTextareaClassName)}
+                                className="admin-store-textarea"
                             />
                         </div>
                         <div className="space-y-3">
-                            <Label className={adminFieldLabelClassName}>Images (max 3)</Label>
+                            <Label className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Images (max 3)</Label>
                             <div className="grid grid-cols-3 gap-3">
                                 {editImages.map((url, index) => (
-                                    <div key={`url-${index}`} className="relative aspect-square bg-slate-100 rounded-xl overflow-hidden group">
+                                    <div key={`url-${index}`} className="group relative aspect-square overflow-hidden rounded-none border border-white/20 bg-white/10">
                                         <img src={url} alt="" className="w-full h-full object-cover" />
                                         <button
                                             onClick={() => removeImage(index, false)}
-                                            className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-red-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-600"
+                                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-none bg-[#0057B7] text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white/20"
                                         >
                                             <X className="w-3 h-3" />
                                         </button>
                                     </div>
                                 ))}
                                 {localImagePreviews.map((url, index) => (
-                                    <div key={`local-${index}`} className="relative aspect-square bg-slate-100 rounded-xl overflow-hidden group">
+                                    <div key={`local-${index}`} className="group relative aspect-square overflow-hidden rounded-none border border-white/20 bg-white/10">
                                         <img src={url} alt="" className="w-full h-full object-cover" />
-                                        <div className="absolute top-1 left-1 rounded bg-[#0057B7] px-1.5 py-0.5 text-[10px] font-medium text-white">NEW</div>
+                                        <div className="absolute left-1 top-1 rounded-none bg-[#FFD700] px-1.5 py-0.5 text-[10px] font-bold text-[#0057B7]">NEW</div>
                                         <button
                                             onClick={() => removeImage(index, true)}
-                                            className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-red-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-600"
+                                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-none bg-[#0057B7] text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white/20"
                                         >
                                             <X className="w-3 h-3" />
                                         </button>
@@ -1537,7 +1508,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 {editImages.length + localImagePreviews.length < 3 && (
                                     <button
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="flex aspect-square flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white text-slate-400 transition-colors hover:border-[#0057B7]/30 hover:bg-[#EFF6FF]/30 hover:text-[#0057B7]"
+                                        className="flex aspect-square flex-col items-center justify-center rounded-none border border-dashed border-white/25 bg-white/[0.055] text-white/55 transition-colors hover:border-white/50 hover:bg-white/10 hover:text-white"
                                     >
                                         <Upload className="w-6 h-6 mb-1" />
                                         <span className="text-[11px] font-medium">Upload</span>
@@ -1547,10 +1518,11 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" multiple className="hidden" />
                         </div>
                     </div>
-                    <DialogFooter className="w-full items-center justify-between border-t border-slate-100 pt-6 sm:justify-between">
+                    </div>
+                    <DialogFooter className="w-full items-center justify-between border-t border-white/15 px-8 py-6 sm:justify-between">
                         <Button
                             variant="ghost"
-                            className="gap-1.5 bg-transparent px-0 text-[14px] font-medium text-red-400 shadow-none transition-colors hover:bg-transparent hover:text-red-600"
+                            className="admin-store-delete gap-1.5 bg-transparent px-0 text-[14px] font-bold shadow-none transition-colors hover:bg-transparent"
                             onClick={() => {
                                 if (selectedStore) {
                                     handleMoveToTrash(selectedStore.id, "approved");
@@ -1560,17 +1532,17 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         >
                             <Trash2 className="w-4 h-4 mr-2" /> Delete
                         </Button>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3">
                             <Button
                                 variant="outline"
                                 onClick={handleResetChanges}
-                                className="h-[46px] rounded-full bg-transparent px-0 text-[14px] font-medium text-slate-400 shadow-none transition-colors hover:bg-transparent hover:text-slate-600"
+                                className="admin-store-secondary h-[46px] px-5 text-[14px] font-bold shadow-none"
                             >
                                 Undo Save
                             </Button>
                             <Button
                                 onClick={handleSaveEdit}
-                                className={cn(adminPrimaryButtonClassName, "px-8")}
+                                className="admin-store-primary h-[46px] px-8 text-[14px] font-bold shadow-none"
                             >
                                 Save changes
                             </Button>

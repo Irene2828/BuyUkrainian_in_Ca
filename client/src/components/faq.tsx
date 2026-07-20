@@ -53,7 +53,7 @@ export function FAQ() {
                   )}>
                     <span className={cn(
                       "text-reveal text-[18px] font-bold text-[#0057B7] leading-snug pr-6 transition-colors duration-200 group-hover:text-[#004494]",
-                    )}>
+                    )} style={{ transitionDelay: `${i * 90}ms` }}>
                       {faq.question}
                     </span>
                     <div
@@ -73,7 +73,10 @@ export function FAQ() {
                     )}
                   >
                     <div>
-                      <p className="text-[16px] leading-relaxed max-w-[95%] text-slate-600 font-medium">
+                      <p
+                        className="text-reveal max-w-[95%] text-[16px] font-medium leading-relaxed text-slate-600"
+                        style={{ transitionDelay: `${i * 90 + 130}ms` }}
+                      >
                         {faq.answer}
                       </p>
                     </div>

@@ -35,15 +35,17 @@ export function CommunityImpact() {
             className="relative w-full overflow-hidden bg-white py-8 md:py-12"
         >
             <div className="content-width flex justify-center items-center">
-                {/* Composition Container */}
+                    {/* Composition Container */}
                 <div className="relative w-full max-w-4xl mx-auto min-h-[400px] flex items-center justify-center">
                     
                     {/* Background Yellow Square (Right) */}
-                    <div className="absolute top-1/2 right-0 w-[40%] h-[85%] bg-[#FFD700] z-0 translate-x-[10%] -translate-y-1/2" />
+                    <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-end">
+                        <div className="share-slide-right h-[85%] w-[40%] translate-x-[10%] bg-[#FFD700]" />
+                    </div>
 
                     {/* Main Content Block (White with Brand Blue border) */}
                     <div 
-                        className="relative z-10 bg-white border border-solid w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center"
+                        className="share-slide-left relative z-10 bg-white border border-solid w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center"
                         style={{ borderColor: '#0057B7' }}
                     >
                         

@@ -69,11 +69,7 @@ export function Header() {
           : "bg-white/90 border-b border-slate-200/70"
       )}
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#0057B7]/[0.14] via-[#0057B7]/[0.055] to-[#0057B7]/0"
-      />
-      <div className="boutique-width h-[73px] 2xl:h-[97px] relative z-10">
+      <div className="boutique-width h-[73px] relative z-10">
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}

@@ -223,7 +223,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
       const matchesSearch = !normalizedQuery || searchableText.includes(normalizedQuery);
       const matchesCategory = !category || store.category === category;
-      const matchesProvince = !selectedProvince || storeProvinceFull === selectedProvince;
+      const matchesProvince = !selectedProvince || storeProvinceFull.toLowerCase().trim() === selectedProvince.toLowerCase().trim();
       const matchesCity = !selectedCity || store.city === selectedCity;
 
       return matchesSearch && matchesCategory && matchesProvince && matchesCity;
@@ -322,21 +322,19 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
               return (
                 <div
                   key={store.id}
-                  className={cn(
-                    "border-l-[2px] border-l-[#0057B7] pl-4 py-2 cursor-pointer transition-colors animate-in fade-in slide-in-from-bottom-2 fill-mode-both hover:border-l-[#0057B7]",
-                    isActive && "border-l-[#0057B7]"
-                  )}
-                  style={{ animationDelay: `${(index % 12) * 30}ms` }}
-                  onClick={() => handleSelectStore(store)}
-                >
+                    className="pt-2 pb-2 cursor-pointer transition-colors animate-in fade-in slide-in-from-bottom-2 fill-mode-both"
+                    style={{ animationDelay: `${(index % 12) * 30}ms` }}
+                    onClick={() => handleSelectStore(store)}
+                  >
                   <div className="flex flex-col justify-center">
-                    <div className="flex items-center gap-1.5 group/title">
+                    <div className="flex flex-col items-start gap-1 group/title">
                       <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
                         {store.name}
                       </h3>
-                      <ArrowUpRight size={14} className="text-slate-300 group-hover/title:text-[#0057B7] transition-all duration-300 -translate-y-0.5" />
+                      {/* Short horizontal blue line under the name */}
+                      <div className="h-[2px] w-6 bg-[#0057B7] mt-1" />
                     </div>
-                    <p className="text-slate-600 text-[13px] mt-1">
+                    <p className="text-slate-600 text-[13px] mt-1.5">
                       {store.city}, {store.province}
                     </p>
                   </div>

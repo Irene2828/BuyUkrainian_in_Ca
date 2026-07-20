@@ -4,6 +4,7 @@ interface BrandedMapPinOptions {
   variant: BrandedMapPinVariant;
   count?: number;
   dimmed?: boolean;
+  hovered?: boolean;
 }
 
 interface BrandedMapPinSize {
@@ -25,9 +26,9 @@ const PIN_SIZES: Record<BrandedMapPinVariant, BrandedMapPinSize> = {
 
 export const getBrandedMapPinSize = (variant: BrandedMapPinVariant) => PIN_SIZES[variant];
 
-export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: BrandedMapPinOptions) {
+export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovered = false }: BrandedMapPinOptions) {
   const opacity = dimmed ? 0.45 : 1;
-  const isHover = variant === "hover";
+  const isHover = variant === "hover" || hovered;
   const isSelected = variant === "selected";
   const isCluster = variant === "cluster";
   
@@ -46,8 +47,9 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
   // Dynamic colors & shadows based on selection
   const pinBg = PIN_YELLOW;
   const strokeColor = WHITE;
-  const strokeWidth = isCluster ? 2 : 1.75;
+  const strokeWidth = isHover ? (isCluster ? 2.5 : 2.25) : (isCluster ? 2 : 1.75);
   const shadowFilter = isHover ? "hover-shadow" : "premium-shadow";
+  const hoverTransform = isHover ? `transform="translate(21 32) scale(1.1) translate(-21 -32)"` : "";
   
   let innerCore = "";
   
@@ -87,16 +89,18 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false }: Bran
     </filter>
   </defs>
   
-  <!-- Classic Map Pin Silhouette with crisp White Stroke Outline -->
-  <path
-    d="${pinPath}"
-    fill="${pinBg}"
-    stroke="${strokeColor}"
-    stroke-width="${strokeWidth}"
-    filter="url(#${shadowFilter})"
-  />
-  
-  <!-- Centered Inner Core (Text or Dot) -->
-  ${innerCore}
+  <g ${hoverTransform}>
+    <!-- Classic Map Pin Silhouette with crisp White Stroke Outline -->
+    <path
+      d="${pinPath}"
+      fill="${pinBg}"
+      stroke="${strokeColor}"
+      stroke-width="${strokeWidth}"
+      filter="url(#${shadowFilter})"
+    />
+
+    <!-- Centered Inner Core (Text or Dot) -->
+    ${innerCore}
+  </g>
 </svg>`.trim();
 }

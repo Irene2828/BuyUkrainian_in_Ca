@@ -96,6 +96,31 @@ const getClusterPosition = (cluster: any) => {
   return isValidCoord(lat, lng) ? { lat, lng } : null;
 };
 
+const getMapScreenPosition = (map: any, position: any) => {
+  const clusterPosition = getClusterPosition({ position });
+  const projection = map?.getProjection?.();
+  const bounds = map?.getBounds?.();
+  const mapDiv = map?.getDiv?.();
+  const zoom = map?.getZoom?.();
+
+  if (!clusterPosition || !projection || !bounds || !mapDiv || typeof zoom !== "number") {
+    return null;
+  }
+
+  const northEast = projection.fromLatLngToPoint(bounds.getNorthEast());
+  const southWest = projection.fromLatLngToPoint(bounds.getSouthWest());
+  const point = projection.fromLatLngToPoint(
+    new (window as any).google.maps.LatLng(clusterPosition.lat, clusterPosition.lng)
+  );
+  const scale = 2 ** zoom;
+  const rect = mapDiv.getBoundingClientRect();
+
+  return {
+    x: rect.left + (point.x - southWest.x) * scale,
+    y: rect.top + (point.y - northEast.y) * scale,
+  };
+};
+
 const getEventPosition = (event: any) => {
   const position = event?.latLng;
   if (!position) return null;
@@ -634,6 +659,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   const clusterer = useRef<any>(null);
   const markersMap = useRef<Map<string, any>>(new globalThis.Map());
   const hasAnimatedEntrance = useRef(false);
+  const hasShownHeroHoverHint = useRef(false);
 
   // Keep refs for callbacks and selectedStore to avoid stale closures in event listeners
   const callbacks = useRef({ onSelectStore, setHoveredLabel, selectedStore, variant, scale: 1 });
@@ -649,21 +675,46 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   // Custom Renderer for a premium, clean look
   const renderer = useMemo(() => ({
     render: ({ count, position }: any) => {
-      const svg = getBrandedMapPinSvg({ variant: "cluster", count });
       const countLabel = "More than 1 store in the area";
+      const isHeroHint = callbacks.current.variant === "hero"
+        && !hasShownHeroHoverHint.current
+        && !callbacks.current.selectedStore;
+      const defaultSvg = getBrandedMapPinSvg({ variant: "cluster", count });
+      const hoverSvg = getBrandedMapPinSvg({ variant: "cluster", count, hovered: true });
       
       const marker = new (window as any).google.maps.Marker({
         position,
-        icon: buildMarkerIcon(svg, "cluster", scale),
+        icon: buildMarkerIcon(isHeroHint ? hoverSvg : defaultSvg, "cluster", scale),
+        zIndex: isHeroHint ? 1000 : undefined,
         label: "",
       });
 
+      if (isHeroHint) {
+        hasShownHeroHoverHint.current = true;
+
+        // Projection is available after the map has laid out. Retry briefly so
+        // the initial label remains anchored on first paint as well as resize.
+        const showHint = (attempt = 0) => {
+          const screenPosition = getMapScreenPosition(map, position);
+          if (screenPosition) {
+            callbacks.current.setHoveredLabel({ text: countLabel, ...screenPosition });
+          } else if (attempt < 4) {
+            window.setTimeout(() => showHint(attempt + 1), 80);
+          }
+        };
+        window.setTimeout(showHint, 0);
+      }
+
       marker.addListener('mouseover', (e: any) => {
         if (callbacks.current.selectedStore) return;
+        marker.setIcon(buildMarkerIcon(hoverSvg, "cluster", callbacks.current.scale));
+        marker.setZIndex(1000);
         callbacks.current.setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
       marker.addListener('mouseout', () => {
+        marker.setIcon(buildMarkerIcon(defaultSvg, "cluster", callbacks.current.scale));
+        marker.setZIndex(100);
         callbacks.current.setHoveredLabel(null);
       });
 

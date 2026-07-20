@@ -7,9 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Lock, AlertCircle, User } from "lucide-react";
 import { login } from "@/lib/auth";
 import { SiteBrandLockup } from "@/components/site-brand-lockup";
+import "../../components/admin-dashboard.css";
 
 const adminInputClassName =
-  "h-[48px] rounded-[12px] border border-slate-200 bg-white px-4 text-[#1E293B] shadow-none transition-colors hover:shadow-none focus-visible:border-[#0057B7]/40 focus-visible:ring-0 focus-visible:ring-offset-0";
+  "h-[48px] rounded-[12px] border border-[#dbe7f3] bg-white px-4 text-[#243b53] shadow-none transition-colors hover:shadow-none focus-visible:border-[#6ea8dc] focus-visible:ring-4 focus-visible:ring-[#0057B7]/10 focus-visible:ring-offset-0";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -38,27 +39,29 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
-      <Card className="w-full max-w-[420px] rounded-[24px] border-white bg-white p-0 shadow-[0_4px_24px_rgba(0,0,0,0.06)] ring-1 ring-slate-200/50">
+    <div className="admin-login-shell">
+      <Card className="admin-login-card p-0">
         <CardHeader className="space-y-0 px-10 pb-8 pt-10 text-center">
-          <div className="mb-8 flex flex-col items-center gap-2">
-            <SiteBrandLockup className="scale-[1.1] origin-center -ml-1" />
+          <div className="mb-7 flex flex-col items-center gap-2">
+            <div className="admin-login-mark">
+              <SiteBrandLockup className="scale-[0.92] origin-center" />
+            </div>
           </div>
-          <CardTitle className="mt-6 mb-1 text-center text-[22px] font-semibold tracking-tight text-[#0057B7]">
+          <CardTitle className="mt-5 mb-1 text-center text-[24px] font-bold tracking-[-0.03em] text-[#102A43]">
             Admin access
           </CardTitle>
-          <CardDescription className="mb-8 text-center text-[14px] text-slate-400">
-            Volunteer dashboard
+          <CardDescription className="mb-8 text-center text-[14px] leading-6 text-[#71869B]">
+            Volunteer workspace for keeping the map accurate.
           </CardDescription>
         </CardHeader>
         <CardContent className="px-10 pb-10 pt-0">
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
+              <Label htmlFor="username" className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#567089]">
                 Username
               </Label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8da7bf]" />
                 <Input
                   id="username"
                   type="text"
@@ -72,11 +75,11 @@ export default function AdminLogin() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
+              <Label htmlFor="password" className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#567089]">
                 Password
               </Label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8da7bf]" />
                 <Input
                   id="password"
                   type="password"
@@ -89,7 +92,7 @@ export default function AdminLogin() {
                 />
               </div>
               {error && (
-                <div className="flex items-center gap-2 text-xs text-red-500 mt-2 font-medium">
+                <div className="mt-2 flex items-center gap-2 text-xs font-semibold text-[#ae3c3c]">
                   <AlertCircle className="w-3.5 h-3.5" />
                   <span>{error}</span>
                 </div>
@@ -97,7 +100,7 @@ export default function AdminLogin() {
             </div>
             <Button
               type="submit"
-              className="mt-4 h-[46px] w-full rounded-full bg-[#0057B7] px-6 text-[16px] font-medium tracking-tight text-white shadow-none transition-colors hover:bg-[#0047A0] hover:shadow-none"
+              className="mt-4 h-[48px] w-full rounded-none border border-[#0057B7] bg-transparent px-6 text-[15px] font-bold tracking-tight text-[#0057B7] shadow-none transition-colors hover:bg-[#0057B7] hover:text-white hover:shadow-none"
               disabled={isLoading || !password}
               data-testid="button-admin-login"
             >

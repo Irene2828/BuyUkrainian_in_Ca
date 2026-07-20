@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
 /**
- * Text-only scroll reveal.
- * Keep maps, cards, images, and section blocks static so scroll stays light.
+ * Scroll reveal for text, plus the explicitly choreographed share composition.
+ * Everything else stays static so scroll remains light.
  */
 export function useScrollReveal() {
     useEffect(() => {
-        const revealSelector = '.text-reveal, .section-headline-reveal';
+        const revealSelector = '.text-reveal, .section-headline-reveal, .share-slide-left, .share-slide-right';
         const observedElements = new WeakSet<Element>();
 
         const observer = new IntersectionObserver((entries) => {

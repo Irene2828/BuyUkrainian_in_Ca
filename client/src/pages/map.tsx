@@ -99,14 +99,14 @@ function NewlyAddedStores() {
               onClick={() => handleSeeOnMap(store)}
             >
               {/* Frosted Glass Overlay with CTA - Centered vertically and static */}
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none rounded-[20px]">
-                <button className="flex items-center gap-2 bg-transparent backdrop-blur-md text-[#0057B7] border border-[#0057B7] text-[13px] font-medium tracking-normal px-6 py-2.5 rounded-none shadow-none transition-transform duration-300 ease-out hover:scale-[1.03] active:scale-95 pointer-events-auto group/btn">
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none">
+                <button className="flex items-center gap-2 bg-transparent backdrop-blur-md text-[#0057B7] border-0 text-[13px] font-medium tracking-normal px-6 py-2.5 rounded-none shadow-none transition-transform duration-300 ease-out hover:scale-[1.03] active:scale-95 pointer-events-auto group/btn">
                   See on Map
                   <MapPin className="w-3 h-3 transition-transform duration-300 group-hover/btn:scale-110 text-current" />
                 </button>
               </div>
 
-              <div className="border-l-[2px] border-l-[#0057B7] pl-4 py-2 cursor-pointer transition-all duration-300 group-hover:blur-[1.5px] group-hover:opacity-45">
+              <div className="border-l-[2px] border-l-[#FFD700] pl-4 py-2 cursor-pointer transition-all duration-300 group-hover:blur-[1.5px] group-hover:opacity-45">
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-1.5 group/title">
                     <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">

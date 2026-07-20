@@ -286,7 +286,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                 <div className={cn("w-full relative flex flex-col md:flex-row", viewMode === "map" ? "h-auto md:h-full" : "h-auto")}>
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
-                    {!isZenMode && viewMode === "map" && (
+                    {!isZenMode && (viewMode === "map" || viewMode === "list") && (
                         <div className="w-full md:w-[420px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl">
                             
                             {/* Geometric Toolbar */}
