@@ -1,10 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import { Search, MapPin, Share2 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export function HowItWorks() {
-  const { t } = useTranslation();
-
   const steps = [
     {
       icon: Search,
@@ -42,12 +38,8 @@ export function HowItWorks() {
         {/* Right Column: Blue Block (Text) - 62% width */}
         <div className="w-full md:w-[62%] bg-[#0057B7] p-8 md:p-12 lg:p-16 flex flex-col gap-8 justify-center items-center">
           {steps.map((step, index) => (
-            <motion.div 
+            <div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
               className="w-full max-w-2xl z-10 relative flex items-start gap-6"
             >
               {/* Icon Wrapper */}
@@ -56,7 +48,7 @@ export function HowItWorks() {
               </div>
               
               {/* Content */}
-              <div className="flex-1 flex flex-col pt-0.5 min-w-0">
+              <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
                 <h3 className="text-white font-semibold text-xl mb-2 leading-tight w-full whitespace-normal">
                   {step.title}
                 </h3>
@@ -64,7 +56,7 @@ export function HowItWorks() {
                   {step.text}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 

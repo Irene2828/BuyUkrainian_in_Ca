@@ -8,7 +8,7 @@ export function AddStoreCTA() {
 
   return (
     <div className="relative overflow-hidden flex flex-col items-center justify-center pt-[24px] md:pt-[40px] pb-[36px] md:pb-[60px] text-center px-4 bg-white/85 backdrop-blur-xl">
-      <p className="relative z-10 text-[18px] font-medium text-slate-900 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
+      <p className="text-reveal relative z-10 text-[18px] font-medium text-[#0057B7] leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
         Know a store we missed? Add it to the map.
       </p>
       <button

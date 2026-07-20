@@ -276,12 +276,14 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                 className={cn(
                     "w-full relative bg-white border-y border-slate-200",
                     viewMode === "map"
-                        ? cn("overflow-hidden", isZenMode ? "h-screen" : "h-[85vh] max-h-[900px]")
+                        ? isZenMode
+                            ? "h-screen overflow-hidden"
+                            : "h-auto overflow-visible md:h-[85vh] md:max-h-[900px] md:overflow-hidden"
                         : "h-auto overflow-visible"
                 )}
                 onWheel={(e) => e.stopPropagation()}
             >
-                <div className={cn("w-full relative flex flex-col md:flex-row", viewMode === "map" ? "h-full" : "h-auto")}>
+                <div className={cn("w-full relative flex flex-col md:flex-row", viewMode === "map" ? "h-auto md:h-full" : "h-auto")}>
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
                     {!isZenMode && viewMode === "map" && (
@@ -390,7 +392,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             </div>
 
                             {/* Active Store Details Container */}
-                            <div className="flex-1 overflow-y-auto custom-scrollbar relative p-4 flex flex-col gap-4">
+                            <div className="hidden md:flex flex-1 overflow-y-auto custom-scrollbar relative p-4 flex-col gap-4">
                                 {selectedStore ? (
                                     <StoreCard 
                                         store={selectedStore} 
@@ -422,7 +424,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     )}
 
                     {/* Main Content Stage (Map or List) */}
-                    <div className={cn("flex-1 relative z-0", viewMode === "map" ? "h-[50vh] md:h-full" : "h-auto")}>
+                    <div className={cn("map-column-wrapper flex-1 relative z-0", viewMode === "map" ? "h-[calc(100vh-96px)] min-h-[540px] max-h-[760px] overflow-hidden md:h-full md:min-h-0 md:max-h-none" : "h-auto")}>
                         {/* Map/List View Toggle (Floating on Map) */}
                         <div className="absolute top-4 left-4 z-[1000] pointer-events-auto">
                             <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
@@ -450,8 +452,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             ref={mapSectionRef}
                             mode="full"
                             className={cn(
-                                "w-full",
-                                viewMode === "map" ? "h-full absolute top-0 left-0" : "relative"
+                                viewMode === "map" ? "absolute inset-0" : "relative"
                             )}
                             searchQuery={searchQuery}
                             category={category}

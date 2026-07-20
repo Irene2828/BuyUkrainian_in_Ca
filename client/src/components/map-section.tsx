@@ -275,6 +275,13 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     window.dispatchEvent(new CustomEvent('clearFilters'));
   };
 
+  const mapFrameClassName = cn(
+    mode === "full" ? "h-full" : "h-[600px]",
+    "w-full",
+    !className.includes("absolute") && "relative",
+    className
+  );
+
   if (isLoading && viewMode === "list") {
     return (
       <div className={`relative w-full ${className} bg-white`}>
@@ -294,7 +301,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   if (isLoading && viewMode === "map") {
     return (
-      <div className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}>
+      <div className={mapFrameClassName}>
         <MapSkeleton />
       </div>
     );
@@ -370,7 +377,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
   return (
     <div
-      className={`relative ${mode === "full" ? "h-full" : "h-[600px]"} w-full ${className}`}
+      className={mapFrameClassName}
     >
 
 

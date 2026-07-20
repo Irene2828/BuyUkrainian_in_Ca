@@ -16,7 +16,7 @@ export const insertAdminUserSchema = createInsertSchema(adminUsers, {
 export const stores = pgTable("stores", {
     id: text("id").primaryKey(), // Changed to text for UUID
     name: text("name").notNull(),
-    description: text("description").notNull(),
+    description: text("description").notNull().default(""),
     products: text("products").array().notNull(),
     address: text("address").notNull(),
     city: text("city").notNull().default(""),
@@ -56,7 +56,7 @@ export const insertStoreSchema = createInsertSchema(stores, {
     name: sanitizedString
         .pipe(z.string().min(2, "Store name must be at least 2 characters").max(MAX_NAME_LENGTH, `Store name must be at most ${MAX_NAME_LENGTH} characters`)),
     description: sanitizedString
-        .pipe(z.string().min(10, "Description must be at least 10 characters").max(MAX_DESCRIPTION_LENGTH, `Description must be at most ${MAX_DESCRIPTION_LENGTH} characters`)),
+        .pipe(z.string().max(MAX_DESCRIPTION_LENGTH, `Description must be at most ${MAX_DESCRIPTION_LENGTH} characters`).optional().or(z.literal(""))),
     products: z.array(sanitizedString.pipe(z.string().min(1).max(MAX_PRODUCT_LENGTH, `Product name must be at most ${MAX_PRODUCT_LENGTH} characters`))).min(1, "At least one product is required").max(MAX_PRODUCTS_COUNT, `Maximum ${MAX_PRODUCTS_COUNT} products allowed`),
     address: sanitizedString
         .pipe(z.string().min(5, "Address is required").max(MAX_ADDRESS_LENGTH, `Address must be at most ${MAX_ADDRESS_LENGTH} characters`)),

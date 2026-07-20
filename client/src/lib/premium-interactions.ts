@@ -4,56 +4,12 @@
  * Philosophy: "If it's noticeable, it's too strong"
  */
 
-// Scroll state tracking
-let isScrolling: number | null = null;
-let ticking = false;
-
 /**
- * Subtle parallax effect for hero background and text
- * Movement: Background (-5px range), Text (-2px range)
+ * Per-scroll parallax is intentionally disabled.
+ * Static visuals plus text-only reveals keep the map and image sections smooth.
  */
 export function initPremiumParallax() {
-    // Respect reduced motion preference
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return;
-    }
-
-    const heroBg = document.querySelector('.premium-parallax-hero');
-    const heroTexts = document.querySelectorAll('.premium-parallax-text');
-
-    if (!heroBg && heroTexts.length === 0) return;
-
-    function updateParallax() {
-        const scrollY = window.scrollY;
-        const maxScroll = 600; // Parallax effect active for first 600px of scroll
-
-        if (scrollY <= maxScroll) {
-            const progress = scrollY / maxScroll;
-
-            // Background movement: 5px total range
-            if (heroBg) {
-                const bgOffset = progress * 5;
-                (heroBg as HTMLElement).style.transform = `translateY(${bgOffset}px) translateZ(0)`;
-            }
-
-            // Text movement: 2px total range (slightly different velocity for depth)
-            heroTexts.forEach((el) => {
-                const textOffset = progress * 2;
-                (el as HTMLElement).style.transform = `translateY(${textOffset}px) translateZ(0)`;
-            });
-        }
-
-        ticking = false;
-    }
-
-    function onScroll() {
-        if (!ticking) {
-            requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
+    return;
 }
 
 /**
@@ -61,13 +17,18 @@ export function initPremiumParallax() {
  */
 export function initScrollStateTracking() {
     let scrollTimeout: number;
+    let scrollClassApplied = false;
 
     function onScroll() {
-        document.body.classList.add('is-scrolling');
+        if (!scrollClassApplied) {
+            document.body.classList.add('is-scrolling');
+            scrollClassApplied = true;
+        }
 
         clearTimeout(scrollTimeout);
         scrollTimeout = window.setTimeout(() => {
             document.body.classList.remove('is-scrolling');
+            scrollClassApplied = false;
         }, 150);
     }
 

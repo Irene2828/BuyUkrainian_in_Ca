@@ -21,11 +21,18 @@ export const securityMiddleware = {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://maps.googleapis.com", "https://maps.gstatic.com"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
-        connectSrc: ["'self'", "https://nominatim.openstreetmap.org", "https://*.tile.openstreetmap.org"],
+        connectSrc: [
+          "'self'",
+          "https://nominatim.openstreetmap.org",
+          "https://*.tile.openstreetmap.org",
+          "https://photon.komoot.io",
+          "https://maps.googleapis.com",
+          "https://maps.gstatic.com",
+        ],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [], // Disable for mixed content flexibility if needed, though 'self' implies https on vercel

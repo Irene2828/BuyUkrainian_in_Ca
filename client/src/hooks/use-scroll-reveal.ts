@@ -1,15 +1,14 @@
 import { useEffect } from 'react';
 
 /**
- * Obsidian Motion Scroll Reveal System
- * - Initial: opacity 0, translateY(20px)
- * - Final: opacity 1, translateY(0)
- * - Duration: 0.8s
- * - Easing: cubic-bezier(0.16, 1, 0.3, 1) [Silk-smooth deceleration]
- * - Viewport: once = true (no re-trigger)
+ * Text-only scroll reveal.
+ * Keep maps, cards, images, and section blocks static so scroll stays light.
  */
 export function useScrollReveal() {
     useEffect(() => {
+        const revealSelector = '.text-reveal, .section-headline-reveal';
+        const observedElements = new WeakSet<Element>();
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -23,14 +22,35 @@ export function useScrollReveal() {
             rootMargin: '0px 0px -50px 0px' // Trigger slightly before entering viewport
         });
 
-        // Observe major sections
-        const sections = document.querySelectorAll('.section-reveal');
-        sections.forEach((section) => observer.observe(section));
+        const observeRevealText = (root: ParentNode = document) => {
+            root.querySelectorAll(revealSelector).forEach((element) => {
+                if (!observedElements.has(element)) {
+                    observedElements.add(element);
+                    observer.observe(element);
+                }
+            });
+        };
 
-        // Observe stagger containers for card animations
-        const staggerContainers = document.querySelectorAll('.stagger-container');
-        staggerContainers.forEach((container) => observer.observe(container));
+        observeRevealText();
 
-        return () => observer.disconnect();
+        const mutationObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (!(node instanceof Element)) return;
+                    if (node.matches(revealSelector) && !observedElements.has(node)) {
+                        observedElements.add(node);
+                        observer.observe(node);
+                    }
+                    observeRevealText(node);
+                });
+            });
+        });
+
+        mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+        return () => {
+            observer.disconnect();
+            mutationObserver.disconnect();
+        };
     }, []); // Run on mount
 }

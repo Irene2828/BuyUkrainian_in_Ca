@@ -155,7 +155,10 @@ export async function registerRoutes(
       if (!validation.success) {
         return res.status(400).json({ error: fromZodError(validation.error).message });
       }
-      const storeData = validation.data;
+      const storeData = {
+        ...validation.data,
+        status: "pending" as const,
+      };
       // ... (Spam check logic omitted for brevity in this specific block, relying on existing logic below if I reuse handler, but I'll duplicate essential logic or call internal function)
       // I will redirect to the main handler or copy the essential parts.
 

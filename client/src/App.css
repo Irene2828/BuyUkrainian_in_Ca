@@ -248,19 +248,18 @@ section h3,
     opacity: 1;
 }
 
-/* Scroll Reveal Animation - INSTANT PAINT MODE */
+/* Scroll reveal wrappers are static; text-level reveal lives in index.css. */
 .section-reveal {
-    /* INSTANT PAINT: Visible immediately, no opacity:0 */
     opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: none;
+    transition: none;
     position: relative;
     z-index: 10;
 }
 
 .section-reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
 /* 1. FORCE WHITE MAP BACKGROUND: Seamless Zoom Floor */

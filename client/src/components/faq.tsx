@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
-import { motion } from "framer-motion";
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number>(0);
@@ -34,12 +33,8 @@ export function FAQ() {
         {/* Accordion Container */}
         <div className="w-full max-w-4xl mx-auto flex flex-col lg:pl-[10%] relative z-10">
             {faqs.map((faq, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
                 className="border-b border-slate-100 last:border-b-0 w-full"
               >
                 <details
@@ -57,7 +52,7 @@ export function FAQ() {
                     i === 0 ? "pt-1" : "pt-8"
                   )}>
                     <span className={cn(
-                      "text-[18px] font-bold text-[#0057B7] leading-snug pr-6 transition-colors duration-200 group-hover:text-[#004494]",
+                      "text-reveal text-[18px] font-bold text-[#0057B7] leading-snug pr-6 transition-colors duration-200 group-hover:text-[#004494]",
                     )}>
                       {faq.question}
                     </span>
@@ -84,7 +79,7 @@ export function FAQ() {
                     </div>
                   </div>
                 </details>
-              </motion.div>
+              </div>
             ))}
         </div>
       </div>

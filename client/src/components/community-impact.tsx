@@ -1,21 +1,9 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getApprovedStores } from "@/lib/api";
 import { Facebook, Instagram, Copy } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
-export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }) {
+export function CommunityImpact() {
     const [copied, setCopied] = useState(false);
-    const { data: stores = [] } = useQuery({
-        queryKey: ["stores"],
-        queryFn: getApprovedStores,
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60 * 24,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-    });
 
     const shareMessage = "A great way to support Ukraine locally - explore the interactive map of Ukrainian-made products sold across Canada.";
     const shareUrl = "www.buyukrainian.ca";
@@ -60,26 +48,18 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                     >
                         
                         {/* Section Header */}
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: 0, ease: "easeOut" }}
-                            className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-3 font-['Inter']"
+                        <h2
+                            className="text-reveal text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-3 font-['Inter']"
                         >
                             Share the map with your network
-                        </motion.h2>
+                        </h2>
   
                         {/* Suggested Post - Pull Quote Style with Inline Copy */}
-                        <motion.div 
-                            initial={{ opacity: 0, y: 25 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                        <div
                             className="flex flex-col items-center relative w-full mb-3"
                         >
                             <div className="relative max-w-2xl bg-white py-2.5 px-6 md:py-3 md:px-8 rounded-none">
-                                <span className="text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline">
+                                <span className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline-block" style={{ transitionDelay: "80ms" }}>
                                     "{shareMessage}"
                                 </span>
                                 
@@ -101,17 +81,13 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     )}
                                 </button>
                             </div>
-                        </motion.div>
+                        </div>
  
                         {/* Social Row & Call to Action */}
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+                        <div
                             className="flex flex-col items-center w-full gap-2"
                         >
-                            <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased mb-1">
+                            <span className="text-reveal text-[11px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased mb-1" style={{ transitionDelay: "140ms" }}>
                                 Post To:
                             </span>
                             
@@ -146,7 +122,7 @@ export function CommunityImpact({ hideBorder = false }: { hideBorder?: boolean }
                                     </svg>
                                 </button>
                             </div>
-                        </motion.div>
+                        </div>
  
                     </div>
                 </div>

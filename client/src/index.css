@@ -646,75 +646,80 @@ html.dark header.bg-white\/90 {
    OBSIDIAN MOTION - SCROLL REVEAL SYSTEM
    ======================================== */
 
-/* Initial State: Hidden + 20px float */
+/* Section wrappers stay static; reveal motion belongs to text only. */
 .section-reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  will-change: opacity, transform;
-  /* CLS Prevention */
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto;
 }
 
-/* Animated State: Visible + settled */
 .section-reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
-  will-change: auto;
-  /* Release after animation */
+  transform: none;
 }
 
-/* Staggered Card Entrance (How It Works, Recently Added) */
-/* Apply .stagger-item class to individual cards */
-.stagger-container .stagger-item {
+.text-reveal,
+.section-headline-reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translate3d(0, 10px, 0);
   will-change: opacity, transform;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 460ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Stagger delays - 0.1s increment per item */
-.stagger-container.is-visible .stagger-item:nth-child(1) {
-  transition-delay: 0s;
+.text-reveal.is-visible,
+.section-headline-reveal.is-visible,
+.section-headline-reveal.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+/* Card and visual containers remain stable during scroll. */
+.stagger-container .stagger-item {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+.stagger-container.is-visible .stagger-item:nth-child(1) {
+  opacity: 1;
+  transform: none;
 }
 
 .stagger-container.is-visible .stagger-item:nth-child(2) {
-  transition-delay: 0.1s;
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .stagger-container.is-visible .stagger-item:nth-child(3) {
-  transition-delay: 0.2s;
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .stagger-container.is-visible .stagger-item:nth-child(4) {
-  transition-delay: 0.3s;
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .stagger-container.is-visible .stagger-item:nth-child(5) {
-  transition-delay: 0.4s;
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .stagger-container.is-visible .stagger-item:nth-child(6) {
-  transition-delay: 0.5s;
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* Reduce Motion Preference */
 @media (prefers-reduced-motion: reduce) {
 
   .section-reveal,
+  .text-reveal,
+  .section-headline-reveal,
   .stagger-container .stagger-item {
     opacity: 1 !important;
     transform: none !important;

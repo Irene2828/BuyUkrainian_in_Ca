@@ -1,25 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { motion, AnimatePresence } from "framer-motion";
 import { getApprovedStores } from "@/lib/api";
 import { Loader2, ArrowRight, ArrowUpRight, Plus, MapPin } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
-import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MapExplorer } from "@/components/map-explorer";
-import { EditorialStoreCard } from "@/components/editorial-store-card";
-import { StoreCard } from "@/components/store-card";
 import { Store } from "@/lib/data";
 import { useState } from "react";
-import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 
@@ -44,7 +32,6 @@ const getProvinceAbbreviation = (province: string) => {
 };
 
 function NewlyAddedStores() {
-  const { t } = useI18n();
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ["stores"],
     queryFn: getApprovedStores,
@@ -62,7 +49,7 @@ function NewlyAddedStores() {
 
   const handleSeeOnMap = (store: Store) => {
     // Determine target location to scroll to - prioritize MapExplorer
-    const mapElement = document.querySelector('.passport-map-container') || document.querySelector('.map-column-wrapper');
+    const mapElement = document.querySelector('.map-column-wrapper') || document.querySelector('.passport-map-container');
     mapElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     // Dispatch event to trigger MapExplorer focus
@@ -92,7 +79,7 @@ function NewlyAddedStores() {
             </div>
             <button
               onClick={() => {
-                document.querySelector('.passport-map-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                (document.querySelector('.map-column-wrapper') || document.querySelector('.passport-map-container'))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }}
               className="text-[11px] font-medium text-slate-400 hover:text-[#0057B7] transition-colors flex items-center gap-1.5 tracking-normal font-['Inter'] uppercase"
             >
@@ -140,7 +127,7 @@ function NewlyAddedStores() {
 
       {/* Community Call to Action */}
       <div className="relative overflow-hidden flex flex-col items-center justify-center pt-[48px] md:pt-[80px] pb-0 text-center px-4 bg-white/85 backdrop-blur-xl">
-        <p className="relative z-10 text-[18px] font-medium text-slate-900 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
+        <p className="text-reveal relative z-10 text-[18px] font-medium text-[#0057B7] leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
           Know a store we missed? Add it to the map.
         </p>
         <button
@@ -171,7 +158,6 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function MapPage() {
   useScrollReveal();
-  const { t } = useI18n();
   const [isZenMode, setIsZenMode] = useState(false);
 
   return (
@@ -182,17 +168,14 @@ export default function MapPage() {
       {!isZenMode && <Header />}
       <main className="flex flex-col flex-1">
         {!isZenMode && <div className="w-full h-0 bg-white shrink-0" />}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        <div
           className={cn(
             "relative z-0 mb-0 transition-all duration-500 w-full",
             isZenMode ? "flex-1" : "h-auto"
           )}
         >
           <MapExplorer isZenMode={isZenMode} onZenModeToggle={() => setIsZenMode(!isZenMode)} />
-        </motion.div>
+        </div>
 
         {!isZenMode && (
           <>
