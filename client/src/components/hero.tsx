@@ -380,9 +380,9 @@ export function Hero() {
             </div>
             </div>
 
-            <div className="hidden md:block absolute left-[28px] top-[44%] h-[58%] w-[42%] min-[1440px]:left-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none overflow-hidden border-none outline-none bg-white">
+            <div className="hidden md:block absolute left-[28px] top-[44%] h-[58%] w-[42%] min-[1440px]:left-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
                 <div
-                    className="w-full h-full group/map-peeking border-none outline-none relative"
+                    className="w-full h-full border-none outline-none relative overflow-hidden bg-white"
                     aria-label="Interactive map of Ukrainian stores in Canada"
                 >
                     <div
@@ -441,6 +441,10 @@ export function Hero() {
                         </div>
                     </div>
 
+                </div>
+                {/* Off-white capitalized label with large letter spacing under the map on hover */}
+                <div className="absolute top-[104%] left-1/2 -translate-x-1/2 z-50 opacity-0 group-hover/map-peeking:opacity-100 transition-opacity duration-300 pointer-events-none text-white/80 text-[11px] font-semibold uppercase tracking-[0.25em] whitespace-nowrap">
+                    TAP TO EXPLORE THE MAP
                 </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to Macro-Grid Right Boundary */}
@@ -645,6 +649,11 @@ function HeroVariantB({
                             </div>
                         <div className="pointer-events-none absolute inset-y-0 left-0 w-[44%] bg-gradient-to-r from-white via-white/72 to-transparent" />
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
+                        
+                        {/* Off-white capitalized label with large letter spacing overlaying the map on hover */}
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[85] opacity-0 group-hover/map-peeking:opacity-100 transition-all duration-300 pointer-events-none text-slate-100/90 text-[11px] font-bold uppercase tracking-[0.25em] whitespace-nowrap bg-black/40 backdrop-blur-md px-4 py-2 border border-white/10 shadow-lg">
+                            TAP TO EXPLORE THE MAP
+                        </div>
                     </div>
 
                         <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_96%_112%_at_0%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.93)_27%,rgba(255,255,255,0.68)_48%,rgba(255,255,255,0.2)_68%,rgba(255,255,255,0)_88%)]" />
