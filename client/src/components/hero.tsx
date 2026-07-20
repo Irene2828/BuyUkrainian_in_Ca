@@ -638,7 +638,7 @@ function HeroVariantB({
                     </div>
 
                     <div className="hidden md:block relative z-10 min-h-[calc(85vh-81px)] overflow-hidden bg-white">
-                        <div className="pointer-events-none absolute left-0 top-0 z-[11] h-[74%] w-[78%] bg-[radial-gradient(ellipse_96%_86%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_34%,rgba(200,223,240,0.055)_56%,rgba(255,255,255,0)_84%)]" aria-hidden="true" />
+                        <div className="pointer-events-none absolute left-0 top-0 z-[11] h-[78%] w-[86%] bg-[radial-gradient(ellipse_106%_92%_at_0%_0%,rgba(0,87,183,0.07)_0%,rgba(200,223,240,0.08)_36%,rgba(200,223,240,0.035)_62%,rgba(255,255,255,0)_88%)]" aria-hidden="true" />
                         <div
                             className="absolute inset-y-0 right-0 z-0 w-[64%] select-none overflow-hidden"
                             aria-label="Interactive map of Ukrainian stores in Canada"
@@ -677,11 +677,11 @@ function HeroVariantB({
                                     <div className="h-full w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(219,234,254,0.25)_100%)]" />
                                 )}
                             </div>
-                        <div className="pointer-events-none absolute inset-y-0 left-0 w-[45%] bg-gradient-to-r from-white via-white/78 to-transparent" />
-                        <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[190px] bg-[linear-gradient(180deg,rgba(200,223,240,0.68)_0%,rgba(200,223,240,0.3)_42%,rgba(255,255,255,0)_100%)]" />
+                        <div className="pointer-events-none absolute inset-y-0 left-0 w-[44%] bg-gradient-to-r from-white via-white/72 to-transparent" />
+                        <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                     </div>
 
-                        <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_92%_110%_at_0%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_28%,rgba(255,255,255,0.72)_49%,rgba(255,255,255,0.24)_70%,rgba(255,255,255,0)_90%)]" />
+                        <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_96%_112%_at_0%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.93)_27%,rgba(255,255,255,0.68)_48%,rgba(255,255,255,0.2)_68%,rgba(255,255,255,0)_88%)]" />
 
                         <div className="hidden lg:flex pointer-events-none absolute right-[56px] top-[10%] z-30 flex-col items-end gap-2">
                             {trustPillars.map((pillar) => (
