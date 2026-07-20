@@ -23,8 +23,8 @@ export interface InteractiveMapRef {
 const FULL_MAP_INITIAL_CENTER: [number, number] = [52.5, -95.0];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 const HERO_INITIAL_MAP_STATE = {
-  center: { lat: 50.25, lng: -119.4 },
-  zoom: 4.75,
+  center: { lat: 51.5, lng: -123.0 },
+  zoom: 4.4,
 };
 const MAX_CLUSTER_FOCUS_ZOOM = 12;
 const CLUSTER_CLICK_ZOOM_STEP = 5;

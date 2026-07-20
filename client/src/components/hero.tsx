@@ -54,7 +54,7 @@ const HERO_TICKER_LIFT_STYLE = { transform: "translateY(-96%)" };
 
 export function Hero() {
     const [, setLocation] = useLocation();
-    const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(false);
+    const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(true);
     const [heroVariant, setHeroVariant] = useState<HeroVariant>(() => getHeroVariantFromUrl());
 
     const { data: stores = [] } = useQuery({
@@ -194,10 +194,7 @@ export function Hero() {
                             {["DISCOVER", "UKRAINIAN", "PRODUCTS"].map((line) => (
                                 <span
                                     key={line}
-                                className={cn(
-                                    "block text-transparent",
-                                    line === "PRODUCTS" && "relative w-fit pb-3"
-                                )}
+                                    className="block text-transparent"
                                     style={{
                                         backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.18), rgba(255, 215, 0, 0.18)), url(${wheatFieldBg})`,
                                         backgroundSize: '130%',
@@ -208,23 +205,17 @@ export function Hero() {
                                         filter: 'brightness(1.3)'
                                     }}
                                 >
-                                {line}
-                                {line === "PRODUCTS" && (
-                                    <>
-                                        <span className="pointer-events-none absolute left-0 bottom-[4px] h-[2px] w-[92%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                        <span className="pointer-events-none absolute left-[4%] bottom-0 h-px w-[54%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                    </>
-                                )}
-                            </span>
-                        ))}
+                                    {line}
+                                </span>
+                            ))}
                         </h1>
 
-                        <div className="mt-3 flex items-center text-[clamp(1.32rem,6.2vw,1.75rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.25rem]">
+                        <div className="mt-[5px] flex items-center text-[clamp(1.32rem,6.2vw,1.75rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.25rem]">
                             sold across Canada
                             <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.64em] w-[1.64em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                         </div>
 
-                        <div className="mt-5 grid gap-2.5 [@media(max-height:700px)]:mt-4" style={{ transform: 'translateY(12px)' }}>
+                        <div className="mt-[18px] grid gap-2.5 [@media(max-height:700px)]:mt-3" style={{ transform: 'translateY(8px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
@@ -245,7 +236,7 @@ export function Hero() {
                             </Link>
                         </div>
 
-                        <div className="mt-4 grid grid-cols-1 gap-2 [@media(max-height:700px)]:gap-1.5">
+                        <div className="mt-[28px] grid grid-cols-1 gap-2 [@media(max-height:700px)]:gap-1.5">
                             {trustPillars.map((pillar) => (
                                 <div key={`mobile-${pillar.title}`} className="flex items-center gap-2.5 text-white/82">
                                     <span className="h-2 w-2 shrink-0 rounded-full bg-[#FFD700]" aria-hidden="true" />
@@ -266,7 +257,7 @@ export function Hero() {
                     {shouldRenderHeroMap && stores.length > 0 ? (
                         <GoogleMapsProvider>
                             <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
-                                <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-8%]">
+                                <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-4%]">
                                     <InteractiveMap
                                         stores={stores}
                                         selectedStore={null}
@@ -405,7 +396,7 @@ export function Hero() {
 
                     {/* Inner wrapper for shifted map content */}
                     <div
-                        className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-5%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-31%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-30%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-29%] transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-1%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-27%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-26%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-25%] group-hover/map-peeking:md:scale-[1.18] group-hover/map-peeking:lg:scale-[1.24] group-hover/map-peeking:min-[1280px]:scale-[1.26] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
 
@@ -559,19 +550,14 @@ function HeroVariantB({
                                 <h1 className="font-['Lora'] text-[clamp(2.55rem,11vw,3.25rem)] font-semibold leading-[1.02] tracking-normal text-[#0057B7] antialiased">
                                     <span className="block">Discover</span>
                                     <span className="block">
-                                        <span className="relative inline-block pb-3">
-                                            Ukrainian
-                                            <span className="pointer-events-none absolute left-0 bottom-[4px] h-[2px] w-[96%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                            <span className="pointer-events-none absolute left-[5%] bottom-0 h-px w-[56%] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" aria-hidden="true" />
-                                        </span>{" "}
-                                        Products
+                                        Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-3 flex items-center text-[clamp(1.45rem,6.8vw,1.95rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex items-center text-[clamp(1.45rem,6.8vw,1.95rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     sold across Canada
                                     <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.52em] w-[1.52em]" aria-hidden="true" />
                                 </div>
-                                <div className="mt-5 grid gap-2.5" style={{ transform: 'translateY(12px)' }}>
+                                <div className="mt-[18px] grid gap-2.5" style={{ transform: 'translateY(8px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                         <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                             <span>Find stores near me</span>
@@ -598,7 +584,7 @@ function HeroVariantB({
                             {shouldRenderHeroMap && stores.length > 0 ? (
                                 <GoogleMapsProvider>
                                     <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
-                                        <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-8%]">
+                                        <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-4%]">
                                             <InteractiveMap
                                                 stores={stores}
                                                 selectedStore={null}
@@ -620,14 +606,14 @@ function HeroVariantB({
                     <div className="hidden md:block relative z-10 min-h-[calc(85vh-81px)] overflow-hidden bg-white">
                         <div className="pointer-events-none absolute left-0 top-0 z-[11] h-[78%] w-[86%] bg-[radial-gradient(ellipse_106%_92%_at_0%_0%,rgba(0,87,183,0.07)_0%,rgba(200,223,240,0.08)_36%,rgba(200,223,240,0.035)_62%,rgba(255,255,255,0)_88%)]" aria-hidden="true" />
                         <div
-                            className="absolute inset-y-0 right-0 z-0 w-[64%] select-none overflow-hidden"
+                            className="absolute inset-y-0 right-0 z-0 w-[64%] select-none overflow-hidden group/map-peeking"
                             aria-label="Interactive map of Ukrainian stores in Canada"
                             style={{
                                 maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.12) 15%, rgba(0,0,0,0.75) 32%, black 50%, black 100%)',
                                 WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.12) 15%, rgba(0,0,0,0.75) 32%, black 50%, black 100%)'
                             }}
                         >
-                            <div className="absolute inset-0 scale-[1.08] translate-x-[4%] translate-y-[-10%]">
+                            <div className="absolute inset-0 scale-[1.08] translate-x-[4%] translate-y-[-6%] group-hover/map-peeking:scale-[1.14] transition-all duration-700 ease-out">
                                 {shouldRenderHeroMap ? (
                                     <GoogleMapsProvider>
                                         <Suspense fallback={<div className="h-full w-full bg-white animate-pulse" />}>

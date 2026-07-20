@@ -147,7 +147,7 @@ export function Header() {
         </div>
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
-          {!isScrolled && location !== '/map' && (
+          {location !== '/map' && (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-gray-100 transition-colors text-slate-900 no-underline">
               <Map className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>

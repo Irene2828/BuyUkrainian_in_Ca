@@ -61,7 +61,7 @@ export function CommunityImpact() {
                             className="flex flex-col items-center relative w-full mb-3"
                         >
                             <div className="relative max-w-2xl bg-white py-2.5 px-6 md:py-3 md:px-8 rounded-none">
-                                <div className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased inline flex flex-wrap items-center justify-center gap-x-4">
+                                <div className="text-reveal text-base md:text-[18px] italic font-medium leading-relaxed text-slate-600 tracking-[0.02em] antialiased text-center">
                                     <span>"{shareMessage}"</span>
                                     
                                     <button 
@@ -70,7 +70,7 @@ export function CommunityImpact() {
                                             setCopied(true);
                                             setTimeout(() => setCopied(false), 2000);
                                         }}
-                                        className="inline-flex items-center group text-slate-400 hover:text-[#0057B7] transition-all duration-300 hover:scale-[1.05] active:scale-95 relative"
+                                        className="inline-flex items-center group text-slate-400 hover:text-[#0057B7] transition-all duration-300 hover:scale-[1.05] active:scale-95 ml-3 relative align-middle"
                                         title="Copy suggested text"
                                     >
                                         <Copy className="h-5 w-5" strokeWidth={2} />
