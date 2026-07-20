@@ -45,7 +45,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
   const pinPath = `M 21 ${startY} A 9.5 9.5 0 0 1 29.08 ${tangentY} L 21 ${tipY} L 12.92 ${tangentY} A 9.5 9.5 0 0 1 21 ${startY} Z`;
 
   // Dynamic colors & shadows based on selection
-  const pinBg = PIN_YELLOW;
+  const pinBg = isSelected ? PIN_BLUE : PIN_YELLOW;
   const strokeColor = WHITE;
   const strokeWidth = isHover ? (isCluster ? 2.5 : 2.25) : (isCluster ? 2 : 1.75);
   const shadowFilter = isHover ? "hover-shadow" : "premium-shadow";
@@ -68,9 +68,9 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
         fill="${PIN_BLUE}"
       >${countLabel}</text>`;
   } else if (isSelected) {
-    // Selected marker: Blue Core dot inside Yellow pin, slightly larger core
+    // Selected marker: White Core dot inside Blue pin, slightly larger core
     innerCore = `
-      <circle cx="21" cy="${centerY}" r="4" fill="${PIN_BLUE}" />`;
+      <circle cx="21" cy="${centerY}" r="4" fill="${WHITE}" />`;
   } else {
     // Default marker: Blue Core dot inside Yellow default pin
     innerCore = `
