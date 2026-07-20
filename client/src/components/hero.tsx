@@ -177,7 +177,7 @@ export function Hero() {
         <>
                 <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
-            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:max-[1440px]:pt-[5vh] md:max-[1440px]:pb-[5vh] min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
+            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:max-[1440px]:min-h-[calc(100svh-73px)] md:max-[1440px]:pt-[5vh] md:max-[1440px]:pb-[5vh] min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
         >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
             <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.16)_0%,rgba(0,87,183,0.2)_32%,rgba(255,255,255,0.16)_52%,rgba(255,255,255,0.24)_100%)] md:block" aria-hidden="true" />
