@@ -49,9 +49,6 @@ const PROVINCE_NAME_TO_ABBR: Record<string, string> = {
     Yukon: "YT",
 };
 
-const HERO_TICKER_LIFT_STYLE = { transform: "translateY(-96%)" };
-
-
 export function Hero() {
     const [, setLocation] = useLocation();
     const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(true);
@@ -276,7 +273,7 @@ export function Hero() {
                     )}
                 </Link>
             </div>
-            <div className="hidden md:block absolute inset-x-0 top-0 bottom-[4rem] bg-[#0057B7] z-[25]" />
+            <div className="hidden md:block absolute inset-x-0 top-0 bottom-[4rem] max-[1670px]:bottom-0 bg-[#0057B7] z-[25]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full flex justify-start">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
@@ -478,7 +475,7 @@ export function Hero() {
 
 
         {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white" style={HERO_TICKER_LIFT_STYLE}>
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[96%] max-[1670px]:-translate-y-[18%]">
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
