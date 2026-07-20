@@ -175,7 +175,7 @@ export function Hero() {
 
     return (
         <>
-                <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] bg-white justify-between relative">
+                <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
             className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
         >
@@ -543,7 +543,7 @@ function HeroVariantB({
 }: HeroVariantBProps) {
     return (
         <>
-            <div className="flex flex-col h-auto md:min-h-[calc(85vh-81px)] bg-white justify-between relative">
+            <div className="flex flex-col h-auto bg-white justify-between relative">
                 <section className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden bg-white font-sans min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700">
                     <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
