@@ -76,7 +76,7 @@ export function Header() {
         <div className="flex-1 flex items-center justify-start gap-2">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
             {/* Branding Text with Oval Frame */}
-            <div className="relative flex flex-col justify-center gap-[1.5px] px-[18px] py-[9px] min-[1024px]:max-[1440px]:px-[19px] min-[1024px]:max-[1440px]:py-[9.5px] min-[1670px]:px-[20px] min-[1670px]:py-[10px] select-none">
+            <div className="relative flex flex-col justify-center gap-[1.5px] min-[1670px]:gap-[2px] px-[18px] py-[9px] min-[1024px]:max-[1440px]:px-[19px] min-[1024px]:max-[1440px]:py-[9.5px] min-[1670px]:px-[23px] min-[1670px]:py-[11px] select-none">
               {/* Split-color Oval Stroke Frame */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none p-[1.5px]" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -90,10 +90,10 @@ export function Header() {
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#0057B7" strokeWidth="1.5" fill="none" clipPath="url(#clip-top)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#FFD700" strokeWidth="1.5" fill="none" clipPath="url(#clip-bottom)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
               </svg>
-              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[14.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[16.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 Buy Ukrainian
               </span>
-              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[14.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[16.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 in Canada
               </span>
             </div>
