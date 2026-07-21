@@ -1427,13 +1427,6 @@ html.dark .city-labels-layer {
   pointer-events: auto !important;
 }
 
-/* Hero map focal point lift for wide screens */
-@media (min-width: 1670px) {
-  .hero-map-shifter {
-    transform: scale(1.18) translateX(11%) translateY(-9%) !important;
-  }
-}
-
 /* Hide Google Maps Metadata/Copyright as requested */
 .gm-style-cc, 
 .gmnoprint,
@@ -1455,11 +1448,6 @@ img[src*="google4_tracking"] {
 @media (min-width: 768px) {
   .hero-text-align {
     transform: translateY(-10%);
-  }
-}
-@media (min-width: 1670px) {
-  .hero-text-align {
-    transform: translateY(-30%);
   }
 }
 

@@ -1,8 +1,8 @@
-import { ChevronDown, Search } from "lucide-react";
+import { ArrowUpRight, Info } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
-import { Suspense, lazy, useCallback, useEffect, useState, useRef, type MouseEvent } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -154,18 +154,12 @@ export function Hero() {
 
     const h1Ref = useRef<HTMLHeadingElement>(null);
 
-    const handleHowItWorksClick = (e: MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-    };
-
     if (heroVariant === "b") {
         return (
             <HeroVariantB
                 stores={stores}
                 shouldRenderHeroMap={shouldRenderHeroMap}
                 trustPillars={trustPillars}
-                onHowItWorksClick={handleHowItWorksClick}
             />
         );
     }
@@ -174,7 +168,7 @@ export function Hero() {
         <>
                 <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
-            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:max-[1440px]:min-h-[calc(100svh-73px)] md:max-[1440px]:pt-[5vh] md:max-[1440px]:pb-[5vh] min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700"
+            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:min-h-[calc(100svh-73px)] md:py-[2.5vh] animate-in fade-in duration-700"
         >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
@@ -211,26 +205,18 @@ export function Hero() {
                             sold across Canada
                             <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.64em] w-[1.64em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                         </div>
+                        <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
+                            One map to find, share and add new stores selling #madeinUkraine next to you.
+                        </p>
 
                         <div className="mt-[18px] grid gap-2.5 [@media(max-height:700px)]:mt-3" style={{ transform: 'translateY(8px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
+                                <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
-                                    <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
+                                    <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                                 </button>
                             </Link>
 
-                            <Link
-                                href="/#how-it-works"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                                }}
-                                className="pointer-events-auto inline-flex h-10 w-full items-center justify-center gap-2 border border-white/30 bg-white/[0.06] text-[14px] font-medium tracking-normal text-white/88 transition-all duration-300 hover:border-white/55 hover:bg-white/[0.11] hover:text-white active:scale-[0.98]"
-                            >
-                                <span>How it works</span>
-                                <ChevronDown className="h-4 w-4 text-current" />
-                            </Link>
                         </div>
 
                         <div className="mt-[28px] grid grid-cols-1 gap-2 [@media(max-height:700px)]:gap-1.5">
@@ -272,16 +258,16 @@ export function Hero() {
                     )}
                 </Link>
             </div>
-            <div className="hidden md:block absolute inset-x-0 top-0 bottom-[4rem] max-[1670px]:bottom-0 bg-[#0057B7] z-[25]" />
+            <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] z-[25]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full flex justify-start">
-                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem] min-[1670px]:translate-y-[10%]">
+                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
-                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[5vh] max-[1670px]:translate-y-[3vh]">
+                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[2vh]">
                                     <h1
                                         ref={h1Ref}
-                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] min-[1670px]:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-right"
+                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-right md:-translate-y-[5%]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
@@ -318,34 +304,31 @@ export function Hero() {
                                     
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-end font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white">
+                                        <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
                                             sold across Canada 
                                             <img src={mapleLeafIcon} alt="" className="inline-block w-[1.6em] h-[1.6em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                                         </span>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center self-end w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(2vh)' }}>
-                                            <Link href="/map" className="w-full md:w-auto self-end">
+                                        <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
+                                            One map to find, share and add new stores selling #madeinUkraine next to you.
+                                        </p>
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(4vh)' }}>
+                                            <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Find stores near me</span>
-                                                    <Search 
-                                                        className="w-5 h-5 2xl:w-6 2xl:h-6 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                    <ArrowUpRight 
+                                                        className="w-5 h-5 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" 
                                                         strokeWidth={1.5}
                                                     />
                                                 </button>
                                             </Link>
-                                            
                                             <Link
                                                 href="/#how-it-works"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                                                }}
-                                                className="group relative flex items-center gap-2 text-[14px] font-normal text-white/90 transition-all duration-300 hover:text-white font-['Inter']"
+                                                className="group inline-flex h-[46px] items-center justify-center gap-2 bg-transparent px-0 text-[15px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-['Inter'] antialiased"
                                             >
+                                                <Info className="h-4 w-4 text-current" strokeWidth={1.5} />
                                                 <span>How it works</span>
-                                                <ChevronDown className="w-4 h-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
-                                                <span className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-white/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                                             </Link>
                                         </div>
                                     </div>
@@ -374,7 +357,7 @@ export function Hero() {
             </div>
             </div>
 
-            <div className="hidden md:block absolute right-[28px] top-[44%] max-[1670px]:top-[50%] h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
+            <div className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
                 <div
                     className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
                     aria-label="Interactive map of Ukrainian stores in Canada"
@@ -436,13 +419,12 @@ export function Hero() {
                     </div>
 
                 </div>
-                {/* Off-white capitalized label with large letter spacing under the map on hover */}
                 <div className="absolute top-[104%] left-1/2 -translate-x-1/2 z-50 opacity-0 group-hover/map-peeking:opacity-100 transition-opacity duration-300 pointer-events-none text-white/80 text-[11px] font-semibold uppercase tracking-[0.25em] whitespace-nowrap">
                     TAP TO EXPLORE THE MAP
                 </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
-            <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(44%-29%+24px)] max-[1670px]:top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
+            <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
                 <div className="w-full">
                     <div className="w-full">
                         <div className="flex h-full flex-col items-end gap-2 pr-6">
@@ -474,7 +456,7 @@ export function Hero() {
 
 
         {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[96%] max-[1670px]:-translate-y-[18%]">
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[18%]">
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
@@ -526,19 +508,17 @@ interface HeroVariantBProps {
     stores: Store[];
     shouldRenderHeroMap: boolean;
     trustPillars: TrustPillar[];
-    onHowItWorksClick: (event: MouseEvent<HTMLAnchorElement>) => void;
 }
 
 function HeroVariantB({
     stores,
     shouldRenderHeroMap,
     trustPillars,
-    onHowItWorksClick,
 }: HeroVariantBProps) {
     return (
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
-                <section className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden bg-white font-sans min-[1670px]:pt-[2.5%] min-[1670px]:pb-[2.5%] animate-in fade-in duration-700">
+                <section className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
                     <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
 
@@ -556,20 +536,15 @@ function HeroVariantB({
                                     sold across Canada
                                     <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.52em] w-[1.52em]" aria-hidden="true" />
                                 </div>
+                                <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
+                                    One map to find, share and add new stores selling #madeinUkraine next to you.
+                                </p>
                                 <div className="mt-[18px] grid gap-2.5" style={{ transform: 'translateY(8px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
-                                        <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
-                                            <span>Find stores near me</span>
-                                            <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
-                                        </button>
-                                    </Link>
-                                    <Link
-                                        href="/#how-it-works"
-                                        onClick={onHowItWorksClick}
-                                        className="pointer-events-auto inline-flex h-10 w-full items-center justify-center gap-2 border border-[#0057B7]/25 bg-white/70 text-[14px] font-medium tracking-normal text-[#0057B7] transition-all duration-300 hover:border-[#0057B7] hover:bg-[#EFF6FF] active:scale-[0.98]"
-                                    >
-                                        <span>How it works</span>
-                                        <ChevronDown className="h-4 w-4 text-current" />
+                                            <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                                                <span>Find stores near me</span>
+                                                <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
+                                            </button>
                                     </Link>
                                 </div>
                             </div>
@@ -645,10 +620,12 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-y-0 left-0 w-[44%] bg-gradient-to-r from-white via-white/72 to-transparent" />
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
-                        {/* Off-white capitalized label with large letter spacing overlaying the map on hover */}
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[85] opacity-0 group-hover/map-peeking:opacity-100 transition-all duration-300 pointer-events-none text-slate-100/90 text-[11px] font-bold uppercase tracking-[0.25em] whitespace-nowrap bg-black/40 backdrop-blur-md px-4 py-2 border border-white/10 shadow-lg">
-                            TAP TO EXPLORE THE MAP
-                        </div>
+                        <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
+                            <button className="group/cta-btn relative inline-flex h-[46px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                                <span>Find stores near me</span>
+                                <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
+                            </button>
+                        </Link>
                     </div>
 
                         <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_96%_112%_at_0%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.93)_27%,rgba(255,255,255,0.68)_48%,rgba(255,255,255,0.2)_68%,rgba(255,255,255,0)_88%)]" />
@@ -669,14 +646,14 @@ function HeroVariantB({
                             ))}
                         </div>
 
-                        <div className="boutique-width relative z-20 mx-auto flex min-h-[calc(85vh-81px)] items-center translate-y-[5vh]">
+                        <div className="boutique-width relative z-20 mx-auto flex min-h-[calc(85vh-81px)] items-center translate-y-0">
                             <div className="relative ml-[64px] w-fit max-w-[calc(100vw-160px)] pointer-events-auto lg:max-w-[760px]">
                                 {/* Golden stroke ornament — above Discover, left-aligned */}
                                 <div className="pointer-events-none self-start mb-[18px] flex flex-col items-start gap-[4px]" aria-hidden="true">
                                     <span className="block h-[2px] w-[200px] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" />
                                     <span className="block h-px w-[110px] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" />
                                 </div>
-                                <h1 className="mb-6 md:mb-10 w-fit font-['Lora'] text-[clamp(3.25rem,4.7vw,4rem)] font-semibold leading-[1.03] tracking-normal text-[#0057B7] antialiased">
+                                <h1 className="mb-6 md:mb-10 w-fit font-['Lora'] text-[clamp(3.25rem,4.7vw,4rem)] font-semibold leading-[1.03] tracking-normal text-[#0057B7] antialiased md:-translate-y-[5%]">
                                     <span className="block">Discover</span>
                                     <span className="block whitespace-nowrap">
                                         <span className="relative inline-block pb-4">
@@ -686,24 +663,19 @@ function HeroVariantB({
                                     </span>
                                 </h1>
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-4">
-                                    <span className="relative z-10 flex items-center self-start md:self-end font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                    <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%]">
                                         sold across Canada
                                         <img src={mapleLeafIcon} alt="" className="ml-3 inline-block h-[1.44em] w-[1.44em]" aria-hidden="true" />
                                     </span>
-                                    <div className="flex items-center gap-8 self-start md:self-end relative z-20 pointer-events-auto" style={{ transform: 'translateY(8vh)' }}>
+                                    <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
+                                        One map to find, share and add new stores selling #madeinUkraine next to you.
+                                    </p>
+                                    <div className="flex md:hidden items-center gap-8 self-start relative z-20 pointer-events-auto" style={{ transform: 'translateY(13vh)' }}>
                                         <Link href="/map">
-                                            <button className="group/cta-btn relative inline-flex h-[46px] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] font-medium tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                                            <button className="group/cta-btn relative inline-flex h-[46px] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>
-                                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
+                                                <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                                             </button>
-                                        </Link>
-                                        <Link
-                                            href="/#how-it-works"
-                                            onClick={onHowItWorksClick}
-                                            className="group relative flex items-center gap-2 text-[14px] font-medium tracking-normal text-slate-600 transition-all duration-300 hover:text-[#0057B7] font-['Inter']"
-                                        >
-                                            <span>How it works</span>
-                                            <ChevronDown className="h-4 w-4 text-current transition-transform duration-300 group-hover:translate-y-0.5" />
                                         </Link>
                                     </div>
                                 </div>
@@ -720,7 +692,7 @@ function HeroVariantB({
 
 function HeroTickerRow({ stores }: { stores: Store[] }) {
     return (
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white" style={HERO_TICKER_LIFT_STYLE}>
+        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[18%]">
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
@@ -745,7 +717,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>
