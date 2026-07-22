@@ -167,7 +167,7 @@ export function Hero() {
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
-                <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-[calc(1.5rem+10%)] pb-3 text-white [@media(max-height:700px)]:pt-[calc(1.25rem+10%)] [@media(max-height:700px)]:pb-3">
+                <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <div className="relative z-10">
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
