@@ -128,8 +128,8 @@ export function Header() {
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
           {location !== '/map' && (
-            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-gray-100 transition-colors text-slate-900 no-underline">
-              <Map className="w-5 h-5 text-slate-900 fill-none stroke-current" strokeWidth={2} />
+            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800 no-underline">
+              <Map className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>
             </Link>
           )}
@@ -137,7 +137,7 @@ export function Header() {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="no-invert-hover flex items-center justify-center min-w-[44px] min-h-[44px] p-2 rounded-full hover:bg-gray-100 transition-colors text-slate-900"
+            className="no-invert-hover flex items-center justify-center min-w-[44px] min-h-[44px] p-2 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
