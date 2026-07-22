@@ -358,7 +358,7 @@ export function Hero() {
             </div>
 
             {/* Yellow offset backing block under/behind the map card */}
-            <div className="hidden md:block absolute right-[43px] top-[calc(50%-29%+24px)] h-[58%] w-[42%] min-[1440px]:right-[58px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]" />
+            <div className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[58%] w-[42%] min-[1440px]:right-[23px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]" />
 
             <div className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
                 <div
