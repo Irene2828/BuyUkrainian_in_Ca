@@ -76,7 +76,7 @@ export function Header() {
         <div className="flex-1 flex items-center justify-start gap-2">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
             {/* Branding Text with Oval Frame */}
-            <div className="relative flex flex-col justify-center gap-[1.5px] min-[1670px]:gap-[2px] px-[36px] py-[18px] min-[1024px]:max-[1440px]:px-[38px] min-[1024px]:max-[1440px]:py-[19px] min-[1670px]:px-[42px] min-[1670px]:py-[20px] select-none">
+            <div className="relative flex flex-col justify-center gap-[1.5px] min-[1670px]:gap-[2px] px-[27px] py-[13.5px] min-[1024px]:max-[1440px]:px-[28.5px] min-[1024px]:max-[1440px]:py-[14.25px] min-[1670px]:px-[31.5px] min-[1670px]:py-[15px] select-none">
               {/* Split-color Oval Stroke Frame */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none p-[1.5px]" xmlns="http://www.w3.org/2000/svg">
                 <defs>
