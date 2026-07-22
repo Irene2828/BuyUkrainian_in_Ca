@@ -99,7 +99,7 @@ export function Header() {
             </div>
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
-          <span className="hidden lg:block text-[14px] min-[1024px]:max-[1440px]:text-[15px] min-[1670px]:text-[17px] text-slate-500 font-medium tracking-wide leading-none antialiased font-['Inter']">
+          <span className="hidden lg:block text-[14px] min-[1024px]:max-[1440px]:text-[15px] min-[1670px]:text-[17px] text-slate-500 font-normal tracking-wide leading-none antialiased font-['Inter']">
             Volunteer initiative to support Ukraine from Canada
           </span>
         </div>
