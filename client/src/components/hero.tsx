@@ -79,13 +79,6 @@ export function Hero() {
             surfaceClass: "bg-[#FFFBEB]/80",
             dotClass: "bg-[#FFD700]",
         },
-        {
-            title: "Updated Regularly",
-            detail: "real people, real stores, real Ukrainian products",
-            accentClass: "",
-            surfaceClass: "bg-[#EFF6FF]/70",
-            dotClass: "bg-[#0057B7]",
-        },
     ];
 
     useEffect(() => {
@@ -204,7 +197,7 @@ export function Hero() {
 
                         <div className="mt-[5px] flex items-center text-[clamp(1.386rem,6.51vw,1.8375rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.3125rem] gap-2">
                             sold across Canada
-                            <img src={newHeroIcon} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
+                            <img src={newHeroIcon} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
                         </div>
                         <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -302,7 +295,7 @@ export function Hero() {
                                     <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
                                         <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
                                             sold across Canada 
-                                            <img src={newHeroIcon} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
+                                            <img src={newHeroIcon} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
                                         </span>
                                         <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
                                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -537,7 +530,7 @@ function HeroVariantB({
                                 </h1>
                                 <div className="mt-[5px] flex items-center text-[clamp(1.5225rem,7.14vw,2.0475rem)] font-normal leading-tight tracking-normal text-slate-600 gap-2">
                                     sold across Canada
-                                    <img src={newHeroIcon} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
+                                    <img src={newHeroIcon} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
                                 </div>
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -671,7 +664,7 @@ function HeroVariantB({
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-4">
                                     <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%] gap-3">
                                         sold across Canada
-                                        <img src={newHeroIcon} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
+                                        <img src={newHeroIcon} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
                                     </span>
                                     <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
                                         One map to find, share and add new stores selling #madeinUkraine next to you.
