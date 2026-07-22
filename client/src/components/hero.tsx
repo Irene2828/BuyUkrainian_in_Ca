@@ -195,7 +195,7 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex flex-col items-end gap-[5px] sm:flex-row sm:items-center sm:gap-2 w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                        <div className="mt-[5px] flex flex-col items-start gap-[2.5px] sm:flex-row sm:items-center sm:gap-2 w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
                             <span className="whitespace-nowrap">sold across Canada</span>
                             <img src={newHeroWhiteBg} alt="" className="h-[2em] w-auto shrink-0" aria-hidden="true" />
                         </div>
@@ -528,7 +528,7 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex flex-col items-end gap-[5px] sm:flex-row sm:items-center sm:gap-2 w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex flex-col items-start gap-[2.5px] sm:flex-row sm:items-center sm:gap-2 w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     <span className="whitespace-nowrap">sold across Canada</span>
                                     <img src={newHeroWhiteBg} alt="" className="h-[2em] w-auto shrink-0" aria-hidden="true" />
                                 </div>
