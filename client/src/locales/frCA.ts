@@ -134,8 +134,17 @@ const frCA = {
       canada: "Canada",
     },
     description: "Repérez près de chez vous des produits authentiques fabriqués en Ukraine.",
+    descriptionFind: "Une seule carte pour",
+    descriptionFindBold: "trouver",
+    descriptionAdd: ",",
+    descriptionAddBold: "ajouter",
+    descriptionShare: ", et",
+    descriptionShareBold: "partager",
+    descriptionEnd: "des boutiques vendant des produits #madeinUkraine près de chez vous.",
     ctaPrimary: "Trouver des boutiques près de moi",
     ctaSecondary: "Comment ça fonctionne",
+    addedRecently: "AJOUTÉ RÉCEMMENT",
+    tapToExplore: "APPUYEZ POUR EXPLORER LA CARTE",
     mapPreviewAria: "Carte interactive des boutiques ukrainiennes au Canada",
     trustPillars: {
       economy: {
@@ -248,6 +257,7 @@ const frCA = {
     shareOnInstagram: "Partager sur Instagram",
     shareOnX: "Partager sur X",
     copyAria: "Copier le texte suggéré",
+    postTo: "Publier sur :",
   },
   mapPage: {
     latestCommunityAdditions: "Derniers ajouts de la communauté",

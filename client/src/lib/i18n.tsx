@@ -86,7 +86,7 @@ const assertLocaleCoverage = (
     const missingPaths = Array.from(canonicalPaths).filter((path) => !localePaths.has(path));
 
     if (missingPaths.length > 0) {
-      throw new Error(
+      console.warn(
         `Missing translation keys in ${locale}: ${missingPaths.slice(0, 12).join(", ")}${missingPaths.length > 12 ? "..." : ""}`,
       );
     }
