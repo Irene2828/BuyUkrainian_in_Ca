@@ -217,7 +217,6 @@ export function Hero() {
                             </Link>
                             <Link
                                 href="/#how-it-works"
-                                onClick={onHowItWorksClick}
                                 className="pointer-events-auto inline-flex h-10 w-full items-center justify-center gap-2 border border-white/20 bg-white/10 text-[14px] font-medium tracking-normal text-white transition-all duration-300 hover:bg-white/20 active:scale-[0.98]"
                             >
                                 <span>How it works</span>
