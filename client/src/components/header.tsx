@@ -4,11 +4,8 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { HomeAddForm } from "@/components/home-add-form";
 import { useFlagsABTest } from "@/hooks/use-ab-test";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 import newLogo from "@/assets/newlogo.png";
@@ -18,7 +15,6 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useI18n();
-  const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
   const { isVersionB } = useFlagsABTest();
 
 
@@ -28,10 +24,6 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-    };
-
-    const handleOpenAddStore = () => {
-      setAddStoreDialogOpen(true);
     };
 
     const handleKey = (e: KeyboardEvent) => {
@@ -45,13 +37,9 @@ export function Header() {
 
     window.addEventListener('keydown', handleKey);
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('openAddStore', handleOpenAddStore);
-    window.addEventListener('openAddStoreModal', handleOpenAddStore);
     return () => {
       window.removeEventListener('keydown', handleKey);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('openAddStore', handleOpenAddStore);
-      window.removeEventListener('openAddStoreModal', handleOpenAddStore);
     };
   }, []);
 
@@ -124,23 +112,15 @@ export function Header() {
                 <span>{t('nav.map') || 'Map'}</span>
               </Link>
             </nav>
-            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-              <DialogTrigger asChild>
                 <span
                   role="button"
                   tabIndex={0}
+                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
                   className={cn("cursor-pointer outline-none flex items-center gap-1", HEADER_NAV_LINK_CLASSNAME)}
                 >
                   <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
                   <span>Add Stores</span>
                 </span>
-              </DialogTrigger>
-              <DialogContent className="max-w-xl p-0 bg-transparent border-none shadow-none overflow-visible">
-                <GoogleMapsProvider>
-                  <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-                </GoogleMapsProvider>
-              </DialogContent>
-            </Dialog>
             <div className="flex items-center gap-5 lg:gap-6 pl-1 border-l border-slate-200/80">
               <LanguageSwitcher />
             </div>
@@ -201,7 +181,7 @@ export function Header() {
                     role="button"
                     tabIndex={0}
                     onClick={() => {
-                        setAddStoreDialogOpen(true);
+                        window.dispatchEvent(new CustomEvent('openAddStoreModal'));
                         setMobileMenuOpen(false);
                     }}
                     className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center justify-between gap-2 text-left cursor-pointer"

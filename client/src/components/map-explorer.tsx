@@ -16,7 +16,6 @@ import { InteractiveMapRef } from "@/components/interactive-map";
 import { StoreCard } from "@/components/store-card";
 import { Store } from "@/lib/data";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { HomeAddForm } from "@/components/home-add-form";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { Button } from "@/components/ui/button";
@@ -65,7 +64,6 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     const [selectedCity, setSelectedCity] = useState<string | null>(null);
     const [viewMode, setViewMode] = useState<"map" | "list">("map");
     const [selectedStore, setSelectedStore] = useState<Store | null>(null);
-    const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
     const [isFlying, setIsFlying] = useState(false);
     const [sortMode, setSortMode] = useState<"newest" | "name">("newest");
     const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
@@ -412,7 +410,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                         <div className="absolute bottom-6 right-4 md:right-6 z-[600] pointer-events-auto">
                             <button
                                 aria-label="Add a new store"
-                                onClick={() => setAddStoreDialogOpen(true)}
+                                onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
                                 className="h-[56px] w-[56px] p-0 bg-[#FFD700] text-[#0057B7] rounded-[32px] flex items-center justify-center shadow-xl border border-[#FFD700] hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 transition-all duration-300"
                             >
                                 <Plus className="w-6 h-6" strokeWidth={2.5} />
@@ -467,14 +465,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                 </div>
             </div>
 
-            {/* Add Store Dialog */}
-            <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-                <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none overflow-visible">
-                    <GoogleMapsProvider>
-                        <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-                    </GoogleMapsProvider>
-                </DialogContent>
-            </Dialog>
+            {/* Dialog removed in favor of GlobalAddStoreModal */}
         </div>
     );
 }

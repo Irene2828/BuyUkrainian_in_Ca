@@ -1,15 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { Loader2, ArrowRight, ArrowUpRight, Plus, MapPin } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { HomeAddForm } from "@/components/home-add-form";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MapExplorer } from "@/components/map-explorer";
 import { Store } from "@/lib/data";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { GoogleMapsProvider } from "@/components/google-maps-provider";
 
 const PROVINCE_TO_ABBR: Record<string, string> = {
   "Alberta": "AB",
@@ -40,8 +37,6 @@ function NewlyAddedStores() {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
-
-  const [addStoreDialogOpen, setAddStoreDialogOpen] = useState(false);
 
   if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-[var(--color-text-secondary)]" /></div>;
 
@@ -133,7 +128,7 @@ function NewlyAddedStores() {
           Know a store we missed? Add it to the map.
         </p>
         <button
-          onClick={() => setAddStoreDialogOpen(true)}
+          onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
           className="relative z-10 inline-flex w-auto items-center justify-center h-[46px] px-6 text-[16px] font-medium tracking-normal rounded-none bg-transparent text-[#0057B7] border border-solid border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 2xl:h-[54px] 2xl:text-[17px] focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-2.5 group/cta-btn mx-auto"
         >
           <span>Add a New Store</span>
@@ -141,13 +136,7 @@ function NewlyAddedStores() {
         </button>
       </div>
 
-      <Dialog open={addStoreDialogOpen} onOpenChange={setAddStoreDialogOpen}>
-        <DialogContent className="max-w-[600px] p-0 border-none bg-transparent shadow-none overflow-visible">
-          <GoogleMapsProvider>
-            <HomeAddForm onClose={() => setAddStoreDialogOpen(false)} />
-          </GoogleMapsProvider>
-        </DialogContent>
-      </Dialog>
+      {/* Dialog removed in favor of GlobalAddStoreModal */}
 
 
 

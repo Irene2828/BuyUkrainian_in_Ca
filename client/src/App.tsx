@@ -12,6 +12,7 @@ import { I18nProvider } from "@/lib/i18n";
 import { AccessibilityProvider } from "@/contexts/accessibility-context";
 import Home from "@/pages/home";
 import { initPremiumInteractions } from "./lib/premium-interactions";
+import { GlobalAddStoreModal } from "@/components/global-add-store-modal";
 
 const MapPage = lazy(() => import("@/pages/map"));
 const AdminLogin = lazy(() => import("@/pages/admin/login"));
@@ -66,6 +67,7 @@ function App() {
             <TooltipProvider>
               <Toaster />
               <SonnerToaster />
+              <GlobalAddStoreModal />
               <Router />
             </TooltipProvider>
           </QueryClientProvider>
