@@ -402,9 +402,9 @@ export function Hero() {
                                                 isMobile={false}
                                             />
                                             {/* Hover Hint Overlay */}
-                                            <div className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[#0057B7]/5 backdrop-blur-[1px]">
-                                                <div className="bg-white/95 backdrop-blur-md px-6 py-2.5 shadow-xl transform translate-y-4 group-hover/map-hover:translate-y-0 transition-all duration-500 border border-slate-200/50 rounded-full">
-                                                    <span className="text-[12px] font-bold tracking-[0.2em] uppercase text-[#0057B7] whitespace-nowrap font-sans">
+                                            <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-white/5 backdrop-blur-[1.5px]">
+                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">
+                                                    <span className="text-[13px] font-bold tracking-[0.25em] uppercase text-slate-400 whitespace-nowrap font-sans">
                                                         Tap to explore map
                                                     </span>
                                                 </div>
@@ -618,9 +618,9 @@ function HeroVariantB({
                                                         isMobile={false}
                                                     />
                                                     {/* Hover Hint Overlay */}
-                                                    <div className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[#0057B7]/5 backdrop-blur-[1px]">
-                                                        <div className="bg-white/95 backdrop-blur-md px-6 py-2.5 shadow-xl transform translate-y-4 group-hover/map-hover:translate-y-0 transition-all duration-500 border border-slate-200/50 rounded-full">
-                                                            <span className="text-[12px] font-bold tracking-[0.2em] uppercase text-[#0057B7] whitespace-nowrap font-sans">
+                                                    <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-white/5 backdrop-blur-[1.5px]">
+                                                        <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">
+                                                            <span className="text-[13px] font-bold tracking-[0.25em] uppercase text-slate-400 whitespace-nowrap font-sans">
                                                                 Tap to explore map
                                                             </span>
                                                         </div>
