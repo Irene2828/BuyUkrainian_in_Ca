@@ -1,4 +1,4 @@
-import { ArrowUpRight, Info } from "lucide-react";
+import { ArrowUpRight, Info, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
