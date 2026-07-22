@@ -246,10 +246,10 @@ export function Hero() {
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pt-[calc(4.8rem+4px)] md:pb-[calc(4.8rem+4px)]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
-                            <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[2vh]">
+                            <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[2vh]">
                                     <h1
                                         ref={h1Ref}
-                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-right md:-translate-y-[5%]"
+                                        className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-left md:-translate-y-[5%]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
@@ -257,7 +257,7 @@ export function Hero() {
                                         >
                                             {t('hero.headline.discover') || "DISCOVER"}
                                         </span>
-                                        <div className="md:ml-0 flex w-full justify-end">
+                                        <div className="md:ml-0 flex w-full justify-start">
                                             <span 
                                                 className="relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.005em] mb-1 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
                                             >
@@ -267,7 +267,7 @@ export function Hero() {
                                     </h1>
                                     
                                     {/* Subline and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
+                                    <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
                                         <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
                                             {t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}
                                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />

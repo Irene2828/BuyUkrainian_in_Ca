@@ -1,4 +1,9 @@
 const uk = {
+  siteHeader: {
+    buyUkrainian: "Купуй Українське",
+    inCanada: "в Канаді",
+    volunteerInitiative: "Волонтерська ініціатива на підтримку економіки України",
+  },
   common: {
     siteName: "BuyUkrainian.ca",
     accessibility: {
@@ -138,9 +143,9 @@ const uk = {
     descriptionFindBold: "пошуку",
     descriptionAdd: ",",
     descriptionAddBold: "поширення",
-    descriptionShare: "та",
+    descriptionShare: " та",
     descriptionShareBold: "додавання",
-    descriptionEnd: "нових локацій з #madeinUkraine поруч тебе.",
+    descriptionEnd: "нових локацій з #madeinUkraine",
     ctaPrimary: "Знайти магазини поруч",
     ctaSecondary: "Як це працює",
     addedRecently: "ЩОЙНО ДОДАНО",

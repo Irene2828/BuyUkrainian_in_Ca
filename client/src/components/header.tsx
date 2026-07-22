@@ -79,16 +79,16 @@ export function Header() {
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#FFD700" strokeWidth="1.5" fill="none" clipPath="url(#clip-bottom)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
               </svg>
               <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
-                {t('header.buyUkrainian') || 'Buy Ukrainian'}
+                {t('siteHeader.buyUkrainian') || 'Buy Ukrainian'}
               </span>
               <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
-                {t('header.inCanada') || 'in Canada'}
+                {t('siteHeader.inCanada') || 'in Canada'}
               </span>
             </div>
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
           <span className="hidden lg:block text-[14px] min-[1024px]:max-[1440px]:text-[15px] min-[1670px]:text-[17px] text-slate-500 font-normal tracking-wide leading-none antialiased font-sans">
-            {t('header.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
+            {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
           </span>
         </div>
 

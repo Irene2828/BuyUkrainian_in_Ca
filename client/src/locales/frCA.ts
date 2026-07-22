@@ -1,4 +1,9 @@
 const frCA = {
+  siteHeader: {
+    buyUkrainian: "Acheter Ukrainien",
+    inCanada: "au Canada",
+    volunteerInitiative: "Initiative bénévole pour soutenir l'économie ukrainienne",
+  },
   common: {
     siteName: "BuyUkrainian.ca",
     accessibility: {
