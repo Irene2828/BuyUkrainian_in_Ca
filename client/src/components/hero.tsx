@@ -643,7 +643,7 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">>
+                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                 <span>Find stores near me</span>
                                 <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                             </button>
