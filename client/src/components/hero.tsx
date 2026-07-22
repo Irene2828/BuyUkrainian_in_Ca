@@ -451,8 +451,12 @@ export function Hero() {
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
                         {/* "ADDED RECENTLY" Label */}
-                        <div className="shrink-0 flex items-center z-10 select-none">
-                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-sans whitespace-nowrap antialiased">
+                        <div className="shrink-0 flex items-center gap-2 z-10 select-none">
+                            <div className="relative flex h-[5px] w-[5px] items-center justify-center">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
+                            </div>
+                            <span className="text-[11.7px] min-[1670px]:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -696,8 +700,12 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
                         {/* "ADDED RECENTLY" Label */}
-                        <div className="shrink-0 flex items-center z-10 select-none">
-                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-sans whitespace-nowrap antialiased">
+                        <div className="shrink-0 flex items-center gap-2 z-10 select-none">
+                            <div className="relative flex h-[5px] w-[5px] items-center justify-center">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
+                            </div>
+                            <span className="text-[11.7px] min-[1670px]:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
