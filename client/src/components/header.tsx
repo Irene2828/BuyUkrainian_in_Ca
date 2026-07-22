@@ -90,10 +90,10 @@ export function Header() {
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#0057B7" strokeWidth="1.5" fill="none" clipPath="url(#clip-top)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
                 <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#FFD700" strokeWidth="1.5" fill="none" clipPath="url(#clip-bottom)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
               </svg>
-              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 Buy Ukrainian
               </span>
-              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-medium tracking-[-0.045em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
+              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
                 in Canada
               </span>
             </div>
