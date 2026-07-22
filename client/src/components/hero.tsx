@@ -203,7 +203,7 @@ export function Hero() {
                             One map to find, share and add new stores selling #madeinUkraine next to you.
                         </p>
 
-                        <div className="mt-[18px] grid gap-2.5 [@media(max-height:700px)]:mt-3" style={{ transform: 'translateY(8px)' }}>
+                        <div className="mt-[18px] grid gap-2.5 [@media(max-height:700px)]:mt-3" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
@@ -300,7 +300,7 @@ export function Hero() {
                                         <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
                                             One map to find, share and add new stores selling #madeinUkraine next to you.
                                         </p>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(4vh)' }}>
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[46px] px-6 text-[16px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
@@ -535,7 +535,7 @@ function HeroVariantB({
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
                                 </p>
-                                <div className="mt-[18px] grid gap-2.5" style={{ transform: 'translateY(8px)' }}>
+                                <div className="mt-[18px] grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                             <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>

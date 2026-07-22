@@ -65,6 +65,8 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="h-px w-full bg-[#0057B7]/10" aria-hidden="true" />
+
         <div className="section-reveal bg-white">
           <AddStoreCTA />
         </div>

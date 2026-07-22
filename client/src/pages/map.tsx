@@ -125,6 +125,8 @@ function NewlyAddedStores() {
         </div>
       </div>
 
+      <div className="h-px w-full bg-[#0057B7]/10 mt-10" aria-hidden="true" />
+
       {/* Community Call to Action */}
       <div className="relative overflow-hidden flex flex-col items-center justify-center pt-[48px] md:pt-[80px] pb-0 text-center px-4 bg-white/85 backdrop-blur-xl">
         <p className="text-reveal relative z-10 text-[18px] font-medium text-slate-900 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
