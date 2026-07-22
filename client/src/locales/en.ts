@@ -96,7 +96,7 @@ const en = {
     },
   },
   nav: {
-    about: "Mission",
+    about: "About",
     map: "Map",
     addStore: "Add Store",
   },
@@ -134,8 +134,17 @@ const en = {
       canada: "Canada",
     },
     description: "Explore authentic Ukrainian-made products near you.",
+    descriptionFind: "One map to",
+    descriptionFindBold: "find",
+    descriptionAdd: ",",
+    descriptionAddBold: "add",
+    descriptionShare: ", and",
+    descriptionShareBold: "share",
+    descriptionEnd: "stores selling #madeinUkraine near you.",
     ctaPrimary: "Find stores near me",
     ctaSecondary: "How it works",
+    addedRecently: "ADDED RECENTLY",
+    tapToExplore: "TAP TO EXPLORE THE MAP",
     mapPreviewAria: "Interactive map of Ukrainian stores in Canada",
     trustPillars: {
       economy: {
@@ -248,6 +257,7 @@ const en = {
     shareOnInstagram: "Share on Instagram",
     shareOnX: "Share on X",
     copyAria: "Copy suggested post to clipboard",
+    postTo: "Post To:",
   },
   mapPage: {
     latestCommunityAdditions: "Latest community additions",

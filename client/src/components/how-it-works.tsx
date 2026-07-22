@@ -1,21 +1,24 @@
 import { Search, MapPin, Share2 } from 'lucide-react';
+import { useI18n } from "@/lib/i18n";
 
 export function HowItWorks() {
+  const { t } = useI18n();
+
   const steps = [
     {
       icon: Search,
-      title: "Looking for authentic products Made in Ukraine?",
-      text: "Explore our verified directory to find what you need with instant directions.",
+      title: `${t("howItWorks.cards.discover.titleLine1") || "Looking for authentic products"} ${t("howItWorks.cards.discover.titleLine2") || "Made in Ukraine?"}`,
+      text: t("howItWorks.cards.discover.text") || "Explore our verified directory to find what you need with instant directions.",
     },
     {
       icon: MapPin,
-      title: "Found a new product on the shelf?",
-      text: "Add it to the map. With less than two minutes of your time, you can help the map grow, and help Ukrainian companies sell products in Canada.",
+      title: `${t("howItWorks.cards.add.titleLine1") || "Found a new product"} ${t("howItWorks.cards.add.titleLine2") || "on the shelf?"}`,
+      text: t("howItWorks.cards.add.text") || "Add it to the map. With less than two minutes of your time, you can help the map grow, and help Ukrainian companies sell products in Canada.",
     },
     {
       icon: Share2,
-      title: "Want to help the Ukrainian economy?",
-      text: "Share the map with your network via social media, word of mouth, email, or any other way possible. The more people that use the map, the more you help Ukrainian companies sell products in Canada.",
+      title: `${t("howItWorks.cards.share.titleLine1") || "Want to help the Ukrainian"} ${t("howItWorks.cards.share.titleLine2") || "economy?"}`,
+      text: t("howItWorks.cards.share.text") || "Share the map with your network via social media, word of mouth, email, or any other way possible. The more people that use the map, the more you help Ukrainian companies sell products in Canada.",
     },
   ];
 

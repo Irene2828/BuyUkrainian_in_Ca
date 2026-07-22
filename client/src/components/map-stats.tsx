@@ -4,6 +4,7 @@ import { Package, Plus, Store, Map } from "lucide-react";
 import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 
 export function MapStats() {
     const { data: stores = [] } = useQuery({
@@ -21,6 +22,8 @@ export function MapStats() {
         products: stores.reduce((acc, s) => acc + (s.products?.length || 0), 0)
     };
 
+    const { t } = useI18n();
+
     return (
         <section className="relative w-full pt-12 md:pt-16 pb-12 md:pb-20 bg-white flex flex-col justify-center items-center">
             <div className="content-width flex flex-col items-center">
@@ -32,7 +35,7 @@ export function MapStats() {
                             duration={2000}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-slate-500 leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Stores Found</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Found"}</span>
                     </div>
 
                     {/* Diagonal Divider 1 */}
@@ -46,7 +49,7 @@ export function MapStats() {
                             delay={200}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-slate-500 leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>Provinces Covered</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>{t("stats.provincesCovered") || "Provinces Covered"}</span>
                     </div>
 
                     {/* Diagonal Divider 2 */}
@@ -60,7 +63,7 @@ export function MapStats() {
                             delay={400}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-slate-500 leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>Products Listed</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>{t("stats.productsListed") || "Products Listed"}</span>
                     </div>
                 </div>
             </div>

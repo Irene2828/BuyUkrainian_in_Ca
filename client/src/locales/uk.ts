@@ -128,14 +128,23 @@ const uk = {
   },
   hero: {
     headline: {
-      discover: "Знаходьте",
-      ukrainianProducts: "українські товари",
+      discover: "ЗНАХОДЬТЕ",
+      ukrainianProducts: "УКРАЇНСЬКІ ТОВАРИ",
       soldAcross: "по всій",
       canada: "Канаді",
     },
     description: "Шукайте автентичні товари, зроблені в Україні, неподалік від себе.",
+    descriptionFind: "Єдина мапа, щоб",
+    descriptionFindBold: "знаходити",
+    descriptionAdd: ",",
+    descriptionAddBold: "додавати",
+    descriptionShare: "та",
+    descriptionShareBold: "поширювати",
+    descriptionEnd: "магазини з товарами #madeinUkraine поруч з вами.",
     ctaPrimary: "Знайти магазини поруч",
     ctaSecondary: "Як це працює",
+    addedRecently: "ЩОЙНО ДОДАНО",
+    tapToExplore: "НАТИСНІТЬ, ЩОБ ВІДКРИТИ МАПУ",
     mapPreviewAria: "Інтерактивна мапа українських магазинів у Канаді",
     trustPillars: {
       economy: {
@@ -248,6 +257,7 @@ const uk = {
     shareOnInstagram: "Поширити в Instagram",
     shareOnX: "Поширити в X",
     copyAria: "Скопіювати запропонований текст",
+    postTo: "Опублікувати в:",
   },
   mapPage: {
     latestCommunityAdditions: "Останні додавання спільноти",

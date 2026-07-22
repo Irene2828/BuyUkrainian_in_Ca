@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Facebook, Instagram, Copy } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function CommunityImpact() {
+    const { t } = useI18n();
     const [copied, setCopied] = useState(false);
 
-    const shareMessage = "A great way to support Ukraine locally - explore the interactive map of Ukrainian-made products sold across Canada.";
+    const shareMessage = t("communityImpact.shareMessage") || "A great way to support Ukraine locally - explore the interactive map of Ukrainian-made products sold across Canada.";
     const shareUrl = "www.buyukrainian.ca";
 
     const handleCopy = () => {
         void navigator.clipboard.writeText(shareMessage);
-        toast.success("Text copied to clipboard");
+        toast.success(t("communityImpact.copySuccess") || "Text copied to clipboard");
     };
 
     const handleFacebookShare = () => {
@@ -53,7 +55,7 @@ export function CommunityImpact() {
                         <h2
                             className="text-reveal text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-3 font-sans"
                         >
-                            Share the map with your network
+                            {t("communityImpact.titleLine1")} {t("communityImpact.titleLine2")}
                         </h2>
   
                         {/* Suggested Post - Pull Quote Style with Inline Copy */}
@@ -77,7 +79,7 @@ export function CommunityImpact() {
                                         
                                         {copied && (
                                             <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-white bg-[#0057B7] px-2 py-1 shadow-md border border-white/20 animate-in fade-in duration-300">
-                                                Copied
+                                                {t("communityImpact.copied") || "Copied"}
                                             </span>
                                         )}
                                     </button>
@@ -90,7 +92,7 @@ export function CommunityImpact() {
                             className="flex flex-col items-center w-full gap-2"
                         >
                             <span className="text-reveal text-[11px] uppercase tracking-[0.2em] font-bold text-slate-400 antialiased mb-1" style={{ transitionDelay: "140ms" }}>
-                                Post To:
+                                {t("communityImpact.postTo") || "Post To:"}
                             </span>
                             
                             <div className="flex items-center gap-8 md:gap-10">
