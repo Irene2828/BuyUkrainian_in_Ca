@@ -422,9 +422,6 @@ export function Hero() {
                     </div>
 
                 </div>
-                <div className="absolute top-[104%] left-1/2 -translate-x-1/2 z-50 opacity-0 group-hover/map-peeking:opacity-100 transition-opacity duration-300 pointer-events-none text-white/80 text-[11px] font-semibold uppercase tracking-[0.25em] whitespace-nowrap">
-                    TAP TO EXPLORE THE MAP
-                </div>
             </div>
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
             <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
@@ -435,7 +432,7 @@ export function Hero() {
                             <div
                                 key={pillar.title}
                                 className={cn(
-                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 border-r-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/50 backdrop-blur-md rounded-none",
+                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 border-r-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
                                     pillar.accentClass,
                                     "max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]"
                                 )}
@@ -644,7 +641,7 @@ function HeroVariantB({
                                 <div
                                     key={`b-${pillar.title}`}
                                     className={cn(
-                                        "flex w-fit max-w-[520px] flex-col items-end border-r-[2.5px] bg-white/45 px-[22px] py-2.5 text-right backdrop-blur-md",
+                                        "flex w-fit max-w-[520px] flex-col items-end border-r-[2.5px] bg-white/55 px-[22px] py-2.5 text-right backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
                                         pillar.accentClass
                                     )}
                                 >
