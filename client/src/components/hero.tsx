@@ -303,7 +303,7 @@ export function Hero() {
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[50px] min-[1670px]:h-[56px] px-6 min-[1670px]:px-8 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] min-[1670px]:text-[19px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[50px] min-[1600px]:h-[56px] px-6 min-[1600px]:px-8 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] min-[1600px]:text-[19px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Find stores near me</span>
                                                     <ArrowUpRight 
@@ -314,7 +314,7 @@ export function Hero() {
                                             </Link>
                                             <Link
                                                 href="/#how-it-works"
-                                                className="group inline-flex h-[46px] min-[1670px]:h-[50px] items-center justify-center gap-2 bg-transparent px-0 text-[15px] min-[1670px]:text-[16px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased"
+                                                className="group inline-flex h-[46px] min-[1600px]:h-[50px] items-center justify-center gap-2 bg-transparent px-0 text-[15px] min-[1600px]:text-[16px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased"
                                             >
                                                 <Info className="h-4 w-4 text-current" strokeWidth={1.5} />
                                                 <span>How it works</span>
@@ -390,7 +390,7 @@ export function Hero() {
                                                 opacity: { duration: 1.2, ease: "easeOut" },
                                                 scale: { duration: 1.2, ease: "easeOut" }
                                             }}
-                                            className="w-full h-full cursor-pointer pointer-events-auto will-change-transform"
+                                            className="w-full h-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative"
                                             onClick={() => setLocation('/map')}
                                         >
                                             <InteractiveMap
@@ -401,6 +401,14 @@ export function Hero() {
                                                 variant="hero"
                                                 isMobile={false}
                                             />
+                                            {/* Hover Hint Overlay */}
+                                            <div className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[#0057B7]/5 backdrop-blur-[1px]">
+                                                <div className="bg-white/95 backdrop-blur-md px-6 py-2.5 shadow-xl transform translate-y-4 group-hover/map-hover:translate-y-0 transition-all duration-500 border border-slate-200/50 rounded-full">
+                                                    <span className="text-[12px] font-bold tracking-[0.2em] uppercase text-[#0057B7] whitespace-nowrap font-sans">
+                                                        Tap to explore map
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </motion.div>
                                     </Suspense>
                                 </GoogleMapsProvider>
@@ -456,7 +464,7 @@ export function Hero() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] min-[1670px]:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[11.7px] min-[1600px]:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -485,7 +493,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] min-[1600px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>
@@ -600,7 +608,7 @@ function HeroVariantB({
                                                 }}
                                                 className="h-full w-full cursor-pointer pointer-events-auto will-change-transform"
                                             >
-                                                <Link href="/map" className="block h-full w-full">
+                                                <Link href="/map" className="block h-full w-full group/map-hover relative">
                                                     <InteractiveMap
                                                         stores={stores}
                                                         selectedStore={null}
@@ -609,6 +617,14 @@ function HeroVariantB({
                                                         variant="hero"
                                                         isMobile={false}
                                                     />
+                                                    {/* Hover Hint Overlay */}
+                                                    <div className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[#0057B7]/5 backdrop-blur-[1px]">
+                                                        <div className="bg-white/95 backdrop-blur-md px-6 py-2.5 shadow-xl transform translate-y-4 group-hover/map-hover:translate-y-0 transition-all duration-500 border border-slate-200/50 rounded-full">
+                                                            <span className="text-[12px] font-bold tracking-[0.2em] uppercase text-[#0057B7] whitespace-nowrap font-sans">
+                                                                Tap to explore map
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </Link>
                                             </motion.div>
                                         </Suspense>
@@ -621,7 +637,7 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[50px] min-[1670px]:h-[56px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-6 min-[1670px]:px-8 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] min-[1670px]:text-[19px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                            <button className="group/cta-btn relative inline-flex h-[50px] min-[1600px]:h-[56px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-6 min-[1600px]:px-8 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] min-[1600px]:text-[19px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                 <span>Find stores near me</span>
                                 <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                             </button>
@@ -705,7 +721,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] min-[1670px]:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[11.7px] min-[1600px]:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -730,7 +746,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] min-[1600px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>
