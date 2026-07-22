@@ -1454,3 +1454,15 @@ img[src*="google4_tracking"] {
 .gm-style img {
   max-width: none !important;
 }
+
+/* Smooth Google Maps Pin Hover */
+.gm-style div[role="button"] img[src^="data:image/svg"],
+.gm-style div[style*="cursor: pointer"] > img[src^="data:image/svg"] {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  transform-origin: bottom center !important;
+  will-change: transform;
+}
+.gm-style div[role="button"]:hover img[src^="data:image/svg"],
+.gm-style div[style*="cursor: pointer"]:hover > img[src^="data:image/svg"] {
+  transform: scale(1.15) !important;
+}

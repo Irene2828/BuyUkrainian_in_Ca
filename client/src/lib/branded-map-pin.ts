@@ -48,8 +48,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
   const pinBg = isSelected ? PIN_BLUE : PIN_YELLOW;
   const strokeColor = WHITE;
   const strokeWidth = isHover ? (isCluster ? 2.5 : 2.25) : (isCluster ? 2 : 1.75);
-  const shadowFilter = isHover ? "hover-shadow" : "premium-shadow";
-  const hoverTransform = isHover ? `transform="translate(21 32) scale(1.1) translate(-21 -32)"` : "";
+  const shadowFilter = "premium-shadow";
   
   let innerCore = "";
   
@@ -84,9 +83,6 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
     <filter id="premium-shadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.12" />
     </filter>
-    <filter id="hover-shadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="5" stdDeviation="5.5" flood-color="#000000" flood-opacity="0.18" />
-    </filter>
     
     <!-- Premium glowing halo to ground the pin seamlessly onto the map -->
     <radialGradient id="halo-glow-${variant}" cx="50%" cy="50%" r="50%">
@@ -96,7 +92,7 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
     </radialGradient>
   </defs>
   
-  <g ${hoverTransform}>
+  <g>
     <!-- Grounding Halo (puddle of light where pin touches the map) -->
     <ellipse cx="21" cy="32" rx="15" ry="6" fill="url(#halo-glow-${variant})" />
     

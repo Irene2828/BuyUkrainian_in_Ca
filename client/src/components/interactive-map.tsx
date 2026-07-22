@@ -696,13 +696,11 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       marker.addListener('mouseover', (e: any) => {
         (window as any).__hasInteractedWithMapPins = true;
         if (callbacks.current.selectedStore) return;
-        marker.setIcon(buildMarkerIcon(hoverSvg, "cluster", callbacks.current.scale));
         marker.setZIndex(1000);
         callbacks.current.setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
       marker.addListener('mouseout', () => {
-        marker.setIcon(buildMarkerIcon(defaultSvg, "cluster", callbacks.current.scale));
         marker.setZIndex(100);
         callbacks.current.setHoveredLabel(null);
       });
@@ -804,15 +802,6 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
           (window as any).__hasInteractedWithMapPins = true;
           if (callbacks.current.selectedStore) return;
 
-          const isCurrentlySelected = callbacks.current.selectedStore?.id === store.id;
-          if (!isCurrentlySelected) {
-            const hoverSvg = getBrandedMapPinSvg({
-              variant: "hover",
-              dimmed: false,
-            });
-            const hoverIcon = buildMarkerIcon(hoverSvg, "hover", callbacks.current.scale);
-            marker.setIcon(hoverIcon);
-          }
           marker.setZIndex(1000);
           callbacks.current.setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
         });
@@ -821,14 +810,6 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
           const isCurrentlySelected = callbacks.current.selectedStore?.id === store.id;
           const isCurrentlyDimmed = callbacks.current.selectedStore !== null && callbacks.current.selectedStore.id !== store.id;
           
-          const restoreVariant = isCurrentlySelected ? "selected" : "default";
-          const restoreSvg = getBrandedMapPinSvg({
-            variant: restoreVariant,
-            dimmed: isCurrentlyDimmed && !isCurrentlySelected,
-          });
-          const restoreIcon = buildMarkerIcon(restoreSvg, restoreVariant, callbacks.current.scale);
-          
-          marker.setIcon(restoreIcon);
           marker.setZIndex(isCurrentlySelected ? 1000 : isCurrentlyDimmed ? 10 : 100);
           callbacks.current.setHoveredLabel(null);
         });

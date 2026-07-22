@@ -323,6 +323,15 @@ export function Hero() {
             <div className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[58%] w-[42%] min-[1440px]:right-[23px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]" />
 
             <div className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
+                {/* Hover Hint Label - positioned neatly under the map insert block */}
+                <div className="absolute -bottom-[2.75rem] left-0 right-0 flex justify-center items-center opacity-0 group-hover/map-peeking:opacity-100 transition-all duration-500 pointer-events-none z-50">
+                    <div className="transform translate-y-1 group-hover/map-peeking:translate-y-0 transition-all duration-500">
+                        <span className="text-[12.5px] font-bold tracking-[0.40em] uppercase text-white/80 whitespace-nowrap font-sans transition-all duration-500 antialiased drop-shadow-sm">
+                            TAP TO EXPLORE THE MAP
+                        </span>
+                    </div>
+                </div>
+
                 <div
                     className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
                     aria-label="Interactive map of Ukrainian stores in Canada"
@@ -374,14 +383,6 @@ export function Hero() {
                                                 variant="hero"
                                                 isMobile={false}
                                             />
-                                            {/* Hover Hint Overlay */}
-                                            <div className="absolute inset-0 z-[70] flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-300 pointer-events-none bg-slate-900/[0.03]">
-                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500 group-hover/map-hover:delay-300">
-                                                    <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans transition-all duration-500 group-hover/map-hover:delay-300 antialiased drop-shadow-sm">
-                                                        TAP TO EXPLORE THE MAP
-                                                    </span>
-                                                </div>
-                                            </div>
                                         </motion.div>
                                     </Suspense>
                                 </GoogleMapsProvider>
