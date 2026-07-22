@@ -222,9 +222,9 @@
 .admin-list-panel {
   overflow: hidden;
   border: 1px solid #dbe7f3;
-  border-radius: 20px;
+  border-radius: 0;
   background: #ffffff;
-  box-shadow: 0 14px 32px rgba(21, 75, 128, 0.05);
+  box-shadow: none;
 }
 
 .admin-list-header {
@@ -352,9 +352,9 @@
   width: min(100%, 440px);
   overflow: hidden;
   border: 1px solid #dbe7f3;
-  border-radius: 22px;
+  border-radius: 0;
   background: #ffffff;
-  box-shadow: 0 22px 60px rgba(21, 75, 128, 0.12);
+  box-shadow: none;
 }
 
 .admin-login-card::before {

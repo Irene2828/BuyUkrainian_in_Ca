@@ -1102,10 +1102,10 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 <button
                                     onClick={() => { setActiveTab(tab.id); setSelectedIds(new Set()); }}
                                     className={cn(
-                                        "admin-sidebar-nav-button flex w-full items-center gap-4 rounded-none px-4 py-3 text-left text-[14.5px] font-medium transition-all duration-300",
+                                        "admin-sidebar-nav-button flex w-full items-center gap-4 rounded-none px-4 py-3 text-left text-[14.5px] transition-all duration-300",
                                         activeTab === tab.id
-                                            ? "is-active font-semibold"
-                                            : "text-[#6B8198] hover:bg-[#F4F8FC] hover:text-[#102A43]"
+                                            ? "is-active font-bold text-[#0057B7]"
+                                            : "font-semibold text-[#6B8198] hover:bg-[#F4F8FC] hover:text-[#102A43]"
                                     )}
                                 >
                                     <tab.icon className="h-[18px] w-[18px] shrink-0" />

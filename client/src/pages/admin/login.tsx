@@ -10,7 +10,7 @@ import { SiteBrandLockup } from "@/components/site-brand-lockup";
 import "../../components/admin-dashboard.css";
 
 const adminInputClassName =
-  "h-[48px] rounded-[12px] border border-[#dbe7f3] bg-white px-4 text-[#243b53] shadow-none transition-colors hover:shadow-none focus-visible:border-[#6ea8dc] focus-visible:ring-4 focus-visible:ring-[#0057B7]/10 focus-visible:ring-offset-0";
+  "h-[48px] rounded-none border border-[#dbe7f3] bg-white px-4 text-[#243b53] shadow-none transition-colors hover:shadow-none focus-visible:border-[#6ea8dc] focus-visible:ring-4 focus-visible:ring-[#0057B7]/10 focus-visible:ring-offset-0";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
