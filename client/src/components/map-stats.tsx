@@ -30,7 +30,7 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-sans text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
+                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">Stores Found</span>
                     </div>
@@ -44,7 +44,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-sans text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
+                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>Provinces Covered</span>
                     </div>
@@ -58,7 +58,7 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-sans text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
+                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-light tracking-tighter text-slate-700 leading-none antialiased tabular-nums"
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>Products Listed</span>
                     </div>
