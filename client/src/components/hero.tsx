@@ -199,7 +199,7 @@ export function Hero() {
                             <span className="whitespace-nowrap">sold across Canada</span>
                             <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
                         </div>
-                        <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
+                        <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
                             One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                         </p>
 
@@ -544,7 +544,7 @@ function HeroVariantB({
                                     <span className="whitespace-nowrap">sold across Canada</span>
                                     <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
                                 </div>
-                                <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
+                                <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                 </p>
                                 <div className="mt-[36px] mb-4 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
