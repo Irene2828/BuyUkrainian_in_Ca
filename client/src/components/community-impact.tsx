@@ -45,7 +45,7 @@ export function CommunityImpact() {
 
                     {/* Main Content Block (White with Brand Blue border) */}
                     <div 
-                        className="relative z-10 bg-white border border-solid w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center transition-transform duration-300 ease-out hover:scale-[1.01]"
+                        className="relative z-10 bg-white border border-dashed w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center transition-all duration-300 ease-out"
                         style={{ borderColor: '#0057B7' }}
                     >
                         
