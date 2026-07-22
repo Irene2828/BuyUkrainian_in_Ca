@@ -404,9 +404,9 @@ export function Hero() {
                                             {/* Invisible Event Catcher to prevent Google Maps from swallowing hover events */}
                                             <div className="absolute inset-0 z-[60] bg-transparent" aria-hidden="true" />
                                             {/* Hover Hint Overlay */}
-                                            <div className="absolute inset-0 z-[70] flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover:opacity-100 map-hover-delay pointer-events-none bg-slate-900/[0.03]">
-                                                <div className="transform translate-y-2 group-hover:translate-y-0 map-hover-delay">
-                                                    <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans map-hover-delay antialiased drop-shadow-sm">
+                                            <div className="absolute inset-0 z-[70] flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-[3000ms] pointer-events-none bg-slate-900/[0.03]">
+                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500 group-hover/map-hover:delay-[3000ms]">
+                                                    <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans transition-all duration-500 group-hover/map-hover:delay-[3000ms] antialiased drop-shadow-sm">
                                                         TAP TO EXPLORE THE MAP
                                                     </span>
                                                 </div>
@@ -608,7 +608,7 @@ function HeroVariantB({
                                                     opacity: { duration: 1.2, ease: "easeOut" },
                                                     scale: { duration: 1.2, ease: "easeOut" }
                                                 }}
-                                                className="h-full w-full cursor-pointer pointer-events-auto will-change-transform group relative"
+                                                className="h-full w-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative"
                                             >
                                                 <Link href="/map" className="block h-full w-full relative">
                                                     <InteractiveMap
@@ -622,9 +622,9 @@ function HeroVariantB({
                                                     {/* Invisible Event Catcher to prevent Google Maps from swallowing hover events */}
                                                     <div className="absolute inset-0 z-[60] bg-transparent" aria-hidden="true" />
                                                     {/* Hover Hint Overlay */}
-                                                    <div className="absolute inset-0 z-[70] flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover:opacity-100 map-hover-delay pointer-events-none bg-slate-900/[0.03]">
-                                                        <div className="transform translate-y-2 group-hover:translate-y-0 map-hover-delay">
-                                                            <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans map-hover-delay antialiased drop-shadow-sm">
+                                                    <div className="absolute inset-0 z-[70] flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-[3000ms] pointer-events-none bg-slate-900/[0.03]">
+                                                        <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500 group-hover/map-hover:delay-[3000ms]">
+                                                            <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans transition-all duration-500 group-hover/map-hover:delay-[3000ms] antialiased drop-shadow-sm">
                                                                 TAP TO EXPLORE THE MAP
                                                             </span>
                                                         </div>
