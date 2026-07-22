@@ -458,8 +458,8 @@ export function Hero() {
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
                         {/* "ADDED RECENTLY" Label */}
-                        <div className="shrink-0 flex items-center bg-[#FFD700] px-3.5 py-1 z-10 select-none">
-                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#0057B7] font-['Inter'] whitespace-nowrap antialiased">
+                        <div className="shrink-0 flex items-center z-10 select-none">
+                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-['Inter'] whitespace-nowrap antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -703,8 +703,8 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
                         {/* "ADDED RECENTLY" Label */}
-                        <div className="shrink-0 flex items-center bg-[#FFD700] px-3.5 py-1 z-10 select-none">
-                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#0057B7] font-['Inter'] whitespace-nowrap antialiased">
+                        <div className="shrink-0 flex items-center z-10 select-none">
+                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-['Inter'] whitespace-nowrap antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
