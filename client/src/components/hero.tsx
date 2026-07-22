@@ -200,7 +200,7 @@ export function Hero() {
                             <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
                         </div>
                         <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
-                            One map to find, share and add new stores selling #madeinUkraine next to you.
+                            One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                         </p>
 
                         <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
@@ -298,7 +298,7 @@ export function Hero() {
                                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                         </span>
                                         <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
-                                            One map to find, share and add new stores selling #madeinUkraine next to you.
+                                            One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
@@ -545,7 +545,7 @@ function HeroVariantB({
                                     <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
                                 </div>
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
-                                    One map to find, share and add new stores selling #madeinUkraine next to you.
+                                    One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                 </p>
                                 <div className="mt-[36px] mb-4 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
@@ -687,7 +687,7 @@ function HeroVariantB({
                                         <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                     </span>
                                     <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
-                                        One map to find, share and add new stores selling #madeinUkraine next to you.
+                                        One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                     </p>
                                     <div className="flex md:hidden items-center gap-8 self-start relative z-20 pointer-events-auto" style={{ transform: 'translateY(13vh)' }}>
                                         <Link href="/map">
