@@ -195,7 +195,7 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex items-center text-[clamp(1.386rem,6.51vw,1.8375rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.3125rem] gap-2">
+                        <div className="mt-[5px] flex items-center text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem] gap-2">
                             sold across Canada
                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
                         </div>
@@ -203,7 +203,7 @@ export function Hero() {
                             One map to find, share and add new stores selling #madeinUkraine next to you.
                         </p>
 
-                        <div className="mt-[18px] grid gap-2.5 [@media(max-height:700px)]:mt-3" style={{ transform: 'translateY(0px)' }}>
+                        <div className="mt-[36px] mb-8 grid gap-2.5 [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[50px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
@@ -528,14 +528,14 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex items-center text-[clamp(1.5225rem,7.14vw,2.0475rem)] font-normal leading-tight tracking-normal text-slate-600 gap-2">
+                                <div className="mt-[5px] flex items-center text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600 gap-2">
                                     sold across Canada
                                     <img src={newHeroWhiteBg} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
                                 </div>
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
                                 </p>
-                                <div className="mt-[18px] grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
+                                <div className="mt-[36px] mb-8 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                             <button className="group/cta-btn relative inline-flex h-[50px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>
