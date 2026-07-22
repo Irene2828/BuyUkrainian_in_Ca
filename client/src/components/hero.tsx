@@ -173,7 +173,7 @@ export function Hero() {
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
 
                         <h1
-                            className="relative z-10 max-w-full text-[clamp(2.05rem,10.4vw,2.85rem)] font-[900] uppercase leading-[0.94] tracking-normal antialiased [@media(max-height:700px)]:text-[2.2rem]"
+                            className="relative z-10 max-w-full text-[clamp(2.05rem,10.4vw,2.85rem)] font-[900] uppercase leading-[0.94] tracking-[0.015em] antialiased [@media(max-height:700px)]:text-[2.2rem]"
                             style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                         >
                             {["DISCOVER", "UKRAINIAN", "PRODUCTS"].map((line) => (
@@ -260,7 +260,7 @@ export function Hero() {
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
-                                            className="block w-full text-left font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.02em] mb-0 text-transparent"
+                                            className="block w-full text-left font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.005em] mb-0 text-transparent"
                                             style={{ 
                                                 backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                 backgroundSize: '120%',
@@ -275,7 +275,7 @@ export function Hero() {
                                         </span>
                                         <div className="md:ml-0 flex w-full justify-end">
                                             <span 
-                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.02em] mb-1 whitespace-nowrap text-transparent"
+                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.005em] mb-1 whitespace-nowrap text-transparent"
                                                 style={{ 
                                                     backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                     backgroundSize: '120%',
