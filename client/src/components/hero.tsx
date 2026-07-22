@@ -404,11 +404,11 @@ export function Hero() {
                                                 variant="hero"
                                                 isMobile={false}
                                             />
-                                            {/* Hover Hint Overlay */}
-                                            <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-slate-900/[0.03]">
-                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">
-                                                    <span className="text-[13px] font-bold tracking-[0.25em] uppercase text-[#6B8198] whitespace-nowrap font-sans">
-                                                        Tap to explore map
+                                            {/* Hover Hint Overlay — appears after hovering 3 seconds */}
+                                            <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-700 delay-[3000ms] pointer-events-none bg-slate-900/[0.02]">
+                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-700 delay-[3000ms]">
+                                                    <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans transition-all duration-700 antialiased">
+                                                        TAP TO EXPLORE THE MAP
                                                     </span>
                                                 </div>
                                             </div>
