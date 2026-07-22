@@ -41,6 +41,8 @@ export default function Home() {
           <MapStats />
         </div>
 
+        <div className="h-px w-full bg-[#0057B7]/10" aria-hidden="true" />
+
         <div className="section-reveal bg-white">
           <AboutProject className="!pb-12 md:!pb-16" />
         </div>
