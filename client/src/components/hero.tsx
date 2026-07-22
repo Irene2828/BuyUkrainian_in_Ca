@@ -167,7 +167,7 @@ export function Hero() {
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
             <div className="md:hidden relative w-full overflow-hidden bg-white font-['Inter']">
-                <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-6 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-5">
+                <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <div className="relative z-10">
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
@@ -203,7 +203,7 @@ export function Hero() {
                             One map to find, share and add new stores selling #madeinUkraine next to you.
                         </p>
 
-                        <div className="mt-[36px] mb-8 grid gap-2.5 [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
+                        <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[50px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
@@ -519,7 +519,7 @@ function HeroVariantB({
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
 
                     <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-['Inter']">
-                        <div className="relative px-5 pt-7 pb-7 text-slate-700">
+                        <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
                             <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
                             <div className="relative z-10">
                                 <h1 className="font-['Lora'] text-[clamp(2.55rem,11vw,3.25rem)] font-semibold leading-[1.02] tracking-normal text-[#0057B7] antialiased">
@@ -535,7 +535,7 @@ function HeroVariantB({
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
                                 </p>
-                                <div className="mt-[36px] mb-8 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
+                                <div className="mt-[36px] mb-4 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                             <button className="group/cta-btn relative inline-flex h-[50px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>
