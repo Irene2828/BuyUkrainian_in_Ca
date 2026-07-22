@@ -202,7 +202,7 @@ export function Hero() {
                             </div>
                             <img src={newHeroWhiteBg} alt="" className="block min-[375px]:hidden mt-[3px] h-[0.85em] w-auto" aria-hidden="true" />
                         </div>
-                        <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
+                        <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-white/76">
                             One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                         </p>
 
@@ -300,13 +300,13 @@ export function Hero() {
                                             sold across Canada 
                                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                         </span>
-                                        <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
+                                        <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] font-normal leading-snug tracking-[0.015em] text-white/76 md:whitespace-nowrap">
                                             One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[54px] 2xl:h-[58px] px-8 text-[clamp(16px,1.3vw,22px)] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[54px] 2xl:h-[58px] px-8 text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Find stores near me</span>
                                                     <ArrowUpRight 
@@ -317,7 +317,7 @@ export function Hero() {
                                             </Link>
                                             <Link
                                                 href="/#how-it-works"
-                                                className="group inline-flex h-[50px] 2xl:h-[50px] items-center justify-center gap-2 bg-transparent px-0 text-[15px] xl:text-[16px] 2xl:text-[19px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased"
+                                                className="group inline-flex h-[50px] 2xl:h-[50px] items-center justify-center gap-2 bg-transparent px-0 text-[clamp(13px,1vw,19px)] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased"
                                             >
                                                 <Info className="h-4 w-4 text-current" strokeWidth={1.5} />
                                                 <span>How it works</span>
@@ -467,7 +467,7 @@ export function Hero() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] 2xl:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[11.7px] 2xl:text-[12.7px] font-semibold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -550,7 +550,7 @@ function HeroVariantB({
                                     </div>
                                     <img src={newHeroWhiteBg} alt="" className="block min-[375px]:hidden mt-[3px] h-[0.85em] w-auto" aria-hidden="true" />
                                 </div>
-                                <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
+                                <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-slate-600">
                                     One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                 </p>
                                 <div className="mt-[36px] mb-4 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
@@ -643,7 +643,7 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 text-[clamp(16px,1.3vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">>
                                 <span>Find stores near me</span>
                                 <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                             </button>
@@ -727,7 +727,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] 2xl:text-[12.7px] font-medium tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[11.7px] 2xl:text-[12.7px] font-semibold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
