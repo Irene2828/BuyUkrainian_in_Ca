@@ -167,7 +167,7 @@ export function Hero() {
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
-                <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
+                <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-[calc(1.5rem+5%)] pb-3 text-white [@media(max-height:700px)]:pt-[calc(1.25rem+5%)] [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <div className="relative z-10">
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
@@ -241,7 +241,7 @@ export function Hero() {
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] z-[25]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full flex justify-start">
-                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:py-[4.8rem]">
+                    <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pt-[calc(4.8rem+4px)] md:pb-[calc(4.8rem+4px)]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
                             <div className="relative z-10 flex flex-col items-end w-fit hero-text-align transition-transform duration-300 mt-[5vh] -translate-y-[2vh]">
