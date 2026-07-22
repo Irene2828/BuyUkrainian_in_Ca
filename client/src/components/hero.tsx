@@ -425,12 +425,13 @@ export function Hero() {
                             <div
                                 key={pillar.title}
                                 className={cn(
-                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 border-r-[2.5px] cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
+                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
                                     pillar.accentClass,
                                     "max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]"
                                 )}
                             >
                                 <div className="flex items-center justify-end gap-3 text-right">
+                                    <span className="shrink-0 w-3 h-[2px] bg-[#0057B7]/40" />
                                     <span className="shrink-0 text-right text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
                                         {pillar.title}
                                     </span>
@@ -633,13 +634,16 @@ function HeroVariantB({
                                 <div
                                     key={`b-${pillar.title}`}
                                     className={cn(
-                                        "flex w-fit max-w-[520px] flex-col items-end border-r-[2.5px] bg-white/55 px-[22px] py-2.5 text-right backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
+                                        "flex w-fit max-w-[520px] flex-col items-end bg-white/55 px-[22px] py-2.5 text-right backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
                                         pillar.accentClass
                                     )}
                                 >
-                                    <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0057B7]/70 antialiased">
-                                        {pillar.title}
-                                    </span>
+                                    <div className="flex items-center justify-end gap-3 text-right">
+                                        <span className="shrink-0 w-3 h-[2px] bg-[#0057B7]/40" />
+                                        <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0057B7]/70 antialiased">
+                                            {pillar.title}
+                                        </span>
+                                    </div>
                                 </div>
                             ))}
                         </div>
