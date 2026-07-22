@@ -87,9 +87,19 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
     <filter id="hover-shadow" x="-30%" y="-30%" width="160%" height="160%">
       <feDropShadow dx="0" dy="5" stdDeviation="5.5" flood-color="#000000" flood-opacity="0.18" />
     </filter>
+    
+    <!-- Premium glowing halo to ground the pin seamlessly onto the map -->
+    <radialGradient id="halo-glow-${variant}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${pinBg}" stop-opacity="0.45" />
+      <stop offset="55%" stop-color="${pinBg}" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="${pinBg}" stop-opacity="0" />
+    </radialGradient>
   </defs>
   
   <g ${hoverTransform}>
+    <!-- Soft Halo Glow Circle -->
+    <circle cx="21" cy="20" r="18" fill="url(#halo-glow-${variant})" />
+    
     <!-- Classic Map Pin Silhouette with crisp White Stroke Outline -->
     <path
       d="${pinPath}"
