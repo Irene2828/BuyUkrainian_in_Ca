@@ -195,9 +195,9 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex items-center text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem] gap-2">
-                            sold across Canada
-                            <img src={newHeroWhiteBg} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
+                        <div className="mt-[5px] flex flex-col items-start gap-2.5 sm:flex-row sm:items-center sm:gap-2 text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                            <span className="whitespace-nowrap">sold across Canada</span>
+                            <img src={newHeroWhiteBg} alt="" className="h-[2em] w-auto shrink-0" aria-hidden="true" />
                         </div>
                         <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -528,9 +528,9 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex items-center text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600 gap-2">
-                                    sold across Canada
-                                    <img src={newHeroWhiteBg} alt="" className="inline-block h-[2em] w-auto" aria-hidden="true" />
+                                <div className="mt-[5px] flex flex-col items-start gap-2.5 sm:flex-row sm:items-center sm:gap-2 text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                    <span className="whitespace-nowrap">sold across Canada</span>
+                                    <img src={newHeroWhiteBg} alt="" className="h-[2em] w-auto shrink-0" aria-hidden="true" />
                                 </div>
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
