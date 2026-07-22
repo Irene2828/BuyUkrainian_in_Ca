@@ -179,16 +179,7 @@ export function Hero() {
                             {["DISCOVER", "UKRAINIAN", "PRODUCTS"].map((line) => (
                                 <span
                                     key={line}
-                                    className="block text-transparent"
-                                    style={{
-                                        backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.18), rgba(255, 215, 0, 0.18)), url(${wheatFieldBg})`,
-                                        backgroundSize: '130%',
-                                        backgroundPosition: 'center 58%',
-                                        WebkitBackgroundClip: 'text',
-                                        backgroundClip: 'text',
-                                        color: 'transparent',
-                                        filter: 'brightness(1.3)'
-                                    }}
+                                    className="block text-transparent bg-clip-text bg-gradient-to-br from-[#FFDF00] via-[#FACC15] to-[#F59E0B]"
                                 >
                                     {line}
                                 </span>
@@ -260,31 +251,13 @@ export function Hero() {
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
-                                            className="block w-full text-left font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.005em] mb-0 text-transparent"
-                                            style={{ 
-                                                backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
-                                                backgroundSize: '120%',
-                                                backgroundPosition: 'center 60%',
-                                                WebkitBackgroundClip: 'text',
-                                                backgroundClip: 'text',
-                                                color: 'transparent',
-                                                filter: 'brightness(1.3)'
-                                            }}
+                                            className="block w-full text-left font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.005em] mb-0 text-transparent bg-clip-text bg-gradient-to-br from-[#FFDF00] via-[#FACC15] to-[#F59E0B]"
                                         >
                                             DISCOVER
                                         </span>
                                         <div className="md:ml-0 flex w-full justify-end">
                                             <span 
-                                                className="relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.005em] mb-1 whitespace-nowrap text-transparent"
-                                                style={{ 
-                                                    backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
-                                                    backgroundSize: '120%',
-                                                    backgroundPosition: 'center 60%',
-                                                    WebkitBackgroundClip: 'text',
-                                                    backgroundClip: 'text',
-                                                    color: 'transparent',
-                                                    filter: 'brightness(1.3)'
-                                                }}
+                                                className="relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.005em] mb-1 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-br from-[#FFDF00] via-[#FACC15] to-[#F59E0B]"
                                             >
                                                 UKRAINIAN PRODUCTS
                                             </span>
