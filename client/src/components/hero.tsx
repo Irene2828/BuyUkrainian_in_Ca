@@ -174,7 +174,7 @@ export function Hero() {
 
                         <h1
                             className="relative z-10 max-w-full text-[clamp(2.15rem,10.92vw,2.99rem)] font-[900] uppercase leading-[1.02] antialiased [@media(max-height:700px)]:text-[2.31rem]"
-                            style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.18em' }}
+                            style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.09em' }}
                         >
                             {["DISCOVER", "UKRAINIAN", "PRODUCTS"].map((line) => (
                                 <span
@@ -195,7 +195,7 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex flex-col items-start gap-[2.5px] sm:flex-row sm:items-center sm:gap-2 w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                        <div className="mt-[5px] flex flex-row items-center gap-[6px] w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
                             <span className="whitespace-nowrap">sold across Canada</span>
                             <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
                         </div>
@@ -540,7 +540,7 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex flex-col items-start gap-[2.5px] sm:flex-row sm:items-center sm:gap-2 w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex flex-row items-center gap-[6px] w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     <span className="whitespace-nowrap">sold across Canada</span>
                                     <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
                                 </div>
