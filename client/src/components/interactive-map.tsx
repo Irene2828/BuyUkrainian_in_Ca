@@ -205,7 +205,7 @@ function MapControlButton({ label, ariaLabel, onClick, children }: MapControlBut
         <button
           type="button"
           onClick={onClick}
-          className="flex h-10 w-10 items-center justify-center text-slate-700 transition-all hover:bg-black/10 hover:text-slate-900 active:scale-95"
+          className="flex h-10 w-10 items-center justify-center text-slate-500 transition-all hover:bg-black/10 hover:text-slate-900 active:scale-95"
           aria-label={ariaLabel}
         >
           {children}
@@ -696,12 +696,10 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
       marker.addListener('mouseover', (e: any) => {
         (window as any).__hasInteractedWithMapPins = true;
         if (callbacks.current.selectedStore) return;
-        marker.setZIndex(1000);
         callbacks.current.setHoveredLabel({ text: countLabel, x: e.domEvent.clientX, y: e.domEvent.clientY });
       });
 
       marker.addListener('mouseout', () => {
-        marker.setZIndex(100);
         callbacks.current.setHoveredLabel(null);
       });
 
@@ -801,16 +799,10 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
          marker.addListener('mouseover', (e: any) => {
           (window as any).__hasInteractedWithMapPins = true;
           if (callbacks.current.selectedStore) return;
-
-          marker.setZIndex(1000);
           callbacks.current.setHoveredLabel({ text: store.name, x: e.domEvent.clientX, y: e.domEvent.clientY });
         });
 
         marker.addListener('mouseout', () => {
-          const isCurrentlySelected = callbacks.current.selectedStore?.id === store.id;
-          const isCurrentlyDimmed = callbacks.current.selectedStore !== null && callbacks.current.selectedStore.id !== store.id;
-          
-          marker.setZIndex(isCurrentlySelected ? 1000 : isCurrentlyDimmed ? 10 : 100);
           callbacks.current.setHoveredLabel(null);
         });
 
