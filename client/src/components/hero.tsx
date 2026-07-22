@@ -195,9 +195,9 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex flex-col items-start min-[410px]:flex-row min-[410px]:items-center gap-1 min-[410px]:gap-[6px] w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                        <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
                             <span className="whitespace-nowrap">sold across Canada</span>
-                            <img src={newHeroWhiteBg} alt="" className="h-[0.9em] min-[410px]:h-[1em] w-auto shrink-0 mt-0.5 min-[410px]:mt-0" aria-hidden="true" />
+                            <img src={newHeroWhiteBg} alt="" className="h-[0.85em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
                         </div>
                         <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-white/76">
                             One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
@@ -401,10 +401,10 @@ export function Hero() {
                                                 variant="hero"
                                                 isMobile={false}
                                             />
-                                            {/* Hover Hint Overlay — appears after hovering 3 seconds */}
-                                            <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-700 delay-[3000ms] pointer-events-none bg-slate-900/[0.02]">
-                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-700 delay-[3000ms]">
-                                                    <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans transition-all duration-700 antialiased">
+                                            {/* Hover Hint Overlay */}
+                                            <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-300 pointer-events-none bg-slate-900/[0.03]">
+                                                <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">
+                                                    <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-slate-600 whitespace-nowrap font-sans transition-all duration-500 antialiased drop-shadow-sm">
                                                         TAP TO EXPLORE THE MAP
                                                     </span>
                                                 </div>
@@ -540,9 +540,9 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex flex-col items-start min-[410px]:flex-row min-[410px]:items-center gap-1 min-[410px]:gap-[6px] w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     <span className="whitespace-nowrap">sold across Canada</span>
-                                    <img src={newHeroWhiteBg} alt="" className="h-[0.9em] min-[410px]:h-[1em] w-auto shrink-0 mt-0.5 min-[410px]:mt-0" aria-hidden="true" />
+                                    <img src={newHeroWhiteBg} alt="" className="h-[0.85em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
                                 </div>
                                 <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-slate-600">
                                     One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
@@ -618,10 +618,10 @@ function HeroVariantB({
                                                         isMobile={false}
                                                     />
                                                     {/* Hover Hint Overlay */}
-                                                    <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-slate-900/[0.03]">
+                                                    <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-300 pointer-events-none bg-slate-900/[0.03]">
                                                         <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">
-                                                            <span className="text-[13px] font-bold tracking-[0.25em] uppercase text-[#6B8198] whitespace-nowrap font-sans">
-                                                                Tap to explore map
+                                                            <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-slate-600 whitespace-nowrap font-sans transition-all duration-500 antialiased drop-shadow-sm">
+                                                                TAP TO EXPLORE THE MAP
                                                             </span>
                                                         </div>
                                                     </div>
