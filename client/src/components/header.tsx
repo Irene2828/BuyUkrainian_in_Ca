@@ -87,7 +87,7 @@ export function Header() {
             </div>
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
-          <span className="hidden lg:block text-[14px] min-[1024px]:max-[1440px]:text-[15px] min-[1670px]:text-[17px] text-slate-500 font-normal tracking-wide leading-none antialiased font-['Inter']">
+          <span className="hidden lg:block text-[14px] min-[1024px]:max-[1440px]:text-[15px] min-[1670px]:text-[17px] text-slate-500 font-normal tracking-wide leading-none antialiased font-sans">
             Volunteer initiative to support Ukraine's economy
           </span>
         </div>
@@ -152,7 +152,7 @@ export function Header() {
       {
         mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg z-40">
-            <nav className="flex flex-col p-4 gap-4 antialiased" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <nav className="flex flex-col p-4 gap-4 antialiased">
 
               <Link
                     href="/#faq"
@@ -163,7 +163,7 @@ export function Header() {
                         setMobileMenuOpen(false);
                       }
                     }}
-                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center gap-2"
+                    className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2"
                   >
                     {t('nav.about') || 'About'}
                   </Link>
@@ -171,7 +171,7 @@ export function Header() {
                   <Link 
                     href="/map" 
                     onClick={() => setMobileMenuOpen(false)}
-                    className={cn("text-[16px] text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center gap-2", location === '/map' ? "font-semibold" : "font-medium")}
+                    className={cn("text-[16px] transition-colors py-2 tracking-normal flex items-center gap-2", location === '/map' ? "text-slate-800 font-semibold" : "text-slate-500 hover:text-slate-800 font-medium")}
                   >
                     <Map className="w-4 h-4" />
                     <span>{t('nav.map') || 'Map View'}</span>
@@ -184,7 +184,7 @@ export function Header() {
                         window.dispatchEvent(new CustomEvent('openAddStoreModal'));
                         setMobileMenuOpen(false);
                     }}
-                    className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center justify-between gap-2 text-left cursor-pointer"
+                    className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center justify-between gap-2 text-left cursor-pointer"
                   >
                     Add Stores
                     <Plus className="w-4 h-4 opacity-70" />

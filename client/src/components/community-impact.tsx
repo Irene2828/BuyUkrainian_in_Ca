@@ -51,7 +51,7 @@ export function CommunityImpact() {
                         
                         {/* Section Header */}
                         <h2
-                            className="text-reveal text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-3 font-['Inter']"
+                            className="text-reveal text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-3 font-sans"
                         >
                             Share the map with your network
                         </h2>

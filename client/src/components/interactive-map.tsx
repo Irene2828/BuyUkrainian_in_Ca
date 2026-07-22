@@ -559,7 +559,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           {PROVINCE_LABELS.map((label) => (
             <span
               key={label.name}
-              className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-['Inter'] antialiased"
+              className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased"
               style={{ top: label.top, left: label.left }}
             >
               {label.name}
@@ -652,7 +652,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
             transform: 'translateX(-50%)'
           }}
         >
-          <span className="text-[12px] font-medium text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap">
+          <span className="text-[12px] font-medium text-slate-500 tabular-nums font-sans whitespace-nowrap">
             {hoveredLabel.text}
           </span>
         </motion.div>,
@@ -937,7 +937,7 @@ function MapSurfaceState({
 
         <p
           className={cn(
-            "mt-3 font-['Inter'] text-slate-500",
+            "mt-3 font-sans text-slate-500",
             isHero ? "max-w-[28ch] text-[14px] leading-6" : "mx-auto max-w-[46ch] text-[15px] leading-7"
           )}
         >
@@ -947,7 +947,7 @@ function MapSurfaceState({
         {!isLoading && (
           <p
             className={cn(
-              "mt-4 font-['Inter'] text-slate-400",
+              "mt-4 font-sans text-slate-400",
               isHero ? "text-[12px] leading-5" : "text-[13px] leading-6"
             )}
           >

@@ -166,7 +166,7 @@ export function Hero() {
         >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
-            <div className="md:hidden relative w-full overflow-hidden bg-white font-['Inter']">
+            <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
                 <div className="relative overflow-hidden bg-[#0057B7] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <div className="relative z-10">
@@ -260,7 +260,7 @@ export function Hero() {
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
-                                            className="block w-full text-left font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.005em] mb-0 text-transparent"
+                                            className="block w-full text-left font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.005em] mb-0 text-transparent"
                                             style={{ 
                                                 backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                 backgroundSize: '120%',
@@ -275,7 +275,7 @@ export function Hero() {
                                         </span>
                                         <div className="md:ml-0 flex w-full justify-end">
                                             <span 
-                                                className="relative block w-fit pb-4 font-['Inter'] font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.005em] mb-1 whitespace-nowrap text-transparent"
+                                                className="relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.005em] mb-1 whitespace-nowrap text-transparent"
                                                 style={{ 
                                                     backgroundImage: `linear-gradient(rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), url(${wheatFieldBg})`,
                                                     backgroundSize: '120%',
@@ -293,17 +293,17 @@ export function Hero() {
                                     
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
+                                        <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
                                             sold across Canada 
                                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                         </span>
-                                        <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
+                                        <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
                                             One map to find, share and add new stores selling #madeinUkraine next to you.
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[50px] px-6 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[50px] px-6 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Find stores near me</span>
                                                     <ArrowUpRight 
@@ -314,7 +314,7 @@ export function Hero() {
                                             </Link>
                                             <Link
                                                 href="/#how-it-works"
-                                                className="group inline-flex h-[46px] items-center justify-center gap-2 bg-transparent px-0 text-[15px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-['Inter'] antialiased"
+                                                className="group inline-flex h-[46px] items-center justify-center gap-2 bg-transparent px-0 text-[15px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased"
                                             >
                                                 <Info className="h-4 w-4 text-current" strokeWidth={1.5} />
                                                 <span>How it works</span>
@@ -331,7 +331,7 @@ export function Hero() {
                                         >
                                             <div className="flex items-center gap-2.5">
                                                 <span className={cn("h-2 w-2 rounded-full", pillar.dotClass)} aria-hidden="true" />
-                                                <span className="text-[11px] leading-none font-medium tracking-tight text-slate-500 font-['Inter'] whitespace-nowrap">
+                                                <span className="text-[11px] leading-none font-medium tracking-tight text-slate-500 font-sans whitespace-nowrap">
                                                     {pillar.title}
                                                 </span>
                                             </div>
@@ -428,7 +428,7 @@ export function Hero() {
                             >
                                 <div className="flex items-center justify-end gap-3 text-right">
                                     <span className="shrink-0 w-3 h-[2px] bg-[#0057B7]/40" />
-                                    <span className="shrink-0 text-right text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-['Inter'] transition-all duration-500 antialiased">
+                                    <span className="shrink-0 text-right text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-sans transition-all duration-500 antialiased">
                                         {pillar.title}
                                     </span>
                                 </div>
@@ -452,7 +452,7 @@ export function Hero() {
                     <div className="flex h-full items-center justify-between gap-6">
                         {/* "ADDED RECENTLY" Label */}
                         <div className="shrink-0 flex items-center z-10 select-none">
-                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-['Inter'] whitespace-nowrap antialiased">
+                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-sans whitespace-nowrap antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -481,7 +481,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>
@@ -518,7 +518,7 @@ function HeroVariantB({
                     <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
 
-                    <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-['Inter']">
+                    <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-sans">
                         <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
                             <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
                             <div className="relative z-10">
@@ -662,11 +662,11 @@ function HeroVariantB({
                                     </span>
                                 </h1>
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-4">
-                                    <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%] gap-3">
+                                    <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%] gap-3">
                                         sold across Canada
                                         <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                     </span>
-                                    <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
+                                    <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
                                         One map to find, share and add new stores selling #madeinUkraine next to you.
                                     </p>
                                     <div className="flex md:hidden items-center gap-8 self-start relative z-20 pointer-events-auto" style={{ transform: 'translateY(13vh)' }}>
@@ -697,7 +697,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                     <div className="flex h-full items-center justify-between gap-6">
                         {/* "ADDED RECENTLY" Label */}
                         <div className="shrink-0 flex items-center z-10 select-none">
-                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-['Inter'] whitespace-nowrap antialiased">
+                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#D9A300] font-sans whitespace-nowrap antialiased">
                                 ADDED RECENTLY
                             </span>
                         </div>
@@ -722,7 +722,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-['Inter'] whitespace-nowrap antialiased">
+                                            <span className="text-[13.6px] min-[1670px]:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>

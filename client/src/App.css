@@ -1,7 +1,7 @@
 /* Global Theme and Typography - RESTORED TO AUDIT STATE */
 :root {
     --font-serif: 'Lora', serif;
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
 
     /* Vibrant Blue & Yellow Brand Colors */
     --color-primary-yellow: #FFD700;

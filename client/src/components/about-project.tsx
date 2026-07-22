@@ -12,7 +12,7 @@ export function AboutProject({ className }: { className?: string }) {
           <div
             className="text-reveal flex flex-col items-center"
           >
-            <h2 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-['Inter']">
+            <h2 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-sans">
               ABOUT THE PROJECT
             </h2>
             <p className="text-slate-600 text-[16px] md:text-[18px] max-w-2xl font-normal leading-relaxed mb-4">
