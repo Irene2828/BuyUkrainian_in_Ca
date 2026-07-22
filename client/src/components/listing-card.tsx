@@ -38,7 +38,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
                 </div>
                 {/* Store Info - Name and Link Only */}
                 <div className="flex flex-col justify-center gap-1 flex-1 min-w-0">
-                    <span className="text-sm font-semibold text-slate-900 truncate font-header tracking-[-0.01em]">
+                    <span className="text-[15px] font-semibold text-slate-800 truncate font-header tracking-[-0.01em]">
                         {store.name}
                     </span>
                     <div className="flex items-center gap-2 text-slate-600 text-base font-normal transition-colors group-hover:text-slate-900 font-ui">
@@ -72,7 +72,7 @@ export function ListingCard({ store, className, variant = "list", ...props }: Li
             {/* Content Area - Name, City/Province, and Details Link */}
             <div className="flex-1 pl-4 flex flex-col justify-between h-20 min-w-0">
                 <div className="min-w-0">
-                    <h3 className="text-[17px] font-semibold tracking-tight text-slate-900 truncate font-header mb-0.5">
+                    <h3 className="text-[17px] font-semibold tracking-tight text-slate-800 truncate font-header mb-0.5">
                         {store.name}
                     </h3>
                     <div className="flex items-center gap-1.5 text-[13px] font-medium text-slate-500 font-ui whitespace-nowrap overflow-hidden">

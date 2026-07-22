@@ -117,7 +117,7 @@ export function Header() {
                 }}
                 className={HEADER_NAV_LINK_CLASSNAME}
               >
-                {t('nav.about') || 'Mission'}
+                {t('nav.about') || 'About'}
               </Link>
               <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
                 <Map className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -185,7 +185,7 @@ export function Header() {
                     }}
                     className="text-[16px] font-medium text-slate-800 hover:text-slate-900 transition-colors py-2 tracking-normal flex items-center gap-2"
                   >
-                    {t('nav.about') || 'Mission'}
+                    {t('nav.about') || 'About'}
                   </Link>
 
                   <Link 
