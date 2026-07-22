@@ -195,9 +195,12 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex flex-row items-center gap-[6px] w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
-                            <span className="whitespace-nowrap">sold across Canada</span>
-                            <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
+                        <div className="mt-[5px] w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                            <div className="flex flex-row items-center gap-[6px]">
+                                <span className="whitespace-nowrap">sold across Canada</span>
+                                <img src={newHeroWhiteBg} alt="" className="hidden min-[375px]:block h-[1em] w-auto shrink-0" aria-hidden="true" />
+                            </div>
+                            <img src={newHeroWhiteBg} alt="" className="block min-[375px]:hidden mt-[3px] h-[0.85em] w-auto" aria-hidden="true" />
                         </div>
                         <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
                             One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
@@ -205,7 +208,7 @@ export function Hero() {
 
                         <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[50px] w-full items-center justify-center rounded-none bg-white/92 px-5 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
+                                <button className="group/cta-btn relative inline-flex h-[54px] w-full items-center justify-center rounded-none bg-white/92 px-6 text-[clamp(15px,1.25vw,20px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
                                     <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                                 </button>
@@ -303,7 +306,7 @@ export function Hero() {
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[54px] 2xl:h-[58px] px-8 2xl:px-8 text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[23px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex items-center justify-center h-[54px] 2xl:h-[58px] px-8 text-[clamp(16px,1.3vw,22px)] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Find stores near me</span>
                                                     <ArrowUpRight 
@@ -540,16 +543,19 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex flex-row items-center gap-[6px] w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
-                                    <span className="whitespace-nowrap">sold across Canada</span>
-                                    <img src={newHeroWhiteBg} alt="" className="h-[1em] w-auto shrink-0" aria-hidden="true" />
+                                <div className="mt-[5px] w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                    <div className="flex flex-row items-center gap-[6px]">
+                                        <span className="whitespace-nowrap">sold across Canada</span>
+                                        <img src={newHeroWhiteBg} alt="" className="hidden min-[375px]:block h-[1em] w-auto shrink-0" aria-hidden="true" />
+                                    </div>
+                                    <img src={newHeroWhiteBg} alt="" className="block min-[375px]:hidden mt-[3px] h-[0.85em] w-auto" aria-hidden="true" />
                                 </div>
                                 <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
                                 </p>
                                 <div className="mt-[36px] mb-4 grid gap-2.5" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
-                                            <button className="group/cta-btn relative inline-flex h-[50px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-5 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                                            <button className="group/cta-btn relative inline-flex h-[54px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[clamp(15px,1.25vw,20px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>
                                                 <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                                             </button>
@@ -637,7 +643,7 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 2xl:px-8 text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[23px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 text-[clamp(16px,1.3vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                 <span>Find stores near me</span>
                                 <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                             </button>
