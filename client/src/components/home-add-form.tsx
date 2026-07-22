@@ -67,7 +67,7 @@ const formSchema = z.object({
   address: z.string().trim().min(5, "Address is required"),
   name: z.string().trim().min(2, "Store name is required"),
   category: z.enum(["food", "clothes", "retail", "other"]),
-  website: optionalUrlField,
+  website: optionalTextField,
   products: z
     .string()
     .trim()
@@ -316,8 +316,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] overflow-hidden bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-none border border-white/25 shadow-[0_24px_80px_rgba(0,45,112,0.35)] transition-all duration-500 ease-in-out">
-      <div className="flex flex-col overflow-hidden shadow-none">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-none border border-white/25 shadow-[0_24px_80px_rgba(0,45,112,0.35)] transition-all duration-500 ease-in-out overflow-y-auto max-h-[90vh] custom-scrollbar">
+      <div className="flex flex-col shadow-none">
       {/* Header */}
       <div className="relative overflow-hidden px-6 py-6 md:px-8 border-b border-white/15 flex items-center justify-between">
         <div
@@ -339,10 +339,17 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         )}
       </div>
 
-      <div className="px-6 py-6 md:px-8 overflow-y-auto max-h-[70vh] custom-scrollbar">
+      <div className="px-6 py-6 md:px-8">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit, (errors) => {
+              const firstError = Object.values(errors)[0];
+              toast({
+                title: "Please check your inputs",
+                description: firstError?.message as string || "Some fields require your attention.",
+                variant: "destructive",
+              });
+            })}
             onKeyDown={(e) => {
               const target = e.target as HTMLElement | null;
               const tagName = target?.tagName;
