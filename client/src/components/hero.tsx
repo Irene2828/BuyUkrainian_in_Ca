@@ -1,4 +1,4 @@
-import { ArrowUpRight, Info, ChevronDown } from "lucide-react";
+import { Search, Info, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
@@ -210,7 +210,7 @@ export function Hero() {
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[54px] w-full items-center justify-center rounded-none bg-white/92 px-6 text-[clamp(15px,1.25vw,20px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/35">
                                     <span>Find stores near me</span>
-                                    <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
+                                    <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
                             </Link>
                             <Link
@@ -309,8 +309,8 @@ export function Hero() {
                                                     className="group/cta-btn relative inline-flex items-center justify-center h-[54px] 2xl:h-[58px] px-8 text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>Find stores near me</span>
-                                                    <ArrowUpRight 
-                                                        className="w-5 h-5 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" 
+                                                    <Search 
+                                                        className="w-5 h-5 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
                                                         strokeWidth={1.5}
                                                     />
                                                 </button>
@@ -557,7 +557,7 @@ function HeroVariantB({
                                     <Link href="/map" className="pointer-events-auto">
                                             <button className="group/cta-btn relative inline-flex h-[54px] w-full items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[clamp(15px,1.25vw,20px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>
-                                                <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
+                                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                             </button>
                                     </Link>
                                 </div>
@@ -645,7 +645,7 @@ function HeroVariantB({
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
                             <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                 <span>Find stores near me</span>
-                                <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
+                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                             </button>
                         </Link>
                     </div>
@@ -699,7 +699,7 @@ function HeroVariantB({
                                         <Link href="/map">
                                             <button className="group/cta-btn relative inline-flex h-[50px] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>Find stores near me</span>
-                                                <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
+                                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                             </button>
                                         </Link>
                                     </div>
