@@ -325,10 +325,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-b from-white/0 via-white/[0.035] to-white/[0.08]"
         />
         <div className="relative z-10">
-          <DialogTitle className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-tight leading-tight antialiased font-header text-white mb-2">
+          <DialogTitle className="text-[18px] xl:text-[19px] min-[1670px]:text-[21px] font-semibold tracking-tight leading-tight antialiased font-header text-white mb-2">
             Add a store
           </DialogTitle>
-          <DialogDescription className="sr-only">
+          <DialogDescription className="text-[13px] text-white/65 font-medium font-ui ms-0.5">
             Help the map grow by adding stores selling Ukrainian-made products
           </DialogDescription>
         </div>
@@ -622,7 +622,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="group/submit-btn relative inline-flex w-full items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-medium tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] border-none transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased gap-2.5"
+                className="group/submit-btn relative inline-flex w-full items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] border-none transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-['Inter'] antialiased gap-2.5"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
