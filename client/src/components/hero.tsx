@@ -55,6 +55,7 @@ export function Hero() {
     const [, setLocation] = useLocation();
     const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(true);
     const [heroVariant, setHeroVariant] = useState<HeroVariant>(() => getHeroVariantFromUrl());
+    const { t } = useI18n();
 
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
