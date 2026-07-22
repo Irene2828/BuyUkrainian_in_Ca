@@ -325,7 +325,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-b from-white/0 via-white/[0.035] to-white/[0.08]"
         />
         <div className="relative z-10">
-          <DialogTitle className="text-[22px] font-bold text-white font-header mb-2">
+          <DialogTitle className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-tight leading-tight antialiased font-header text-white mb-2">
             Add a store
           </DialogTitle>
           <DialogDescription className="sr-only">
