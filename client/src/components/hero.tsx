@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
 import mapleLeafIcon from "@/assets/maple_leaf.png";
+import newHeroVisualSmall from "@assets/new hero visual_small.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import type { Store } from "@/lib/data";
 
@@ -201,8 +202,9 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex items-center text-[clamp(1.386rem,6.51vw,1.8375rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.3125rem]">
+                        <div className="mt-[5px] flex items-center text-[clamp(1.386rem,6.51vw,1.8375rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.3125rem] gap-2">
                             sold across Canada
+                            <img src={newHeroVisualSmall} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                         </div>
                         <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -298,8 +300,9 @@ export function Hero() {
                                     
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
-                                        <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
+                                        <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
                                             sold across Canada 
+                                            <img src={newHeroVisualSmall} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                         </span>
                                         <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
                                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -532,8 +535,9 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex items-center text-[clamp(1.5225rem,7.14vw,2.0475rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex items-center text-[clamp(1.5225rem,7.14vw,2.0475rem)] font-normal leading-tight tracking-normal text-slate-600 gap-2">
                                     sold across Canada
+                                    <img src={newHeroVisualSmall} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                 </div>
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -665,8 +669,9 @@ function HeroVariantB({
                                     </span>
                                 </h1>
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-4">
-                                    <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%]">
+                                    <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%] gap-3">
                                         sold across Canada
+                                        <img src={newHeroVisualSmall} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                     </span>
                                     <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
                                         One map to find, share and add new stores selling #madeinUkraine next to you.
