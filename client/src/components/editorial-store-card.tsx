@@ -58,7 +58,7 @@ export function EditorialStoreCard({ store, onClick, className }: EditorialStore
                 {/* Title & Action Row */}
                 <div className="w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-1.5 max-w-full group/text">
-                        <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased truncate transition-all">
+                        <h3 className="text-slate-900 font-semibold text-[15px] tracking-normal leading-tight antialiased truncate transition-all">
                             {store.name}
                         </h3>
                         <ArrowUpRight className="w-[14px] h-[14px] text-slate-400 opacity-60 transition-all duration-300 ease-out group-hover:text-black group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" strokeWidth={2.5} />

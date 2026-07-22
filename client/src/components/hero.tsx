@@ -401,6 +401,8 @@ export function Hero() {
                                                 variant="hero"
                                                 isMobile={false}
                                             />
+                                            {/* Invisible Event Catcher to prevent Google Maps from swallowing hover events */}
+                                            <div className="absolute inset-0 z-40" aria-hidden="true" />
                                             {/* Hover Hint Overlay */}
                                             <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-300 pointer-events-none bg-slate-900/[0.03]">
                                                 <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">
@@ -617,6 +619,8 @@ function HeroVariantB({
                                                         variant="hero"
                                                         isMobile={false}
                                                     />
+                                                    {/* Invisible Event Catcher to prevent Google Maps from swallowing hover events */}
+                                                    <div className="absolute inset-0 z-40" aria-hidden="true" />
                                                     {/* Hover Hint Overlay */}
                                                     <div className="absolute inset-0 z-50 flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-300 pointer-events-none bg-slate-900/[0.03]">
                                                         <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500">

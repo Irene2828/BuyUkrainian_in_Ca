@@ -116,7 +116,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     />
                     <div className="relative z-10 flex items-start justify-between gap-4">
                         <h2 
-                            className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-tight leading-tight antialiased font-header line-clamp-2 text-slate-900"
+                            className="text-[16px] xl:text-[17px] min-[1670px]:text-[19px] font-semibold tracking-normal leading-tight antialiased font-header line-clamp-2 text-slate-900"
                         >
                             {store.name}
                             {store.website && (
