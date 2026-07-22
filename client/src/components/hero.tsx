@@ -357,6 +357,9 @@ export function Hero() {
             </div>
             </div>
 
+            {/* Yellow offset backing block under/behind the map card */}
+            <div className="hidden md:block absolute right-[43px] top-[calc(50%-29%+24px)] h-[58%] w-[42%] min-[1440px]:right-[58px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]" />
+
             <div className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
                 <div
                     className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
@@ -460,6 +463,12 @@ export function Hero() {
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
+                        {/* "ADDED RECENTLY" Label */}
+                        <div className="shrink-0 flex items-center bg-[#FFD700] px-3.5 py-1 z-10 select-none">
+                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#0057B7] font-['Inter'] whitespace-nowrap antialiased">
+                                ADDED RECENTLY
+                            </span>
+                        </div>
 
                     {/* Scrolling Ticker — masked for smooth transition */}
                     <div 
@@ -696,6 +705,12 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-6">
+                        {/* "ADDED RECENTLY" Label */}
+                        <div className="shrink-0 flex items-center bg-[#FFD700] px-3.5 py-1 z-10 select-none">
+                            <span className="text-[11px] min-[1670px]:text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#0057B7] font-['Inter'] whitespace-nowrap antialiased">
+                                ADDED RECENTLY
+                            </span>
+                        </div>
                         <div
                             className="flex-1 overflow-hidden pointer-events-none"
                             style={{
