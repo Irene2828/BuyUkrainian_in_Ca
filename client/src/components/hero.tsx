@@ -195,12 +195,9 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
-                            <div className="flex flex-row items-center gap-[6px]">
-                                <span className="whitespace-nowrap">sold across Canada</span>
-                                <img src={newHeroWhiteBg} alt="" className="hidden min-[375px]:block h-[1em] w-auto shrink-0" aria-hidden="true" />
-                            </div>
-                            <img src={newHeroWhiteBg} alt="" className="block min-[375px]:hidden mt-[3px] h-[0.85em] w-auto" aria-hidden="true" />
+                        <div className="mt-[5px] flex flex-col items-start min-[410px]:flex-row min-[410px]:items-center gap-1 min-[410px]:gap-[6px] w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                            <span className="whitespace-nowrap">sold across Canada</span>
+                            <img src={newHeroWhiteBg} alt="" className="h-[0.9em] min-[410px]:h-[1em] w-auto shrink-0 mt-0.5 min-[410px]:mt-0" aria-hidden="true" />
                         </div>
                         <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-white/76">
                             One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
@@ -543,12 +540,9 @@ function HeroVariantB({
                                         Ukrainian Products
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
-                                    <div className="flex flex-row items-center gap-[6px]">
-                                        <span className="whitespace-nowrap">sold across Canada</span>
-                                        <img src={newHeroWhiteBg} alt="" className="hidden min-[375px]:block h-[1em] w-auto shrink-0" aria-hidden="true" />
-                                    </div>
-                                    <img src={newHeroWhiteBg} alt="" className="block min-[375px]:hidden mt-[3px] h-[0.85em] w-auto" aria-hidden="true" />
+                                <div className="mt-[5px] flex flex-col items-start min-[410px]:flex-row min-[410px]:items-center gap-1 min-[410px]:gap-[6px] w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                    <span className="whitespace-nowrap">sold across Canada</span>
+                                    <img src={newHeroWhiteBg} alt="" className="h-[0.9em] min-[410px]:h-[1em] w-auto shrink-0 mt-0.5 min-[410px]:mt-0" aria-hidden="true" />
                                 </div>
                                 <p className="mt-4 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-slate-600">
                                     One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
