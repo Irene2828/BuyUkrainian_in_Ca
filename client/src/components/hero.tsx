@@ -67,21 +67,21 @@ export function Hero() {
         {
             title: "Local support of Ukraine's economy",
             detail: "every purchase goes directly to Ukrainian makers",
-            accentClass: "border-[#0057B7]/70",
+            accentClass: "",
             surfaceClass: "bg-[#EFF6FF]/70",
             dotClass: "bg-[#0057B7]",
         },
         {
             title: "Volunteer-Verified Listings",
             detail: "every listing is reviewed before it appears on the map",
-            accentClass: "border-[#0057B7]/70",
+            accentClass: "",
             surfaceClass: "bg-[#FFFBEB]/80",
             dotClass: "bg-[#FFD700]",
         },
         {
             title: "Updated Regularly",
             detail: "real people, real stores, real Ukrainian products",
-            accentClass: "border-[#0057B7]/70",
+            accentClass: "",
             surfaceClass: "bg-[#EFF6FF]/70",
             dotClass: "bg-[#0057B7]",
         },
@@ -425,7 +425,7 @@ export function Hero() {
                             <div
                                 key={pillar.title}
                                 className={cn(
-                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
+                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)]",
                                     pillar.accentClass,
                                     "max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]"
                                 )}
@@ -634,7 +634,7 @@ function HeroVariantB({
                                 <div
                                     key={`b-${pillar.title}`}
                                     className={cn(
-                                        "flex w-fit max-w-[520px] flex-col items-end bg-white/55 px-[22px] py-2.5 text-right backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)] border border-slate-100/10",
+                                        "flex w-fit max-w-[520px] flex-col items-end bg-white/55 px-[22px] py-2.5 text-right backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)]",
                                         pillar.accentClass
                                     )}
                                 >
