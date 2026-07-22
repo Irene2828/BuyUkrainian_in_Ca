@@ -203,7 +203,6 @@ export function Hero() {
 
                         <div className="mt-[5px] flex items-center text-[clamp(1.386rem,6.51vw,1.8375rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.3125rem]">
                             sold across Canada
-                            <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.64em] w-[1.64em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                         </div>
                         <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-white/76">
                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -216,18 +215,14 @@ export function Hero() {
                                     <ArrowUpRight className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:translate-x-0.5 group-hover/cta-btn:-translate-y-0.5" strokeWidth={1.5} />
                                 </button>
                             </Link>
-
-                        </div>
-
-                        <div className="mt-[28px] grid grid-cols-1 gap-2 [@media(max-height:700px)]:gap-1.5">
-                            {trustPillars.map((pillar) => (
-                                <div key={`mobile-${pillar.title}`} className="flex items-center gap-2.5 text-white/82">
-                                    <span className="h-2 w-2 shrink-0 rounded-full bg-[#FFD700]" aria-hidden="true" />
-                                    <span className="min-w-0 text-[11px] font-medium leading-snug tracking-normal">
-                                        {pillar.title}
-                                    </span>
-                                </div>
-                            ))}
+                            <Link
+                                href="/#how-it-works"
+                                onClick={onHowItWorksClick}
+                                className="pointer-events-auto inline-flex h-10 w-full items-center justify-center gap-2 border border-white/20 bg-white/10 text-[14px] font-medium tracking-normal text-white transition-all duration-300 hover:bg-white/20 active:scale-[0.98]"
+                            >
+                                <span>How it works</span>
+                                <ChevronDown className="h-4 w-4 text-current" />
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -306,7 +301,6 @@ export function Hero() {
                                     <div className="flex w-full flex-col items-end self-end mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4">
                                         <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
                                             sold across Canada 
-                                            <img src={mapleLeafIcon} alt="" className="inline-block w-[1.6em] h-[1.6em] ml-[0.3em]" style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }} aria-hidden="true" />
                                         </span>
                                         <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-white/76 md:whitespace-nowrap">
                                             One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -540,7 +534,6 @@ function HeroVariantB({
                                 </h1>
                                 <div className="mt-[5px] flex items-center text-[clamp(1.5225rem,7.14vw,2.0475rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     sold across Canada
-                                    <img src={mapleLeafIcon} alt="" className="ml-2 inline-block h-[1.52em] w-[1.52em]" aria-hidden="true" />
                                 </div>
                                 <p className="mt-2 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-normal text-slate-600">
                                     One map to find, share and add new stores selling #madeinUkraine next to you.
@@ -671,7 +664,6 @@ function HeroVariantB({
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-4">
                                     <span className="relative z-10 flex items-center self-start font-['Inter'] text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%]">
                                         sold across Canada
-                                        <img src={mapleLeafIcon} alt="" className="ml-3 inline-block h-[1.44em] w-[1.44em]" aria-hidden="true" />
                                     </span>
                                     <p className="relative z-10 max-w-none self-start text-left font-['Inter'] text-[18px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
                                         One map to find, share and add new stores selling #madeinUkraine next to you.
