@@ -174,7 +174,7 @@ export function Hero() {
 
                         <h1
                             className="relative z-10 max-w-full text-[clamp(2.15rem,10.92vw,2.99rem)] font-[900] uppercase leading-[1.02] antialiased [@media(max-height:700px)]:text-[2.31rem]"
-                            style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.27em' }}
+                            style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.18em' }}
                         >
                             {["DISCOVER", "UKRAINIAN", "PRODUCTS"].map((line) => (
                                 <span
