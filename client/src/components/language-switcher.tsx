@@ -38,15 +38,15 @@ export function LanguageSwitcher({ className }: { className?: string }) {
               key={option.code}
               onClick={() => setLanguage(option.code as Language)}
               className={cn(
-                "cursor-pointer text-[13.5px] py-2 px-3 rounded-md transition-colors font-medium outline-none",
+                "cursor-pointer text-[13.5px] py-2 px-3 rounded-md transition-colors font-medium outline-none focus:bg-[#0057B7] focus:text-white hover:bg-[#0057B7] hover:text-white group",
                 language === option.code 
                   ? "bg-slate-50 text-slate-900" 
-                  : "text-slate-500 hover:bg-slate-50/50 hover:text-slate-800"
+                  : "text-slate-500"
               )}
             >
               <div className="flex items-center justify-between w-full">
                 <span>{option.label}</span>
-                <span className="text-[9px] font-bold tracking-wider text-slate-300 ml-2">{option.short}</span>
+                <span className="text-[9px] font-bold tracking-wider text-slate-300 group-hover:text-white/80 group-focus:text-white/80 ml-2">{option.short}</span>
               </div>
             </DropdownMenuItem>
           ))}
