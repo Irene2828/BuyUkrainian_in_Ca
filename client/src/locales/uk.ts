@@ -242,9 +242,9 @@ const uk = {
   },
   stats: {
     eyebrow: "Мапа зростає",
-    storesFound: "Знайдено магазинів",
-    provincesCovered: "Охоплено провінцій",
-    productsListed: "Додано товарів",
+    storesFound: "Магазинів знайдено",
+    provincesCovered: "Провінцій охоплено",
+    productsListed: "Товарів додано",
     note: "Кожен магазин на цій мапі додала така сама людина, як і ви.",
     cta: "Додати магазин на мапу",
   },
@@ -267,8 +267,8 @@ const uk = {
   mapPage: {
     latestCommunityAdditions: "Останні додавання спільноти",
     seeOnMap: "Показати на мапі",
-    knowStore: "Знаєте магазин, якого бракує? Додайте його на мапу.",
-    addNewStore: "Додати новий магазин",
+    knowStore: "Знаєш магазин, якого ще нема на мапі?",
+    addNewStore: "Додати магазин",
   },
   mapExplorer: {
     searchPlaceholder: "Пошук товару або міста",

@@ -13,7 +13,7 @@ export function AboutProject({ className }: { className?: string }) {
             className="text-reveal flex flex-col items-center"
           >
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-sans">
-              ABOUT THE PROJECT
+              {t("faq.title") || "ABOUT THE PROJECT"}
             </h2>
             <p className="text-slate-600 text-[16px] md:text-[18px] max-w-2xl font-normal leading-relaxed mb-4">
               {t("aboutPage.intro") || "BuyUkrainian.ca is a community-powered platform that helps Canadians discover products made in Ukraine and support the businesses bringing them to shelves across the country."}
