@@ -67,7 +67,7 @@ export function Header() {
             <img 
               src={logo0000} 
               alt="BuyUkrainian.ca" 
-              className="h-[46px] min-[1024px]:h-[48px] min-[1670px]:h-[52px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+              className="h-[51px] min-[1024px]:h-[53px] min-[1670px]:h-[57px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
