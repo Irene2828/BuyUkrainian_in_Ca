@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LANGUAGE_OPTIONS = [
-  { code: "en", label: "English", short: "EN" },
-  { code: "uk", label: "Українська", short: "UA" },
-  { code: "fr-CA", label: "Français", short: "FR" },
+  { code: "en", label: "English", short: "EN", flag: "🇨🇦" },
+  { code: "uk", label: "Українська", short: "UA", flag: "🇺🇦" },
+  { code: "fr-CA", label: "Français", short: "FR", flag: "🇨🇦" },
 ] as const;
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const { language, setLanguage } = useI18n();
+  const currentOption = LANGUAGE_OPTIONS.find((opt) => opt.code === language) || LANGUAGE_OPTIONS[0];
 
   return (
     <div className={cn("flex items-center", className)}>
@@ -27,7 +28,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
           >
             <Globe className="w-4 h-4 text-slate-500" strokeWidth={1.5} />
             <span className="flex items-center gap-1.5 text-[16px] leading-none mb-[1px]">
-              🇨🇦 <span className="text-[13px] font-semibold text-slate-600 tracking-normal">EN</span>
+              {currentOption.flag} <span className="text-[13px] font-semibold text-slate-600 tracking-normal">{currentOption.short}</span>
             </span>
           </button>
         </DropdownMenuTrigger>
