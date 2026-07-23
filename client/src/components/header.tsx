@@ -9,7 +9,7 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 import newLogo from "@/assets/newlogo.png";
-import looogo from "@/assets/looogo.png";
+import logo1111 from "@/assets/logo1111.png";
 
 export function Header() {
   const [location] = useLocation();
@@ -65,7 +65,7 @@ export function Header() {
         <div className="flex-1 flex items-center justify-start gap-3">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
             <img 
-              src={looogo} 
+              src={logo1111} 
               alt="BuyUkrainian.ca" 
               className="h-[46px] min-[1024px]:h-[48px] min-[1670px]:h-[52px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
