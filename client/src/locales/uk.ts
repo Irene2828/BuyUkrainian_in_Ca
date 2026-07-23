@@ -145,7 +145,7 @@ const uk = {
     descriptionAddBold: "додавай",
     descriptionShare: " та ",
     descriptionShareBold: "поширюй",
-    descriptionEnd: " #madeinUkraine поруч",
+    descriptionEnd: " #madeinUkraine поруч з тобою",
     ctaPrimary: "Знайти магазини поруч",
     ctaSecondary: "Як це працює",
     addedRecently: "ЩОЙНО ДОДАНО",
