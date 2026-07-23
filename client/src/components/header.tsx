@@ -9,6 +9,7 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 import newLogo from "@/assets/newlogo.png";
+import looogo from "@/assets/looogo.png";
 
 export function Header() {
   const [location] = useLocation();
@@ -61,30 +62,13 @@ export function Header() {
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center justify-start gap-2">
+        <div className="flex-1 flex items-center justify-start gap-3">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
-            {/* Branding Text with Oval Frame */}
-            <div className="relative flex flex-col justify-center gap-[1.5px] min-[1670px]:gap-[2px] px-[27px] py-[13.5px] min-[1024px]:max-[1440px]:px-[28.5px] min-[1024px]:max-[1440px]:py-[14.25px] min-[1670px]:px-[31.5px] min-[1670px]:py-[15px] select-none">
-              {/* Split-color Oval Stroke Frame */}
-              <svg className="absolute inset-0 w-full h-full pointer-events-none p-[1.5px]" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <clipPath id="clip-top" clipPathUnits="objectBoundingBox">
-                    <rect x="-0.05" y="-0.05" width="1.1" height="0.55" />
-                  </clipPath>
-                  <clipPath id="clip-bottom" clipPathUnits="objectBoundingBox">
-                    <rect x="-0.05" y="0.5" width="1.1" height="0.55" />
-                  </clipPath>
-                </defs>
-                <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#0057B7" strokeWidth="1.5" fill="none" clipPath="url(#clip-top)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
-                <rect x="0.75" y="0.75" width="100%" height="100%" rx="999" ry="999" stroke="#FFD700" strokeWidth="1.5" fill="none" clipPath="url(#clip-bottom)" style={{ width: 'calc(100% - 1.5px)', height: 'calc(100% - 1.5px)' }} />
-              </svg>
-              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
-                {t('siteHeader.buyUkrainian') || 'Buy Ukrainian'}
-              </span>
-              <span className="text-[11.7px] md:text-[12.75px] min-[1024px]:max-[1440px]:text-[13.75px] min-[1670px]:text-[15.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] text-[#1E293B] opacity-90 whitespace-nowrap leading-[0.94] antialiased">
-                {t('siteHeader.inCanada') || 'in Canada'}
-              </span>
-            </div>
+            <img 
+              src={looogo} 
+              alt="BuyUkrainian.ca" 
+              className="h-[46px] min-[1024px]:h-[48px] min-[1670px]:h-[52px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+            />
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
           <span className="hidden lg:block text-[14px] min-[1024px]:max-[1440px]:text-[15px] min-[1670px]:text-[17px] text-slate-500 font-normal tracking-wide leading-none antialiased font-sans">
