@@ -68,7 +68,7 @@ function NewlyAddedStores() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
               </div>
-              <span className="text-reveal text-[11.7px] font-semibold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+              <span className="text-reveal text-[11.7px] min-[1670px]:text-[11.93px] font-semibold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                 LATEST COMMUNITY ADDITIONS
               </span>
             </div>
@@ -76,7 +76,7 @@ function NewlyAddedStores() {
               onClick={() => {
                 (document.querySelector('.map-column-wrapper') || document.querySelector('.passport-map-container'))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }}
-              className="text-[11px] font-medium text-slate-400 hover:text-[#0057B7] transition-colors flex items-center gap-1.5 tracking-normal font-sans uppercase"
+              className="text-[11px] font-medium text-slate-400 hover:text-[#0057B7] transition-colors flex items-center gap-1.5 tracking-[0.06em] font-sans uppercase"
             >
               View all <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/header-link:translate-x-1" />
             </button>
