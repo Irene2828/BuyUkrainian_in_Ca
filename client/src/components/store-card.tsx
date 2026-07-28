@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight } from 'lucide-react';
+import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight, Facebook, Instagram } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Store } from '@/lib/data';
@@ -7,6 +7,12 @@ import { getStoreImages } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from "@/lib/i18n";
 import { cn } from '@/lib/utils';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface StoreCardProps {
     store: Store;
@@ -57,31 +63,44 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
         setTimeout(() => setCopied(false), 2000);
     };
 
-    const handleShare = async () => {
-        const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(String(store.id))}`;
-        const shareData = {
-            title: store.name,
-            text: `Check out ${store.name} on BuyUkrainian.ca!`,
-            url: shareUrl
-        };
+    const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(String(store.id))}`;
+    const shareText = `Check out ${store.name} on BuyUkrainian.ca!`;
 
-        if (navigator.share) {
-            try {
-                await navigator.share(shareData);
-                return;
-            } catch (err) {
-                console.error('Error sharing:', err);
-            }
-        }
+    const handleShareFacebook = () => {
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        window.open(url, '_blank', 'width=600,height=400');
+    };
 
+    const handleShareX = () => {
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+        window.open(url, '_blank', 'width=600,height=400');
+    };
+
+    const handleShareInstagram = async () => {
         try {
             await navigator.clipboard.writeText(shareUrl);
-            toast({ title: "Link Copied", description: "Store map link copied to clipboard." });
+            toast({
+                title: "Link Copied for Instagram",
+                description: "Instagram doesn't support direct links. Link copied to clipboard to paste in your posts or stories!"
+            });
         } catch (err) {
-            console.error('Error copying share link:', err);
-            toast({ title: "Share Link", description: shareUrl });
+            console.error('Error sharing to Instagram:', err);
         }
     };
+
+    const handleCopyLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            toast({
+                title: "Link Copied",
+                description: "Store map link copied to clipboard."
+            });
+        } catch (err) {
+            console.error('Error copying link:', err);
+        }
+    };
+
+
 
     const getCategoryLabel = (category: string) => {
         const labels: Record<string, string> = {
@@ -233,13 +252,48 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
 
                     {/* Secondary Actions Row */}
                     <div className="flex items-center gap-3 shrink-0">
-                        <button
-                            onClick={handleShare}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 group"
-                        >
-                            <Share2 size={13} className="opacity-80" />
-                            <span>Share Store</span>
-                        </button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button
+                                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 group"
+                                >
+                                    <Share2 size={13} className="opacity-80" />
+                                    <span>Share Store</span>
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-[180px] p-1.5 font-sans border border-slate-100 shadow-xl shadow-slate-200/50 bg-white z-[9999]">
+                                <DropdownMenuItem
+                                    onClick={handleShareFacebook}
+                                    className="cursor-pointer text-[13px] py-2 px-3 rounded-md transition-colors font-medium outline-none focus:bg-[#0057B7] focus:text-white hover:bg-[#0057B7] hover:text-white flex items-center gap-2.5 text-slate-600 group"
+                                >
+                                    <Facebook size={14} className="opacity-80 shrink-0 text-[#1877F2] group-hover:text-white group-focus:text-white" />
+                                    <span>Facebook</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={handleShareX}
+                                    className="cursor-pointer text-[13px] py-2 px-3 rounded-md transition-colors font-medium outline-none focus:bg-[#0057B7] focus:text-white hover:bg-[#0057B7] hover:text-white flex items-center gap-2.5 text-slate-600 group"
+                                >
+                                    <svg className="h-3.5 w-3.5 fill-current shrink-0 text-slate-800 group-hover:text-white group-focus:text-white" viewBox="0 0 24 24">
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                    </svg>
+                                    <span>X (Twitter)</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={handleShareInstagram}
+                                    className="cursor-pointer text-[13px] py-2 px-3 rounded-md transition-colors font-medium outline-none focus:bg-[#0057B7] focus:text-white hover:bg-[#0057B7] hover:text-white flex items-center gap-2.5 text-slate-600 group"
+                                >
+                                    <Instagram size={14} className="opacity-80 shrink-0 text-[#E1306C] group-hover:text-white group-focus:text-white" />
+                                    <span>Instagram</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={handleCopyLink}
+                                    className="cursor-pointer text-[13px] py-2 px-3 rounded-md transition-colors font-medium outline-none focus:bg-[#0057B7] focus:text-white hover:bg-[#0057B7] hover:text-white flex items-center gap-2.5 text-slate-600 group"
+                                >
+                                    <Copy size={14} className="opacity-80 shrink-0 text-slate-500 group-hover:text-white group-focus:text-white" />
+                                    <span>Copy Link</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         
                         <button
                             onClick={() => onSeeOnMap?.(store)}

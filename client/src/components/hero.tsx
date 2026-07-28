@@ -203,20 +203,20 @@ export function Hero() {
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
                             </Link>
-                            <Link
-                                href="/#how-it-works"
+                            <a
+                                href="#how-it-works"
                                 onClick={(e) => {
+                                    e.preventDefault();
                                     const el = document.getElementById('how-it-works');
                                     if (el) {
-                                        e.preventDefault();
-                                        el.scrollIntoView({ behavior: 'smooth' });
+                                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     }
                                 }}
                                 className="pointer-events-auto inline-flex h-10 w-full items-center justify-center gap-2 border border-white/20 bg-white/10 text-[14px] font-medium tracking-normal text-white transition-all duration-300 hover:bg-white/20 active:scale-[0.98]"
                             >
                                 <span>{t('hero.ctaSecondary') || 'How it works'}</span>
                                 <ChevronDown className="h-4 w-4 text-current" />
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -294,20 +294,20 @@ export function Hero() {
                                                     />
                                                 </button>
                                             </Link>
-                                            <Link
-                                                href="/#how-it-works"
+                                            <a
+                                                href="#how-it-works"
                                                 onClick={(e) => {
+                                                    e.preventDefault();
                                                     const el = document.getElementById('how-it-works');
                                                     if (el) {
-                                                        e.preventDefault();
-                                                        el.scrollIntoView({ behavior: 'smooth' });
+                                                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                     }
                                                 }}
-                                                className="group inline-flex h-[50px] 2xl:h-[50px] items-center justify-center gap-2 bg-transparent px-0 text-[clamp(13px,1vw,19px)] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased"
+                                                className="group inline-flex h-[50px] 2xl:h-[50px] items-center justify-center gap-2 bg-transparent px-0 text-[clamp(13px,1vw,19px)] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto"
                                             >
                                                 <Info className="h-4 w-4 text-current" strokeWidth={1.5} />
                                                 <span>{t('hero.ctaSecondary') || 'How it works'}</span>
-                                            </Link>
+                                            </a>
                                         </div>
                                     </div>
 

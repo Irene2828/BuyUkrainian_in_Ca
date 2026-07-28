@@ -372,8 +372,10 @@
 }
 
 .admin-store-dialog {
+  display: flex;
+  flex-direction: column;
   width: min(100%, 620px);
-  max-height: min(88vh, 820px);
+  max-height: min(90vh, 820px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 0;
@@ -399,7 +401,7 @@
 }
 
 .admin-store-dialog .admin-store-dialog-body {
-  max-height: min(64vh, 610px);
+  flex: 1 1 auto;
   overflow-y: auto;
   scrollbar-color: rgba(255,255,255,0.32) transparent;
 }
@@ -504,7 +506,8 @@
   }
 
   .admin-store-dialog .admin-store-dialog-body {
-    max-height: calc(100vh - 250px);
+    flex: 1 1 auto;
+    overflow-y: auto;
   }
 }
 
