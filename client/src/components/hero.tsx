@@ -164,7 +164,7 @@ export function Hero() {
         <>
                 <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
-            className="flex-1 relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:min-h-[calc(100svh-73px)] md:py-[2.5vh] animate-in fade-in duration-700"
+            className="flex-1 relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:min-h-[calc(100svh-73px)] md:py-[2.5vh] animate-in fade-in duration-700"
         >
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
@@ -198,7 +198,7 @@ export function Hero() {
 
                         <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[45px]" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[54px] w-full scale-[1.02] items-center justify-center rounded-none bg-[#dbe5f0]/92 px-6 text-[clamp(15px,1.25vw,20px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/35">
+                                <button className="group/cta-btn relative inline-flex h-[54px] w-full scale-[1.02] items-center justify-center rounded-none bg-[#dbe5f0]/96 px-6 text-[clamp(15px,1.25vw,20px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
@@ -285,7 +285,7 @@ export function Hero() {
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[59.16px] px-8 min-[1670px]:px-[32.64px] text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal rounded-none bg-[#dbe5f0]/90 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[59.16px] px-8 min-[1670px]:px-[32.64px] text-[clamp(16px,1.17vw,19.5px)] font-semibold tracking-normal rounded-none bg-[#dbe5f0]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
@@ -336,17 +336,31 @@ export function Hero() {
             </div>
 
             {/* Yellow offset backing block under/behind the map card */}
-            <div className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[58%] w-[42%] min-[1440px]:right-[23px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]" />
+            <motion.div
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[58%] w-[42%] min-[1440px]:right-[23px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]"
+            />
 
-            <div className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking">
-                {/* Hover Hint Label - positioned neatly under the map insert block */}
-                <div className="absolute -bottom-[2.75rem] left-0 right-0 flex justify-center items-center opacity-0 group-hover/map-peeking:opacity-100 transition-all duration-500 pointer-events-none z-50">
-                    <div className="transform translate-y-1 group-hover/map-peeking:translate-y-0 transition-all duration-500">
-                        <span className="text-[12.5px] font-bold tracking-[0.40em] uppercase text-white/80 whitespace-nowrap font-sans transition-all duration-500 antialiased drop-shadow-sm">
-                            {t('hero.tapToExplore') || 'TAP TO EXPLORE THE MAP'}
-                        </span>
-                    </div>
-                </div>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking"
+            >
+                {/* Hover Hint Label - positioned neatly under the map insert block, permanently shown with a nice entry fade */}
+                <motion.div 
+                    inherit={false}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
+                    className="absolute -bottom-[2.75rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
+                >
+                    <span className="text-[12.5px] font-bold tracking-[0.40em] uppercase text-white/60 whitespace-nowrap font-sans antialiased drop-shadow-sm">
+                        {t('hero.tapToExplore') || 'TAP TO EXPLORE THE MAP'}
+                    </span>
+                </motion.div>
 
                 <div
                     className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
@@ -363,7 +377,7 @@ export function Hero() {
 
                     {/* Inner wrapper for shifted map content */}
                     <div
-                        className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-1%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-27%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-26%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-25%] group-hover/map-peeking:md:scale-[1.18] group-hover/map-peeking:lg:scale-[1.24] group-hover/map-peeking:min-[1280px]:scale-[1.26] transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-1%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-27%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-26%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-25%] group-hover/map-peeking:md:scale-[1.14] group-hover/map-peeking:lg:scale-[1.20] group-hover/map-peeking:min-[1280px]:scale-[1.22] transition-all duration-700 ease-out"
                     >
                         <div className="relative w-full h-full pointer-events-auto border-none outline-none">
 
@@ -409,7 +423,7 @@ export function Hero() {
                     </div>
 
                 </div>
-            </div>
+            </motion.div>
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
             <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
                 <div className="w-full">
@@ -454,7 +468,7 @@ export function Hero() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] 2xl:text-[12.7px] min-[1670px]:text-[12.95px] font-semibold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[11.7px] 2xl:text-[12.7px] min-[1670px]:text-[12.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -517,7 +531,7 @@ function HeroVariantB({
     return (
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
-                <section className="relative z-10 w-full max-w-[1920px] mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
+                <section className="relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
                     <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
 
@@ -628,7 +642,7 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] min-[1670px]:h-[59.16px] scale-[1.02] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 min-[1670px]:px-[32.64px] text-[clamp(14px,1.1vw,22px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] min-[1670px]:h-[59.16px] scale-[1.02] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 min-[1670px]:px-[32.64px] text-[clamp(16px,1.17vw,19.5px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                 <span>Find stores near me</span>
                                 <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                             </button>
@@ -712,7 +726,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] 2xl:text-[12.7px] min-[1670px]:text-[12.95px] font-semibold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[11.7px] 2xl:text-[12.7px] min-[1670px]:text-[12.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>

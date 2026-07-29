@@ -62,7 +62,7 @@ export function Header() {
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center justify-start gap-3">
+        <div className="flex-1 flex items-center justify-start gap-1.5">
           <Link href="/" className="flex items-center group min-[1670px]:ml-0">
             <img 
               src={logo0000} 

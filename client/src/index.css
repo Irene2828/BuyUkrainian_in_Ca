@@ -1218,6 +1218,7 @@ html.dark .city-labels-layer {
   }
 }
 
+/* Cap layout width scaling at the 1670px breakpoint. Disabling 1920px+ scaling rules.
 @media (min-width: 1920px) {
   :root {
     --boutique-max-width: 1880px;
@@ -1226,6 +1227,7 @@ html.dark .city-labels-layer {
     --utility-max-width: 2120px;
   }
 }
+*/
 
 /* ========================================
    ARBITRARY VALUE FONT-SIZE OVERRIDES
