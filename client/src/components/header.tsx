@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin, ArrowLeft, Map } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Plus, HelpCircle, MapPin, ArrowLeft, Map, Home } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
@@ -63,7 +63,7 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-1.5">
-          <Link href="/" className="flex items-center group -ml-4 min-[1024px]:-ml-5 min-[1670px]:-ml-6 -mr-3 min-[1024px]:-mr-[18px] min-[1670px]:-mr-6">
+          <Link href="/" className="flex items-center group -ml-8 min-[1024px]:-ml-10 min-[1670px]:-ml-12 -mr-3 min-[1024px]:-mr-[18px] min-[1670px]:-mr-6">
             <img 
               src={logoJuly29} 
               alt="BuyUkrainian.ca" 
@@ -111,7 +111,11 @@ export function Header() {
         </div>
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-3">
-          {location !== '/map' && (
+          {location === '/map' ? (
+            <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800 no-underline">
+              <span className="text-[14px] font-normal">{t('nav.home')}</span>
+            </Link>
+          ) : (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800 no-underline">
               <Map className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>
@@ -138,6 +142,16 @@ export function Header() {
           <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg z-40">
             <nav className="flex flex-col p-4 gap-4 antialiased">
 
+              {location === '/map' && (
+                <Link 
+                  href="/" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2"
+                >
+                  <Home className="w-4 h-4" />
+                  <span>{t('nav.home') || 'Home'}</span>
+                </Link>
+              )}
               <Link
                     href="/#faq"
                     onClick={(e) => {

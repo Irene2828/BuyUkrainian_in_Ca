@@ -175,7 +175,7 @@ export function Hero() {
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
 
                         <h1
-                            className="relative z-10 max-w-full text-[clamp(2.15rem,10.92vw,2.99rem)] font-[900] uppercase leading-[1.02] antialiased [@media(max-height:700px)]:text-[2.31rem]"
+                            className="relative z-10 max-w-full text-[clamp(2.28rem,11.59vw,3.17rem)] font-[900] uppercase leading-[1.02] antialiased [@media(max-height:700px)]:text-[2.45rem]"
                             style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.054em' }}
                         >
                             {[t("hero.headline.discover") || "DISCOVER", t("hero.headline.ukrainianProducts") || "UKRAINIAN PRODUCTS"].map((line) => (
@@ -188,11 +188,11 @@ export function Hero() {
                             ))}
                         </h1>
 
-                        <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.455rem,6.84vw,1.93rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.378rem]">
+                        <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.50rem,7.05vw,1.99rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.42rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                            <img src={newHeroWhiteBg} alt="" className="h-[0.85em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
+                            <img src={newHeroWhiteBg} alt="" className="h-[1.15em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
                         </div>
-                        <p className="mt-6 max-w-[18rem] translate-y-[18px] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-white/76">
+                        <p className="mt-6 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] translate-y-[18px] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-white/76">
                             {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                         </p>
 
@@ -539,17 +539,17 @@ function HeroVariantB({
                         <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
                             <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
                             <div className="relative z-10">
-                                <h1 className="font-['Lora'] text-[clamp(2.55rem,11vw,3.25rem)] font-semibold leading-[1.02] tracking-normal text-[#0057B7] antialiased">
+                                <h1 className="font-['Lora'] text-[clamp(2.71rem,11.67vw,3.45rem)] font-semibold leading-[1.02] tracking-normal text-[#0057B7] antialiased">
                                     <span className="block">{t('hero.headline.discover') || 'Discover'}</span>
                                     <span className="block">
                                         {t('hero.headline.ukrainianProducts') || 'Ukrainian Products'}
                                     </span>
                                 </h1>
-                                <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.598rem,7.5vw,2.15rem)] font-normal leading-tight tracking-normal text-slate-600">
+                                <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.65rem,7.73vw,2.21rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                                    <img src={newHeroWhiteBg} alt="" className="h-[0.85em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
+                                    <img src={newHeroWhiteBg} alt="" className="h-[1.15em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
                                 </div>
-                                <p className="mt-6 max-w-[18rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
+                                <p className="mt-6 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
                                     {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                 </p>
                                 <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[54px]" style={{ transform: 'translateY(0px)' }}>

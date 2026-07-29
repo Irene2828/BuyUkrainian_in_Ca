@@ -101,6 +101,7 @@ const frCA = {
     },
   },
   nav: {
+    home: "Accueil",
     about: "À propos",
     map: "Carte",
     addStore: "Ajouter une boutique",

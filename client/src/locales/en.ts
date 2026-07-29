@@ -101,6 +101,7 @@ const en = {
     },
   },
   nav: {
+    home: "Home",
     about: "About",
     map: "Map",
     addStore: "Add Store",
