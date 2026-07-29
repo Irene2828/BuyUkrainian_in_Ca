@@ -192,8 +192,8 @@ export function Hero() {
                             <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
                             <img src={newHeroWhiteBg} alt="" className="h-[0.85em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
                         </div>
-                        <p className="mt-6 max-w-[18rem] translate-y-[18px] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-white/76">
-                            {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.'}
+                        <p className="mt-6 max-w-[18rem] translate-y-[18px] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-white/76">
+                            {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                         </p>
 
                         <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[45px]" style={{ transform: 'translateY(0px)' }}>
@@ -279,8 +279,8 @@ export function Hero() {
                                             {t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}
                                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                         </span>
-                                        <p className="relative z-10 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-snug tracking-[0.015em] text-white/76 md:whitespace-nowrap">
-                                            {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.'}
+                                        <p className="relative z-10 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-bold leading-snug tracking-[0.015em] text-white/76 md:whitespace-nowrap">
+                                            {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
@@ -549,8 +549,8 @@ function HeroVariantB({
                                     <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
                                     <img src={newHeroWhiteBg} alt="" className="h-[0.85em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
                                 </div>
-                                <p className="mt-6 max-w-[18rem] text-left text-[15px] font-normal leading-snug tracking-[0.015em] text-slate-600">
-                                    {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.'}
+                                <p className="mt-6 max-w-[18rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
+                                    {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                 </p>
                                 <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[54px]" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
@@ -690,8 +690,8 @@ function HeroVariantB({
                                         sold across Canada
                                         <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                     </span>
-                                    <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
-                                        One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling #madeinUkraine near you.
+                                    <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-bold leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
+                                        One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling <span className="font-bold">#madeinUkraine</span> near you.
                                     </p>
                                     <div className="flex md:hidden items-center gap-8 self-start relative z-20 pointer-events-auto" style={{ transform: 'translateY(13vh)' }}>
                                         <Link href="/map">

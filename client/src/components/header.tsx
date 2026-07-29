@@ -9,7 +9,7 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 import newLogo from "@/assets/newlogo.png";
-import logo5555 from "@/assets/5555.png";
+import logoJuly29 from "@/assets/logo-july29.png";
 
 export function Header() {
   const [location] = useLocation();
@@ -63,15 +63,15 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-1.5">
-          <Link href="/" className="flex items-center group -ml-4 min-[1024px]:-ml-5 min-[1670px]:-ml-6 -mr-2 min-[1024px]:-mr-2.5 min-[1670px]:-mr-2.5">
+          <Link href="/" className="flex items-center group -ml-4 min-[1024px]:-ml-5 min-[1670px]:-ml-6 -mr-3 min-[1024px]:-mr-[18px] min-[1670px]:-mr-6">
             <img 
-              src={logo5555} 
+              src={logoJuly29} 
               alt="BuyUkrainian.ca" 
-              className="h-[101.61px] min-[1024px]:h-[105.22px] min-[1670px]:h-[122.49px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+              className="h-[135.14px] min-[1024px]:h-[139.94px] min-[1670px]:h-[162.92px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
-          <span className="hidden lg:block text-[14.28px] min-[1024px]:max-[1440px]:text-[15.3px] min-[1670px]:text-[17.69px] text-slate-500 font-normal tracking-wide leading-none antialiased font-sans">
+          <span className="hidden lg:block ml-1 text-[14.28px] min-[1024px]:max-[1440px]:text-[15.3px] min-[1670px]:text-[17.69px] text-slate-500 font-normal tracking-wide leading-none antialiased font-sans">
             {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
           </span>
         </div>
