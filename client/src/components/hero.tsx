@@ -176,7 +176,7 @@ export function Hero() {
 
                         <h1
                             className="relative z-10 max-w-full text-[clamp(2.28rem,11.59vw,3.17rem)] font-[900] uppercase leading-[1.02] antialiased [@media(max-height:700px)]:text-[2.45rem]"
-                            style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.054em' }}
+                             style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', letterSpacing: '0.038em' }}
                         >
                             {[t("hero.headline.discover") || "DISCOVER", t("hero.headline.ukrainianProducts") || "UKRAINIAN PRODUCTS"].map((line) => (
                                 <span
@@ -539,7 +539,7 @@ function HeroVariantB({
                         <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
                             <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
                             <div className="relative z-10">
-                                <h1 className="font-['Lora'] text-[clamp(2.71rem,11.67vw,3.45rem)] font-semibold leading-[1.02] tracking-normal text-[#0057B7] antialiased">
+                                <h1 className="font-['Lora'] text-[clamp(2.71rem,11.67vw,3.45rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-[#0057B7] antialiased">
                                     <span className="block">{t('hero.headline.discover') || 'Discover'}</span>
                                     <span className="block">
                                         {t('hero.headline.ukrainianProducts') || 'Ukrainian Products'}
