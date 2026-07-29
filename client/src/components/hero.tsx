@@ -279,13 +279,13 @@ export function Hero() {
                                             {t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}
                                             <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
                                         </span>
-                                        <p className="relative z-10 max-w-none translate-y-[calc(2vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-snug tracking-[0.015em] text-white/76 md:whitespace-nowrap">
+                                        <p className="relative z-10 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-snug tracking-[0.015em] text-white/76 md:whitespace-nowrap">
                                             {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.'}
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[59.16px] px-8 min-[1670px]:px-[32.64px] text-[clamp(16px,1.17vw,19.5px)] font-semibold tracking-normal rounded-none bg-[#dbe5f0]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[60.34px] px-8 min-[1670px]:px-[33.29px] text-[clamp(16px,1.17vw,19.89px)] font-semibold tracking-normal rounded-none bg-[#dbe5f0]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
@@ -642,7 +642,7 @@ function HeroVariantB({
                         <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
                         
                         <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] min-[1670px]:h-[59.16px] scale-[1.02] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 min-[1670px]:px-[32.64px] text-[clamp(16px,1.17vw,19.5px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] min-[1670px]:h-[60.34px] scale-[1.02] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 min-[1670px]:px-[33.29px] text-[clamp(16px,1.17vw,19.89px)] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                 <span>Find stores near me</span>
                                 <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                             </button>

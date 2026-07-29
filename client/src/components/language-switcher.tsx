@@ -27,8 +27,8 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             aria-label="Change language"
           >
             <Globe className="w-4 h-4 text-slate-500" strokeWidth={1.5} />
-            <span className="flex items-center gap-1.5 text-[16px] leading-none mb-[1px]">
-              {currentOption.flag} <span className="text-[13px] font-semibold text-slate-600 tracking-normal">{currentOption.short}</span>
+            <span className="text-[13px] font-semibold text-slate-600 tracking-normal mb-[1px]">
+              {currentOption.short}
             </span>
           </button>
         </DropdownMenuTrigger>

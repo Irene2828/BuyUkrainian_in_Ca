@@ -9,7 +9,7 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/components/nav-link-styles";
 
 import newLogo from "@/assets/newlogo.png";
-import logo0000 from "@/assets/0000.png";
+import logo5555 from "@/assets/5555.png";
 
 export function Header() {
   const [location] = useLocation();
@@ -63,11 +63,11 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-1.5">
-          <Link href="/" className="flex items-center group min-[1670px]:ml-0">
+          <Link href="/" className="flex items-center group -ml-4 min-[1024px]:-ml-5 min-[1670px]:-ml-6 -mr-2 min-[1024px]:-mr-2.5 min-[1670px]:-mr-2.5">
             <img 
-              src={logo0000} 
+              src={logo5555} 
               alt="BuyUkrainian.ca" 
-              className="h-[57.12px] min-[1024px]:h-[59.16px] min-[1670px]:h-[65.55px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+              className="h-[101.61px] min-[1024px]:h-[105.22px] min-[1670px]:h-[122.49px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
           <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
