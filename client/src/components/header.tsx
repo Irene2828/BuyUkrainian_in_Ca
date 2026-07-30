@@ -70,7 +70,7 @@ export function Header() {
               className="h-[135.14px] min-[1024px]:h-[139.94px] min-[1670px]:h-[162.92px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
-          <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80" />
+          <div className="hidden lg:block w-[1.5px] h-[22px] bg-slate-300 transform skew-x-[-20deg] origin-center" />
           <span className="hidden lg:block ml-1 text-[14.28px] min-[1024px]:max-[1440px]:text-[15.3px] min-[1670px]:text-[17.69px] text-slate-500 font-normal tracking-wide leading-none antialiased font-sans">
             {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
           </span>
@@ -105,7 +105,8 @@ export function Header() {
                   <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
                   <span>{t('nav.addStore') || 'Add Stores'}</span>
                 </span>
-            <div className="flex items-center gap-5 lg:gap-6 pl-1 border-l border-slate-200/80">
+            <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
+              <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 transform skew-x-[-20deg] origin-center" />
               <LanguageSwitcher />
             </div>
         </div>

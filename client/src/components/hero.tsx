@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
 import mapleLeafIcon from "@/assets/maple_leaf.png";
-import newHeroWhiteBg from "@/assets/meta-new.png";
+import mapsIcon from "@/assets/maps.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import type { Store } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
@@ -169,7 +169,7 @@ export function Hero() {
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
 
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
-                <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,60,130,1)_100%)] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
+                <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <div className="relative z-10">
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
@@ -190,13 +190,13 @@ export function Hero() {
 
                         <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.50rem,7.05vw,1.99rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.42rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                            <img src={newHeroWhiteBg} alt="" className="h-[1.15em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
+                            <img src={mapsIcon} alt="" className="h-[4.2em] w-auto shrink-0 -mt-2.5" aria-hidden="true" />
                         </div>
-                        <p className="mt-6 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] translate-y-[14px] text-left text-[15px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
+                        <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] translate-y-0 text-left text-[15px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                         </p>
 
-                        <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[45px]" style={{ transform: 'translateY(0px)' }}>
+                        <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
                                 <button className="group/cta-btn relative inline-flex h-[54px] w-full scale-[1.02] items-center justify-center rounded-none bg-[#dbe5f0]/96 px-6 text-[clamp(15px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
@@ -277,7 +277,7 @@ export function Hero() {
                                     <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-6">
                                         <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
                                             {t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}
-                                            <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
+                                            <img src={mapsIcon} alt="" className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-[45%] h-[3.8em] w-auto max-w-none" aria-hidden="true" />
                                         </span>
                                         <p className="relative z-10 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85 md:whitespace-nowrap">
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
@@ -547,12 +547,12 @@ function HeroVariantB({
                                 </h1>
                                 <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.65rem,7.73vw,2.21rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                                    <img src={newHeroWhiteBg} alt="" className="h-[1.15em] w-auto shrink-0 mt-[2px]" aria-hidden="true" />
+                                    <img src={mapsIcon} alt="" className="h-[4.2em] w-auto shrink-0 -mt-2.5" aria-hidden="true" />
                                 </div>
-                                <p className="mt-5 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
+                                <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
                                     {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                 </p>
-                                <div className="mt-[36px] mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[54px]" style={{ transform: 'translateY(0px)' }}>
+                                <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[30px]" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
                                             <button className="group/cta-btn relative inline-flex h-[54px] w-full scale-[1.02] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[clamp(15px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
@@ -687,8 +687,8 @@ function HeroVariantB({
                                 </h1>
                                 <div className="mt-[-2.2rem] md:mt-[-3.2rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-6">
                                     <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%] gap-3">
-                                        sold across Canada
-                                        <img src={newHeroWhiteBg} alt="" className="inline-block h-[1em] w-auto" aria-hidden="true" />
+                                         sold across Canada
+                                         <img src={mapsIcon} alt="" className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-[45%] h-[3.8em] w-auto max-w-none" aria-hidden="true" />
                                     </span>
                                     <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-bold leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
                                         One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling <span className="font-bold">#madeinUkraine</span> near you.

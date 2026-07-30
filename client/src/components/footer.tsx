@@ -7,7 +7,7 @@ export function Footer() {
   const [location] = useLocation();
 
   return (
-    <footer className="bg-[#00387b] text-[#E2E8F0] font-sans overflow-hidden py-8 md:py-12 antialiased">
+    <footer className="bg-[#00377D] text-[#E2E8F0] font-sans overflow-hidden py-8 md:py-12 antialiased">
       <div className="content-width">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
           

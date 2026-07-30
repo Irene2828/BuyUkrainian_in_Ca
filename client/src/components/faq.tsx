@@ -52,7 +52,7 @@ export function FAQ() {
                     i === 0 ? "pt-1" : "pt-8"
                   )}>
                     <span className={cn(
-                      "text-reveal text-[18px] font-bold text-[#0057B7] leading-snug pr-6 transition-colors duration-200 group-hover:text-[#004494]",
+                      "text-reveal text-[18px] font-bold text-[#0057B7] leading-normal md:leading-snug pr-6 transition-colors duration-200 group-hover:text-[#004494]",
                     )} style={{ transitionDelay: `${i * 90}ms` }}>
                       {faq.question}
                     </span>
