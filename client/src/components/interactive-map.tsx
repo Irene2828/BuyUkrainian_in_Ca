@@ -26,7 +26,7 @@ const HERO_INITIAL_MAP_STATE = {
   center: { lat: 51.5, lng: -123.0 },
   zoom: 4.4,
 };
-const MAX_CLUSTER_FOCUS_ZOOM = 12;
+const MAX_CLUSTER_FOCUS_ZOOM = 18;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
 const CLUSTER_TIGHT_SPAN = 0.08;
 const UNRESOLVED_CANADA_CENTER = { lat: 56.1304, lng: -106.3468 };
@@ -383,11 +383,18 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         console.warn('Store has invalid coordinates:', store.name);
         return;
       }
-      setZoom(16);
+      setZoom(17);
       setCenter({ lat, lng });
       if (mapRef) {
-        mapRef.setZoom(16);
+        mapRef.setZoom(17);
         mapRef.panTo({ lat, lng });
+        
+        // Offset on mobile so marker isn't hidden under the bottom sheet
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+           setTimeout(() => {
+               mapRef.panBy(0, 140);
+           }, 100);
+        }
       }
     },
     flyToProvince: (lat: number, lng: number, z: number) => {

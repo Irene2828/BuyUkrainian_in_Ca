@@ -94,7 +94,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
         window.setTimeout(() => {
             mapSectionRef.current?.invalidateSize();
             mapSectionRef.current?.focusOnStore(store);
-        }, 120);
+        }, 350);
     };
 
     useEffect(() => {

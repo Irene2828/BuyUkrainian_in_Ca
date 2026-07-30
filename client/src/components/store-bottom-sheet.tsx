@@ -23,15 +23,6 @@ export function StoreBottomSheet({ store, onClose, onSeeOnMap }: StoreBottomShee
 
     return createPortal(
         <>
-            {/* Backdrop: Darker than before to emphasize the card */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[5000]"
-                onClick={onClose}
-            />
-
             {/* Scale-up / Slide-up Wrapper */}
             <div className="fixed inset-0 z-[5001] pointer-events-none flex flex-col justify-end items-center pb-8 safe-area-bottom">
                 <motion.div

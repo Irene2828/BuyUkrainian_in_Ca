@@ -82,6 +82,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
   const [isMobile, setIsMobile] = useState(false);
+  const [hideMobileSheet, setHideMobileSheet] = useState(false);
   const mapRef = useRef<InteractiveMapRef>(null);
 
   useEffect(() => {
@@ -146,6 +147,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   useEffect(() => {
     const handleFocus = (e: any) => {
       const store = e.detail as Store;
+      setHideMobileSheet(false);
       onStoreSelect(store);
       if (viewMode === "map") {
         mapRef.current?.focusOnStore(store);
@@ -153,8 +155,15 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         setIsModalOpen(true);
       }
     };
+    const handleHideSheet = () => setHideMobileSheet(true);
+    
     window.addEventListener('focusStore', handleFocus);
-    return () => window.removeEventListener('focusStore', handleFocus);
+    window.addEventListener('hideStoreSheet', handleHideSheet);
+    
+    return () => {
+        window.removeEventListener('focusStore', handleFocus);
+        window.removeEventListener('hideStoreSheet', handleHideSheet);
+    };
   }, [viewMode]);
 
   // Focus Management: Return focus to pin when sidebar closes
@@ -239,6 +248,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   }, [stores, searchQuery, category, selectedProvince, selectedCity, sortMode]);
 
   const handleSelectStore = (store: Store) => {
+    setHideMobileSheet(false);
     onStoreSelect(store);
     // Only open the modal in List View.
     // In Map View, the InteractiveMap handles the floating card/popup internally.
@@ -248,12 +258,14 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   };
 
   const handleCloseStore = () => {
+    setHideMobileSheet(false);
     onStoreSelect(null);
     setIsModalOpen(false);
   };
 
   const handleSeeOnMap = (store: Store) => {
     setIsModalOpen(false);
+    setHideMobileSheet(true);
     console.log("See on Map clicked. Coordinates:", store.coordinates);
 
     if (store.coordinates) {
@@ -261,10 +273,10 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         onViewChange("map");
         // Slight delay to allow view transition to complete
         setTimeout(() => {
-          mapRef.current?.flyToLocation(store.coordinates![0], store.coordinates![1], 16);
-        }, 100);
+          mapRef.current?.focusOnStore(store);
+        }, 350);
       } else {
-        mapRef.current?.flyToLocation(store.coordinates[0], store.coordinates[1], 16);
+        mapRef.current?.focusOnStore(store);
       }
     }
   };
@@ -373,7 +385,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         )}
 
         {/* Mobile bottom sheet: tapping list item shows same card as map pin tap */}
-        {isMobile && selectedStore && (
+        {isMobile && selectedStore && !hideMobileSheet && (
           <StoreBottomSheet
             store={selectedStore}
             onClose={handleCloseStore}
@@ -411,7 +423,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
       </ErrorBoundary>
 
       {/* Mobile Bottom Sheet - Replaces Popup on Small Screens */}
-      {isMobile && selectedStore && (
+      {isMobile && selectedStore && !hideMobileSheet && (
         <StoreBottomSheet
           store={selectedStore}
           onClose={handleCloseStore}
