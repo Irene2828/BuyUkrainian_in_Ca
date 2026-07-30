@@ -190,7 +190,7 @@ export function Hero() {
 
                         <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.50rem,7.05vw,1.99rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.42rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                            <img src={mapsIcon} alt="" className="h-[4.2em] w-auto shrink-0 -mt-2.5" aria-hidden="true" />
+                            <img src={mapsIcon} alt="" className="h-[5.2em] w-auto shrink-0 -mt-3.5 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                         </div>
                         <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] translate-y-0 text-left text-[15px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
@@ -198,7 +198,7 @@ export function Hero() {
 
                         <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[54px] w-full scale-[1.02] items-center justify-center rounded-none bg-[#dbe5f0]/96 px-6 text-[clamp(15px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/35">
+                                <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none bg-[#dbe5f0]/96 px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
@@ -547,14 +547,14 @@ function HeroVariantB({
                                 </h1>
                                 <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.65rem,7.73vw,2.21rem)] font-normal leading-tight tracking-normal text-slate-600">
                                     <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                                    <img src={mapsIcon} alt="" className="h-[4.2em] w-auto shrink-0 -mt-2.5" aria-hidden="true" />
+                                    <img src={mapsIcon} alt="" className="h-[5.2em] w-auto shrink-0 -mt-3.5 drop-shadow-md" aria-hidden="true" />
                                 </div>
                                 <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
                                     {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                 </p>
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[30px]" style={{ transform: 'translateY(0px)' }}>
                                     <Link href="/map" className="pointer-events-auto">
-                                            <button className="group/cta-btn relative inline-flex h-[54px] w-full scale-[1.02] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[clamp(15px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
+                                            <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
                                                 <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                 <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                             </button>
