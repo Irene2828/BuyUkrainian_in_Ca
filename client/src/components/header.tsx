@@ -63,7 +63,7 @@ export function Header() {
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-1.5">
-          <Link href="/" className="flex items-center group -ml-8 min-[1024px]:-ml-10 min-[1670px]:-ml-12 -mr-3 min-[1024px]:-mr-[18px] min-[1670px]:-mr-6">
+          <Link href="/" className="flex items-center group -ml-8 min-[1024px]:-ml-10 min-[1670px]:-ml-12 -mr-3 min-[1024px]:-mr-[23px] min-[1670px]:-mr-6">
             <img 
               src={logoJuly29} 
               alt="BuyUkrainian.ca" 

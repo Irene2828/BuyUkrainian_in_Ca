@@ -52,7 +52,7 @@ export function HowItWorks() {
               
               {/* Content */}
               <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
-                <h3 className="text-white font-sans font-bold text-[18px] mb-2 leading-tight w-full whitespace-normal tracking-[0.015em]">
+                <h3 className="text-white font-sans font-bold text-[18px] mb-2 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
                   {step.title}
                 </h3>
                 <p className="text-white/85 font-normal text-[16px] leading-relaxed">
