@@ -8,9 +8,10 @@ interface StoreBottomSheetProps {
     store: Store | null;
     onClose: () => void;
     onSeeOnMap?: (store: Store) => void;
+    userLocation?: [number, number] | null;
 }
 
-export function StoreBottomSheet({ store, onClose, onSeeOnMap }: StoreBottomSheetProps) {
+export function StoreBottomSheet({ store, onClose, onSeeOnMap, userLocation }: StoreBottomSheetProps) {
 
     const handleDragEnd = (_: any, info: PanInfo) => {
         if (info.offset.y > 100) {
@@ -44,6 +45,7 @@ export function StoreBottomSheet({ store, onClose, onSeeOnMap }: StoreBottomShee
                         onClose={onClose}
                         onSeeOnMap={onSeeOnMap}
                         className="w-full max-w-[400px]"
+                        userLocation={userLocation}
                     />
                 </motion.div>
             </div>

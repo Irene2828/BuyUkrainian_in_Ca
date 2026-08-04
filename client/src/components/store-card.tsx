@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight, Facebook, Instagram } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight, Facebook, Instagram, Navigation } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Store } from '@/lib/data';
@@ -14,6 +14,18 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+export function calculateDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
 interface StoreCardProps {
     store: Store;
     onClose: () => void;
@@ -23,9 +35,10 @@ interface StoreCardProps {
     className?: string;
     variant?: 'map' | 'modal';
     defaultExpanded?: boolean;
+    userLocation?: [number, number] | null;
 }
 
-export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, variant = 'map', defaultExpanded = false }: StoreCardProps) {
+export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, variant = 'map', defaultExpanded = false, userLocation }: StoreCardProps) {
     const { t } = useI18n();
     const { toast } = useToast();
     const [copied, setCopied] = useState(false);
@@ -51,6 +64,19 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
     const displayImages = images.length === 1 && baseImage ? [images[0], "/assets/kyivcake.jpeg", "/assets/hero-bg.jpg"] : images;
     const uniqueImages = Array.from(new Set(displayImages)).filter(Boolean);
     const [currentImageIndex] = useState(0);
+
+    const distanceFormatted = useMemo(() => {
+        if (!userLocation || !store.coordinates) return null;
+        const [userLat, userLng] = userLocation;
+        const [storeLat, storeLng] = store.coordinates;
+        if (!storeLat || !storeLng) return null;
+
+        const km = calculateDistanceKm(userLat, userLng, storeLat, storeLng);
+        if (km < 1) {
+            return `${Math.round(km * 1000)} m`;
+        }
+        return `${km.toFixed(1)} km`;
+    }, [userLocation, store.coordinates]);
 
     const handleCopyAddress = () => {
         navigator.clipboard.writeText(store.address);
@@ -195,14 +221,22 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <div className="flex flex-col gap-2 pt-0.5 min-w-0">
                             <div className="flex flex-col gap-3">
                                 {/* Address Row */}
-                                <div className="flex items-center gap-3">
-                                    <div className="w-5 flex justify-center shrink-0">
+                                <div className="flex items-start gap-3">
+                                    <div className="w-5 flex justify-center shrink-0 pt-0.5">
                                         <MapPin size={14} className="text-slate-400" />
                                     </div>
-                                    <div className="flex items-center justify-between flex-1 gap-2">
-                                        <p className="text-[13px] xl:text-[13px] min-[1670px]:text-[14.5px] text-slate-600 font-medium leading-relaxed line-clamp-3">
-                                            {store.address}
-                                        </p>
+                                    <div className="flex items-start justify-between flex-1 gap-2">
+                                        <div className="flex flex-col min-w-0">
+                                            <p className="text-[13px] xl:text-[13px] min-[1670px]:text-[14.5px] text-slate-600 font-medium leading-relaxed line-clamp-3">
+                                                {store.address}
+                                            </p>
+                                            {distanceFormatted && (
+                                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 bg-blue-50/80 px-2 py-0.5 rounded-full border border-blue-200/60 w-fit mt-1">
+                                                    <Navigation size={10} className="fill-blue-600 text-blue-600" />
+                                                    {distanceFormatted} away
+                                                </span>
+                                            )}
+                                        </div>
                                         <button
                                             onClick={handleCopyAddress}
                                             className={cn(
@@ -255,7 +289,8 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <button
-                                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 group"
+                                    type="button"
+                                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"
                                 >
                                     <Share2 size={13} className="opacity-80" />
                                     <span>Share Store</span>
@@ -296,8 +331,12 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                         </DropdownMenu>
                         
                         <button
-                            onClick={() => onSeeOnMap?.(store)}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 group"
+                            type="button"
+                            onClick={(e) => {
+                                (e.currentTarget as HTMLElement).blur();
+                                onSeeOnMap?.(store);
+                            }}
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"
                         >
                             <MapPin size={13} className="opacity-80" />
                             <span>Zoom In Map</span>

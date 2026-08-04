@@ -233,8 +233,27 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                 setUserLocation([latitude, longitude]);
             }
         };
+        const handleLocateMe = () => {
+            if (!navigator.geolocation) {
+                toast({ title: "Geolocation error", description: "Your browser does not support location access", variant: "destructive" });
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+                },
+                () => {
+                    toast({ title: "Location denied", description: "Please enable location permissions in your browser.", variant: "destructive" });
+                }
+            );
+        };
+
+        window.addEventListener('locateMe', handleLocateMe);
         window.addEventListener('userLocationFound', handleUserLocationFound);
-        return () => window.removeEventListener('userLocationFound', handleUserLocationFound);
+        return () => {
+            window.removeEventListener('locateMe', handleLocateMe);
+            window.removeEventListener('userLocationFound', handleUserLocationFound);
+        };
     }, []);
 
     const handleUseLocation = () => {
@@ -393,7 +412,8 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         store={selectedStore} 
                                         onClose={() => setSelectedStore(null)} 
                                         onSeeOnMap={handleSeeOnMap}
-                                        variant="map" 
+                                        variant="map"
+                                        userLocation={userLocation} 
                                     />
                                 ) : (
                                     <div className="w-full h-full flex flex-col items-center justify-center text-center opacity-60">

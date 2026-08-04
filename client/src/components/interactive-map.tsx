@@ -234,7 +234,7 @@ interface InteractiveMapProps {
   variant?: "default" | "full" | "hero";
 }
 
-const FULL_MAP_BASE_STYLE: google.maps.MapTypeStyle[] = [
+const FULL_MAP_BASE_STYLE: any[] = [
   { featureType: 'water', stylers: [{ color: '#c8dff0' }] },
   { featureType: 'landscape.natural', stylers: [{ color: '#ffffff' }] },
   { featureType: 'landscape.man_made', stylers: [{ color: '#ffffff' }] },
@@ -246,17 +246,28 @@ const FULL_MAP_BASE_STYLE: google.maps.MapTypeStyle[] = [
   { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
   { featureType: 'administrative.locality', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
   { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#f0f4f8' }] },
-  { featureType: 'road', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#e8eff7' }] },
 ];
 
-const FULL_MAP_NO_LABELS: google.maps.MapTypeStyle[] = [
+const FULL_MAP_NO_LABELS: any[] = [
   ...FULL_MAP_BASE_STYLE,
   { elementType: 'labels', stylers: [{ visibility: 'off' }] },
 ];
 
-const FULL_MAP_WITH_LABELS: google.maps.MapTypeStyle[] = [
+const FULL_MAP_CITY_LABELS: any[] = [
   ...FULL_MAP_BASE_STYLE,
+  { featureType: 'road', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#475569' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 2 }] },
+];
+
+const FULL_MAP_STREET_LABELS: any[] = [
+  ...FULL_MAP_BASE_STYLE,
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#94a3b8' }] },
+  { featureType: 'road', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 3 }] },
+  { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#334155' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 3 }] },
 ];
 
 const HERO_MAP_STYLE = [
@@ -350,8 +361,14 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
     const applyZoomStyle = () => {
       const currentZoom = mapRef.getZoom() ?? 4;
+      let targetStyle = FULL_MAP_NO_LABELS;
+      if (currentZoom >= 12) {
+        targetStyle = FULL_MAP_STREET_LABELS;
+      } else if (currentZoom > 5) {
+        targetStyle = FULL_MAP_CITY_LABELS;
+      }
       mapRef.setOptions({
-        styles: isMobile || currentZoom <= 5 ? FULL_MAP_NO_LABELS : FULL_MAP_WITH_LABELS
+        styles: targetStyle
       });
     };
 
@@ -879,6 +896,21 @@ function MapSurfaceState({
 }: MapSurfaceStateProps) {
   const isHero = variant === "hero";
 
+  if (isLoading) {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center bg-slate-50/50 backdrop-blur-[2px] transition-opacity duration-300">
+        <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/95 shadow-[0_8px_30px_rgba(10,37,64,0.08)] border border-slate-200/80">
+          <div className="w-4 h-4 border-2 border-[#0057B7]/25 border-t-[#0057B7] rounded-full animate-spin shrink-0" />
+          <div className="flex items-center gap-1.5 px-0.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] animate-bounce [animation-delay:-0.3s]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] animate-bounce [animation-delay:-0.15s]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] animate-bounce" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -895,15 +927,10 @@ function MapSurfaceState({
       >
         <div
           className={cn(
-            "mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#0057B7]/10 bg-[#EFF6FF] text-[#0057B7]",
-            isLoading && "bg-white"
+            "mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#0057B7]/10 bg-[#EFF6FF] text-[#0057B7]"
           )}
         >
-          {isLoading ? (
-            <RefreshCw className="h-5 w-5 animate-spin" />
-          ) : (
-            <MapPin className="h-5 w-5" />
-          )}
+          <MapPin className="h-5 w-5" />
         </div>
 
         <h3
@@ -924,16 +951,14 @@ function MapSurfaceState({
           {description}
         </p>
 
-        {!isLoading && (
-          <p
-            className={cn(
-              "mt-4 font-sans text-slate-400",
-              isHero ? "text-[12px] leading-5" : "text-[13px] leading-6"
-            )}
-          >
-            Store listings are still available even when the map canvas is not.
-          </p>
-        )}
+        <p
+          className={cn(
+            "mt-4 font-sans text-slate-400",
+            isHero ? "text-[12px] leading-5" : "text-[13px] leading-6"
+          )}
+        >
+          Store listings are still available even when the map canvas is not.
+        </p>
       </div>
     </div>
   );

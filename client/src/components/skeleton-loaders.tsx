@@ -58,22 +58,21 @@ export function StoreListItemSkeleton() {
 // Map Section Skeleton
 export function MapSkeleton() {
     return (
-        <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-gray-100 to-gray-50 rounded-[20px] relative overflow-hidden">
+        <div className="w-full h-full min-h-[400px] bg-slate-50 relative overflow-hidden flex items-center justify-center">
             {/* Simulated map tiles */}
-            <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 gap-px opacity-30">
+            <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 gap-px opacity-20 pointer-events-none">
                 {Array.from({ length: 16 }).map((_, i) => (
-                    <Skeleton key={i} className="bg-gray-200" />
+                    <div key={i} className="bg-slate-200" />
                 ))}
             </div>
 
-            {/* Loading indicator */}
-            <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-12 h-12 mx-auto mb-4 relative">
-                        <div className="absolute inset-0 border-4 border-gray-200 rounded-full" />
-                        <div className="absolute inset-0 border-4 border-t-gray-400 rounded-full animate-spin" />
-                    </div>
-                    <p className="text-[14px] text-gray-500 font-ui">Loading map...</p>
+            {/* Subtle Round of Dots & Spinner Wheel Pill */}
+            <div className="relative z-10 flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/95 shadow-[0_8px_30px_rgba(10,37,64,0.08)] border border-slate-200/80">
+                <div className="w-4 h-4 border-2 border-[#0057B7]/25 border-t-[#0057B7] rounded-full animate-spin shrink-0" />
+                <div className="flex items-center gap-1.5 px-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] animate-bounce [animation-delay:-0.3s]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] animate-bounce [animation-delay:-0.15s]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0057B7] animate-bounce" />
                 </div>
             </div>
         </div>

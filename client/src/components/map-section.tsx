@@ -428,6 +428,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
           store={selectedStore}
           onClose={handleCloseStore}
           onSeeOnMap={handleSeeOnMap}
+          userLocation={userLocation}
         />
       )}
       {/* Premium Empty State Overlay */}

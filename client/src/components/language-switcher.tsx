@@ -26,9 +26,9 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             className="flex items-center gap-1.5 pl-2 pr-0 py-2 rounded-full hover:opacity-70 transition-opacity duration-200 outline-none group"
             aria-label="Change language"
           >
-            <Globe className="w-4 h-4 text-slate-500" strokeWidth={1.5} />
+            <Globe className="w-4 h-4 text-slate-800" strokeWidth={1.5} />
             <span className="flex items-center gap-1 text-[16px] leading-none mb-[1px]">
-              {currentOption.flag} <span className="text-[13px] font-semibold text-slate-600 tracking-normal">{currentOption.short}</span>
+              {currentOption.flag} <span className="text-[13px] font-semibold text-slate-800 tracking-normal">{currentOption.short}</span>
             </span>
           </button>
         </DropdownMenuTrigger>
