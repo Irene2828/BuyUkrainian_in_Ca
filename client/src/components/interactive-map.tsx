@@ -35,18 +35,18 @@ const MAP_TOOLTIP_CONTENT_CLASSNAME = "border-0 bg-white/60 px-4 py-2 text-[12px
 const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
 
 const PROVINCE_LABELS = [
-  { name: "BC", top: "50%", left: "7%" },
-  { name: "AB", top: "55%", left: "18%" },
-  { name: "SK", top: "57%", left: "28%" },
-  { name: "MB", top: "60%", left: "38%" },
-  { name: "ON", top: "69%", left: "54%" },
-  { name: "QC", top: "59%", left: "69%" },
-  { name: "NB", top: "77%", left: "77%" },
-  { name: "NS", top: "82%", left: "81%" },
-  { name: "NL", top: "53%", left: "84%" },
-  { name: "YT", top: "30%", left: "8%" },
-  { name: "NT", top: "30%", left: "20%" },
-  { name: "NU", top: "30%", left: "43%" },
+  { name: "BC", lat: 53.7, lng: -125.0, top: "58%", left: "10%" },
+  { name: "AB", lat: 52.3, lng: -114.5, top: "62%", left: "20%" },
+  { name: "SK", lat: 51.8, lng: -105.8, top: "64%", left: "30%" },
+  { name: "MB", lat: 51.0, lng: -97.0,  top: "66%", left: "40%" },
+  { name: "ON", lat: 48.0, lng: -85.0,  top: "74%", left: "55%" },
+  { name: "QC", lat: 51.5, lng: -71.5,  top: "64%", left: "70%" },
+  { name: "NB", lat: 46.5, lng: -66.3,  top: "80%", left: "77%" },
+  { name: "NS", lat: 45.0, lng: -63.0,  top: "84%", left: "81%" },
+  { name: "NL", lat: 53.5, lng: -60.0,  top: "58%", left: "84%" },
+  { name: "YT", lat: 63.5, lng: -135.0, top: "38%", left: "12%" },
+  { name: "NT", lat: 64.0, lng: -119.0, top: "38%", left: "24%" },
+  { name: "NU", lat: 64.0, lng: -95.0,  top: "36%", left: "46%" },
 ];
 
 const isValidCoord = (lat: number | null, lng: number | null) =>
@@ -571,26 +571,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
               anchor: new (window as any).google.maps.Point(8, 8),
             }}
           />
-        )}
+        <ProvinceLabelsOverlay isNationalZoom={isNationalZoom} variant={variant} />
       </Map>
-
-      {/* Provincial Labels Overlay - National Watermarks */}
-      {variant !== 'hero' && (
-        <div className={cn(
-          "absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out",
-          isNationalZoom ? "opacity-100" : "opacity-0"
-        )}>
-          {PROVINCE_LABELS.map((label) => (
-            <span
-              key={label.name}
-              className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased"
-              style={{ top: label.top, left: label.left }}
-            >
-              {label.name}
-            </span>
-          ))}
-        </div>
-      )}
 
 
 
@@ -879,6 +861,77 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   }, [selectedStore, scale]);
 
   return null;
+}
+
+function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: boolean; variant?: string }) {
+  const map = useMap();
+  const [positions, setPositions] = useState<{ [key: string]: { top: string; left: string } }>({});
+
+  useEffect(() => {
+    if (!map || variant === 'hero') return;
+
+    const updatePositions = () => {
+      const projection = map.getProjection();
+      const bounds = map.getBounds();
+      const mapDiv = map.getDiv();
+      const currentZoom = map.getZoom();
+
+      if (!projection || !bounds || !mapDiv || typeof currentZoom !== "number") return;
+
+      const rect = mapDiv.getBoundingClientRect();
+      const newPos: { [key: string]: { top: string; left: string } } = {};
+
+      PROVINCE_LABELS.forEach((label) => {
+        const point = projection.fromLatLngToPoint(
+          new (window as any).google.maps.LatLng(label.lat, label.lng)
+        );
+        const centerPoint = projection.fromLatLngToPoint(map.getCenter()!);
+        if (!point || !centerPoint) return;
+
+        const scale = Math.pow(2, currentZoom);
+        const x = (point.x - centerPoint.x) * scale + rect.width / 2;
+        const y = (point.y - centerPoint.y) * scale + rect.height / 2;
+
+        newPos[label.name] = {
+          left: `${x}px`,
+          top: `${y}px`,
+        };
+      });
+
+      setPositions(newPos);
+    };
+
+    updatePositions();
+
+    const listener = map.addListener("bounds_changed", updatePositions);
+    return () => {
+      listener.remove();
+    };
+  }, [map, variant]);
+
+  if (variant === 'hero') return null;
+
+  return (
+    <div
+      className={cn(
+        "absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out",
+        isNationalZoom ? "opacity-100" : "opacity-0"
+      )}
+    >
+      {PROVINCE_LABELS.map((label) => {
+        const pos = positions[label.name] || { top: label.top, left: label.left };
+        return (
+          <span
+            key={label.name}
+            className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
+            style={{ top: pos.top, left: pos.left }}
+          >
+            {label.name}
+          </span>
+        );
+      })}
+    </div>
+  );
 }
 
 interface MapSurfaceStateProps {
