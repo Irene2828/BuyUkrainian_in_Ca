@@ -281,6 +281,9 @@ const HERO_MAP_STYLE = [
   { featureType: 'water', stylers: [{ color: '#c8dff0' }] },
   { featureType: 'landscape.natural', stylers: [{ color: '#ffffff' }] },
   { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#b0c4d8' }, { weight: 1 }] },
+  { featureType: 'administrative.province', elementType: 'geometry.stroke', stylers: [{ color: '#c8d8e8' }, { weight: 0.5 }] },
+];
+
 function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: boolean; variant?: string }) {
   const map = useMap();
   const [positions, setPositions] = useState<{ [key: string]: { top: string; left: string } }>({});
