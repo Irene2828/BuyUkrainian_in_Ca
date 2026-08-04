@@ -281,8 +281,76 @@ const HERO_MAP_STYLE = [
   { featureType: 'water', stylers: [{ color: '#c8dff0' }] },
   { featureType: 'landscape.natural', stylers: [{ color: '#ffffff' }] },
   { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#b0c4d8' }, { weight: 1 }] },
-  { featureType: 'administrative.province', elementType: 'geometry.stroke', stylers: [{ color: '#c8d8e8' }, { weight: 0.5 }] },
-];
+function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: boolean; variant?: string }) {
+  const map = useMap();
+  const [positions, setPositions] = useState<{ [key: string]: { top: string; left: string } }>({});
+
+  useEffect(() => {
+    if (!map || variant === 'hero') return;
+
+    const updatePositions = () => {
+      const projection = map.getProjection();
+      const bounds = map.getBounds();
+      const mapDiv = map.getDiv();
+      const currentZoom = map.getZoom();
+
+      if (!projection || !bounds || !mapDiv || typeof currentZoom !== "number") return;
+
+      const rect = mapDiv.getBoundingClientRect();
+      const newPos: { [key: string]: { top: string; left: string } } = {};
+
+      PROVINCE_LABELS.forEach((label) => {
+        const point = projection.fromLatLngToPoint(
+          new (window as any).google.maps.LatLng(label.lat, label.lng)
+        );
+        const centerPoint = projection.fromLatLngToPoint(map.getCenter()!);
+        if (!point || !centerPoint) return;
+
+        const scale = Math.pow(2, currentZoom);
+        const x = (point.x - centerPoint.x) * scale + rect.width / 2;
+        const y = (point.y - centerPoint.y) * scale + rect.height / 2;
+
+        newPos[label.name] = {
+          left: `${x}px`,
+          top: `${y}px`,
+        };
+      });
+
+      setPositions(newPos);
+    };
+
+    updatePositions();
+
+    const listener = map.addListener("bounds_changed", updatePositions);
+    return () => {
+      listener.remove();
+    };
+  }, [map, variant]);
+
+  if (variant === 'hero') return null;
+
+  return (
+    <div
+      className={cn(
+        "absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out",
+        isNationalZoom ? "opacity-100" : "opacity-0"
+      )}
+    >
+      {PROVINCE_LABELS.map((label) => {
+        const pos = positions[label.name] || { top: label.top, left: label.left };
+        return (
+          <span
+            key={label.name}
+            className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
+            style={{ top: pos.top, left: pos.left }}
+          >
+            {label.name}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
 
 export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(({
   stores,
@@ -861,77 +929,6 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   }, [selectedStore, scale]);
 
   return null;
-}
-
-function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: boolean; variant?: string }) {
-  const map = useMap();
-  const [positions, setPositions] = useState<{ [key: string]: { top: string; left: string } }>({});
-
-  useEffect(() => {
-    if (!map || variant === 'hero') return;
-
-    const updatePositions = () => {
-      const projection = map.getProjection();
-      const bounds = map.getBounds();
-      const mapDiv = map.getDiv();
-      const currentZoom = map.getZoom();
-
-      if (!projection || !bounds || !mapDiv || typeof currentZoom !== "number") return;
-
-      const rect = mapDiv.getBoundingClientRect();
-      const newPos: { [key: string]: { top: string; left: string } } = {};
-
-      PROVINCE_LABELS.forEach((label) => {
-        const point = projection.fromLatLngToPoint(
-          new (window as any).google.maps.LatLng(label.lat, label.lng)
-        );
-        const centerPoint = projection.fromLatLngToPoint(map.getCenter()!);
-        if (!point || !centerPoint) return;
-
-        const scale = Math.pow(2, currentZoom);
-        const x = (point.x - centerPoint.x) * scale + rect.width / 2;
-        const y = (point.y - centerPoint.y) * scale + rect.height / 2;
-
-        newPos[label.name] = {
-          left: `${x}px`,
-          top: `${y}px`,
-        };
-      });
-
-      setPositions(newPos);
-    };
-
-    updatePositions();
-
-    const listener = map.addListener("bounds_changed", updatePositions);
-    return () => {
-      listener.remove();
-    };
-  }, [map, variant]);
-
-  if (variant === 'hero') return null;
-
-  return (
-    <div
-      className={cn(
-        "absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out",
-        isNationalZoom ? "opacity-100" : "opacity-0"
-      )}
-    >
-      {PROVINCE_LABELS.map((label) => {
-        const pos = positions[label.name] || { top: label.top, left: label.left };
-        return (
-          <span
-            key={label.name}
-            className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
-            style={{ top: pos.top, left: pos.left }}
-          >
-            {label.name}
-          </span>
-        );
-      })}
-    </div>
-  );
 }
 
 interface MapSurfaceStateProps {
