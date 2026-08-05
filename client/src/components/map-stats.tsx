@@ -33,7 +33,7 @@ export function MapStats() {
                         <AnimatedCounter
                             end={stats.stores}
                             duration={2000}
-                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-slate-500 leading-none antialiased tabular-nums"
+                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Found"}</span>
                     </div>
@@ -47,7 +47,7 @@ export function MapStats() {
                             end={stats.provinces}
                             duration={2000}
                             delay={200}
-                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-slate-500 leading-none antialiased tabular-nums"
+                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>{t("stats.provincesCovered") || "Provinces Covered"}</span>
                     </div>
@@ -61,7 +61,7 @@ export function MapStats() {
                             end={stats.products}
                             duration={2000}
                             delay={400}
-                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-slate-500 leading-none antialiased tabular-nums"
+                            className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>{t("stats.productsListed") || "Products Listed"}</span>
                     </div>

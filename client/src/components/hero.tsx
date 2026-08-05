@@ -12,6 +12,7 @@ import mapsIcon from "@/assets/maps.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import type { Store } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
+import flagsDecoration from "@assets/0008.png";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -190,7 +191,7 @@ export function Hero() {
 
                         <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.50rem,7.05vw,1.99rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.42rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
-                            <img src={mapsIcon} alt="" className="h-[5.2em] w-auto shrink-0 -mt-3.5 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
+                            <img src={mapsIcon} alt="" className="h-[5.5em] w-auto shrink-0 -mt-4 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                         </div>
                         <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] translate-y-0 text-left text-[15px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
@@ -249,7 +250,7 @@ export function Hero() {
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
             <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
-                <div className="w-full flex justify-start">
+                <div className="w-full flex justify-start h-full relative">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pt-[calc(4.8rem+4px)] md:pb-[calc(4.8rem+4px)]">
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative w-full min-[1280px]:pt-[clamp(30px,3.5vw,60px)]">
@@ -275,11 +276,11 @@ export function Hero() {
                                     
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-6">
-                                        <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%] gap-3">
-                                            {t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}
-                                            <img src={mapsIcon} alt="" className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-[45%] h-[3.8em] w-auto max-w-none" aria-hidden="true" />
+                                        <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
+                                            <span>{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
+                                            <img src={mapsIcon} alt="" className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-[40%] h-[5.2em] w-auto shrink-0 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                                         </span>
-                                        <p className="relative z-10 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85 md:whitespace-nowrap">
+                                        <p className="relative z-10 mt-6 md:mt-8 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85 md:whitespace-nowrap">
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
@@ -335,19 +336,21 @@ export function Hero() {
             </div>
             </div>
 
-            {/* Yellow offset backing block under/behind the map card */}
-            <motion.div
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[58%] w-[42%] min-[1440px]:right-[23px] min-[1440px]:w-[39.25%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]"
-            />
+            {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
+            <Suspense fallback={<div className="hidden md:block absolute right-[28px] top-1/2 h-[52%] w-[38%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] bottom-auto z-40 -translate-y-1/2 bg-white/50 animate-pulse rounded-xl shadow-lg" />}>
+                {/* Yellow offset backing block under/behind the map card */}
+                <motion.div
+                    initial={{ opacity: 0, x: -40, y: -40 }}
+                    animate={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                    className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[52%] w-[38%] min-[1440px]:right-[23px] min-[1440px]:w-[35%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]"
+                />
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="hidden md:block absolute right-[28px] top-1/2 h-[58%] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking"
+                initial={{ opacity: 0, y: 50, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                className="hidden md:block absolute right-[28px] top-1/2 h-[52%] w-[38%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking"
             >
                 {/* Hover Hint Label - positioned neatly under the map insert block, permanently shown with a nice entry fade */}
                 <motion.div 
@@ -357,7 +360,7 @@ export function Hero() {
                     transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
                     className="absolute -bottom-[2.75rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
                 >
-                    <span className="text-[12.5px] font-bold tracking-[0.40em] uppercase text-white/60 whitespace-nowrap font-sans antialiased drop-shadow-sm">
+                    <span className="text-[12.5px] font-bold tracking-[0.40em] uppercase text-white/60 whitespace-nowrap font-sans antialiased drop-shadow-sm pl-[0.40em]">
                         {t('hero.tapToExplore') || 'TAP TO EXPLORE THE MAP'}
                     </span>
                 </motion.div>
@@ -391,7 +394,6 @@ export function Hero() {
 
                             {shouldRenderHeroMap ? (
                                 <GoogleMapsProvider>
-                                    <Suspense fallback={<div className="w-full h-full bg-white animate-pulse" />}>
                                         <motion.div
                                             initial={{ opacity: 0, scale: 1 }}
                                             animate={{
@@ -414,7 +416,6 @@ export function Hero() {
                                                 isMobile={false}
                                             />
                                         </motion.div>
-                                    </Suspense>
                                 </GoogleMapsProvider>
                             ) : (
                                 <div className="w-full h-full bg-[linear-gradient(180deg,rgba(255,255,255,0.86)_0%,rgba(255,255,255,0.58)_35%,rgba(219,234,254,0.22)_100%)]" />
@@ -424,8 +425,14 @@ export function Hero() {
 
                 </div>
             </motion.div>
+            
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
-            <div className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[39.25%]">
+            <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+                className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[35%]"
+            >
                 <div className="w-full">
                     <div className="w-full">
                         <div className="flex h-full flex-col items-end gap-2 pr-6">
@@ -450,7 +457,8 @@ export function Hero() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
+            </Suspense>
         </section>
 
 
@@ -468,7 +476,7 @@ export function Hero() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] 2xl:text-[12.7px] min-[1670px]:text-[12.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[13.7px] 2xl:text-[14.7px] min-[1670px]:text-[14.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -497,7 +505,7 @@ export function Hero() {
                                     const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
                                     return (
                                         <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] 2xl:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
+                                            <span className="text-[15.6px] 2xl:text-[17.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
                                                 {store.name}
                                             </span>
                                         </div>
@@ -726,7 +734,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
                             </div>
-                            <span className="text-[11.7px] 2xl:text-[12.7px] min-[1670px]:text-[12.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[13.7px] 2xl:text-[14.7px] min-[1670px]:text-[14.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -751,7 +759,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[13.6px] 2xl:text-[15.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
+                                            <span className="text-[16.28px] min-[1024px]:max-[1440px]:text-[17.3px] min-[1670px]:text-[19.69px] font-normal text-slate-500 tracking-wide font-sans antialiased whitespace-nowrap">
                                                 {store.name}
                                             </span>
                                         </div>

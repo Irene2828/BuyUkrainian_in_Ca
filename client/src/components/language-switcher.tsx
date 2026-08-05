@@ -27,12 +27,13 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             aria-label="Change language"
           >
             <Globe className="w-4 h-4 text-slate-800" strokeWidth={1.5} />
-            <span className="flex items-center gap-1 text-[16px] leading-none mb-[1px]">
-              {currentOption.flag} <span className="text-[13px] font-semibold text-slate-800 tracking-normal">{currentOption.short}</span>
+            <span className="flex items-center gap-1.5 text-[16px] leading-none mb-[1px]">
+              <span className="text-[16px] leading-none" role="img" aria-label={currentOption.label}>{currentOption.flag}</span>
+              <span className="text-[13px] font-semibold text-slate-800 tracking-normal">{currentOption.short}</span>
             </span>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[150px] p-1.5 font-sans border-slate-100 shadow-xl shadow-slate-200/50">
+        <DropdownMenuContent align="end" className="w-[155px] p-1.5 font-sans border-slate-100 shadow-xl shadow-slate-200/50">
           {LANGUAGE_OPTIONS.map((option) => (
             <DropdownMenuItem
               key={option.code}
@@ -45,7 +46,10 @@ export function LanguageSwitcher({ className }: { className?: string }) {
               )}
             >
               <div className="flex items-center justify-between w-full">
-                <span>{option.label}</span>
+                <span className="flex items-center gap-2">
+                  <span className="text-[16px] leading-none" role="img" aria-label={option.label}>{option.flag}</span>
+                  <span>{option.label}</span>
+                </span>
                 <span className="text-[9px] font-bold tracking-wider text-slate-300 group-hover:text-white/80 group-focus:text-white/80 ml-2">{option.short}</span>
               </div>
             </DropdownMenuItem>
