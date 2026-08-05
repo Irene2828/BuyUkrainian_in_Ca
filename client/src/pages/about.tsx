@@ -23,7 +23,7 @@ export default function AboutPage() {
                 <span className="text-yellow-accent">Products</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                BuyUkrainian.ca is a grassroots non-profit initiative to help Ukraine’s economy by helping people find products from Ukraine in Canadian stores.
+                BuyUkrainian.ca is an independent, grassroots initiative aimed to support Ukraine’s economy by helping people find products from Ukraine in Canadian stores.
               </p>
             </div>
 

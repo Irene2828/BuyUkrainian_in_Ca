@@ -216,7 +216,7 @@ const en = {
     headingPrefix: "Connecting Canadians with",
     headingBlue: "Ukrainian",
     headingYellow: "Products",
-    intro: "BuyUkrainian.ca is a grassroots non-profit initiative to help Ukraine’s economy by helping people find products from Ukraine in Canadian stores.",
+    intro: "BuyUkrainian.ca is an independent, grassroots initiative aimed to support Ukraine’s economy by helping people find products from Ukraine in Canadian stores.",
     mission: {
       title: "Our mission",
       text: "We want it to be easier to find products made in Ukraine across Canada, from pantry staples and baked goods to gifts, books, and everyday essentials.",

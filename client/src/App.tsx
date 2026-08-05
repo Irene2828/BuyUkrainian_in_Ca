@@ -26,15 +26,24 @@ function RouteFallback() {
 }
 
 function Router() {
+  const isLocalhost = typeof window !== 'undefined' && 
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
   return (
     <Suspense fallback={<RouteFallback />}>
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/map" component={MapPage} />
         <Route path="/about" component={AboutPage} />
-        <Route path="/admin" component={AdminLogin} />
-        <Route path="/admin/login" component={AdminLogin} />
-        <Route path="/admin/dashboard" component={AdminDashboard} />
+        
+        {isLocalhost && (
+          <>
+            <Route path="/admin" component={AdminLogin} />
+            <Route path="/admin/login" component={AdminLogin} />
+            <Route path="/admin/dashboard" component={AdminDashboard} />
+          </>
+        )}
+        
         <Route path="/test-lab" component={TestLab} />
         <Route component={NotFound} />
       </Switch>

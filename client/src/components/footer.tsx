@@ -1,12 +1,17 @@
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useI18n } from "@/lib/i18n";
-import { AccessibilityToggle } from "@/components/ui/accessibility-toggle";
+import { LegalModal } from "./legal-modals";
 
 export function Footer() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [location] = useLocation();
+  const [modalType, setModalType] = useState<"terms" | "privacy" | "accessibility" | null>(null);
+
+  const isFr = locale === 'fr';
 
   return (
+    <>
     <footer className="bg-[#00377D] text-[#E2E8F0] font-sans overflow-hidden py-8 md:py-12 antialiased">
       <div className="content-width">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
@@ -33,10 +38,11 @@ export function Footer() {
               <div className="flex flex-col items-start justify-start">
                 <nav className="flex flex-col gap-2.5" aria-label="Contact Links">
                   <a 
-                    href="mailto:hello@buyukrainian.ca" 
-                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                    href="#" 
+                    onClick={(e) => e.preventDefault()}
+                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0]/50 cursor-not-allowed transition-colors duration-200"
                   >
-                    Email Us
+                    {isFr ? 'Nous écrire' : 'Email Us'}
                   </a>
                 </nav>
               </div>
@@ -44,21 +50,24 @@ export function Footer() {
               {/* Legal Column */}
               <div className="flex flex-col items-start justify-start">
                 <nav className="flex flex-col gap-2.5" aria-label="Legal Links">
-                  <Link 
-                    href="/privacy" 
-                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                  <button 
+                    onClick={() => setModalType("terms")}
+                    className="text-[15px] text-left font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
                   >
-                    {t('common.labels.privacyPolicy') || 'Privacy Policy'}
-                  </Link>
-                  <div className="flex items-center">
-                    <AccessibilityToggle className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] p-0 h-auto bg-transparent border-none transition-colors duration-200 cursor-pointer" />
-                  </div>
-                  <Link 
-                    href="/admin/login" 
-                    className="text-[15px] font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200"
+                    {isFr ? 'Conditions et politique des fiches' : 'Terms & Listing Policy'}
+                  </button>
+                  <button 
+                    onClick={() => setModalType("privacy")}
+                    className="text-[15px] text-left font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
                   >
-                    {t('common.labels.adminAccess') || 'Admin Access'}
-                  </Link>
+                    {isFr ? 'Confidentialité' : 'Privacy'}
+                  </button>
+                  <button 
+                    onClick={() => setModalType("accessibility")}
+                    className="text-[15px] text-left font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
+                  >
+                    {isFr ? 'Accessibilité' : 'Accessibility'}
+                  </button>
                 </nav>
               </div>
             </div>
@@ -68,5 +77,12 @@ export function Footer() {
         </div>
       </div>
     </footer>
+
+    <LegalModal 
+      open={modalType !== null} 
+      onOpenChange={(open) => !open && setModalType(null)} 
+      type={modalType} 
+    />
+    </>
   );
 }

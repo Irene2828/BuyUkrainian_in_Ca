@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
+import { LocationPermissionModal } from "./location-permission-modal";
 
 const PROVINCE_MAP: Record<string, string> = {
     "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
@@ -70,6 +71,8 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [provinceSearchQuery, setProvinceSearchQuery] = useState("");
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+    const [hasPromptedLocation, setHasPromptedLocation] = useState(false);
+    const [showLocationPrompt, setShowLocationPrompt] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const [showLocateHint, setShowLocateHint] = useState(false);
     const [tipMinimized, setTipMinimized] = useState(false);
@@ -238,14 +241,11 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                 toast({ title: "Geolocation error", description: "Your browser does not support location access", variant: "destructive" });
                 return;
             }
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    setUserLocation([pos.coords.latitude, pos.coords.longitude]);
-                },
-                () => {
-                    toast({ title: "Location denied", description: "Please enable location permissions in your browser.", variant: "destructive" });
-                }
-            );
+            if (!hasPromptedLocation) {
+                setShowLocationPrompt(true);
+                return;
+            }
+            executeLocateMe();
         };
 
         window.addEventListener('locateMe', handleLocateMe);
@@ -254,14 +254,31 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             window.removeEventListener('locateMe', handleLocateMe);
             window.removeEventListener('userLocationFound', handleUserLocationFound);
         };
-    }, []);
+    }, [hasPromptedLocation]);
+
+    const executeLocateMe = () => {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => setUserLocation([pos.coords.latitude, pos.coords.longitude]),
+            () => toast({ title: "Location denied", description: "Please enable location permissions in your browser.", variant: "destructive" })
+        );
+    };
 
     const handleUseLocation = () => {
         if (!navigator.geolocation) return;
-        navigator.geolocation.getCurrentPosition(
-            (pos) => setUserLocation([pos.coords.latitude, pos.coords.longitude]),
-            () => toast({ title: "Error", description: "Location access denied", variant: "destructive" })
-        );
+        if (!hasPromptedLocation) {
+            setShowLocationPrompt(true);
+            return;
+        }
+        executeLocateMe();
+    };
+
+    const handleLocationPromptContinue = () => {
+        setHasPromptedLocation(true);
+        executeLocateMe();
+    };
+
+    const handleLocationPromptCancel = () => {
+        setHasPromptedLocation(true); // Don't ask again this session
     };
 
     const provincesFiltered = ["All Provinces", ...CANADIAN_PROVINCES].filter(p => p.toLowerCase().includes(provinceSearchQuery.toLowerCase()));
@@ -486,6 +503,13 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
             </div>
 
             {/* Dialog removed in favor of GlobalAddStoreModal */}
+
+            <LocationPermissionModal 
+                open={showLocationPrompt} 
+                onOpenChange={setShowLocationPrompt} 
+                onContinue={handleLocationPromptContinue} 
+                onCancel={handleLocationPromptCancel} 
+            />
         </div>
     );
 }

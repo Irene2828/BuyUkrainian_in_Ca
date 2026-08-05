@@ -216,7 +216,7 @@ const frCA = {
     headingPrefix: "Aider les gens au Canada à trouver des",
     headingBlue: "produits",
     headingYellow: "ukrainiens",
-    intro: "BuyUkrainian.ca est une plateforme portée par la communauté pour aider les gens au Canada à découvrir des produits fabriqués en Ukraine et à soutenir les commerces qui les mettent en rayon.",
+    intro: "BuyUkrainian.ca est une initiative citoyenne et indépendante visant à soutenir l'économie de l'Ukraine en aidant les gens à trouver des produits d'Ukraine dans les magasins canadiens.",
     mission: {
       title: "Notre mission",
       text: "Nous voulons rendre la recherche de produits fabriqués en Ukraine plus simple partout au Canada — des essentiels d'épicerie aux cadeaux, livres et objets du quotidien.",
