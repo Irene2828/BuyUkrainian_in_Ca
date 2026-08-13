@@ -10,7 +10,7 @@ import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/c
 
 import newLogo from "@/assets/newlogo.png";
 import logoJuly29 from "@/assets/logo-july29.png";
-import flagsLogo from "@assets/logo8.png";
+import flagsLogo from "@assets/buy_ukrainian_in_canada_exact_vector_fixed8.svg";
 
 export function Header() {
   const [location] = useLocation();
@@ -68,7 +68,7 @@ export function Header() {
             <img 
               src={flagsLogo} 
               alt="BuyUkrainian.ca" 
-              className="h-[59px] min-[1024px]:h-[65px] min-[1670px]:h-[74px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+              className="h-[65px] min-[1024px]:h-[72px] min-[1670px]:h-[81px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
           <div className="hidden lg:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
