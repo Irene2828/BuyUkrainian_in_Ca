@@ -5,7 +5,7 @@ export function AboutProject({ className }: { className?: string }) {
   const { t } = useTranslation();
 
   return (
-    <section id="about" className={cn("relative bg-white pt-20 pb-24 md:pt-24 md:pb-32 font-sans overflow-hidden", className)}>
+    <section id="about" className={cn("relative bg-white pt-10 pb-24 md:pt-12 md:pb-32 font-sans overflow-hidden", className)}>
       <div className="content-width flex flex-col justify-center items-center">
         {/* Simple Text Container */}
         <div className="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center text-center">

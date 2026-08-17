@@ -41,8 +41,6 @@ export default function Home() {
           <MapStats />
         </div>
 
-        <div className="h-px w-full bg-[#0057B7]/10" aria-hidden="true" />
-
         <div className="section-reveal bg-white">
           <AboutProject className="!pb-12 md:!pb-16" />
         </div>
@@ -56,16 +54,12 @@ export default function Home() {
           <FAQ />
         </div>
 
-        <div className="h-px w-full bg-[#0057B7]/10" aria-hidden="true" />
-
         {/* 3. Transition into Community Impact */}
         <div className="section-reveal relative bg-white">
           <div className="relative z-10">
             <CommunityImpact />
           </div>
         </div>
-
-        <div className="h-px w-full bg-[#0057B7]/10" aria-hidden="true" />
 
         <div className="section-reveal bg-white">
           <AddStoreCTA />

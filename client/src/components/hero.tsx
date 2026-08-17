@@ -36,22 +36,6 @@ const getHeroVariantFromUrl = (): HeroVariant => {
     return rawVariant === "b" || rawVariant === "variant-b" || rawVariant === "version-b" ? "b" : "a";
 };
 
-const PROVINCE_NAME_TO_ABBR: Record<string, string> = {
-    Alberta: "AB",
-    "British Columbia": "BC",
-    Manitoba: "MB",
-    "New Brunswick": "NB",
-    "Newfoundland and Labrador": "NL",
-    "Nova Scotia": "NS",
-    Ontario: "ON",
-    "Prince Edward Island": "PE",
-    Quebec: "QC",
-    Saskatchewan: "SK",
-    "Northwest Territories": "NT",
-    Nunavut: "NU",
-    Yukon: "YT",
-};
-
 export function Hero() {
     const [, setLocation] = useLocation();
     const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(true);
@@ -165,16 +149,16 @@ export function Hero() {
         <>
                 <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
-            className="flex-1 relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:min-h-[calc(100svh-73px)] md:py-[2.5vh] animate-in fade-in duration-700"
+            className="hero-desktop-frame flex-none relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:pt-[2.5vh] md:pb-[1.75vh] animate-in fade-in duration-700"
         >
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[linear-gradient(90deg,rgba(0,87,183,0.14)_0%,rgba(0,87,183,0.18)_32%,rgba(255,255,255,0.18)_52%,rgba(255,255,255,0.26)_100%)] md:block" aria-hidden="true" />
-
+            <HeroTickerRow stores={stores} />
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
                 <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-6 pb-3 text-white [@media(max-height:700px)]:pt-5 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <div className="relative z-10">
                         <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
 
+                        <div className="translate-y-[3vh]">
                         <h1
                             className="relative z-10 max-w-full text-[clamp(2.28rem,11.59vw,3.17rem)] font-[900] uppercase leading-[1.02] tracking-[-0.02em] antialiased [@media(max-height:700px)]:text-[2.45rem]"
                              style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
@@ -192,6 +176,7 @@ export function Hero() {
                         <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.50rem,7.05vw,1.99rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.42rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
                             <img src={mapsIcon} alt="" className="h-[5.5em] w-auto shrink-0 -mt-4 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
+                        </div>
                         </div>
                         <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] translate-y-0 text-left text-[15px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
@@ -249,7 +234,7 @@ export function Hero() {
                 </Link>
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
-            <div className="boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
+            <div className="hero-desktop-copy-layer boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full flex justify-start h-full relative">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pt-[calc(4.8rem+4px)] md:pb-[calc(4.8rem+4px)]">
                     <div className="relative z-10 flex w-full flex-col items-start">
@@ -261,13 +246,13 @@ export function Hero() {
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
                                         <span 
-                                            className="block w-full text-left font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.8rem] tracking-[-0.02em] mb-0 text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
+                                            className="hero-headline-line block w-full text-left font-sans font-[900] text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.384rem] tracking-[-0.02em] mb-0 text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
                                         >
                                             {t('hero.headline.discover') || "DISCOVER"}
                                         </span>
                                         <div className="md:ml-0 flex w-full justify-start">
                                             <span 
-                                                className="relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.5rem,8.8vw,3.5rem)] md:text-[3.04rem] lg:text-[3.63rem] tracking-[-0.02em] mb-1 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
+                                                className="hero-headline-line relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.232rem] tracking-[-0.02em] mb-1 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
                                             >
                                                 {t('hero.headline.ukrainianProducts') || "UKRAINIAN PRODUCTS"}
                                             </span>
@@ -275,12 +260,12 @@ export function Hero() {
                                     </h1>
                                     
                                     {/* Subline and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-6">
-                                        <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.638rem,5.46vw,2.0475rem)] md:text-[1.7955rem] lg:text-[2.331rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
+                                    <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4 md:gap-5">
+                                        <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
                                             <span>{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
                                             <img src={mapsIcon} alt="" className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-[40%] h-[5.2em] w-auto shrink-0 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                                         </span>
-                                        <p className="relative z-10 mt-6 md:mt-8 max-w-none translate-y-[calc(1vh+8px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85 md:whitespace-nowrap">
+                                        <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85 md:whitespace-nowrap">
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
@@ -337,20 +322,20 @@ export function Hero() {
             </div>
 
             {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
-            <Suspense fallback={<div className="hidden md:block absolute right-[28px] top-1/2 h-[52%] w-[38%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] bottom-auto z-40 -translate-y-1/2 bg-white/50 animate-pulse rounded-xl shadow-lg" />}>
+            <Suspense fallback={<div className="hidden md:block absolute right-[28px] top-1/2 h-[57.2%] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 bg-white/50 animate-pulse rounded-xl shadow-lg" />}>
                 {/* Yellow offset backing block under/behind the map card */}
                 <motion.div
                     initial={{ opacity: 0, x: -40, y: -40 }}
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-                    className="hidden md:block absolute right-[12px] top-[calc(50%+16px)] h-[52%] w-[38%] min-[1440px]:right-[23px] min-[1440px]:w-[35%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]"
+                    className="hero-map-backing hidden md:block absolute right-[12px] top-[calc(45%+16px)] h-[57.2%] w-[41.8%] min-[1440px]:right-[23px] min-[1440px]:w-[38.5%] bottom-auto z-30 -translate-y-1/2 bg-[#FFD700]"
                 />
 
             <motion.div
                 initial={{ opacity: 0, y: 50, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="hidden md:block absolute right-[28px] top-1/2 h-[52%] w-[38%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking"
+                className="hero-map-insert hidden md:block absolute right-[28px] top-[45%] h-[57.2%] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 select-none border-none outline-none group/map-peeking"
             >
                 {/* Hover Hint Label - positioned neatly under the map insert block, permanently shown with a nice entry fade */}
                 <motion.div 
@@ -360,7 +345,7 @@ export function Hero() {
                     transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
                     className="absolute -bottom-[2.75rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
                 >
-                    <span className="text-[12.5px] font-bold tracking-[0.40em] uppercase text-white/60 whitespace-nowrap font-sans antialiased drop-shadow-sm pl-[0.40em]">
+                    <span className="text-[11.875px] font-bold tracking-[0.40em] uppercase text-white/48 whitespace-nowrap font-sans antialiased drop-shadow-sm pl-[0.40em]">
                         {t('hero.tapToExplore') || 'TAP TO EXPLORE THE MAP'}
                     </span>
                 </motion.div>
@@ -431,7 +416,7 @@ export function Hero() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-                className="hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[35%]"
+                className="hero-map-pillars hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[35%]"
             >
                 <div className="w-full">
                     <div className="w-full">
@@ -465,59 +450,6 @@ export function Hero() {
 
 
 
-        {/* Live Submissions Marquee Row — Combined label and ticker */}
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[18%]">
-            <div className="boutique-width">
-                <div className="transition-all duration-300 w-full">
-                    <div className="flex h-full items-center justify-between gap-6">
-                        {/* "ADDED RECENTLY" Label */}
-                        <div className="shrink-0 flex items-center gap-2 z-10 select-none">
-                            <div className="relative flex h-[5px] w-[5px] items-center justify-center">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
-                            </div>
-                            <span className="text-[13.7px] 2xl:text-[14.7px] min-[1670px]:text-[14.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
-                                {t('hero.addedRecently') || 'ADDED RECENTLY'}
-                            </span>
-                        </div>
-
-                    {/* Scrolling Ticker — masked for smooth transition */}
-                    <div 
-                        className="flex-1 overflow-hidden pointer-events-none"
-                        style={{
-                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
-                            maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)'
-                        }}
-                    >
-                        <div className="flex whitespace-nowrap overflow-hidden">
-                            <motion.div 
-                                className="flex shrink-0 items-center will-change-transform"
-                                initial={{ x: 0 }}
-                                animate={{ x: "-50%" }}
-                                transition={{ 
-                                    duration: 110, 
-                                    repeat: Infinity, 
-                                    ease: "linear",
-                                    repeatType: "loop"
-                                }}
-                            >
-                                {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => {
-                                    const provinceAbbr = PROVINCE_NAME_TO_ABBR[store.province] || store.province;
-                                    return (
-                                        <div key={`${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[15.6px] 2xl:text-[17.6px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased">
-                                                {store.name}
-                                            </span>
-                                        </div>
-                                    );
-                                })}
-                            </motion.div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         </div>
 
         </>
@@ -540,9 +472,7 @@ function HeroVariantB({
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
                 <section className="relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
-                    <div className="pointer-events-none absolute inset-x-0 top-0 z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-[4rem] z-[80] hidden h-px bg-[#0057B7]/20 md:block" aria-hidden="true" />
-
+                    <HeroTickerRow stores={stores} />
                     <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-sans">
                         <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
                             <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
@@ -715,7 +645,6 @@ function HeroVariantB({
                     </div>
                 </section>
 
-                <HeroTickerRow stores={stores} />
             </div>
         </>
     );
@@ -724,17 +653,17 @@ function HeroVariantB({
 function HeroTickerRow({ stores }: { stores: Store[] }) {
     const { t } = useI18n();
     return (
-        <div className="hidden md:block z-20 mt-auto py-4 w-full relative bg-white -translate-y-[18%]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent py-2 md:py-3">
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
-                    <div className="flex h-full items-center justify-between gap-6">
+                    <div className="flex h-full items-center justify-between gap-4 md:gap-6">
                         {/* "ADDED RECENTLY" Label */}
                         <div className="shrink-0 flex items-center gap-2 z-10 select-none">
-                            <div className="relative flex h-[5px] w-[5px] items-center justify-center">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-[5px] w-[5px] bg-[#FFD700]"></span>
+                            <div className="hero-ticker-dot relative flex h-[7px] w-[7px] items-center justify-center">
+                                <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
+                                <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[13.7px] 2xl:text-[14.7px] min-[1670px]:text-[14.95px] font-bold tracking-widest text-slate-600/95 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[10px] md:text-[11px] 2xl:text-[11.8px] min-[1670px]:text-[12px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -758,8 +687,8 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                     }}
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
-                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[16.28px] min-[1024px]:max-[1440px]:text-[17.3px] min-[1670px]:text-[19.69px] font-normal text-slate-500 tracking-wide font-sans antialiased whitespace-nowrap">
+                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
+                                            <span className="text-[11.2px] md:text-[13px] min-[1024px]:max-[1440px]:text-[13.8px] min-[1670px]:text-[15.75px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>

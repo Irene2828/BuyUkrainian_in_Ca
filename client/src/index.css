@@ -1423,6 +1423,152 @@ html.dark .city-labels-layer {
   box-shadow: 0 8px 24px rgba(10, 37, 64, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
+@keyframes heroTickerDotPulse {
+  0% {
+    opacity: 0.68;
+    transform: scale(0.86);
+  }
+  58% {
+    opacity: 0.12;
+    transform: scale(2.45);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.85);
+  }
+}
+
+.hero-ticker-dot-ring {
+  animation: heroTickerDotPulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  box-shadow: 0 0 14px rgba(255, 215, 0, 0.42);
+}
+
+/* Desktop hero frame lock
+   Keeps the art-directed desktop composition intact while scaling it down
+   for small laptops and tablets before the dedicated mobile layout takes over. */
+@media (min-width: 768px) {
+  .hero-desktop-frame {
+    height: calc(100svh - 73px);
+    min-height: 590px;
+  }
+
+  .hero-desktop-copy-layer,
+  .hero-map-insert,
+  .hero-map-backing {
+    transform-origin: center;
+  }
+
+  .hero-desktop-copy-layer {
+    transform: translateY(5%);
+  }
+
+  .hero-desktop-frame .hero-canopy-safe-content {
+    justify-content: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .hero-desktop-frame .hero-text-align {
+    margin-top: 0 !important;
+    transform: none !important;
+  }
+
+  .hero-map-insert {
+    top: 55% !important;
+  }
+
+  .hero-map-backing {
+    top: calc(55% + 16px) !important;
+  }
+
+  .hero-map-pillars {
+    top: calc(55% - 29% + 24px) !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .hero-desktop-frame {
+    height: clamp(470px, calc(100svh - 73px), 620px);
+    min-height: clamp(470px, calc(100svh - 73px), 620px);
+  }
+
+  .hero-desktop-copy-layer {
+    transform: translateY(5%) scale(0.78);
+    transform-origin: left center;
+    width: 128%;
+  }
+
+  .hero-map-insert {
+    right: 18px !important;
+    top: 55% !important;
+    width: 43% !important;
+    height: 42% !important;
+  }
+
+  .hero-map-backing {
+    right: 5px !important;
+    top: calc(55% + 12px) !important;
+    width: 43% !important;
+    height: 42% !important;
+  }
+
+  .hero-headline-line {
+    font-size: clamp(2.115rem, 7.443vw, 2.96rem) !important;
+  }
+
+  .hero-description-copy {
+    max-width: 360px !important;
+    white-space: normal !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .hero-desktop-frame {
+    height: clamp(520px, calc(100svh - 73px), 700px);
+    min-height: clamp(520px, calc(100svh - 73px), 700px);
+  }
+
+  .hero-desktop-copy-layer {
+    transform: translateY(5%) scale(0.88);
+    transform-origin: left center;
+    width: 114%;
+  }
+
+  .hero-map-insert {
+    right: 24px !important;
+    top: 55% !important;
+    width: 42% !important;
+    height: 45% !important;
+  }
+
+  .hero-map-backing {
+    right: 8px !important;
+    top: calc(55% + 14px) !important;
+    width: 42% !important;
+    height: 45% !important;
+  }
+
+  .hero-headline-line {
+    font-size: 3.063rem !important;
+  }
+
+  .hero-description-copy {
+    max-width: 460px !important;
+    white-space: normal !important;
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1439.98px) {
+  .hero-desktop-frame {
+    height: calc(100svh - 73px);
+    min-height: 590px;
+  }
+}
+
 /* Google Places Autocomplete inside Radix dialogs */
 .pac-container {
   z-index: 2200 !important;

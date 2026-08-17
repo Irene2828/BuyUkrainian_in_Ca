@@ -38,9 +38,6 @@ export function MapStats() {
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Found"}</span>
                     </div>
 
-                    {/* Diagonal Divider 1 */}
-                    <div className="hidden md:block w-[2px] h-[90px] bg-[#0057B7] rotate-[15deg]" aria-hidden="true" />
-
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
                         <Map className="w-[24px] h-[24px] text-slate-500 mb-1" strokeWidth={1.25} />
                         <AnimatedCounter
@@ -51,9 +48,6 @@ export function MapStats() {
                         />
                         <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>{t("stats.provincesCovered") || "Provinces Covered"}</span>
                     </div>
-
-                    {/* Diagonal Divider 2 */}
-                    <div className="hidden md:block w-[2px] h-[90px] bg-[#0057B7] rotate-[15deg]" aria-hidden="true" />
 
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
                         <Package className="w-[24px] h-[24px] text-slate-500 mb-1" strokeWidth={1.25} />
