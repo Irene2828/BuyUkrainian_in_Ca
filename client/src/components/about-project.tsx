@@ -8,9 +8,9 @@ export function AboutProject({ className }: { className?: string }) {
     <section id="about" className={cn("relative bg-white pt-10 pb-24 md:pt-12 md:pb-32 font-sans overflow-hidden", className)}>
       <div className="content-width flex flex-col justify-center items-center">
         {/* Simple Text Container */}
-        <div className="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center text-center">
+        <div className="about-arrive text-reveal relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center text-center">
           <div
-            className="text-reveal flex flex-col items-center"
+            className="flex flex-col items-center"
           >
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-sans">
               {t("faq.title") || "ABOUT THE PROJECT"}

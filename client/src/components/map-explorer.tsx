@@ -307,7 +307,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
             <div
                 className={cn(
-                    "w-full relative bg-white border-y border-slate-200",
+                    "map-explorer-frame w-full relative bg-white border-y border-slate-200",
                     isZenMode
                         ? "h-screen overflow-hidden"
                         : "h-[calc(100vh-96px)] min-h-[540px] max-h-[760px] overflow-hidden md:h-[85vh] md:max-h-[900px]"

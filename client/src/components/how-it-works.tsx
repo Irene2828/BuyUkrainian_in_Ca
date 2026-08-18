@@ -23,11 +23,11 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="font-sans overflow-hidden bg-white">
-      <div className="w-full flex flex-col md:flex-row">
+    <section id="how-it-works" className="font-sans overflow-hidden bg-white md:bg-[linear-gradient(to_right,#FFD700_0%,#FFD700_38%,#0057B7_38%,#0057B7_100%)]">
+      <div className="content-width flex flex-col md:flex-row">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
-        <div className="w-full md:w-[38%] bg-[#FFD700] px-5 py-10 md:p-8 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
+        <div className="how-it-works-image-panel w-full md:w-[38%] bg-[#FFD700] px-5 py-10 md:p-8 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
           {/* White Photo Frame - Centered with barely visible shadow */}
           <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative">
             <img 
@@ -39,7 +39,7 @@ export function HowItWorks() {
         </div>
 
         {/* Right Column: Blue Block (Text) - 62% width */}
-        <div className="w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-10 md:gap-8 justify-center items-center">
+        <div className="how-it-works-copy-panel w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-10 md:gap-8 justify-center items-center">
           {steps.map((step, index) => (
             <div
               key={index}

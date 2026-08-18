@@ -66,7 +66,7 @@ export function Header() {
         <div className="flex-1 flex items-center justify-start gap-1.5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800"
+            className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-[#0057B7] hover:text-[#004494]"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
@@ -109,7 +109,7 @@ export function Header() {
                   role="button"
                   tabIndex={0}
                   onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                  className={cn(HEADER_NAV_LINK_CLASSNAME, "cursor-pointer outline-none flex items-center gap-1 font-semibold text-slate-950")}
+                  className={cn(HEADER_NAV_LINK_CLASSNAME, "cursor-pointer outline-none flex items-center gap-1 font-semibold")}
                 >
                   <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
                   <span>{t('nav.addStore') || 'Add Stores'}</span>
@@ -122,11 +122,11 @@ export function Header() {
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-1.5">
           {location === '/map' ? (
-            <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800 no-underline">
+            <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-[#0057B7] hover:text-[#004494] no-underline">
               <span className="text-[14px] font-normal">{t('nav.home')}</span>
             </Link>
           ) : (
-            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-800 no-underline">
+            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-[#0057B7] hover:text-[#004494] no-underline">
               <MapPin className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>
             </Link>

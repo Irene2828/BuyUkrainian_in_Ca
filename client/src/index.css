@@ -696,6 +696,14 @@ html.dark header.bg-white\/90 {
   will-change: auto;
 }
 
+.about-arrive {
+  transform: translate3d(0, 32px, 0) scale(0.985);
+}
+
+.about-arrive.is-visible {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
 /* The share composition is the one intentional visual block transition. */
 .share-slide-left,
 .share-slide-right {
@@ -1155,6 +1163,12 @@ html.dark .city-labels-layer {
   .boutique-width, .utility-width {
     padding-inline: 2.5rem;
   }
+
+  .content-width {
+    max-width: var(--boutique-max-width, 1640px);
+    padding-inline: 2.5rem;
+  }
+
   :root {
     --boutique-max-width: 1640px;
     --content-max-width: 1476px;
@@ -1447,8 +1461,13 @@ html.dark .city-labels-layer {
    Keeps the art-directed desktop composition intact while scaling it down
    for small laptops and tablets before the dedicated mobile layout takes over. */
 @media (min-width: 768px) {
+  :root {
+    --hero-content-gutter: max(0px, calc((100vw - var(--content-max-width, 1260px)) / 2));
+    --hero-content-inset: calc(var(--hero-content-gutter) + clamp(1.5rem, 5vw, 4rem));
+  }
+
   .hero-desktop-frame {
-    height: calc(100svh - 73px);
+    height: clamp(590px, min(calc(100svh - 73px), 53vw), 880px);
     min-height: 590px;
   }
 
@@ -1474,22 +1493,25 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    top: 55% !important;
+    right: calc(var(--hero-content-inset) + 28px) !important;
+    top: 60% !important;
   }
 
   .hero-map-backing {
-    top: calc(55% + 16px) !important;
+    right: calc(var(--hero-content-inset) + 12px) !important;
+    top: calc(60% + 16px) !important;
   }
 
   .hero-map-pillars {
-    top: calc(55% - 29% + 24px) !important;
+    right: calc(var(--hero-content-inset) + 28px) !important;
+    top: calc(60% - 29% + 24px) !important;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1023.98px) {
   .hero-desktop-frame {
-    height: clamp(470px, calc(100svh - 73px), 620px);
-    min-height: clamp(470px, calc(100svh - 73px), 620px);
+    height: clamp(470px, min(calc(100svh - 73px), 60vw), 620px);
+    min-height: clamp(470px, min(calc(100svh - 73px), 60vw), 620px);
   }
 
   .hero-desktop-copy-layer {
@@ -1499,16 +1521,16 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: 18px !important;
-    top: 55% !important;
-    width: 43% !important;
+    right: calc(var(--hero-content-inset) + 18px) !important;
+    top: 60% !important;
+    width: 38.7% !important;
     height: 42% !important;
   }
 
   .hero-map-backing {
-    right: 5px !important;
-    top: calc(55% + 12px) !important;
-    width: 43% !important;
+    right: calc(var(--hero-content-inset) + 5px) !important;
+    top: calc(60% + 12px) !important;
+    width: 38.7% !important;
     height: 42% !important;
   }
 
@@ -1526,8 +1548,8 @@ html.dark .city-labels-layer {
 
 @media (min-width: 1024px) and (max-width: 1279.98px) {
   .hero-desktop-frame {
-    height: clamp(520px, calc(100svh - 73px), 700px);
-    min-height: clamp(520px, calc(100svh - 73px), 700px);
+    height: clamp(520px, min(calc(100svh - 73px), 56vw), 700px);
+    min-height: clamp(520px, min(calc(100svh - 73px), 56vw), 700px);
   }
 
   .hero-desktop-copy-layer {
@@ -1537,17 +1559,32 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: 24px !important;
-    top: 55% !important;
-    width: 42% !important;
+    right: calc(var(--hero-content-inset) + 24px) !important;
+    top: 60% !important;
+    width: 35% !important;
     height: 45% !important;
   }
 
   .hero-map-backing {
-    right: 8px !important;
-    top: calc(55% + 14px) !important;
-    width: 42% !important;
+    right: calc(var(--hero-content-inset) + 8px) !important;
+    top: calc(60% + 14px) !important;
+    width: 35% !important;
     height: 45% !important;
+  }
+
+  .hero-map-pillars {
+    right: calc(var(--hero-content-inset) + 38px) !important;
+    top: calc(60% - 22% + 18px) !important;
+    width: 32% !important;
+  }
+
+  .hero-map-pillar-card {
+    padding: 8px 14px !important;
+  }
+
+  .hero-map-pillar-text {
+    font-size: 8.75px !important;
+    letter-spacing: 0.18em !important;
   }
 
   .hero-headline-line {
@@ -1564,8 +1601,52 @@ html.dark .city-labels-layer {
 
 @media (min-width: 1280px) and (max-width: 1439.98px) {
   .hero-desktop-frame {
-    height: calc(100svh - 73px);
+    height: clamp(590px, min(calc(100svh - 73px), 53vw), 760px);
     min-height: 590px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1640px)) / 2));
+    --hero-content-inset: calc(var(--hero-content-gutter) + 2.5rem);
+  }
+
+  .map-explorer-frame {
+    max-width: var(--boutique-max-width, 1640px);
+    margin-inline: auto;
+  }
+
+  .how-it-works-image-panel {
+    justify-content: flex-end;
+    padding-right: clamp(2rem, 3vw, 4rem);
+  }
+
+  .how-it-works-copy-panel {
+    align-items: flex-start;
+    padding-left: clamp(2rem, 3vw, 4rem);
+  }
+
+  .hero-desktop-frame .hero-canopy-safe-content {
+    max-width: min(47%, 760px) !important;
+  }
+
+  .hero-map-insert {
+    right: var(--hero-content-inset) !important;
+    top: 58% !important;
+    width: min(38.5%, 760px) !important;
+  }
+
+  .hero-map-backing {
+    right: calc(var(--hero-content-inset) - 18px) !important;
+    top: calc(58% + 16px) !important;
+    width: min(38.5%, 760px) !important;
+  }
+
+  .hero-map-pillars {
+    right: var(--hero-content-inset) !important;
+    top: calc(58% - 29% + 24px) !important;
+    width: min(38.5%, 760px) !important;
   }
 }
 

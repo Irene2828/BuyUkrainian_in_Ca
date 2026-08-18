@@ -149,7 +149,7 @@ export function Hero() {
         <>
                 <div className="flex flex-col h-auto bg-white justify-between relative">
         <section
-            className="hero-desktop-frame flex-none relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:pt-[2.5vh] md:pb-[1.75vh] animate-in fade-in duration-700"
+            className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-start pt-0 mt-0 md:pt-[2.5vh] md:pb-[1.75vh] animate-in fade-in duration-700"
         >
             <HeroTickerRow stores={stores} />
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
@@ -184,7 +184,7 @@ export function Hero() {
 
                         <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none bg-[#dbe5f0]/96 px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/35">
+                                <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
@@ -234,7 +234,7 @@ export function Hero() {
                 </Link>
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
-            <div className="hero-desktop-copy-layer boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
+            <div className="hero-desktop-copy-layer content-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full flex justify-start h-full relative">
                     <div className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pt-[calc(4.8rem+4px)] md:pb-[calc(4.8rem+4px)]">
                     <div className="relative z-10 flex w-full flex-col items-start">
@@ -271,7 +271,7 @@ export function Hero() {
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[60.34px] px-8 min-[1670px]:px-[33.29px] text-[clamp(16px,1.17vw,19.89px)] font-bold tracking-[0.03em] rounded-none bg-[#dbe5f0]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#dbe5f0]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[60.34px] px-8 min-[1670px]:px-[33.29px] text-[clamp(16px,1.17vw,19.89px)] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
@@ -425,14 +425,14 @@ export function Hero() {
                             <div
                                 key={pillar.title}
                                 className={cn(
-                                    "group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)]",
+                                    "hero-map-pillar-card group isolate flex flex-col items-end overflow-hidden px-[22px] py-2.5 cursor-default pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right w-fit bg-white/60 backdrop-blur-md rounded-none shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)]",
                                     pillar.accentClass,
                                     "max-w-[calc(100vw-40px)] md:max-w-[calc(100vw-300px)]"
                                 )}
                             >
                                 <div className="flex items-center justify-end gap-3 text-right">
                                     <span className="shrink-0 w-3 h-[2px] bg-[#0057B7]/40" />
-                                    <span className="shrink-0 text-right text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-sans transition-all duration-500 antialiased">
+                                    <span className="hero-map-pillar-text shrink-0 text-right text-[11px] uppercase tracking-[0.22em] font-bold text-[#0057B7]/70 group-hover:tracking-[0.24em] whitespace-nowrap font-sans transition-all duration-500 antialiased">
                                         {pillar.title}
                                     </span>
                                 </div>
@@ -471,7 +471,7 @@ function HeroVariantB({
     return (
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
-                <section className="relative z-10 w-full max-w-[1670px] mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
+                <section className="relative z-10 w-full max-w-none mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
                     <HeroTickerRow stores={stores} />
                     <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-sans">
                         <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
@@ -654,7 +654,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
     const { t } = useI18n();
     return (
         <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent pt-4 pb-2 md:py-3">
-            <div className="boutique-width">
+            <div className="content-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-4 md:gap-6">
                         {/* "ADDED RECENTLY" Label */}
