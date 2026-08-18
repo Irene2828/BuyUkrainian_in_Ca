@@ -653,7 +653,7 @@ function HeroVariantB({
 function HeroTickerRow({ stores }: { stores: Store[] }) {
     const { t } = useI18n();
     return (
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent py-2 md:py-3">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent pt-4 pb-2 md:py-3">
             <div className="boutique-width">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-4 md:gap-6">
@@ -688,7 +688,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[11.2px] md:text-[13px] min-[1024px]:max-[1440px]:text-[13.8px] min-[1670px]:text-[15.75px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className="text-[12.2px] md:text-[13px] min-[1024px]:max-[1440px]:text-[13.8px] min-[1670px]:text-[15.75px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>
