@@ -24,7 +24,7 @@ export function HowItWorks() {
 
   return (
     <section id="how-it-works" className="font-sans overflow-hidden bg-white md:bg-[linear-gradient(to_right,#FFD700_0%,#FFD700_38%,#0057B7_38%,#0057B7_100%)]">
-      <div className="content-width flex flex-col md:flex-row">
+      <div className="how-it-works-rail w-full flex flex-col md:flex-row">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
         <div className="how-it-works-image-panel w-full md:w-[38%] bg-[#FFD700] px-5 py-10 md:p-8 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
