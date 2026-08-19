@@ -1612,6 +1612,11 @@ html.dark .city-labels-layer {
     --hero-content-inset: calc(var(--hero-content-gutter) + 2.5rem);
   }
 
+  .hero-desktop-frame {
+    height: clamp(650px, calc(100svh - 73px), 1080px);
+    min-height: 650px;
+  }
+
   .map-explorer-frame {
     max-width: var(--boutique-max-width, 1640px);
     margin-inline: auto;

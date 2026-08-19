@@ -10,7 +10,7 @@ import { HEADER_NAV_LINK_ACTIVE_CLASSNAME, HEADER_NAV_LINK_CLASSNAME } from "@/c
 
 import newLogo from "@/assets/newlogo.png";
 import logoJuly29 from "@/assets/logo-july29.png";
-import flagsLogo from "@assets/logo8.png";
+import flagsLogo from "@/assets/logoo.png";
 
 export function Header() {
   const [location] = useLocation();
