@@ -66,7 +66,7 @@ export function Header() {
         <div className="flex-1 flex items-center justify-start gap-1.5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-[#0057B7] hover:text-[#004494]"
+            className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
@@ -122,11 +122,11 @@ export function Header() {
         {/* Mobile: Map Button + Hamburger */}
         <div className="flex md:hidden items-center gap-1.5">
           {location === '/map' ? (
-            <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-[#0057B7] hover:text-[#004494] no-underline">
+            <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
               <span className="text-[14px] font-normal">{t('nav.home')}</span>
             </Link>
           ) : (
-            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-[#0057B7] hover:text-[#004494] no-underline">
+            <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
               <MapPin className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
               <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>
             </Link>
