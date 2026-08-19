@@ -184,7 +184,7 @@ export function Hero() {
 
                         <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-[6px_6px_0px_#87CEFA] transition-all duration-300 hover:md:scale-[1.04] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
+                                <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
