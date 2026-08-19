@@ -104,7 +104,9 @@ const uk = {
     home: "Головна",
     about: "Про проєкт",
     map: "Мапа",
-    addStore: "Додати магазин",
+    addStore: "Додати новий магазин",
+    mission: "Місія",
+    faq: "FAQ",
   },
   seo: {
     home: {

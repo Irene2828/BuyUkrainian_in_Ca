@@ -104,7 +104,9 @@ const en = {
     home: "Home",
     about: "About",
     map: "Map",
-    addStore: "Add Store",
+    addStore: "Add a New Store",
+    mission: "Mission",
+    faq: "FAQ",
   },
   seo: {
     home: {

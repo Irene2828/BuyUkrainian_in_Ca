@@ -88,6 +88,13 @@ export function Header() {
         {/* Right: Navigation - Desktop */}
         <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 font-sans antialiased">
             <nav className="flex items-center gap-6 lg:gap-8">
+              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                <Map className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span>{t('nav.map') || 'Map'}</span>
+              </Link>
+              <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                <span>{t('nav.mission') || 'Mission'}</span>
+              </Link>
               <Link
                 href="/#faq"
                 onClick={(e) => {
@@ -98,22 +105,9 @@ export function Header() {
                 }}
                 className={HEADER_NAV_LINK_CLASSNAME}
               >
-                {t('nav.about') || 'About'}
-              </Link>
-              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <Map className="w-3.5 h-3.5 stroke-[2.5]" />
-                <span>{t('nav.map') || 'Map'}</span>
+                {t('nav.faq') || 'FAQ'}
               </Link>
             </nav>
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                  className={cn(HEADER_NAV_LINK_CLASSNAME, "cursor-pointer outline-none flex items-center gap-1 font-semibold")}
-                >
-                  <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-                  <span>{t('nav.addStore') || 'Add Stores'}</span>
-                </span>
             <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
               <LanguageSwitcher />
@@ -123,7 +117,7 @@ export function Header() {
         <div className="flex md:hidden items-center gap-1.5">
           {location === '/map' ? (
             <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
-              <span className="text-[14px] font-normal">{t('nav.home')}</span>
+              <span className="text-[14px] font-normal">{t('nav.home') || 'Home'}</span>
             </Link>
           ) : (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
@@ -145,54 +139,26 @@ export function Header() {
         mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg z-40">
             <nav className="flex flex-col p-4 gap-4 antialiased">
-
-              {location === '/map' && (
-                <Link 
-                  href="/" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2"
-                >
-                  <Home className="w-4 h-4" />
-                  <span>{t('nav.home') || 'Home'}</span>
-                </Link>
-              )}
+              <Link 
+                href="/about" 
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn("text-[16px] transition-colors py-2 tracking-normal flex items-center gap-2", location === '/about' ? "text-slate-800 font-semibold" : "text-slate-500 hover:text-slate-800 font-medium")}
+              >
+                <span>{t('nav.mission') || 'Mission'}</span>
+              </Link>
               <Link
-                    href="/#faq"
-                    onClick={(e) => {
-                      if (location === '/') {
-                        e.preventDefault();
-                        document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
-                        setMobileMenuOpen(false);
-                      }
-                    }}
-                    className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2"
-                  >
-                    {t('nav.about') || 'About'}
-                  </Link>
-
-                  <Link 
-                    href="/map" 
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={cn("text-[16px] transition-colors py-2 tracking-normal flex items-center gap-2", location === '/map' ? "text-slate-800 font-semibold" : "text-slate-500 hover:text-slate-800 font-medium")}
-                  >
-                    <Map className="w-4 h-4" />
-                    <span>{t('nav.map') || 'Map View'}</span>
-                  </Link>
-
-                  <span
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => {
-                        window.dispatchEvent(new CustomEvent('openAddStoreModal'));
-                        setMobileMenuOpen(false);
-                    }}
-                    className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2 text-left cursor-pointer"
-                  >
-                    <Plus className="w-4 h-4 opacity-70" />
-                    <span>Add Stores</span>
-                  </span>
-
-
+                href="/#faq"
+                onClick={(e) => {
+                  if (location === '/') {
+                    e.preventDefault();
+                    document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2"
+              >
+                <span>{t('nav.faq') || 'FAQ'}</span>
+              </Link>
             </nav>
           </div>
         )

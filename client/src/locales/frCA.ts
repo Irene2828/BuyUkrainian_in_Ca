@@ -104,7 +104,9 @@ const frCA = {
     home: "Accueil",
     about: "À propos",
     map: "Carte",
-    addStore: "Ajouter une boutique",
+    addStore: "Ajouter une nouvelle boutique",
+    mission: "Mission",
+    faq: "FAQ",
   },
   seo: {
     home: {
