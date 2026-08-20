@@ -91,10 +91,31 @@ export function getBrandedMapPinSvg({ variant, count = 0, dimmed = false, hovere
       <stop offset="100%" stop-color="${pinBg}" stop-opacity="0" />
     </radialGradient>
   </defs>
+
+  <style>
+    @keyframes pulseHalo {
+      0% {
+        opacity: 0.8;
+        transform: scale(0.85);
+      }
+      58% {
+        opacity: 0.15;
+        transform: scale(2.2);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(2.6);
+      }
+    }
+    .halo {
+      transform-origin: 21px 32px;
+      animation: pulseHalo 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+  </style>
   
   <g>
-    <!-- Grounding Halo (puddle of light where pin touches the map) -->
-    <ellipse cx="21" cy="32" rx="15" ry="6" fill="url(#halo-glow-${variant})" />
+    <!-- Grounding Halo (puddle of light where pin touches the map) with pulsing animation -->
+    <ellipse cx="21" cy="32" rx="15" ry="6" fill="url(#halo-glow-${variant})" class="halo" />
     
     <!-- Classic Map Pin Silhouette with crisp White Stroke Outline -->
     <path
