@@ -657,7 +657,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           style={{
             left: hoveredLabel.x,
             top: hoveredLabel.y - 50,
-            transform: 'translateX(-50%)'
+            transform: 'translateX(-50%)',
+            transition: 'left 0.12s cubic-bezier(0.25, 1, 0.5, 1), top 0.12s cubic-bezier(0.25, 1, 0.5, 1)'
           }}
         >
           <span className="text-[12px] font-medium text-slate-500 tabular-nums font-sans whitespace-nowrap">
