@@ -310,9 +310,15 @@ export function Hero() {
             {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
             <Suspense fallback={null}>
                 <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                    initial={{ opacity: 0, scale: 0.92, y: 40, rotateX: 12, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
+                    transition={{ 
+                        duration: 1.6, 
+                        ease: [0.16, 1, 0.3, 1],
+                        opacity: { duration: 1.2 },
+                        filter: { duration: 1.2 }
+                    }}
+                    style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
                     className="absolute inset-0 z-30 pointer-events-none"
                 >
                 {/* Yellow offset backing block under/behind the map card */}
