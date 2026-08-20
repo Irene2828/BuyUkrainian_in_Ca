@@ -330,7 +330,7 @@ export function Hero() {
                     <span className="text-[11.875px] font-bold tracking-[0.40em] uppercase text-white/48 whitespace-nowrap font-sans antialiased drop-shadow-sm pl-[0.40em]">
                         {t('hero.tapToExplore') || 'TAP TO EXPLORE THE MAP'}
                     </span>
-                </motion.div>
+                </div>
 
                 <div
                     className="w-full h-full border-none outline-none relative overflow-hidden bg-white shadow-[3px_6px_24px_-2px_rgba(0,87,183,0.14),1px_2px_8px_rgba(0,0,0,0.07)]"
