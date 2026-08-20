@@ -691,7 +691,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   // Custom Renderer for a premium, clean look
   const renderer = useMemo(() => ({
     render: ({ count, position }: any) => {
-      const countLabel = "More than 1 store in the area";
+      const countLabel = `${count} stores in this area`;
       const defaultSvg = getBrandedMapPinSvg({ variant: "cluster", count });
       const hoverSvg = getBrandedMapPinSvg({ variant: "cluster", count, hovered: true });
       
