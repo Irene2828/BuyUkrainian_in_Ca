@@ -309,26 +309,22 @@ export function Hero() {
 
             {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
             <Suspense fallback={<div className="hidden md:block absolute right-[28px] top-1/2 h-[57.2%] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 bg-white/50 animate-pulse rounded-xl shadow-lg" />}>
-                {/* Yellow offset backing block under/behind the map card */}
                 <motion.div
-                    initial={{ opacity: 0, x: -40, y: -40 }}
-                    animate={{ opacity: 1, x: 0, y: 0 }}
-                    transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                    className="absolute inset-0 z-30 pointer-events-none"
+                >
+                {/* Yellow offset backing block under/behind the map card */}
+                <div
                     className="hero-map-backing hidden md:block absolute right-[12px] top-1/2 h-auto aspect-[1.35] w-[41.8%] min-[1440px]:right-[23px] min-[1440px]:w-[38.5%] bottom-auto z-30 -translate-y-1/2 md:mt-[-18px] bg-[#FFD700]"
                 />
 
-            <motion.div
-                initial={{ opacity: 0, y: 50, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                className="hero-map-insert hidden md:block absolute right-[28px] top-1/2 h-auto aspect-[1.35] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 md:mt-[-18px] select-none border-none outline-none group/map-peeking"
+            <div
+                className="hero-map-insert hidden md:block absolute right-[28px] top-1/2 h-auto aspect-[1.35] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 md:mt-[-18px] select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
                 {/* Hover Hint Label - positioned neatly under the map insert block, permanently shown with a nice entry fade */}
-                <motion.div 
-                    inherit={false}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.4, ease: "easeOut", delay: 0.3 }}
+                <div 
                     className="absolute -bottom-[2.75rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
                 >
                     <span className="text-[11.875px] font-bold tracking-[0.40em] uppercase text-white/48 whitespace-nowrap font-sans antialiased drop-shadow-sm pl-[0.40em]">
@@ -395,13 +391,10 @@ export function Hero() {
                     </div>
 
                 </div>
-            </motion.div>
+            </div>
             
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
-            <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            <div 
                 className="hero-map-pillars hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] md:mt-[-18px]"
             >
                 <div className="w-full">
@@ -428,6 +421,8 @@ export function Hero() {
                         </div>
                     </div>
                 </div>
+                </div>
+            </div>
             </motion.div>
             </Suspense>
         </section>
