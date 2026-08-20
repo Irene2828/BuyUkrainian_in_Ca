@@ -308,7 +308,7 @@ export function Hero() {
             </div>
 
             {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
-            <Suspense fallback={<div className="hidden md:block absolute right-[28px] top-1/2 h-[57.2%] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 bg-white/50 animate-pulse rounded-xl shadow-lg" />}>
+            <Suspense fallback={null}>
                 <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -362,15 +362,9 @@ export function Hero() {
                             {shouldRenderHeroMap ? (
                                 <GoogleMapsProvider>
                                         <motion.div
-                                            initial={{ opacity: 0, scale: 1 }}
-                                            animate={{
-                                                opacity: 1,
-                                                scale: 1.03
-                                            }}
-                                            transition={{ 
-                                                opacity: { duration: 1.2, ease: "easeOut" },
-                                                scale: { duration: 1.2, ease: "easeOut" }
-                                            }}
+                                            initial={{ scale: 1 }}
+                                            animate={{ scale: 1.03 }}
+                                            transition={{ scale: { duration: 1.2, ease: "easeOut" } }}
                                             className="w-full h-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative"
                                             onClick={() => setLocation('/map')}
                                         >
