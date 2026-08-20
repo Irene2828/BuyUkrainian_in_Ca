@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { Suspense, lazy, useCallback, useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
 import mapleLeafIcon from "@/assets/maple_leaf.png";
@@ -629,9 +629,11 @@ function HeroVariantB({
 
 function HeroTickerRow({ stores }: { stores: Store[] }) {
     const { t } = useI18n();
+    const shouldReduceMotion = useReducedMotion();
+    
     return (
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent pt-4 pb-2 md:pt-[18px] md:pb-3">
-            <div className="content-width">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent pt-4 pb-2 md:pt-[18px] md:pb-3 opacity-60 mix-blend-screen">
+            <div className="content-width" aria-hidden="true">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-4 md:gap-6">
                         {/* "ADDED RECENTLY" Label */}
@@ -655,7 +657,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <motion.div
                                     className="flex shrink-0 items-center will-change-transform"
                                     initial={{ x: 0 }}
-                                    animate={{ x: "-50%" }}
+                                    animate={{ x: shouldReduceMotion ? 0 : "-50%" }}
                                     transition={{
                                         duration: 110,
                                         repeat: Infinity,
@@ -665,7 +667,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12.2px] md:text-[13px] min-[1024px]:max-[1440px]:text-[13.8px] min-[1670px]:text-[15.75px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className="text-[12.2px] md:text-[13px] min-[1024px]:max-[1440px]:text-[13.8px] min-[1670px]:text-[15.75px] font-normal text-white/50 tracking-wide font-sans antialiased whitespace-nowrap">
                                                 {store.name}
                                             </span>
                                         </div>
