@@ -202,7 +202,6 @@ export function Hero() {
                                 <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
                             </button>
                         </div>
-                        </div>
                     </motion.div>
                 </div>
 
