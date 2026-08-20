@@ -313,8 +313,8 @@ export function Hero() {
 
                         </div>
                     </div>
+                    </motion.div>
                 </div>
-            </div>
             </div>
 
             {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
