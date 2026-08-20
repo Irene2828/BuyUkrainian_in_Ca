@@ -522,6 +522,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           strictBounds: true
         }}
         options={{
+          backgroundColor: variant === 'hero' ? '#ffffff' : '#edf4fb',
           maxZoom: variant === 'hero' ? zoom : 18,
           minZoom: variant === 'hero' ? zoom : 4,
           draggable: true,
