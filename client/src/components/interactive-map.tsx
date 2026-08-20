@@ -650,15 +650,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {/* Premium Frosted Tooltip */}
       {!selectedStore && hoveredLabel && typeof document !== "undefined" && createPortal(
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 10, x: "-50%" }}
-          animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
-          exit={{ opacity: 0, scale: 0.95, y: 10, x: "-50%" }}
-          className="fixed z-[9999] pointer-events-none px-3 py-1.5 rounded-[12px] bg-white backdrop-blur-xl shadow-[0_8px_24px_rgba(10,37,64,0.12)]"
-          style={{
-            left: hoveredLabel.x,
-            top: hoveredLabel.y - 50,
-            transition: 'left 0.12s cubic-bezier(0.25, 1, 0.5, 1), top 0.12s cubic-bezier(0.25, 1, 0.5, 1)'
+          initial={{ opacity: 0, scale: 0.95, y: 10, x: "-50%", left: hoveredLabel.x, top: hoveredLabel.y - 50 }}
+          animate={{ opacity: 1, scale: 1, y: 0, x: "-50%", left: hoveredLabel.x, top: hoveredLabel.y - 50 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10, x: "-50%", left: hoveredLabel.x, top: hoveredLabel.y - 50 }}
+          transition={{
+            left: { type: "spring", bounce: 0, duration: 0.15 },
+            top: { type: "spring", bounce: 0, duration: 0.15 },
+            default: { duration: 0.15 }
           }}
+          className="fixed z-[9999] pointer-events-none px-3 py-1.5 rounded-[12px] bg-white backdrop-blur-xl shadow-[0_8px_24px_rgba(10,37,64,0.12)]"
         >
           <span className="text-[12px] font-medium text-slate-500 tabular-nums font-sans whitespace-nowrap">
             {hoveredLabel.text}
