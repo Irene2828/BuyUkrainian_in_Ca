@@ -268,7 +268,7 @@ export function Hero() {
                                             <span>{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
                                             <img src={mapsIcon} alt="" className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-[40%] h-[5.2em] w-auto shrink-0 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                                         </span>
-                                        <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85 md:whitespace-nowrap">
+                                        <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-[420px] lg:max-w-[500px] xl:max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                         </p>
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
@@ -375,10 +375,10 @@ export function Hero() {
                             {shouldRenderHeroMap ? (
                                 <GoogleMapsProvider>
                                         <motion.div
-                                            initial={{ scale: 1 }}
-                                            animate={{ scale: 1.03 }}
-                                            transition={{ scale: { duration: 1.2, ease: "easeOut" } }}
-                                            className="w-full h-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative"
+                                            initial={{ scale: 1, opacity: 0 }}
+                                            animate={{ scale: 1.03, opacity: 1 }}
+                                            transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                                            className="w-full h-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative bg-white"
                                             onClick={() => setLocation('/map')}
                                         >
                                             <InteractiveMap
