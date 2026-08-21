@@ -330,11 +330,11 @@ export function Hero() {
                 >
                 {/* Yellow offset backing block under/behind the map card */}
                 <div
-                    className="hero-map-backing hidden md:block absolute right-[12px] top-1/2 h-auto aspect-[1.5] w-[41.8%] min-[1440px]:right-[23px] min-[1440px]:w-[38.5%] bottom-auto z-30 -translate-y-1/2 md:mt-[16px] bg-[#FFD700]"
+                    className="hero-map-backing hidden md:block absolute right-[12px] top-1/2 h-auto aspect-[1.5] w-[41.8%] min-[1440px]:right-[23px] min-[1440px]:w-[38.5%] bottom-auto z-30 -translate-y-1/2 md:mt-[-50px] lg:mt-[-20px] xl:mt-[0px] 2xl:mt-[16px] bg-[#FFD700]"
                 />
 
             <div
-                className="hero-map-insert hidden md:block absolute right-[28px] top-1/2 h-auto aspect-[1.5] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 md:mt-[16px] select-none border-none outline-none group/map-peeking pointer-events-auto"
+                className="hero-map-insert hidden md:block absolute right-[28px] top-1/2 h-auto aspect-[1.5] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 md:mt-[-50px] lg:mt-[-20px] xl:mt-[0px] 2xl:mt-[16px] select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
                 {/* Hover Hint Label - positioned neatly under the map insert block, permanently shown with a nice entry fade */}
                 <div 
@@ -402,7 +402,7 @@ export function Hero() {
             
             {/* Desktop Trust Pillars - Anchored to the right-side map frame */}
             <div 
-                className="hero-map-pillars hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] md:mt-[16px]"
+                className="hero-map-pillars hidden lg:flex pointer-events-none absolute right-[28px] top-[calc(50%-29%+24px)] z-[90] w-[42%] min-[1440px]:right-[43px] min-[1440px]:w-[35%] md:mt-[-50px] lg:mt-[-20px] xl:mt-[0px] 2xl:mt-[16px]"
             >
                 <div className="w-full">
                     <div className="w-full">
