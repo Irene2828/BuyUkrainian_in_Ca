@@ -179,7 +179,7 @@ export function Hero() {
                         </h1>
 
                         <div className="mt-[5px] flex flex-col items-start gap-0.5 w-fit text-[clamp(1.50rem,7.05vw,1.99rem)] font-normal leading-tight tracking-normal text-white/92 [@media(max-height:700px)]:text-[1.42rem]">
-                            <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
+                            <span className="whitespace-nowrap">{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
                             <img src={mapsIcon} alt="" className="h-[5.5em] w-auto shrink-0 -mt-4 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                         </div>
                         </div>
@@ -189,7 +189,7 @@ export function Hero() {
 
                         <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:bg-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
+                                <button className="group/cta-btn relative inline-flex h-[51px] w-full md:scale-[0.97] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(15px,1.2vw,19px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[0.99] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
@@ -265,7 +265,7 @@ export function Hero() {
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4 md:gap-5">
                                         <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
-                                            <span>{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
+                                            <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
                                             <img src={mapsIcon} alt="" className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-[40%] h-[5.2em] w-auto shrink-0 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
                                         </span>
                                         <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-[420px] lg:max-w-[500px] xl:max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
@@ -274,7 +274,7 @@ export function Hero() {
                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[1.02] items-center justify-center h-[54px] 2xl:h-[58px] min-[1670px]:h-[60.34px] px-8 min-[1670px]:px-[33.29px] text-[clamp(16px,1.17vw,19.89px)] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31px] text-[clamp(15px,1.1vw,19px)] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
