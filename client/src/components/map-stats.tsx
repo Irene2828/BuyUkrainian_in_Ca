@@ -35,7 +35,7 @@ export function MapStats() {
                             duration={2000}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Found"}</span>
+                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Added"}</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">

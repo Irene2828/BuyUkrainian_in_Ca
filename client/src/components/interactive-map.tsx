@@ -384,12 +384,21 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   useEffect(() => {
     if (variant !== 'hero') return;
 
+    const centerMap = () => {
+      if (mapRef) {
+        (window as any).google.maps.event.trigger(mapRef, 'resize');
+        mapRef.setZoom(HERO_INITIAL_MAP_STATE.zoom);
+        mapRef.panTo(HERO_INITIAL_MAP_STATE.center);
+      }
+    };
+
     setZoom(HERO_INITIAL_MAP_STATE.zoom);
     setCenter(HERO_INITIAL_MAP_STATE.center);
-    if (mapRef) {
-      mapRef.setZoom(HERO_INITIAL_MAP_STATE.zoom);
-      mapRef.panTo(HERO_INITIAL_MAP_STATE.center);
-    }
+    centerMap();
+
+    // Staggered delay to catch layout shifts / framer animations finishing
+    const timer = setTimeout(centerMap, 600);
+    return () => clearTimeout(timer);
   }, [mapRef, variant]);
 
   useImperativeHandle(ref, () => ({

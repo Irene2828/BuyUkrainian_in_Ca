@@ -245,7 +245,7 @@ const en = {
   },
   stats: {
     eyebrow: "Keep the map growing",
-    storesFound: "Stores found",
+    storesFound: "Stores added",
     provincesCovered: "Provinces covered",
     productsListed: "Products listed",
     note: "Every store on this map was added by someone like you.",

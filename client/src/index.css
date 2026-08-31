@@ -1460,12 +1460,16 @@ html.dark .city-labels-layer {
 @media (min-width: 768px) {
   :root {
     --hero-content-gutter: max(0px, calc((100vw - var(--content-max-width, 1400px)) / 2));
-    --hero-content-inset: calc(var(--hero-content-gutter) + clamp(0.75rem, 2.5vw, 2rem));
+    --hero-content-inset: calc(var(--hero-content-gutter) + clamp(0.75rem, 2.5vw, 2rem) + 4%);
   }
 
   .hero-desktop-frame {
     height: clamp(590px, min(calc(100svh - 73px), 53vw), 880px);
     min-height: 590px;
+  }
+
+  .hero-desktop-frame .content-width {
+    padding-inline: calc(clamp(0.75rem, 2.5vw, 2rem) + 4%) !important;
   }
 
   .hero-desktop-copy-layer,
@@ -1490,17 +1494,17 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: calc(var(--hero-content-inset) + 28px) !important;
+    right: calc(var(--hero-content-inset) + 16px) !important;
     top: 60% !important;
   }
 
   .hero-map-backing {
-    right: calc(var(--hero-content-inset) + 12px) !important;
+    right: var(--hero-content-inset) !important;
     top: calc(60% + 16px) !important;
   }
 
   .hero-map-pillars {
-    right: calc(var(--hero-content-inset) + 28px) !important;
+    right: calc(var(--hero-content-inset) + 16px) !important;
     top: calc(60% - 29% + 24px) !important;
   }
 }
@@ -1518,14 +1522,14 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: calc(var(--hero-content-inset) + 18px) !important;
+    right: calc(var(--hero-content-inset) + 12px) !important;
     top: 60% !important;
     width: 38.7% !important;
     height: 42% !important;
   }
 
   .hero-map-backing {
-    right: calc(var(--hero-content-inset) + 5px) !important;
+    right: var(--hero-content-inset) !important;
     top: calc(60% + 12px) !important;
     width: 38.7% !important;
     height: 42% !important;
@@ -1556,21 +1560,21 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: calc(var(--hero-content-inset) + 24px) !important;
+    right: calc(var(--hero-content-inset) + 14px) !important;
     top: 60% !important;
     width: 35% !important;
     height: 45% !important;
   }
 
   .hero-map-backing {
-    right: calc(var(--hero-content-inset) + 8px) !important;
+    right: var(--hero-content-inset) !important;
     top: calc(60% + 14px) !important;
     width: 35% !important;
     height: 45% !important;
   }
 
   .hero-map-pillars {
-    right: calc(var(--hero-content-inset) + 38px) !important;
+    right: calc(var(--hero-content-inset) + 14px) !important;
     top: calc(60% - 22% + 18px) !important;
     width: 32% !important;
   }
@@ -1606,7 +1610,11 @@ html.dark .city-labels-layer {
 @media (min-width: 1440px) {
   :root {
     --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1640px)) / 2));
-    --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem);
+    --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem + 4%);
+  }
+
+  .hero-desktop-frame .content-width {
+    padding-inline: calc(1.25rem + 4%) !important;
   }
 
   .hero-desktop-frame {
@@ -1641,19 +1649,19 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: var(--hero-content-inset) !important;
+    right: calc(var(--hero-content-inset) + 16px) !important;
     top: 58% !important;
     width: min(38.5%, 760px) !important;
   }
 
   .hero-map-backing {
-    right: calc(var(--hero-content-inset) - 18px) !important;
+    right: var(--hero-content-inset) !important;
     top: calc(58% + 16px) !important;
     width: min(38.5%, 760px) !important;
   }
 
   .hero-map-pillars {
-    right: var(--hero-content-inset) !important;
+    right: calc(var(--hero-content-inset) + 16px) !important;
     top: calc(58% - 29% + 24px) !important;
     width: min(38.5%, 760px) !important;
   }

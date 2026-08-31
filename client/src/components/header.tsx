@@ -79,17 +79,17 @@ export function Header() {
             />
           </Link>
           <div className="hidden lg:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
-          <span className="hidden lg:block ml-1 text-[14px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
+          <span className="hidden lg:block ml-1 text-[14px] lg:text-[15px] min-[1670px]:text-[17px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
             {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
           </span>
-          <div className="hidden lg:block ml-3 w-[1.5px] h-[22px] bg-slate-300 origin-center" />
+          <div className="hidden lg:block ml-3 w-[1.5px] h-[22px] min-[1670px]:h-[26px] bg-slate-300 origin-center" />
         </div>
 
         {/* Right: Navigation - Desktop */}
-        <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 font-sans antialiased">
-            <nav className="flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 min-[1670px]:gap-10 font-sans antialiased">
+            <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
               <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <Map className="w-3.5 h-3.5 stroke-[2.5]" />
+                <Map className="w-4 h-4 min-[1670px]:w-[19px] min-[1670px]:h-[19px] stroke-[2.5]" />
                 <span>{t('nav.map') || 'Map'}</span>
               </Link>
               <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>

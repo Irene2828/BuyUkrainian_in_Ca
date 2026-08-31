@@ -271,23 +271,23 @@ export function Hero() {
                                         <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-[420px] lg:max-w-[500px] xl:max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                         </p>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
+                                        <div className="flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-7 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31px] text-[clamp(15px,1.1vw,19px)] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[1.02] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[60px] px-7.5 min-[1670px]:px-[33px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[20px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[1.04] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
-                                                        className="w-5 h-5 ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                        className="w-5 h-5 min-[1670px]:w-[21px] min-[1670px]:h-[21px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
                                                         strokeWidth={1.5}
                                                     />
                                                 </button>
                                             </Link>
                                              <button
                                                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                                 className="group inline-flex h-[50px] 2xl:h-[50px] min-[1670px]:h-[51px] items-center justify-center gap-2 bg-transparent px-0 text-[clamp(13px,1vw,19px)] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto w-full md:w-auto cursor-pointer outline-none"
+                                                 className="group inline-flex h-[50px] 2xl:h-[50px] min-[1670px]:h-[53.5px] items-center justify-center gap-2 min-[1670px]:gap-2.5 bg-transparent px-0 text-[clamp(13px,1vw,19px)] min-[1670px]:text-[20px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto w-full md:w-auto cursor-pointer outline-none"
                                              >
-                                                 <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
+                                                 <Plus className="h-4 w-4 min-[1670px]:h-[17px] min-[1670px]:w-[17px] text-current" strokeWidth={2.5} />
                                                  <span>{t('nav.addStore') || 'Add a New Store'}</span>
                                              </button>
                                         </div>
@@ -652,7 +652,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
                                 <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[10px] md:text-[11px] 2xl:text-[11.8px] min-[1670px]:text-[12px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[10px] md:text-[12px] lg:text-[12.5px] min-[1670px]:text-[15px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -676,8 +676,8 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                     }}
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
-                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12.2px] md:text-[13px] min-[1024px]:max-[1440px]:text-[13.8px] min-[1670px]:text-[15.75px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 min-[1670px]:px-12 shrink-0 group/ticker-item cursor-pointer">
+                                            <span className="text-[12.2px] md:text-[14.5px] lg:text-[15.5px] min-[1670px]:text-[19px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>
