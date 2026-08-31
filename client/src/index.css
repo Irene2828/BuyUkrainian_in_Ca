@@ -1117,32 +1117,28 @@ html.dark .city-labels-layer {
   width: 100%;
   max-width: var(--boutique-max-width, 1400px);
   margin-inline: auto;
-  padding-inline: clamp(1.5rem, 5vw, 4rem);
-  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-inline: clamp(0.75rem, 2.5vw, 2rem);
 }
 
 .footer-width {
   width: 100%;
   max-width: var(--footer-max-width, 1536px);
   margin-inline: auto;
-  padding-inline: clamp(1.5rem, 5vw, 4rem);
-  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-inline: clamp(0.75rem, 2.5vw, 2rem);
 }
 
 .content-width {
   width: 100%;
-  max-width: var(--content-max-width, 1260px);
+  max-width: var(--content-max-width, 1400px);
   margin-inline: auto;
-  padding-inline: clamp(1.5rem, 5vw, 4rem);
-  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-inline: clamp(0.75rem, 2.5vw, 2rem);
 }
 
 .utility-width {
   width: 100%;
   max-width: var(--utility-max-width, 1440px);
   margin-inline: auto;
-  padding-inline: clamp(1.5rem, 5vw, 4rem);
-  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-inline: clamp(0.75rem, 2.5vw, 2rem);
 }
 
 /* --- Progressive Width Breakpoints --- */
@@ -1151,7 +1147,7 @@ html.dark .city-labels-layer {
 @media (min-width: 1280px) {
   :root {
     --boutique-max-width: 1500px;
-    --content-max-width: 1350px;
+    --content-max-width: 1500px;
     --footer-max-width: 1636px;
     --utility-max-width: 1540px;
   }
@@ -1161,17 +1157,17 @@ html.dark .city-labels-layer {
 /* Proportional width expansion for viewports between standard and large monitors */
 @media (min-width: 1440px) {
   .boutique-width, .utility-width {
-    padding-inline: 2.5rem;
+    padding-inline: 1.25rem;
   }
 
   .content-width {
     max-width: var(--boutique-max-width, 1640px);
-    padding-inline: 2.5rem;
+    padding-inline: 1.25rem;
   }
 
   :root {
     --boutique-max-width: 1640px;
-    --content-max-width: 1476px;
+    --content-max-width: 1640px;
     --footer-max-width: 1776px;
     --utility-max-width: 1640px;
     --container-standard: 1686px;
@@ -1212,7 +1208,7 @@ html.dark .city-labels-layer {
 @media (min-width: 1670px) {
   :root {
     --boutique-max-width: 1760px;
-    --content-max-width: 1584px;
+    --content-max-width: 1760px;
     --footer-max-width: 1896px;
     --utility-max-width: 1800px;
     --container-standard: 1776px;
@@ -1236,7 +1232,7 @@ html.dark .city-labels-layer {
 @media (min-width: 1920px) {
   :root {
     --boutique-max-width: 1880px;
-    --content-max-width: 1692px;
+    --content-max-width: 1880px;
     --footer-max-width: 2016px;
     --utility-max-width: 2120px;
   }
@@ -1462,8 +1458,8 @@ html.dark .city-labels-layer {
    for small laptops and tablets before the dedicated mobile layout takes over. */
 @media (min-width: 768px) {
   :root {
-    --hero-content-gutter: max(0px, calc((100vw - var(--content-max-width, 1260px)) / 2));
-    --hero-content-inset: calc(var(--hero-content-gutter) + clamp(1.5rem, 5vw, 4rem));
+    --hero-content-gutter: max(0px, calc((100vw - var(--content-max-width, 1400px)) / 2));
+    --hero-content-inset: calc(var(--hero-content-gutter) + clamp(0.75rem, 2.5vw, 2rem));
   }
 
   .hero-desktop-frame {
@@ -1609,7 +1605,7 @@ html.dark .city-labels-layer {
 @media (min-width: 1440px) {
   :root {
     --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1640px)) / 2));
-    --hero-content-inset: calc(var(--hero-content-gutter) + 2.5rem);
+    --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem);
   }
 
   .hero-desktop-frame {
