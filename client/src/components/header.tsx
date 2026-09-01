@@ -89,7 +89,7 @@ export function Header() {
         <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 min-[1670px]:gap-10 font-sans antialiased">
             <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
               <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <Map className="w-4 h-4 min-[1670px]:w-[19px] min-[1670px]:h-[19px] stroke-[2.5]" />
+                <Map className="w-[0.95rem] h-[0.95rem] lg:w-[1.0rem] lg:h-[1.0rem] min-[1670px]:w-[1.05rem] min-[1670px]:h-[1.05rem] stroke-[2.5]" />
                 <span>{t('nav.map') || 'Map'}</span>
               </Link>
               <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>

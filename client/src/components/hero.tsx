@@ -271,24 +271,24 @@ export function Hero() {
                                         <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-[420px] lg:max-w-[500px] xl:max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
                                         </p>
-                                        <div className="flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-7 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
+                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[1.02] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[60px] px-7.5 min-[1670px]:px-[33px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[20px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[1.04] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
-                                                        className="w-5 h-5 min-[1670px]:w-[21px] min-[1670px]:h-[21px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                        className="w-5 h-5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
                                                         strokeWidth={1.5}
                                                     />
                                                 </button>
                                             </Link>
                                              <button
                                                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                                 className="group inline-flex h-[50px] 2xl:h-[50px] min-[1670px]:h-[53.5px] items-center justify-center gap-2 min-[1670px]:gap-2.5 bg-transparent px-0 text-[clamp(13px,1vw,19px)] min-[1670px]:text-[20px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto w-full md:w-auto cursor-pointer outline-none"
+                                                 className="group inline-flex h-[50px] 2xl:h-[50px] min-[1670px]:h-[50.8px] items-center justify-center gap-2 min-[1670px]:gap-2.5 bg-transparent px-0 text-[clamp(13px,1vw,19px)] min-[1670px]:text-[19px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto w-full md:w-auto cursor-pointer outline-none"
                                              >
-                                                 <Plus className="h-4 w-4 min-[1670px]:h-[17px] min-[1670px]:w-[17px] text-current" strokeWidth={2.5} />
-                                                 <span>{t('nav.addStore') || 'Add a New Store'}</span>
+                                                 <Plus className="h-4 w-4 min-[1670px]:h-[16px] min-[1670px]:w-[16px] text-current" strokeWidth={2.5} />
+                                                 <span>{t('nav.addStore') || 'Add a new store'}</span>
                                              </button>
                                         </div>
                                     </div>

@@ -15,7 +15,7 @@ export function AddStoreCTA() {
       </p>
       <button
         onClick={handleOpenModal}
-        className="relative z-10 inline-flex w-auto items-center justify-center h-[48px] px-[25px] text-[16.8px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white 2xl:h-[57px] 2xl:text-[17.85px] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-[10.5px] group/cta-btn mx-auto font-sans"
+        className="relative z-10 inline-flex w-auto items-center justify-center h-[48px] px-[25px] text-[16.8px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] shadow-[6px_6px_0px_#87CEFA] transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white 2xl:h-[57px] 2xl:text-[17.85px] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-[10.5px] group/cta-btn mx-auto font-sans"
       >
         <span>{t("mapPage.addNewStore") || "Add a New Store"}</span>
         <Plus className="w-[16.8px] h-[16.8px] 2xl:w-[21px] 2xl:h-[21px] transition-all duration-300 group-hover/cta-btn:scale-110 text-current" />
