@@ -1376,17 +1376,12 @@ html.dark .city-labels-layer {
 /* ========================================
    CTA LETTER-SPACING RESET
    ========================================
-   Keep button/link text neutral across desktop breakpoints.
+   Keep button/link text neutral across desktop breakpoints without overriding tracking-widest.
    ======================================== */
 @media (min-width: 1680px) {
 
-  .text-\[16px\],
-  .text-\[15px\] {
-    letter-spacing: 0;
-  }
-
-  .text-\[14px\],
-  .text-\[13px\] {
+  .btn-cta-standard,
+  .btn-strict {
     letter-spacing: 0;
   }
 }
@@ -1469,7 +1464,7 @@ html.dark .city-labels-layer {
   }
 
   .hero-desktop-frame .content-width {
-    padding-inline: calc(clamp(0.75rem, 2.5vw, 2rem) + 4%) !important;
+    padding-inline: calc(clamp(0.75rem, 2.5vw, 2rem) + 3.68%) !important;
   }
 
   .hero-desktop-copy-layer,
@@ -1614,7 +1609,7 @@ html.dark .city-labels-layer {
   }
 
   .hero-desktop-frame .content-width {
-    padding-inline: calc(1.25rem + 4%) !important;
+    padding-inline: calc(1.15rem + 3.68%) !important;
   }
 
   .hero-desktop-frame {

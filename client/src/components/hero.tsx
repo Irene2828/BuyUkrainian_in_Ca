@@ -232,10 +232,10 @@ export function Hero() {
                 </Link>
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
-            <div className="hero-desktop-copy-layer content-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
+            <div className="hero-desktop-copy-layer content-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none px-3 md:px-5 lg:px-6">
                 <div className="w-full flex justify-start items-center h-full relative md:-translate-y-[18px]">
                     <motion.div 
-                        className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[520px] lg:max-w-2xl h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0"
+                        className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -248,30 +248,51 @@ export function Hero() {
                                         className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[0.94] md:leading-[0.94] antialiased mb-6 md:mb-9 text-white uppercase font-bold text-left md:-translate-y-[5%]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                     >
-                                        <span 
+                                        <motion.span 
+                                            initial={{ opacity: 0, y: 22 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
                                             className="hero-headline-line block w-full text-left font-sans font-[900] text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.384rem] tracking-[-0.02em] mb-0 text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
                                         >
                                             {t('hero.headline.discover') || "DISCOVER"}
-                                        </span>
-                                        <div className="md:ml-0 flex w-full justify-start">
-                                            <span 
+                                        </motion.span>
+                                        <div className="md:ml-0 flex w-full justify-start overflow-hidden">
+                                            <motion.span 
+                                                initial={{ opacity: 0, y: 22 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.65, delay: 0.28, ease: [0.215, 0.61, 0.355, 1.0] }}
                                                 className="hero-headline-line relative block w-fit pb-4 font-sans font-[900] text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.232rem] tracking-[-0.02em] mb-1 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-br from-[#F59E0B] via-[#FACC15] to-[#FFDF00]"
                                             >
                                                 {t('hero.headline.ukrainianProducts') || "UKRAINIAN PRODUCTS"}
-                                            </span>
+                                            </motion.span>
                                         </div>
                                     </h1>
                                     
                                     {/* Subline and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-start self-start mt-[-2.35rem] md:mt-[-3.55rem] mb-6 md:mb-10 gap-4 md:gap-5">
-                                        <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-normal tracking-[-0.01em] opacity-90 normal-case text-white md:-translate-y-[10%]">
+                                        <motion.span 
+                                            initial={{ opacity: 0, y: 18 }}
+                                            animate={{ opacity: 0.9, y: 0 }}
+                                            transition={{ duration: 0.6, delay: 0.46, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="relative z-10 flex items-center self-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-normal tracking-[-0.01em] normal-case text-white md:-translate-y-[10%]"
+                                        >
                                             <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
                                             <img src={mapsIcon} alt="" className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-[40%] h-[5.2em] w-auto shrink-0 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] transition-all duration-500 hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.8)]" aria-hidden="true" />
-                                        </span>
-                                        <p className="hero-description-copy relative z-10 mt-4 md:mt-6 max-w-[420px] lg:max-w-[500px] xl:max-w-none translate-y-[calc(1vh+6px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85">
+                                        </motion.span>
+                                        <motion.p 
+                                            initial={{ opacity: 0, y: 16 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.6, delay: 0.62, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="hero-description-copy relative z-10 mt-3.5 md:mt-5 max-w-[420px] lg:max-w-[500px] xl:max-w-none translate-y-[calc(0.9vh+2px)] self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
+                                        >
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<strong className="font-bold text-white">#madeinUkraine</strong>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
-                                        </p>
-                                         <div className="flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(4vh - 8px))' }}>
+                                        </motion.p>
+                                         <motion.div 
+                                            initial={{ opacity: 0, y: 16 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.6, delay: 0.76, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="mt-4 md:mt-5 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(calc(3.6vh + 2px))' }}
+                                         >
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
                                                     className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#87CEFA] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
@@ -290,7 +311,7 @@ export function Hero() {
                                                  <Plus className="h-4 w-4 min-[1670px]:h-[16px] min-[1670px]:w-[16px] text-current" strokeWidth={2.5} />
                                                  <span>{t('nav.addStore') || 'Add a new store'}</span>
                                              </button>
-                                        </div>
+                                         </motion.div>
                                     </div>
 
 
@@ -330,11 +351,11 @@ export function Hero() {
                 >
                 {/* Yellow offset backing block under/behind the map card */}
                 <div
-                    className="hero-map-backing hidden md:block absolute right-[12px] top-1/2 h-auto aspect-[1.5] w-[41.8%] min-[1440px]:right-[23px] min-[1440px]:w-[38.5%] bottom-auto z-30 -translate-y-1/2 md:mt-[-50px] lg:mt-[-20px] xl:mt-[0px] 2xl:mt-[16px] bg-[#FFD700]"
+                    className="hero-map-backing hidden md:block absolute right-[12px] top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:right-[23px] min-[1440px]:w-[36.57%] bottom-auto z-30 -translate-y-1/2 md:mt-[-85px] lg:mt-[-55px] xl:mt-[-35px] 2xl:mt-[-20px] bg-[#FFD700]"
                 />
 
             <div
-                className="hero-map-insert hidden md:block absolute right-[28px] top-1/2 h-auto aspect-[1.5] w-[41.8%] min-[1440px]:right-[43px] min-[1440px]:w-[38.5%] bottom-auto z-40 -translate-y-1/2 md:mt-[-50px] lg:mt-[-20px] xl:mt-[0px] 2xl:mt-[16px] select-none border-none outline-none group/map-peeking pointer-events-auto"
+                className="hero-map-insert hidden md:block absolute right-[28px] top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:right-[43px] min-[1440px]:w-[36.57%] bottom-auto z-40 -translate-y-1/2 md:mt-[-85px] lg:mt-[-55px] xl:mt-[-35px] 2xl:mt-[-20px] select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
                 {/* Hover Hint Label - positioned neatly under the map insert block, permanently shown with a nice entry fade */}
                 <div 

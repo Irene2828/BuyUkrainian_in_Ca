@@ -35,7 +35,7 @@ export function MapStats() {
                             duration={2000}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Added"}</span>
+                        <span className="text-reveal text-[13px] min-[1670px]:text-[14.5px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap">{t("stats.storesFound") || "Stores Added"}</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
@@ -46,7 +46,7 @@ export function MapStats() {
                             delay={200}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>{t("stats.provincesCovered") || "Provinces Covered"}</span>
+                        <span className="text-reveal text-[13px] min-[1670px]:text-[14.5px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "80ms" }}>{t("stats.provincesCovered") || "Provinces Covered"}</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
@@ -57,7 +57,7 @@ export function MapStats() {
                             delay={400}
                             className="font-ui text-[2.2rem] md:text-[2.64rem] font-thin tracking-tighter text-[#0057B7] leading-none antialiased tabular-nums"
                         />
-                        <span className="text-reveal text-[13px] font-medium tracking-widest text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>{t("stats.productsListed") || "Products Listed"}</span>
+                        <span className="text-reveal text-[13px] min-[1670px]:text-[14.5px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>{t("stats.productsListed") || "Products Listed"}</span>
                     </div>
                 </div>
             </div>

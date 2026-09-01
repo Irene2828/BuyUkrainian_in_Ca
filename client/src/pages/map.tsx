@@ -3,7 +3,6 @@ import { getApprovedStores } from "@/lib/api";
 import { Loader2, ArrowRight, ArrowUpRight, Plus, MapPin } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { AddStoreCTA } from "@/components/add-store-cta";
 import { MapExplorer } from "@/components/map-explorer";
 import { Store } from "@/lib/data";
 import { useState } from "react";
@@ -175,9 +174,6 @@ export default function MapPage() {
           <>
             <div className="section-reveal relative z-10 bg-transparent pt-0 pb-0">
               <NewlyAddedStores />
-            </div>
-            <div className="section-reveal bg-white">
-              <AddStoreCTA />
             </div>
           </>
         )}
