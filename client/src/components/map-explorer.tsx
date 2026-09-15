@@ -425,7 +425,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                             </div>
 
                             {/* Active Store Details Container */}
-                            <div className="hidden md:flex flex-1 overflow-y-auto custom-scrollbar relative p-4 flex-col gap-4">
+                            <div className="hidden md:flex flex-1 overflow-y-auto custom-scrollbar relative py-4 px-4 pl-0 min-[1670px]:pl-0 min-[1670px]:pr-0 flex-col gap-4">
                                 {selectedStore ? (
                                     <StoreCard 
                                         store={selectedStore} 

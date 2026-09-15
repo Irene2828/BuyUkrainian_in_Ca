@@ -149,7 +149,6 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 className={cn(
                     "bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(10,37,64,0.12)] rounded-[20px] border border-white/50 flex flex-col w-full transition-all duration-500 pointer-events-auto",
                     "h-auto max-h-[90vh] overflow-hidden relative z-20",
-                    variant === 'map' && "md:w-[90%] md:mx-auto",
                     className
                 )}
             >
