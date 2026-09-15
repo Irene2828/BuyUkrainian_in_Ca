@@ -237,7 +237,7 @@ export function Hero() {
             <div className="hero-desktop-copy-layer content-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none px-3 md:px-5 lg:px-6">
                 <div className="w-full flex justify-start items-center h-full relative md:-translate-y-[30px]">
                     <motion.div 
-                        className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0 md:translate-x-[3vw] min-[1670px]:translate-x-0"
+                        className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0 md:translate-x-[3vw] min-[1670px]:-translate-x-[3vw]"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -662,7 +662,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 min-[1670px]:px-12 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12.2px] md:text-[14.5px] lg:text-[13.5px] min-[1670px]:text-[19px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className="text-[12.2px] md:text-[14.5px] lg:text-[13.5px] min-[1670px]:text-[21px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>
