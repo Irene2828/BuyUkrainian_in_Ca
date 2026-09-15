@@ -1616,6 +1616,14 @@ html.dark .city-labels-layer {
     margin-inline: 0 !important;
   }
 
+@media (min-width: 1670px) {
+  .map-explorer-frame {
+    height: calc(100vh - 100px) !important;
+    max-height: 980px !important;
+    min-height: 720px !important;
+  }
+}
+
   .how-it-works-rail {
     max-width: var(--boutique-max-width, 1640px);
     margin-inline: auto;
