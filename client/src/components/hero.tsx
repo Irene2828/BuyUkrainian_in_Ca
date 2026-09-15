@@ -290,22 +290,11 @@ export function Hero() {
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">#madeinUkraine</strong> near you.
                                         </motion.p>
                                          <motion.div 
-                                            initial={{ opacity: 0, y: 16 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
-                                         >
-                                            <Link href="/map" className="w-full md:w-auto">
-                                                <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
-                                                >
-                                                    <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
-                                                    <Search 
-                                                        className="w-5 h-5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
-                                                        strokeWidth={1.5}
-                                                    />
-                                                </button>
-                                            </Link>
+                                             initial={{ opacity: 0, y: 16 }}
+                                             animate={{ opacity: 1, y: 0 }}
+                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                             className="mt-2 flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
+                                          >
                                              <button
                                                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
                                                  className="group inline-flex h-[50px] 2xl:h-[50px] min-[1670px]:h-[50.8px] items-center justify-center gap-2 min-[1670px]:gap-2.5 bg-transparent px-0 text-[clamp(13px,1vw,19px)] min-[1670px]:text-[19px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto w-full md:w-auto cursor-pointer outline-none"
@@ -334,13 +323,21 @@ export function Hero() {
             <div
                 className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
-                {/* Hover Hint Label - positioned neatly under the map insert block */}
+                {/* CTA 1 Button positioned directly under the map insert block */}
                 <div 
-                    className="absolute -bottom-[2.5rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
+                    className="absolute -bottom-[3.6rem] min-[1670px]:-bottom-[4.0rem] left-0 right-0 flex justify-center items-center pointer-events-auto z-50"
                 >
-                    <span className="text-[13px] md:text-[13.5px] font-normal tracking-[0.16em] text-white/75 whitespace-nowrap font-sans antialiased drop-shadow-sm">
-                        {t('hero.tapToExplore') || 'Tap to explore the map'}
-                    </span>
+                    <Link href="/map" className="w-auto">
+                        <button
+                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased cursor-pointer"
+                        >
+                            <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                            <Search 
+                                className="w-5 h-5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                strokeWidth={1.5}
+                            />
+                        </button>
+                    </Link>
                 </div>
 
                 <div
