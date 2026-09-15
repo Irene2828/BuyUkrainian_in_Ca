@@ -630,7 +630,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
                                 <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[12px] md:text-[12px] lg:text-[11.5px] xl:text-[11.5px] min-[1670px]:text-[14.5px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[12px] md:text-[12px] lg:text-[11.5px] xl:text-[11.5px] 3xl:text-[14.5px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -654,7 +654,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                     }}
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
-                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 min-[1670px]:px-12 shrink-0 group/ticker-item cursor-pointer">
+                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 3xl:px-12 shrink-0 group/ticker-item cursor-pointer">
                                             <span className="text-[12px] md:text-[12px] lg:text-[13.5px] xl:text-[13.5px] 3xl:text-[18.2px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
