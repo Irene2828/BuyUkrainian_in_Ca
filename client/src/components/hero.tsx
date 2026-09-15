@@ -310,10 +310,13 @@ export function Hero() {
             <div
                 className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
-                {/* CTA 1 Button positioned directly under the map insert block in brand yellow */}
+                {/* Tap to explore the map label + CTA 1 Button under the map insert block */}
                 <div 
-                    className="absolute -bottom-[3.6rem] min-[1670px]:-bottom-[4.0rem] left-0 right-0 flex justify-center items-center pointer-events-auto z-50"
+                    className="absolute -bottom-[5.4rem] min-[1670px]:-bottom-[5.8rem] left-0 right-0 flex flex-col justify-center items-center gap-2 pointer-events-auto z-50"
                 >
+                    <span className="text-[13px] md:text-[13.5px] font-normal tracking-[0.16em] text-white/75 whitespace-nowrap font-sans antialiased drop-shadow-sm pointer-events-none">
+                        {t('hero.tapToExplore') || 'Tap to explore the map'}
+                    </span>
                     <Link href="/map" className="w-auto">
                         <button
                             className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased cursor-pointer"
