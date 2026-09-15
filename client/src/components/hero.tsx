@@ -310,14 +310,14 @@ export function Hero() {
             <div
                 className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
-                {/* CTA 1 & CTA 2: Swapped order on 1440px screens, stacked in original order on 1670px+ screens */}
+                {/* CTA 1 & CTA 2: Swapped order, single row on all desktop screens (1440px & 1670px+) */}
                 <div 
-                    className="absolute -bottom-[4.5rem] min-[1670px]:-bottom-[7.2rem] left-0 right-0 flex flex-row min-[1670px]:flex-col justify-center items-center gap-3 min-[1670px]:gap-2.5 pointer-events-auto z-50"
+                    className="absolute -bottom-[4.5rem] min-[1670px]:-bottom-[5.0rem] left-0 right-0 flex flex-row justify-center items-center gap-3 min-[1670px]:gap-4 pointer-events-auto z-50"
                 >
-                    {/* CTA 1: Apple-style Premium Rounded Button (Order 2 on 1440px, Order 1 on 1670px+) */}
-                    <Link href="/map" className="w-auto order-2 min-[1670px]:order-1">
+                    {/* CTA 1: Apple-style Premium Rounded Button (Order 2) */}
+                    <Link href="/map" className="w-auto order-2">
                         <button
-                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[48px] min-[1440px]:h-[48px] min-[1670px]:h-[55px] px-6 min-[1440px]:px-6 min-[1670px]:px-[32px] text-[14.5px] min-[1440px]:text-[14.5px] min-[1670px]:text-[18px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[0.99] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
+                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[48px] min-[1440px]:h-[48px] min-[1670px]:h-[50px] px-6 min-[1440px]:px-6 min-[1670px]:px-[28px] text-[14.5px] min-[1440px]:text-[14.5px] min-[1670px]:text-[16px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[0.99] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
                         >
                             <Search 
                                 className="w-4 h-4 min-[1670px]:w-[18px] min-[1670px]:h-[18px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
@@ -327,10 +327,10 @@ export function Hero() {
                         </button>
                     </Link>
 
-                    {/* CTA 2: Thin white bordered outline button (Order 1 on 1440px, Order 2 on 1670px+) */}
+                    {/* CTA 2: Thin white bordered outline button (Order 1) */}
                     <button
                         onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                        className="group inline-flex items-center justify-center gap-2 h-[44px] min-[1670px]:h-[42px] px-5 min-[1670px]:px-6 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[13.5px] min-[1670px]:text-[14px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-1 min-[1670px]:order-2"
+                        className="group inline-flex items-center justify-center gap-2 h-[44px] min-[1670px]:h-[46px] px-5 min-[1670px]:px-6 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[13.5px] min-[1670px]:text-[15px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-1"
                     >
                         <Plus className="h-3.5 w-3.5 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
                         <span>{t('nav.addStore') || 'Add a new store'}</span>
