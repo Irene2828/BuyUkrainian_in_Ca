@@ -1638,22 +1638,22 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
+    right: clamp(0.75rem, 2.5vw, 2rem) !important;
     transform: translateY(-50%) !important;
-    top: 54% !important;
-    width: min(44%, 680px) !important;
+    top: 52% !important;
+    width: min(39.5%, 680px) !important;
   }
 
   .hero-map-backing {
-    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
-    top: calc(54% + 16px) !important;
-    width: min(44%, 680px) !important;
+    right: clamp(0.75rem, 2.5vw, 2rem) !important;
+    top: calc(52% + 16px) !important;
+    width: min(39.5%, 680px) !important;
   }
 
   .hero-map-pillars {
-    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
-    top: calc(54% - 29% + 24px) !important;
-    width: min(44%, 680px) !important;
+    right: clamp(0.75rem, 2.5vw, 2rem) !important;
+    top: calc(52% - 29% + 24px) !important;
+    width: min(39.5%, 680px) !important;
   }
 }
 
@@ -1663,8 +1663,9 @@ html.dark .city-labels-layer {
   }
 
   .hero-map-insert {
-    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
+    right: clamp(0.75rem, 2.5vw, 2rem) !important;
     transform: translateY(-50%) !important;
+    width: min(38.5%, 720px) !important;
   }
 }
 
