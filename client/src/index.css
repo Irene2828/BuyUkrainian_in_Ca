@@ -11,8 +11,6 @@
 
 @theme {
   /* Colors - Restored to Audit Palette with New Brand Accents */
-  --breakpoint-3xl: 1600px;
-  
   --color-primary-yellow: #0057B7;
   --color-accent-yellow: #0057B7;
   --color-primary-blue: #4096FF;
@@ -1654,26 +1652,26 @@ html.dark .city-labels-layer {
 
   .hero-map-insert {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
-    top: 50% !important;
+    top: 58% !important;
     transform: translateY(-50%) !important;
     margin-top: 0 !important;
-    width: min(39.5%, 680px) !important;
+    width: min(47.6%, 780px) !important;
   }
 
   .hero-map-backing {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
-    top: calc(50% + 16px) !important;
+    top: calc(58% + 16px) !important;
     transform: translateY(-50%) !important;
     margin-top: 0 !important;
-    width: min(39.5%, 680px) !important;
+    width: min(47.6%, 780px) !important;
   }
 
   .hero-map-pillars {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
-    top: calc(50% - 29% + 24px) !important;
+    top: calc(58% - 29% + 24px) !important;
     transform: translateY(-50%) !important;
     margin-top: 0 !important;
-    width: min(39.5%, 680px) !important;
+    width: min(47.6%, 780px) !important;
   }
 }
 
@@ -1684,10 +1682,10 @@ html.dark .city-labels-layer {
 
   .hero-map-insert {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
-    top: 50% !important;
+    top: 58% !important;
     transform: translateY(-50%) !important;
     margin-top: 0 !important;
-    width: min(38.5%, 720px) !important;
+    width: min(43.88%, 820px) !important;
   }
 }
 
