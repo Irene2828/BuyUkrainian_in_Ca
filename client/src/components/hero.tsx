@@ -235,7 +235,7 @@ export function Hero() {
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
             <div className="hero-desktop-copy-layer content-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none px-3 md:px-5 lg:px-6 min-[1670px]:px-[clamp(0.75rem,2.5vw,2rem)]">
-                <div className="w-full flex justify-start items-center h-full relative md:-translate-y-[30px]">
+                <div className="w-full flex justify-start items-center h-full relative md:translate-y-[25px] lg:translate-y-[40px]">
                     <motion.div 
                         className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0 md:translate-x-0 min-[1670px]:translate-x-0"
                         initial={{ opacity: 0, y: 10 }}
@@ -243,7 +243,7 @@ export function Hero() {
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[17.5vh] translate-y-0">
+                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-0 translate-y-0">
                             <motion.div 
                                 initial={{ opacity: 0, y: 22 }}
                                 animate={{ opacity: 1, y: 0 }}
