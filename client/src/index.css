@@ -1208,10 +1208,10 @@ html.dark .city-labels-layer {
 /* External 1080p monitors / Large "More Space" (1670px+) */
 @media (min-width: 1670px) {
   :root {
-    --boutique-max-width: 1400px;
-    --content-max-width: 1400px;
-    --footer-max-width: 1400px;
-    --utility-max-width: 1440px;
+    --boutique-max-width: 1540px;
+    --content-max-width: 1540px;
+    --footer-max-width: 1540px;
+    --utility-max-width: 1600px;
     --container-standard: 1776px;
     --container-large: 1936px;
     --gutter-obsidian-max-width: var(--container-standard);
@@ -1597,7 +1597,7 @@ html.dark .city-labels-layer {
 
 @media (min-width: 1440px) {
   :root {
-    --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1640px)) / 2));
+    --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2));
     --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem + 4%);
   }
 
@@ -1611,8 +1611,9 @@ html.dark .city-labels-layer {
   }
 
   .map-explorer-frame {
-    max-width: var(--boutique-max-width, 1640px);
-    margin-inline: auto;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-inline: 0 !important;
   }
 
   .how-it-works-rail {
