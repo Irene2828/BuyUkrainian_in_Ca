@@ -243,7 +243,7 @@ export function Hero() {
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[12vh] translate-y-0">
+                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[14.5vh] translate-y-0">
                             <motion.div 
                                 initial={{ opacity: 0, y: 22 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -409,6 +409,12 @@ export function Hero() {
                         </div>
                     </div>
 
+                </div>
+                {/* Tap to explore the map label under map insert */}
+                <div className="absolute -bottom-8 left-0 right-0 flex justify-center items-center pointer-events-none z-50">
+                    <span className="text-[13px] min-[1440px]:text-[13.5px] font-medium tracking-wide text-white/75 font-sans antialiased">
+                        {t('hero.tapToExplore') || 'Tap to explore the map'}
+                    </span>
                 </div>
             </div>
             </motion.div>
