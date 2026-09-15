@@ -310,27 +310,27 @@ export function Hero() {
             <div
                 className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
-                {/* Stacked CTA 1 (Apple-style rounded) & CTA 2 (Thin white outline) under map insert */}
+                {/* CTA 1 (Apple-style rounded) & CTA 2 (Thin white outline): Single row on 1440px screens, stacked on 1670px+ screens */}
                 <div 
-                    className="absolute -bottom-[6.8rem] min-[1670px]:-bottom-[7.2rem] left-0 right-0 flex flex-col justify-center items-center gap-2.5 pointer-events-auto z-50"
+                    className="absolute -bottom-[4.5rem] min-[1670px]:-bottom-[7.2rem] left-0 right-0 flex flex-row min-[1670px]:flex-col justify-center items-center gap-3 min-[1670px]:gap-2.5 pointer-events-auto z-50"
                 >
                     {/* CTA 1: Apple-style Premium Rounded Button */}
                     <Link href="/map" className="w-auto">
                         <button
-                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[53px] min-[1670px]:h-[55px] px-8 min-[1670px]:px-[32px] text-[clamp(15px,1.1vw,18px)] min-[1670px]:text-[18px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[0.99] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
+                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[48px] min-[1440px]:h-[48px] min-[1670px]:h-[55px] px-6 min-[1440px]:px-6 min-[1670px]:px-[32px] text-[14.5px] min-[1440px]:text-[14.5px] min-[1670px]:text-[18px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[0.99] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
                         >
                             <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                             <Search 
-                                className="w-4.5 h-4.5 min-[1670px]:w-[18px] min-[1670px]:h-[18px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                className="w-4 h-4 min-[1670px]:w-[18px] min-[1670px]:h-[18px] ml-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
                                 strokeWidth={2}
                             />
                         </button>
                     </Link>
 
-                    {/* CTA 2: Stacked thin white bordered outline button */}
+                    {/* CTA 2: Thin white bordered outline button */}
                     <button
                         onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                        className="group inline-flex items-center justify-center gap-2 h-[42px] px-6 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[14px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md"
+                        className="group inline-flex items-center justify-center gap-2 h-[44px] min-[1670px]:h-[42px] px-5 min-[1670px]:px-6 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[13.5px] min-[1670px]:text-[14px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap"
                     >
                         <Plus className="h-3.5 w-3.5 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
                         <span>{t('nav.addStore') || 'Add a new store'}</span>
