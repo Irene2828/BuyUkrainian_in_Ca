@@ -280,12 +280,12 @@ export function Hero() {
                         </div>
                                     
                                     {/* Description and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-1.5 md:gap-2">
+                                    <div className="flex w-full flex-col items-start self-start mt-2 md:mt-3 mb-6 md:mb-10 gap-1.5 md:gap-2">
                                         <motion.p 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 w-full max-w-none md:whitespace-nowrap translate-y-[-2vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
+                                            className="hero-description-copy relative z-10 mt-2 md:mt-3 w-full max-w-none md:whitespace-nowrap translate-y-[0.5vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
                                         >
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">#madeinUkraine</strong> near you.
                                         </motion.p>
@@ -294,15 +294,15 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="flex flex-row justify-start items-center gap-4 mt-4.5 min-[1440px]:mt-6 min-[1670px]:mt-[28px] pointer-events-auto z-50 w-full"
+                                            className="flex flex-row justify-start items-center gap-4 mt-5 min-[1440px]:mt-7 min-[1670px]:mt-[32px] pointer-events-auto z-50 w-full"
                                         >
                                             {/* CTA 1: Apple-style Premium Rounded Button (Order 2) */}
                                             <Link href="/map" className="w-auto order-2">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[48px] min-[1440px]:h-[48px] min-[1670px]:h-[50px] px-6 min-[1440px]:px-6 min-[1670px]:px-[28px] text-[14.5px] min-[1440px]:text-[14.5px] min-[1670px]:text-[16px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[0.99] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
+                                                    className="group/cta-btn relative inline-flex scale-[1.07] min-[1670px]:scale-[1.07] items-center justify-center h-[53px] min-[1440px]:h-[53px] min-[1670px]:h-[55px] px-7 min-[1440px]:px-7 min-[1670px]:px-[31px] text-[16px] min-[1440px]:text-[16px] min-[1670px]:text-[17.5px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[1.09] active:scale-[1.07] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
                                                 >
                                                     <Search 
-                                                        className="w-4 h-4 min-[1670px]:w-[18px] min-[1670px]:h-[18px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                        className="w-4.5 h-4.5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
                                                         strokeWidth={2}
                                                     />
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
@@ -312,9 +312,9 @@ export function Hero() {
                                             {/* CTA 2: Thin white bordered outline button (Order 1) */}
                                             <button
                                                 onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                                className="group inline-flex items-center justify-center gap-2 h-[44px] min-[1670px]:h-[46px] px-5 min-[1670px]:px-6 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[13.5px] min-[1670px]:text-[15px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-1"
+                                                className="group inline-flex items-center justify-center gap-2 h-[48px] min-[1670px]:h-[50px] px-6 min-[1670px]:px-7 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[15px] min-[1670px]:text-[16.5px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-1"
                                             >
-                                                <Plus className="h-3.5 w-3.5 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
+                                                <Plus className="h-4 w-4 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
                                                 <span>{t('nav.addStore') || 'Add a new store'}</span>
                                             </button>
                                         </motion.div>
