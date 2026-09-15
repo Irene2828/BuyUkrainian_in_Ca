@@ -243,7 +243,7 @@ export function Hero() {
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[14.5vh] translate-y-0">
+                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[17.5vh] translate-y-0">
                             <motion.div 
                                 initial={{ opacity: 0, y: 22 }}
                                 animate={{ opacity: 1, y: 0 }}
