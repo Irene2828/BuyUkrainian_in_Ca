@@ -1639,20 +1639,25 @@ html.dark .city-labels-layer {
 
   .hero-map-insert {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
+    top: 50% !important;
     transform: translateY(-50%) !important;
-    top: 52% !important;
+    margin-top: 0 !important;
     width: min(39.5%, 680px) !important;
   }
 
   .hero-map-backing {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
-    top: calc(52% + 16px) !important;
+    top: calc(50% + 16px) !important;
+    transform: translateY(-50%) !important;
+    margin-top: 0 !important;
     width: min(39.5%, 680px) !important;
   }
 
   .hero-map-pillars {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
-    top: calc(52% - 29% + 24px) !important;
+    top: calc(50% - 29% + 24px) !important;
+    transform: translateY(-50%) !important;
+    margin-top: 0 !important;
     width: min(39.5%, 680px) !important;
   }
 }
@@ -1664,7 +1669,9 @@ html.dark .city-labels-layer {
 
   .hero-map-insert {
     right: clamp(0.75rem, 2.5vw, 2rem) !important;
+    top: 50% !important;
     transform: translateY(-50%) !important;
+    margin-top: 0 !important;
     width: min(38.5%, 720px) !important;
   }
 }

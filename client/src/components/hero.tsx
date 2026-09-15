@@ -332,7 +332,7 @@ export function Hero() {
                     className="absolute inset-0 z-30 pointer-events-none content-width left-1/2 -translate-x-1/2 px-3 md:px-5 lg:px-6"
                 >
             <div
-                className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 translate-x-[10%] -translate-y-1/2 md:mt-[-85px] lg:mt-[-55px] xl:mt-[-35px] 2xl:mt-[-20px] select-none border-none outline-none group/map-peeking pointer-events-auto"
+                className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
                 {/* Hover Hint Label - positioned neatly under the map insert block */}
                 <div 
