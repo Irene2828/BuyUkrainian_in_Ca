@@ -294,7 +294,7 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="flex flex-row justify-start items-center gap-4 mt-8 min-[1440px]:mt-10 min-[1670px]:mt-12 pointer-events-auto z-50 w-full"
+                                            className="flex flex-row justify-start items-center gap-4 mt-6 min-[1440px]:mt-8 min-[1670px]:mt-[38px] pointer-events-auto z-50 w-full"
                                         >
                                             {/* CTA 1: Apple-style Premium Rounded Button (Order 2) */}
                                             <Link href="/map" className="w-auto order-2">
