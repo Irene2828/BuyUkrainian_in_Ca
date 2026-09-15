@@ -39,7 +39,7 @@ export function HowItWorks() {
         </div>
 
         {/* Right Column: Blue Block (Text) - 62% width */}
-        <div className="how-it-works-copy-panel w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-10 md:gap-8 justify-center items-center">
+        <div className="how-it-works-copy-panel w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-12 md:gap-10 lg:gap-11 justify-center items-center">
           {steps.map((step, index) => (
             <div
               key={index}

@@ -136,8 +136,8 @@ const uk = {
   },
   hero: {
     headline: {
-      discover: "ЗНАХОДЬ",
-      ukrainianProducts: "УКРАЇНСЬКІ ТОВАРИ",
+      discover: "Знаходь",
+      ukrainianProducts: "Українські товари",
       soldAcross: "в магазинах",
       canada: "Канади",
     },
@@ -149,10 +149,12 @@ const uk = {
     descriptionShare: " та ",
     descriptionShareBold: "поширюй",
     descriptionEnd: " #madeinUkraine поруч з тобою",
+    descriptionStoresSelling: "магазини з товарими",
+    descriptionNearYou: " поруч з тобою",
     ctaPrimary: "Знайти магазини поруч",
     ctaSecondary: "Як це працює",
     addedRecently: "ЩОЙНО ДОДАНО",
-    tapToExplore: "НАТИСНІТЬ, ЩОБ ВІДКРИТИ МАПУ",
+    tapToExplore: "Натисніть, щоб відкрити мапу",
     mapPreviewAria: "Інтерактивна мапа українських магазинів у Канаді",
     trustPillars: {
       economy: {

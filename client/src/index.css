@@ -1147,10 +1147,10 @@ html.dark .city-labels-layer {
 /* Width Upgrade for Laptops (1280px+) - Wider frame for smaller laptops */
 @media (min-width: 1280px) {
   :root {
-    --boutique-max-width: 1500px;
-    --content-max-width: 1500px;
-    --footer-max-width: 1636px;
-    --utility-max-width: 1540px;
+    --boutique-max-width: 1400px;
+    --content-max-width: 1400px;
+    --footer-max-width: 1400px;
+    --utility-max-width: 1440px;
   }
 }
 
@@ -1162,17 +1162,17 @@ html.dark .city-labels-layer {
   }
 
   .content-width {
-    max-width: var(--boutique-max-width, 1640px);
+    max-width: var(--boutique-max-width, 1400px);
     padding-inline: 1.25rem;
   }
 
   :root {
-    --boutique-max-width: 1640px;
-    --content-max-width: 1640px;
-    --footer-max-width: 1776px;
-    --utility-max-width: 1640px;
-    --container-standard: 1686px;
-    --container-large: 1846px;
+    --boutique-max-width: 1400px;
+    --content-max-width: 1400px;
+    --footer-max-width: 1400px;
+    --utility-max-width: 1440px;
+    --container-standard: 1440px;
+    --container-large: 1600px;
     --gutter-obsidian-max-width: var(--container-standard);
 
     /* Typography Scale — Step 1: Gentle bump (+1px) */
@@ -1208,10 +1208,10 @@ html.dark .city-labels-layer {
 /* External 1080p monitors / Large "More Space" (1670px+) */
 @media (min-width: 1670px) {
   :root {
-    --boutique-max-width: 1760px;
-    --content-max-width: 1760px;
-    --footer-max-width: 1896px;
-    --utility-max-width: 1800px;
+    --boutique-max-width: 1400px;
+    --content-max-width: 1400px;
+    --footer-max-width: 1400px;
+    --utility-max-width: 1440px;
     --container-standard: 1776px;
     --container-large: 1936px;
     --gutter-obsidian-max-width: var(--container-standard);
@@ -1537,7 +1537,6 @@ html.dark .city-labels-layer {
   .hero-description-copy {
     max-width: 360px !important;
     white-space: normal !important;
-    font-size: 15px !important;
     line-height: 1.45 !important;
   }
 }
@@ -1578,11 +1577,6 @@ html.dark .city-labels-layer {
     padding: 8px 14px !important;
   }
 
-  .hero-map-pillar-text {
-    font-size: 8.75px !important;
-    letter-spacing: 0.18em !important;
-  }
-
   .hero-headline-line {
     font-size: 3.063rem !important;
   }
@@ -1590,7 +1584,6 @@ html.dark .city-labels-layer {
   .hero-description-copy {
     max-width: 460px !important;
     white-space: normal !important;
-    font-size: 16px !important;
     line-height: 1.45 !important;
   }
 }

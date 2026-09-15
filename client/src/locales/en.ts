@@ -137,6 +137,8 @@ const en = {
   hero: {
     headline: {
       discover: "Discover",
+      ukrainian: "Ukrainian",
+      products: "Products",
       ukrainianProducts: "Ukrainian Products",
       soldAcross: "sold across",
       canada: "Canada",
@@ -149,18 +151,20 @@ const en = {
     descriptionShare: ", and",
     descriptionShareBold: "share",
     descriptionEnd: "stores selling #madeinUkraine near you.",
+    descriptionStoresSelling: "stores selling",
+    descriptionNearYou: " near you.",
     ctaPrimary: "Find stores near me",
     ctaSecondary: "How it works",
     addedRecently: "ADDED RECENTLY",
-    tapToExplore: "TAP TO EXPLORE THE MAP",
+    tapToExplore: "Tap to explore the map",
     mapPreviewAria: "Interactive map of Ukrainian stores in Canada",
     trustPillars: {
       economy: {
-        title: "Support Ukraine's Economy",
+        title: "Local support for Ukraine's economy",
         detail: "every purchase goes directly to Ukrainian makers",
       },
       verified: {
-        title: "Volunteer-Verified Listings",
+        title: "Volunteer-verified listings",
         detail: "every listing is reviewed before it appears on the map",
       },
       updated: {

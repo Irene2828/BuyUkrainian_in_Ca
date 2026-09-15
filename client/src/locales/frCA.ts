@@ -137,7 +137,7 @@ const frCA = {
   hero: {
     headline: {
       discover: "Découvrez les",
-      ukrainianProducts: "produits ukrainiens",
+      ukrainianProducts: "Produits ukrainiens",
       soldAcross: "partout au",
       canada: "Canada",
     },
@@ -149,10 +149,12 @@ const frCA = {
     descriptionShare: " et",
     descriptionShareBold: "partager",
     descriptionEnd: "des boutiques avec #madeinUkraine.",
+    descriptionStoresSelling: "des boutiques vendant",
+    descriptionNearYou: " près de chez vous.",
     ctaPrimary: "Trouver des boutiques près de moi",
     ctaSecondary: "Comment ça fonctionne",
     addedRecently: "AJOUTÉ RÉCEMMENT",
-    tapToExplore: "APPUYEZ POUR EXPLORER LA CARTE",
+    tapToExplore: "Appuyez pour explorer la carte",
     mapPreviewAria: "Carte interactive des boutiques ukrainiennes au Canada",
     trustPillars: {
       economy: {
