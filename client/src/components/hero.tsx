@@ -310,9 +310,9 @@ export function Hero() {
             <div
                 className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
-                {/* Tap to explore the map label - 50% closer to map insert with 30% less opacity */}
+                {/* Tap to explore the map label - with 20% space above */}
                 <div 
-                    className="absolute -bottom-[1.35rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
+                    className="absolute -bottom-[1.65rem] left-0 right-0 flex justify-center items-center pointer-events-none z-50"
                 >
                     <span className="text-[13px] md:text-[13.5px] font-normal tracking-[0.16em] text-white/50 whitespace-nowrap font-sans antialiased drop-shadow-sm">
                         {t('hero.tapToExplore') || 'Tap to explore the map'}
