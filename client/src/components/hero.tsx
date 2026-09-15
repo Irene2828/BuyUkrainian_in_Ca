@@ -280,12 +280,12 @@ export function Hero() {
                         </div>
                                     
                                     {/* Description and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-1 md:gap-1.5">
+                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-1.5 md:gap-2">
                                         <motion.p 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.6, delay: 0.62, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 w-full max-w-none md:whitespace-nowrap translate-y-[-3.5vh] md:translate-y-[-4vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
+                                            className="hero-description-copy relative z-10 mt-0 w-full max-w-none md:whitespace-nowrap translate-y-[-2vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
                                         >
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> <strong className="font-bold text-white">#madeinUkraine</strong> near you.
                                         </motion.p>
@@ -293,7 +293,7 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.6, delay: 0.76, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(-2vh)' }}
+                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
                                          >
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
