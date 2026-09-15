@@ -318,10 +318,12 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
                     {!isZenMode && (viewMode === "map" || viewMode === "list") && (
-                        <div className="w-full md:w-[420px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl">
+                        <div className="w-full md:w-[calc(420px+max(0px,calc((100vw-var(--boutique-max-width,1400px))/2)))] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl pl-0 md:pl-[max(0px,calc((100vw-var(--boutique-max-width,1400px))/2))]">
                             
-                            {/* Geometric Toolbar */}
-                            <div className="p-4 border-b border-white/15" ref={sidebarRef as React.RefObject<HTMLDivElement>}>
+                            {/* Inner 420px Content Box aligned with Header */}
+                            <div className="w-full md:w-[420px] flex flex-col flex-1 h-full">
+                                {/* Geometric Toolbar */}
+                                <div className="p-4 border-b border-white/15" ref={sidebarRef as React.RefObject<HTMLDivElement>}>
                                 <div className="flex flex-col gap-3">
                                     {/* Search */}
                                     <div className="flex items-center h-[44px] bg-white/10 border border-white/25 px-3 group transition-all duration-200 rounded-none">
@@ -438,6 +440,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         <p className="text-white text-[15px] font-medium tracking-wide">Select a store on the map<br/>to see details here.</p>
                                     </div>
                                 )}
+                            </div>
                             </div>
                         </div>
                     )}
