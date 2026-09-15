@@ -20,7 +20,7 @@ export interface InteractiveMapRef {
   invalidateSize: () => void;
 }
 
-const FULL_MAP_INITIAL_CENTER: [number, number] = [52.5, -95.0];
+const FULL_MAP_INITIAL_CENTER: [number, number] = [54.5, -102.5];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 const HERO_INITIAL_MAP_STATE = {
   center: { lat: 51.5, lng: -123.0 },
