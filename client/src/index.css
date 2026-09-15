@@ -11,7 +11,7 @@
 
 @theme {
   /* Colors - Restored to Audit Palette with New Brand Accents */
-  --breakpoint-3xl: 1670px;
+  --breakpoint-3xl: 1600px;
   
   --color-primary-yellow: #0057B7;
   --color-accent-yellow: #0057B7;

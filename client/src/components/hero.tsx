@@ -320,11 +320,11 @@ export function Hero() {
                     className="absolute inset-0 z-30 pointer-events-none content-width left-1/2 -translate-x-1/2 px-3 md:px-5 lg:px-6"
                 >
             <div
-                className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] min-[1670px]:w-[38.4%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
+                className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[43.67%] min-[1440px]:w-[40.23%] min-[1670px]:w-[42.24%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
                 {/* Body line ("One map to...") under the map insert, centered */}
                 <div 
-                    className="absolute -bottom-[4.6rem] min-[1670px]:-bottom-[5.2rem] left-1/2 -translate-x-1/2 w-[115%] text-center pointer-events-auto z-50 flex justify-center"
+                    className="absolute -bottom-[3.7rem] min-[1670px]:-bottom-[4.15rem] left-1/2 -translate-x-1/2 w-[115%] text-center pointer-events-auto z-50 flex justify-center"
                 >
                     <motion.p 
                         initial={{ opacity: 0, y: 16 }}
