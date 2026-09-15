@@ -315,12 +315,7 @@ export function Hero() {
                                              </button>
                                          </motion.div>
                                     </div>
-
-
-
-
                                 </div>
-                            </div>
                         </motion.div>
                     </div>
                 </div>
