@@ -27,7 +27,7 @@ export function HowItWorks() {
       <div className="how-it-works-rail w-full flex flex-col md:flex-row">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
-        <div className="how-it-works-image-panel w-full md:w-[38%] bg-[#FFD700] px-5 py-10 md:p-8 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
+        <div className="how-it-works-image-panel w-full md:w-[38%] bg-[#FFD700] px-5 py-10 md:py-8 flex items-center justify-center md:justify-start min-h-[450px] md:min-h-[550px] md:pl-[max(1.25rem,calc((100vw-var(--content-max-width,1400px))/2))]">
           {/* White Photo Frame - Centered with barely visible shadow */}
           <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative">
             <img 

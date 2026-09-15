@@ -2,7 +2,7 @@ export const NAV_LINK_INTERACTION_CLASSNAME =
   "transition-opacity duration-300 ease-out hover:opacity-70 focus-visible:opacity-70";
 
 export const HEADER_NAV_LINK_CLASSNAME =
-  `text-[0.9rem] md:text-[0.9rem] lg:text-[0.95rem] min-[1670px]:text-[0.875rem] font-medium tracking-normal text-slate-500 ${NAV_LINK_INTERACTION_CLASSNAME}`;
+  `text-[14px] md:text-[14px] lg:text-[15px] 3xl:text-[18.4px] font-medium tracking-normal text-slate-500 ${NAV_LINK_INTERACTION_CLASSNAME}`;
 
 export const HEADER_NAV_LINK_ACTIVE_CLASSNAME =
   "text-slate-500 font-semibold opacity-100";

@@ -26,10 +26,10 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             className="flex items-center gap-1 md:gap-1.5 pl-2 pr-0 py-2 rounded-full hover:opacity-70 transition-opacity duration-200 outline-none group"
             aria-label="Change language"
           >
-            <Globe className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[0.875rem] min-[1670px]:h-[0.875rem] text-slate-500" strokeWidth={1.5} />
-            <span className="flex items-center gap-0.5 md:gap-1.5 text-[0.9rem] lg:text-[0.95rem] min-[1670px]:text-[0.875rem] leading-none mb-[1px]">
-              <span className="hidden md:inline text-[0.9rem] lg:text-[0.95rem] min-[1670px]:text-[0.875rem] leading-none" role="img" aria-label={currentOption.label}>{currentOption.flag}</span>
-              <span className="text-[0.77rem] lg:text-[0.81rem] min-[1670px]:text-[0.82rem] font-semibold text-slate-500 tracking-normal">{currentOption.short}</span>
+            <Globe className="w-[14px] h-[14px] lg:w-[15px] lg:h-[15px] 3xl:w-[18.4px] 3xl:h-[18.4px] text-slate-500" strokeWidth={1.5} />
+            <span className="flex items-center gap-0.5 md:gap-1.5 text-[14px] lg:text-[15px] 3xl:text-[18.4px] leading-none mb-[1px]">
+              <span className="hidden md:inline text-[14px] lg:text-[15px] 3xl:text-[18.4px] leading-none" role="img" aria-label={currentOption.label}>{currentOption.flag}</span>
+              <span className="text-[12px] lg:text-[13px] 3xl:text-[15.8px] font-semibold text-slate-500 tracking-normal">{currentOption.short}</span>
             </span>
           </button>
         </DropdownMenuTrigger>

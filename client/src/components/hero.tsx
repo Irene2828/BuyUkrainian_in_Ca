@@ -279,17 +279,29 @@ export function Hero() {
                             </motion.div>
                         </div>
                                     
-                                    {/* Description and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-1.5 md:gap-2">
-                                        <motion.p 
-                                            initial={{ opacity: 0, y: 16 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 w-full max-w-none md:whitespace-nowrap translate-y-[-2vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
-                                        >
-                                            {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">#madeinUkraine</strong> near you.
-                                        </motion.p>
+                                    {/* CTA buttons placed on left under headline — moved 50% closer */}
+                                    <div className="flex flex-row items-center gap-3.5 min-[1670px]:gap-4 pointer-events-auto z-50 mt-0 -translate-y-2">
+                                        {/* CTA 1: Apple-style Premium Rounded Button (Order 1) */}
+                                        <Link href="/map" className="w-auto order-1">
+                                            <button
+                                                className="group/cta-btn relative inline-flex scale-[1.02] min-[1670px]:scale-[1.02] items-center justify-center h-[50px] min-[1440px]:h-[50px] min-[1670px]:h-[52.5px] px-6 min-[1440px]:px-6.5 min-[1670px]:px-[30px] text-[15.2px] min-[1440px]:text-[15.2px] min-[1670px]:text-[16.8px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[1.04] active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
+                                            >
+                                                <Search 
+                                                    className="w-4 h-4 min-[1670px]:w-[19px] min-[1670px]:h-[19px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                    strokeWidth={2}
+                                                />
+                                                <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                            </button>
+                                        </Link>
 
+                                        {/* CTA 2: Thin white bordered outline button (Order 2) */}
+                                        <button
+                                            onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                                            className="group inline-flex items-center justify-center gap-2 h-[46px] min-[1670px]:h-[48.3px] px-5.5 min-[1670px]:px-6.5 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[14.2px] min-[1670px]:text-[15.8px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.98] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-2"
+                                        >
+                                            <Plus className="h-4 w-4 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
+                                            <span>{t('nav.addStore') || 'Add a new store'}</span>
+                                        </button>
                                     </div>
                                 </div>
                         </motion.div>
@@ -308,33 +320,20 @@ export function Hero() {
                     className="absolute inset-0 z-30 pointer-events-none content-width left-1/2 -translate-x-1/2 px-3 md:px-5 lg:px-6"
                 >
             <div
-                className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
+                className="hero-map-insert hidden md:block absolute right-3 md:right-5 lg:right-6 top-1/2 h-auto aspect-[1.5] w-[39.7%] min-[1440px]:w-[36.57%] min-[1670px]:w-[38.4%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
             >
-                {/* CTA 1 & CTA 2: Swapped order, single row on all desktop screens (1440px & 1670px+) */}
+                {/* Body line ("One map to...") under the map insert, centered */}
                 <div 
-                    className="absolute -bottom-[4.5rem] min-[1670px]:-bottom-[5.0rem] left-0 right-0 flex flex-row justify-center items-center gap-3 min-[1670px]:gap-4 pointer-events-auto z-50"
+                    className="absolute -bottom-[4.6rem] min-[1670px]:-bottom-[5.2rem] left-1/2 -translate-x-1/2 w-[115%] text-center pointer-events-auto z-50 flex justify-center"
                 >
-                    {/* CTA 1: Apple-style Premium Rounded Button (Order 2) */}
-                    <Link href="/map" className="w-auto order-2">
-                        <button
-                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[48px] min-[1440px]:h-[48px] min-[1670px]:h-[50px] px-6 min-[1440px]:px-6 min-[1670px]:px-[28px] text-[14.5px] min-[1440px]:text-[14.5px] min-[1670px]:text-[16px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[0.99] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
-                        >
-                            <Search 
-                                className="w-4 h-4 min-[1670px]:w-[18px] min-[1670px]:h-[18px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
-                                strokeWidth={2}
-                            />
-                            <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
-                        </button>
-                    </Link>
-
-                    {/* CTA 2: Thin white bordered outline button (Order 1) */}
-                    <button
-                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                        className="group inline-flex items-center justify-center gap-2 h-[44px] min-[1670px]:h-[46px] px-5 min-[1670px]:px-6 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[13.5px] min-[1670px]:text-[15px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-1"
+                    <motion.p 
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
+                        className="hero-description-copy relative z-10 mt-0 text-center font-sans text-[clamp(12px,0.95vw,16px)] min-[1670px]:text-[16px] font-light leading-[1.95] tracking-[0.015em] text-white/80"
                     >
-                        <Plus className="h-3.5 w-3.5 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
-                        <span>{t('nav.addStore') || 'Add a new store'}</span>
-                    </button>
+                        {t('hero.descriptionFind') || 'One map to'} <strong className="font-semibold text-[#FFD700]/80 border-b border-[#FFD700]/60 pb-[1px]">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-semibold text-[#FFD700]/80 border-b border-[#FFD700]/60 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-semibold text-[#FFD700]/80 border-b border-[#FFD700]/60 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores<br />selling <strong className="font-semibold text-[#FFD700]/80 border-b border-[#FFD700]/60 pb-[1px]">#madeinUkraine</strong> near you.
+                    </motion.p>
                 </div>
 
                 <div
@@ -631,7 +630,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
                                 <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[12px] md:text-[13.5px] lg:text-[13.5px] xl:text-[13.5px] min-[1670px]:text-[14.5px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[12px] md:text-[12px] lg:text-[11.5px] xl:text-[11.5px] min-[1670px]:text-[14.5px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -656,7 +655,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 min-[1670px]:px-12 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12px] md:text-[13.5px] lg:text-[13.5px] xl:text-[13.5px] min-[1670px]:text-[14.5px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className="text-[12px] md:text-[12px] lg:text-[13.5px] xl:text-[13.5px] 3xl:text-[18.2px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>
