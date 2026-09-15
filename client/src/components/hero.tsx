@@ -293,19 +293,8 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
+                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center justify-between w-full relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
                                          >
-                                            <Link href="/map" className="w-full md:w-auto self-start">
-                                                <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
-                                                >
-                                                    <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
-                                                    <Search 
-                                                        className="w-5 h-5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
-                                                        strokeWidth={1.5}
-                                                    />
-                                                </button>
-                                            </Link>
                                              <button
                                                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
                                                  className="group inline-flex h-[50px] 2xl:h-[50px] min-[1670px]:h-[50.8px] items-center justify-center gap-2 min-[1670px]:gap-2.5 bg-transparent px-0 text-[clamp(13px,1vw,19px)] min-[1670px]:text-[19px] font-medium tracking-normal text-white/72 transition-colors duration-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 font-sans antialiased pointer-events-auto w-full md:w-auto cursor-pointer outline-none"
@@ -313,6 +302,17 @@ export function Hero() {
                                                  <Plus className="h-4 w-4 min-[1670px]:h-[16px] min-[1670px]:w-[16px] text-current" strokeWidth={2.5} />
                                                  <span>{t('nav.addStore') || 'Add a new store'}</span>
                                              </button>
+                                             <Link href="/map" className="w-full md:w-auto self-start md:self-auto">
+                                                 <button
+                                                     className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                 >
+                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                                     <Search 
+                                                         className="w-5 h-5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] ml-2.5 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                         strokeWidth={1.5}
+                                                     />
+                                                 </button>
+                                             </Link>
                                          </motion.div>
                                     </div>
                                 </div>
