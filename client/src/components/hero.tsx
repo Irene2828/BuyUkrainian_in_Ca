@@ -293,11 +293,11 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
+                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center justify-start md:justify-end self-stretch relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
                                          >
-                                            <Link href="/map" className="w-full md:w-auto self-start">
+                                            <Link href="/map" className="w-full md:w-auto">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#FFD700] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
@@ -637,7 +637,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
                                 <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[10px] md:text-[12px] lg:text-[12.5px] min-[1670px]:text-[15px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[10px] md:text-[12px] lg:text-[12.5px] min-[1670px]:text-[17px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -662,7 +662,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 min-[1670px]:px-12 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12.2px] md:text-[14.5px] lg:text-[13.5px] min-[1670px]:text-[21px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className="text-[12.2px] md:text-[14.5px] lg:text-[13.5px] min-[1670px]:text-[23px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>
