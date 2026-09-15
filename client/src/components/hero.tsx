@@ -191,7 +191,7 @@ export function Hero() {
 
                         <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[51px] w-full md:scale-[0.97] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(15px,1.2vw,19px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[0.99] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
+                                <button className="group/cta-btn relative inline-flex h-[51px] w-full md:scale-[0.97] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(15px,1.2vw,19px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-[5px_5px_0px_#FFD700] transition-all duration-300 hover:md:scale-[0.99] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                     <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
                                 </button>
@@ -280,12 +280,12 @@ export function Hero() {
                         </div>
                                     
                                     {/* Description and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-2 md:gap-2.5">
+                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-1.5 md:gap-2">
                                         <motion.p 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 w-full max-w-none md:whitespace-nowrap translate-y-0 self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
+                                            className="hero-description-copy relative z-10 mt-0 w-full max-w-none md:whitespace-nowrap translate-y-[-2vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
                                         >
                                             {t('hero.descriptionFind') || 'One map to'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">#madeinUkraine</strong> near you.
                                         </motion.p>
@@ -293,11 +293,11 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(3vh)' }}
+                                            className="mt-0 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 min-[1670px]:gap-6.5 items-start md:items-center self-start w-full md:w-auto relative z-20 pointer-events-auto" style={{ transform: 'translateY(0.5vh)' }}
                                          >
                                             <Link href="/map" className="w-full md:w-auto self-start">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
+                                                    className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#FFD700] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased pointer-events-auto w-full md:w-auto"
                                                 >
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                                     <Search 
