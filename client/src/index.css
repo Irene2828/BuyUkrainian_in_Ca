@@ -1172,12 +1172,12 @@ html.dark .city-labels-layer {
   }
 
   :root {
-    --boutique-max-width: 1400px;
-    --content-max-width: 1400px;
-    --footer-max-width: 1400px;
+    --boutique-max-width: 1330px;
+    --content-max-width: 1330px;
+    --footer-max-width: 1330px;
     --utility-max-width: 1440px;
-    --container-standard: 1440px;
-    --container-large: 1600px;
+    --container-standard: 1330px;
+    --container-large: 1520px;
     --gutter-obsidian-max-width: var(--container-standard);
 
     /* Typography Scale — Step 1: Gentle bump (+1px) */
