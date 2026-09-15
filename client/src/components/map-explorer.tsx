@@ -321,9 +321,9 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                         <div className="w-full md:w-[420px] min-[1670px]:w-[calc(546px+max(0px,calc((100vw-var(--boutique-max-width,1540px))/2)))] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl pl-0 min-[1670px]:pl-[max(0px,calc((100vw-var(--boutique-max-width,1540px))/2+clamp(0.75rem,2.5vw,2rem)-126px))]">
                             
                             {/* Inner Content Box */}
-                            <div className="w-full flex flex-col flex-1 h-full pr-0 min-[1670px]:pr-3">
+                            <div className="w-full flex flex-col flex-1 h-full pr-0 min-[1670px]:pr-1.5">
                                 {/* Geometric Toolbar */}
-                                <div className="p-4 pl-0 border-b border-white/15" ref={sidebarRef as React.RefObject<HTMLDivElement>}>
+                                <div className="p-4 pl-0 min-[1670px]:pr-1 border-b border-white/15" ref={sidebarRef as React.RefObject<HTMLDivElement>}>
                                 <div className="flex flex-col gap-3">
                                     {/* Search */}
                                     <div className="flex items-center h-[44px] bg-white/10 border border-white/25 px-3 group transition-all duration-200 rounded-none">
