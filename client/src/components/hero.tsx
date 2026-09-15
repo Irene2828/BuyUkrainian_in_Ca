@@ -316,7 +316,7 @@ export function Hero() {
                 >
                     <Link href="/map" className="w-auto">
                         <button
-                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#FFD700] hover:bg-[#ffe033] text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-none focus:outline-none focus:ring-2 focus:ring-[#FFD700]/40 font-sans antialiased cursor-pointer"
+                            className="group/cta-btn relative inline-flex scale-[0.97] min-[1670px]:scale-[0.97] items-center justify-center h-[51px] 2xl:h-[55px] min-[1670px]:h-[57px] px-7.5 min-[1670px]:px-[31.35px] text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-bold tracking-[0.03em] rounded-none bg-[#edf3f9]/95 hover:bg-white text-[#0057B7] transition-all duration-300 hover:scale-[0.99] hover:min-[1670px]:scale-[0.99] active:scale-[0.98] shadow-[6px_6px_0px_#FFD700] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/30 font-sans antialiased cursor-pointer"
                         >
                             <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                             <Search 
