@@ -1598,11 +1598,11 @@ html.dark .city-labels-layer {
 @media (min-width: 1440px) {
   :root {
     --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2));
-    --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem + 4%);
+    --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem);
   }
 
   .hero-desktop-frame .content-width {
-    padding-inline: calc(1.15rem + 3.68%) !important;
+    padding-inline: clamp(0.75rem, 2.5vw, 2rem) !important;
   }
 
   .hero-desktop-frame {
@@ -1634,25 +1634,37 @@ html.dark .city-labels-layer {
   }
 
   .hero-desktop-frame .hero-canopy-safe-content {
-    max-width: min(47%, 760px) !important;
+    max-width: min(48%, 780px) !important;
   }
 
   .hero-map-insert {
-    right: calc(var(--hero-content-inset) + 16px) !important;
-    top: 58% !important;
-    width: min(38.5%, 760px) !important;
+    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
+    transform: translateY(-50%) !important;
+    top: 54% !important;
+    width: min(44%, 680px) !important;
   }
 
   .hero-map-backing {
-    right: var(--hero-content-inset) !important;
-    top: calc(58% + 16px) !important;
-    width: min(38.5%, 760px) !important;
+    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
+    top: calc(54% + 16px) !important;
+    width: min(44%, 680px) !important;
   }
 
   .hero-map-pillars {
-    right: calc(var(--hero-content-inset) + 16px) !important;
-    top: calc(58% - 29% + 24px) !important;
-    width: min(38.5%, 760px) !important;
+    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
+    top: calc(54% - 29% + 24px) !important;
+    width: min(44%, 680px) !important;
+  }
+}
+
+@media (min-width: 1670px) {
+  .hero-desktop-frame .content-width {
+    padding-inline: clamp(0.75rem, 2.5vw, 2rem) !important;
+  }
+
+  .hero-map-insert {
+    right: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2 + clamp(0.75rem, 2.5vw, 2rem))) !important;
+    transform: translateY(-50%) !important;
   }
 }
 
