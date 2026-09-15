@@ -296,8 +296,8 @@ export function Hero() {
                                             transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
                                             className="flex flex-row justify-start items-center gap-4 mt-5 min-[1440px]:mt-7 min-[1670px]:mt-[32px] pointer-events-auto z-50 w-full"
                                         >
-                                            {/* CTA 1: Apple-style Premium Rounded Button (Order 2) */}
-                                            <Link href="/map" className="w-auto order-2">
+                                            {/* CTA 1: Apple-style Premium Rounded Button (Order 1) */}
+                                            <Link href="/map" className="w-auto order-1">
                                                 <button
                                                     className="group/cta-btn relative inline-flex scale-[1.02] min-[1670px]:scale-[1.02] items-center justify-center h-[50px] min-[1440px]:h-[50px] min-[1670px]:h-[52px] px-6.5 min-[1440px]:px-6.5 min-[1670px]:px-[29px] text-[15.2px] min-[1440px]:text-[15.2px] min-[1670px]:text-[16.6px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[1.04] active:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
                                                 >
@@ -309,10 +309,10 @@ export function Hero() {
                                                 </button>
                                             </Link>
 
-                                            {/* CTA 2: Thin white bordered outline button (Order 1) */}
+                                            {/* CTA 2: Thin white bordered outline button (Order 2) */}
                                             <button
                                                 onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                                className="group inline-flex items-center justify-center gap-2 h-[48px] min-[1670px]:h-[50px] px-6 min-[1670px]:px-7 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[15px] min-[1670px]:text-[16.5px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-1"
+                                                className="group inline-flex items-center justify-center gap-2 h-[48px] min-[1670px]:h-[50px] px-6 min-[1670px]:px-7 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[15px] min-[1670px]:text-[16.5px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-2"
                                             >
                                                 <Plus className="h-4 w-4 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
                                                 <span>{t('nav.addStore') || 'Add a new store'}</span>
