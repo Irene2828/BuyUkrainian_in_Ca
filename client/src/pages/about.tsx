@@ -12,7 +12,7 @@ export default function AboutPage() {
       <main className="flex-1">
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="text-center mb-12">
+            <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6">
                 <Flag className="w-4 h-4" />
                 About BuyUkrainian.ca
