@@ -75,21 +75,21 @@ export function Header() {
             <img 
               src={flagsLogo} 
               alt="BuyUkrainian.ca" 
-              className="h-[63.8px] min-[1024px]:h-[70.7px] 3xl:h-[79.6px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+              className="h-[63.8px] min-[1024px]:h-[70.7px] min-[1670px]:h-[79.6px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
           <div className="hidden lg:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
-          <span className="hidden lg:block ml-1 text-[14px] lg:text-[14px] 3xl:text-[18px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
+          <span className="hidden lg:block ml-1 text-[14px] lg:text-[16px] xl:text-[18px] min-[1440px]:text-[22px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
             {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
           </span>
-          <div className="hidden lg:block ml-3 w-[1.5px] h-[22px] 3xl:h-[26px] bg-slate-300 origin-center" />
+          <div className="hidden lg:block ml-3 w-[1.5px] h-[22px] min-[1670px]:h-[26px] bg-slate-300 origin-center" />
         </div>
 
         {/* Right: Navigation - Desktop */}
-        <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 3xl:gap-10 font-sans antialiased">
-            <nav className="flex items-center gap-6 lg:gap-8 3xl:gap-10">
+        <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 min-[1670px]:gap-10 font-sans antialiased">
+            <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
               <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <Map className="w-[14px] h-[14px] lg:w-[15px] lg:h-[15px] 3xl:w-[18.4px] 3xl:h-[18.4px] stroke-[2.5]" />
+                <Map className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
                 <span>{t('nav.map') || 'Map'}</span>
               </Link>
               <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>

@@ -25,7 +25,7 @@ export function MapStats() {
     const { t } = useI18n();
 
     return (
-        <section className="relative w-full pt-[72px] md:pt-[96px] pb-[72px] md:pb-[120px] bg-white flex flex-col justify-center items-center">
+        <section className="relative w-full pt-[72px] md:pt-[96px] pb-[36px] md:pb-[60px] bg-white flex flex-col justify-center items-center">
             <div className="content-width flex flex-col items-center">
                 <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-[2.74rem] lg:gap-x-[4.05rem] min-[1440px]:gap-x-[4.425rem] gap-y-24 md:gap-y-0">
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
