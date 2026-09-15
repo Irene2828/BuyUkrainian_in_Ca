@@ -42,7 +42,7 @@ export default function Home() {
         </div>
 
         <div className="section-reveal bg-white">
-          <AboutProject className="!pb-12 md:!pb-16" />
+          <AboutProject className="!pb-6 md:!pb-8" />
         </div>
 
         {/* 2. Seamless How It Works & FAQ block */}
