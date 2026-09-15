@@ -244,49 +244,40 @@ export function Hero() {
                     >
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-[12vh] translate-y-0">
-                            <div className="w-fit flex flex-col">
-                                        <h1
-                                            ref={h1Ref}
-                                            className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.05] md:leading-[1.08] antialiased mb-1.5 md:mb-2 text-white font-normal text-left translate-y-[12px] md:translate-y-[18px] lg:translate-y-[24px]"
-                                            style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
-                                        >
-                                            <motion.span 
-                                                initial={{ opacity: 0, y: 22 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                                className="hero-headline-line block w-full text-left font-sans font-normal not-italic text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.384rem] tracking-[-0.035em] mb-0 whitespace-nowrap"
-                                            >
-                                                <span className="text-white font-normal not-italic tracking-[-0.035em]">{t('hero.headline.discover') || "Discover"}</span>
-                                            </motion.span>
-                                            <div className="md:ml-0 flex w-full justify-start overflow-visible">
-                                                <motion.span 
-                                                    initial={{ opacity: 0, y: 22 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ duration: 0.65, delay: 0.28, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                                    className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.232rem] tracking-[-0.035em] whitespace-nowrap text-[#FFD700] pr-2 pb-1"
-                                                >
-                                                    {t('hero.headline.ukrainian') || "Ukrainian"} {t('hero.headline.products') || "Products"}
-                                                </motion.span>
-                                            </div>
-                                        </h1>
-                                        
-                                        {/* Subline aligned to the left side of the headline */}
-                                        <div className="w-full flex items-center justify-start gap-3 mt-[-2px] md:mt-[-4px]">
-                                            <motion.span 
-                                                initial={{ opacity: 0, y: 18 }}
-                                                animate={{ opacity: 0.9, y: 0 }}
-                                                transition={{ duration: 0.6, delay: 0.46, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                                className="relative z-10 flex items-center justify-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-light italic tracking-[-0.01em] normal-case text-white/90 text-left whitespace-nowrap translate-y-[-12px] md:translate-y-[-18px] lg:translate-y-[-24px]"
-                                            >
-                                                <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
-                                            </motion.span>
-                                            <img 
-                                                src={mapsDecoration} 
-                                                alt="Ukraine to Canada" 
-                                                className="h-[112px] md:h-[136px] lg:h-[160px] w-auto object-contain opacity-95 shrink-0 translate-y-[-12px] md:translate-y-[-16px] lg:translate-y-[-20px]" 
-                                            />
-                                        </div>
+                            <motion.div 
+                                initial={{ opacity: 0, y: 22 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                className="w-fit flex flex-col"
+                            >
+                                <h1
+                                    ref={h1Ref}
+                                    className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.05] md:leading-[1.08] antialiased mb-1.5 md:mb-2 text-white font-normal text-left translate-y-[12px] md:translate-y-[18px] lg:translate-y-[24px]"
+                                    style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
+                                >
+                                    <span className="hero-headline-line block w-full text-left font-sans font-normal not-italic text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.384rem] tracking-[-0.035em] mb-0 whitespace-nowrap">
+                                        <span className="text-white font-normal not-italic tracking-[-0.035em]">{t('hero.headline.discover') || "Discover"}</span>
+                                    </span>
+                                    <div className="md:ml-0 flex w-full justify-start overflow-visible">
+                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.232rem] tracking-[-0.035em] whitespace-nowrap text-[#FFD700] pr-2 pb-1">
+                                            {t('hero.headline.ukrainian') || "Ukrainian"} {t('hero.headline.products') || "Products"}
+                                        </span>
                                     </div>
+                                </h1>
+                                
+                                {/* Subline aligned to the left side of the headline */}
+                                <div className="w-full flex items-center justify-start gap-3 mt-[-2px] md:mt-[-4px]">
+                                    <span className="relative z-10 flex items-center justify-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-light italic tracking-[-0.01em] normal-case text-white/90 text-left whitespace-nowrap translate-y-[-12px] md:translate-y-[-18px] lg:translate-y-[-24px]">
+                                        <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
+                                    </span>
+                                    <img 
+                                        src={mapsDecoration} 
+                                        alt="Ukraine to Canada" 
+                                        className="h-[112px] md:h-[136px] lg:h-[160px] w-auto object-contain opacity-95 shrink-0 translate-y-[-12px] md:translate-y-[-16px] lg:translate-y-[-20px]" 
+                                    />
+                                </div>
+                            </motion.div>
+                        </div>
                                     
                                     {/* Description and CTA Wrapper */}
                                     <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0 mb-6 md:mb-10 gap-1 md:gap-1.5">
