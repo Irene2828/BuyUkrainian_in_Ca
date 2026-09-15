@@ -299,10 +299,10 @@ export function Hero() {
                                             {/* CTA 1: Apple-style Premium Rounded Button (Order 2) */}
                                             <Link href="/map" className="w-auto order-2">
                                                 <button
-                                                    className="group/cta-btn relative inline-flex scale-[1.07] min-[1670px]:scale-[1.07] items-center justify-center h-[53px] min-[1440px]:h-[53px] min-[1670px]:h-[55px] px-7 min-[1440px]:px-7 min-[1670px]:px-[31px] text-[16px] min-[1440px]:text-[16px] min-[1670px]:text-[17.5px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[1.09] active:scale-[1.07] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
+                                                    className="group/cta-btn relative inline-flex scale-[1.02] min-[1670px]:scale-[1.02] items-center justify-center h-[50px] min-[1440px]:h-[50px] min-[1670px]:h-[52px] px-6.5 min-[1440px]:px-6.5 min-[1670px]:px-[29px] text-[15.2px] min-[1440px]:text-[15.2px] min-[1670px]:text-[16.6px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[1.04] active:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
                                                 >
                                                     <Search 
-                                                        className="w-4.5 h-4.5 min-[1670px]:w-[20px] min-[1670px]:h-[20px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                                        className="w-4 h-4 min-[1670px]:w-[19px] min-[1670px]:h-[19px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
                                                         strokeWidth={2}
                                                     />
                                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
