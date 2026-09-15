@@ -36,8 +36,11 @@ export function CommunityImpact() {
             id="share"
             className="relative w-full overflow-hidden bg-white py-8 md:py-12"
         >
-            <div className="content-width flex justify-center items-center">
-                    {/* Composition Container */}
+            <div className="content-width flex flex-col justify-center items-center">
+                {/* Brand Blue Divider */}
+                <div className="w-16 md:w-20 h-[3px] bg-[#0057B7] rounded-full mb-8 md:mb-10 mx-auto" aria-hidden="true" />
+                
+                {/* Composition Container */}
                 <div className="relative w-full max-w-4xl mx-auto min-h-[400px] flex items-center justify-center">
                     
                     {/* Background Yellow Square (Right) */}

@@ -12,6 +12,8 @@ export function AboutProject({ className }: { className?: string }) {
           <div
             className="flex flex-col items-center"
           >
+            {/* Brand Yellow Divider */}
+            <div className="w-16 md:w-20 h-[3px] bg-[#FFD700] rounded-full mb-6" aria-hidden="true" />
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-sans">
               {t("faq.title") || "ABOUT THE PROJECT"}
             </h2>
