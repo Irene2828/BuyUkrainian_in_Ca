@@ -38,7 +38,7 @@ export function CommunityImpact() {
         >
             <div className="content-width flex flex-col justify-center items-center">
                 {/* Brand Blue Divider */}
-                <div className="w-16 md:w-20 h-[3px] bg-[#0057B7] rounded-full mb-8 md:mb-10 mx-auto" aria-hidden="true" />
+                <div className="w-20 md:w-28 h-[3px] bg-[#0057B7] rounded-full mb-8 md:mb-10 mx-auto" aria-hidden="true" />
                 
                 {/* Composition Container */}
                 <div className="relative w-full max-w-4xl mx-auto min-h-[400px] flex items-center justify-center">
