@@ -277,10 +277,10 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                     <button
                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank')}
                         data-testid="get-directions-btn"
-                        className="group relative inline-flex items-center justify-center h-[42px] min-[1670px]:h-[46px] shrink-0 px-6 text-[15px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30 font-sans antialiased pointer-events-auto w-full"
+                        className="group inline-flex items-center justify-center gap-2 h-[44px] min-[1670px]:h-[46px] w-full px-6 rounded-full border border-slate-300 bg-slate-50/90 hover:bg-[#0057B7] hover:border-[#0057B7] text-slate-700 hover:text-white text-[14.5px] font-medium transition-all duration-300 shadow-sm cursor-pointer outline-none font-sans"
                     >
                         <span>Get Directions</span>
-                        <CornerUpRight size={16} className="text-current ml-2.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <CornerUpRight size={16} className="text-current transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.5} />
                     </button>
 
                     {/* Secondary Actions Row */}

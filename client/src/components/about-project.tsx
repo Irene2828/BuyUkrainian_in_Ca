@@ -17,8 +17,10 @@ export function AboutProject({ className }: { className?: string }) {
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-widest mb-6 font-sans">
               {t("faq.title") || "ABOUT THE PROJECT"}
             </h2>
-            <p className="text-slate-600 text-[16px] md:text-[18px] max-w-4xl font-normal leading-relaxed mb-6 md:mb-8 text-center">
-              BuyUkrainian.ca is an <strong className="font-bold text-slate-800">independent, grassroots initiative</strong> aimed to support Ukraine’s economy by helping people find products from Ukraine in Canadian stores.
+            <p className="text-slate-600 text-[16px] md:text-[18px] max-w-3xl font-normal leading-relaxed mb-6 md:mb-8 text-center">
+              BuyUkrainian.ca is an <strong className="font-bold text-slate-800">independent, grassroots initiative</strong> aimed to<br className="hidden sm:inline" />{" "}
+              support Ukraine’s economy by making it easier to find<br className="hidden sm:inline" />{" "}
+              products from Ukraine in Canadian stores.
             </p>
           </div>
         </div>

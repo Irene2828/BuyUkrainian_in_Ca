@@ -15,9 +15,9 @@ export function AddStoreCTA() {
       </p>
       <button
         onClick={handleOpenModal}
-        className="group inline-flex items-center justify-center gap-2 h-[48px] px-6 rounded-full border border-[#0057B7]/40 bg-[#0057B7]/10 hover:bg-[#0057B7]/20 text-[#0057B7] text-[15px] font-medium tracking-wide transition-all duration-300 hover:border-[#0057B7]/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap z-10 mx-auto font-sans"
+        className="group/cta-btn relative inline-flex items-center justify-center gap-2 px-[18px] py-[8px] rounded-full border border-slate-300 bg-slate-50/80 hover:bg-[#0057B7] text-slate-700 hover:text-white text-[14.8px] font-medium transition-all duration-300 shadow-sm cursor-pointer outline-none whitespace-nowrap z-10 mx-auto"
       >
-        <Plus className="h-4 w-4 text-[#0057B7] transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
+        <Plus className="h-[18px] w-[18px] text-current stroke-[2.5] transition-transform duration-300 group-hover/cta-btn:rotate-90" />
         <span>{t("mapPage.addNewStore") || "Add a new store"}</span>
       </button>
     </div>

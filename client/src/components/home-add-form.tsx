@@ -622,12 +622,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="group/submit-btn relative inline-flex w-full items-center justify-center h-[46px] 2xl:h-[54px] px-6 text-[16px] 2xl:text-[17px] font-semibold tracking-normal rounded-none bg-white/90 hover:bg-white text-[#0057B7] border-none transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none hover:shadow-none focus:shadow-none focus:outline-none focus:ring-2 focus:ring-white/30 font-sans antialiased gap-2.5"
+                className="group/submit-btn inline-flex w-full items-center justify-center gap-2 h-[48px] 2xl:h-[52px] px-6 rounded-full border border-slate-300 bg-slate-50/90 hover:bg-[#0057B7] hover:border-[#0057B7] text-slate-700 hover:text-white text-[15px] 2xl:text-[16px] font-medium transition-all duration-300 shadow-sm cursor-pointer outline-none font-sans"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
                 ) : (
-                  <><span>Submit a Store</span> <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/submit-btn:scale-110 fill-none stroke-current" strokeWidth={2} /></>
+                  <><span>Submit a Store</span> <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/submit-btn:scale-110 fill-none stroke-current" strokeWidth={2.5} /></>
                 )}
               </Button>
 

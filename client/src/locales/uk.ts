@@ -153,6 +153,7 @@ const uk = {
     descriptionNearYou: " поруч з тобою",
     ctaPrimary: "Знайти магазини поруч",
     ctaSecondary: "Як це працює",
+    learnHow: "як це працює",
     addedRecently: "ЩОЙНО ДОДАНО",
     tapToExplore: "Натисніть, щоб відкрити мапу",
     mapPreviewAria: "Інтерактивна мапа українських магазинів у Канаді",

@@ -153,7 +153,7 @@ export function Hero() {
         >
             <HeroTickerRow stores={stores} />
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
-                <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-11 pb-3 text-white [@media(max-height:700px)]:pt-7 [@media(max-height:700px)]:pb-3">
+                <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-16 pb-3 text-white [@media(max-height:700px)]:pt-10 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <motion.div 
                         className="relative z-10"
@@ -161,11 +161,11 @@ export function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                        <div className="mb-4 h-[10px] pointer-events-none" aria-hidden="true" />
+                        <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
 
                         <div className="w-fit flex flex-col">
                         <h1
-                            className="relative z-10 max-w-full text-[clamp(2.28rem,11.59vw,3.17rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.45rem] translate-y-[12px]"
+                            className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                              style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                         >
                             <span className="block text-white font-normal not-italic tracking-[-0.05em] whitespace-nowrap">
@@ -176,32 +176,47 @@ export function Hero() {
                             </span>
                         </h1>
 
-                        <div className="mt-[-2px] flex items-center justify-start gap-2.5 w-full text-[clamp(1.50rem,7.05vw,1.99rem)] font-light italic leading-tight tracking-[-0.03em] text-white/90 [@media(max-height:700px)]:text-[1.42rem]">
-                            <span className="whitespace-nowrap translate-y-[-12px] md:translate-y-[-16px] lg:translate-y-[-20px]">{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
-                            <img 
+                        <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.71rem]">
+                            <span className="whitespace-nowrap">{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
+                            {/* <img 
                                 src={mapsDecoration} 
                                 alt="Ukraine to Canada" 
-                                className="h-[96px] w-auto object-contain opacity-95 shrink-0 translate-y-[-10px]" 
-                            />
+                                className="h-[96px] w-auto object-contain opacity-95 shrink-0 translate-y-[-11px]" 
+                            /> */}
                         </div>
                         </div>
-                        <p className="mt-1 w-full max-w-full text-left text-[clamp(14px,3.6vw,17px)] font-normal leading-snug tracking-[0.01em] text-white/85">
-                            {t('hero.descriptionFind')}<strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'Find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">#madeinUkraine</strong> near you.
+                        <p className="mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
+                            Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                         </p>
+                        {/* Yellow Decor Lines under body text on the right */}
+                        <div className="flex flex-col gap-1.5 pointer-events-none mt-4 mb-3 items-end self-end w-full" aria-hidden="true">
+                            <div className="h-[1px] w-[140px] bg-[#FFD700]" />
+                            <div className="h-[1px] w-[52px] bg-[#FFD700]" />
+                        </div>
+                        <div className="flex flex-col items-end self-end w-full gap-1 mt-2 text-[#FFD700] text-[14.5px] font-medium tracking-normal text-right">
+                            <div className="flex items-center gap-1.5 justify-end">
+                                <span>—</span>
+                                <span>{trustPillars[0]?.title}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 justify-end">
+                                <span>—</span>
+                                <span>{trustPillars[1]?.title}</span>
+                            </div>
+                        </div>
 
-                        <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5" style={{ transform: 'translateY(0px)' }}>
-                            <Link href="/map" className="pointer-events-auto">
-                                <button className="group/cta-btn relative inline-flex h-[51px] w-full md:scale-[0.97] items-center justify-center rounded-none bg-[#edf3f9]/96 px-6 text-[clamp(15px,1.2vw,19px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[0.99] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#edf3f9]/35">
-                                    <Search className="mr-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
+                        <div className="mt-12 mb-4 flex flex-col gap-3 w-full [@media(max-height:700px)]:mt-8" style={{ transform: 'translateY(0px)' }}>
+                            <Link href="/map" className="pointer-events-auto w-full">
+                                <button className="group/cta-btn relative inline-flex scale-[1.05] h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-6 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_2px_6px_rgba(0,0,0,0.08)] transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer">
+                                    <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                 </button>
                             </Link>
                             <button
                                 onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                className="pointer-events-auto inline-flex h-10 w-full items-center justify-center gap-2 border border-white/20 bg-white/10 text-[14px] font-medium tracking-normal text-white transition-all duration-300 hover:bg-white/20 active:scale-[0.98] outline-none"
+                                className="pointer-events-auto inline-flex h-[44px] w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/15 text-[14px] font-semibold tracking-normal text-white shadow-sm transition-all duration-300 hover:bg-white/25 active:scale-[0.98] outline-none font-sans cursor-pointer"
                             >
                                 <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
-                                <span>{t('nav.addStore') || 'Add a New Store'}</span>
+                                <span>{t('nav.addStore') || 'Add a store'}</span>
                             </button>
                         </div>
                     </motion.div>
@@ -234,92 +249,97 @@ export function Hero() {
                 </Link>
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
-            <div className="hero-desktop-copy-layer content-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none px-3 md:px-5 lg:px-6 min-[1670px]:px-[clamp(0.75rem,2.5vw,2rem)]">
+            <div className="hero-desktop-copy-layer boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
                 <div className="w-full flex justify-start items-center h-full relative md:translate-y-[0px] lg:translate-y-[10px]">
                     <motion.div 
-                        className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0 md:translate-x-0 min-[1670px]:translate-x-0"
+                        className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0 md:translate-x-0 min-[1670px]:translate-x-0 -translate-y-6 md:-translate-y-10 lg:-translate-y-12"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
                     <div className="relative z-10 flex w-full flex-col items-start">
-                        <div className="relative z-10 flex flex-col items-start w-fit hero-text-align transition-transform duration-300 mt-0 translate-y-0">
+                        <div className="relative z-10 flex items-start justify-start w-fit hero-text-align transition-transform duration-300 mt-0 translate-y-0">
+                            {/* Staircasy Flags - Desktop Only */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                className="hidden md:flex flex-col pointer-events-none z-20 -mr-4 lg:-mr-5 mt-3 lg:mt-4 shrink-0" 
+                                aria-hidden="true"
+                            >
+                                <div className="relative flex items-start -translate-x-[50%]">
+                                    <img src="https://flagcdn.com/ca.svg" alt="Canada" className="aspect-[3/2] w-[32px] lg:w-[44px] rounded-[2px] shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-30" />
+                                    <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-[3/2] w-[32px] lg:w-[44px] rounded-[2px] shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 mt-3 lg:mt-4 -ml-2 lg:-ml-3" />
+                                </div>
+                            </motion.div>
+
                             <motion.div 
                                 initial={{ opacity: 0, y: 22 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                className="w-fit flex flex-col"
+                                className="w-fit flex flex-col relative"
                             >
                                 <h1
                                     ref={h1Ref}
-                                    className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.05] md:leading-[1.08] antialiased mb-1.5 md:mb-2 text-white font-normal text-left translate-y-[12px] md:translate-y-[18px] lg:translate-y-[24px]"
+                                    className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none antialiased mb-0 text-white font-normal text-left flex flex-col gap-1 md:gap-1.5"
                                     style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span className="hero-headline-line block w-full text-left font-sans font-normal not-italic text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.384rem] tracking-[-0.05em] mb-0 whitespace-nowrap">
+                                    <span className="hero-headline-line block w-full text-left font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.553rem] tracking-[-0.05em] leading-none whitespace-nowrap">
                                         <span className="text-white font-normal not-italic tracking-[-0.05em]">{t('hero.headline.discover') || "Discover"}</span>
                                     </span>
                                     <div className="md:ml-0 flex w-full justify-start overflow-visible">
-                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.226rem,7.835vw,3.116rem)] md:text-[2.707rem] lg:text-[3.232rem] tracking-[-0.05em] whitespace-nowrap text-[#FFD700] pr-2 pb-1">
+                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.394rem] tracking-[-0.05em] leading-none whitespace-nowrap text-[#FFD700] pr-2">
                                             {t('hero.headline.ukrainian') || "Ukrainian"} {t('hero.headline.products') || "Products"}
                                         </span>
                                     </div>
+                                    <div className="w-full flex items-center justify-start gap-3 mt-1.5 md:mt-2.5">
+                                        <span className="relative z-10 flex items-center justify-start font-sans text-[clamp(1.68rem,5.6vw,2.10rem)] md:text-[1.85rem] lg:text-[2.40rem] font-thin not-italic tracking-[-0.03em] leading-none normal-case text-white/80 text-left whitespace-nowrap">
+                                            <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
+                                        </span>
+                                    </div>
                                 </h1>
-                                
-                                {/* Subline aligned to the left side of the headline */}
-                                <div className="w-full flex items-center justify-start gap-3 mt-[-2px] md:mt-[-4px]">
-                                    <span className="relative z-10 flex items-center justify-start font-sans text-[clamp(1.392rem,4.641vw,1.74rem)] md:text-[1.526rem] lg:text-[1.981rem] font-light italic tracking-[-0.03em] normal-case text-white/90 text-left whitespace-nowrap translate-y-[-12px] md:translate-y-[-18px] lg:translate-y-[-24px]">
-                                        <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
-                                    </span>
-                                    <img 
-                                        src={mapsDecoration} 
-                                        alt="Ukraine to Canada" 
-                                        className="h-[112px] md:h-[136px] lg:h-[160px] w-auto object-contain opacity-95 shrink-0 translate-y-[-12px] md:translate-y-[-16px] lg:translate-y-[-20px]" 
-                                    />
-                                </div>
-                            </motion.div>
-                        </div>
-                                    
-                                    {/* Description and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0.5 mb-4 md:mb-6 gap-1 md:gap-1.5">
+
+                                {/* Description Wrapper */}
+                                <div className="flex w-full flex-col items-start self-start mt-8 md:mt-10 mb-4 md:mb-6 gap-2.5 max-w-[700px] lg:max-w-[750px] relative">
+                                    <div className="w-full flex flex-col items-start">
                                         <motion.p 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full max-w-none md:whitespace-nowrap translate-y-0 self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
+                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/85"
                                         >
-                                            {t('hero.descriptionFind')}<strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'Find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> made in Ukraine near you.
+                                            Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br className="hidden sm:inline" /> made in Ukraine and sold locally.
                                         </motion.p>
+
+
+
+                                        {/* Yellow Decor Lines under body text on the right aligned by 'Ukraine.' */}
+                                        <div className="flex flex-col gap-1.5 pointer-events-none mt-3.5 md:mt-7 mb-0 items-end self-end w-full" aria-hidden="true">
+                                            <div className="h-[1px] w-[192px] bg-[#FFD700]" />
+                                            <div className="h-[1px] w-[72px] bg-[#FFD700]" />
+                                        </div>
                                         
-                                        <motion.div
+                                        {/* Two Trust Pillar Bullets in Yellow (Hidden on Desktop) */}
+                                        <motion.div 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="flex flex-row justify-start items-center gap-4 mt-3.5 min-[1440px]:mt-5 min-[1670px]:mt-[24px] pointer-events-auto z-50 w-full"
+                                            transition={{ duration: 0.65, delay: 0.15, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="hidden flex-col items-end w-full gap-1 mt-2 text-[#FFD700] text-[clamp(14px,1.0vw,17px)] font-medium tracking-[0.015em] font-sans antialiased text-right"
                                         >
-                                            {/* CTA 1: Apple-style Premium Rounded Button (Order 1) */}
-                                            <Link href="/map" className="w-auto order-1">
-                                                <button
-                                                    className="group/cta-btn relative inline-flex scale-[1.02] min-[1670px]:scale-[1.02] items-center justify-center h-[50px] min-[1440px]:h-[50px] min-[1670px]:h-[52px] px-6.5 min-[1440px]:px-6.5 min-[1670px]:px-[29px] text-[15.2px] min-[1440px]:text-[15.2px] min-[1670px]:text-[16.6px] font-bold tracking-[0.02em] rounded-full bg-white/95 hover:bg-white text-[#0057B7] shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-all duration-300 hover:scale-[1.04] active:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/40 font-sans antialiased cursor-pointer"
-                                                >
-                                                    <Search 
-                                                        className="w-4 h-4 min-[1670px]:w-[19px] min-[1670px]:h-[19px] mr-2 text-[#0057B7] transition-transform duration-300 group-hover/cta-btn:scale-110" 
-                                                        strokeWidth={2}
-                                                    />
-                                                    <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
-                                                </button>
-                                            </Link>
-
-                                            {/* CTA 2: Thin white bordered outline button (Order 2) */}
-                                            <button
-                                                onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                                className="group inline-flex items-center justify-center gap-2 h-[48px] min-[1670px]:h-[50px] px-6 min-[1670px]:px-7 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-[15px] min-[1670px]:text-[16.5px] font-medium tracking-wide transition-all duration-300 hover:border-white/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap order-2"
-                                            >
-                                                <Plus className="h-4 w-4 text-white/90 transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
-                                                <span>{t('nav.addStore') || 'Add a new store'}</span>
-                                            </button>
+                                            <div className="flex items-center gap-1.5 justify-end">
+                                                <span>—</span>
+                                                <span>{trustPillars[0]?.title}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5 justify-end">
+                                                <span>—</span>
+                                                <span>{trustPillars[1]?.title}</span>
+                                            </div>
                                         </motion.div>
                                     </div>
                                 </div>
+                            </motion.div>
+                        </div>
+                    </div>
                         </motion.div>
 
 
@@ -335,12 +355,10 @@ export function Hero() {
                             className="absolute inset-0 h-full w-full z-30 pointer-events-none"
                         >
                             <div
-                                className="hero-map-insert hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-auto aspect-[1.5] w-[47.64%] min-[1440px]:w-[43.88%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
+                                className="hero-map-insert hidden md:flex flex-col items-center gap-3 absolute right-0 top-1/2 -translate-y-1/2 scale-[0.935] origin-right h-auto w-[30.9%] min-[1440px]:w-[28.4%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
                             >
-
-
                                 <div
-                                    className="w-full h-full border-none outline-none relative overflow-hidden bg-white rounded-[28px] shadow-[0_20px_50px_-10px_rgba(0,25,65,0.28),0_4px_16px_rgba(0,0,0,0.08)]"
+                                    className="w-full aspect-[1.5] border-none outline-none relative overflow-hidden bg-white rounded-[28px] shadow-[0_20px_50px_-10px_rgba(0,25,65,0.28),0_4px_16px_rgba(0,0,0,0.08)]"
                                     aria-label="Interactive map of Ukrainian stores in Canada"
                                 >
                                     <div
@@ -354,14 +372,14 @@ export function Hero() {
 
                                     {/* Floating Trust Pillars inside map insert */}
                                     <div className="absolute top-4 right-4 lg:top-5 lg:right-6 z-[85] flex flex-col items-end gap-2.5 pointer-events-none">
-                                        {trustPillars.map((pillar) => (
+                                        {trustPillars.map((pillar, idx) => (
                                             <div
                                                 key={pillar.title}
                                                 className="hero-map-pillar-card flex items-center justify-end px-3.5 py-1.5 lg:px-4 lg:py-2 bg-white/65 hover:bg-white/80 backdrop-blur-xl rounded-[10px] shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] border-none pointer-events-auto transition-all duration-300"
                                             >
                                                 <div className="flex items-center gap-2.5 text-right">
-                                                    <span className="shrink-0 w-3.5 h-[2px] bg-[#0057B7]/50 rounded-full" />
-                                                    <span className="hero-map-pillar-text text-[12px] lg:text-[13.5px] font-medium text-[#0057B7] tracking-[0.05em] whitespace-nowrap font-sans antialiased">
+                                                    <span className="shrink-0 w-3.5 h-[2px] bg-slate-400/70 rounded-full" />
+                                                    <span className="hero-map-pillar-text text-[14px] lg:text-[15.5px] font-medium text-[#0057B7] tracking-[0.05em] whitespace-nowrap font-sans antialiased">
                                                         {pillar.title}
                                                     </span>
                                                 </div>
@@ -409,12 +427,19 @@ export function Hero() {
                                     </div>
 
                                 </div>
-                                {/* Tap to explore the map label under map insert */}
-                                <div className="absolute -bottom-8 left-0 right-0 flex justify-center items-center pointer-events-none z-50">
-                                    <span className="text-[13px] min-[1440px]:text-[13.5px] font-medium tracking-wide text-white/75 font-sans antialiased">
-                                        {t('hero.tapToExplore') || 'Tap to explore the map'}
-                                    </span>
-                                </div>
+
+                                {/* Yellow CTA Button placed under map insert */}
+                                <Link href="/map" className="w-full flex justify-center mt-3 pointer-events-auto">
+                                    <button
+                                        className="group/cta-btn relative inline-flex scale-[1.05] h-[46px] items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-6 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_2px_6px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-[1.08] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer"
+                                    >
+                                        <Search 
+                                            className="mr-2 h-4 w-4 text-[#003B7A] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                            strokeWidth={2.5}
+                                        />
+                                        <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                    </button>
+                                </Link>
                             </div>
                         </motion.div>
                     </Suspense>

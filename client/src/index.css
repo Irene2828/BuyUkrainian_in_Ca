@@ -1469,7 +1469,7 @@ html.dark .city-labels-layer {
   }
 
   .hero-desktop-frame .content-width {
-    padding-inline: calc(clamp(0.75rem, 2.5vw, 2rem) + 3.68%) !important;
+    padding-inline: clamp(0.75rem, 2.5vw, 2rem) !important;
   }
 
   .hero-desktop-copy-layer,

@@ -34,24 +34,24 @@ export function CommunityImpact() {
     return (
         <section
             id="share"
-            className="relative w-full overflow-hidden bg-white py-8 md:py-12"
+            className="relative w-full overflow-hidden bg-white pt-14 pb-8 md:pt-20 md:pb-12"
         >
             {/* Full Browser Edge-to-Edge Subtle Silver Grey Hairline Divider */}
             <div className="w-full h-[1px] bg-slate-200/60 mb-8 md:mb-12" aria-hidden="true" />
             <div className="content-width flex flex-col justify-center items-center">
                 {/* Composition Container */}
-                <div className="relative w-full max-w-4xl mx-auto min-h-[400px] flex items-center justify-center">
+                <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center my-4">
                     
-                    {/* Background Yellow Square (Right) */}
-                    <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-end">
-                        <div className="h-[85%] w-[40%] translate-x-[10%] bg-[#FFD700]" />
-                    </div>
+                    {/* Outer Wrapper holding both White Card and Yellow Accent */}
+                    <div className="relative w-11/12 md:w-full">
+                        {/* Background Yellow Square (Right) - Perfectly Centered Vertically behind White Frame */}
+                        <div className="pointer-events-none absolute -top-7 -bottom-7 -right-4 md:-right-8 w-[38%] bg-[#FFD700] z-0" />
 
-                    {/* Main Content Block (White with Brand Blue border) */}
-                    <div 
-                        className="relative z-10 bg-white border border-dashed w-11/12 md:w-full pt-10 pb-5 px-6 md:px-16 text-center flex flex-col items-center transition-all duration-300 ease-out"
-                        style={{ borderColor: '#0057B7' }}
-                    >
+                        {/* Main Content Block (White with Brand Blue border) */}
+                        <div 
+                            className="relative z-10 bg-white border border-dashed w-full pt-10 pb-10 px-6 md:px-16 text-center flex flex-col items-center transition-all duration-300 ease-out"
+                            style={{ borderColor: '#0057B7' }}
+                        >
                         
                         {/* Section Header */}
                         <h2
@@ -130,9 +130,11 @@ export function CommunityImpact() {
                             </div>
                         </div>
 
+                    </div>
                 </div>
 
             </div>
+        </div>
             {/* Full Browser Relative Edge-to-Edge Subtle Silver Grey Hairline Divider */}
             <div className="w-full h-[1px] bg-slate-200/60 mt-12 md:mt-16" aria-hidden="true" />
         </section>

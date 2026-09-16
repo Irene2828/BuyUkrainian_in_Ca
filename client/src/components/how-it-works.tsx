@@ -29,8 +29,8 @@ export function HowItWorks() {
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
         <div className="how-it-works-image-panel w-full md:w-[38%] bg-[#FFD700] px-4 py-10 md:px-6 md:py-12 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
-          {/* White Photo Frame - Shifted 50% left */}
-          <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative -translate-x-6 md:-translate-x-12">
+          {/* White Photo Frame - Centered on mobile, shifted 50% left on desktop */}
+          <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative translate-x-0 md:-translate-x-12">
             <img 
               src="/ukrainian_pottery.png" 
               alt="Ukrainian Pottery" 
@@ -40,14 +40,11 @@ export function HowItWorks() {
         </div>
 
         {/* Right Column: Blue Block (Text) - 62% width */}
-        <div className="how-it-works-copy-panel w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-20 md:gap-16 lg:gap-18 justify-center items-center">
+        <div className="how-it-works-copy-panel w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-[53px] md:gap-[64px] justify-center items-center">
           {steps.map((step, index) => (
             <div
               key={index}
-              className={cn(
-                "w-full max-w-2xl z-10 relative flex items-start gap-6",
-                index === 2 && "py-6 md:py-8"
-              )}
+              className="w-full max-w-2xl z-10 relative flex items-start gap-6"
             >
               {/* Icon Wrapper */}
               <div className="shrink-0 pt-1">
@@ -56,10 +53,10 @@ export function HowItWorks() {
               
               {/* Content */}
               <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
-                <h3 className="text-white font-sans font-bold text-[18px] mb-2 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
+                <h3 className="text-white font-sans font-bold text-[19px] mb-2 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
                   {step.title}
                 </h3>
-                <p className="text-white/85 font-normal text-[15px] leading-relaxed">
+                <p className="text-white/85 font-normal text-[17px] leading-relaxed">
                   {step.text}
                 </p>
               </div>

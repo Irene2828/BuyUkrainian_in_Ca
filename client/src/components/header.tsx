@@ -107,6 +107,13 @@ export function Header() {
               >
                 {t('nav.faq') || 'FAQ'}
               </Link>
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                className="inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-[#0057B7] hover:text-[#004494] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+              >
+                <Plus className="h-4 w-4 stroke-[2.5] text-[#0057B7]" />
+                <span>{t('nav.addStore') || 'Add a store'}</span>
+              </button>
             </nav>
             <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />

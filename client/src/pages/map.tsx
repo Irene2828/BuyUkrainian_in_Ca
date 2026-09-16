@@ -131,10 +131,10 @@ function NewlyAddedStores() {
         </p>
         <button
           onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-          className="relative z-10 inline-flex w-auto items-center justify-center h-[48px] px-[25px] text-[16.8px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-solid border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 2xl:h-[57px] 2xl:text-[17.85px] focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-[10.5px] group/cta-btn mx-auto"
+          className="group/cta-btn relative inline-flex items-center justify-center gap-2 px-[18px] py-[8px] rounded-full border border-slate-300 bg-slate-50/80 hover:bg-[#0057B7] text-slate-700 hover:text-white text-[14.8px] font-medium transition-all duration-300 shadow-sm cursor-pointer outline-none whitespace-nowrap z-10 mx-auto"
         >
-          <span>{t("mapPage.addNewStore")}</span>
-          <Plus className="w-[16.8px] h-[16.8px] 2xl:w-[21px] 2xl:h-[21px] transition-transform duration-300 group-hover/cta-btn:scale-110 text-current" />
+          <Plus className="h-[18px] w-[18px] text-current stroke-[2.5] transition-transform duration-300 group-hover/cta-btn:rotate-90" />
+          <span>{t("mapPage.addNewStore") || "Add a new store"}</span>
         </button>
       </div>
 
