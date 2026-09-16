@@ -280,12 +280,12 @@ export function Hero() {
                         </div>
                                     
                                     {/* Description and CTA Wrapper */}
-                                    <div className="flex w-full flex-col items-start self-start mt-2 md:mt-3 mb-6 md:mb-10 gap-1.5 md:gap-2">
+                                    <div className="flex w-full flex-col items-start self-start mt-0 md:mt-0.5 mb-4 md:mb-6 gap-1 md:gap-1.5">
                                         <motion.p 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-2 md:mt-3 w-full max-w-none md:whitespace-nowrap translate-y-[0.5vh] self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
+                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full max-w-none md:whitespace-nowrap translate-y-0 self-start text-left font-sans text-[clamp(15px,1.1vw,19px)] min-[1670px]:text-[19px] font-normal leading-relaxed tracking-[0.015em] text-white/85"
                                         >
                                             {t('hero.descriptionFind')}<strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionFindBold') || 'Find'}</strong>{t('hero.descriptionAdd') || ','} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionAddBold') || 'add'}</strong>{t('hero.descriptionShare') || ', and'} <strong className="font-bold text-white border-b border-[#FFD700]/70 pb-[1px]">{t('hero.descriptionShareBold') || 'share'}</strong> stores selling<br className="md:hidden" /> made in Ukraine near you.
                                         </motion.p>
@@ -294,7 +294,7 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="flex flex-row justify-start items-center gap-4 mt-5 min-[1440px]:mt-7 min-[1670px]:mt-[32px] pointer-events-auto z-50 w-full"
+                                            className="flex flex-row justify-start items-center gap-4 mt-3.5 min-[1440px]:mt-5 min-[1670px]:mt-[24px] pointer-events-auto z-50 w-full"
                                         >
                                             {/* CTA 1: Apple-style Premium Rounded Button (Order 1) */}
                                             <Link href="/map" className="w-auto order-1">

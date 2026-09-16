@@ -36,10 +36,9 @@ export function CommunityImpact() {
             id="share"
             className="relative w-full overflow-hidden bg-white py-8 md:py-12"
         >
+            {/* Full Browser Edge-to-Edge Subtle Silver Grey Hairline Divider */}
+            <div className="w-full h-[1px] bg-slate-200/60 mb-8 md:mb-12" aria-hidden="true" />
             <div className="content-width flex flex-col justify-center items-center">
-                {/* Brand Blue Divider */}
-                <div className="w-20 md:w-28 h-[3px] bg-[#0057B7] rounded-full mb-8 md:mb-10 mx-auto" aria-hidden="true" />
-                
                 {/* Composition Container */}
                 <div className="relative w-full max-w-4xl mx-auto min-h-[400px] flex items-center justify-center">
                     
@@ -130,10 +129,12 @@ export function CommunityImpact() {
                                 </button>
                             </div>
                         </div>
- 
-                    </div>
+
                 </div>
+
             </div>
+            {/* Full Browser Relative Edge-to-Edge Subtle Silver Grey Hairline Divider */}
+            <div className="w-full h-[1px] bg-slate-200/60 mt-12 md:mt-16" aria-hidden="true" />
         </section>
     );
 }
