@@ -104,7 +104,7 @@ const uk = {
     home: "Головна",
     about: "Про проєкт",
     map: "Мапа",
-    addStore: "Додати новий магазин",
+    addStore: "Додати магазин",
     mission: "Місія",
     faq: "FAQ",
   },
@@ -138,6 +138,8 @@ const uk = {
     headline: {
       discover: "Знаходь",
       ukrainianProducts: "Українські товари",
+      sold: "в",
+      across: "магазинах",
       soldAcross: "в магазинах",
       canada: "Канади",
     },

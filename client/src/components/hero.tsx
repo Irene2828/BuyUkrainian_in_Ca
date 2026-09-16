@@ -13,6 +13,7 @@ import type { Store } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
 import flagsDecoration from "@assets/0008.png";
 import mapsDecoration from "@/assets/maps.png";
+import canadaRoundFlag from "@/assets/canada-round-flag.png";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -177,7 +178,7 @@ export function Hero() {
                         </h1>
 
                         <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.71rem]">
-                            <span className="whitespace-nowrap">{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
+                            <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                             {/* <img 
                                 src={mapsDecoration} 
                                 alt="Ukraine to Canada" 
@@ -189,7 +190,7 @@ export function Hero() {
                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                         </p>
                         {/* Yellow Decor Lines under body text on the right */}
-                        <div className="flex flex-col gap-1.5 pointer-events-none mt-4 mb-3 items-end self-end w-full" aria-hidden="true">
+                        <div className="flex flex-col gap-1.5 pointer-events-none mt-4 mb-6 md:mb-3 items-end self-end w-full" aria-hidden="true">
                             <div className="h-[1px] w-[140px] bg-[#FFD700]" />
                             <div className="h-[1px] w-[52px] bg-[#FFD700]" />
                         </div>
@@ -250,7 +251,7 @@ export function Hero() {
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
             <div className="hero-desktop-copy-layer boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
-                <div className="w-full flex justify-start items-center h-full relative md:translate-y-[0px] lg:translate-y-[10px]">
+                <div className="flex-1 min-w-full w-full flex justify-start items-center h-full relative md:translate-y-[0px] lg:translate-y-[10px]">
                     <motion.div 
                         className="hero-canopy-safe-content relative z-20 w-full max-w-full md:max-w-[562px] lg:max-w-[725px] xl:max-w-[775px] h-full flex flex-col justify-center items-start pointer-events-none pb-[11.75rem] md:pb-0 md:translate-x-0 min-[1670px]:translate-x-0 -translate-y-6 md:-translate-y-10 lg:-translate-y-12"
                         initial={{ opacity: 0, y: 10 }}
@@ -259,20 +260,6 @@ export function Hero() {
                     >
                     <div className="relative z-10 flex w-full flex-col items-start">
                         <div className="relative z-10 flex items-start justify-start w-fit hero-text-align transition-transform duration-300 mt-0 translate-y-0">
-                            {/* Staircasy Flags - Desktop Only */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.65, delay: 0.2, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                className="hidden md:flex flex-col pointer-events-none z-20 -mr-4 lg:-mr-5 mt-3 lg:mt-4 shrink-0" 
-                                aria-hidden="true"
-                            >
-                                <div className="relative flex items-start -translate-x-[50%]">
-                                    <img src="https://flagcdn.com/ca.svg" alt="Canada" className="aspect-[3/2] w-[32px] lg:w-[44px] rounded-[2px] shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-30" />
-                                    <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-[3/2] w-[32px] lg:w-[44px] rounded-[2px] shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 mt-3 lg:mt-4 -ml-2 lg:-ml-3" />
-                                </div>
-                            </motion.div>
-
                             <motion.div 
                                 initial={{ opacity: 0, y: 22 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -292,10 +279,25 @@ export function Hero() {
                                             {t('hero.headline.ukrainian') || "Ukrainian"} {t('hero.headline.products') || "Products"}
                                         </span>
                                     </div>
-                                    <div className="w-full flex items-center justify-start gap-3 mt-1.5 md:mt-2.5">
+                                     <div className="w-full flex items-center justify-start gap-4 mt-0.5 md:mt-0 lg:mt-0.5">
                                         <span className="relative z-10 flex items-center justify-start font-sans text-[clamp(1.68rem,5.6vw,2.10rem)] md:text-[1.85rem] lg:text-[2.40rem] font-thin not-italic tracking-[-0.03em] leading-none normal-case text-white/80 text-left whitespace-nowrap">
-                                            <span>{t('hero.headline.soldAcross')} {t('hero.headline.canada')}</span>
+                                            <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal pl-2 pr-2">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         </span>
+                                        {/* Staircasy Flags - Desktop Only */}
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ duration: 0.65, delay: 0.4, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="hidden md:flex flex-col pointer-events-none z-20 shrink-0 mb-1 lg:mb-2" 
+                                            aria-hidden="true"
+                                        >
+                                            <div className="relative flex items-center">
+                                                <div className="relative aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                    <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
+                                                </div>
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-2 lg:-ml-3 mt-3 lg:mt-4 shrink-0" />
+                                            </div>
+                                        </motion.div>
                                     </div>
                                 </h1>
 
@@ -340,110 +342,116 @@ export function Hero() {
                             </motion.div>
                         </div>
                     </div>
-                        </motion.div>
+                </motion.div>
 
+            </div>
 
-                    {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
-                    <Suspense fallback={null}>
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ 
-                                duration: 1.4, 
-                                ease: [0.16, 1, 0.3, 1]
-                            }}
-                            className="absolute inset-0 h-full w-full z-30 pointer-events-none"
+            {/* Suspense boundary ensures both the map and its yellow accent load at exactly the same time */}
+            <Suspense fallback={null}>
+                <motion.div
+                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                        duration: 1.4, 
+                        ease: [0.16, 1, 0.3, 1]
+                    }}
+                    onAnimationComplete={() => window.dispatchEvent(new CustomEvent('heroMapAnimationComplete'))}
+                    className="absolute inset-0 h-full w-full z-30 pointer-events-none"
+                >
+                    <div
+                        className="hero-map-insert hidden md:flex flex-col items-center gap-3 absolute right-0 top-1/2 -translate-y-1/2 scale-[0.935] origin-right h-auto shrink-0 w-[396px] min-[1440px]:w-[408px] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
+                    >
+                        <div
+                            className="w-full shrink-0 aspect-[1.5] border-none outline-none relative overflow-hidden bg-white rounded-[28px] shadow-[0_20px_50px_-10px_rgba(0,25,65,0.28),0_4px_16px_rgba(0,0,0,0.08)]"
+                            aria-label="Interactive map of Ukrainian stores in Canada"
                         >
                             <div
-                                className="hero-map-insert hidden md:flex flex-col items-center gap-3 absolute right-0 top-1/2 -translate-y-1/2 scale-[0.935] origin-right h-auto w-[30.9%] min-[1440px]:w-[28.4%] bottom-auto z-40 select-none border-none outline-none group/map-peeking pointer-events-auto"
-                            >
-                                <div
-                                    className="w-full aspect-[1.5] border-none outline-none relative overflow-hidden bg-white rounded-[28px] shadow-[0_20px_50px_-10px_rgba(0,25,65,0.28),0_4px_16px_rgba(0,0,0,0.08)]"
-                                    aria-label="Interactive map of Ukrainian stores in Canada"
-                                >
-                                    <div
-                                        className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(135deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0.10)_38%,rgba(255,255,255,0)_58%,rgba(0,87,183,0.06)_100%)]"
-                                        aria-hidden="true"
-                                    />
-                                    <div
-                                        className="pointer-events-none absolute inset-0 z-[80] shadow-[inset_0_0_34px_rgba(255,255,255,0.92),inset_0_0_0_1px_rgba(255,255,255,0.46)]"
-                                        aria-hidden="true"
-                                    />
+                                className="pointer-events-none absolute inset-0 z-[75] bg-[linear-gradient(135deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0.10)_38%,rgba(255,255,255,0)_58%,rgba(0,87,183,0.06)_100%)]"
+                                aria-hidden="true"
+                            />
+                            <div
+                                className="pointer-events-none absolute inset-0 z-[80] shadow-[inset_0_0_34px_rgba(255,255,255,0.92),inset_0_0_0_1px_rgba(255,255,255,0.46)]"
+                                aria-hidden="true"
+                            />
 
-                                    {/* Floating Trust Pillars inside map insert */}
-                                    <div className="absolute top-4 right-4 lg:top-5 lg:right-6 z-[85] flex flex-col items-end gap-2.5 pointer-events-none">
-                                        {trustPillars.map((pillar, idx) => (
-                                            <div
-                                                key={pillar.title}
-                                                className="hero-map-pillar-card flex items-center justify-end px-3.5 py-1.5 lg:px-4 lg:py-2 bg-white/65 hover:bg-white/80 backdrop-blur-xl rounded-[10px] shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] border-none pointer-events-auto transition-all duration-300"
-                                            >
-                                                <div className="flex items-center gap-2.5 text-right">
-                                                    <span className="shrink-0 w-3.5 h-[2px] bg-slate-400/70 rounded-full" />
-                                                    <span className="hero-map-pillar-text text-[14px] lg:text-[15.5px] font-medium text-[#0057B7] tracking-[0.05em] whitespace-nowrap font-sans antialiased">
-                                                        {pillar.title}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Inner wrapper for shifted map content */}
+                            {/* Floating Trust Pillars inside map insert */}
+                            <div className="absolute top-4 right-4 lg:top-5 lg:right-6 z-[85] flex flex-col items-end gap-2.5 pointer-events-none">
+                                {trustPillars.map((pillar, idx) => (
                                     <div
-                                        className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-1%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-27%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-26%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-25%] group-hover/map-peeking:md:scale-[1.14] group-hover/map-peeking:lg:scale-[1.20] group-hover/map-peeking:min-[1280px]:scale-[1.22] transition-all duration-700 ease-out"
+                                        key={pillar.title}
+                                        className="hero-map-pillar-card flex items-center justify-end px-3.5 py-1.5 lg:px-4 lg:py-2 bg-white/65 hover:bg-white/80 backdrop-blur-xl rounded-[10px] shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] border-none pointer-events-auto transition-all duration-300"
                                     >
-                                        <div className="relative w-full h-full pointer-events-auto border-none outline-none">
-
-
-
-                                            {/* AURORA OVERLAY */}
-                                            <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none opacity-0">
-                                                <div className="absolute top-[25%] right-[45%] w-[350px] h-[150px] bg-[#0057B7] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
-                                                <div className="absolute top-[50%] right-[30%] w-[350px] h-[150px] bg-[#FFD900] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
-                                            </div>
-
-                                            {shouldRenderHeroMap ? (
-                                                <GoogleMapsProvider>
-                                                        <motion.div
-                                                            initial={{ scale: 1, opacity: 0 }}
-                                                            animate={{ scale: 1.03, opacity: 1 }}
-                                                            transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-                                                            className="w-full h-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative bg-white"
-                                                            onClick={() => setLocation('/map')}
-                                                        >
-                                                            <InteractiveMap
-                                                                stores={stores}
-                                                                selectedStore={null}
-                                                                onSelectStore={noopSelectStore}
-                                                                onCloseStore={noop}
-                                                                variant="hero"
-                                                                isMobile={false}
-                                                            />
-                                                        </motion.div>
-                                                </GoogleMapsProvider>
-                                            ) : (
-                                                <div className="w-full h-full bg-[linear-gradient(180deg,rgba(255,255,255,0.86)_0%,rgba(255,255,255,0.58)_35%,rgba(219,234,254,0.22)_100%)]" />
-                                            )}
+                                        <div className="flex items-center gap-2.5 text-right">
+                                            <span className="shrink-0 w-3.5 h-[2px] bg-slate-400/70 rounded-full" />
+                                            <span className="hero-map-pillar-text text-[14px] lg:text-[15.5px] font-medium text-[#0057B7] tracking-[0.05em] whitespace-nowrap font-sans antialiased">
+                                                {pillar.title}
+                                            </span>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                {/* Yellow CTA Button placed under map insert */}
-                                <Link href="/map" className="w-full flex justify-center mt-3 pointer-events-auto">
-                                    <button
-                                        className="group/cta-btn relative inline-flex scale-[1.05] h-[46px] items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-6 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_2px_6px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-[1.08] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer"
-                                    >
-                                        <Search 
-                                            className="mr-2 h-4 w-4 text-[#003B7A] transition-transform duration-300 group-hover/cta-btn:scale-110" 
-                                            strokeWidth={2.5}
-                                        />
-                                        <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
-                                    </button>
-                                </Link>
+                                ))}
                             </div>
-                        </motion.div>
-                    </Suspense>
-                </div>
+
+                            {/* Inner wrapper for shifted map content */}
+                            <div
+                                onTransitionEnd={(e) => {
+                                    if (e.target === e.currentTarget && e.propertyName === 'transform') {
+                                        window.dispatchEvent(new CustomEvent('heroMapAnimationComplete'));
+                                    }
+                                }}
+                                className="absolute top-0 left-0 w-[122%] h-[150%] border-none outline-none scale-[1.0] translate-x-[0%] translate-y-[-1%] md:scale-[1.12] md:translate-x-[-17%] md:translate-y-[-27%] lg:scale-[1.18] lg:translate-x-[-20%] lg:translate-y-[-26%] min-[1280px]:scale-[1.2] min-[1280px]:translate-x-[-16%] min-[1280px]:translate-y-[-25%] group-hover/map-peeking:md:scale-[1.14] group-hover/map-peeking:lg:scale-[1.20] group-hover/map-peeking:min-[1280px]:scale-[1.22] transition-all duration-700 ease-out"
+                            >
+                                <div className="relative w-full h-full pointer-events-auto border-none outline-none">
+
+
+
+                                    {/* AURORA OVERLAY */}
+                                    <div className="absolute inset-0 z-40 overflow-hidden pointer-events-none opacity-0">
+                                        <div className="absolute top-[25%] right-[45%] w-[350px] h-[150px] bg-[#0057B7] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
+                                        <div className="absolute top-[50%] right-[30%] w-[350px] h-[150px] bg-[#FFD900] rounded-[100%] blur-[60px] opacity-[0.35] -rotate-45"></div>
+                                    </div>
+
+                                    {shouldRenderHeroMap ? (
+                                        <GoogleMapsProvider>
+                                                <motion.div
+                                                    initial={{ scale: 1, opacity: 0 }}
+                                                    animate={{ scale: 1.03, opacity: 1 }}
+                                                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                                                    className="w-full h-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative bg-white"
+                                                    onClick={() => setLocation('/map')}
+                                                >
+                                                    <InteractiveMap
+                                                        stores={stores}
+                                                        selectedStore={null}
+                                                        onSelectStore={noopSelectStore}
+                                                        onCloseStore={noop}
+                                                        variant="hero"
+                                                        isMobile={false}
+                                                    />
+                                                </motion.div>
+                                        </GoogleMapsProvider>
+                                    ) : (
+                                        <div className="w-full h-full bg-[linear-gradient(180deg,rgba(255,255,255,0.86)_0%,rgba(255,255,255,0.58)_35%,rgba(219,234,254,0.22)_100%)]" />
+                                    )}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {/* Yellow CTA Button placed under map insert */}
+                        <Link href="/map" className="w-full flex justify-center mt-3 pointer-events-auto">
+                            <button
+                                className="group/cta-btn relative inline-flex scale-[1.05] h-[46px] items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-6 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_2px_6px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-[1.08] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer"
+                            >
+                                <Search 
+                                    className="mr-2 h-4 w-4 text-[#003B7A] transition-transform duration-300 group-hover/cta-btn:scale-110" 
+                                    strokeWidth={2.5}
+                                />
+                                <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                            </button>
+                        </Link>
+                    </div>
+                </motion.div>
+            </Suspense>
             </div>
         </section>
 
@@ -485,8 +493,8 @@ function HeroVariantB({
                                             {t('hero.headline.ukrainianProducts') || 'Ukrainian Products'}
                                         </span>
                                     </h1>
-                                    <div className="mt-[1px] flex justify-start w-full text-[clamp(1.65rem,7.73vw,2.21rem)] font-light italic leading-tight tracking-normal text-slate-600">
-                                        <span className="whitespace-nowrap">{t('hero.headline.soldAcross') || 'sold across'} {t('hero.headline.canada') || 'Canada'}</span>
+                                    <div className="mt-[1px] flex justify-start w-full text-[clamp(1.65rem,7.73vw,2.21rem)] font-light leading-tight tracking-normal text-slate-600">
+                                        <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </div>
                             <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
@@ -625,9 +633,9 @@ function HeroVariantB({
                                         Products
                                     </span>
                                 </h1>
-                                <div className="mt-[-2.6rem] md:mt-[-3.6rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-6">
-                                    <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[10%] gap-3">
-                                         sold across Canada
+                                <div className="mt-[-2.6rem] md:mt-[-4.8rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-6">
+                                    <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[20%] gap-3">
+                                          sold <span className="font-normal px-1">across</span> Canada
                                     </span>
                                     <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-bold leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
                                         One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling <span className="font-bold">#madeinUkraine</span> near you.

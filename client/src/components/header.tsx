@@ -78,20 +78,11 @@ export function Header() {
               className="h-[63.8px] min-[1024px]:h-[70.7px] min-[1670px]:h-[79.6px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
-          <div className="hidden lg:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
-          <span className="hidden lg:block ml-1 text-[12px] lg:text-[14px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
-            {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
-          </span>
-          <div className="hidden lg:block ml-3 w-[1.5px] h-[22px] min-[1670px]:h-[26px] bg-slate-300 origin-center" />
         </div>
 
-        {/* Right: Navigation - Desktop */}
-        <div className="hidden md:flex flex-none items-center justify-end gap-6 lg:gap-8 min-[1670px]:gap-10 font-sans antialiased">
+        {/* Center: Navigation - Desktop */}
+        <div className="hidden md:flex flex-none items-center justify-center font-sans antialiased">
             <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
-              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <Map className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
-                <span>{t('nav.map') || 'Map'}</span>
-              </Link>
               <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
                 <span>{t('nav.mission') || 'Mission'}</span>
               </Link>
@@ -107,14 +98,22 @@ export function Header() {
               >
                 {t('nav.faq') || 'FAQ'}
               </Link>
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                className="inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-[#0057B7] hover:text-[#004494] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
-              >
-                <Plus className="h-4 w-4 stroke-[2.5] text-[#0057B7]" />
-                <span>{t('nav.addStore') || 'Add a store'}</span>
-              </button>
+              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
+                <span>{t('nav.map') || 'Map view'}</span>
+              </Link>
             </nav>
+        </div>
+
+        {/* Right: Actions - Desktop */}
+        <div className="hidden md:flex flex-1 items-center justify-end gap-6 lg:gap-8 min-[1670px]:gap-10 font-sans antialiased">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+              className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+            >
+              <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
+              <span>{t('nav.addStore') || 'Add a store'}</span>
+            </button>
             <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
               <LanguageSwitcher />
@@ -129,7 +128,7 @@ export function Header() {
           ) : (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
               <MapPin className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
-              <span className="text-[14px] font-normal">{t('nav.map') || 'Map View'}</span>
+              <span className="text-[14px] font-normal">{t('nav.map') || 'Map view'}</span>
             </Link>
           )}
 
@@ -165,6 +164,13 @@ export function Header() {
                 className="text-[16px] font-medium text-slate-500 hover:text-slate-800 transition-colors py-2 tracking-normal flex items-center gap-2"
               >
                 <span>{t('nav.faq') || 'FAQ'}</span>
+              </Link>
+              <Link 
+                href="/map" 
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn("text-[16px] transition-colors py-2 tracking-normal flex items-center gap-2", location === '/map' ? "text-slate-800 font-semibold" : "text-slate-500 hover:text-slate-800 font-medium")}
+              >
+                <span>{t('nav.map') || 'Map view'}</span>
               </Link>
             </nav>
           </div>

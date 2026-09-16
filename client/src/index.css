@@ -230,17 +230,7 @@ html {
   /* Base font size */
 }
 
-@media (min-width: 1440px) and (max-width: 1669px) {
-  html {
-    font-size: 16px;
-  }
-}
 
-@media (min-width: 1670px) {
-  html {
-    font-size: clamp(17px, 1.25vw, 21px);
-  }
-}
 
 html.dark body {
   background-color: var(--bg-primary);
@@ -323,8 +313,8 @@ html.dark header.bg-white\/90 {
   body {
     cursor: auto !important;
     scroll-behavior: smooth;
-    font-size: clamp(16px, 1.1vw, 20px);
-    /* Fluid Root Typography */
+    font-size: 16px;
+    /* Static base, scaling handled by zoom */
   }
 
   body {
@@ -1702,4 +1692,21 @@ img[src*="google4_tracking"] {
 .gm-style div[role="button"]:hover img[src^="data:image/svg"],
 .gm-style div[style*="cursor: pointer"]:hover > img[src^="data:image/svg"] {
   transform: scale(1.15) !important;
+}
+
+/* ========================================
+   PROPORTIONAL DESKTOP SCALING (ZOOM)
+   ======================================== */
+@media (min-width: 1024px) {
+  body {
+    /* 1440px is the perfect design baseline. 100vw / 1440 = proportional zoom factor */
+    zoom: calc(100vw / 1440);
+  }
+}
+
+@media (min-width: 1920px) {
+  body {
+    /* Stop scaling endlessly after 1920px to prevent UI from becoming too large */
+    zoom: calc(1920 / 1440);
+  }
 }

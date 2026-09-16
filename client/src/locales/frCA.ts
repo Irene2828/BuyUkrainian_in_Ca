@@ -104,7 +104,7 @@ const frCA = {
     home: "Accueil",
     about: "À propos",
     map: "Carte",
-    addStore: "Ajouter une nouvelle boutique",
+    addStore: "Ajouter une boutique",
     mission: "Mission",
     faq: "FAQ",
   },
@@ -138,6 +138,8 @@ const frCA = {
     headline: {
       discover: "Découvrez les",
       ukrainianProducts: "Produits ukrainiens",
+      sold: "partout",
+      across: "au",
       soldAcross: "partout au",
       canada: "Canada",
     },

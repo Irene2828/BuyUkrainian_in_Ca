@@ -396,9 +396,23 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     setCenter(HERO_INITIAL_MAP_STATE.center);
     centerMap();
 
-    // Staggered delay to catch layout shifts / framer animations finishing
-    const timer = setTimeout(centerMap, 600);
-    return () => clearTimeout(timer);
+    if (mapRef) {
+      const mapDiv = mapRef.getDiv();
+      if (mapDiv) {
+        const resizeObserver = new ResizeObserver(() => {
+          centerMap();
+        });
+        resizeObserver.observe(mapDiv);
+
+        const handleAnimationComplete = () => centerMap();
+        window.addEventListener('heroMapAnimationComplete', handleAnimationComplete);
+
+        return () => {
+          resizeObserver.disconnect();
+          window.removeEventListener('heroMapAnimationComplete', handleAnimationComplete);
+        };
+      }
+    }
   }, [mapRef, variant]);
 
   useImperativeHandle(ref, () => ({
