@@ -79,7 +79,7 @@ export function Header() {
             />
           </Link>
           <div className="hidden lg:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
-          <span className="hidden lg:block ml-1 text-[14px] lg:text-[16px] xl:text-[18px] min-[1440px]:text-[22px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
+          <span className="hidden lg:block ml-1 text-[12px] lg:text-[14px] min-[1670px]:text-[16px] font-normal text-slate-500 tabular-nums font-sans whitespace-nowrap antialiased leading-none">
             {t('siteHeader.volunteerInitiative') || "Volunteer initiative to support Ukraine's economy"}
           </span>
           <div className="hidden lg:block ml-3 w-[1.5px] h-[22px] min-[1670px]:h-[26px] bg-slate-300 origin-center" />
