@@ -250,11 +250,6 @@ export function Hero() {
                                 transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 className="w-fit flex flex-col"
                             >
-                                {/* Brand Yellow Decor Lines */}
-                                <div className="flex flex-col gap-1.5 pointer-events-none mb-3 md:mb-3.5 items-start" aria-hidden="true">
-                                    <div className="h-[1px] w-[192px] bg-[#FFD700]" />
-                                    <div className="h-[1px] w-[72px] bg-[#FFD700]" />
-                                </div>
                                 <h1
                                     ref={h1Ref}
                                     className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none leading-[1.05] md:leading-[1.08] antialiased mb-1.5 md:mb-2 text-white font-normal text-left translate-y-[12px] md:translate-y-[18px] lg:translate-y-[24px]"
@@ -646,7 +641,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
                                 <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[10px] md:text-[12px] lg:text-[12px] xl:text-[12px] min-[1440px]:text-[12px] min-[1670px]:text-[28px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className="text-[9px] md:text-[11px] lg:text-[11px] xl:text-[11px] min-[1440px]:text-[11px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
@@ -670,8 +665,8 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                     }}
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
-                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 min-[1670px]:px-12 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12px] md:text-[14px] lg:text-[15px] xl:text-[15px] min-[1440px]:text-[15px] min-[1670px]:text-[30px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                        <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
+                                            <span className="text-[12px] md:text-[14px] lg:text-[15px] xl:text-[15px] min-[1440px]:text-[15px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>

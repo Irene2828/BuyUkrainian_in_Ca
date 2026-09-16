@@ -15,10 +15,10 @@ export function AddStoreCTA() {
       </p>
       <button
         onClick={handleOpenModal}
-        className="relative z-10 inline-flex w-auto items-center justify-center h-[48px] px-[25px] text-[16.8px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white 2xl:h-[57px] 2xl:text-[17.85px] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 gap-[10.5px] group/cta-btn mx-auto font-sans"
+        className="group inline-flex items-center justify-center gap-2 h-[48px] px-6 rounded-full border border-[#0057B7]/40 bg-[#0057B7]/10 hover:bg-[#0057B7]/20 text-[#0057B7] text-[15px] font-medium tracking-wide transition-all duration-300 hover:border-[#0057B7]/70 active:scale-[0.97] cursor-pointer outline-none backdrop-blur-md whitespace-nowrap z-10 mx-auto font-sans"
       >
-        <span>{t("mapPage.addNewStore") || "Add a New Store"}</span>
-        <Plus className="w-[16.8px] h-[16.8px] 2xl:w-[21px] 2xl:h-[21px] transition-all duration-300 group-hover/cta-btn:scale-110 text-current" />
+        <Plus className="h-4 w-4 text-[#0057B7] transition-transform duration-300 group-hover:rotate-90" strokeWidth={2.5} />
+        <span>{t("mapPage.addNewStore") || "Add a new store"}</span>
       </button>
     </div>
   );
