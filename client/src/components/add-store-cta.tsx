@@ -1,15 +1,16 @@
 import React from "react";
 import { Plus } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
-export function AddStoreCTA() {
+export function AddStoreCTA({ className }: { className?: string }) {
   const { t } = useI18n();
   const handleOpenModal = () => {
     window.dispatchEvent(new CustomEvent("openAddStoreModal"));
   };
 
   return (
-    <div className="relative overflow-hidden flex flex-col items-center justify-center pt-[16px] md:pt-[24px] pb-[8px] md:pb-[12px] text-center px-4 bg-white/85 backdrop-blur-xl">
+    <div className={cn("relative overflow-hidden flex flex-col items-center justify-center pt-[24px] md:pt-[40px] pb-[32px] md:pb-[48px] text-center px-4 bg-white/85 backdrop-blur-xl", className)}>
       <p className="text-reveal relative z-10 text-[18px] font-medium text-slate-900 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
         Know a store we missed?<br className="block sm:hidden" /> Add it to the map.
       </p>

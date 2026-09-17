@@ -67,7 +67,7 @@ export function MapStats() {
                 </div>
             </div>
             <div className="mt-6 md:mt-8 w-full">
-                <AddStoreCTA />
+                <AddStoreCTA className="!pb-[8px] md:!pb-[12px] !pt-[16px] md:!pt-[24px]" />
             </div>
         </section>
     );
