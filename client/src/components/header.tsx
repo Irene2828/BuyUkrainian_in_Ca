@@ -115,9 +115,13 @@ export function Header() {
         {/* Mobile: Map Button + Language Switcher + Hamburger */}
         <div className="flex md:hidden items-center gap-1.5">
           {location === '/map' ? (
-            <Link href="/" className="no-invert-hover flex items-center justify-center min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
-              <span className="text-[14px] font-normal">{t('nav.home') || 'Home'}</span>
-            </Link>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+              className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline bg-transparent"
+            >
+              <Plus className="w-4 h-4 stroke-[2.5] text-slate-500" />
+              <span className="text-[14px] font-normal">{t('nav.addStore') || 'Add a store'}</span>
+            </button>
           ) : (
             <Link href="/map" className="no-invert-hover flex items-center justify-center gap-1 min-h-[44px] px-3 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600 no-underline">
               <MapPin className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
