@@ -56,8 +56,22 @@ export function HowItWorks() {
                 <h3 className="text-white font-sans font-bold text-[19px] mb-2 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
                   {step.title}
                 </h3>
-                <p className="text-white/85 font-normal text-[17px] leading-relaxed">
-                  {step.text}
+                <p className="text-white/85 font-normal text-[16px] md:text-[18px] leading-relaxed mt-3 md:mt-4">
+                  {index === 0 ? (
+                    <>
+                      <strong className="font-bold text-white">Explore</strong>{step.text.slice("Explore".length)}
+                    </>
+                  ) : index === 1 ? (
+                    <>
+                      <strong className="font-bold text-white">Add it</strong>{step.text.slice("Add it".length)}
+                    </>
+                  ) : index === 2 ? (
+                    <>
+                      <strong className="font-bold text-white">Share the map</strong>{step.text.slice("Share the map".length)}
+                    </>
+                  ) : (
+                    step.text
+                  )}
                 </p>
               </div>
             </div>

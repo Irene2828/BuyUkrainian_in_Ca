@@ -103,7 +103,7 @@ const en = {
   nav: {
     home: "Home",
     about: "About",
-    map: "Map view",
+    map: "Stores map",
     addStore: "Add a store",
     mission: "Mission",
     faq: "FAQ",

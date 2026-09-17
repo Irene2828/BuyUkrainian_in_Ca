@@ -179,22 +179,27 @@ export function Hero() {
 
                         <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.71rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
-                            {/* <img 
-                                src={mapsDecoration} 
-                                alt="Ukraine to Canada" 
-                                className="h-[96px] w-auto object-contain opacity-95 shrink-0 translate-y-[-11px]" 
-                            /> */}
+                            
+                            {/* Staircasy Flags - Mobile (inline in same row) */}
+                            <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
+                                <div className="relative flex items-center">
+                                    <div className="relative aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                        <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
+                                    </div>
+                                    <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
+                                </div>
+                            </div>
                         </div>
                         </div>
-                        <p className="mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
+                        <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                         </p>
                         {/* Yellow Decor Lines under body text on the right */}
-                        <div className="flex flex-col gap-1.5 pointer-events-none mt-4 mb-6 md:mb-3 items-end self-end w-full" aria-hidden="true">
+                        <div className="flex flex-col gap-1.5 pointer-events-none mt-8 md:mt-4 mb-8 md:mb-3 items-end self-end w-full" aria-hidden="true">
                             <div className="h-[1px] w-[140px] bg-[#FFD700]" />
                             <div className="h-[1px] w-[52px] bg-[#FFD700]" />
                         </div>
-                        <div className="flex flex-col items-end self-end w-full gap-1 mt-2 text-[#FFD700] text-[14.5px] font-medium tracking-normal text-right">
+                        <div className="hidden md:flex flex-col items-end self-end w-full gap-1 mt-2 text-[#FFD700] text-[14.5px] font-medium tracking-normal text-right">
                             <div className="flex items-center gap-1.5 justify-end">
                                 <span>—</span>
                                 <span>{trustPillars[0]?.title}</span>
@@ -205,16 +210,16 @@ export function Hero() {
                             </div>
                         </div>
 
-                        <div className="mt-12 mb-4 flex flex-col gap-3 w-full [@media(max-height:700px)]:mt-8" style={{ transform: 'translateY(0px)' }}>
+                        <div className="mt-8 mb-4 flex flex-col gap-3 w-full [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto w-full">
-                                <button className="group/cta-btn relative inline-flex scale-[1.05] h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-6 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_2px_6px_rgba(0,0,0,0.08)] transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer">
+                                <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-6 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_2px_6px_rgba(0,0,0,0.08)] transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer">
                                     <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
                                     <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                 </button>
                             </Link>
                             <button
                                 onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                                className="pointer-events-auto inline-flex h-[44px] w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/15 text-[14px] font-semibold tracking-normal text-white shadow-sm transition-all duration-300 hover:bg-white/25 active:scale-[0.98] outline-none font-sans cursor-pointer"
+                                className="pointer-events-auto inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/15 text-[15px] font-semibold tracking-normal text-white shadow-sm transition-all duration-300 hover:bg-white/25 active:scale-[0.98] outline-none font-sans cursor-pointer"
                             >
                                 <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
                                 <span>{t('nav.addStore') || 'Add a store'}</span>
@@ -699,7 +704,7 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[12px] md:text-[14px] lg:text-[15px] xl:text-[15px] min-[1440px]:text-[15px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className="text-[14px] md:text-[14px] lg:text-[15px] xl:text-[15px] min-[1440px]:text-[15px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
                                                 {store.name}
                                             </span>
                                         </div>
