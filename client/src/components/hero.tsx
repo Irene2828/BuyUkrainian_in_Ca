@@ -835,11 +835,11 @@ function HeroVariantB({
                                 /* List View */
                                 <div className="w-full h-full overflow-y-auto pt-14 px-6 pb-6">
                                     {filteredStores.length > 0 ? (
-                                        <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-2 gap-4">
                                             {filteredStores.map((store) => (
                                                 <div
                                                     key={store.id}
-                                                    className="group/card flex flex-col gap-1.5 p-4 border border-slate-100 hover:border-slate-200 transition-colors cursor-pointer"
+                                                    className="group/card flex flex-col gap-1.5 p-3 hover:bg-transparent transition-colors cursor-pointer"
                                                     onClick={() => setLocation('/map')}
                                                 >
                                                     <h4 className="text-[14px] font-bold text-slate-800 leading-tight">{store.name}</h4>
