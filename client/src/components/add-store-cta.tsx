@@ -9,7 +9,7 @@ export function AddStoreCTA() {
   };
 
   return (
-    <div className="relative overflow-hidden flex flex-col items-center justify-center pt-[24px] md:pt-[40px] pb-[18px] md:pb-[30px] text-center px-4 bg-white/85 backdrop-blur-xl">
+    <div className="relative overflow-hidden flex flex-col items-center justify-center pt-[16px] md:pt-[24px] pb-[8px] md:pb-[12px] text-center px-4 bg-white/85 backdrop-blur-xl">
       <p className="text-reveal relative z-10 text-[18px] font-medium text-slate-900 leading-relaxed text-center max-w-[40ch] mx-auto mb-6">
         Know a store we missed?<br className="block sm:hidden" /> Add it to the map.
       </p>

@@ -647,7 +647,7 @@ function HeroVariantB({
                                 </motion.p>
 
                                 {/* Search & Filters */}
-                                <div className="mt-6 flex flex-col gap-3 w-full">
+                                <div className="mt-12 flex flex-col gap-3 w-full">
                                     {/* Search Input */}
                                     <div className="flex items-center bg-white/10 border border-white/25 px-4 h-[42px] focus-within:bg-white/20 focus-within:border-white/40 transition-colors">
                                         <Search className="w-4 h-4 text-white/60 mr-3 shrink-0" />
