@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { AddStoreCTA } from "@/components/add-store-cta";
 
 export function MapStats() {
     const { data: stores = [] } = useQuery({
@@ -25,7 +26,7 @@ export function MapStats() {
     const { t } = useI18n();
 
     return (
-        <section className="relative w-full pt-[72px] md:pt-[96px] pb-[36px] md:pb-[60px] bg-white flex flex-col justify-center items-center">
+        <section className="relative w-full pt-[72px] md:pt-[96px] pb-[9px] md:pb-[15px] bg-white flex flex-col justify-center items-center">
             <div className="content-width flex flex-col items-center">
                 <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-[2.74rem] lg:gap-x-[4.05rem] min-[1440px]:gap-x-[4.425rem] gap-y-24 md:gap-y-0">
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
@@ -64,6 +65,9 @@ export function MapStats() {
                         <span className="text-reveal text-[13px] min-[1670px]:text-[14.5px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap" style={{ transitionDelay: "160ms" }}>{t("stats.productsListed") || "Products Listed"}</span>
                     </div>
                 </div>
+            </div>
+            <div className="mt-12 md:mt-16 w-full">
+                <AddStoreCTA />
             </div>
         </section>
     );

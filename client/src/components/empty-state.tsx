@@ -47,13 +47,13 @@ export function EmptyState({ type, searchQuery, onClearFilters }: EmptyStateProp
                 <IconComponent className="w-[32px] h-[32px] text-gray-400" />
             </div>
 
-            {/* Title - 24px */}
-            <h3 className="text-[24px] font-bold text-gray-800 mb-2 font-header">
+            {/* Title - 15px */}
+            <h3 className="text-[15px] font-bold text-gray-800 mb-2 font-header">
                 {config.title}
             </h3>
 
-            {/* Description - 16px */}
-            <p className="text-[16px] text-gray-500 mb-6 max-w-md font-ui leading-relaxed">
+            {/* Description - 14px */}
+            <p className="text-[14px] text-gray-500 mb-6 max-w-md font-ui leading-relaxed">
                 {config.description}
             </p>
 
@@ -61,10 +61,10 @@ export function EmptyState({ type, searchQuery, onClearFilters }: EmptyStateProp
             {config.showClearButton && onClearFilters && (
                 <button
                     onClick={onClearFilters}
-                    className="inline-flex items-center gap-2 h-12 px-6 bg-[#0057B7] text-white rounded-[32px] font-medium tracking-normal text-[16px] hover:bg-[#0047A0] hover:scale-[1.02] active:scale-95 transition-all duration-300 font-ui"
+                    className="group/clear-btn relative inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border border-slate-300 bg-slate-50/80 hover:bg-[#FFD700] hover:border-[#FFD700] text-[#0057B7] hover:text-[#003B7A] text-[14.8px] font-semibold transition-all duration-300 shadow-sm cursor-pointer outline-none whitespace-nowrap z-10 mx-auto hover:scale-[1.08] active:scale-[0.98]"
                 >
-                    <X className="w-4 h-4" />
-                    Clear Filters
+                    <X className="w-[18px] h-[18px] text-current stroke-[2.5]" />
+                    <span>Clear Filters</span>
                 </button>
             )}
         </div>
@@ -79,10 +79,10 @@ export function MapEmptyState({ onClearFilters }: { onClearFilters?: () => void 
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <MapPin className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-[20px] font-bold text-gray-800 mb-2 font-header">
+                <h3 className="text-[15px] font-bold text-gray-800 mb-2 font-header">
                     No stores in this area
                 </h3>
-                <p className="text-[14px] text-gray-500 mb-4 max-w-xs font-ui">
+                <p className="text-[13px] text-gray-500 mb-4 max-w-xs font-ui">
                     Try zooming out or searching a different location.
                 </p>
                 {onClearFilters && (

@@ -208,8 +208,19 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                 // Optional: Clean up URL without reload
                 const newUrl = window.location.pathname;
-                window.history.replaceState({}, '', newUrl);
             }
+        }
+
+        const locateParam = searchParams.get('locate');
+        if (locateParam === 'true') {
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('locateMe'));
+            }, 300);
+            
+            // Clean up URL
+            searchParams.delete('locate');
+            const newUrl = `${window.location.pathname}?${searchParams.toString()}`.replace(/\?$/, '');
+            window.history.replaceState({}, '', newUrl);
         }
     }, [stores]);
 

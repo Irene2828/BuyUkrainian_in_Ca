@@ -27,9 +27,9 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             aria-label="Change language"
           >
             <Globe className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] text-slate-500" strokeWidth={1.5} />
-            <span className="flex items-center gap-0.5 md:gap-1.5 text-[0.9rem] lg:text-[0.95rem] min-[1670px]:text-[1.0rem] leading-none mb-[1px]">
-              <span className="hidden md:inline text-[0.9rem] lg:text-[0.95rem] min-[1670px]:text-[1.0rem] leading-none" role="img" aria-label={currentOption.label}>{currentOption.flag}</span>
-              <span className="text-[0.77rem] lg:text-[0.81rem] min-[1670px]:text-[0.88rem] font-semibold text-slate-500 tracking-normal">{currentOption.short}</span>
+            <span className="flex items-center gap-0.5 md:gap-1.5 leading-none mb-[1px]">
+              <span className="hidden md:inline text-[0.85rem] md:text-[0.85rem] lg:text-[14px] xl:text-[14px] leading-none" role="img" aria-label={currentOption.label}>{currentOption.flag}</span>
+              <span className="text-[0.85rem] md:text-[0.85rem] lg:text-[14px] xl:text-[14px] font-medium text-slate-500 tracking-normal">{currentOption.short}</span>
             </span>
           </button>
         </DropdownMenuTrigger>

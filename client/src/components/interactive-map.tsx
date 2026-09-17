@@ -295,12 +295,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 }, ref) => {
   const apiLoadingStatus = useApiLoadingStatus();
   const mapRef = useMap("main-map");
-  const [zoom, setZoom] = useState(variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom);
-  const [center, setCenter] = useState(
-    variant === 'hero'
-      ? HERO_INITIAL_MAP_STATE.center
-      : { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] }
-  );
+  const initialZoom = useMemo(() => variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom, [variant]);
+  const initialCenter = useMemo(() => {
+    if (variant === 'hero') return HERO_INITIAL_MAP_STATE.center;
+    if (variant === 'hero-b') return { lat: FULL_MAP_INITIAL_CENTER[0], lng: -97.5 };
+    return { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] };
+  }, [variant]);
+
+  const [zoom, setZoom] = useState(initialZoom);
+  const [center, setCenter] = useState(initialCenter);
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
   const mapSurfaceState = useMemo(() => {
     if (!GOOGLE_MAPS_API_KEY) {
@@ -456,11 +459,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       }
     },
     resetView: () => {
-      setZoom(INITIAL_MAP_STATE.zoom);
-      setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+      setZoom(initialZoom);
+      setCenter(initialCenter);
       if (mapRef) {
-        mapRef.setZoom(INITIAL_MAP_STATE.zoom);
-        mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+        mapRef.setZoom(initialZoom);
+        mapRef.panTo(initialCenter);
       }
     },
     zenView: () => {},
@@ -562,7 +565,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         onCameraChanged={handleCameraChange}
         onClick={() => {
            if ((window as any).__isMarkerClick) return;
-           if (variant !== 'hero') {
+           if (variant !== 'hero' || variant === 'hero-b') {
              setHoveredLabel(null);
              onCloseStore();
            }
@@ -598,14 +601,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         )}
 
         <ProvinceLabelsOverlay isNationalZoom={isNationalZoom} variant={variant} />
+        <CanadaLabelOverlay variant={variant} />
       </Map>
 
 
 
-      {variant !== "hero" && (
+      {(variant !== "hero" || variant === "hero-b") && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
-          <div className="boutique-width mx-auto h-full relative">
-            <div className="absolute right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem] top-4 pt-2 flex flex-col items-end pointer-events-none">
+          <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
+            <div className={cn("absolute top-4 pt-2 flex flex-col items-end pointer-events-none", variant === "hero-b" ? "right-4 lg:right-6" : "right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
               <TooltipProvider delayDuration={120}>
                 <div className="flex flex-col items-center bg-white shadow-xl rounded-none border border-slate-300 overflow-hidden pointer-events-auto w-[42px] min-[1441px]:w-[46px]">
                   <MapControlButton
@@ -644,11 +648,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     label="Zoom to all Canada"
                     ariaLabel="Reset to national view"
                     onClick={() => {
-                      setZoom(INITIAL_MAP_STATE.zoom);
-                      setCenter({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+                      setZoom(initialZoom);
+                      setCenter(initialCenter);
                       if (mapRef) {
-                        mapRef.setZoom(INITIAL_MAP_STATE.zoom);
-                        mapRef.panTo({ lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] });
+                        mapRef.setZoom(initialZoom);
+                        mapRef.panTo(initialCenter);
                       }
                     }}
                   >
@@ -667,6 +671,37 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                 </div>
               </TooltipProvider>
             </div>
+
+            {variant === "hero-b" && selectedStore && (
+              <div className="absolute top-28 left-4 z-[800] w-[340px] max-w-[calc(100%-2rem)] pointer-events-auto">
+                <StoreCard
+                  store={selectedStore}
+                  onClose={onCloseStore}
+                  variant="map"
+                />
+              </div>
+            )}
+
+            {variant === "hero-b" && (
+              <div className="absolute bottom-10 right-4 lg:right-6 pointer-events-auto">
+                <TooltipProvider delayDuration={120}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        aria-label="Add a new store"
+                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                        className="h-[56px] w-[56px] p-0 bg-[#0057B7] text-white rounded-[32px] flex items-center justify-center shadow-xl border border-[#0057B7] hover:bg-[#004290] hover:border-[#004290] hover:scale-[1.02] active:scale-95 transition-all duration-300 cursor-pointer"
+                      >
+                        <Plus className="w-6 h-6" strokeWidth={2.5} />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="left" sideOffset={16} className={MAP_TOOLTIP_CONTENT_CLASSNAME}>
+                      Add a new store
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -715,7 +750,7 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   // Custom Renderer for a premium, clean look
   const renderer = useMemo(() => ({
     render: ({ count, position }: any) => {
-      const countLabel = `${count} stores in this area`;
+      const countLabel = "Tap to see stores in this area";
       const defaultSvg = getBrandedMapPinSvg({ variant: "cluster", count });
       const hoverSvg = getBrandedMapPinSvg({ variant: "cluster", count, hovered: true });
       
@@ -935,7 +970,7 @@ function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: bo
     };
   }, [map, variant]);
 
-  if (variant === 'hero') return null;
+  if (variant === 'hero' || variant === 'hero-b') return null;
 
   return (
     <div
@@ -1044,5 +1079,55 @@ function MapSurfaceState({
 }
 
 InteractiveMap.displayName = "InteractiveMap";
+
+function CanadaLabelOverlay({ variant }: { variant?: string }) {
+  const map = useMap();
+  const [pos, setPos] = useState<{ top: string; left: string } | null>(null);
+
+  useEffect(() => {
+    if (!map || variant !== 'hero-b') return;
+
+    const updatePosition = () => {
+      const projection = map.getProjection();
+      const bounds = map.getBounds();
+      const mapDiv = map.getDiv();
+      const currentZoom = map.getZoom();
+
+      if (!projection || !bounds || !mapDiv || typeof currentZoom !== "number") return;
+
+      const rect = mapDiv.getBoundingClientRect();
+      const point = projection.fromLatLngToPoint(
+        new (window as any).google.maps.LatLng(62.0, -98.0) // North Canada
+      );
+      const center = map.getCenter();
+      if (!point || !center) return;
+      const centerPoint = projection.fromLatLngToPoint(center);
+      if (!centerPoint) return;
+
+      const scale = Math.pow(2, currentZoom);
+      const x = (point.x - centerPoint.x) * scale + rect.width / 2;
+      const y = (point.y - centerPoint.y) * scale + rect.height / 2;
+
+      setPos({ left: `${x}px`, top: `${y}px` });
+    };
+
+    updatePosition();
+    const listener = map.addListener("bounds_changed", updatePosition);
+    return () => listener.remove();
+  }, [map, variant]);
+
+  if (variant !== 'hero-b' || !pos) return null;
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out opacity-100">
+      <span
+        className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
+        style={{ top: pos.top, left: pos.left }}
+      >
+        Canada
+      </span>
+    </div>
+  );
+}
 
 export default InteractiveMap;

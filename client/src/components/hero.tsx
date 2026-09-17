@@ -1,4 +1,4 @@
-import { Search, Info, ChevronDown, Plus } from "lucide-react";
+import { Search, Info, ChevronDown, Plus, List, Map as MapIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
@@ -482,40 +482,102 @@ function HeroVariantB({
     trustPillars,
 }: HeroVariantBProps) {
     const { t } = useI18n();
+    const [, setLocation] = useLocation();
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+    const [category, setCategory] = useState<string | null>(null);
+    const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
+    const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+    const [viewMode, setViewMode] = useState<"map" | "list">("map");
+
+    const CANADIAN_PROVINCES = [
+        "AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"
+    ];
+
+    const allCategories = Array.from(
+        new Set(stores.flatMap((s) => s.products || []))
+    ).map((product) => ({
+        id: product.toLowerCase().replace(/\s+/g, "-"),
+        label: product,
+    }));
+
+    const filteredStores = stores.filter((store) => {
+        const matchesSearch =
+            !searchQuery ||
+            store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            store.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (store.products || []).some((p) => p.toLowerCase().includes(searchQuery.toLowerCase()));
+        const matchesProvince = !selectedProvince || store.province === selectedProvince;
+        const matchesCategory = !category ||
+            (store.products || []).some(p => p.toLowerCase().replace(/\s+/g, "-") === category);
+        return matchesSearch && matchesProvince && matchesCategory;
+    });
+
+    const closeAllDropdowns = () => {
+        setIsProvinceDropdownOpen(false);
+        setIsCategoryDropdownOpen(false);
+    };
+
+    const handleClearFilters = () => {
+        setSearchQuery("");
+        setSelectedProvince(null);
+        setCategory(null);
+        closeAllDropdowns();
+    };
+
     return (
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
-                <section className="relative z-10 w-full max-w-none mx-auto overflow-hidden bg-white font-sans animate-in fade-in duration-700">
-                    <HeroTickerRow stores={stores} />
-                    <div className="md:hidden relative z-10 w-full overflow-hidden bg-white font-sans">
-                        <div className="relative px-5 pt-7 pb-3.5 text-slate-700">
-                            <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(ellipse_112%_94%_at_0%_0%,rgba(0,87,183,0.11)_0%,rgba(200,223,240,0.13)_38%,rgba(200,223,240,0.055)_58%,rgba(255,255,255,0)_86%)]" aria-hidden="true" />
-                            <div className="relative z-10">
+                <section className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0 min-h-[calc(85vh-81px)]">
+
+                    {/* ==================== MOBILE VIEW ==================== */}
+                    <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
+                        <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-16 pb-3 text-white [@media(max-height:700px)]:pt-10 [@media(max-height:700px)]:pb-3">
+                            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
+                            <motion.div
+                                className="relative z-10"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                            >
+                                <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
                                 <div className="w-fit flex flex-col">
-                                    <h1 className="font-['Lora'] text-[clamp(2.71rem,11.67vw,3.45rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-[#0057B7] antialiased">
-                                        <span className="block">{t('hero.headline.discover') || 'Discover'}</span>
-                                        <span className="block">
-                                            {t('hero.headline.ukrainianProducts') || 'Ukrainian Products'}
+                                    <h1
+                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
+                                    >
+                                        <span className="block text-white font-normal not-italic tracking-[-0.05em] whitespace-nowrap">
+                                            {t("hero.headline.discover") || "Discover"}
+                                        </span>
+                                        <span className="block text-[#FFD700] font-normal not-italic tracking-[-0.05em] pr-1 whitespace-nowrap">
+                                            {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-[1px] flex justify-start w-full text-[clamp(1.65rem,7.73vw,2.21rem)] font-light leading-tight tracking-normal text-slate-600">
+                                    <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.71rem]">
                                         <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
+                                        <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
+                                            <div className="relative flex items-center">
+                                                <div className="relative aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                    <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
+                                                </div>
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            <p className="mt-1 max-w-[18rem] min-[375px]:max-w-[22rem] min-[410px]:max-w-[24rem] text-left text-[15px] font-bold leading-snug tracking-[0.015em] text-slate-600">
-                                    {t('hero.descriptionFind') || 'One map to'} <span className="font-semibold">{t('hero.descriptionFindBold') || 'find'}</span>{t('hero.descriptionAdd') || ','} <span className="font-semibold">{t('hero.descriptionAddBold') || 'add'}</span>{t('hero.descriptionShare') || ', and'} <span className="font-semibold">{t('hero.descriptionShareBold') || 'share'}</span> {(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[0]}<span className="font-bold">#madeinUkraine</span>{(t('hero.descriptionEnd') || 'stores selling #madeinUkraine near you.').split('#madeinUkraine')[1]}
+                                <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
+                                    Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                                 </p>
-                                <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-[30px]" style={{ transform: 'translateY(0px)' }}>
+                                <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
                                     <Link href="/map" className="pointer-events-auto">
-                                            <button className="group/cta-btn relative inline-flex h-[54px] w-full md:scale-[1.02] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[clamp(16px,1.25vw,20px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:md:scale-[1.04] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
-                                                <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
-                                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
-                                            </button>
+                                        <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_14px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap">
+                                            <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
+                                            <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                        </button>
                                     </Link>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
-
                         <Link
                             href="/map"
                             className="group/mobile-map pointer-events-auto relative block h-[42svh] min-h-[280px] max-h-[390px] w-full overflow-hidden border-y border-slate-200 bg-white [@media(max-height:700px)]:h-[260px] [@media(max-height:700px)]:min-h-[240px]"
@@ -524,7 +586,7 @@ function HeroVariantB({
                             {shouldRenderHeroMap && stores.length > 0 ? (
                                 <GoogleMapsProvider>
                                     <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
-                                        <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-4%]">
+                                        <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-8%]">
                                             <InteractiveMap
                                                 stores={stores}
                                                 selectedStore={null}
@@ -534,7 +596,6 @@ function HeroVariantB({
                                                 isMobile={true}
                                             />
                                         </div>
-                                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18)_0%,transparent_34%,rgba(255,255,255,0.1)_100%)]" />
                                     </Suspense>
                                 </GoogleMapsProvider>
                             ) : (
@@ -543,133 +604,286 @@ function HeroVariantB({
                         </Link>
                     </div>
 
-                    <div className="hidden md:block relative z-10 min-h-[calc(85vh-81px)] overflow-hidden bg-white">
-                        <div className="pointer-events-none absolute left-0 top-0 z-[11] h-[78%] w-[86%] bg-[radial-gradient(ellipse_106%_92%_at_0%_0%,rgba(0,87,183,0.07)_0%,rgba(200,223,240,0.08)_36%,rgba(200,223,240,0.035)_62%,rgba(255,255,255,0)_88%)]" aria-hidden="true" />
-                        <div
-                            className="absolute inset-y-0 right-0 z-0 w-[64%] select-none overflow-hidden group/map-peeking"
-                            aria-label="Interactive map of Ukrainian stores in Canada"
-                            style={{
-                                maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.12) 15%, rgba(0,0,0,0.75) 32%, black 50%, black 100%)',
-                                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.12) 15%, rgba(0,0,0,0.75) 32%, black 50%, black 100%)'
-                            }}
-                        >
-                            <div className="absolute inset-0 scale-[1.08] translate-x-[4%] translate-y-[-6%] group-hover/map-peeking:scale-[1.14] transition-all duration-700 ease-out">
-                                {shouldRenderHeroMap ? (
-                                    <GoogleMapsProvider>
-                                        <Suspense fallback={<div className="h-full w-full bg-white animate-pulse" />}>
-                                            <motion.div
-                                                initial={{ opacity: 0, scale: 1 }}
-                                                animate={{ opacity: 1, scale: 1.02 }}
-                                                transition={{
-                                                    opacity: { duration: 1.2, ease: "easeOut" },
-                                                    scale: { duration: 1.2, ease: "easeOut" }
+                    {/* ==================== DESKTOP VIEW: Two-Column Split Layout ==================== */}
+                    <div className="hidden md:flex w-full items-stretch min-h-[calc(85vh-81px)]">
+
+                        {/* LEFT 38% COLUMN — Blue Panel with Search/Filters */}
+                        <div className="relative flex flex-col w-[38%] max-w-[540px] shrink-0 bg-[#0057B7] bg-[radial-gradient(120%_120%_at_30%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] text-white overflow-hidden">
+                            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
+
+                            {/* Main Content */}
+                            <div className="relative z-10 flex flex-col flex-1 px-8 lg:px-10 pb-8 justify-center">
+                                {/* Headline */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                >
+                                    <h1 className="font-normal not-italic leading-[1.06] tracking-[-0.04em] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]">
+                                        <span className="block text-white">{t('hero.headline.discover') || 'Discover'}</span>
+                                        <span className="block text-[#FFD700]">{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
+                                    </h1>
+                                    <div className="mt-2 flex items-center text-[clamp(1.3rem,2.2vw,1.8rem)] font-light leading-tight tracking-[-0.02em] text-white/80">
+                                        <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
+                                        <div className="flex items-center ml-2 shrink-0" aria-hidden="true">
+                                            <div className="relative flex items-center">
+                                                <div className="relative aspect-square w-[22px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                    <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
+                                                </div>
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[22px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2 shrink-0" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* Description */}
+                                <motion.p
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                    className="mt-5 text-[clamp(14px,1.05vw,16.5px)] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
+                                >
+                                    Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products made in Ukraine and sold locally.
+                                </motion.p>
+
+                                {/* Search & Filters */}
+                                <div className="mt-6 flex flex-col gap-3 w-full">
+                                    {/* Search Input */}
+                                    <div className="flex items-center bg-white/10 border border-white/25 px-4 h-[42px] focus-within:bg-white/20 focus-within:border-white/40 transition-colors">
+                                        <Search className="w-4 h-4 text-white/60 mr-3 shrink-0" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search product or town"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full bg-transparent border-none outline-none text-[13.5px] font-medium text-white placeholder:text-white/50 transition-colors duration-200"
+                                        />
+                                    </div>
+
+                                    {/* Province & Category Dropdowns */}
+                                    <div className="flex items-center gap-2.5 w-full">
+                                        {/* Province Dropdown */}
+                                        <div className="relative flex-1">
+                                            <button
+                                                onClick={() => {
+                                                    const open = !isProvinceDropdownOpen;
+                                                    closeAllDropdowns();
+                                                    setIsProvinceDropdownOpen(open);
                                                 }}
-                                                className="h-full w-full cursor-pointer pointer-events-auto will-change-transform group/map-hover relative"
+                                                className="w-full h-[40px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[12.5px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
-                                                <Link href="/map" className="block h-full w-full relative">
-                                                    <InteractiveMap
-                                                        stores={stores}
-                                                        selectedStore={null}
-                                                        onSelectStore={noopSelectStore}
-                                                        onCloseStore={noop}
-                                                        variant="hero"
-                                                        isMobile={false}
-                                                    />
-                                                    {/* Hover Hint Overlay */}
-                                                    <div className="absolute inset-0 z-[70] flex flex-col justify-start pt-[18%] items-center opacity-0 group-hover/map-hover:opacity-100 transition-all duration-500 group-hover/map-hover:delay-300 pointer-events-none bg-slate-900/[0.03]">
-                                                        <div className="transform translate-y-2 group-hover/map-hover:translate-y-0 transition-all duration-500 group-hover/map-hover:delay-300">
-                                                            <span className="text-[11px] font-extrabold tracking-[0.32em] group-hover/map-hover:tracking-[0.40em] uppercase text-[#7B93AC] whitespace-nowrap font-sans transition-all duration-500 antialiased drop-shadow-sm">
-                                                                {t('hero.tapToExplore') || 'TAP TO EXPLORE THE MAP'}
-                                                            </span>
-                                                        </div>
+                                                <span className="truncate pr-2">{selectedProvince || "Province"}</span>
+                                                <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isProvinceDropdownOpen && "rotate-180")} />
+                                            </button>
+                                            {isProvinceDropdownOpen && (
+                                                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
+                                                    <div className="max-h-[180px] overflow-y-auto custom-scrollbar p-1">
+                                                        <button
+                                                            onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
+                                                            className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
+                                                        >
+                                                            All Provinces
+                                                        </button>
+                                                        {CANADIAN_PROVINCES.map((prov) => (
+                                                            <button
+                                                                key={prov}
+                                                                onClick={() => { setSelectedProvince(prov); setIsProvinceDropdownOpen(false); }}
+                                                                className={cn(
+                                                                    "w-full text-left px-3 py-1.5 text-[12px] font-medium transition-colors",
+                                                                    selectedProvince === prov ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-50"
+                                                                )}
+                                                            >
+                                                                {prov}
+                                                            </button>
+                                                        ))}
                                                     </div>
-                                                </Link>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Category Dropdown */}
+                                        <div className="relative flex-1">
+                                            <button
+                                                onClick={() => {
+                                                    const open = !isCategoryDropdownOpen;
+                                                    closeAllDropdowns();
+                                                    setIsCategoryDropdownOpen(open);
+                                                }}
+                                                className="w-full h-[40px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[12.5px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
+                                            >
+                                                <span className="truncate pr-2">{allCategories.find(c => c.id === category)?.label || "Category"}</span>
+                                                <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
+                                            </button>
+                                            {isCategoryDropdownOpen && (
+                                                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
+                                                    <div className="max-h-[180px] overflow-y-auto custom-scrollbar p-1">
+                                                        <button
+                                                            onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
+                                                            className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
+                                                        >
+                                                            All Categories
+                                                        </button>
+                                                        {allCategories.map((cat) => (
+                                                            <button
+                                                                key={cat.id}
+                                                                onClick={() => { setCategory(cat.id); setIsCategoryDropdownOpen(false); }}
+                                                                className={cn(
+                                                                    "w-full text-left px-3 py-1.5 text-[12px] font-medium transition-colors",
+                                                                    category === cat.id ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-50"
+                                                                )}
+                                                            >
+                                                                {cat.label}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Yellow Decor Lines */}
+                                <div className="flex flex-col gap-1.5 pointer-events-none mt-5 mb-0 items-end self-end w-full" aria-hidden="true">
+                                    <div className="h-[1px] w-[140px] bg-[#FFD700]" />
+                                    <div className="h-[1px] w-[52px] bg-[#FFD700]" />
+                                </div>
+
+                                {/* Yellow CTA Button */}
+                                <div className="mt-6 w-full">
+                                    <button
+                                        onClick={() => setLocation('/map')}
+                                        className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_14px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap"
+                                    >
+                                        <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
+                                        <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* RIGHT 62% COLUMN — Interactive Map with Map/List Toggle */}
+                        <div className="flex-1 relative h-full min-h-[calc(85vh-81px)] bg-white overflow-hidden z-10">
+                            {/* Map/List Toggle */}
+                            <div className="absolute top-4 left-4 z-[1000] pointer-events-auto">
+                                <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
+                                    <button
+                                        onClick={() => setViewMode("map")}
+                                        className={cn(
+                                            "flex-1 flex items-center justify-center gap-3 h-full text-[13.5px] tracking-normal transition-colors rounded-none bg-transparent",
+                                            viewMode === "map" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
+                                        )}
+                                    >
+                                        <MapIcon className="w-4 h-4" /> Map
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode("list")}
+                                        className={cn(
+                                            "flex-1 flex items-center justify-center gap-3 h-full text-[13.5px] tracking-normal transition-colors rounded-none bg-transparent",
+                                            viewMode === "list" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
+                                        )}
+                                    >
+                                        <List className="w-4 h-4" /> List
+                                    </button>
+                                </div>
+                            </div>
+
+                            {viewMode === "map" ? (
+                                /* Map View */
+                                shouldRenderHeroMap && filteredStores.length > 0 ? (
+                                    <GoogleMapsProvider>
+                                        <Suspense fallback={<div className="w-full h-full bg-white animate-pulse" />}>
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ duration: 1.2, ease: "easeOut" }}
+                                                className="w-full h-full pointer-events-auto"
+                                            >
+                                                <InteractiveMap
+                                                    stores={filteredStores}
+                                                    selectedStore={null}
+                                                    onSelectStore={noopSelectStore}
+                                                    onCloseStore={noop}
+                                                    variant="hero-b"
+                                                    isMobile={false}
+                                                />
                                             </motion.div>
                                         </Suspense>
                                     </GoogleMapsProvider>
+                                ) : filteredStores.length === 0 ? (
+                                    /* No Stores Found State */
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-[600] p-6 text-center animate-in fade-in duration-500">
+                                        <div className="w-[56px] h-[56px] bg-slate-100 rounded-full flex items-center justify-center mb-5">
+                                            <Search className="w-[28px] h-[28px] text-slate-400" />
+                                        </div>
+                                        <h3 className="text-[14px] font-bold text-slate-800 mb-2 font-sans">
+                                            No stores found
+                                        </h3>
+                                        <p className="text-[13px] text-slate-500 mb-5 max-w-md font-sans leading-relaxed">
+                                            Try adjusting your search or filters.
+                                        </p>
+                                        <button
+                                            onClick={handleClearFilters}
+                                            className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full border border-slate-300 bg-slate-50/80 hover:bg-[#FFD700] hover:border-[#FFD700] text-[#0057B7] hover:text-[#003B7A] text-[13px] font-semibold transition-all duration-300 shadow-sm cursor-pointer outline-none hover:scale-[1.05] active:scale-[0.98]"
+                                        >
+                                            Clear filters
+                                        </button>
+                                    </div>
                                 ) : (
-                                    <div className="h-full w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(219,234,254,0.25)_100%)]" />
-                                )}
-                            </div>
-                        <div className="pointer-events-none absolute inset-y-0 left-0 w-[44%] bg-gradient-to-r from-white via-white/72 to-transparent" />
-                        <div className="pointer-events-none absolute inset-x-0 top-0 z-[11] h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0.46)_0%,rgba(226,238,248,0.2)_46%,rgba(255,255,255,0)_100%)]" />
-                        
-                        <Link href="/map" className="absolute bottom-6 left-1/2 z-[85] -translate-x-1/2">
-                            <button className="group/cta-btn relative inline-flex h-[54px] 2xl:h-[58px] min-[1670px]:h-[60.34px] scale-[1.02] items-center justify-center whitespace-nowrap rounded-none border border-[#FFD700] bg-[#FFD700] px-8 min-[1670px]:px-[33.29px] text-[clamp(16px,1.17vw,19.89px)] font-bold tracking-[0.03em] text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
-                                <span>Find stores near me</span>
-                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
-                            </button>
-                        </Link>
-                    </div>
-
-                        <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_96%_112%_at_0%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.93)_27%,rgba(255,255,255,0.68)_48%,rgba(255,255,255,0.2)_68%,rgba(255,255,255,0)_88%)]" />
-
-                        <div className="hidden lg:flex pointer-events-none absolute right-[56px] top-[10%] z-30 flex-col items-end gap-2">
-                            {trustPillars.map((pillar) => (
-                                <div
-                                    key={`b-${pillar.title}`}
-                                    className={cn(
-                                        "flex w-fit max-w-[520px] flex-col items-end bg-white/55 px-[22px] py-2.5 text-right backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.015)]",
-                                        pillar.accentClass
-                                    )}
-                                >
-                                    <div className="flex items-center justify-end gap-3 text-right">
-                                        <span className="shrink-0 w-3 h-[2px] bg-[#0057B7]/40" />
-                                        <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0057B7]/70 antialiased">
-                                            {pillar.title}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="boutique-width relative z-20 mx-auto flex min-h-[calc(85vh-81px)] items-center translate-y-0 pointer-events-none">
-                            <div className="relative ml-[64px] w-fit max-w-[calc(100vw-160px)] pointer-events-auto lg:max-w-[760px]">
-                                {/* Golden stroke ornament — above Discover, left-aligned */}
-                                <div className="pointer-events-none self-start mb-[18px] flex flex-col items-start gap-[4px]" aria-hidden="true">
-                                    <span className="block h-[2px] w-[200px] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_12%,rgba(255,215,0,0.9)_78%,rgba(255,215,0,0)_100%)]" />
-                                    <span className="block h-px w-[110px] bg-[linear-gradient(90deg,rgba(255,215,0,0)_0%,rgba(255,215,0,0.95)_16%,rgba(255,215,0,0.78)_74%,rgba(255,215,0,0)_100%)]" />
-                                </div>
-                                <h1 className="mb-6 md:mb-10 w-fit font-['Lora'] text-[clamp(3.25rem,4.7vw,4rem)] font-semibold leading-[1.03] tracking-normal text-[#0057B7] antialiased md:-translate-y-[5%]">
-                                    <span className="block">Discover</span>
-                                    <span className="block whitespace-nowrap">
-                                        <span className="relative inline-block pb-4">
-                                            Ukrainian
-                                        </span>{" "}
-                                        Products
-                                    </span>
-                                </h1>
-                                <div className="mt-[-2.6rem] md:mt-[-4.8rem] mb-6 md:mb-10 flex w-full flex-col items-start gap-6">
-                                    <span className="relative z-10 flex items-center self-start font-sans text-[clamp(1.995rem,2.7825vw,3.15rem)] font-normal leading-tight tracking-normal text-slate-600 md:-translate-y-[20%] gap-3">
-                                          sold <span className="font-normal px-1">across</span> Canada
-                                    </span>
-                                    <p className="relative z-10 max-w-none self-start text-left font-sans text-[18px] min-[1670px]:text-[18.36px] font-bold leading-snug tracking-normal text-slate-600 md:whitespace-nowrap">
-                                        One map to <span className="font-semibold">find</span>, <span className="font-semibold">add</span>, and <span className="font-semibold">share</span> stores selling <span className="font-bold">#madeinUkraine</span> near you.
-                                    </p>
-                                    <div className="flex md:hidden items-center gap-8 self-start relative z-20 pointer-events-auto" style={{ transform: 'translateY(13vh)' }}>
-                                        <Link href="/map">
-                                            <button className="group/cta-btn relative inline-flex h-[50px] scale-[1.02] items-center justify-center rounded-none border border-[#FFD700] bg-[#FFD700] px-6 text-[16px] min-[1024px]:text-[17px] xl:text-[18px] font-semibold tracking-normal text-[#0057B7] shadow-none transition-all duration-300 hover:scale-[1.02] hover:border-[#0057B7] hover:bg-[#0057B7] hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0057B7]/30">
-                                                <span>Find stores near me</span>
-                                                <Search className="ml-2.5 h-5 w-5 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={1.5} />
+                                    <div className="w-full h-full bg-[linear-gradient(180deg,rgba(255,255,255,0.86)_0%,rgba(255,255,255,0.58)_35%,rgba(219,234,254,0.22)_100%)]" />
+                                )
+                            ) : (
+                                /* List View */
+                                <div className="w-full h-full overflow-y-auto pt-14 px-6 pb-6">
+                                    {filteredStores.length > 0 ? (
+                                        <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+                                            {filteredStores.map((store) => (
+                                                <div
+                                                    key={store.id}
+                                                    className="group/card flex flex-col gap-1.5 p-4 border border-slate-100 hover:border-slate-200 transition-colors cursor-pointer"
+                                                    onClick={() => setLocation('/map')}
+                                                >
+                                                    <h4 className="text-[14px] font-bold text-slate-800 leading-tight">{store.name}</h4>
+                                                    <div className="flex items-center gap-1">
+                                                        <span className="w-[14px] h-[2px] bg-[#FFD700]" />
+                                                    </div>
+                                                    <span className="text-[12px] text-slate-500">{store.city}, {store.province}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center h-full text-center">
+                                            <div className="w-[56px] h-[56px] bg-slate-100 rounded-full flex items-center justify-center mb-5">
+                                                <Search className="w-[28px] h-[28px] text-slate-400" />
+                                            </div>
+                                            <h3 className="text-[14px] font-bold text-slate-800 mb-2">No stores found</h3>
+                                            <p className="text-[13px] text-slate-500 mb-5">Try adjusting your search or filters.</p>
+                                            <button onClick={handleClearFilters} className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full border border-slate-300 bg-slate-50/80 hover:bg-[#FFD700] hover:border-[#FFD700] text-[#0057B7] hover:text-[#003B7A] text-[13px] font-semibold transition-all duration-300 shadow-sm cursor-pointer">
+                                                Clear filters
                                             </button>
-                                        </Link>
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </section>
 
+                {/* TICKER ROW — Bottom of hero for Version B */}
+                <HeroTickerRow stores={stores} isVariantB={true} />
             </div>
         </>
     );
 }
 
-function HeroTickerRow({ stores }: { stores: Store[] }) {
+function HeroTickerRow({ stores, isVariantB = false }: { stores: Store[]; isVariantB?: boolean }) {
     const { t } = useI18n();
     const shouldReduceMotion = useReducedMotion();
-    
+
     return (
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[95] block w-full bg-transparent pt-4 pb-2 md:pt-[18px] md:pb-3">
+        <div className={cn(
+            "z-[95] block w-full bg-white pt-3 pb-2 md:pt-[14px] md:pb-3 border-t border-slate-100",
+            isVariantB ? "relative" : "pointer-events-none absolute inset-x-0 top-0 bg-transparent border-none"
+        )}>
             <div className="content-width" aria-hidden="true">
                 <div className="transition-all duration-300 w-full">
                     <div className="flex h-full items-center justify-between gap-4 md:gap-6">
@@ -679,15 +893,18 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 <span className="hero-ticker-dot-ring absolute inset-0 rounded-full border border-[#FFD700]/70"></span>
                                 <span className="relative inline-flex h-[5px] w-[5px] rounded-full bg-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.72)]"></span>
                             </div>
-                            <span className="text-[9px] md:text-[11px] lg:text-[11px] xl:text-[11px] min-[1440px]:text-[11px] font-bold tracking-widest text-white/68 uppercase whitespace-nowrap font-sans antialiased">
+                            <span className={cn(
+                                "text-[9px] md:text-[11px] font-bold tracking-widest uppercase whitespace-nowrap font-sans antialiased",
+                                isVariantB ? "text-slate-500" : "text-white/68"
+                            )}>
                                 {t('hero.addedRecently') || 'ADDED RECENTLY'}
                             </span>
                         </div>
                         <div
                             className="flex-1 overflow-hidden pointer-events-none"
                             style={{
-                                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
-                                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)'
+                                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+                                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)'
                             }}
                         >
                             <div className="flex whitespace-nowrap overflow-hidden">
@@ -704,7 +921,10 @@ function HeroTickerRow({ stores }: { stores: Store[] }) {
                                 >
                                     {[...stores.slice(0, 10), ...stores.slice(0, 10)].map((store, i) => (
                                         <div key={`b-${store.id}-${i}`} className="flex items-center px-6 md:px-10 shrink-0 group/ticker-item cursor-pointer">
-                                            <span className="text-[14px] md:text-[14px] lg:text-[15px] xl:text-[15px] min-[1440px]:text-[15px] font-normal text-white/84 tracking-wide font-sans antialiased whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]">
+                                            <span className={cn(
+                                                "text-[14px] md:text-[14px] lg:text-[15px] font-normal tracking-wide font-sans antialiased whitespace-nowrap",
+                                                isVariantB ? "text-slate-500" : "text-white/84 drop-shadow-[0_1px_8px_rgba(0,57,125,0.32)]"
+                                            )}>
                                                 {store.name}
                                             </span>
                                         </div>

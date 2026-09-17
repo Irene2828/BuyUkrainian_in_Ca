@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { InteractiveMap, InteractiveMapRef } from "@/components/interactive-map";
-import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation, ChevronRight, Globe, ArrowUpRight } from "lucide-react";
+import { Search, MapPin, ArrowDown, X, RefreshCw, HelpCircle, Navigation, ChevronRight, Globe, ArrowUpRight, Copy, CornerUpRight, Share2 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
 
 
 import { getApprovedStores } from "@/lib/api";
@@ -83,6 +85,8 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
   const [visibleCount, setVisibleCount] = useState(12);
   const [isMobile, setIsMobile] = useState(false);
   const [hideMobileSheet, setHideMobileSheet] = useState(false);
+  const mapSectionRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   const mapRef = useRef<InteractiveMapRef>(null);
 
   useEffect(() => {
@@ -300,7 +304,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         <div className="w-full h-10 md:h-12 shrink-0" />
         <div className="boutique-width">
           <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] items-start ml-[1.3px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] items-start ml-[1.3px]">
             {Array.from({ length: 12 }).map((_, i) => (
               <StoreListItemSkeleton key={i} />
             ))}
@@ -327,7 +331,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
 
         <div className="boutique-width">
           <div className="min-[1280px]:max-[1669px]:px-[clamp(72px,5vw,92px)] min-[1670px]:px-[clamp(52px,3.6vw,72px)] w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] items-start ml-[1.3px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 pt-16 pb-[40px] md:pb-[60px] items-start ml-[1.3px]">
             {filteredStores.slice(0, visibleCount).map((store, index) => {
               const isActive = selectedStore?.id === store.id;
 
@@ -335,8 +339,8 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                 <div
                   key={store.id}
                     className={cn(
-                      "p-3 cursor-pointer transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 fill-mode-both rounded-none border border-transparent",
-                      isActive && "bg-white/40 backdrop-blur-md border-[#0057B7]/25 shadow-[0_8px_32px_rgba(0,87,183,0.04)]"
+                      "p-3 cursor-pointer transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 fill-mode-both rounded-none border border-transparent flex flex-col justify-between",
+                      isActive ? "bg-slate-50 border-[#0057B7]/25" : ""
                     )}
                     style={{ animationDelay: `${(index % 12) * 30}ms` }}
                     onClick={() => handleSelectStore(store)}
@@ -352,6 +356,94 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
                     <p className="text-slate-600 text-[13px] mt-1.5">
                       {store.city}, {store.province}
                     </p>
+                    {store.products && store.products.length > 0 && (
+                        <div className="flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 pt-2 custom-scrollbar w-full mt-1">
+                            {store.products.map((product, idx) => (
+                                <div
+                                    key={idx}
+                                    className="shrink-0 bg-transparent border border-slate-300 text-slate-500 px-2.5 py-1 rounded-full text-[11px] font-medium cursor-default"
+                                >
+                                    {product}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    
+                    {/* Action Icons Row */}
+                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-100">
+                        <TooltipProvider delayDuration={120}>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigator.clipboard.writeText(store.address);
+                                            toast({ title: "Address Copied", description: "Store address copied to clipboard." });
+                                        }}
+                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                    >
+                                        <Copy size={14} />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="border-0 bg-white/60 px-3 py-1.5 text-[11px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md">
+                                    Copy Address
+                                </TooltipContent>
+                            </Tooltip>
+
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank');
+                                        }}
+                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                    >
+                                        <CornerUpRight size={14} />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="border-0 bg-white/60 px-3 py-1.5 text-[11px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md">
+                                    Get Directions
+                                </TooltipContent>
+                            </Tooltip>
+
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(store.name)}`;
+                                            navigator.clipboard.writeText(shareUrl);
+                                            toast({ title: "Link Copied", description: "Store link copied to clipboard." });
+                                        }}
+                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                    >
+                                        <Share2 size={14} />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="border-0 bg-white/60 px-3 py-1.5 text-[11px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md">
+                                    Share Store
+                                </TooltipContent>
+                            </Tooltip>
+
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleSelectStore(store);
+                                        }}
+                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                    >
+                                        <MapPin size={14} />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="border-0 bg-white/60 px-3 py-1.5 text-[11px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md">
+                                    See on Map
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </div>
                   </div>
                 </div>
               );

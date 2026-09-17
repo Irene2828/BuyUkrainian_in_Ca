@@ -28,7 +28,7 @@ export function HowItWorks() {
       <div className="how-it-works-rail w-full flex flex-col md:flex-row">
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
-        <div className="how-it-works-image-panel w-full md:w-[38%] bg-[#FFD700] px-4 py-10 md:px-6 md:py-12 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
+        <div className="how-it-works-image-panel w-full md:w-[38%] shrink-0 bg-[#FFD700] px-4 py-10 md:px-6 md:py-12 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
           {/* White Photo Frame - Centered on mobile, shifted 50% left on desktop */}
           <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative translate-x-0 md:-translate-x-12">
             <img 
@@ -40,7 +40,7 @@ export function HowItWorks() {
         </div>
 
         {/* Right Column: Blue Block (Text) - 62% width */}
-        <div className="how-it-works-copy-panel w-full md:w-[62%] bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-[53px] md:gap-[64px] justify-center items-center">
+        <div className="how-it-works-copy-panel w-full md:w-[62%] shrink-0 bg-[#0057B7] px-5 py-10 md:p-12 lg:p-16 flex flex-col gap-[53px] md:gap-[64px] justify-center items-center">
           {steps.map((step, index) => (
             <div
               key={index}

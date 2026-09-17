@@ -24,8 +24,8 @@ export default function AboutPage() {
               </h1>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-center">
                 BuyUkrainian.ca is an independent, grassroots initiative aimed to<br className="hidden sm:inline" />{" "}
-                support Ukraine’s economy by making it easier to find<br className="hidden sm:inline" />{" "}
-                products from Ukraine in Canadian stores.
+                support Ukraine’s economy by making it easier to find products<br className="hidden sm:inline" />{" "}
+                from Ukraine in Canadian stores.
               </p>
             </div>
 

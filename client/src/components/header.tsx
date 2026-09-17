@@ -17,8 +17,22 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useI18n();
-  const { isVersionB } = useFlagsABTest();
 
+  const getIsVersionB = () => {
+    if (typeof window === "undefined") return false;
+    const params = new URLSearchParams(window.location.search);
+    const raw = (params.get("hero") || params.get("variant") || params.get("ab") || "").toLowerCase();
+    return raw === "b" || raw === "variant-b" || raw === "version-b";
+  };
+
+  const [isVersionB, setIsVersionB] = useState<boolean>(() => getIsVersionB());
+
+  useEffect(() => {
+    const syncVersion = () => setIsVersionB(getIsVersionB());
+    syncVersion();
+    window.addEventListener("popstate", syncVersion);
+    return () => window.removeEventListener("popstate", syncVersion);
+  }, [location]);
 
   const [, setVariant] = useState<'A' | 'B'>((window as any).__VARIANT__ || 'A');
 
@@ -71,42 +85,80 @@ export function Header() {
               className="h-[63.8px] min-[1024px]:h-[70.7px] min-[1670px]:h-[79.6px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
+          {isVersionB && (
+            <>
+              <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80 mx-2" />
+              <span className="hidden lg:block text-[12.5px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-ui">
+                Initiative to support Ukraine's economy
+              </span>
+            </>
+          )}
         </div>
 
-        {/* Center: Navigation - Desktop */}
-        <div className="hidden md:flex flex-none items-center justify-center font-sans antialiased">
-            <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
-              <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <span>{t('nav.mission') || 'Mission'}</span>
-              </Link>
-              <Link
-                href="/#faq"
-                onClick={(e) => {
-                  if (location === '/') {
-                    e.preventDefault();
-                    document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className={HEADER_NAV_LINK_CLASSNAME}
-              >
-                {t('nav.faq') || 'FAQ'}
-              </Link>
-              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
-                <span>{t('nav.map') || 'Stores map'}</span>
-              </Link>
-            </nav>
-        </div>
+        {/* Center: Navigation - Desktop (Version A default) */}
+        {!isVersionB && (
+          <div className="hidden md:flex flex-none items-center justify-center font-sans antialiased">
+              <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
+                <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                  <span>{t('nav.mission') || 'Mission'}</span>
+                </Link>
+                <Link
+                  href="/#faq"
+                  onClick={(e) => {
+                    if (location === '/') {
+                      e.preventDefault();
+                      document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className={HEADER_NAV_LINK_CLASSNAME}
+                >
+                  {t('nav.faq') || 'FAQ'}
+                </Link>
+                <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                  <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
+                  <span>{t('nav.map') || 'Stores map'}</span>
+                </Link>
+              </nav>
+          </div>
+        )}
 
         {/* Right: Actions - Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-6 lg:gap-8 min-[1670px]:gap-10 font-sans antialiased">
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-              className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
-            >
-              <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
-              <span>{t('nav.addStore') || 'Add a store'}</span>
-            </button>
+            {isVersionB ? (
+              <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
+                <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                  <span>Project's mission</span>
+                </Link>
+                <Link
+                  href="/#faq"
+                  onClick={(e) => {
+                    if (location === '/') {
+                      e.preventDefault();
+                      document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className={HEADER_NAV_LINK_CLASSNAME}
+                >
+                  FAQ
+                </Link>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                  className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+                >
+                  <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
+                  <span>Add a store</span>
+                </button>
+              </nav>
+            ) : (
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+              >
+                <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
+                <span>{t('nav.addStore') || 'Add a store'}</span>
+              </button>
+            )}
+
             <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
               <LanguageSwitcher />

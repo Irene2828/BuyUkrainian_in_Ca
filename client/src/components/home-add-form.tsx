@@ -297,7 +297,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="w-full max-w-xl mx-auto overflow-hidden bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-none border border-white/25 p-8 md:p-10">
+      <div className="w-full max-w-xl mx-auto overflow-hidden bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-[20px] border border-white/25 p-8 md:p-10">
         <div className="min-h-[420px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-none">
         <CheckCircle className="w-16 h-16 text-[#FFD700] mb-6 animate-in zoom-in duration-500" strokeWidth={1.5} />
         <h3 className="text-[24px] font-bold mb-4 font-header text-white">Thanks for helping the map grow</h3>
@@ -306,7 +306,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         </p>
         <Button
           onClick={onClose}
-          className="w-auto px-6 mx-auto h-12 rounded-none bg-transparent text-white font-medium text-[16px] tracking-normal antialiased transition-all duration-300 shadow-none hover:shadow-none hover:bg-white/10 hover:border-[#FFD700] hover:text-white hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border border-white/35"
+          className="w-auto px-6 mx-auto h-12 rounded-full bg-transparent text-white font-medium text-[16px] tracking-normal antialiased transition-all duration-300 shadow-none hover:shadow-none hover:bg-white/10 hover:border-[#FFD700] hover:text-white hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border border-white/35"
         >
           <span>Back to the map</span>
         </Button>
@@ -316,7 +316,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-none border border-white/25 shadow-[0_24px_80px_rgba(0,45,112,0.35)] transition-all duration-500 ease-in-out overflow-y-auto max-h-[90vh] custom-scrollbar">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-[20px] border border-white/25 shadow-[0_24px_80px_rgba(0,45,112,0.35)] transition-all duration-500 ease-in-out overflow-y-auto max-h-[90vh] custom-scrollbar">
       <div className="flex flex-col shadow-none">
       {/* Header */}
       <div className="relative overflow-hidden px-6 py-6 md:px-8 border-b border-white/15 flex items-center justify-between">

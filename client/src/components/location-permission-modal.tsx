@@ -32,12 +32,12 @@ export function LocationPermissionModal({ open, onOpenChange, onContinue, onCanc
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="max-w-[420px] w-[calc(100vw-32px)] bg-white rounded-none border border-slate-200 shadow-xl overflow-hidden flex flex-col p-0 gap-0"
+        className="max-w-[420px] w-[calc(100vw-32px)] bg-white rounded-[24px] border border-slate-200 shadow-xl overflow-hidden flex flex-col p-0 gap-0"
         aria-describedby="location-permission-content"
       >
         <DialogHeader className="px-6 py-5 border-b border-slate-100 flex-shrink-0 bg-white items-center gap-3">
-          <div className="w-12 h-12 bg-[#0057B7]/10 flex items-center justify-center rounded-none mb-2 mt-4">
-            <MapPin className="w-6 h-6 text-[#0057B7]" />
+          <div className="w-14 h-14 bg-slate-50 border border-slate-100 flex items-center justify-center rounded-full mb-2 mt-4 shadow-sm">
+            <MapPin className="w-7 h-7 text-[#0057B7]" />
           </div>
           <DialogTitle className="text-xl font-bold font-header text-slate-900 text-center">
             {isFr ? 'Autorisation de localisation' : 'Location permission'}
@@ -56,16 +56,16 @@ export function LocationPermissionModal({ open, onOpenChange, onContinue, onCanc
           </p>
         </div>
 
-        <div className="p-4 border-t border-slate-100 bg-white flex justify-center gap-3 flex-shrink-0">
+        <div className="p-5 border-t border-slate-100 bg-white flex justify-center gap-4 flex-shrink-0">
           <button
             onClick={handleCancel}
-            className="relative inline-flex w-auto items-center justify-center h-[46px] px-6 text-[16px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 font-sans"
+            className="relative inline-flex w-auto items-center justify-center h-[46px] px-6 text-[15px] font-semibold tracking-normal rounded-full bg-slate-50/80 text-slate-600 border border-slate-300 shadow-sm transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-slate-400/30 font-sans"
           >
             {isFr ? 'Pas maintenant' : 'Not now'}
           </button>
           <button
             onClick={handleContinue}
-            className="relative inline-flex w-auto items-center justify-center h-[46px] px-6 text-[16px] font-semibold tracking-normal rounded-none bg-[#0057B7] text-white border border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#004494] hover:border-[#004494] hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 font-sans"
+            className="relative inline-flex w-auto items-center justify-center h-[46px] px-8 text-[15px] font-semibold tracking-normal rounded-full bg-[#FFD700] text-[#003B7A] border border-transparent shadow-[0_2px_8px_rgba(255,215,0,0.4)] transition-all duration-300 hover:bg-[#FFE033] hover:scale-[1.05] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#FFD700]/50 font-sans"
           >
             {isFr ? 'Continuer' : 'Continue'}
           </button>
