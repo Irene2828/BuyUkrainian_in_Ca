@@ -793,7 +793,7 @@ function HeroVariantB({
                                 /* Map View */
                                 shouldRenderHeroMap && filteredStores.length > 0 ? (
                                     <GoogleMapsProvider>
-                                        <Suspense fallback={<div className="w-full h-full bg-white animate-pulse" />}>
+                                        <Suspense fallback={<div className="w-full h-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
                                             <motion.div
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
@@ -841,7 +841,7 @@ function HeroVariantB({
                                             {filteredStores.map((store) => (
                                                 <div
                                                     key={store.id}
-                                                    className="p-4 bg-white rounded-none border border-slate-200/80 hover:border-[#0057B7]/40 shadow-2xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                                                    className="p-4 bg-white rounded-none shadow-2xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between"
                                                     onClick={() => setLocation(`/map?store=${encodeURIComponent(String(store.id))}`)}
                                                 >
                                                     <div className="flex flex-col justify-center">

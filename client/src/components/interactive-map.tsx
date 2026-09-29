@@ -305,6 +305,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   const [zoom, setZoom] = useState(initialZoom);
   const [center, setCenter] = useState(initialCenter);
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
+  const isHeroVariant = variant === 'hero' || variant === 'hero-b';
+  const [tilesReady, setTilesReady] = useState(false);
+
+  // Listen for tilesloaded so the hero map fades in only after tiles render
+  useEffect(() => {
+    if (!mapRef || !isHeroVariant) { setTilesReady(true); return; }
+    const listener = mapRef.addListener('tilesloaded', () => setTilesReady(true));
+    return () => listener.remove();
+  }, [mapRef, isHeroVariant]);
   const mapSurfaceState = useMemo(() => {
     if (!GOOGLE_MAPS_API_KEY) {
       return {
@@ -488,6 +497,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   // Early return AFTER all hooks have been called
   if (mapSurfaceState.kind !== "ready") {
+    // For hero variants, show a silent gradient instead of a loading spinner
+    // so users don't see a brief flash of spinner on initial site load
+    if ((variant === "hero" || variant === "hero-b") && mapSurfaceState.kind === "loading") {
+      return <div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />;
+    }
     return (
       <MapSurfaceState
         variant={variant}
@@ -517,7 +531,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   return (
     <motion.div 
       initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
+      animate={{ opacity: tilesReady ? 1 : 0 }} 
       transition={{ duration: 0.8, ease: "easeInOut" }} 
       className="w-full h-full relative z-0 overflow-hidden bg-white passport-map-container antialiased border-none outline-none"
       onMouseMove={handleMouseMove}
@@ -1097,7 +1111,7 @@ function CanadaLabelOverlay({ variant }: { variant?: string }) {
 
       const rect = mapDiv.getBoundingClientRect();
       const point = projection.fromLatLngToPoint(
-        new (window as any).google.maps.LatLng(62.0, -98.0) // North Canada
+        new (window as any).google.maps.LatLng(62.0, -106.0) // North Canada – shifted 10% left
       );
       const center = map.getCenter();
       if (!point || !center) return;

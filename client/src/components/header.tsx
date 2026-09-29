@@ -88,7 +88,7 @@ export function Header() {
           {isVersionB && (
             <>
               <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80 mx-2" />
-              <span className="hidden lg:block text-[13.5px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-ui">
+              <span className="hidden lg:block text-[13.5px] text-slate-500 font-medium tracking-wide leading-none antialiased font-ui">
                 Initiative to support Ukraine's economy
               </span>
             </>
@@ -143,7 +143,7 @@ export function Header() {
                 </Link>
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                  className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+                  className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-medium text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
                 >
                   <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
                   <span>Add a store</span>
@@ -152,7 +152,7 @@ export function Header() {
             ) : (
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-semibold text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+                className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[16px] xl:text-[16px] font-medium text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
               >
                 <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
                 <span>{t('nav.addStore') || 'Add a store'}</span>

@@ -1678,6 +1678,14 @@ img[src*="google4_tracking"] {
   }
 }
 
+/* Hide Google Maps internal "Loading" / "Loading map" overlay text */
+.gm-style > div > div > div > div > div[style*="text-align: center"],
+.gm-style .gm-err-title,
+.gm-style .gm-err-message,
+.gm-style > div:first-child > div:first-child > div:nth-child(2) {
+  color: transparent !important;
+}
+
 .gm-style img {
   max-width: none !important;
 }
