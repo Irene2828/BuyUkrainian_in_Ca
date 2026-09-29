@@ -1,4 +1,4 @@
-import { Search, Info, ChevronDown, Plus, List, Map as MapIcon } from "lucide-react";
+import { Search, Info, ChevronDown, Plus, List, Map as MapIcon, Copy, CornerUpRight, Share2, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
@@ -11,6 +11,7 @@ import mapleLeafIcon from "@/assets/maple_leaf.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import type { Store } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
+import { useToast } from "@/hooks/use-toast";
 import flagsDecoration from "@assets/0008.png";
 import mapsDecoration from "@/assets/maps.png";
 import canadaRoundFlag from "@/assets/canada-round-flag.png";
@@ -482,6 +483,7 @@ function HeroVariantB({
     trustPillars,
 }: HeroVariantBProps) {
     const { t } = useI18n();
+    const { toast } = useToast();
     const [, setLocation] = useLocation();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
@@ -833,20 +835,85 @@ function HeroVariantB({
                                 )
                             ) : (
                                 /* List View */
-                                <div className="w-full h-full overflow-y-auto pt-14 px-6 pb-6">
+                                <div className="w-full h-full overflow-y-auto pt-16 px-6 pb-6">
                                     {filteredStores.length > 0 ? (
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 xl:grid-cols-2 min-[1600px]:grid-cols-3 gap-5">
                                             {filteredStores.map((store) => (
                                                 <div
                                                     key={store.id}
-                                                    className="group/card flex flex-col gap-1.5 p-3 hover:bg-transparent transition-colors cursor-pointer"
-                                                    onClick={() => setLocation('/map')}
+                                                    className="p-4 bg-white rounded-none border border-slate-200/80 hover:border-[#0057B7]/40 shadow-2xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                                                    onClick={() => setLocation(`/map?store=${encodeURIComponent(String(store.id))}`)}
                                                 >
-                                                    <h4 className="text-[14px] font-bold text-slate-800 leading-tight">{store.name}</h4>
-                                                    <div className="flex items-center gap-1">
-                                                        <span className="w-[14px] h-[2px] bg-[#FFD700]" />
+                                                    <div className="flex flex-col justify-center">
+                                                        <div className="flex flex-col items-start gap-1 group/title">
+                                                            <h3 className="text-slate-900 font-semibold text-[15px] tracking-tight leading-tight antialiased line-clamp-2">
+                                                                {store.name}
+                                                            </h3>
+                                                            <div className="h-[2px] w-6 mt-1 bg-[#FFD700] transition-colors duration-300" />
+                                                        </div>
+                                                        <p className="text-slate-600 text-[13px] mt-1.5 font-sans">
+                                                            {store.city}, {store.province}
+                                                        </p>
+                                                        {store.products && store.products.length > 0 && (
+                                                            <div className="flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 pt-2 custom-scrollbar w-full mt-1">
+                                                                {store.products.map((product, idx) => (
+                                                                    <div
+                                                                        key={idx}
+                                                                        className="shrink-0 bg-transparent border border-slate-300 text-slate-500 px-2.5 py-1 rounded-full text-[11px] font-medium cursor-default"
+                                                                    >
+                                                                        {product}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                    <span className="text-[12px] text-slate-500">{store.city}, {store.province}</span>
+
+                                                    {/* Action Icons Row */}
+                                                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-100">
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                navigator.clipboard.writeText(store.address);
+                                                                toast({ title: "Address Copied", description: "Store address copied to clipboard." });
+                                                            }}
+                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                                            title="Copy Address"
+                                                        >
+                                                            <Copy size={14} />
+                                                        </button>
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank');
+                                                            }}
+                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                                            title="Get Directions"
+                                                        >
+                                                            <CornerUpRight size={14} />
+                                                        </button>
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(String(store.id))}`;
+                                                                navigator.clipboard.writeText(shareUrl);
+                                                                toast({ title: "Link Copied", description: "Store link copied to clipboard." });
+                                                            }}
+                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                                            title="Share Store"
+                                                        >
+                                                            <Share2 size={14} />
+                                                        </button>
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setLocation(`/map?store=${encodeURIComponent(String(store.id))}`);
+                                                            }}
+                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
+                                                            title="View on Map"
+                                                        >
+                                                            <MapPin size={14} />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
