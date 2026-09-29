@@ -543,29 +543,29 @@ function HeroVariantB({
                                 <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
                                 <div className="w-fit flex flex-col">
                                     <h1
-                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
-                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
+                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-medium not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480 }}
                                     >
-                                        <span className="block text-white font-normal not-italic tracking-[-0.05em] whitespace-nowrap">
+                                        <span className="block text-white font-medium not-italic tracking-[-0.05em] whitespace-nowrap" style={{ fontWeight: 480 }}>
                                             {t("hero.headline.discover") || "Discover"}
                                         </span>
-                                        <span className="block text-[#FFD700] font-normal not-italic tracking-[-0.05em] pr-1 whitespace-nowrap">
+                                        <span className="block text-[#FFD700] font-medium not-italic tracking-[-0.05em] pr-1 whitespace-nowrap" style={{ fontWeight: 480 }}>
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.71rem]">
+                                    <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.88rem]">
                                         <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                <div className="relative aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
+                                <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(18px,3.6vw,21px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                                 </p>
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
@@ -619,18 +619,18 @@ function HeroVariantB({
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 >
-                                    <h1 className="font-normal not-italic leading-[1.06] tracking-[-0.04em] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]">
+                                    <h1 className="font-medium not-italic leading-[1.06] tracking-[-0.04em] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480 }}>
                                         <span className="block text-white">{t('hero.headline.discover') || 'Discover'}</span>
                                         <span className="block text-[#FFD700]">{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="mt-2 flex items-center text-[clamp(1.3rem,2.2vw,1.8rem)] font-light leading-tight tracking-[-0.02em] text-white/80">
+                                    <div className="mt-2 flex items-center text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-tight tracking-[-0.02em] text-white/80">
                                         <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         <div className="flex items-center ml-2 shrink-0" aria-hidden="true">
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[22px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                <div className="relative aspect-square w-[24.2px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[22px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2 shrink-0" />
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24.2px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2 shrink-0" />
                                             </div>
                                         </div>
                                     </div>
@@ -641,7 +641,7 @@ function HeroVariantB({
                                     initial={{ opacity: 0, y: 16 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="mt-5 text-[clamp(14px,1.05vw,16.5px)] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
+                                    className="mt-5 text-[clamp(16px,1.05vw,18.5px)] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
                                 >
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products made in Ukraine and sold locally.
                                 </motion.p>

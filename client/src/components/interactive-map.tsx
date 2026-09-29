@@ -231,7 +231,7 @@ interface InteractiveMapProps {
   onFlightChange?: (isFlying: boolean) => void;
   extraControls?: React.ReactNode;
   isMobile?: boolean;
-  variant?: "default" | "full" | "hero";
+  variant?: "default" | "full" | "hero" | "hero-b";
 }
 
 const FULL_MAP_BASE_STYLE: any[] = [
@@ -1121,7 +1121,7 @@ function CanadaLabelOverlay({ variant }: { variant?: string }) {
   return (
     <div className="absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out opacity-100">
       <span
-        className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
+        className="absolute text-[14.4px] md:text-[16.8px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
         style={{ top: pos.top, left: pos.left }}
       >
         Canada

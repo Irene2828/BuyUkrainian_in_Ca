@@ -13,13 +13,13 @@ export function SiteBrandLockup({ className, tone = "default" }: SiteBrandLockup
         tone === "onBlue" ? "border-white/60" : "border-[#FFD700]"
       )}></div>
       <span className={cn(
-        "text-[12.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] opacity-90 whitespace-nowrap leading-[0.94] antialiased text-center",
+        "text-[13.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] opacity-90 whitespace-nowrap leading-[0.94] antialiased text-center",
         tone === "onBlue" ? "text-white" : "text-[#1E293B]"
       )}>
         Buy Ukrainian
       </span>
       <span className={cn(
-        "text-[12.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] opacity-90 whitespace-nowrap leading-[0.94] antialiased text-center",
+        "text-[13.75px] font-['Plus_Jakarta_Sans'] font-semibold tracking-[-0.02em] opacity-90 whitespace-nowrap leading-[0.94] antialiased text-center",
         tone === "onBlue" ? "text-white" : "text-[#1E293B]"
       )}>
         in Canada

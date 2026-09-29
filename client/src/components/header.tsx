@@ -88,7 +88,7 @@ export function Header() {
           {isVersionB && (
             <>
               <div className="hidden lg:block w-[1px] h-[22px] bg-slate-200/80 mx-2" />
-              <span className="hidden lg:block text-[12.5px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-ui">
+              <span className="hidden lg:block text-[13.5px] text-[#0057B7] font-medium tracking-wide leading-none antialiased font-ui">
                 Initiative to support Ukraine's economy
               </span>
             </>
