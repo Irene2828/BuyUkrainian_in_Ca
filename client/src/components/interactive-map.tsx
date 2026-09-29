@@ -1112,8 +1112,17 @@ function CanadaLabelOverlay({ variant }: { variant?: string }) {
     };
 
     updatePosition();
-    const listener = map.addListener("bounds_changed", updatePosition);
-    return () => listener.remove();
+    const l1 = map.addListener("bounds_changed", updatePosition);
+    const l2 = map.addListener("idle", updatePosition);
+    const l3 = map.addListener("projection_changed", updatePosition);
+    const animId = requestAnimationFrame(updatePosition);
+
+    return () => {
+      l1.remove();
+      l2.remove();
+      l3.remove();
+      cancelAnimationFrame(animId);
+    };
   }, [map, variant]);
 
   if (variant !== 'hero-b' || !pos) return null;
@@ -1121,7 +1130,7 @@ function CanadaLabelOverlay({ variant }: { variant?: string }) {
   return (
     <div className="absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out opacity-100">
       <span
-        className="absolute text-[14.4px] md:text-[16.8px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
+        className="absolute text-[14.4px] md:text-[16.8px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-opacity duration-300"
         style={{ top: pos.top, left: pos.left }}
       >
         Canada
