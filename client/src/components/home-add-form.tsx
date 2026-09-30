@@ -21,25 +21,25 @@ import { CheckCircle, ArrowUpRight, Loader2, X, Image, MapPin, ChevronDown, Plus
 import { cn } from "@/lib/utils";
 
 const formSectionEyebrowClassName =
-  "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#FFD700] font-ui";
+  "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0057B7] font-ui";
 
 const optionalSectionEyebrowClassName =
-  "text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60 font-ui";
+  "text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 font-ui";
 
 const formLabelClassName =
-  "text-[11px] font-semibold text-white/95 uppercase tracking-[0.15em] font-ui block mb-2";
+  "text-[11px] font-semibold text-slate-700 uppercase tracking-[0.15em] font-ui block mb-2";
 
 const optionalFormLabelClassName =
-  "text-[11px] font-semibold text-white/78 uppercase tracking-[0.15em] font-ui block mb-2";
+  "text-[11px] font-semibold text-slate-500 uppercase tracking-[0.15em] font-ui block mb-2";
 
 const formMessageClassName =
-  "text-[12px] font-medium text-[#FFD700]/95";
+  "text-[12px] font-medium text-red-600/95";
 
 const formInputClassName =
-  "h-14 rounded-none border border-white/25 bg-white/[0.10] font-ui text-[15px] font-medium text-white placeholder:text-white/55 shadow-none transition-all duration-200 focus:border-[#FFD700]/70 focus:bg-white/[0.16] focus:ring-2 focus:ring-[#FFD700]/15";
+  "h-14 rounded-[12px] border border-slate-200 bg-white font-ui text-[15px] font-medium text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[#0057B7]/70 focus:bg-white focus:ring-4 focus:ring-[#0057B7]/10 hover:border-slate-300";
 
 const optionalFormInputClassName =
-  "h-14 rounded-none border border-white/20 bg-white/[0.065] font-ui text-[15px] font-medium text-white/90 placeholder:text-white/40 shadow-none transition-all duration-200 focus:border-white/45 focus:bg-white/[0.11] focus:ring-2 focus:ring-white/10";
+  "h-14 rounded-[12px] border border-slate-200 bg-slate-50/50 font-ui text-[15px] font-medium text-slate-800 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-slate-200/50 hover:border-slate-300";
 
 const categoryOptions = [
   { value: "food", label: "Food & Grocery" },
@@ -297,16 +297,16 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="w-full max-w-xl mx-auto overflow-hidden bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-[20px] border border-white/25 p-8 md:p-10">
+      <div className="w-full max-w-xl mx-auto overflow-hidden bg-white rounded-[20px] border border-slate-200/80 shadow-[0_24px_60px_-12px_rgba(0,35,85,0.22),0_8px_24px_-4px_rgba(0,0,0,0.12)] p-8 md:p-10">
         <div className="min-h-[420px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-none">
-        <CheckCircle className="w-16 h-16 text-[#FFD700] mb-6 animate-in zoom-in duration-500" strokeWidth={1.5} />
-        <h3 className="text-[24px] font-bold mb-4 font-header text-white">Thanks for helping the map grow</h3>
-        <p className="text-white/70 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
+        <CheckCircle className="w-16 h-16 text-[#0057B7] mb-6 animate-in zoom-in duration-500" strokeWidth={1.5} />
+        <h3 className="text-[24px] font-bold mb-4 font-header text-slate-900">Thanks for helping the map grow</h3>
+        <p className="text-slate-600 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
           Your store will appear on the map once verified.
         </p>
         <Button
           onClick={onClose}
-          className="w-auto px-6 mx-auto h-12 rounded-full bg-transparent text-white font-medium text-[16px] tracking-normal antialiased transition-all duration-300 shadow-none hover:shadow-none hover:bg-white/10 hover:border-[#FFD700] hover:text-white hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border border-white/35"
+          className="w-auto px-6 mx-auto h-12 rounded-full bg-white text-slate-700 font-medium text-[16px] tracking-normal antialiased transition-all duration-300 shadow-sm hover:shadow hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group/submit-btn border border-slate-200"
         >
           <span>Back to the map</span>
         </Button>
@@ -316,27 +316,30 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] rounded-[20px] border border-white/25 shadow-[0_24px_80px_rgba(0,45,112,0.35)] transition-all duration-500 ease-in-out overflow-y-auto max-h-[90vh] custom-scrollbar">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white rounded-[20px] border border-slate-200/80 shadow-[0_24px_60px_-12px_rgba(0,35,85,0.22),0_8px_24px_-4px_rgba(0,0,0,0.12)] transition-all duration-500 ease-in-out overflow-y-auto max-h-[90vh] custom-scrollbar">
       <div className="flex flex-col shadow-none">
       {/* Header */}
-      <div className="relative overflow-hidden px-6 py-6 md:px-8 border-b border-white/15 flex items-center justify-between">
+      <div className="relative shrink-0 overflow-hidden p-4 pb-3 min-[1670px]:p-5 min-[1670px]:pb-4 bg-white border-b border-[#0057B7]/20 sticky top-0 z-20 flex flex-col gap-1.5">
         <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-b from-white/0 via-white/[0.035] to-white/[0.08]"
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-b from-[#0057B7]/0 via-[#0057B7]/[0.055] to-[#0057B7]/[0.16]"
         />
-        <div className="relative z-10">
-          <DialogTitle className="text-[20px] xl:text-[21px] 2xl:text-[23px] font-semibold tracking-tight leading-tight antialiased font-header text-white mb-2">
+        <div className="relative z-10 flex items-start justify-between gap-4">
+          <DialogTitle className="text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiased font-header line-clamp-2 text-slate-900">
             Add a store
           </DialogTitle>
-          <DialogDescription className="text-[13px] text-white/65 font-medium font-ui ms-0.5">
-            Help the map grow by adding stores selling Ukrainian-made products
-          </DialogDescription>
+          {onClose && (
+            <button
+                onClick={onClose}
+                className="text-slate-400 hover:text-[#0057B7] hover:bg-[#0057B7]/10 p-1.5 rounded-none transition-colors active:scale-95 shrink-0"
+                aria-label="Close"
+            >
+                <X size={16} />
+            </button>
+          )}
         </div>
-        {onClose && (
-          <button onClick={onClose} className="relative z-10 p-2 text-white/65 hover:text-white hover:bg-white/10 rounded-none transition-colors">
-            <X className="w-5 h-5 fill-none stroke-current" strokeWidth={2} />
-          </button>
-        )}
+        
+
       </div>
 
       <div className="px-6 py-6 md:px-8">
@@ -383,7 +386,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     </FormLabel>
                     <FormControl>
                       <div className="relative group">
-                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/70 group-focus-within:text-white/85 transition-colors fill-none stroke-current" strokeWidth={2} />
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#0057B7] transition-colors fill-none stroke-current" strokeWidth={2} />
                         <Input
                           placeholder="Search street address"
                           {...field}
@@ -401,8 +404,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     {(form.watch("city") || form.watch("province")) && (
                       <div className="flex flex-col gap-1 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
                         <div className="flex items-center gap-2">
-                          <CheckCircle className="w-3.5 h-3.5 text-[#FFD700] fill-none stroke-current" strokeWidth={2} />
-                          <span className="text-[13px] font-medium text-white/70 font-ui">
+                          <CheckCircle className="w-3.5 h-3.5 text-[#0057B7] fill-none stroke-current" strokeWidth={2} />
+                          <span className="text-[13px] font-medium text-slate-600 font-ui">
                             {form.watch("city")}, {form.watch("province")}
                           </span>
                         </div>
@@ -471,7 +474,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                               <span>{selectedCategory.label}</span>
                               <ChevronDown
                                 className={cn(
-                                  "absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#FFD700] transition-transform",
+                                  "absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-transform",
                                   isCategoryMenuOpen && "rotate-180"
                                 )}
                                 strokeWidth={2.5}
@@ -481,7 +484,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                             {isCategoryMenuOpen && (
                               <div
                                 role="listbox"
-                                className="absolute left-0 right-0 top-[calc(100%+6px)] z-[2200] overflow-hidden border border-white/25 bg-[#0057B7]/95 shadow-[0_18px_38px_rgba(0,40,100,0.28)] backdrop-blur-xl"
+                                className="absolute left-0 right-0 top-[calc(100%+6px)] z-[2200] overflow-hidden border border-slate-200 rounded-[12px] bg-white/95 shadow-lg backdrop-blur-xl"
                               >
                                 {categoryOptions.map((option) => {
                                   const isSelected = option.value === field.value;
@@ -497,12 +500,12 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                                         setIsCategoryMenuOpen(false);
                                       }}
                                       className={cn(
-                                        "flex w-full items-center justify-between px-4 py-3 text-left text-[14px] font-medium text-white/75 transition-colors hover:bg-white/10 hover:text-white",
-                                        isSelected && "bg-white/[0.13] text-white"
+                                        "flex w-full items-center justify-between px-4 py-3 text-left text-[14px] font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900",
+                                        isSelected && "bg-[#0057B7]/5 text-[#0057B7]"
                                       )}
                                     >
                                       <span>{option.label}</span>
-                                      {isSelected && <span className="h-1.5 w-1.5 bg-[#FFD700]" />}
+                                      {isSelected && <span className="h-1.5 w-1.5 bg-[#0057B7]" />}
                                     </button>
                                   );
                                 })}
@@ -536,7 +539,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             <div className="pt-10 pb-1">
               <div className="flex items-center gap-3">
                 <span className={optionalSectionEyebrowClassName}>Optional details</span>
-                <div className="h-px flex-1 bg-white/12" />
+                <div className="h-px flex-1 bg-slate-200" />
               </div>
             </div>
 
@@ -571,7 +574,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                       <Textarea
                         placeholder="Share what makes this place unique..."
                         {...field}
-                        className="min-h-[104px] rounded-none border border-white/20 bg-white/[0.065] resize-none font-ui focus:border-white/45 focus:bg-white/[0.11] focus:ring-2 focus:ring-white/10 transition-all duration-200 px-4 py-4 text-[16px] font-medium text-white/90 placeholder:text-white/40"
+                        className={cn(optionalFormInputClassName, "min-h-[104px] resize-none py-4")}
                       />
                     </FormControl>
                     <FormMessage className={formMessageClassName} />
@@ -579,42 +582,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 )}
               />
 
-              {/* 7. Image Upload Zone */}
-              <div>
-                <label className={cn(optionalFormLabelClassName, "mb-3")}>Store Photo (Optional)</label>
-                <div
-                  onClick={() => imageInputRef.current?.click()}
-                  className={cn(
-                    "rounded-none p-8 text-center cursor-pointer transition-all duration-300 group border border-dashed",
-                    imagePreview ? "border-white/45 bg-white/[0.11]" : "border-white/20 bg-white/[0.055] hover:border-white/40 hover:bg-white/[0.10]"
-                  )}
-                >
-                  {imagePreview ? (
-                    <div className="relative">
-                      <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-none border border-white/20" />
-                      <button
-                        type="button"
-                        onClick={(e) => { e.stopPropagation(); updateImagePreview(null); form.setValue("image", ""); }}
-                        className="absolute top-2 right-2 w-7 h-7 bg-[#0057B7] text-white border border-white/40 rounded-none flex items-center justify-center hover:bg-white/10 transition-colors"
-                      >
-                        <X className="w-3 h-3 fill-none stroke-current" strokeWidth={2} />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center gap-2">
-                      <Image className="w-8 h-8 text-white/45 group-hover:text-[#FFD700] transition-colors fill-none stroke-current" strokeWidth={2} />
-                      <p className="text-[13px] text-white/65 font-ui group-hover:text-white transition-colors">Click to upload a photo</p>
-                    </div>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  ref={imageInputRef}
-                  onChange={handleImageUpload}
-                  accept="image/*"
-                  className="hidden"
-                />
-              </div>
+
             </div>
 
             {/* Submit Button */}
@@ -622,10 +590,10 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="group/cta-btn relative inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border border-slate-300 bg-slate-50/80 hover:bg-[#FFD700] hover:border-[#FFD700] text-[#0057B7] hover:text-[#003B7A] text-[14.8px] font-semibold transition-all duration-300 shadow-sm cursor-pointer outline-none whitespace-nowrap z-10 mx-auto hover:scale-[1.08] active:scale-[0.98] w-full"
+                className="group/cta-btn relative inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border-none bg-[#FFD700] hover:bg-[#F2CC00] text-[#0057B7] text-[15px] font-semibold transition-all duration-300 shadow-[0_8px_20px_-8px_rgba(255,215,0,0.5)] hover:shadow-[0_12px_24px_-8px_rgba(255,215,0,0.6)] outline-none whitespace-nowrap z-10 w-full h-14 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-80 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
-                  <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2} />
+                  <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2.2} />
                 ) : (
                   <>
                     <Plus className="h-[18px] w-[18px] text-current stroke-[2.5] transition-transform duration-300 group-hover/cta-btn:rotate-90" />
@@ -635,7 +603,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               </Button>
 
               <div className="flex flex-col gap-3 px-2">
-                <p className="text-[13px] text-white/60 leading-relaxed font-ui text-center">
+                <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
                   Stores are reviewed before appearing on the map.
                 </p>
               </div>

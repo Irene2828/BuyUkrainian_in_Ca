@@ -48,7 +48,7 @@ export function FAQ() {
                   }}
                 >
                   <summary className={cn(
-                    "flex justify-between items-center w-full pb-8 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg",
+                    "flex justify-between items-center w-full pb-6 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black rounded-lg",
                     i === 0 ? "pt-1" : "pt-8"
                   )}>
                     <span className={cn(

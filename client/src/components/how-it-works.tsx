@@ -56,7 +56,7 @@ export function HowItWorks() {
                 <h3 className="text-white font-sans font-bold text-[19px] mb-2 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
                   {step.title}
                 </h3>
-                <p className="text-white/85 font-medium text-[16px] leading-relaxed mt-3 md:mt-4">
+                <p className="text-white/85 font-medium text-[16px] leading-relaxed mt-2 md:mt-3">
                   {step.text}
                 </p>
               </div>

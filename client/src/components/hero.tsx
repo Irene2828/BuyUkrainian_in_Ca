@@ -15,6 +15,8 @@ import { useToast } from "@/hooks/use-toast";
 import flagsDecoration from "@assets/0008.png";
 import mapsDecoration from "@/assets/maps.png";
 import canadaRoundFlag from "@/assets/canada-round-flag.png";
+import { StoreCard } from "@/components/store-card";
+import { LocationPermissionModal } from "@/components/location-permission-modal";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -153,7 +155,6 @@ export function Hero() {
         <section
             className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0"
         >
-            <HeroTickerRow stores={stores} />
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
                 <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-16 pb-3 text-white [@media(max-height:700px)]:pt-10 [@media(max-height:700px)]:pb-3">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
@@ -486,11 +487,75 @@ function HeroVariantB({
     const { toast } = useToast();
     const [, setLocation] = useLocation();
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedHeroStore, setSelectedHeroStore] = useState<Store | null>(null);
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
     const [category, setCategory] = useState<string | null>(null);
     const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [viewMode, setViewMode] = useState<"map" | "list">("map");
+
+    const [showLocationModal, setShowLocationModal] = useState(false);
+    const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+    const mapRef = useRef<any>(null);
+
+    useEffect(() => {
+        const handleLocateMe = () => setShowLocationModal(true);
+        window.addEventListener('locateMe', handleLocateMe);
+        return () => window.removeEventListener('locateMe', handleLocateMe);
+    }, []);
+
+    const handleLocationPermissionGranted = () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setUserLocation([latitude, longitude]);
+                    if (mapRef.current) {
+                        mapRef.current.flyToLocation(latitude, longitude, 12);
+                    }
+                    
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`, {
+                            headers: { 'Accept-Language': 'en' }
+                        });
+                        if (response.ok) {
+                            const data = await response.json();
+                            const provinceName = data.address?.state;
+                            if (provinceName) {
+                                const PROVINCE_MAP: Record<string, string> = {
+                                    "Alberta": "AB",
+                                    "British Columbia": "BC",
+                                    "Manitoba": "MB",
+                                    "New Brunswick": "NB",
+                                    "Newfoundland and Labrador": "NL",
+                                    "Nova Scotia": "NS",
+                                    "Northwest Territories": "NT",
+                                    "Nunavut": "NU",
+                                    "Ontario": "ON",
+                                    "Prince Edward Island": "PE",
+                                    "Quebec": "QC",
+                                    "Saskatchewan": "SK",
+                                    "Yukon": "YT"
+                                };
+                                const matched = Object.keys(PROVINCE_MAP).find(p => p.toLowerCase() === provinceName.toLowerCase());
+                                if (matched) {
+                                    setSelectedProvince(PROVINCE_MAP[matched]);
+                                }
+                            }
+                        }
+                    } catch (err) {
+                        console.error("Failed to reverse geocode user location", err);
+                    }
+                },
+                (err) => {
+                    console.error(err);
+                    toast({ title: t('mapPage.locationError') || "Location Error", description: "Could not fetch location.", variant: "destructive" });
+                }
+            );
+        } else {
+            toast({ title: "Not Supported", description: "Geolocation is not supported by your browser.", variant: "destructive" });
+        }
+    };
 
     const CANADIAN_PROVINCES = [
         "AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"
@@ -527,10 +592,12 @@ function HeroVariantB({
         closeAllDropdowns();
     };
 
+    const isFilterActive = searchQuery.trim() !== "" || selectedProvince !== null || category !== null;
+
     return (
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
-                <section className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0 min-h-[calc(85vh-81px)]">
+                <section className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0 min-h-[calc(85vh-81px)] border-b border-slate-200">
 
                     {/* ==================== MOBILE VIEW ==================== */}
                     <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
@@ -559,10 +626,10 @@ function HeroVariantB({
                                         <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                <div className="relative aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white overflow-hidden z-30 shrink-0">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
                                             </div>
                                         </div>
                                     </div>
@@ -614,25 +681,25 @@ function HeroVariantB({
                             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
 
                             {/* Main Content */}
-                            <div className="relative z-10 flex flex-col flex-1 px-8 lg:px-10 pb-8 justify-center">
+                            <div className="relative z-10 flex flex-col flex-1 px-8 lg:px-10 pb-8 justify-center top-[5%]">
                                 {/* Headline */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 >
-                                    <h1 className="font-medium not-italic leading-[1.06] tracking-[-0.04em] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480 }}>
+                                    <h1 className="font-medium not-italic leading-[1.02] tracking-[-0.06em] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480 }}>
                                         <span className="block text-white">{t('hero.headline.discover') || 'Discover'}</span>
                                         <span className="block text-[#FFD700]">{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="mt-2 flex items-center text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-tight tracking-[-0.02em] text-white/80">
+                                    <div className="mt-1.5 flex items-center text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] tracking-[-0.04em] text-white/80">
                                         <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
-                                        <div className="flex items-center ml-2 shrink-0" aria-hidden="true">
+                                        <div className="flex items-center ml-1.5 shrink-0" aria-hidden="true">
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[24.2px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                <div className="relative aspect-square w-[25.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white overflow-hidden z-30 shrink-0">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24.2px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2 shrink-0" />
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[25.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white object-cover relative z-20 -ml-1.5 mt-2 shrink-0" />
                                             </div>
                                         </div>
                                     </div>
@@ -651,14 +718,14 @@ function HeroVariantB({
                                 {/* Search & Filters */}
                                 <div className="mt-12 flex flex-col gap-3 w-full">
                                     {/* Search Input */}
-                                    <div className="flex items-center bg-white/10 border border-white/25 px-4 h-[42px] focus-within:bg-white/20 focus-within:border-white/40 transition-colors">
+                                    <div className="flex items-center bg-white/10 border border-white/25 px-4 h-[44px] focus-within:bg-white/20 focus-within:border-white/40 transition-colors">
                                         <Search className="w-4 h-4 text-white/60 mr-3 shrink-0" />
                                         <input
                                             type="text"
                                             placeholder="Search product or town"
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full bg-transparent border-none outline-none text-[13.5px] font-medium text-white placeholder:text-white/50 transition-colors duration-200"
+                                            className="w-full bg-transparent border-none outline-none text-[14.2px] font-medium text-white placeholder:text-white/50 transition-colors duration-200"
                                         />
                                     </div>
 
@@ -672,7 +739,7 @@ function HeroVariantB({
                                                     closeAllDropdowns();
                                                     setIsProvinceDropdownOpen(open);
                                                 }}
-                                                className="w-full h-[40px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[12.5px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
+                                                className="w-full h-[42px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13.1px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
                                                 <span className="truncate pr-2">{selectedProvince || "Province"}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isProvinceDropdownOpen && "rotate-180")} />
@@ -711,7 +778,7 @@ function HeroVariantB({
                                                     closeAllDropdowns();
                                                     setIsCategoryDropdownOpen(open);
                                                 }}
-                                                className="w-full h-[40px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[12.5px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
+                                                className="w-full h-[42px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13.1px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
                                                 <span className="truncate pr-2">{allCategories.find(c => c.id === category)?.label || "Category"}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
@@ -742,22 +809,59 @@ function HeroVariantB({
                                             )}
                                         </div>
                                     </div>
+
+                                    {/* Clear Filters Link */}
+                                    {isFilterActive && (
+                                        <div className="flex justify-center mt-4 w-full">
+                                            <button 
+                                                onClick={handleClearFilters}
+                                                className="text-[13px] font-medium text-white/80 hover:text-[#FFD700] transition-colors underline decoration-white/40 hover:decoration-[#FFD700] underline-offset-4 cursor-pointer"
+                                            >
+                                                Clear all filters
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Yellow Decor Lines */}
-                                <div className="flex flex-col gap-1.5 pointer-events-none mt-5 mb-0 items-end self-end w-full" aria-hidden="true">
-                                    <div className="h-[1px] w-[140px] bg-[#FFD700]" />
-                                    <div className="h-[1px] w-[52px] bg-[#FFD700]" />
-                                </div>
+                                {!isFilterActive && (
+                                    <div className="flex flex-col gap-1.5 pointer-events-none mt-5 mb-0 items-end self-end w-full" aria-hidden="true">
+                                        <div className="h-[1px] w-[140px] bg-[#FFD700]" />
+                                        <div className="h-[1px] w-[52px] bg-[#FFD700]" />
+                                    </div>
+                                )}
 
                                 {/* Yellow CTA Button */}
-                                <div className="mt-6 w-full">
+                                <div className={cn("w-full", isFilterActive ? "mt-3" : "mt-6")}>
                                     <button
-                                        onClick={() => setLocation('/map')}
+                                        onClick={() => {
+                                            if (isFilterActive) {
+                                                // Clear focus from input to dismiss keyboard/dropdowns
+                                                if (document.activeElement instanceof HTMLElement) {
+                                                    document.activeElement.blur();
+                                                }
+                                                closeAllDropdowns();
+                                                // We don't need to force a pan because the user sees the map update instantly.
+                                                // This click acts as a firm "Submit" confirming their filter choices.
+                                            } else {
+                                                window.dispatchEvent(new CustomEvent('locateMe'));
+                                            }
+                                        }}
                                         className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_14px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap"
                                     >
-                                        <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
-                                        <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                        {isFilterActive ? (
+                                            <>
+                                                <MapIcon className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
+                                                <span>
+                                                    {filteredStores.length === 0 ? "No stores match filters" : `View ${filteredStores.length} store${filteredStores.length === 1 ? '' : 's'}`}
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
+                                                <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </div>
@@ -789,6 +893,26 @@ function HeroVariantB({
                                 </div>
                             </div>
 
+                            {/* Results Count Chip */}
+                            {viewMode === "map" && (
+                                <div className="absolute bottom-8 left-4 z-[1000] pointer-events-none animate-in fade-in slide-in-from-bottom-2 duration-500">
+                                    <div className="inline-flex items-center justify-center px-4 py-2 bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_4px_16px_rgba(0,35,90,0.08)] rounded-full transition-all duration-300">
+                                        <span className="relative flex h-2 w-2 mr-2.5">
+                                            {filteredStores.length > 0 && (
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0057B7] opacity-50"></span>
+                                            )}
+                                            <span className={cn(
+                                                "relative inline-flex rounded-full h-2 w-2",
+                                                filteredStores.length > 0 ? "bg-[#0057B7]" : "bg-slate-300"
+                                            )}></span>
+                                        </span>
+                                        <span className="text-[13px] font-bold text-slate-700 tracking-wide font-sans">
+                                            {filteredStores.length === 0 ? "0 stores found" : `${filteredStores.length} store${filteredStores.length === 1 ? '' : 's'} found`}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+
                             {viewMode === "map" ? (
                                 /* Map View */
                                 shouldRenderHeroMap && filteredStores.length > 0 ? (
@@ -801,17 +925,19 @@ function HeroVariantB({
                                                 className="w-full h-full pointer-events-auto"
                                             >
                                                 <InteractiveMap
+                                                    ref={mapRef}
                                                     stores={filteredStores}
-                                                    selectedStore={null}
-                                                    onSelectStore={noopSelectStore}
-                                                    onCloseStore={noop}
+                                                    selectedStore={selectedHeroStore}
+                                                    onSelectStore={setSelectedHeroStore}
+                                                    onCloseStore={() => setSelectedHeroStore(null)}
+                                                    userLocation={userLocation}
                                                     variant="hero-b"
                                                     isMobile={false}
                                                 />
                                             </motion.div>
                                         </Suspense>
                                     </GoogleMapsProvider>
-                                ) : filteredStores.length === 0 ? (
+                                ) : filteredStores.length === 0 && stores.length > 0 ? (
                                     /* No Stores Found State */
                                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-[600] p-6 text-center animate-in fade-in duration-500">
                                         <div className="w-[56px] h-[56px] bg-slate-100 rounded-full flex items-center justify-center mb-5">
@@ -837,11 +963,11 @@ function HeroVariantB({
                                 /* List View */
                                 <div className="w-full h-full overflow-y-auto pt-16 px-6 pb-6">
                                     {filteredStores.length > 0 ? (
-                                        <div className="grid grid-cols-1 xl:grid-cols-2 min-[1600px]:grid-cols-3 gap-5">
+                                        <div className="grid grid-cols-1 xl:grid-cols-2 min-[1600px]:grid-cols-3 gap-y-5 gap-x-[30px] w-[90%]">
                                             {filteredStores.map((store) => (
                                                 <div
                                                     key={store.id}
-                                                    className="p-4 bg-white rounded-none shadow-2xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                                                    className="p-4 bg-white rounded-none hover:bg-slate-50 transition-all duration-300 cursor-pointer flex flex-col justify-between"
                                                     onClick={() => setLocation(`/map?store=${encodeURIComponent(String(store.id))}`)}
                                                 >
                                                     <div className="flex flex-col justify-center">
@@ -855,7 +981,7 @@ function HeroVariantB({
                                                             {store.city}, {store.province}
                                                         </p>
                                                         {store.products && store.products.length > 0 && (
-                                                            <div className="flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 pt-2 custom-scrollbar w-full mt-1">
+                                                            <div className="flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap pb-3 pt-2 custom-scrollbar w-full mt-1">
                                                                 {store.products.map((product, idx) => (
                                                                     <div
                                                                         key={idx}
@@ -934,10 +1060,14 @@ function HeroVariantB({
                         </div>
                     </div>
                 </section>
-
-                {/* TICKER ROW — Bottom of hero for Version B */}
-                <HeroTickerRow stores={stores} isVariantB={true} />
             </div>
+            
+            <LocationPermissionModal 
+                open={showLocationModal}
+                onOpenChange={setShowLocationModal}
+                onContinue={handleLocationPermissionGranted}
+                onCancel={() => setShowLocationModal(false)}
+            />
         </>
     );
 }

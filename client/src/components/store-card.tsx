@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight, Facebook, Instagram, Navigation } from 'lucide-react';
+import { X, Copy, MapPin, Check, Maximize2, Globe, Share2, CornerUpRight, Facebook, Instagram, Navigation, ShoppingBag, Utensils, Shirt, Store as StoreIcon, Gift } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Store } from '@/lib/data';
-import { getStoreImages } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from "@/lib/i18n";
 import { cn } from '@/lib/utils';
@@ -51,19 +50,6 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
-
-    // Image lazy loading logic
-    const { data: storeImages, isLoading: isImagesLoading } = useQuery({
-        queryKey: ["store-images", store.id],
-        queryFn: () => getStoreImages(store.id),
-        staleTime: 1000 * 60 * 60, // Cache for 1 hour to avoid repeated egress
-    });
-
-    const baseImage = storeImages?.image || (storeImages?.images?.[0]) || store.image || (store.images?.[0]);
-    const images = baseImage ? [baseImage] : ["/assets/kyivcake.jpeg"];
-    const displayImages = images.length === 1 && baseImage ? [images[0], "/assets/kyivcake.jpeg", "/assets/hero-bg.jpg"] : images;
-    const uniqueImages = Array.from(new Set(displayImages)).filter(Boolean);
-    const [currentImageIndex] = useState(0);
 
     const distanceFormatted = useMemo(() => {
         if (!userLocation || !store.coordinates) return null;
@@ -196,24 +182,26 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                 <div className="shrink-0 p-4 pt-3 min-[1670px]:p-5 min-[1670px]:pt-4 flex flex-col gap-4">
                     {/* Compact Image & Info Grid */}
                     <div className="grid grid-cols-[84px_1fr] min-[1670px]:grid-cols-[96px_1fr] gap-4 items-start">
-                        {/* Left Column: Store Image */}
+                        {/* Left Column: Store Category Icon */}
                         <div
                             className={cn(
-                                "relative w-[84px] h-[84px] min-[1670px]:w-[96px] min-[1670px]:h-[96px] rounded-none overflow-hidden ring-1 ring-inset ring-black/5 shadow-sm shrink-0",
-                                !isImagesLoading && "group transition-all duration-300"
+                                "relative w-[84px] h-[84px] min-[1670px]:w-[96px] min-[1670px]:h-[96px] rounded-[16px] overflow-hidden bg-slate-50 flex items-center justify-center ring-1 ring-inset ring-slate-100 shadow-sm shrink-0",
+                                "group transition-all duration-300"
                             )}
                         >
-                            {isImagesLoading ? (
-                                <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center">
-                                    <div className="w-8 h-8 rounded-full bg-slate-200" />
-                                </div>
-                            ) : (
-                                <img
-                                    src={uniqueImages[currentImageIndex]}
-                                    alt={store.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                />
-                            )}
+                            {(() => {
+                                switch(store.category) {
+                                    case 'food':
+                                        return <Utensils className="w-8 h-8 min-[1670px]:w-10 min-[1670px]:h-10 text-[#0057B7]/60 group-hover:text-[#0057B7] transition-colors" strokeWidth={1.5} />;
+                                    case 'clothes':
+                                        return <Shirt className="w-8 h-8 min-[1670px]:w-10 min-[1670px]:h-10 text-[#0057B7]/60 group-hover:text-[#0057B7] transition-colors" strokeWidth={1.5} />;
+                                    case 'other':
+                                        return <Gift className="w-8 h-8 min-[1670px]:w-10 min-[1670px]:h-10 text-[#0057B7]/60 group-hover:text-[#0057B7] transition-colors" strokeWidth={1.5} />;
+                                    case 'retail':
+                                    default:
+                                        return <StoreIcon className="w-8 h-8 min-[1670px]:w-10 min-[1670px]:h-10 text-[#0057B7]/60 group-hover:text-[#0057B7] transition-colors" strokeWidth={1.5} />;
+                                }
+                            })()}
                         </div>
 
                         {/* Right Column: Address & Website */}

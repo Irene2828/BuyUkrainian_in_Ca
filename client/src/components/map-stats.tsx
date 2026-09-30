@@ -26,7 +26,7 @@ export function MapStats() {
     const { t } = useI18n();
 
     return (
-        <section className="relative w-full pt-[48px] md:pt-[64px] pb-0 bg-white flex flex-col justify-center items-center">
+        <section className="relative w-full pt-[96px] md:pt-[128px] pb-0 bg-white flex flex-col justify-center items-center">
             <div className="content-width flex flex-col items-center">
                 <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-[2.74rem] lg:gap-x-[4.05rem] min-[1440px]:gap-x-[4.425rem] gap-y-24 md:gap-y-0">
                     <div className="flex flex-col items-center gap-4 transition-all duration-300">
@@ -66,8 +66,8 @@ export function MapStats() {
                     </div>
                 </div>
             </div>
-            <div className="mt-6 md:mt-8 w-full">
-                <AddStoreCTA className="!pb-[8px] md:!pb-[12px] !pt-[16px] md:!pt-[24px]" />
+            <div className="mt-12 md:mt-16 w-full">
+                <AddStoreCTA className="!pb-[16px] md:!pb-[24px] !pt-[32px] md:!pt-[48px]" />
             </div>
         </section>
     );
