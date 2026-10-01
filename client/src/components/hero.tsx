@@ -496,6 +496,7 @@ function HeroVariantB({
 
     const [showLocationModal, setShowLocationModal] = useState(false);
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+    const [showFeedbackChip, setShowFeedbackChip] = useState(false);
     const mapRef = useRef<any>(null);
 
     useEffect(() => {
@@ -580,6 +581,17 @@ function HeroVariantB({
         return matchesSearch && matchesProvince && matchesCategory;
     });
 
+    const isFirstMount = useRef(true);
+    useEffect(() => {
+        if (isFirstMount.current) {
+            isFirstMount.current = false;
+            return;
+        }
+        setShowFeedbackChip(true);
+        const timer = setTimeout(() => setShowFeedbackChip(false), 2500);
+        return () => clearTimeout(timer);
+    }, [filteredStores.length, selectedProvince, category, searchQuery, userLocation]);
+
     const closeAllDropdowns = () => {
         setIsProvinceDropdownOpen(false);
         setIsCategoryDropdownOpen(false);
@@ -612,17 +624,17 @@ function HeroVariantB({
                                 <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
                                 <div className="w-fit flex flex-col">
                                     <h1
-                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-medium not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
-                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480 }}
+                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-medium not-italic leading-[1.08] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.05em' }}
                                     >
-                                        <span className="block text-white font-medium not-italic tracking-[-0.05em] whitespace-nowrap" style={{ fontWeight: 480 }}>
+                                        <span className="block text-white font-medium not-italic whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.05em' }}>
                                             {t("hero.headline.discover") || "Discover"}
                                         </span>
-                                        <span className="block text-[#FFD700] font-medium not-italic tracking-[-0.05em] pr-1 whitespace-nowrap" style={{ fontWeight: 480 }}>
+                                        <span className="block text-[#FFD700] font-medium not-italic pr-1 whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.05em' }}>
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.88rem]">
+                                    <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight text-white/80 [@media(max-height:700px)]:text-[1.88rem]" style={{ letterSpacing: '-0.015em' }}>
                                         <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
                                             <div className="relative flex items-center">
@@ -688,11 +700,11 @@ function HeroVariantB({
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 >
-                                    <h1 className="font-medium not-italic leading-[1.02] tracking-[-0.06em] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480 }}>
-                                        <span className="block text-white">{t('hero.headline.discover') || 'Discover'}</span>
-                                        <span className="block text-[#FFD700]">{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
+                                    <h1 className="font-medium not-italic leading-[1.02] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.055em' }}>
+                                        <span className="block text-white" style={{ letterSpacing: '-0.055em' }}>{t('hero.headline.discover') || 'Discover'}</span>
+                                        <span className="block text-[#FFD700]" style={{ letterSpacing: '-0.055em' }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="mt-1.5 flex items-center text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] tracking-[-0.04em] text-white/80">
+                                    <div className="mt-1.5 flex items-center text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] text-white/80" style={{ letterSpacing: '-0.02em' }}>
                                         <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         <div className="flex items-center ml-1.5 shrink-0" aria-hidden="true">
                                             <div className="relative flex items-center">
@@ -894,7 +906,7 @@ function HeroVariantB({
                             </div>
 
                             {/* Results Count Chip */}
-                            {viewMode === "map" && (
+                            {viewMode === "map" && showFeedbackChip && (
                                 <div className="absolute bottom-8 left-4 z-[1000] pointer-events-none animate-in fade-in slide-in-from-bottom-2 duration-500">
                                     <div className="inline-flex items-center justify-center px-4 py-2 bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_4px_16px_rgba(0,35,90,0.08)] rounded-full transition-all duration-300">
                                         <span className="relative flex h-2 w-2 mr-2.5">

@@ -297,7 +297,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
 
   if (isSubmitted) {
     return (
-      <div className="w-full max-w-xl mx-auto overflow-hidden bg-white rounded-[20px] border border-slate-200/80 shadow-[0_24px_60px_-12px_rgba(0,35,85,0.22),0_8px_24px_-4px_rgba(0,0,0,0.12)] p-8 md:p-10">
+      <div className="w-full max-w-xl mx-auto overflow-hidden bg-white rounded-[20px] border border-slate-200/80 shadow-[0_16px_40px_-12px_rgba(0,35,85,0.15),0_4px_16px_-4px_rgba(0,0,0,0.08)] p-8 md:p-10">
         <div className="min-h-[420px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500 shadow-none">
         <CheckCircle className="w-16 h-16 text-[#0057B7] mb-6 animate-in zoom-in duration-500" strokeWidth={1.5} />
         <h3 className="text-[24px] font-bold mb-4 font-header text-slate-900">Thanks for helping the map grow</h3>
@@ -316,8 +316,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white rounded-[20px] border border-slate-200/80 shadow-[0_24px_60px_-12px_rgba(0,35,85,0.22),0_8px_24px_-4px_rgba(0,0,0,0.12)] transition-all duration-500 ease-in-out overflow-y-auto max-h-[90vh] custom-scrollbar">
-      <div className="flex flex-col shadow-none">
+    <div className="max-w-xl w-full mx-auto relative z-[2000] bg-white rounded-[20px] border border-slate-200/80 shadow-[0_16px_40px_-12px_rgba(0,35,85,0.15),0_4px_16px_-4px_rgba(0,0,0,0.08)] transition-all duration-500 ease-in-out overflow-hidden max-h-[90vh] pointer-events-auto flex flex-col">
+      <div className="flex flex-col shadow-none overflow-y-auto custom-scrollbar h-full w-full">
       {/* Header */}
       <div className="relative shrink-0 overflow-hidden p-4 pb-3 min-[1670px]:p-5 min-[1670px]:pb-4 bg-white border-b border-[#0057B7]/20 sticky top-0 z-20 flex flex-col gap-1.5">
         <div
@@ -590,7 +590,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="group/cta-btn relative inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border-none bg-[#FFD700] hover:bg-[#F2CC00] text-[#0057B7] text-[15px] font-semibold transition-all duration-300 shadow-[0_8px_20px_-8px_rgba(255,215,0,0.5)] hover:shadow-[0_12px_24px_-8px_rgba(255,215,0,0.6)] outline-none whitespace-nowrap z-10 w-full h-14 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-80 disabled:cursor-not-allowed"
+                className="group/cta-btn relative inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border-none bg-[#FFD700] hover:bg-[#F2CC00] text-[#0057B7] text-[15px] font-semibold transition-all duration-300 shadow-[0_8px_20px_-8px_rgba(255,215,0,0.5)] hover:shadow-[0_12px_24px_-8px_rgba(255,215,0,0.6)] outline-none whitespace-nowrap z-10 w-full h-[46px] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-80 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin fill-none stroke-current" strokeWidth={2.2} />
