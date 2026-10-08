@@ -298,7 +298,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   const initialZoom = useMemo(() => variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom, [variant]);
   const initialCenter = useMemo(() => {
     if (variant === 'hero') return HERO_INITIAL_MAP_STATE.center;
-    if (variant === 'hero-b') return { lat: FULL_MAP_INITIAL_CENTER[0], lng: -97.5 };
+    if (variant === 'hero-b') return { lat: 49.5, lng: -97.5 };
     return { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] };
   }, [variant]);
 
@@ -623,7 +623,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {(variant !== "hero" || variant === "hero-b") && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
-            <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[10%] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
+            <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[28px] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
               <TooltipProvider delayDuration={120}>
                 <div className="flex flex-col items-center bg-white shadow-xl rounded-none border border-slate-300 overflow-hidden pointer-events-auto w-[42px] min-[1441px]:w-[46px]">
                   <MapControlButton
@@ -696,26 +696,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
               </div>
             )}
 
-            {variant === "hero-b" && (
-              <div className="absolute bottom-10 right-4 lg:right-6 pointer-events-auto">
-                <TooltipProvider delayDuration={120}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        aria-label="Add a new store"
-                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                        className="h-[56px] w-[56px] p-0 bg-[#0057B7] text-white rounded-[32px] flex items-center justify-center shadow-xl border border-[#0057B7] hover:bg-[#004290] hover:border-[#004290] hover:scale-[1.02] active:scale-95 transition-all duration-300 cursor-pointer"
-                      >
-                        <Plus className="w-6 h-6" strokeWidth={2.5} />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent side="left" sideOffset={16} className={MAP_TOOLTIP_CONTENT_CLASSNAME}>
-                      Add a new store
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            )}
+
           </div>
         </div>
       )}

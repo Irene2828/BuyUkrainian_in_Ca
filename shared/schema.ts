@@ -88,11 +88,9 @@ export const insertStoreSchema = createInsertSchema(stores, {
     }, "Location must be within Canada (longitude -140 to -50)"),
   category: z.enum(["food", "clothes", "retail", "other"]),
   website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").refine((url) => /^https?:\/\//i.test(url), "URL must start with http:// or https://").optional().or(z.literal("")),
-  image: z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large").optional().or(z.literal("")),
-  images: z.array(z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
   email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
   status: z.enum(["pending", "approved", "rejected"]).optional(),
-}).omit({ id: true, createdAt: true, deletionRequestedAt: true, deletionRequestEmail: true });
+}).omit({ id: true, createdAt: true, deletionRequestedAt: true, deletionRequestEmail: true, image: true, images: true });
 
 export type InsertStore = z.infer<typeof insertStoreSchema>;
 export type Store = typeof stores.$inferSelect;

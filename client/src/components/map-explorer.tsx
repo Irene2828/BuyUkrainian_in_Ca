@@ -24,6 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 import { LocationPermissionModal } from "./location-permission-modal";
+import { AccessibleStoreDirectory } from "@/components/accessible-store-directory";
 
 const PROVINCE_MAP: Record<string, string> = {
     "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
@@ -460,7 +461,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                     {/* Add Store FAB */}
                     {!isZenMode && viewMode === "map" && (
-                        <div className="absolute bottom-6 right-4 md:right-6 z-[600] pointer-events-auto">
+                        <div className="absolute bottom-6 right-4 md:bottom-auto md:top-[28px] md:right-6 z-[600] pointer-events-auto">
                             <button
                                 aria-label="Add a new store"
                                 onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
@@ -474,9 +475,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     {/* Main Content Stage (Map or List) */}
                     <div className={cn("map-column-wrapper flex-1 relative z-0 h-full overflow-hidden", viewMode === "list" && "overflow-y-auto custom-scrollbar")}>
                         {/* Map/List View Toggle (Floating on Map) */}
-                        <div className="absolute bottom-[28px] left-4 md:left-6 z-[1000] pointer-events-auto">
+                        <div className="absolute top-[28px] left-4 md:left-6 z-[1000] pointer-events-auto">
                             <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
                                 <button
+                                    id="map-view-toggle"
                                     onClick={() => setViewMode("map")}
                                     className={cn(
                                         "flex-1 flex items-center justify-center gap-3 h-full text-[13.5px] tracking-normal transition-colors rounded-none bg-transparent",
@@ -496,24 +498,29 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                 </button>
                             </div>
                         </div>
-                        <MapSection
-                            ref={mapSectionRef}
-                            mode="full"
-                            className={cn(
-                                viewMode === "map" ? "absolute inset-0" : "relative"
-                            )}
-                            searchQuery={searchQuery}
-                            category={category}
-                            viewMode={viewMode}
-                            selectedProvince={selectedProvince}
-                            selectedCity={selectedCity}
-                            sortMode={sortMode}
-                            onFlightChange={setIsFlying}
-                            onViewChange={setViewMode}
-                            selectedStore={selectedStore}
-                            onStoreSelect={setSelectedStore}
-                            userLocation={userLocation}
-                        />
+                        <div className={cn(viewMode === "map" ? "block absolute inset-0" : "hidden")}>
+                            <MapSection
+                                ref={mapSectionRef}
+                                mode="full"
+                                className="absolute inset-0"
+                                searchQuery={searchQuery}
+                                category={category}
+                                viewMode={viewMode}
+                                selectedProvince={selectedProvince}
+                                selectedCity={selectedCity}
+                                sortMode={sortMode}
+                                onFlightChange={setIsFlying}
+                                onViewChange={setViewMode}
+                                selectedStore={selectedStore}
+                                onStoreSelect={setSelectedStore}
+                                userLocation={userLocation}
+                            />
+                        </div>
+                        {viewMode === "list" && (
+                            <div className="pt-20">
+                                <AccessibleStoreDirectory onClose={() => setViewMode("map")} />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

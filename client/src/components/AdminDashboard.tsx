@@ -968,13 +968,29 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
             });
         }
 
-        // Handle images separately
-        const allImages = [...editImages, ...localImagePreviews].slice(0, 3);
-        if (JSON.stringify(allImages) !== JSON.stringify(selectedStore.images)) {
-            await updateImagesMutation.mutateAsync({
-                id: selectedStore.id,
-                images: allImages,
-            });
+        // Handle images separately: send one new image at a time to keep payload size small
+        if (JSON.stringify(editImages) !== JSON.stringify(selectedStore.images) || localImagePreviews.length > 0) {
+            let currentUrls = [...editImages];
+            
+            // If there are no new images but existing images changed (e.g. deleted), sync the array once
+            if (localImagePreviews.length === 0) {
+                await updateImagesMutation.mutateAsync({
+                    id: selectedStore.id,
+                    images: currentUrls,
+                });
+            } else {
+                // Upload new images one by one
+                for (const newImg of localImagePreviews.slice(0, 5)) {
+                    const payloadImages = [...currentUrls, newImg];
+                    const updatedStore = await updateImagesMutation.mutateAsync({
+                        id: selectedStore.id,
+                        images: payloadImages,
+                    });
+                    if (updatedStore && updatedStore.images) {
+                        currentUrls = updatedStore.images;
+                    }
+                }
+            }
         }
         setIsEditModalOpen(false);
         setSelectedStore(null);
@@ -984,17 +1000,17 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         const files = e.target.files;
         if (!files) return;
         const currentTotal = editImages.length + localImagePreviews.length;
-        const remaining = 3 - currentTotal;
+        const remaining = 5 - currentTotal;
         const validFiles = Array.from(files).slice(0, remaining);
 
         for (const file of validFiles) {
             try {
                 const options = {
-                    maxSizeMB: 1,
+                    maxSizeMB: 0.6,
                     maxWidthOrHeight: 800,
                     useWebWorker: true,
                     fileType: "image/webp" as const,
-                    initialQuality: 0.8
+                    initialQuality: 0.7
                 };
 
                 // Compress
@@ -1007,7 +1023,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     if (result) {
                         setLocalImagePreviews((prev) => {
                             // Re-check capacity in case of race conditions
-                            if (prev.length + editImages.length >= 3) return prev;
+                            if (prev.length + editImages.length >= 5) return prev;
                             return [...prev, result];
                         });
                     }
@@ -1020,7 +1036,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     const result = reader.result as string;
                     if (result) {
                         setLocalImagePreviews((prev) => {
-                            if (prev.length + editImages.length >= 3) return prev;
+                            if (prev.length + editImages.length >= 5) return prev;
                             return [...prev, result];
                         });
                     }

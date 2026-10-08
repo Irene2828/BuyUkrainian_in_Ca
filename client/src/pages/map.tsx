@@ -4,7 +4,6 @@ import { Loader2, ArrowRight, ArrowUpRight, Plus, MapPin } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MapExplorer } from "@/components/map-explorer";
-import { AccessibleStoreDirectory } from "@/components/accessible-store-directory";
 import { Store } from "@/lib/data";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -161,7 +160,6 @@ export default function MapPage() {
     )}>
       {!isZenMode && <Header />}
       <main className="flex flex-col flex-1 relative">
-        <AccessibleStoreDirectory />
         {!isZenMode && <div className="w-full h-0 bg-white shrink-0" />}
         <div
           className={cn(

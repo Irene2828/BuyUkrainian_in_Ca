@@ -95,7 +95,6 @@ const formSchema = z.object({
   description: optionalTextField,
   latitude: z.number().optional(),
   longitude: z.number().optional(),
-  image: z.string().optional(),
   company_fax_hp: z.string().optional(),
 }).refine(data => data.selectedProducts.length > 0 || data.otherProducts.trim().length > 0, {
   message: "Please select or enter at least one product",
@@ -109,10 +108,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
-  const imagePreviewRef = useRef<string | null>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
   
   const places = useMapsLibrary("places");
@@ -172,21 +168,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
     });
   }, [places, form]);
 
-  useEffect(() => {
-    return () => {
-      if (imagePreviewRef.current) {
-        URL.revokeObjectURL(imagePreviewRef.current);
-      }
-    };
-  }, []);
 
-  const updateImagePreview = (url: string | null) => {
-    if (imagePreviewRef.current) {
-      URL.revokeObjectURL(imagePreviewRef.current);
-    }
-    imagePreviewRef.current = url;
-    setImagePreview(url);
-  };
 
   async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
     try {
@@ -217,41 +199,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      updateImagePreview(url);
 
-      // Compress image before converting to base64
-      const img = new window.Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_SIZE = 1200; // Max dimension in pixels
-        let { width, height } = img;
-
-        if (width > MAX_SIZE || height > MAX_SIZE) {
-          if (width > height) {
-            height = Math.round((height * MAX_SIZE) / width);
-            width = MAX_SIZE;
-          } else {
-            width = Math.round((width * MAX_SIZE) / height);
-            height = MAX_SIZE;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0, width, height);
-
-        // Convert to JPEG at 70% quality — keeps size well under 4.5MB Vercel limit
-        const compressed = canvas.toDataURL('image/jpeg', 0.7);
-        form.setValue("image", compressed);
-      };
-      img.src = url;
-    }
-  };
 
   const createStoreMutation = useMutation({
     mutationFn: apiCreateStore,
@@ -313,7 +261,6 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
         latitude: String(lat),
         longitude: String(lng),
         category: derivedCat,
-        images: values.image ? [values.image] : [],
       });
     } catch (error: any) {
       console.error("Submission failed:", error);

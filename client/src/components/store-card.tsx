@@ -280,7 +280,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                                     className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"
                                 >
                                     <Share2 size={13} className="opacity-80" />
-                                    <span>Share Store</span>
+                                    <span>Share</span>
                                 </button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="start" className="w-[180px] p-1.5 font-sans border border-slate-100 shadow-xl shadow-slate-200/50 bg-white z-[9999]">
@@ -326,7 +326,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"
                         >
                             <StoreIcon size={13} className="opacity-80" />
-                            <span>Suggest Edit</span>
+                            <span>Edit</span>
                         </button>
 
                         <button
@@ -338,7 +338,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"
                         >
                             <MapPin size={13} className="opacity-80" />
-                            <span>Zoom In Map</span>
+                            <span>Zoom</span>
                         </button>
                     </div>
                 </div>

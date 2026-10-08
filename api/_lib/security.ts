@@ -170,7 +170,8 @@ export function sanitizeString(input: string): string {
     .replace(/on\w+\s*=/gi, "")
     .replace(/data:/gi, "")
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
-    .trim();
+    .trim()
+    .substring(0, 2500);
 }
 
 export function sanitizeArray(arr: string[]): string[] {

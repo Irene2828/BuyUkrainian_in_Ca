@@ -92,7 +92,7 @@ import { requireAdmin } from "./security.js";
 // BODY PARSERS
 // =====================
 // Vercel serverless limit is 4.5MB, so we cap at 4mb to be safe.
-const smallJsonParser = express.json({ limit: "500kb" });
+const smallJsonParser = express.json({ limit: "100kb" });
 const adminJsonParser = express.json({ limit: "4mb" });
 
 app.use((req, res, next) => {
@@ -109,10 +109,10 @@ app.use((req, res, next) => {
         return;
     }
     
-    // For public routes and admin login, parse immediately with a strict 500kb limit.
+    // For public routes and admin login, parse immediately with a strict 100kb limit.
     smallJsonParser(req, res, (err) => {
         if (err) return next(err);
-        express.urlencoded({ extended: false, limit: "500kb" })(req, res, next);
+        express.urlencoded({ extended: false, limit: "100kb" })(req, res, next);
     });
 });
 

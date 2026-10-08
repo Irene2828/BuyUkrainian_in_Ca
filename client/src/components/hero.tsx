@@ -455,10 +455,10 @@ const HeroMapMarquee = ({ stores }: { stores: Store[] }) => {
     // Calculate a constant, premium scroll speed (~35px/s)
     // 50% of the 10x repeated list = 5x the original list
     // Assuming ~150px per item: duration = (stores.length * 5 * 150) / 35
-    const duration = Math.max(60, stores.length * 25);
+    const duration = Math.max(66, stores.length * 27.5);
 
     return (
-        <div className="absolute top-0 left-0 w-full z-[900] bg-white/30 backdrop-blur-md pointer-events-auto h-[46px] flex items-center overflow-hidden border-b border-white/40 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+        <div className="absolute bottom-0 left-0 w-full z-[2000] bg-white/30 backdrop-blur-md pointer-events-auto h-[46px] flex items-center overflow-hidden border-t border-white/40 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
             <style>
                 {`
                 @keyframes map-marquee-scroll {
@@ -631,7 +631,7 @@ function HeroVariantB({
     return (
         <>
             <div className="flex flex-col h-auto bg-white justify-between relative">
-                <section className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0 min-h-[calc(85vh-81px)] border-b border-slate-200">
+                <section className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0 md:min-h-[450px] md:h-[calc(70vh-81px)] min-h-[600px] h-auto border-b border-slate-200">
 
                     {/* ==================== MOBILE VIEW ==================== */}
                     <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
@@ -647,16 +647,16 @@ function HeroVariantB({
                                 <div className="w-fit flex flex-col">
                                     <h1
                                         className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-medium not-italic leading-[0.97] antialiased [@media(max-height:700px)]:text-[2.57rem]"
-                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.05em' }}
+                                        style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.04em' }}
                                     >
-                                        <span className="block text-white font-medium not-italic whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.05em' }}>
+                                        <span className="block text-white font-medium not-italic whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.04em' }}>
                                             {t("hero.headline.discover") || "Discover"}
                                         </span>
-                                        <span className="block text-[#FFD700] font-medium not-italic pr-1 whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.05em' }}>
+                                        <span className="block text-[#FFD700] font-medium not-italic pr-1 whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.04em' }}>
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-1 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight text-white/80 [@media(max-height:700px)]:text-[1.88rem]" style={{ letterSpacing: '-0.015em' }}>
+                                    <div className="mt-1 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight text-white/80 [@media(max-height:700px)]:text-[1.88rem]" style={{ letterSpacing: '-0.01em' }}>
                                         <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         {/* Horizontal Flags - Mobile */}
                                         <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1.5 mb-1" aria-hidden="true">
@@ -717,7 +717,7 @@ function HeroVariantB({
                     </div>
 
                     {/* ==================== DESKTOP VIEW: Two-Column Split Layout ==================== */}
-                    <div className="hidden md:flex w-full items-stretch min-h-[calc(85vh-81px)]">
+                    <div className="hidden md:flex w-full items-stretch min-h-[450px] h-full">
 
                         {/* LEFT 38% COLUMN — Blue Panel with Search/Filters */}
                         <div className="relative flex flex-col w-[38%] max-w-[540px] shrink-0 bg-[#0057B7] bg-[radial-gradient(120%_120%_at_30%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] text-white overflow-hidden">
@@ -731,11 +731,11 @@ function HeroVariantB({
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 >
-                                    <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.055em' }}>
-                                        <span className="block text-white" style={{ letterSpacing: '-0.055em' }}>{t('hero.headline.discover') || 'Discover'}</span>
-                                        <span className="block text-[#FFD700]" style={{ letterSpacing: '-0.055em' }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
+                                    <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.045em' }}>
+                                        <span className="block text-white" style={{ letterSpacing: '-0.045em' }}>{t('hero.headline.discover') || 'Discover'}</span>
+                                        <span className="block text-[#FFD700]" style={{ letterSpacing: '-0.045em' }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] text-white/80" style={{ letterSpacing: '-0.02em' }}>
+                                    <div className="mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] text-white/80" style={{ letterSpacing: '-0.01em' }}>
                                         <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         {/* Horizontal Flags - Desktop Only */}
                                         <motion.div
@@ -893,7 +893,7 @@ function HeroVariantB({
                                     >
                                         {isFilterActive ? (
                                             <>
-                                                <MapIcon className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
+                                                <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
                                                 <span>
                                                     {filteredStores.length === 0 ? "No stores match filters" : `View ${filteredStores.length} store${filteredStores.length === 1 ? '' : 's'}`}
                                                 </span>
@@ -918,11 +918,11 @@ function HeroVariantB({
                         </div>
 
                         {/* RIGHT 62% COLUMN — Interactive Map with Map/List Toggle */}
-                        <div className="flex-1 relative h-full min-h-[calc(85vh-81px)] bg-white overflow-hidden z-10">
+                        <div className="flex-1 relative h-full min-h-[450px] bg-white overflow-hidden z-10">
                             <HeroMapMarquee stores={stores} />
                             
                             {/* Map/List Toggle */}
-                            <div className="absolute bottom-[10%] left-6 z-[1000] pointer-events-auto">
+                            <div className="absolute top-[28px] left-6 z-[1000] pointer-events-auto">
                                 <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
                                     <button
                                         onClick={() => setViewMode("map")}

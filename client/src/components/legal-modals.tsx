@@ -13,12 +13,7 @@ interface LegalModalProps {
   type: "terms" | "privacy" | "accessibility" | null;
 }
 
-export function LegalModal({ open, onOpenChange, type }: LegalModalProps) {
-  const { locale } = useI18n();
-
-  if (!type) return null;
-
-  const content = {
+export const legalContent = {
     terms: {
       en: {
         title: "Terms & Listing Policy",
@@ -235,7 +230,12 @@ export function LegalModal({ open, onOpenChange, type }: LegalModalProps) {
     }
   };
 
-  const currentContent = content[type][locale as 'en' | 'fr'] || content[type].en;
+export function LegalModal({ open, onOpenChange, type }: LegalModalProps) {
+  const { language } = useI18n();
+  
+  if (!type) return null;
+
+  const currentContent = legalContent[type][language === 'fr-CA' ? 'fr' : 'en'] || legalContent[type].en;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -264,7 +264,7 @@ export function LegalModal({ open, onOpenChange, type }: LegalModalProps) {
             onClick={() => onOpenChange(false)}
             className="relative inline-flex w-auto items-center justify-center h-[46px] px-6 text-[16px] font-semibold tracking-normal rounded-none bg-transparent text-[#0057B7] border border-[#0057B7] shadow-none transition-all duration-300 hover:bg-[#0057B7] hover:border-[#0057B7] hover:text-white hover:scale-[1.02] active:scale-95 focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 font-sans"
           >
-            {locale === 'fr' ? 'Fermer' : 'Close'}
+            {language === 'fr-CA' ? 'Fermer' : 'Close'}
           </button>
         </div>
       </DialogContent>

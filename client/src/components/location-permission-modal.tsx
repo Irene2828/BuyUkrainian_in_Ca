@@ -16,8 +16,8 @@ interface LocationPermissionModalProps {
 }
 
 export function LocationPermissionModal({ open, onOpenChange, onContinue, onCancel }: LocationPermissionModalProps) {
-  const { locale } = useI18n();
-  const isFr = locale === 'fr';
+  const { language } = useI18n();
+  const isFr = language === 'fr-CA';
 
   const handleContinue = () => {
     onContinue();
