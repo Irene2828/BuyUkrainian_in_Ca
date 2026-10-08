@@ -1,4 +1,4 @@
-import { Search, Info, ChevronDown, Plus, List, Map as MapIcon, Copy, CornerUpRight, Share2, MapPin } from "lucide-react";
+import { Search, Info, ChevronDown, Plus, List, Map as MapIcon, Copy, CornerUpRight, Share2, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
@@ -32,12 +32,16 @@ type TrustPillar = {
 };
 
 const getHeroVariantFromUrl = (): HeroVariant => {
-    if (typeof window === "undefined") return "a";
+    if (typeof window === "undefined") return "b";
 
     const params = new URLSearchParams(window.location.search);
     const rawVariant = (params.get("hero") || params.get("variant") || params.get("ab") || "").toLowerCase();
 
-    return rawVariant === "b" || rawVariant === "variant-b" || rawVariant === "version-b" ? "b" : "a";
+    if (rawVariant === "a" || rawVariant === "variant-a" || rawVariant === "version-a") return "a";
+    if (rawVariant === "b" || rawVariant === "variant-b" || rawVariant === "version-b") return "b";
+
+    // Version B is now the default (Version A)
+    return "b";
 };
 
 export function Hero() {
@@ -56,13 +60,6 @@ export function Hero() {
     });
 
     const trustPillars = [
-        {
-            title: t('hero.trustPillars.economy.title') || "Local support for Ukraine's economy",
-            detail: t('hero.trustPillars.economy.detail') || "every purchase goes directly to Ukrainian makers",
-            accentClass: "",
-            surfaceClass: "bg-[#EFF6FF]/70",
-            dotClass: "bg-[#0057B7]",
-        },
         {
             title: t('hero.trustPillars.verified.title') || "Volunteer-verified listings",
             detail: t('hero.trustPillars.verified.detail') || "every listing is reviewed before it appears on the map",
@@ -182,13 +179,13 @@ export function Hero() {
                         <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white/80 [@media(max-height:700px)]:text-[1.71rem]">
                             <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                             
-                            {/* Staircasy Flags - Mobile (inline in same row) */}
-                            <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
+                            {/* Horizontal Flags with Arrow - Mobile */}
+                            <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1.5 mb-1" aria-hidden="true">
                                 <div className="relative flex items-center">
-                                    <div className="relative aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                    <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white object-cover shrink-0 z-20" />
+                                    <div className="relative aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white overflow-hidden shrink-0 z-10 -ml-2">
                                         <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                     </div>
-                                    <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
                                 </div>
                             </div>
                         </div>
@@ -196,20 +193,10 @@ export function Hero() {
                         <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                         </p>
-                        {/* Yellow Decor Lines under body text on the right */}
-                        <div className="flex flex-col gap-1.5 pointer-events-none mt-8 md:mt-4 mb-8 md:mb-3 items-end self-end w-full" aria-hidden="true">
-                            <div className="h-[1px] w-[140px] bg-[#FFD700]" />
-                            <div className="h-[1px] w-[52px] bg-[#FFD700]" />
-                        </div>
-                        <div className="hidden md:flex flex-col items-end self-end w-full gap-1 mt-2 text-[#FFD700] text-[14.5px] font-medium tracking-normal text-right">
-                            <div className="flex items-center gap-1.5 justify-end">
-                                <span>—</span>
-                                <span>{trustPillars[0]?.title}</span>
-                            </div>
-                            <div className="flex items-center gap-1.5 justify-end">
-                                <span>—</span>
-                                <span>{trustPillars[1]?.title}</span>
-                            </div>
+                        {/* Decorative Accent Line */}
+                        <div className="flex items-center gap-2 mt-4 md:mt-4 mb-6 md:mb-2">
+                            <div className="h-[2px] w-12 bg-[#FFD700]" />
+                            <div className="h-[2px] w-3 bg-[#FFD700]/50" />
                         </div>
 
                         <div className="mt-8 mb-4 flex flex-col gap-3 w-full [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
@@ -273,6 +260,11 @@ export function Hero() {
                                 transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 className="w-fit flex flex-col relative"
                             >
+                                {/* Decorative Accent Line - Above Headline */}
+                                <div className="flex items-center gap-2 mb-4 md:mb-5">
+                                    <div className="h-[2px] w-12 bg-[#FFD700]" />
+                                    <div className="h-[2px] w-3 bg-[#FFD700]/50" />
+                                </div>
                                 <h1
                                     ref={h1Ref}
                                     className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none antialiased mb-0 text-white font-normal text-left flex flex-col gap-1 md:gap-1.5"
@@ -290,19 +282,19 @@ export function Hero() {
                                         <span className="relative z-10 flex items-center justify-start font-sans text-[clamp(1.68rem,5.6vw,2.10rem)] md:text-[1.85rem] lg:text-[2.40rem] font-thin not-italic tracking-[-0.03em] leading-none normal-case text-white/80 text-left whitespace-nowrap">
                                             <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal pl-2 pr-2">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         </span>
-                                        {/* Staircasy Flags - Desktop Only */}
+                                        {/* Horizontal Flags with Arrow - Desktop Only */}
                                         <motion.div
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ duration: 0.65, delay: 0.4, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hidden md:flex flex-col pointer-events-none z-20 shrink-0 mb-1 lg:mb-2" 
+                                            className="hidden md:flex flex-col pointer-events-none z-20 shrink-0 mb-0 lg:mb-0 ml-1" 
                                             aria-hidden="true"
                                         >
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 overflow-hidden z-30 shrink-0">
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white object-cover shrink-0 z-20" />
+                                                <div className="relative aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white overflow-hidden shrink-0 z-10 -ml-2 lg:-ml-3">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white/20 object-cover relative z-20 -ml-2 lg:-ml-3 mt-3 lg:mt-4 shrink-0" />
                                             </div>
                                         </motion.div>
                                     </div>
@@ -322,28 +314,7 @@ export function Hero() {
 
 
 
-                                        {/* Yellow Decor Lines under body text on the right aligned by 'Ukraine.' */}
-                                        <div className="flex flex-col gap-1.5 pointer-events-none mt-3.5 md:mt-7 mb-0 items-end self-end w-full" aria-hidden="true">
-                                            <div className="h-[1px] w-[192px] bg-[#FFD700]" />
-                                            <div className="h-[1px] w-[72px] bg-[#FFD700]" />
-                                        </div>
-                                        
-                                        {/* Two Trust Pillar Bullets in Yellow (Hidden on Desktop) */}
-                                        <motion.div 
-                                            initial={{ opacity: 0, y: 16 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.65, delay: 0.15, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hidden flex-col items-end w-full gap-1 mt-2 text-[#FFD700] text-[clamp(14px,1.0vw,17px)] font-medium tracking-[0.015em] font-sans antialiased text-right"
-                                        >
-                                            <div className="flex items-center gap-1.5 justify-end">
-                                                <span>—</span>
-                                                <span>{trustPillars[0]?.title}</span>
-                                            </div>
-                                            <div className="flex items-center gap-1.5 justify-end">
-                                                <span>—</span>
-                                                <span>{trustPillars[1]?.title}</span>
-                                            </div>
-                                        </motion.div>
+
                                     </div>
                                 </div>
                             </motion.div>
@@ -477,6 +448,44 @@ interface HeroVariantBProps {
     shouldRenderHeroMap: boolean;
     trustPillars: TrustPillar[];
 }
+const HeroMapMarquee = ({ stores }: { stores: Store[] }) => {
+    if (!stores.length) return null;
+    const repeatedStores = Array(10).fill(stores).flat();
+    
+    // Calculate a constant, premium scroll speed (~35px/s)
+    // 50% of the 10x repeated list = 5x the original list
+    // Assuming ~150px per item: duration = (stores.length * 5 * 150) / 35
+    const duration = Math.max(60, stores.length * 25);
+
+    return (
+        <div className="absolute top-0 left-0 w-full z-[900] bg-white/30 backdrop-blur-md pointer-events-auto h-[46px] flex items-center overflow-hidden border-b border-white/40 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+            <style>
+                {`
+                @keyframes map-marquee-scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                `}
+            </style>
+            {/* Fade Masks */}
+            <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-white/50 to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-white/50 to-transparent z-20 pointer-events-none" />
+            
+            <div
+                className="flex whitespace-nowrap items-center w-max hover:[animation-play-state:paused] translate-y-[1.5px]"
+                style={{ animation: `map-marquee-scroll ${duration}s linear infinite` }}
+            >
+                {repeatedStores.map((store, i) => (
+                    <div key={`${store.id}-${i}`} className="flex items-center group cursor-pointer pr-12 transition-opacity duration-300 hover:opacity-70" onClick={() => window.location.assign(`/map?store=${store.id}`)}>
+                        <span className="text-[11px] uppercase font-bold text-slate-600/90 tracking-[0.1em]">{store.name}</span>
+                        <div className="ml-12 w-[1px] h-4 bg-slate-300/80 shrink-0"></div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 
 function HeroVariantB({
     stores,
@@ -582,14 +591,27 @@ function HeroVariantB({
     });
 
     const isFirstMount = useRef(true);
+    const prevDeps = useRef({ selectedProvince, category, searchQuery, userLocation });
+    
     useEffect(() => {
         if (isFirstMount.current) {
             isFirstMount.current = false;
             return;
         }
-        setShowFeedbackChip(true);
-        const timer = setTimeout(() => setShowFeedbackChip(false), 2500);
-        return () => clearTimeout(timer);
+        
+        const changed = 
+            prevDeps.current.selectedProvince !== selectedProvince ||
+            prevDeps.current.category !== category ||
+            prevDeps.current.searchQuery !== searchQuery ||
+            prevDeps.current.userLocation !== userLocation;
+            
+        prevDeps.current = { selectedProvince, category, searchQuery, userLocation };
+
+        if (changed) {
+            setShowFeedbackChip(true);
+            const timer = setTimeout(() => setShowFeedbackChip(false), 2500);
+            return () => clearTimeout(timer);
+        }
     }, [filteredStores.length, selectedProvince, category, searchQuery, userLocation]);
 
     const closeAllDropdowns = () => {
@@ -624,7 +646,7 @@ function HeroVariantB({
                                 <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
                                 <div className="w-fit flex flex-col">
                                     <h1
-                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-medium not-italic leading-[1.08] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                                        className="relative z-10 max-w-full text-[clamp(2.39rem,12.17vw,3.33rem)] font-medium not-italic leading-[0.97] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.05em' }}
                                     >
                                         <span className="block text-white font-medium not-italic whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.05em' }}>
@@ -634,14 +656,15 @@ function HeroVariantB({
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight text-white/80 [@media(max-height:700px)]:text-[1.88rem]" style={{ letterSpacing: '-0.015em' }}>
+                                    <div className="mt-1 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] font-thin not-italic leading-tight text-white/80 [@media(max-height:700px)]:text-[1.88rem]" style={{ letterSpacing: '-0.015em' }}>
                                         <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
-                                        <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1 mb-1" aria-hidden="true">
+                                        {/* Horizontal Flags - Mobile */}
+                                        <div className="flex items-center pointer-events-none z-20 shrink-0 ml-1.5 mb-1" aria-hidden="true">
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white overflow-hidden z-30 shrink-0">
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white object-cover shrink-0 z-20" />
+                                                <div className="relative aspect-square w-[24px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white overflow-hidden shrink-0 z-10 -ml-2">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[26.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white object-cover relative z-20 -ml-1.5 mt-2.5 shrink-0" />
                                             </div>
                                         </div>
                                     </div>
@@ -649,13 +672,21 @@ function HeroVariantB({
                                 <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(18px,3.6vw,21px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br className="hidden xs:inline" /> made in Ukraine and sold locally.
                                 </p>
+
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
                                     <Link href="/map" className="pointer-events-auto">
-                                        <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_14px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap">
+                                        <button className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[16px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap">
                                             <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
                                             <span>{t('hero.ctaPrimary') || 'Find stores near me'}</span>
                                         </button>
                                     </Link>
+                                    <button
+                                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                                        className="pointer-events-auto inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/15 text-[14px] font-normal tracking-normal text-white shadow-sm transition-all duration-300 hover:bg-white/25 active:scale-[0.98] outline-none font-sans cursor-pointer"
+                                    >
+                                        <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
+                                        <span>Add a new store</span>
+                                    </button>
                                 </div>
                             </motion.div>
                         </div>
@@ -700,20 +731,27 @@ function HeroVariantB({
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
                                 >
-                                    <h1 className="font-medium not-italic leading-[1.02] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.055em' }}>
+                                    <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.055em' }}>
                                         <span className="block text-white" style={{ letterSpacing: '-0.055em' }}>{t('hero.headline.discover') || 'Discover'}</span>
                                         <span className="block text-[#FFD700]" style={{ letterSpacing: '-0.055em' }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="mt-1.5 flex items-center text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] text-white/80" style={{ letterSpacing: '-0.02em' }}>
+                                    <div className="mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] text-white/80" style={{ letterSpacing: '-0.02em' }}>
                                         <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
-                                        <div className="flex items-center ml-1.5 shrink-0" aria-hidden="true">
+                                        {/* Horizontal Flags - Desktop Only */}
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ duration: 0.65, delay: 0.4, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="hidden md:flex flex-col pointer-events-none z-20 shrink-0 mb-0 lg:mb-0 ml-1" 
+                                            aria-hidden="true"
+                                        >
                                             <div className="relative flex items-center">
-                                                <div className="relative aspect-square w-[25.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white overflow-hidden z-30 shrink-0">
+                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white object-cover shrink-0 z-20" />
+                                                <div className="relative aspect-square w-[28px] lg:w-[38px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border-[1.5px] border-white overflow-hidden shrink-0 z-10 -ml-2 lg:-ml-3">
                                                     <img src={canadaRoundFlag} alt="Canada" className="w-full h-full object-cover scale-[1.4]" />
                                                 </div>
-                                                <img src="https://flagcdn.com/ua.svg" alt="Ukraine" className="aspect-square w-[25.4px] rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.12)] border border-white object-cover relative z-20 -ml-1.5 mt-2 shrink-0" />
                                             </div>
-                                        </div>
+                                        </motion.div>
                                     </div>
                                 </motion.div>
 
@@ -722,10 +760,11 @@ function HeroVariantB({
                                     initial={{ opacity: 0, y: 16 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="mt-5 text-[clamp(16px,1.05vw,18.5px)] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
+                                    className="mt-[25px] text-[clamp(16px,1.05vw,18.5px)] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
                                 >
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products made in Ukraine and sold locally.
                                 </motion.p>
+
 
                                 {/* Search & Filters */}
                                 <div className="mt-12 flex flex-col gap-3 w-full">
@@ -835,31 +874,22 @@ function HeroVariantB({
                                     )}
                                 </div>
 
-                                {/* Yellow Decor Lines */}
-                                {!isFilterActive && (
-                                    <div className="flex flex-col gap-1.5 pointer-events-none mt-5 mb-0 items-end self-end w-full" aria-hidden="true">
-                                        <div className="h-[1px] w-[140px] bg-[#FFD700]" />
-                                        <div className="h-[1px] w-[52px] bg-[#FFD700]" />
-                                    </div>
-                                )}
 
-                                {/* Yellow CTA Button */}
-                                <div className={cn("w-full", isFilterActive ? "mt-3" : "mt-6")}>
+
+                                {/* Action Buttons */}
+                                <div className={cn("w-full flex flex-col gap-1", isFilterActive ? "mt-3" : "mt-6")}>
                                     <button
                                         onClick={() => {
                                             if (isFilterActive) {
-                                                // Clear focus from input to dismiss keyboard/dropdowns
                                                 if (document.activeElement instanceof HTMLElement) {
                                                     document.activeElement.blur();
                                                 }
                                                 closeAllDropdowns();
-                                                // We don't need to force a pan because the user sees the map update instantly.
-                                                // This click acts as a firm "Submit" confirming their filter choices.
                                             } else {
                                                 window.dispatchEvent(new CustomEvent('locateMe'));
                                             }
                                         }}
-                                        className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[15px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_14px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap"
+                                        className="group/cta-btn relative inline-flex h-[46px] w-full items-center justify-center rounded-full bg-[#FFD700] hover:bg-[#FFE033] px-5 text-[16px] font-semibold tracking-[0.015em] text-[#003B7A] shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 font-sans antialiased cursor-pointer whitespace-nowrap"
                                     >
                                         {isFilterActive ? (
                                             <>
@@ -875,14 +905,24 @@ function HeroVariantB({
                                             </>
                                         )}
                                     </button>
+
+                                    <button
+                                        onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
+                                        className="pointer-events-auto inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-transparent bg-transparent text-[14px] font-normal tracking-normal text-white transition-all duration-300 hover:bg-white/5 active:scale-[0.98] outline-none font-sans cursor-pointer"
+                                    >
+                                        <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
+                                        <span>Add a new store</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                         {/* RIGHT 62% COLUMN — Interactive Map with Map/List Toggle */}
                         <div className="flex-1 relative h-full min-h-[calc(85vh-81px)] bg-white overflow-hidden z-10">
+                            <HeroMapMarquee stores={stores} />
+                            
                             {/* Map/List Toggle */}
-                            <div className="absolute top-4 left-4 z-[1000] pointer-events-auto">
+                            <div className="absolute bottom-[10%] left-6 z-[1000] pointer-events-auto">
                                 <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
                                     <button
                                         onClick={() => setViewMode("map")}
@@ -905,9 +945,11 @@ function HeroVariantB({
                                 </div>
                             </div>
 
+                            {/* Trust Pillars Removed */}
+
                             {/* Results Count Chip */}
                             {viewMode === "map" && showFeedbackChip && (
-                                <div className="absolute bottom-8 left-4 z-[1000] pointer-events-none animate-in fade-in slide-in-from-bottom-2 duration-500">
+                                <div className="absolute bottom-24 left-4 z-[1000] pointer-events-none animate-in fade-in slide-in-from-bottom-2 duration-500">
                                     <div className="inline-flex items-center justify-center px-4 py-2 bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_4px_16px_rgba(0,35,90,0.08)] rounded-full transition-all duration-300">
                                         <span className="relative flex h-2 w-2 mr-2.5">
                                             {filteredStores.length > 0 && (

@@ -5,13 +5,85 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { storage } from "./db_storage.js";
 
-// Session Secret for signing stateless tokens
-const SESSION_SECRET = process.env.SESSION_SECRET || process.env.Supabase_SERVICE_ROLE_KEY || "default-insecure-secret-please-set-env-var";
+// Session Secret for signing stateless tokens.
+// No hardcoded default and never reuses the Supabase service role key.
+const MIN_SESSION_SECRET_LENGTH = 32;
 
-function getAdminPasswordHash(): string {
-  const hash = process.env.ADMIN_PASSWORD_HASH;
+export function isProductionEnv(): boolean {
+  return process.env.NODE_ENV === "production" || !!process.env.VERCEL_ENV;
+}
+
+function resolveSessionSecret(): string {
+  const secret = process.env.SESSION_SECRET?.trim();
+
+  if (isProductionEnv()) {
+    if (!secret || secret.length < MIN_SESSION_SECRET_LENGTH) {
+      // Fail closed: refuse to start rather than sign tokens with a weak/missing key.
+      throw new Error(
+        `[security] SESSION_SECRET is ${secret ? "too short" : "missing"}. ` +
+        `It must be at least ${MIN_SESSION_SECRET_LENGTH} characters in production ` +
+        `(generate one with: openssl rand -hex 32).`
+      );
+    }
+    return secret;
+  }
+
+  // Local development only.
+  if (!secret) {
+    console.warn(
+      "[security] SESSION_SECRET is not set. Using a random per-process secret for local dev; " +
+      "admin sessions will be invalidated on every restart."
+    );
+    return crypto.randomBytes(32).toString("hex");
+  }
+  if (secret.length < MIN_SESSION_SECRET_LENGTH) {
+    console.warn(
+      `[security] SESSION_SECRET is shorter than ${MIN_SESSION_SECRET_LENGTH} characters. ` +
+      "This is allowed in local dev but will fail in production."
+    );
+  }
+  return secret;
+}
+
+const SESSION_SECRET = resolveSessionSecret();
+
+// Username that the env-var (ADMIN_PASSWORD_HASH) login path is bound to.
+const ENV_ADMIN_USERNAME = "admin";
+let warnedMissingAdminHash = false;
+
+// Admin password policy (applies to new admin users and password changes).
+// Max is 72 because bcrypt silently ignores bytes beyond 72.
+export const MIN_ADMIN_PASSWORD_LENGTH = 12;
+export const MAX_ADMIN_PASSWORD_LENGTH = 72;
+
+/** Returns an error message if the password violates policy, otherwise null. */
+export function validateNewAdminPassword(password: unknown): string | null {
+  if (typeof password !== "string" || password.length === 0) return "Password is required";
+  if (password.length < MIN_ADMIN_PASSWORD_LENGTH) {
+    return `Password must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters`;
+  }
+  if (Buffer.byteLength(password, "utf8") > MAX_ADMIN_PASSWORD_LENGTH) {
+    return `Password must be at most ${MAX_ADMIN_PASSWORD_LENGTH} bytes`;
+  }
+  return null;
+}
+
+/**
+ * Returns the bcrypt hash from ADMIN_PASSWORD_HASH, or null if it is unset.
+ * There is intentionally NO default: if the env var is missing, the env-var
+ * login path fails closed.
+ */
+function getAdminPasswordHash(): string | null {
+  const hash = process.env.ADMIN_PASSWORD_HASH?.trim();
   if (!hash) {
-    return "$2b$10$oQh5MVXm5KgvMCdJXp2/b.5rbX0mAZq9885g4dIQqdnCdyfutv4B6"; // Hash for "admin"
+    if (!warnedMissingAdminHash) {
+      console.warn(
+        "[security] ADMIN_PASSWORD_HASH is not set. Env-var admin login is DISABLED. " +
+        "Only database admin users can log in."
+      );
+      warnedMissingAdminHash = true;
+    }
+    return null;
   }
   return hash;
 }
@@ -19,12 +91,22 @@ function getAdminPasswordHash(): string {
 export const securityMiddleware = {
   helmet: helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
+      reportOnly: true,
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://maps.googleapis.com", "https://maps.gstatic.com"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+        imgSrc: [
+            "'self'", 
+            "data:", 
+            "blob:", 
+            "https://*.tile.openstreetmap.org", 
+            "https://flagcdn.com", 
+            "https://images.unsplash.com",
+            process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin : "https://*.supabase.co"
+        ],
         connectSrc: [
           "'self'",
           "https://nominatim.openstreetmap.org",
@@ -32,6 +114,7 @@ export const securityMiddleware = {
           "https://photon.komoot.io",
           "https://maps.googleapis.com",
           "https://maps.gstatic.com",
+          process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin : "https://*.supabase.co"
         ],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"],
@@ -52,19 +135,28 @@ export const securityMiddleware = {
   }),
 
   submissionRateLimit: rateLimit({
-    windowMs: 60 * 1000,
-    max: 100,
+    windowMs: 15 * 60 * 1000,
+    max: 5,
     standardHeaders: true,
     legacyHeaders: false,
-    message: { error: "Too many submissions. Please wait a minute before trying again." },
+    message: { error: "Too many submissions. Please wait 15 minutes before trying again." },
   }),
 
   adminRateLimit: rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 30, // Increased slightly for admin usability
+    max: 5,
+    skipSuccessfulRequests: true,
     standardHeaders: true,
     legacyHeaders: false,
-    message: { error: "Too many login attempts. Please try again later." },
+    message: { error: "Too many failed attempts. Please try again later." },
+  }),
+
+  deletionRequestRateLimit: rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many deletion requests. Please try again later." },
   }),
 };
 
@@ -91,7 +183,6 @@ const SPAM_PATTERNS = [
   /\b(viagra|casino|lottery|bitcoin investment|crypto trading)\b/i,
   /(https?:\/\/[^\s]+){3,}/i,
   /(.)\1{10,}/,
-  /^[A-Z\s]+$/,
 ];
 
 export function detectSpam(text: string): boolean {
@@ -102,7 +193,9 @@ export function checkDuplicateSubmission(
   newStore: { name: string; address: string; latitude: string; longitude: string },
   existingStores: Array<{ name: string; address: string; latitude: string; longitude: string }>
 ): boolean {
-  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  // Use Unicode property escapes (\p{L} for letters, \p{N} for numbers)
+  // so Cyrillic and other non-ASCII characters aren't stripped out.
+  const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
   const newNameNorm = normalize(newStore.name);
   const newAddressNorm = normalize(newStore.address);
 
@@ -148,12 +241,20 @@ export async function verifyAdminPassword(password: string, username?: string): 
     }
   }
 
-  // Fallback to environment variable for backward compatibility
-  const hash = getAdminPasswordHash();
-  if (hash) {
-    const isValid = await bcrypt.compare(password, hash);
-    if (isValid) {
-      return { valid: true, username: "admin" };
+  // Fallback to environment variable for backward compatibility.
+  // Only usable with the exact username "admin"; any other (or missing)
+  // username can never authenticate via this path.
+  if (username?.trim().toLowerCase() === ENV_ADMIN_USERNAME) {
+    const hash = getAdminPasswordHash();
+    if (hash) {
+      try {
+        const isValid = await bcrypt.compare(password, hash);
+        if (isValid) {
+          return { valid: true, username: ENV_ADMIN_USERNAME };
+        }
+      } catch (error) {
+        console.error("[security] ADMIN_PASSWORD_HASH comparison failed (malformed hash?)");
+      }
     }
   }
 

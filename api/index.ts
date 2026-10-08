@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import app from './_lib/app.js';
+import { isProductionEnv } from './_lib/security.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
     // Quick env health check before passing to Express
@@ -18,7 +19,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
         return res.status(503).json({
             error: "Service Unavailable",
-            message: "Server environment is not configured. Please set DATABASE_URL, NEXT_PUBLIC_SUPABASE_URL, and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel Project Settings > Environment Variables.",
+            message: isProductionEnv() ? "System configuration error." : "Server environment is not configured. Please set DATABASE_URL, NEXT_PUBLIC_SUPABASE_URL, and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel Project Settings > Environment Variables.",
         });
     }
 
@@ -28,7 +29,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         console.error("❌ [Vercel] Runtime Crash:", error);
         res.status(500).json({
             error: "Server Runtime Failed",
-            message: error.message || String(error),
+            message: isProductionEnv() ? "Internal server error." : error.message || String(error),
         });
     }
 }

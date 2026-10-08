@@ -23,11 +23,11 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
-            className="flex items-center gap-1 md:gap-1.5 pl-2 pr-0 py-2 rounded-full hover:opacity-70 transition-opacity duration-200 outline-none group"
+            className="flex items-center gap-1 md:gap-1.5 pl-2 pr-0 py-0.5 rounded-full hover:opacity-70 transition-opacity duration-200 outline-none group"
             aria-label="Change language"
           >
             <Globe className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] text-slate-500" strokeWidth={1.5} />
-            <span className="flex items-center gap-0.5 md:gap-1.5 leading-none mb-[1px]">
+            <span className="flex items-center gap-0.5 md:gap-1.5 leading-none">
               <span className="text-[0.85rem] md:text-[0.85rem] lg:text-[14px] xl:text-[14px] font-medium text-slate-500 tracking-normal">{currentOption.short}</span>
             </span>
           </button>

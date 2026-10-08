@@ -1,6 +1,6 @@
 import express from "express";
 import { registerRoutes } from "./server_routes.js";
-import { securityMiddleware } from "./security.js";
+import { securityMiddleware, isProductionEnv } from "./security.js";
 import cors from "cors";
 const app = express();
 // Log critical environment variables for debugging (production only)
@@ -11,18 +11,39 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = isProductionEnv();
 
 // =====================
 // SECURITY & CONFIG
 // =====================
+// Trust the Vercel edge proxy so req.ip correctly reflects the client IP instead of the proxy IP
+app.set("trust proxy", 1);
+
 if (isProduction) {
     app.use(securityMiddleware.helmet);
     app.use(securityMiddleware.generalRateLimit);
 }
 
-// CORS: Permissive for now to ensure connectivity
-app.use(cors());
+// CORS: Restrict to allowed origins
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://buyukrainian.ca,https://www.buyukrainian.ca').split(',');
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (!isProduction && origin.startsWith('http://localhost:')) {
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // =====================
 // LOGGING
@@ -65,11 +86,35 @@ app.use((req, res, next) => {
     next();
 });
 
+import { requireAdmin } from "./security.js";
+
 // =====================
-// BODY PARSING
+// BODY PARSERS
 // =====================
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: false, limit: "50mb" }));
+// Vercel serverless limit is 4.5MB, so we cap at 4mb to be safe.
+const smallJsonParser = express.json({ limit: "500kb" });
+const adminJsonParser = express.json({ limit: "4mb" });
+
+app.use((req, res, next) => {
+    // For protected admin routes (everything under /api/admin except login),
+    // require authentication BEFORE parsing any large JSON payload.
+    if (req.path.startsWith("/api/admin") && req.path !== "/api/admin/login") {
+        requireAdmin(req, res, (err) => {
+            if (err) return next(err);
+            adminJsonParser(req, res, (err2) => {
+                if (err2) return next(err2);
+                express.urlencoded({ extended: false, limit: "4mb" })(req, res, next);
+            });
+        });
+        return;
+    }
+    
+    // For public routes and admin login, parse immediately with a strict 500kb limit.
+    smallJsonParser(req, res, (err) => {
+        if (err) return next(err);
+        express.urlencoded({ extended: false, limit: "500kb" })(req, res, next);
+    });
+});
 
 // =====================
 // ROUTE REGISTRATION
@@ -87,8 +132,8 @@ app.use((err: any, _req: any, res: any, _next: any) => {
     console.error("Global Error Handler:", err);
 
     const errorResponse = {
-        error: err.message || "An unexpected error occurred.",
-        details: isProduction ? err.toString() : undefined
+        error: isProduction ? "Internal Server Error" : (err.message || "An unexpected error occurred."),
+        details: isProduction ? undefined : err.toString()
     };
 
     res.status(status).json(errorResponse);

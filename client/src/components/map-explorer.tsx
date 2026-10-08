@@ -474,7 +474,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     {/* Main Content Stage (Map or List) */}
                     <div className={cn("map-column-wrapper flex-1 relative z-0 h-full overflow-hidden", viewMode === "list" && "overflow-y-auto custom-scrollbar")}>
                         {/* Map/List View Toggle (Floating on Map) */}
-                        <div className="absolute top-4 left-4 z-[1000] pointer-events-auto">
+                        <div className="absolute bottom-[28px] left-4 md:left-6 z-[1000] pointer-events-auto">
                             <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">
                                 <button
                                     onClick={() => setViewMode("map")}

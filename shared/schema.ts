@@ -37,8 +37,9 @@ export const stores = pgTable("stores", {
   status: text("status").notNull().default("pending"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   approvedAt: timestamp("approved_at"),
-  // Added requested fields
   isOpen: boolean("is_open").default(true), // Using boolean for database compatibility
+  deletionRequestedAt: timestamp("deletion_requested_at"),
+  deletionRequestEmail: text("deletion_request_email"),
 });
 
 const MAX_NAME_LENGTH = 100;
@@ -86,12 +87,12 @@ export const insertStoreSchema = createInsertSchema(stores, {
       return lng >= -140 && lng <= -50;
     }, "Location must be within Canada (longitude -140 to -50)"),
   category: z.enum(["food", "clothes", "retail", "other"]),
-  website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").optional().or(z.literal("")),
+  website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").refine((url) => /^https?:\/\//i.test(url), "URL must start with http:// or https://").optional().or(z.literal("")),
   image: z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large").optional().or(z.literal("")),
   images: z.array(z.string().max(MAX_IMAGE_DATA_LENGTH, "Image too large")).max(MAX_IMAGES_COUNT, "Maximum 5 images allowed").optional(),
   email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
   status: z.enum(["pending", "approved", "rejected"]).optional(),
-}).omit({ id: true, createdAt: true });
+}).omit({ id: true, createdAt: true, deletionRequestedAt: true, deletionRequestEmail: true });
 
 export type InsertStore = z.infer<typeof insertStoreSchema>;
 export type Store = typeof stores.$inferSelect;

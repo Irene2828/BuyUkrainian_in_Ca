@@ -30,12 +30,14 @@ export function HowItWorks() {
         {/* Left Column: Yellow Block (Image) - 38% width */}
         <div className="how-it-works-image-panel w-full md:w-[38%] shrink-0 bg-[#FFD700] px-4 py-10 md:px-6 md:py-12 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
           {/* White Photo Frame - Centered on mobile, shifted 50% left on desktop */}
-          <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative translate-x-0 md:-translate-x-12">
-            <img 
-              src="/ukrainian_pottery.png" 
-              alt="Ukrainian Pottery" 
-              className="w-full h-full object-contain mix-blend-multiply"
-            />
+          <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative translate-x-0 md:-translate-x-12 overflow-hidden">
+            <div className="relative w-full h-full flex items-center justify-center">
+                <img 
+                  src="/about_img_2.jpg" 
+                  alt="Find Ukrainian products" 
+                  className="w-full h-full object-contain mix-blend-multiply scale-[1.43]"
+                />
+            </div>
           </div>
         </div>
 
@@ -53,11 +55,15 @@ export function HowItWorks() {
               
               {/* Content */}
               <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
-                <h3 className="text-white font-sans font-bold text-[19px] mb-2 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
+                <h3 className="text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
                   {step.title}
                 </h3>
-                <p className="text-white/85 font-medium text-[16px] leading-relaxed mt-2 md:mt-3">
-                  {step.text}
+                <p className="text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">
+                  {typeof step.text === 'string' 
+                    ? step.text.split(/\b(Explore|Add|Share)\b/g).map((part, i) => 
+                        /^(Explore|Add|Share)$/.test(part) ? <u key={i} className="underline decoration-[#FFD700] underline-offset-[3px] decoration-[1.5px]">{part}</u> : part
+                      )
+                    : step.text}
                 </p>
               </div>
             </div>

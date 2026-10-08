@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from "sonner";
 
-let currentGlobalVersion: 'A' | 'B' = 'A';
+let currentGlobalVersion: 'A' | 'B' = 'B';
 const listeners = new Set<(v: 'A' | 'B') => void>();
 
 function setVersion(v: 'A' | 'B') {

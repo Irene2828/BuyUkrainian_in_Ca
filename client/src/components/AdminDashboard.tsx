@@ -81,6 +81,7 @@ interface SortableStoreRowProps {
     handleRestore: (id: string) => void;
     handlePermanentDelete: (id: string) => void;
     handleMoveToTrash: (id: string, status: "approved") => void;
+    handleDismissDeletion?: (id: string) => void;
     handleDeleteDraft: (id: string) => void;
 }
 
@@ -95,7 +96,8 @@ function SortableStoreRow({
     handleRestore,
     handlePermanentDelete,
     handleMoveToTrash,
-    handleDeleteDraft
+    handleDeleteDraft,
+    handleDismissDeletion
 }: SortableStoreRowProps) {
     const {
         attributes,
@@ -153,6 +155,11 @@ function SortableStoreRow({
                     <div className="mb-1 flex min-w-0 flex-wrap items-center gap-2">
                         <p className="truncate text-[15px] font-bold tracking-tight text-[#102A43]">{store.name}</p>
                         <StatusBadge status={store.status} />
+                        {store.deletionRequestedAt && (
+                            <span className="inline-flex items-center rounded-none border border-[#f1c6c6] bg-[#fff4f4] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#ae3c3c]">
+                                Deletion Requested ({store.deletionRequestEmail || "No Email"})
+                            </span>
+                        )}
                     </div>
                     <p className="truncate text-[12px] text-[#71869B]">{store.address || store.category}</p>
                     <p className="mt-1 truncate text-[11px] text-[#9AABBB]">{store.products?.length ? store.products.slice(0, 3).join(" · ") : "No products listed"}</p>
@@ -188,7 +195,12 @@ function SortableStoreRow({
                         <button title="Edit store" aria-label="Edit store" onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-none p-2 text-[#71869B] transition-colors hover:bg-[#eaf3fc] hover:text-[#0057B7]">
                             <Edit3 className="w-4.5 h-4.5" />
                         </button>
-                        <button title="Move to trash" aria-label="Move to trash" onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }} className="rounded-none p-2 text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
+                        {store.deletionRequestedAt && handleDismissDeletion && (
+                            <button title="Dismiss Deletion Request" aria-label="Dismiss deletion" onClick={(e) => { e.stopPropagation(); handleDismissDeletion(store.id); }} className="rounded-none border border-[#dbe7f3] px-3 py-1.5 text-[12px] font-bold text-[#567089] transition-colors hover:border-[#9cc1e5] hover:text-[#0057B7]">
+                                Dismiss Request
+                            </button>
+                        )}
+                        <button title="Delete (Trash)" aria-label="Move to trash" onClick={(e) => { e.stopPropagation(); handleMoveToTrash(store.id, "approved"); }} className="rounded-none p-2 text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
                             <Trash2 className="w-4 h-4" />
                         </button>
                     </>
@@ -731,6 +743,21 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         }
     };
 
+    const handleDismissDeletion = async (id: string) => {
+        try {
+            await updateStoreMutation.mutateAsync({
+                id,
+                updates: {
+                    deletionRequestedAt: null,
+                    deletionRequestEmail: null
+                }
+            });
+            toast({ title: "Request Dismissed", description: "The deletion request has been dismissed." });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     // Bulk Actions
     const toggleSelectAll = () => {
         if (selectedIds.size === displayedStores.length) {
@@ -1056,8 +1083,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         }
     };
 
+    const MIN_ADMIN_PASSWORD_LENGTH = 12;
+
     const handlePasswordUpdate = () => {
         if (!targetUserId || !newPassword) return;
+        if (newPassword.length < MIN_ADMIN_PASSWORD_LENGTH) {
+            toast({ title: "Error", description: `Password must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters`, variant: "destructive" });
+            return;
+        }
         if (newPassword !== confirmPassword) {
             toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
             return;
@@ -1067,6 +1100,10 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     const handleCreateUser = () => {
         if (!newUsername || !newPassword) return;
+        if (newPassword.length < MIN_ADMIN_PASSWORD_LENGTH) {
+            toast({ title: "Error", description: `Password must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters`, variant: "destructive" });
+            return;
+        }
         createUserMutation.mutate({ username: newUsername, password: newPassword });
     };
 
@@ -1343,6 +1380,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                                         handlePermanentDelete={handlePermanentDelete}
                                                         handleMoveToTrash={handleMoveToTrash}
                                                         handleDeleteDraft={handleDeleteDraft}
+                                                        handleDismissDeletion={handleDismissDeletion}
                                                     />
                                                 ))}
                                             </SortableContext>
@@ -1563,10 +1601,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <Input
                                 id="newPass"
                                 type="password"
+                                autoComplete="new-password"
+                                minLength={12}
+                                aria-describedby="newPassHint"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 className={adminInputClassName}
                             />
+                            <p id="newPassHint" className="text-[12px] text-slate-500">At least 12 characters.</p>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="confirmPass" className={adminFieldLabelClassName}>Confirm Password</Label>
@@ -1607,10 +1649,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <Input
                                 id="newUserPass"
                                 type="password"
+                                autoComplete="new-password"
+                                minLength={12}
+                                aria-describedby="newUserPassHint"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 className={adminInputClassName}
                             />
+                            <p id="newUserPassHint" className="text-[12px] text-slate-500">At least 12 characters.</p>
                         </div>
                     </div>
                     <DialogFooter>

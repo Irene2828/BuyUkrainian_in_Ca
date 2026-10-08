@@ -53,3 +53,11 @@ node_modules_old/
 tmp/
 .npm-local/
 .npm-cache/
+
+# Added security exclusions
+data/admins.json
+.aider*
+scratch/
+
+.tmp_img/
+_update-notifier-last-checked

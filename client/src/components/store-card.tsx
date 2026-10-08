@@ -321,6 +321,18 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
                             type="button"
                             onClick={(e) => {
                                 (e.currentTarget as HTMLElement).blur();
+                                window.dispatchEvent(new CustomEvent('openAddStoreModal', { detail: { store } }));
+                            }}
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"
+                        >
+                            <StoreIcon size={13} className="opacity-80" />
+                            <span>Suggest Edit</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                (e.currentTarget as HTMLElement).blur();
                                 onSeeOnMap?.(store);
                             }}
                             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-none bg-transparent text-[12.5px] xl:text-[12.5px] min-[1670px]:text-[13.5px] font-medium tracking-normal text-[#0057B7] transition-transform duration-300 hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0057B7]/30 group"

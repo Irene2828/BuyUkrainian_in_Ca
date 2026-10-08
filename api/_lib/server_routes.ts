@@ -12,7 +12,11 @@ import {
   createAdminSession,
   destroyAdminSession,
   requireAdmin,
-  hashPassword
+  hashPassword,
+  validateNewAdminPassword,
+  isProductionEnv,
+  sanitizeString,
+  sanitizeArray
 } from "./security.js";
 import { broadcast } from "./websocket.js";
 
@@ -29,13 +33,19 @@ const imageSchema = z.object({
   images: z.array(z.string().max(50 * 1024 * 1024, "Image too large")).max(5, "Maximum 5 images allowed"),
 });
 
+// Enforces MIN/MAX_ADMIN_PASSWORD_LENGTH from security.ts
+const newAdminPasswordField = z.string().superRefine((value, ctx) => {
+  const error = validateNewAdminPassword(value);
+  if (error) ctx.addIssue({ code: z.ZodIssueCode.custom, message: error });
+});
+
 const createAdminSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters").max(50, "Username too long"),
-  password: z.string().min(8, "Password must be at least 8 characters").max(100, "Password too long"),
+  password: newAdminPasswordField,
 });
 
 const changePasswordSchema = z.object({
-  newPassword: z.string().min(8, "Password must be at least 8 characters").max(100, "Password too long"),
+  newPassword: newAdminPasswordField,
 });
 
 const updateStoreSchema = z.object({
@@ -93,16 +103,25 @@ export async function registerRoutes(
 
       // HARD SANITIZATION: Force-strip Base64 images to prevent 5MB payloads in case of DB schema mismatch
       // BUG FIX: Filter out stores with coordinates that would pull the map to "nowhere"
+      // explicitly allowlist public fields
       const sanitizedStores = stores.filter((s: any) => {
         const lat = parseFloat(s.latitude);
         const lng = parseFloat(s.longitude);
         // Exclude 0,0 or coordinates outside logical Canada bounds (Lat 40-85, Lng -145 to -50)
-        return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -145 && lng < -50;
+        return !isNaN(lat) && !isNaN(lng) && lat > 40 && lat < 85 && lng > -145 && lng < -50 && s.status === 'approved';
       }).map((s: any) => {
-        const lean = { ...s };
-        delete lean.image;
-        delete lean.images;
-        return lean;
+        return {
+          id: s.id,
+          name: s.name,
+          products: s.products,
+          address: s.address,
+          city: s.city,
+          province: s.province,
+          latitude: s.latitude,
+          longitude: s.longitude,
+          category: s.category,
+          createdAt: s.createdAt,
+        };
       });
 
       // EGRESS OPTIMIZATION: Edge caching — 300s fresh, 120s stale-while-revalidate
@@ -114,12 +133,14 @@ export async function registerRoutes(
       console.error("❌ [API] Critical Error:", error);
       res.status(500).json({
         error: "Failed to fetch locations",
-        details: error.message || String(error),
-        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
-        env_check: {
-          has_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-          has_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
-        }
+        ...(!isProductionEnv() && {
+          details: error.message || String(error),
+          stack: error.stack,
+          env_check: {
+            has_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+            has_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+          }
+        })
       });
     }
   };
@@ -135,6 +156,12 @@ export async function registerRoutes(
       const { id } = req.params;
       const images = await storage.getStoreImages(id);
 
+      // Also fetch the store to ensure it's approved
+      const store = await storage.getStore(id);
+      if (!store || store.status !== 'approved') {
+        return res.status(404).json({ error: "Store not found or not approved" });
+      }
+
       if (!images) {
         return res.status(404).json({ error: "Store images not found" });
       }
@@ -149,14 +176,36 @@ export async function registerRoutes(
   });
 
   app.post("/api/locations", securityMiddleware.submissionRateLimit, async (req, res) => {
-    // Reuse logic from /api/stores
+    // Check honeypot
+    if (req.body.company_fax_hp) {
+      console.warn("🍯 Honeypot triggered by", req.ip);
+      // Return same success response as a real submission but save nothing
+      return res.status(201).json({ id: "honeypot-" + Date.now(), ...req.body, status: "pending" });
+    }
+
     try {
       const validation = insertStoreSchema.safeParse(req.body);
       if (!validation.success) {
         return res.status(400).json({ error: fromZodError(validation.error).message });
       }
+
+      // Detect spam
+      const combinedText = `${validation.data.name} ${validation.data.description || ""} ${validation.data.address} ${validation.data.products.join(" ")}`;
+      if (detectSpam(combinedText)) {
+        console.warn("🚫 Spam detected from", req.ip);
+        return res.status(400).json({ error: "Your submission was flagged as spam." });
+      }
       const storeData = {
         ...validation.data,
+        name: sanitizeString(validation.data.name),
+        description: validation.data.description ? sanitizeString(validation.data.description) : undefined,
+        address: sanitizeString(validation.data.address),
+        city: sanitizeString(validation.data.city),
+        province: sanitizeString(validation.data.province),
+        category: validation.data.category, // enum
+        website: validation.data.website ? sanitizeString(validation.data.website) : undefined,
+        email: validation.data.email ? sanitizeString(validation.data.email) : undefined,
+        products: sanitizeArray(validation.data.products),
         status: "pending" as const,
       };
       // ... (Spam check logic omitted for brevity in this specific block, relying on existing logic below if I reuse handler, but I'll duplicate essential logic or call internal function)
@@ -175,8 +224,10 @@ export async function registerRoutes(
       console.error("❌ [API] POST /api/locations Error:", e);
       res.status(500).json({
         error: "Failed to create location",
-        message: e.message || String(e),
-        stack: process.env.NODE_ENV === "development" ? e.stack : undefined
+        ...(!isProductionEnv() && {
+          message: e.message || String(e),
+          stack: e.stack
+        })
       });
     }
   });
@@ -188,8 +239,22 @@ export async function registerRoutes(
     try {
       // EGRESS OPTIMIZATION: Use lean query + edge caching for public store list
       const stores = await storage.getApprovedStoresLean();
+      
+      const sanitizedStores = stores.filter(s => s.status === 'approved').map(s => ({
+        id: s.id,
+        name: s.name,
+        products: s.products,
+        address: s.address,
+        city: s.city,
+        province: s.province,
+        latitude: s.latitude,
+        longitude: s.longitude,
+        category: s.category,
+        createdAt: s.createdAt,
+      }));
+
       res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=120");
-      res.json(stores);
+      res.json(sanitizedStores);
     } catch (error) {
       console.error("Error fetching stores:", error);
       res.status(500).json({ error: "Failed to fetch stores" });
@@ -209,7 +274,7 @@ export async function registerRoutes(
 
   // --- ADMIN AUTHENTICATION ROUTES ---
 
-  app.post("/api/admin/login", async (req, res) => {
+  app.post("/api/admin/login", securityMiddleware.adminRateLimit, async (req, res) => {
     try {
       const validation = loginSchema.safeParse(req.body);
       if (!validation.success) {
@@ -217,7 +282,19 @@ export async function registerRoutes(
       }
 
       const { password, username } = validation.data;
+      const ip = req.ip || "unknown";
+      const actualUsername = username || "admin";
+
+      // Supabase-backed lockout check
+      const lockedOut = await storage.checkLoginLockout(ip, actualUsername);
+      if (lockedOut) {
+        return res.status(429).json({ error: "Too many failed attempts. Please try again later." });
+      }
+
       const verification = await verifyAdminPassword(password, username);
+
+      // Record the attempt
+      await storage.recordLoginAttempt(ip, actualUsername, verification.valid);
 
       if (!verification.valid) {
         return res.status(401).json({ error: "Invalid credentials" });
@@ -288,23 +365,26 @@ export async function registerRoutes(
     }
   });
 
-  // Note: /api/stores/:id/request-deletion logic needs update too
-  app.delete("/api/stores/:id/request-deletion", async (req, res) => {
+  app.delete("/api/stores/:id/request-deletion", securityMiddleware.deletionRequestRateLimit, async (req, res) => {
     try {
       const id = req.params.id;
       const { email } = req.body;
 
       const store = await storage.getStore(id);
-      if (!store) return res.status(404).json({ error: "Store not found" });
-
-      if (!store.email || store.email !== email) {
-        return res.status(403).json({ error: "Email mismatch" });
+      
+      // Always return 200 OK so we don't leak store existence.
+      if (store && store.status === 'approved') {
+        // Update store with deletion requested details, don't change status
+        await storage.updateStore(id, { 
+          deletionRequestedAt: new Date(),
+          deletionRequestEmail: email || null
+        });
       }
 
-      await storage.deleteStore(id);
-      res.json({ success: true });
+      res.json({ message: "Store deletion requested successfully" });
     } catch (error) {
-      res.status(500).json({ error: "Deletion failed" });
+      console.error("Error requesting store deletion:", error);
+      res.status(500).json({ error: "Failed to request store deletion" });
     }
   });
 
@@ -341,7 +421,7 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/admin/users", requireAdmin, async (req, res) => {
+  app.post("/api/admin/users", requireAdmin, securityMiddleware.adminRateLimit, async (req, res) => {
     try {
       const validation = createAdminSchema.safeParse(req.body);
       if (!validation.success) {
@@ -370,7 +450,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/users/:id/password", requireAdmin, async (req, res) => {
+  app.patch("/api/admin/users/:id/password", requireAdmin, securityMiddleware.adminRateLimit, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id) || id <= 0) {

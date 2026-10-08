@@ -16,6 +16,8 @@ export interface Store {
   website?: string;
   status: "approved" | "pending" | "rejected";
   createdAt?: string;
+  deletionRequestedAt?: string | null;
+  deletionRequestEmail?: string | null;
 }
 
 // EGRESS OPTIMIZATION: Reduced image dimensions from w=800 to w=400 and quality from q=80 to q=60

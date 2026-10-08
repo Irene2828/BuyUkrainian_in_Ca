@@ -117,6 +117,10 @@ export interface IStorage {
   updateAdminPassword(id: number, passwordHash: string): Promise<boolean>;
   deleteAdminUser(id: number): Promise<boolean>;
   getAllAdminUsers(): Promise<AdminUser[]>;
+
+  // Rate Limiting
+  checkLoginLockout(ip: string, username: string): Promise<boolean>;
+  recordLoginAttempt(ip: string, username: string, success: boolean): Promise<void>;
 }
 
 // Changes made here for standard Postgres storage (Supabase/Neon/etc).
@@ -350,7 +354,7 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
   }
 
-  async updateStore(id: string, updates: Partial<InsertStore>): Promise<Store | undefined> {
+  async updateStore(id: string, updates: Partial<DbStore>): Promise<Store | undefined> {
     const result = await this.db.update(stores).set(updates).where(eq(stores.id, id)).returning();
     this.invalidateCache(); // EGRESS OPT: Bust cache on update
     return result.length > 0 ? this.mapToStore(result[0]) : undefined;
@@ -408,6 +412,72 @@ export class DatabaseStorage implements IStorage {
       passwordHash: adminUsers.passwordHash,
       createdAt: adminUsers.createdAt,
     }).from(adminUsers);
+  }
+
+  // --- LOGIN LOCKOUT ---
+
+  async checkLoginLockout(ip: string, rawUsername: string): Promise<boolean> {
+    const username = rawUsername.trim().toLowerCase().substring(0, 100);
+    try {
+      const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+
+      // Check IP
+      const ipQuery = `
+        SELECT COUNT(*) as count 
+        FROM admin_login_attempts 
+        WHERE ip_address = $1 AND success = false AND attempted_at > $2
+      `;
+      const ipRes = await this.pool.query(ipQuery, [ip, fifteenMinsAgo]);
+      const ipFailures = parseInt(ipRes.rows[0].count, 10);
+
+      // Check Username
+      const userQuery = `
+        SELECT COUNT(*) as count 
+        FROM admin_login_attempts 
+        WHERE username = $1 AND success = false AND attempted_at > $2
+      `;
+      const userRes = await this.pool.query(userQuery, [username, fifteenMinsAgo]);
+      const userFailures = parseInt(userRes.rows[0].count, 10);
+
+      return ipFailures >= 5 || userFailures >= 10;
+    } catch (e: any) {
+      if (e.code === '42P01') {
+        // Table doesn't exist yet, safe to proceed
+        console.warn("[db_storage] admin_login_attempts table not found, skipping lockout check");
+        return false; 
+      }
+      console.error("Error checking login lockout:", e);
+      // Fail closed
+      return true;
+    }
+  }
+
+  async recordLoginAttempt(ip: string, rawUsername: string, success: boolean): Promise<void> {
+    const username = rawUsername.trim().toLowerCase().substring(0, 100);
+    try {
+      const insertQuery = `
+        INSERT INTO admin_login_attempts (ip_address, username, success)
+        VALUES ($1, $2, $3)
+      `;
+      await this.pool.query(insertQuery, [ip, username, success]);
+
+      // Cleanup rows older than 7 days asynchronously
+      const cleanupQuery = `
+        DELETE FROM admin_login_attempts
+        WHERE attempted_at < NOW() - INTERVAL '7 days'
+      `;
+      // We don't await this to avoid slowing down the login response
+      this.pool.query(cleanupQuery).catch((e: any) => {
+          if (e.code !== '42P01') {
+              console.error("Error cleaning up admin_login_attempts:", e);
+          }
+      });
+    } catch (e: any) {
+      if (e.code === '42P01') {
+        return; // Table not created yet
+      }
+      console.error("Error recording login attempt:", e);
+    }
   }
 }
 

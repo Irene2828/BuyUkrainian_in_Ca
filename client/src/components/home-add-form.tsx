@@ -36,17 +36,40 @@ const formMessageClassName =
   "text-[12px] font-medium text-red-600/95";
 
 const formInputClassName =
-  "h-14 rounded-[12px] border border-slate-200 bg-white font-ui text-[15px] font-medium text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[#0057B7]/70 focus:bg-white focus:ring-4 focus:ring-[#0057B7]/10 hover:border-slate-300";
+  "h-14 rounded-[12px] border border-slate-200 bg-white font-ui text-[15px] font-medium text-slate-900 placeholder:text-slate-400 shadow-none hover:shadow-none transition-all duration-200 focus:border-[#0057B7]/70 focus:bg-white focus:ring-4 focus:ring-[#0057B7]/10 hover:border-slate-300";
 
 const optionalFormInputClassName =
-  "h-14 rounded-[12px] border border-slate-200 bg-slate-50/50 font-ui text-[15px] font-medium text-slate-800 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-slate-200/50 hover:border-slate-300";
+  "h-14 rounded-[12px] border border-slate-200 bg-slate-50/50 font-ui text-[15px] font-medium text-slate-800 placeholder:text-slate-400 shadow-none hover:shadow-none transition-all duration-200 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-slate-200/50 hover:border-slate-300";
 
-const categoryOptions = [
-  { value: "food", label: "Food & Grocery" },
-  { value: "clothes", label: "Clothing & Apparel" },
-  { value: "retail", label: "Retail & Gifts" },
-  { value: "other", label: "Other" },
-] as const;
+const PRODUCT_TAXONOMY = {
+  "Sweets & snacks": ["Roshen chocolates", "Zefir", "Cookies & Wafers"],
+  "Food & Drinks": ["Varenyky / Pierogies", "Borscht / Cabbage rolls", "Salo / Kielbasa", "Kvas / Beverages"],
+  "Apparel": ["Vyshyvanka (Embroidered shirt)", "Modern Ukrainian brands"],
+  "Gifts & Other": ["Pysanky / Souvenirs", "Cosmetics & Skincare", "Books / Art"]
+};
+
+function deriveCategory(products: string[]): "food" | "clothes" | "retail" | "other" {
+  const foodKeywords = ["roshen", "zefir", "cookie", "wafer", "varenyky", "pierogi", "borscht", "cabbage", "salo", "kielbasa", "kvas", "beverage", "food", "snack", "drink", "sweet", "meat", "deli", "grocery", "cake", "chocolate", "bread", "cheese", "pancake"];
+  const clothesKeywords = ["vyshyvanka", "shirt", "apparel", "clothing", "clothes", "brand"];
+  const retailKeywords = ["pysanky", "motanka", "pottery", "souvenir", "cosmetic", "skincare", "makeup", "retail", "gift", "book", "art"];
+
+  let foodScore = 0;
+  let clothesScore = 0;
+  let retailScore = 0;
+
+  for (const p of products) {
+    const lower = p.toLowerCase();
+    if (foodKeywords.some(k => lower.includes(k))) foodScore++;
+    if (clothesKeywords.some(k => lower.includes(k))) clothesScore++;
+    if (retailKeywords.some(k => lower.includes(k))) retailScore++;
+  }
+
+  if (foodScore === 0 && clothesScore === 0 && retailScore === 0) return "other";
+  
+  if (foodScore >= clothesScore && foodScore >= retailScore) return "food";
+  if (clothesScore >= retailScore) return "clothes";
+  return "retail";
+}
 
 const optionalTextField = z.preprocess(
   (value) => typeof value === "string" ? value.trim() : value,
@@ -66,24 +89,22 @@ const formSchema = z.object({
   province: optionalTextField,
   address: z.string().trim().min(5, "Address is required"),
   name: z.string().trim().min(2, "Store name is required"),
-  category: z.enum(["food", "clothes", "retail", "other"]),
   website: optionalTextField,
-  products: z
-    .string()
-    .trim()
-    .refine(
-      (value) => value.split(",").map((product) => product.trim()).filter(Boolean).length > 0,
-      "Please list at least one product"
-    ),
+  selectedProducts: z.array(z.string()).default([]),
+  otherProducts: optionalTextField,
   description: optionalTextField,
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   image: z.string().optional(),
+  company_fax_hp: z.string().optional(),
+}).refine(data => data.selectedProducts.length > 0 || data.otherProducts.trim().length > 0, {
+  message: "Please select or enter at least one product",
+  path: ["otherProducts"]
 });
 
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 
-export function HomeAddForm({ onClose }: { onClose?: () => void }) {
+export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, initialData?: any }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -99,14 +120,16 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      city: "",
-      province: "",
-      address: "",
-      name: "",
-      category: "food",
-      website: "",
-      products: "",
-      description: "",
+      city: initialData?.city || "",
+      province: initialData?.province || "",
+      address: initialData?.address || "",
+      name: initialData?.name || "",
+      website: initialData?.website || "",
+      selectedProducts: initialData?.products || [],
+      otherProducts: "",
+      description: initialData?.description || "",
+      latitude: initialData?.coordinates?.[0] || undefined,
+      longitude: initialData?.coordinates?.[1] || undefined,
     },
   });
 
@@ -274,15 +297,22 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
       city = city || 'Unknown';
       province = province || 'Unknown';
 
+      const finalProducts = [
+        ...values.selectedProducts,
+        ...values.otherProducts.split(",").map(p => p.trim()).filter(Boolean)
+      ];
+      
+      const derivedCat = deriveCategory(finalProducts);
+
       await createStoreMutation.mutateAsync({
         ...values,
         city,
         province,
         description: values.description || "",
-        products: values.products.split(",").map(p => p.trim()).filter(Boolean),
+        products: finalProducts,
         latitude: String(lat),
         longitude: String(lng),
-        category: values.category as any,
+        category: derivedCat,
         images: values.image ? [values.image] : [],
       });
     } catch (error: any) {
@@ -326,7 +356,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
         />
         <div className="relative z-10 flex items-start justify-between gap-4">
           <DialogTitle className="text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiased font-header line-clamp-2 text-slate-900">
-            Add a store
+            {initialData ? "Suggest an edit" : "Add a store"}
           </DialogTitle>
           {onClose && (
             <button
@@ -371,6 +401,18 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
             className="space-y-6"
           >
             <div className="space-y-7">
+              {/* HONEYPOT */}
+              <FormField
+                control={form.control}
+                name="company_fax_hp"
+                render={({ field }) => (
+                  <FormItem className="opacity-0 absolute -z-50 -top-[9999px] -left-[9999px]" aria-hidden="true">
+                    <FormControl>
+                      <Input tabIndex={-1} autoComplete="off" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
               <div>
                 <span className={formSectionEyebrowClassName}>Required details</span>
               </div>
@@ -436,104 +478,60 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                     </FormItem>
                   )}
                 />
-
-                {/* 3. Category */}
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => {
-                    const selectedCategory =
-                      categoryOptions.find((option) => option.value === field.value) ?? categoryOptions[0];
-
-                    return (
-                      <FormItem>
-                        <FormLabel className={formLabelClassName}>Category</FormLabel>
-                        <FormControl>
-                          <div
-                            className="relative"
-                            onBlur={(event) => {
-                              const nextFocus = event.relatedTarget;
-                              if (!(nextFocus instanceof Node) || !event.currentTarget.contains(nextFocus)) {
-                                field.onBlur();
-                                setIsCategoryMenuOpen(false);
-                              }
-                            }}
-                          >
-                            <button
-                              ref={field.ref}
-                              type="button"
-                              name={field.name}
-                              aria-haspopup="listbox"
-                              aria-expanded={isCategoryMenuOpen}
-                              onClick={() => setIsCategoryMenuOpen((open) => !open)}
-                              className={cn(
-                                formInputClassName,
-                                "flex w-full items-center justify-between px-4 pr-11 text-left text-[16px]"
-                              )}
-                            >
-                              <span>{selectedCategory.label}</span>
-                              <ChevronDown
-                                className={cn(
-                                  "absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-transform",
-                                  isCategoryMenuOpen && "rotate-180"
-                                )}
-                                strokeWidth={2.5}
-                              />
-                            </button>
-
-                            {isCategoryMenuOpen && (
-                              <div
-                                role="listbox"
-                                className="absolute left-0 right-0 top-[calc(100%+6px)] z-[2200] overflow-hidden border border-slate-200 rounded-[12px] bg-white/95 shadow-lg backdrop-blur-xl"
-                              >
-                                {categoryOptions.map((option) => {
-                                  const isSelected = option.value === field.value;
-
-                                  return (
-                                    <button
-                                      key={option.value}
-                                      type="button"
-                                      role="option"
-                                      aria-selected={isSelected}
-                                      onClick={() => {
-                                        field.onChange(option.value);
-                                        setIsCategoryMenuOpen(false);
-                                      }}
-                                      className={cn(
-                                        "flex w-full items-center justify-between px-4 py-3 text-left text-[14px] font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900",
-                                        isSelected && "bg-[#0057B7]/5 text-[#0057B7]"
-                                      )}
-                                    >
-                                      <span>{option.label}</span>
-                                      {isSelected && <span className="h-1.5 w-1.5 bg-[#0057B7]" />}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            )}
-                        </div>
-                        </FormControl>
-                        <FormMessage className={formMessageClassName} />
-                      </FormItem>
-                    );
-                  }}
-                />
               </div>
 
-              {/* 4. Products Sold */}
-              <FormField
-                control={form.control}
-                name="products"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={formLabelClassName}>Products</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Varenyky, borscht, gifts" {...field} className={cn(formInputClassName, "px-4 text-[16px]")} />
-                    </FormControl>
-                    <FormMessage className={formMessageClassName} />
-                  </FormItem>
-                )}
-              />
+              {/* 3. Products Sold */}
+              <div className="space-y-4">
+                <div className={formLabelClassName}>Products Sold</div>
+                <div className="space-y-6">
+                  {Object.entries(PRODUCT_TAXONOMY).map(([group, items]) => (
+                    <div key={group} className="space-y-2">
+                      <div className="text-[12px] font-semibold text-slate-500 uppercase tracking-wider">{group}</div>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map(item => {
+                          const isSelected = form.watch("selectedProducts").includes(item);
+                          return (
+                            <button
+                              key={item}
+                              type="button"
+                              onClick={() => {
+                                const current = form.watch("selectedProducts");
+                                if (isSelected) {
+                                  form.setValue("selectedProducts", current.filter(p => p !== item), { shouldValidate: true });
+                                } else {
+                                  form.setValue("selectedProducts", [...current, item], { shouldValidate: true });
+                                }
+                              }}
+                              className={cn(
+                                "px-3 py-1.5 rounded-full border text-[13px] font-medium transition-colors",
+                                isSelected 
+                                  ? "bg-[#0057B7] border-[#0057B7] text-white" 
+                                  : "bg-white border-slate-200 text-slate-600 hover:border-[#0057B7]/50 hover:bg-slate-50"
+                              )}
+                            >
+                              {item}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="otherProducts"
+                  render={({ field }) => (
+                    <FormItem className="mt-4">
+                      <FormLabel className={optionalFormLabelClassName}>Anything else?</FormLabel>
+                      <FormControl>
+                        <Input placeholder="List other products, separated by commas" {...field} className={cn(optionalFormInputClassName, "px-4 text-[15px]")} />
+                      </FormControl>
+                      <FormMessage className={formMessageClassName} />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
             <div className="pt-10 pb-1">
@@ -597,7 +595,7 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
                 ) : (
                   <>
                     <Plus className="h-[18px] w-[18px] text-current stroke-[2.5] transition-transform duration-300 group-hover/cta-btn:rotate-90" />
-                    <span>Submit store</span>
+                    <span>{initialData ? "Submit edit" : "Submit store"}</span>
                   </>
                 )}
               </Button>
@@ -605,6 +603,8 @@ export function HomeAddForm({ onClose }: { onClose?: () => void }) {
               <div className="flex flex-col gap-3 px-2">
                 <p className="text-[13px] text-slate-500 leading-relaxed font-ui text-center">
                   Stores are reviewed before appearing on the map.
+                  <br/>
+                  <span className="text-[12px] opacity-80 mt-1 block">Your submission is subject to our <a href="/privacy" target="_blank" className="underline hover:text-blue-500">Privacy Policy</a>.</span>
                 </p>
               </div>
             </div>

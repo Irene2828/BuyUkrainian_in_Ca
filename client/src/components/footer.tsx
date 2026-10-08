@@ -56,12 +56,12 @@ export function Footer() {
                     >
                       {isFr ? 'Conditions et politique des fiches' : 'Terms & Listing Policy'}
                     </button>
-                    <button 
-                      onClick={() => setModalType("privacy")}
+                    <a 
+                      href="/privacy"
                       className="text-[15px] text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
                     >
                       {isFr ? 'Confidentialité' : 'Privacy'}
-                    </button>
+                    </a>
                     <button 
                       onClick={() => setModalType("accessibility")}
                       className="text-[15px] text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"

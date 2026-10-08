@@ -127,6 +127,11 @@ function ListViewRow({
                 <div className="mb-1 flex min-w-0 flex-wrap items-center gap-2">
                     <h3 className="truncate text-[14px] font-bold tracking-[-0.01em] text-[#102a43] sm:text-[15px]">{store.name}</h3>
                     <StatusBadge status={store.status} />
+                    {store.deletionRequestedAt && (
+                        <span className="inline-flex items-center rounded-none border border-[#f1c6c6] bg-[#fff4f4] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#ae3c3c]">
+                            Deletion Requested ({store.deletionRequestEmail || "No Email"})
+                        </span>
+                    )}
                 </div>
                 <StoreMeta store={store} />
                 <p className="mt-1 truncate text-[11px] text-[#9aabbb]">

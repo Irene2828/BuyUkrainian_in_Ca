@@ -623,7 +623,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {(variant !== "hero" || variant === "hero-b") && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
-            <div className={cn("absolute top-4 pt-2 flex flex-col items-end pointer-events-none", variant === "hero-b" ? "right-4 lg:right-6" : "right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
+            <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[10%] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
               <TooltipProvider delayDuration={120}>
                 <div className="flex flex-col items-center bg-white shadow-xl rounded-none border border-slate-300 overflow-hidden pointer-events-auto w-[42px] min-[1441px]:w-[46px]">
                   <MapControlButton
@@ -1010,7 +1010,7 @@ function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: bo
 }
 
 interface MapSurfaceStateProps {
-  variant: "default" | "full" | "hero";
+  variant: "default" | "full" | "hero" | "hero-b";
   title: string;
   description: string;
   isLoading?: boolean;

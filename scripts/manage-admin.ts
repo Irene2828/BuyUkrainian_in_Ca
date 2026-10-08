@@ -1,28 +1,56 @@
+// Manage admin users from the command line.
+//
+// Passwords are read from the NEW_ADMIN_PASSWORD environment variable instead
+// of command-line arguments (argv ends up in shell history and `ps` output),
+// and are never printed. Example:
+//
+//   read -s "NEW_ADMIN_PASSWORD?New admin password: " && export NEW_ADMIN_PASSWORD
+//   npx tsx --env-file=.env scripts/manage-admin.ts create <username>
+//   npx tsx --env-file=.env scripts/manage-admin.ts reset <username>
+//   unset NEW_ADMIN_PASSWORD
+//
+import "../api/_lib/env.js";
+import { storage } from "../api/_lib/db_storage.js";
+import { hashPassword, validateNewAdminPassword, MIN_ADMIN_PASSWORD_LENGTH } from "../api/_lib/security.js";
 
-import { storage } from "../server/storage";
-import { hashPassword } from "../server/security";
+function readPasswordOrExit(): string {
+    const password = process.env.NEW_ADMIN_PASSWORD;
+    const error = validateNewAdminPassword(password);
+    if (error) {
+        console.error(`Error: NEW_ADMIN_PASSWORD: ${error}.`);
+        process.exit(1);
+    }
+    return password as string;
+}
 
 async function main() {
     const args = process.argv.slice(2);
     const command = args[0];
 
     if (!command) {
-        console.log("Usage: node scripts/manage-admin.ts <command> [args]");
+        console.log("Usage: npx tsx scripts/manage-admin.ts <command> [args]");
         console.log("Commands:");
-        console.log("  create <username> <password>  Create a new admin");
-        console.log("  reset <username> <password>   Reset an admin password");
-        console.log("  list                          List all admins");
+        console.log("  create <username>   Create a new admin (password from NEW_ADMIN_PASSWORD)");
+        console.log("  reset <username>    Reset an admin password (password from NEW_ADMIN_PASSWORD)");
+        console.log("  list                List all admins");
+        console.log(`Passwords must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters.`);
+        process.exit(1);
+    }
+
+    if ((command === "create" || command === "reset") && args.length > 2) {
+        console.error("Error: do not pass the password as an argument. Use NEW_ADMIN_PASSWORD.");
         process.exit(1);
     }
 
     try {
         switch (command) {
             case "create": {
-                const [username, password] = args.slice(1);
-                if (!username || !password) {
-                    console.error("Error: username and password required");
+                const username = args[1]?.trim();
+                if (!username || username.length < 3 || username.length > 50) {
+                    console.error("Error: username required (3-50 characters)");
                     process.exit(1);
                 }
+                const password = readPasswordOrExit();
 
                 const existing = await storage.getAdminUserByUsername(username);
                 if (existing) {
@@ -37,11 +65,12 @@ async function main() {
             }
 
             case "reset": {
-                const [username, password] = args.slice(1);
-                if (!username || !password) {
-                    console.error("Error: username and password required");
+                const username = args[1]?.trim();
+                if (!username) {
+                    console.error("Error: username required");
                     process.exit(1);
                 }
+                const password = readPasswordOrExit();
 
                 const existing = await storage.getAdminUserByUsername(username);
                 if (!existing) {
@@ -66,10 +95,11 @@ async function main() {
                 console.error("Unknown command");
                 process.exit(1);
         }
-    } catch (error) {
-        console.error("Operation failed:", error);
+    } catch (error: any) {
+        console.error("Operation failed:", error?.message ?? "unknown error");
         process.exit(1);
     }
+    process.exit(0);
 }
 
 main();
