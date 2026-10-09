@@ -1368,6 +1368,59 @@ html.dark .city-labels-layer {
   }
 }
 
+/* Hero CTA + stats labels on large screens (1670px+).
+   Must live here (unlayered, after the bump rules above) — Tailwind
+   responsive text-[..] classes are layered and lose to those bumps. */
+@media (min-width: 1670px) {
+  span.hero-stat-label {
+    font-size: 13px;   /* was 15px → −2px */
+  }
+
+  button.hero-cta-primary-text {
+    font-size: 16px;   /* was 18px → −2px */
+  }
+
+  button.hero-cta-secondary-text {
+    font-size: 14.5px !important; /* was 16px → −10% */
+  }
+
+  .header-initiative-text {
+    font-size: 14px !important; /* was 15px (13px + 2px bump) → -1px */
+  }
+
+  p.add-store-cta-heading {
+    font-size: 18.5px !important; /* was 19.5px (18px + 1.5px bump) → -1px */
+  }
+
+  button.add-store-cta-button {
+    font-size: 16.5px !important; /* was 17.5px (15.5px + 2px bump) → -1px */
+  }
+
+  .footer-link-text {
+    font-size: 16px !important; /* was 17px (15px + 2px bump) → -1px */
+  }
+
+  h3.how-it-works-h3 {
+    font-size: 18.5px !important; /* was 19.5px (19px + 0.5px bump) → -1px */
+  }
+
+  p.how-it-works-p {
+    font-size: 17px !important; /* was 18px (16px + 2px bump) → -1px */
+  }
+
+  p.about-project-desc {
+    font-size: 17px !important; /* was 18px (16px + 2px bump) → -1px */
+  }
+
+  p.faq-answer-text {
+    font-size: 17px !important; /* was 18px (16px + 2px bump) → -1px */
+  }
+
+  span.map-hover-tooltip-text {
+    font-size: 13px !important; /* was 14px (12px + 2px bump) → -1px */
+  }
+}
+
 /* ========================================
    CTA LETTER-SPACING RESET
    ========================================
@@ -1639,6 +1692,14 @@ html.dark .city-labels-layer {
 }
 
 @media (min-width: 1670px) {
+  .hero-desktop-frame {
+    /* To make the hero + header exactly fit the viewport without scrolling, 
+       we use 100svh as the visual target. The inverse zoom formula ensures 
+       it visually renders at exactly 100% of the viewport height. */
+    height: calc((100svh - 81px) * 1440 / 1680) !important;
+    min-height: 600px !important;
+  }
+
   .hero-desktop-frame .content-width {
     padding-inline: clamp(0.75rem, 2.5vw, 2rem) !important;
   }
@@ -1712,10 +1773,10 @@ img[src*="google4_tracking"] {
   }
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 1680px) {
   body {
-    /* Stop scaling endlessly after 1920px to prevent UI from becoming too large */
-    zoom: calc(1920 / 1440);
+    /* Stop scaling endlessly after 1680px to prevent UI from becoming too large */
+    zoom: calc(1680 / 1440);
   }
 }
 

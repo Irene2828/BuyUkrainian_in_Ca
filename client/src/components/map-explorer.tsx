@@ -24,7 +24,6 @@ import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 import { LocationPermissionModal } from "./location-permission-modal";
-import { AccessibleStoreDirectory } from "@/components/accessible-store-directory";
 
 const PROVINCE_MAP: Record<string, string> = {
     "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
@@ -330,7 +329,10 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
                     {!isZenMode && (viewMode === "map" || viewMode === "list") && (
-                        <div className="w-full md:w-[420px] min-[1440px]:w-[440px] min-[1670px]:w-[480px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl pl-0">
+                        <div className={cn(
+                            "w-full md:w-[420px] min-[1440px]:w-[440px] min-[1670px]:w-[480px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl pl-0",
+                            viewMode === "list" && "hidden md:flex"
+                        )}>
                             
                             {/* Inner Content Box */}
                             <div className="w-full flex flex-col flex-1 h-full px-4.5">
@@ -498,29 +500,24 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                 </button>
                             </div>
                         </div>
-                        <div className={cn(viewMode === "map" ? "block absolute inset-0" : "hidden")}>
-                            <MapSection
-                                ref={mapSectionRef}
-                                mode="full"
-                                className="absolute inset-0"
-                                searchQuery={searchQuery}
-                                category={category}
-                                viewMode={viewMode}
-                                selectedProvince={selectedProvince}
-                                selectedCity={selectedCity}
-                                sortMode={sortMode}
-                                onFlightChange={setIsFlying}
-                                onViewChange={setViewMode}
-                                selectedStore={selectedStore}
-                                onStoreSelect={setSelectedStore}
-                                userLocation={userLocation}
-                            />
-                        </div>
-                        {viewMode === "list" && (
-                            <div className="pt-20">
-                                <AccessibleStoreDirectory onClose={() => setViewMode("map")} />
-                            </div>
-                        )}
+                        <MapSection
+                            ref={mapSectionRef}
+                            mode="full"
+                            className={cn(
+                                viewMode === "map" ? "absolute inset-0" : "relative"
+                            )}
+                            searchQuery={searchQuery}
+                            category={category}
+                            viewMode={viewMode}
+                            selectedProvince={selectedProvince}
+                            selectedCity={selectedCity}
+                            sortMode={sortMode}
+                            onFlightChange={setIsFlying}
+                            onViewChange={setViewMode}
+                            selectedStore={selectedStore}
+                            onStoreSelect={setSelectedStore}
+                            userLocation={userLocation}
+                        />
                     </div>
                 </div>
             </div>

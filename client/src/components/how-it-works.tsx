@@ -35,7 +35,7 @@ export function HowItWorks() {
                 <img 
                   src="/about_img_2.jpg" 
                   alt="Find Ukrainian products" 
-                  className="w-full h-full object-contain mix-blend-multiply scale-[1.43]"
+                  className="how-it-works-img w-full h-full object-contain mix-blend-multiply scale-[1.55]"
                 />
             </div>
           </div>
@@ -55,10 +55,10 @@ export function HowItWorks() {
               
               {/* Content */}
               <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
-                <h3 className="text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
+                <h3 className="how-it-works-h3 text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
                   {step.title}
                 </h3>
-                <p className="text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">
+                <p className="how-it-works-p text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">
                   {typeof step.text === 'string' 
                     ? step.text.split(/\b(Explore|Add|Share)\b/g).map((part, i) => 
                         /^(Explore|Add|Share)$/.test(part) ? <u key={i} className="underline decoration-[#FFD700] underline-offset-[3px] decoration-[1.5px]">{part}</u> : part

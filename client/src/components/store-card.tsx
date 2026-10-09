@@ -129,7 +129,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
     const hasMoreProducts = allProducts.length > maxVisibleTags;
 
     return (
-        <div className="flex w-full items-start gap-4 pointer-events-none">
+        <div className="flex w-full items-start gap-4 pointer-events-none min-[1600px]:[zoom:1.05]">
             {/* Primary Data Card */}
             <div
                 className={cn(

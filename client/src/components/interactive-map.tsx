@@ -295,12 +295,39 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 }, ref) => {
   const apiLoadingStatus = useApiLoadingStatus();
   const mapRef = useMap("main-map");
-  const initialZoom = useMemo(() => variant === 'hero' ? HERO_INITIAL_MAP_STATE.zoom : INITIAL_MAP_STATE.zoom, [variant]);
+  const [isLargeDesktop, setIsLargeDesktop] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1670px)').matches
+  );
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1670px)');
+    const onChange = (e: MediaQueryListEvent) => setIsLargeDesktop(e.matches);
+    setIsLargeDesktop(mediaQuery.matches);
+    mediaQuery.addEventListener('change', onChange);
+    return () => mediaQuery.removeEventListener('change', onChange);
+  }, []);
+
+  const initialZoom = useMemo(() => {
+    if (variant === 'hero') return HERO_INITIAL_MAP_STATE.zoom;
+    if (variant === 'hero-b') {
+        // Normal zoom (reverting the 10% zoom in)
+        return INITIAL_MAP_STATE.zoom;
+    }
+    return INITIAL_MAP_STATE.zoom;
+  }, [variant, isLargeDesktop]);
+
   const initialCenter = useMemo(() => {
     if (variant === 'hero') return HERO_INITIAL_MAP_STATE.center;
-    if (variant === 'hero-b') return { lat: 49.5, lng: -97.5 };
+    if (variant === 'hero-b') {
+        if (isLargeDesktop) {
+            // We want to zoom in, see less USA, keep Canada centered, but slightly right of the CTA text.
+            // Move North to push USA out of view (lat: 53.5)
+            // Move West to push the map to the right, but nudge East to push Alaska off left edge (lng: -101.0)
+            return { lat: 53.5, lng: -101.0 };
+        }
+        return { lat: 49.5, lng: -97.5 };
+    }
     return { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] };
-  }, [variant]);
+  }, [variant, isLargeDesktop]);
 
   const [zoom, setZoom] = useState(initialZoom);
   const [center, setCenter] = useState(initialCenter);
@@ -394,18 +421,18 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   }, [mapRef, variant, isMobile]);
 
   useEffect(() => {
-    if (variant !== 'hero') return;
+    if (variant !== 'hero' && variant !== 'hero-b') return;
 
     const centerMap = () => {
       if (mapRef) {
         (window as any).google.maps.event.trigger(mapRef, 'resize');
-        mapRef.setZoom(HERO_INITIAL_MAP_STATE.zoom);
-        mapRef.panTo(HERO_INITIAL_MAP_STATE.center);
+        mapRef.setZoom(initialZoom);
+        mapRef.panTo(initialCenter);
       }
     };
 
-    setZoom(HERO_INITIAL_MAP_STATE.zoom);
-    setCenter(HERO_INITIAL_MAP_STATE.center);
+    setZoom(initialZoom);
+    setCenter(initialCenter);
     centerMap();
 
     if (mapRef) {
@@ -425,7 +452,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         };
       }
     }
-  }, [mapRef, variant]);
+  }, [mapRef, variant, initialZoom, initialCenter]);
 
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
@@ -623,7 +650,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       {(variant !== "hero" || variant === "hero-b") && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
-            <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[28px] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
+            <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[14px] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
               <TooltipProvider delayDuration={120}>
                 <div className="flex flex-col items-center bg-white shadow-xl rounded-none border border-slate-300 overflow-hidden pointer-events-auto w-[42px] min-[1441px]:w-[46px]">
                   <MapControlButton
@@ -714,7 +741,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           }}
           className="fixed z-[9999] pointer-events-none px-3 py-1.5 rounded-[12px] bg-white backdrop-blur-xl shadow-[0_8px_24px_rgba(10,37,64,0.12)]"
         >
-          <span className="text-[12px] font-medium text-slate-500 tabular-nums font-sans whitespace-nowrap">
+          <span className="map-hover-tooltip-text text-[12px] font-medium text-slate-500 tabular-nums font-sans whitespace-nowrap">
             {hoveredLabel.text}
           </span>
         </motion.div>,

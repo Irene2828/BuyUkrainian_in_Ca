@@ -91,7 +91,7 @@ export function Header() {
           <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center mx-1" />
 
           {/* Caption Next to Logo */}
-          <div className="hidden md:flex flex-col text-[12px] lg:text-[13px] leading-tight font-medium text-slate-500 whitespace-nowrap pl-0.5">
+          <div className="hidden md:flex flex-col text-[12px] lg:text-[13px] header-initiative-text leading-tight font-medium text-slate-500 whitespace-nowrap pl-0.5">
             <span>initiative to support</span>
             <span>Ukraine's economy</span>
           </div>
@@ -147,7 +147,7 @@ export function Header() {
                 </nav>
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent('openAddStoreModal'))}
-                  className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[15px] xl:text-[15px] font-medium text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
+                  className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[15px] xl:text-[15px] min-[1600px]:text-[19px] font-medium text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
                 >
                   <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
                   <span>Add a store</span>

@@ -74,7 +74,7 @@ export function FAQ() {
                   >
                     <div>
                       <p
-                        className="text-reveal max-w-[95%] text-[16px] font-medium leading-relaxed text-slate-600"
+                        className="text-reveal faq-answer-text max-w-[95%] text-[16px] font-medium leading-relaxed text-slate-600"
                         style={{ transitionDelay: `${i * 90 + 130}ms` }}
                       >
                         {faq.answer}

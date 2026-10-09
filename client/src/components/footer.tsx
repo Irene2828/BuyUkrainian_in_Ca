@@ -40,7 +40,7 @@ export function Footer() {
                     <a 
                       href="#" 
                       onClick={(e) => e.preventDefault()}
-                      className="text-[15px] font-medium tracking-normal text-[#E2E8F0]/50 cursor-not-allowed transition-colors duration-200"
+                      className="text-[15px] footer-link-text font-medium tracking-normal text-[#E2E8F0]/50 cursor-not-allowed transition-colors duration-200"
                     >
                       {isFr ? 'Nous écrire' : 'Email Us'}
                     </a>
@@ -52,19 +52,19 @@ export function Footer() {
                   <nav className="flex flex-col gap-2.5 md:items-end text-left md:text-right" aria-label="Legal Links">
                     <button 
                       onClick={() => setModalType("terms")}
-                      className="text-[15px] text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
+                      className="text-[15px] footer-link-text text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
                     >
                       {isFr ? 'Conditions et politique des fiches' : 'Terms & Listing Policy'}
                     </button>
                     <a 
                       href="/privacy"
-                      className="text-[15px] text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
+                      className="text-[15px] footer-link-text text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
                     >
                       {isFr ? 'Confidentialité' : 'Privacy'}
                     </a>
                     <button 
                       onClick={() => setModalType("accessibility")}
-                      className="text-[15px] text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
+                      className="text-[15px] footer-link-text text-left md:text-right font-medium tracking-normal text-[#E2E8F0] hover:text-[#FFD700] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-white/20 p-0 h-auto bg-transparent border-none cursor-pointer"
                     >
                       {isFr ? 'Accessibilité' : 'Accessibility'}
                     </button>
