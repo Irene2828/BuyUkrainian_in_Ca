@@ -1389,7 +1389,7 @@ html.dark .city-labels-layer {
   }
 
   p.hero-description-copy {
-    font-size: 20px !important; /* was 21px → -1px */
+    font-size: 18px !important; /* was 19px → -1px */
   }
 
   p.add-store-cta-heading {
@@ -1401,7 +1401,7 @@ html.dark .city-labels-layer {
   }
 
   .footer-link-text {
-    font-size: 16px !important; /* was 17px (15px + 2px bump) → -1px */
+    font-size: 15px !important; /* was 16px → -1px */
   }
 
   h3.how-it-works-h3 {
@@ -1418,6 +1418,10 @@ html.dark .city-labels-layer {
 
   p.faq-answer-text {
     font-size: 17px !important; /* was 18px (16px + 2px bump) → -1px */
+  }
+
+  .hero-canopy-safe-content {
+    margin-top: 5vh !important;
   }
 
   span.map-hover-tooltip-text {
