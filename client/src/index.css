@@ -1385,7 +1385,11 @@ html.dark .city-labels-layer {
   }
 
   .header-initiative-text {
-    font-size: 14px !important; /* was 15px (13px + 2px bump) → -1px */
+    font-size: 13px !important; /* was 14px → -1px */
+  }
+
+  p.hero-description-copy {
+    font-size: 20px !important; /* was 21px → -1px */
   }
 
   p.add-store-cta-heading {
