@@ -412,7 +412,7 @@ const frCA = {
       products: {
         label: "Produits",
         help: "Inscrivez les produits séparés par des virgules",
-        placeholder: "Produits principaux (p. ex. varenyky, bortsch)...",
+        placeholder: "Produits principaux (p. ex. chocolats Roshen, Kvas)...",
       },
       description: {
         label: "Bref aperçu de la boutique (facultatif)",

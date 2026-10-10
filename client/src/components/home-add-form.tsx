@@ -43,13 +43,13 @@ const optionalFormInputClassName =
 
 const PRODUCT_TAXONOMY = {
   "Sweets & snacks": ["Roshen chocolates", "Zefir", "Cookies & Wafers"],
-  "Food & Drinks": ["Varenyky / Pierogies", "Borscht / Cabbage rolls", "Salo / Kielbasa", "Kvas / Beverages"],
+  "Food & Drinks": ["Kvas / Beverages", "Imported Groceries"],
   "Apparel": ["Vyshyvanka (Embroidered shirt)", "Modern Ukrainian brands"],
   "Gifts & Other": ["Pysanky / Souvenirs", "Cosmetics & Skincare", "Books / Art"]
 };
 
 function deriveCategory(products: string[]): "food" | "clothes" | "retail" | "other" {
-  const foodKeywords = ["roshen", "zefir", "cookie", "wafer", "varenyky", "pierogi", "borscht", "cabbage", "salo", "kielbasa", "kvas", "beverage", "food", "snack", "drink", "sweet", "meat", "deli", "grocery", "cake", "chocolate", "bread", "cheese", "pancake"];
+  const foodKeywords = ["roshen", "zefir", "cookie", "wafer", "kvas", "beverage", "food", "snack", "drink", "sweet", "grocery", "chocolate", "imported"];
   const clothesKeywords = ["vyshyvanka", "shirt", "apparel", "clothing", "clothes", "brand"];
   const retailKeywords = ["pysanky", "motanka", "pottery", "souvenir", "cosmetic", "skincare", "makeup", "retail", "gift", "book", "art"];
 

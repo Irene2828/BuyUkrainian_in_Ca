@@ -7,21 +7,7 @@ import { nanoid } from "nanoid";
 import { createClient } from "@supabase/supabase-js";
 
 const seedData = [
-    {
-        name: 'Kozak Ukrainian Bakery',
-        description: 'Authentic Ukrainian breads, pastries, and comfort foods made from scratch.',
-        products: ['Borsch', 'Varenyky', 'Sourdough Bread', 'Coffee'],
-        address: '5077 Victoria Dr, Vancouver, BC V5P 3T9',
-        city: 'Vancouver',
-        province: 'British Columbia',
-        lat: 49.2333,
-        lng: -123.0667,
-        category: 'food',
-        status: 'approved',
-        is_open: true,
-        approved_at: new Date().toISOString(),
-        images: ['https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=800']
-    },
+
     {
         name: 'Yummy Market',
         description: 'European grocery store with a vast selection of Ukrainian imported goods.',
@@ -37,21 +23,7 @@ const seedData = [
         approved_at: new Date().toISOString(),
         images: ['https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=800']
     },
-    {
-        name: 'Future Bakery',
-        description: 'Family-owned bakery serving traditional Eastern European recipes since 1991.',
-        products: ['Rye Bread', 'Poppy Seed Roll', 'Cakes'],
-        address: '106 N Queen St, Etobicoke, ON M8Z 2E2',
-        city: 'Etobicoke',
-        province: 'Ontario',
-        lat: 43.6156,
-        lng: -79.5572,
-        category: 'food',
-        status: 'approved',
-        is_open: true,
-        approved_at: new Date().toISOString(),
-        images: ['https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=800']
-    },
+
     {
         name: 'Ukrainian Gift Shop',
         description: 'Traditional Ukrainian gifts, crafts, and cultural items.',
@@ -67,36 +39,6 @@ const seedData = [
         approved_at: new Date().toISOString(),
         images: ['https://images.unsplash.com/photo-1616687472097-47b744421689?auto=format&fit=crop&q=80&w=800']
     },
-    {
-        name: 'Shumka Ukrainian Foods',
-        description: 'Edmonton staple for perogies and cabbage rolls.',
-        products: ['Perogies', 'Cabbage Rolls', 'Nalysnyky'],
-        address: '16520 95 St, Edmonton, AB T5Z 3L2',
-        city: 'Edmonton',
-        province: 'Alberta',
-        lat: 53.6284,
-        lng: -113.4909,
-        category: 'food',
-        status: 'approved',
-        is_open: true,
-        approved_at: new Date().toISOString(),
-        images: ['https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&q=80&w=800']
-    },
-    {
-        name: 'Saskatoon Co-op',
-        description: 'Local cooperative featuring local Ukrainian producers.',
-        products: ['Sausage', 'Perogies', 'Local Crafts'],
-        address: '201 33rd St W, Saskatoon, SK S7L 0V1',
-        city: 'Saskatoon',
-        province: 'Saskatchewan',
-        lat: 52.1465,
-        lng: -106.6735,
-        category: 'food',
-        status: 'approved',
-        is_open: true,
-        approved_at: new Date().toISOString(),
-        images: ['https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80&w=800']
-    }
 ];
 
 async function seedDatabase() {

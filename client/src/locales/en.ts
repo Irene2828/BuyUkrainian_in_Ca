@@ -415,7 +415,7 @@ const en = {
       products: {
         label: "Products",
         help: "Type products found in a store separated by commas",
-        placeholder: "List main items (e.g. Varenyky, Borscht)...",
+        placeholder: "List main items (e.g. Roshen chocolates, Kvas)...",
       },
       description: {
         label: "Brief store info (optional)",

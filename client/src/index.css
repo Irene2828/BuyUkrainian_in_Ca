@@ -1389,7 +1389,7 @@ html.dark .city-labels-layer {
   }
 
   p.hero-description-copy {
-    font-size: 18px !important; /* was 19px → -1px */
+    font-size: 16px !important;
   }
 
   p.add-store-cta-heading {
@@ -1421,7 +1421,13 @@ html.dark .city-labels-layer {
   }
 
   .hero-canopy-safe-content {
-    margin-top: 5vh !important;
+    margin-top: 3.5vh !important;
+  }
+
+  .how-it-works-image-panel {
+    justify-content: center !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
   }
 
   span.map-hover-tooltip-text {
@@ -1632,6 +1638,30 @@ html.dark .city-labels-layer {
   .hero-desktop-frame {
     height: clamp(590px, min(calc(100svh - 73px), 53vw), 760px);
     min-height: 590px;
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1669.98px) {
+  .hero-desktop-frame {
+    height: calc(100vh - 73px) !important;
+    min-height: calc(100vh - 73px) !important;
+    max-height: calc(100vh - 73px) !important;
+  }
+
+  .hero-split-copy-content h1,
+  .hero-canopy-safe-content h1 {
+    font-size: clamp(2.31rem, 3.99vw, 3.36rem) !important;
+  }
+
+  .hero-split-copy-content .hero-subline-text,
+  .hero-canopy-safe-content .hero-subline-text {
+    font-size: clamp(1.50rem, 2.54vw, 2.08rem) !important;
+  }
+
+  .hero-split-copy-content .hero-flag-icon,
+  .hero-canopy-safe-content .hero-flag-icon {
+    width: 32px !important;
+    height: 32px !important;
   }
 }
 
