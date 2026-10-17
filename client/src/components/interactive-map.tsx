@@ -32,7 +32,7 @@ const CLUSTER_TIGHT_SPAN = 0.08;
 const UNRESOLVED_CANADA_CENTER = { lat: 56.1304, lng: -106.3468 };
 const UNRESOLVED_COORD_TOLERANCE = 0.05;
 const MAP_TOOLTIP_CONTENT_CLASSNAME = "border-0 bg-white/60 px-4 py-2 text-[12px] font-medium tracking-wide text-[#0A2540] shadow-[0_8px_32px_rgba(10,37,64,0.08)] backdrop-blur-md";
-const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
+const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "AIzaSyC8D4WwN6azpsJ0hZwIesl0okOemOKzNUA").trim();
 
 const PROVINCE_LABELS = [
   { name: "BC", lat: 53.7, lng: -125.0, top: "58%", left: "10%" },

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
 
-const googleMapsApiKey = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "").trim();
+const googleMapsApiKey = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "AIzaSyC8D4WwN6azpsJ0hZwIesl0okOemOKzNUA").trim();
 
 export function GoogleMapsProvider({ children }: { children: ReactNode }) {
   return (

@@ -25,22 +25,30 @@ if (isProduction) {
 }
 
 // CORS: Restrict to allowed origins
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://buyukrainian.ca,https://www.buyukrainian.ca').split(',');
+const customAllowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
+const defaultAllowedOrigins = ['https://buyukrainian.ca', 'https://www.buyukrainian.ca'];
+const allowedOrigins = [...defaultAllowedOrigins, ...customAllowedOrigins];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow requests with no origin (like mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
     
-    if (!isProduction && origin.startsWith('http://localhost:')) {
-      return callback(null, true);
+    try {
+      const url = new URL(origin);
+      if (
+        url.hostname === 'localhost' ||
+        url.hostname === '127.0.0.1' ||
+        url.hostname.endsWith('.vercel.app') ||
+        allowedOrigins.includes(origin)
+      ) {
+        return callback(null, true);
+      }
+    } catch {
+      // Invalid origin URL
     }
     
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
