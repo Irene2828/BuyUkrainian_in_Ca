@@ -176,12 +176,12 @@ export function Hero() {
                             </span>
                         </h1>
 
-                        <div className="mt-2.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.82rem,8.5vw,2.41rem)] font-thin not-italic leading-tight tracking-[-0.03em] text-white [@media(max-height:700px)]:text-[1.71rem]">
-                            <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
+                        <div className="mt-2 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.77vw,2.47rem)] font-light not-italic leading-tight tracking-[-0.03em] text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.84rem]" style={{ color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                            <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                         </div>
                         </div>
-                        <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85">
-                            Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
+                        <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+                            Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                         </p>
                         {/* Decorative Accent Line */}
                         <div className="flex items-center gap-2 mt-4 md:mt-4 mb-6 md:mb-2">
@@ -623,12 +623,12 @@ function HeroVariantB({
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-1 flex items-center justify-start gap-2.5 w-full text-[clamp(2.0rem,9.35vw,2.65rem)] min-[1600px]:text-[2.78rem] font-thin not-italic leading-tight text-white [@media(max-height:700px)]:text-[1.88rem]" style={{ letterSpacing: '-0.01em' }}>
-                                        <span className="whitespace-nowrap">{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
+                                    <div className="mt-0.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.88vw,2.52rem)] font-light not-italic leading-tight text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.89rem]" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                                        <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </div>
-                                <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85">
-                                    Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
+                                <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+                                    Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                                 </p>
 
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
