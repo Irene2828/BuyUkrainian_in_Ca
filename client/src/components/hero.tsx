@@ -12,8 +12,7 @@ import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import type { Store } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
-import flagsDecoration from "@assets/0008.png";
-import mapsDecoration from "@/assets/maps.png";
+import mapsDecoration from "@/assets/maps-clean.png";
 import canadaRoundFlag from "@/assets/canada-round-flag.png";
 import { StoreCard } from "@/components/store-card";
 import { LocationPermissionModal } from "@/components/location-permission-modal";
@@ -180,14 +179,21 @@ export function Hero() {
                             <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                         </div>
                         </div>
-                        <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+
+                        {/* Canada & Ukraine Route Map Silhouette */}
+                        <div className="mt-4 mb-3 flex items-center justify-start self-start" aria-hidden="true">
+                            <img 
+                                src={mapsDecoration} 
+                                alt="Route connecting Ukraine and Canada" 
+                                className="h-[34px] min-[375px]:h-[40px] w-auto max-w-[210px] min-[375px]:max-w-[245px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] select-none pointer-events-none" 
+                            />
+                        </div>
+
+                        <p className="mt-2 w-full max-w-full text-left text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                         </p>
-                        {/* Decorative Accent Line */}
-                        <div className="flex items-center gap-2 mt-4 md:mt-4 mb-6 md:mb-2">
-                            <div className="h-[2px] w-12 bg-[#FFD700]" />
-                            <div className="h-[2px] w-3 bg-[#FFD700]/50" />
-                        </div>
+
+
 
                         <div className="mt-8 mb-4 flex flex-col gap-3 w-full [@media(max-height:700px)]:mt-6" style={{ transform: 'translateY(0px)' }}>
                             <Link href="/map" className="pointer-events-auto w-full">
@@ -276,20 +282,31 @@ export function Hero() {
                                 </h1>
 
                                 {/* Description Wrapper */}
-                                <div className="flex w-full flex-col items-start self-start mt-8 md:mt-10 mb-4 md:mb-6 gap-2.5 max-w-[700px] lg:max-w-[750px] relative">
+                                <div className="flex w-full flex-col items-start self-start mt-6 md:mt-7 lg:mt-8 mb-4 md:mb-6 gap-2.5 max-w-[700px] lg:max-w-[750px] relative">
                                     <div className="w-full flex flex-col items-start">
+                                        {/* Canada & Ukraine Route Map Silhouette */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 12 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.65, delay: 0.15, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            className="mb-4 lg:mb-5 flex items-center justify-start self-start"
+                                            aria-hidden="true"
+                                        >
+                                            <img 
+                                                src={mapsDecoration} 
+                                                alt="Route connecting Ukraine and Canada" 
+                                                className="h-[44px] md:h-[48px] lg:h-[54px] min-[1670px]:h-[60px] w-auto max-w-[280px] lg:max-w-[320px] min-[1670px]:max-w-[360px] object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.22)] select-none pointer-events-none" 
+                                            />
+                                        </motion.div>
+
                                         <motion.p 
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                            transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
                                             className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/85"
                                         >
                                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
                                         </motion.p>
-
-
-
-
                                     </div>
                                 </div>
                             </motion.div>
@@ -627,7 +644,17 @@ function HeroVariantB({
                                         <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </div>
-                                <p className="mt-8 md:mt-4 w-full max-w-full text-left text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+
+                                {/* Canada & Ukraine Route Map Silhouette */}
+                                <div className="mt-4 mb-3 flex items-center justify-start self-start" aria-hidden="true">
+                                    <img 
+                                        src={mapsDecoration} 
+                                        alt="Route connecting Ukraine and Canada" 
+                                        className="h-[34px] min-[375px]:h-[40px] w-auto max-w-[210px] min-[375px]:max-w-[245px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] select-none pointer-events-none" 
+                                    />
+                                </div>
+
+                                <p className="mt-2 w-full max-w-full text-left text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                                 </p>
 
@@ -699,27 +726,32 @@ function HeroVariantB({
                                     </div>
                                 </motion.div>
 
+                                {/* Canada & Ukraine Route Map Silhouette */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.65, delay: 0.15, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                    className="mt-5 lg:mt-6 mb-1 flex items-center justify-start self-start"
+                                    aria-hidden="true"
+                                >
+                                    <img 
+                                        src={mapsDecoration} 
+                                        alt="Route connecting Ukraine and Canada" 
+                                        className="h-[40px] md:h-[46px] lg:h-[50px] w-auto max-w-[260px] lg:max-w-[300px] object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.22)] select-none pointer-events-none" 
+                                    />
+                                </motion.div>
+
                                 {/* Description */}
                                 <motion.p
                                     initial={{ opacity: 0, y: 16 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.65, delay: 0.1, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="hero-description-copy mt-[20px] text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
+                                    transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                    className="hero-description-copy mt-3 text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
                                 >
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
                                 </motion.p>
 
-                                {/* Decor Lines */}
-                                <motion.div 
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.7, delay: 0.3, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="flex flex-col gap-1.5 pointer-events-none w-full items-end mt-8 -mb-2 pr-2" 
-                                    aria-hidden="true"
-                                >
-                                    <div className="h-[1px] w-[96px] bg-[#FFD700]" />
-                                    <div className="h-[1px] w-[36px] bg-[#FFD700]" />
-                                </motion.div>
+
 
 
                                 {/* Search & Filters */}
