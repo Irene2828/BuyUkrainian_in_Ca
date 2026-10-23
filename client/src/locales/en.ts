@@ -161,6 +161,7 @@ const en = {
     learnHow: "how it works",
     addedRecently: "ADDED RECENTLY",
     tapToExplore: "Tap to explore the map",
+    tapToSeeAllLocations: "Tap to see all locations",
     mapPreviewAria: "Interactive map of Ukrainian stores in Canada",
     trustPillars: {
       economy: {

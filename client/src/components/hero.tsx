@@ -30,6 +30,73 @@ type TrustPillar = {
     dotClass: string;
 };
 
+function MobileHomeMapPreview({
+    stores,
+    shouldRenderHeroMap,
+    translateY = "-4%",
+}: {
+    stores: Store[];
+    shouldRenderHeroMap: boolean;
+    translateY?: string;
+}) {
+    const { t } = useI18n();
+
+    return (
+        <Link
+            href="/map"
+            className="group/mobile-map pointer-events-auto relative block h-[31.5svh] min-h-[210px] max-h-[292.5px] w-full overflow-hidden border-y border-slate-200 bg-white [@media(max-height:700px)]:h-[195px] [@media(max-height:700px)]:min-h-[180px]"
+            aria-label="Explore the interactive map"
+        >
+            {shouldRenderHeroMap && stores.length > 0 ? (
+                <GoogleMapsProvider>
+                    <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
+                        <div
+                            className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%]"
+                            style={{ transform: `scale(1.28) translate(6%, ${translateY})` }}
+                        >
+                            <InteractiveMap
+                                stores={stores}
+                                selectedStore={null}
+                                onSelectStore={noopSelectStore}
+                                onCloseStore={noop}
+                                variant="hero"
+                                isMobile={true}
+                            />
+                        </div>
+                    </Suspense>
+                </GoogleMapsProvider>
+            ) : (
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />
+            )}
+
+            {/* Frosty Top Gradient Overlay */}
+            <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-[38%] bg-gradient-to-b from-white via-white/70 via-white/20 to-transparent backdrop-blur-[3px] z-10"
+                style={{
+                    WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0) 100%)",
+                    maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0) 100%)"
+                }}
+            />
+
+            {/* Frosty Bottom Gradient Overlay */}
+            <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-white via-white/70 via-white/20 to-transparent backdrop-blur-[3px] z-10"
+                style={{
+                    WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0) 100%)",
+                    maskImage: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0) 100%)"
+                }}
+            />
+
+            {/* Center Frosted-Glass Pill Label */}
+            <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center p-4">
+                <div className="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-white/85 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.10)] border border-white/70 text-[13.5px] font-semibold text-slate-800 tracking-wide transition-transform duration-300 group-hover/mobile-map:scale-105">
+                    <span className="whitespace-nowrap">{t('hero.tapToSeeAllLocations') || 'Tap to see all locations'}</span>
+                </div>
+            </div>
+        </Link>
+    );
+}
+
 const getHeroVariantFromUrl = (): HeroVariant => {
     if (typeof window === "undefined") return "b";
 
@@ -213,31 +280,11 @@ export function Hero() {
                     </motion.div>
                 </div>
 
-                <Link
-                    href="/map"
-                    className="group/mobile-map pointer-events-auto relative block h-[42svh] min-h-[280px] max-h-[390px] w-full overflow-hidden border-y border-slate-200 bg-white [@media(max-height:700px)]:h-[260px] [@media(max-height:700px)]:min-h-[240px]"
-                    aria-label="Explore the interactive map"
-                >
-                    {shouldRenderHeroMap && stores.length > 0 ? (
-                        <GoogleMapsProvider>
-                            <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
-                                <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-4%]">
-                                    <InteractiveMap
-                                        stores={stores}
-                                        selectedStore={null}
-                                        onSelectStore={noopSelectStore}
-                                        onCloseStore={noop}
-                                        variant="hero"
-                                        isMobile={true}
-                                    />
-                                </div>
-                                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18)_0%,transparent_34%,rgba(255,255,255,0.1)_100%)]" />
-                            </Suspense>
-                        </GoogleMapsProvider>
-                    ) : (
-                        <div className="absolute inset-0 bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />
-                    )}
-                </Link>
+                <MobileHomeMapPreview
+                    stores={stores}
+                    shouldRenderHeroMap={shouldRenderHeroMap}
+                    translateY="-4%"
+                />
             </div>
             <div className="hidden md:block absolute inset-x-0 top-0 bottom-0 bg-[#0057B7] bg-[radial-gradient(110%_110%_at_35%_0%,rgba(45,145,245,0.85)_0%,rgba(0,87,183,1)_50%,rgba(0,55,125,1)_100%)] z-[25]" />
             <div className="hero-desktop-copy-layer boutique-width hidden md:flex w-full items-center relative z-30 h-full pointer-events-none">
@@ -675,30 +722,11 @@ function HeroVariantB({
                                 </div>
                             </motion.div>
                         </div>
-                        <Link
-                            href="/map"
-                            className="group/mobile-map pointer-events-auto relative block h-[42svh] min-h-[280px] max-h-[390px] w-full overflow-hidden border-y border-slate-200 bg-white [@media(max-height:700px)]:h-[260px] [@media(max-height:700px)]:min-h-[240px]"
-                            aria-label="Explore the interactive map"
-                        >
-                            {shouldRenderHeroMap && stores.length > 0 ? (
-                                <GoogleMapsProvider>
-                                    <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
-                                        <div className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%] translate-y-[-8%]">
-                                            <InteractiveMap
-                                                stores={stores}
-                                                selectedStore={null}
-                                                onSelectStore={noopSelectStore}
-                                                onCloseStore={noop}
-                                                variant="hero"
-                                                isMobile={true}
-                                            />
-                                        </div>
-                                    </Suspense>
-                                </GoogleMapsProvider>
-                            ) : (
-                                <div className="absolute inset-0 bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />
-                            )}
-                        </Link>
+                        <MobileHomeMapPreview
+                            stores={stores}
+                            shouldRenderHeroMap={shouldRenderHeroMap}
+                            translateY="-8%"
+                        />
                     </div>
 
                     {/* ==================== DESKTOP VIEW: Two-Column Split Layout ==================== */}
