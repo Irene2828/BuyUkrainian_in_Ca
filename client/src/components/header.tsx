@@ -74,11 +74,19 @@ export function Header() {
           : "bg-white/90 border-b border-slate-200/70"
       )}
     >
-      <div className="w-full h-[73px] relative z-10 px-8 lg:px-10">
+      <div className="w-full h-[73px] relative z-10 px-5 md:px-8 lg:px-10">
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
         <div className="flex-1 flex items-center justify-start gap-1.5">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
+          </button>
+
           <Link href="/" className="flex items-center group mr-2">
             <img 
               src={flagsLogo} 
@@ -115,10 +123,6 @@ export function Header() {
                   className={HEADER_NAV_LINK_CLASSNAME}
                 >
                   {t('nav.faq') || 'FAQ'}
-                </Link>
-                <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                  <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
-                  <span>{t('nav.map') || 'Stores map'}</span>
                 </Link>
               </nav>
           </div>
@@ -164,11 +168,16 @@ export function Header() {
             )}
 
             <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
+              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
+                <span>{t('nav.map') || 'Stores map'}</span>
+              </Link>
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
               <LanguageSwitcher />
             </div>
         </div>
-        {/* Mobile: Map Button + Language Switcher + Hamburger */}
+
+        {/* Mobile: Map Button + Language Switcher */}
         <div className="flex md:hidden items-center gap-1.5">
           {location === '/map' ? (
             <button
@@ -184,14 +193,6 @@ export function Header() {
               <span className="text-[14px] font-normal">{t('nav.map') || 'Stores map'}</span>
             </Link>
           )}
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-1 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6 fill-none stroke-current" strokeWidth={2} /> : <Menu className="w-6 h-6 fill-none stroke-current" strokeWidth={2} />}
-          </button>
 
           <LanguageSwitcher className="-mr-0.5" />
         </div>
