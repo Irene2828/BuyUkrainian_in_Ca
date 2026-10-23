@@ -189,7 +189,7 @@ export function Hero() {
                             />
                         </div>
 
-                        <p className="mt-2 w-full max-w-[90%] md:max-w-full text-left text-[clamp(14.4px,3.24vw,17.1px)] md:text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+                        <p className="mt-2 w-full max-w-full text-left text-[clamp(14.4px,3.24vw,17.1px)] md:text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                         </p>
 
@@ -654,7 +654,7 @@ function HeroVariantB({
                                     />
                                 </div>
 
-                                <p className="mt-2 w-full max-w-[90%] md:max-w-full text-left text-[clamp(16.2px,3.24vw,18.9px)] md:text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+                                <p className="mt-2 w-full max-w-full text-left text-[clamp(16.2px,3.24vw,18.9px)] md:text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                                 </p>
 
