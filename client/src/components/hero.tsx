@@ -164,7 +164,7 @@ export function Hero() {
 
                         <div className="w-fit flex flex-col">
                         <h1
-                            className="relative z-10 max-w-full text-[clamp(34px,10vw,3.33rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                            className="relative z-10 max-w-full text-[clamp(34px,11vw,3.33rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                              style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                         >
                             <span className="block text-white font-normal not-italic tracking-[-0.05em] whitespace-nowrap">
@@ -185,7 +185,7 @@ export function Hero() {
                             <img 
                                 src={mapsDecoration} 
                                 alt="Route connecting Ukraine and Canada" 
-                                className="h-[34px] min-[375px]:h-[40px] w-auto max-w-[210px] min-[375px]:max-w-[245px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] select-none pointer-events-none" 
+                                className="h-[37px] min-[375px]:h-[44px] w-auto max-w-[231px] min-[375px]:max-w-[270px] md:h-[34px] md:min-[375px]:h-[40px] md:max-w-[210px] md:min-[375px]:max-w-[245px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] select-none pointer-events-none"
                             />
                         </div>
 
@@ -630,7 +630,7 @@ function HeroVariantB({
                                 <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
                                 <div className="w-fit flex flex-col">
                                     <h1
-                                        className="relative z-10 max-w-full text-[clamp(34px,10vw,3.33rem)] min-[1600px]:text-[3.5rem] font-medium not-italic leading-[0.97] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                                        className="relative z-10 max-w-full text-[clamp(34px,11vw,3.33rem)] min-[1600px]:text-[3.5rem] font-medium not-italic leading-[0.97] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.04em' }}
                                     >
                                         <span className="block text-white font-medium not-italic whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.04em' }}>
@@ -650,7 +650,7 @@ function HeroVariantB({
                                     <img 
                                         src={mapsDecoration} 
                                         alt="Route connecting Ukraine and Canada" 
-                                        className="h-[34px] min-[375px]:h-[40px] w-auto max-w-[210px] min-[375px]:max-w-[245px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] select-none pointer-events-none" 
+                                        className="h-[37px] min-[375px]:h-[44px] w-auto max-w-[231px] min-[375px]:max-w-[270px] md:h-[34px] md:min-[375px]:h-[40px] md:max-w-[210px] md:min-[375px]:max-w-[245px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)] select-none pointer-events-none"
                                     />
                                 </div>
 
