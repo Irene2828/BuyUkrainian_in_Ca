@@ -51,8 +51,8 @@ function MobileHomeMapPreview({
                 <GoogleMapsProvider>
                     <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
                         <div
-                            className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%]"
-                            style={{ transform: `scale(1.28) translate(6%, ${translateY})` }}
+                            className="pointer-events-none absolute inset-0 scale-[1.28] -translate-x-[6%]"
+                            style={{ transform: `scale(1.28) translate(-6%, ${translateY})` }}
                         >
                             <InteractiveMap
                                 stores={stores}
@@ -69,11 +69,11 @@ function MobileHomeMapPreview({
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />
             )}
 
-            {/* Center Frosted-Glass Pill Label */}
-            <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center p-4">
-                <div className="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-white/85 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.10)] border border-white/70 text-[13.5px] font-semibold text-slate-800 tracking-wide transition-transform duration-300 group-hover/mobile-map:scale-105">
-                    <span className="whitespace-nowrap">{t('hero.tapToSeeAllLocations') || 'Tap to see all locations'}</span>
-                </div>
+            {/* Plain text label anchored at bottom-center */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-[10px] z-20 flex items-center justify-center">
+                <span className="text-[13px] font-semibold text-slate-700 whitespace-nowrap">
+                    {t('hero.tapToSeeAllLocations') || 'Tap to see all locations'}
+                </span>
             </div>
         </Link>
     );
