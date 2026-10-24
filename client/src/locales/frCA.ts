@@ -158,6 +158,7 @@ const frCA = {
     ctaSecondary: "Comment ça fonctionne",
     addedRecently: "AJOUTÉ RÉCEMMENT",
     tapToExplore: "Appuyez pour explorer la carte",
+    tapToSeeAllLocations: "Touchez pour voir tous les emplacements",
     mapPreviewAria: "Carte interactive des boutiques ukrainiennes au Canada",
     trustPillars: {
       economy: {

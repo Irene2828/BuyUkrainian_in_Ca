@@ -213,5 +213,6 @@
     "hero.description": "Інтерактивна мапа для пошуку та підтримки українського бізнесу.",
     "hero.ctaPrimary": "Дослідити мапу",
     "hero.ctaSecondary": "Як це працює",
+    "hero.tapToSeeAllLocations": "Натисніть, щоб побачити всі локації",
     "ticker.label": "ДОДАНО ЦЬОГО МІСЯЦЯ"
 }

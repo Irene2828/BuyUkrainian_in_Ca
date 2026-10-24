@@ -159,6 +159,7 @@ const uk = {
     learnHow: "як це працює",
     addedRecently: "ЩОЙНО ДОДАНО",
     tapToExplore: "Натисніть, щоб відкрити мапу",
+    tapToSeeAllLocations: "Натисніть, щоб побачити всі локації",
     mapPreviewAria: "Інтерактивна мапа українських магазинів у Канаді",
     trustPillars: {
       economy: {
