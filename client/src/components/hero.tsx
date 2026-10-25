@@ -201,7 +201,7 @@ export function Hero() {
             className="hero-desktop-frame flex-none relative z-10 w-full max-w-none mx-auto overflow-hidden font-sans flex items-stretch pt-0 mt-0"
         >
             <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
-                <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-[51.2px] pb-3 text-white [@media(max-height:700px)]:pt-8 [@media(max-height:700px)]:pb-3">
+                <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-[51.2px] pb-[25px] text-white [@media(max-height:700px)]:pt-8 [@media(max-height:700px)]:pb-[25px]">
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                     <motion.div 
                         className="relative z-10"
@@ -648,7 +648,7 @@ function HeroVariantB({
 
                     {/* ==================== MOBILE VIEW ==================== */}
                     <div className="md:hidden relative w-full overflow-hidden bg-white font-sans">
-                        <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-[51.2px] pb-3 text-white [@media(max-height:700px)]:pt-8 [@media(max-height:700px)]:pb-3">
+                        <div className="relative overflow-hidden bg-[#0057B7] bg-[radial-gradient(120%_120%_at_50%_0%,rgba(45,145,245,0.95)_0%,rgba(0,87,183,1)_45%,rgba(0,55,125,1)_100%)] px-5 pt-[51.2px] pb-[25px] text-white [@media(max-height:700px)]:pt-8 [@media(max-height:700px)]:pb-[25px]">
                             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
                             <motion.div
                                 className="relative z-10"
