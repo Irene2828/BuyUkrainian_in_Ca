@@ -32,10 +32,15 @@ export function HowItWorks() {
           {/* White Photo Frame - Centered on mobile, shifted 50% left on desktop */}
           <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative translate-x-0 md:-translate-x-12 min-[1670px]:translate-x-0 overflow-hidden">
             <div className="relative w-full h-full flex items-center justify-center">
-                <img 
-                  src="/about_img_2.jpg" 
-                  alt="Find Ukrainian products" 
-                  className="how-it-works-img w-full h-full object-contain mix-blend-multiply scale-[1.55]"
+                <video 
+                  src="/promo_white_bottom_right.mp4" 
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  aria-label="Find Ukrainian products"
+                  className="how-it-works-video w-full h-full object-cover object-bottom rounded-none"
                 />
             </div>
           </div>
@@ -55,7 +60,7 @@ export function HowItWorks() {
               
               {/* Content */}
               <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
-                <h3 className="how-it-works-h3 text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.015em]">
+                <h3 className="how-it-works-h3 text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.035em] md:tracking-[0.015em]">
                   {step.title}
                 </h3>
                 <p className="how-it-works-p text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">

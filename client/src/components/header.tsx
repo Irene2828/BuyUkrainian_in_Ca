@@ -78,7 +78,7 @@ export function Header() {
         <div className="flex h-full items-center justify-between">
 
         {/* Left: Logo & Branding */}
-        <div className="flex-1 flex items-center justify-start gap-1.5">
+        <div className="flex-1 flex items-center justify-start gap-0.5 sm:gap-1.5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="no-invert-hover md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-slate-500 hover:text-slate-600"
@@ -91,7 +91,7 @@ export function Header() {
             <img 
               src={flagsLogo} 
               alt="BuyUkrainian.ca" 
-              className="h-[63.8px] min-[1024px]:h-[70.7px] min-[1670px]:h-[75.6px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
+              className="h-[34px] min-[1024px]:h-[38px] min-[1670px]:h-[41px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
 
