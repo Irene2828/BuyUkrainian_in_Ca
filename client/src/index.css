@@ -1666,11 +1666,22 @@ html.dark .city-labels-layer {
 }
 
 /* How-it-works video frame: align horizontally with the hero blue panel content.
-   Hero panel = min(38vw, 540px) wide starting at x=0, so its center is min(19vw, 270px). */
+   Hero panel = min(38vw, 540px) wide starting at x=0, so its right edge is min(38vw, 540px) and center is min(19vw, 270px). */
 @media (min-width: 768px) {
+  #how-it-works {
+    background: linear-gradient(to right, #FFD700 0%, #FFD700 min(38vw, 540px), #0057B7 min(38vw, 540px), #0057B7 100%) !important;
+  }
+
+  .how-it-works-rail {
+    max-width: none !important;
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+  }
+
   .how-it-works-image-panel {
-    --hiw-rail-offset: 0px;
-    justify-content: flex-start !important;
+    width: min(38vw, 540px) !important;
+    max-width: 540px !important;
+    justify-content: center !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
@@ -1680,55 +1691,19 @@ html.dark .city-labels-layer {
     max-width: none !important;
     flex: none;
     transform: none !important;
-    margin-left: calc(min(19vw, 270px) - var(--hiw-rail-offset) - min(192px, 17vw)) !important;
-  }
-}
-
-@media (min-width: 1440px) {
-  .how-it-works-image-panel {
-    --hiw-rail-offset: calc(max(0px, (100vw - var(--boutique-max-width, 1640px)) / 2) + 2.5rem);
-  }
-}
-
-@media (min-width: 1440px) {
-  :root {
-    --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2));
-    --hero-content-inset: calc(var(--hero-content-gutter) + 1.25rem);
-  }
-
-  .hero-desktop-frame .content-width {
-    padding-inline: clamp(0.75rem, 2.5vw, 2rem) !important;
-  }
-
-  .hero-desktop-frame {
-    height: clamp(650px, calc(100svh - 73px), 1080px);
-    min-height: 650px;
-  }
-
-
-  .map-explorer-frame {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin-inline: 0 !important;
-  }
-
-  .how-it-works-rail {
-    max-width: var(--boutique-max-width, 1640px);
-    margin-inline: auto;
-    padding-inline: 2.5rem;
-  }
-
-  .how-it-works-image-panel {
-    justify-content: flex-start;
-    padding-left: 2.5rem;
-    padding-right: 0;
+    margin: 0 auto !important;
   }
 
   .how-it-works-copy-panel {
-    align-items: flex-start;
-    padding-left: clamp(2rem, 3vw, 4rem);
+    flex: 1 1 0% !important;
+    width: auto !important;
+    align-items: flex-start !important;
+    padding-left: clamp(2rem, 5vw, 5rem) !important;
+    padding-right: clamp(2rem, 5vw, 5rem) !important;
   }
+}
 
+@media (min-width: 1440px) {
   .hero-desktop-frame .hero-canopy-safe-content {
     max-width: min(48%, 780px) !important;
   }
@@ -1774,7 +1749,7 @@ html.dark .city-labels-layer {
 
 /* Google Places Autocomplete inside Radix dialogs */
 .pac-container {
-  z-index: 2200 !important;
+  z-index: 100000 !important;
   pointer-events: auto !important;
 }
 

@@ -10,7 +10,7 @@ import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
 import mapleLeafIcon from "@/assets/maple_leaf.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { type Store, STORE_CATEGORIES } from "@/lib/data";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, getTranslatedProvinceName } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import mapsDecoration from "@/assets/maps-clean.png";
 import canadaRoundFlag from "@/assets/canada-round-flag.png";
@@ -240,7 +240,14 @@ export function Hero() {
                         </div>
 
                         <p className="mt-6 w-full max-w-full text-left text-[clamp(14.4px,3.24vw,17.1px)] md:text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/92 [text-wrap:pretty]">
-                            Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
+                            {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
+                            {t('hero.descriptionParts.sep1') || ", "}
+                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
+                            {t('hero.descriptionParts.and') || ", and "}
+                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                            {t('hero.descriptionParts.products') || "products"} <br className="hidden md:block" />
+                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
                         </p>
 
 
@@ -335,7 +342,14 @@ export function Hero() {
                                             transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
                                             className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/92"
                                         >
-                                            Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
+                                            {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
+                                            {t('hero.descriptionParts.sep1') || ", "}
+                                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
+                                            {t('hero.descriptionParts.and') || ", and "}
+                                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                                            {t('hero.descriptionParts.products') || "products"}<br />{" "}
+                                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
                                         </motion.p>
                                     </div>
                                 </div>
@@ -696,7 +710,14 @@ function HeroVariantB({
                                 </div>
 
                                 <p className="mt-6 w-full max-w-full text-left text-[clamp(16.2px,3.24vw,18.9px)] md:text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/92 [text-wrap:pretty]">
-                                    Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
+                                    {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
+                                    {t('hero.descriptionParts.sep1') || ", "}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
+                                    {t('hero.descriptionParts.and') || ", and "}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                                    {t('hero.descriptionParts.products') || "products"} <br className="hidden md:block" />
+                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
                                 </p>
 
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
@@ -711,7 +732,7 @@ function HeroVariantB({
                                         className="pointer-events-auto inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/15 text-[14px] min-[1600px]:text-[15px] font-normal tracking-normal text-white shadow-sm transition-all duration-300 hover:bg-white/25 active:scale-[0.98] outline-none font-sans cursor-pointer"
                                     >
                                         <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
-                                        <span>Add a new store</span>
+                                        <span>{t('nav.addStore') || 'Add a new store'}</span>
                                     </button>
                                 </div>
                             </motion.div>
@@ -770,7 +791,14 @@ function HeroVariantB({
                                     transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
                                     className="hero-description-copy mt-3 text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/92"
                                 >
-                                    Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
+                                    {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
+                                    {t('hero.descriptionParts.sep1') || ", "}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
+                                    {t('hero.descriptionParts.and') || ", and "}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                                    {t('hero.descriptionParts.products') || "products"}<br />{" "}
+                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
                                 </motion.p>
 
 
@@ -783,7 +811,7 @@ function HeroVariantB({
                                         <Search className="w-4 h-4 text-white/60 mr-3 shrink-0" />
                                         <input
                                             type="text"
-                                            placeholder="Search product or town"
+                                            placeholder={t('hero.filters.searchPlaceholder') || "Search product or town"}
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             className="w-full bg-transparent border-none outline-none text-[14.2px] min-[1600px]:text-[15px] font-medium text-white placeholder:text-white/50 transition-colors duration-200"
@@ -802,7 +830,7 @@ function HeroVariantB({
                                                 }}
                                                 className="w-full h-[42px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13.1px] min-[1600px]:text-[14px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
-                                                <span className="truncate pr-2">{selectedProvince || "Province"}</span>
+                                                <span className="truncate pr-2">{selectedProvince ? getTranslatedProvinceName(selectedProvince, t) : (t('hero.filters.province') || "Province")}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isProvinceDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isProvinceDropdownOpen && (
@@ -812,7 +840,7 @@ function HeroVariantB({
                                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
                                                         >
-                                                            All Provinces
+                                                            {t('hero.filters.allProvinces') || t('common.geography.allProvinces') || "All Provinces"}
                                                         </button>
                                                         {CANADIAN_PROVINCES.map((prov) => (
                                                             <button
@@ -823,7 +851,7 @@ function HeroVariantB({
                                                                     selectedProvince === prov ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-50"
                                                                 )}
                                                             >
-                                                                {prov}
+                                                                {getTranslatedProvinceName(prov, t)}
                                                             </button>
                                                         ))}
                                                     </div>
@@ -841,7 +869,7 @@ function HeroVariantB({
                                                 }}
                                                 className="w-full h-[42px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13.1px] min-[1600px]:text-[14px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
-                                                <span className="truncate pr-2">{allCategories.find(c => c.id === category)?.label || "Category"}</span>
+                                                <span className="truncate pr-2">{category ? (t(`home.categories.${category}`) || allCategories.find(c => c.id === category)?.label) : (t('hero.filters.category') || "Category")}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isCategoryDropdownOpen && (
@@ -851,7 +879,7 @@ function HeroVariantB({
                                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
                                                         >
-                                                            All Categories
+                                                            {t('hero.filters.allCategories') || t('home.categories.all') || "All Categories"}
                                                         </button>
                                                         {allCategories.map((cat) => (
                                                             <button
@@ -862,7 +890,7 @@ function HeroVariantB({
                                                                     category === cat.id ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-50"
                                                                 )}
                                                             >
-                                                                {cat.label}
+                                                                {t(`home.categories.${cat.id}`) || cat.label}
                                                             </button>
                                                         ))}
                                                     </div>
@@ -876,13 +904,13 @@ function HeroVariantB({
                                                 type="button"
                                                 onClick={handleClearFilters}
                                                 className="h-[42px] px-1 bg-transparent border-0 shadow-none text-white/85 hover:text-[#FFD700] flex items-center justify-center gap-1.5 text-[12.5px] min-[1600px]:text-[13px] font-medium tracking-normal whitespace-nowrap transition-colors shrink-0 cursor-pointer outline-none group/clear-filters"
-                                                title="Clear all filters"
-                                                aria-label="Clear all filters"
+                                                title={t('hero.filters.clearFilters') || "Clear all filters"}
+                                                aria-label={t('hero.filters.clearFilters') || "Clear all filters"}
                                             >
                                                 <X className="w-3.5 h-3.5 opacity-75 group-hover/clear-filters:opacity-100 transition-opacity" />
                                                 <span className="underline decoration-white/40 group-hover/clear-filters:decoration-[#FFD700] underline-offset-4">
-                                                    <span className="hidden min-[1380px]:inline">Clear filters</span>
-                                                    <span className="min-[1380px]:hidden">Clear</span>
+                                                    <span className="hidden min-[1380px]:inline">{t('hero.filters.clearFilters') || "Clear filters"}</span>
+                                                    <span className="min-[1380px]:hidden">{t('hero.filters.clear') || "Clear"}</span>
                                                 </span>
                                             </button>
                                         )}
@@ -910,7 +938,12 @@ function HeroVariantB({
                                             <>
                                                 <Search className="mr-2 h-4 w-4 text-current transition-transform duration-300 group-hover/cta-btn:scale-110" strokeWidth={2.5} />
                                                 <span>
-                                                    {filteredStores.length === 0 ? "No stores match filters" : `View ${filteredStores.length} store${filteredStores.length === 1 ? '' : 's'}`}
+                                                    {filteredStores.length === 0
+                                                        ? (t('hero.filters.noStoresMatch') || "No stores match filters")
+                                                        : t('hero.filters.viewStores', {
+                                                            count: filteredStores.length,
+                                                            defaultValue: `View ${filteredStores.length} store${filteredStores.length === 1 ? '' : 's'}`
+                                                          })}
                                                 </span>
                                             </>
                                         ) : (
@@ -926,7 +959,7 @@ function HeroVariantB({
                                         className="pointer-events-auto inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-transparent bg-transparent text-[14px] hero-cta-secondary-text font-normal tracking-normal text-white transition-all duration-300 hover:bg-white/5 active:scale-[0.98] outline-none font-sans cursor-pointer"
                                     >
                                         <Plus className="h-4 w-4 text-current" strokeWidth={2.5} />
-                                        <span>Add a new store</span>
+                                        <span>{t('nav.addStore') || 'Add a new store'}</span>
                                     </button>
                                 </div>
                             </div>

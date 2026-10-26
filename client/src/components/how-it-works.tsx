@@ -2,8 +2,51 @@ import { Search, MapPin, Share2 } from 'lucide-react';
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
+import { useLocation } from "wouter";
+
 export function HowItWorks() {
   const { t } = useI18n();
+  const [, setLocation] = useLocation();
+
+  const handleExplore = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setLocation("/map");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("openAddStoreModal"));
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const shareEl = document.getElementById("share");
+    if (shareEl) {
+      shareEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const renderKeyword = (keyword: string, key: React.Key) => {
+    let onClick: ((e: React.MouseEvent) => void) | undefined;
+    if (keyword === "Explore") onClick = handleExplore;
+    else if (keyword === "Add") onClick = handleAdd;
+    else if (keyword === "Share") onClick = handleShare;
+
+    return (
+      <button
+        key={key}
+        type="button"
+        onClick={onClick}
+        className="inline font-inherit text-inherit underline decoration-[#FFD700] underline-offset-[3px] decoration-[1.5px] hover:text-[#FFD700] hover:decoration-white transition-colors cursor-pointer bg-transparent border-0 p-0 m-0 align-baseline"
+      >
+        {keyword}
+      </button>
+    );
+  };
 
   const steps = [
     {
@@ -66,7 +109,7 @@ export function HowItWorks() {
                 <p className="how-it-works-p text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">
                   {typeof step.text === 'string' 
                     ? step.text.split(/\b(Explore|Add|Share)\b/g).map((part, i) => 
-                        /^(Explore|Add|Share)$/.test(part) ? <u key={i} className="underline decoration-[#FFD700] underline-offset-[3px] decoration-[1.5px]">{part}</u> : part
+                        /^(Explore|Add|Share)$/.test(part) ? renderKeyword(part, i) : part
                       )
                     : step.text}
                 </p>
