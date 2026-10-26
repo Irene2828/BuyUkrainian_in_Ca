@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
 import mapleLeafIcon from "@/assets/maple_leaf.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
-import type { Store } from "@/lib/data";
+import { type Store, STORE_CATEGORIES } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import mapsDecoration from "@/assets/maps-clean.png";
@@ -597,12 +597,7 @@ function HeroVariantB({
         "AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"
     ];
 
-    const allCategories = Array.from(
-        new Set(stores.flatMap((s) => s.products || []))
-    ).map((product) => ({
-        id: product.toLowerCase().replace(/\s+/g, "-"),
-        label: product,
-    }));
+    const allCategories = STORE_CATEGORIES;
 
     const filteredStores = stores.filter((store) => {
         const matchesSearch =
@@ -612,7 +607,8 @@ function HeroVariantB({
             (store.products || []).some((p) => p.toLowerCase().includes(searchQuery.toLowerCase()));
         const matchesProvince = !selectedProvince || store.province === selectedProvince;
         const matchesCategory = !category ||
-            (store.products || []).some(p => p.toLowerCase().replace(/\s+/g, "-") === category);
+            store.category === category ||
+            (store.products || []).some(p => p.toLowerCase().includes(category) || p.toLowerCase().replace(/\s+/g, "-") === category);
         return matchesSearch && matchesProvince && matchesCategory;
     });
 

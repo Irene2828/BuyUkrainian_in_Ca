@@ -14,7 +14,7 @@ import { Link } from "wouter";
 import { MapSection } from "@/components/map-section";
 import { InteractiveMapRef } from "@/components/interactive-map";
 import { StoreCard } from "@/components/store-card";
-import { Store } from "@/lib/data";
+import { Store, STORE_CATEGORIES } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { HomeAddForm } from "@/components/home-add-form";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
@@ -294,18 +294,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
     const provincesFiltered = ["All Provinces", ...CANADIAN_PROVINCES].filter(p => p.toLowerCase().includes(provinceSearchQuery.toLowerCase()));
 
-    const allCategories = [
-        { id: "food", label: "Food", icon: UtensilsCrossed },
-        { id: "clothes", label: "Clothes", icon: ShoppingBag },
-        { id: "gifts", label: "Gifts", icon: Gift },
-        { id: "toys", label: "Toys", icon: ToyBrick },
-        { id: "grocery", label: "Grocery", icon: StoreIcon },
-        { id: "books", label: "Books", icon: BookOpen },
-        { id: "souvenirs", label: "Souvenirs", icon: Bookmark },
-        { id: "beauty", label: "Beauty", icon: Sparkles },
-        { id: "retail", label: "Retail", icon: StoreIcon },
-        { id: "other", label: "Other", icon: StoreIcon },
-    ];
+    const allCategories = STORE_CATEGORIES;
 
     return (
         <div className="w-full bg-white flex flex-col transition-[height] duration-300 ease-in-out font-sans">
@@ -329,10 +318,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
 
                     {/* NEW: Unified Blue Gradient Panel (Left Side) */}
                     {!isZenMode && (viewMode === "map" || viewMode === "list") && (
-                        <div className={cn(
-                            "w-full md:w-[420px] min-[1440px]:w-[440px] min-[1670px]:w-[480px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl pl-0",
-                            viewMode === "list" && "hidden md:flex"
-                        )}>
+                        <div className="w-full md:w-[420px] min-[1440px]:w-[440px] min-[1670px]:w-[480px] bg-[#0057B7] bg-[linear-gradient(135deg,rgba(255,255,255,0.16)_0%,rgba(0,87,183,0.96)_42%,rgba(0,87,183,1)_100%)] backdrop-blur-xl flex flex-col z-[500] shrink-0 border-r border-[#0057B7]/60 pointer-events-auto h-auto md:h-full shadow-2xl pl-0">
                             
                             {/* Inner Content Box */}
                             <div className="w-full flex flex-col flex-1 h-full px-4.5">
@@ -475,7 +461,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                     )}
 
                     {/* Main Content Stage (Map or List) */}
-                    <div className={cn("map-column-wrapper flex-1 relative z-0 h-full overflow-hidden", viewMode === "list" && "overflow-y-auto custom-scrollbar")}>
+                    <div className={cn("map-column-wrapper flex-1 min-h-0 relative z-0 h-full overflow-hidden", viewMode === "list" && "overflow-y-auto custom-scrollbar")}>
                         {/* Map/List View Toggle (Floating on Map) */}
                         <div className="absolute top-[28px] left-4 md:left-6 z-[1000] pointer-events-auto">
                             <div className="flex items-center h-[42px] bg-white border border-slate-300 p-1 rounded-none shadow-xl w-[212px]">

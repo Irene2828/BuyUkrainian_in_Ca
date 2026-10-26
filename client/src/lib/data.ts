@@ -38,5 +38,22 @@ export const getPlaceholderImage = (index: number): string => {
   return PLACEHOLDER_IMAGES[index % PLACEHOLDER_IMAGES.length];
 };
 
-// Mock data removed as we are now connecting to Supabase
 export const INITIAL_STORES: Store[] = [];
+
+export interface StoreCategory {
+  id: string;
+  label: string;
+}
+
+export const STORE_CATEGORIES: StoreCategory[] = [
+  { id: "food", label: "Food" },
+  { id: "clothes", label: "Clothes" },
+  { id: "gifts", label: "Gifts" },
+  { id: "toys", label: "Toys" },
+  { id: "grocery", label: "Grocery" },
+  { id: "books", label: "Books" },
+  { id: "souvenirs", label: "Souvenirs" },
+  { id: "beauty", label: "Beauty" },
+  { id: "retail", label: "Retail" },
+  { id: "other", label: "Other" },
+];

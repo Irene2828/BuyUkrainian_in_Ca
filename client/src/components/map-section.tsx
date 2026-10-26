@@ -235,7 +235,7 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         .join(" ");
 
       const matchesSearch = !normalizedQuery || searchableText.includes(normalizedQuery);
-      const matchesCategory = !category || store.category === category;
+      const matchesCategory = !category || store.category === category || (store.products || []).some(p => p.toLowerCase().includes(category) || p.toLowerCase().replace(/\s+/g, "-") === category);
       const matchesProvince = !selectedProvince || storeProvinceFull.toLowerCase().trim() === selectedProvince.toLowerCase().trim();
       const matchesCity = !selectedCity || store.city === selectedCity;
 
