@@ -16,6 +16,7 @@ import mapsDecoration from "@/assets/maps-clean.png";
 import canadaRoundFlag from "@/assets/canada-round-flag.png";
 import { StoreCard } from "@/components/store-card";
 import { LocationPermissionModal } from "@/components/location-permission-modal";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -238,7 +239,7 @@ export function Hero() {
                             />
                         </div>
 
-                        <p className="mt-6 w-full max-w-full text-left text-[clamp(14.4px,3.24vw,17.1px)] md:text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+                        <p className="mt-6 w-full max-w-full text-left text-[clamp(14.4px,3.24vw,17.1px)] md:text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/92 [text-wrap:pretty]">
                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                         </p>
 
@@ -332,7 +333,7 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/85"
+                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/92"
                                         >
                                             Interactive map to <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">find</strong>, <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">add</strong>, and <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
                                         </motion.p>
@@ -540,6 +541,21 @@ function HeroVariantB({
         return () => window.removeEventListener('locateMe', handleLocateMe);
     }, []);
 
+    const handleSelectStoreFromList = (store: Store) => {
+        const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768;
+        if (isMobileViewport) {
+            setLocation(`/map?store=${encodeURIComponent(String(store.id))}`);
+        } else {
+            setViewMode("map");
+            setSelectedHeroStore(store);
+            setTimeout(() => {
+                if (mapRef.current) {
+                    mapRef.current.focusOnStore(store);
+                }
+            }, 120);
+        }
+    };
+
     const handleLocationPermissionGranted = () => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
@@ -679,7 +695,7 @@ function HeroVariantB({
                                     />
                                 </div>
 
-                                <p className="mt-6 w-full max-w-full text-left text-[clamp(16.2px,3.24vw,18.9px)] md:text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/85 [text-wrap:pretty]">
+                                <p className="mt-6 w-full max-w-full text-left text-[clamp(16.2px,3.24vw,18.9px)] md:text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/92 [text-wrap:pretty]">
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products <br className="hidden md:block" /><span className="italic">made in Ukraine and sold locally.</span>
                                 </p>
 
@@ -752,7 +768,7 @@ function HeroVariantB({
                                     initial={{ opacity: 0, y: 16 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="hero-description-copy mt-3 text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/80"
+                                    className="hero-description-copy mt-3 text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/92"
                                 >
                                     Interactive map to <strong className="font-bold text-white">find</strong>, <strong className="font-bold text-white">add</strong>, and <strong className="font-bold text-white">share</strong> products<br /> <span className="italic">made in Ukraine and sold locally.</span>
                                 </motion.p>
@@ -1003,7 +1019,7 @@ function HeroVariantB({
                                                 <div
                                                     key={store.id}
                                                     className="p-4 bg-white rounded-none transition-all duration-300 cursor-pointer flex flex-col justify-between"
-                                                    onClick={() => setLocation(`/map?store=${encodeURIComponent(String(store.id))}`)}
+                                                    onClick={() => handleSelectStoreFromList(store)}
                                                 >
                                                     <div className="flex flex-col justify-center">
                                                         <div className="flex flex-col items-start gap-1 group/title">
@@ -1029,51 +1045,104 @@ function HeroVariantB({
                                                         )}
                                                     </div>
 
-                                                    {/* Action Icons Row */}
+                                                    {/* Action Icons Row with On-Brand Tooltips */}
                                                     <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-100">
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                navigator.clipboard.writeText(store.address);
-                                                                toast({ title: "Address Copied", description: "Store address copied to clipboard." });
-                                                            }}
-                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
-                                                            title="Copy Address"
-                                                        >
-                                                            <Copy size={14} />
-                                                        </button>
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank');
-                                                            }}
-                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
-                                                            title="Get Directions"
-                                                        >
-                                                            <CornerUpRight size={14} />
-                                                        </button>
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(String(store.id))}`;
-                                                                navigator.clipboard.writeText(shareUrl);
-                                                                toast({ title: "Link Copied", description: "Store link copied to clipboard." });
-                                                            }}
-                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
-                                                            title="Share Store"
-                                                        >
-                                                            <Share2 size={14} />
-                                                        </button>
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setLocation(`/map?store=${encodeURIComponent(String(store.id))}`);
-                                                            }}
-                                                            className="text-slate-400 hover:text-[#0057B7] transition-colors p-1"
-                                                            title="View on Map"
-                                                        >
-                                                            <MapPin size={14} />
-                                                        </button>
+                                                        <TooltipProvider delayDuration={120}>
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <button 
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            navigator.clipboard.writeText(store.address);
+                                                                            toast({ title: "Address Copied", description: "Store address copied to clipboard." });
+                                                                        }}
+                                                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1 outline-none"
+                                                                        aria-label="Copy address"
+                                                                    >
+                                                                        <Copy size={14} />
+                                                                    </button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent 
+                                                                    side="top" 
+                                                                    sideOffset={6}
+                                                                    className="border border-slate-200/90 bg-white/95 px-2.5 py-1 text-[11px] font-medium text-slate-800 shadow-[0_4px_16px_rgba(0,35,85,0.12)] backdrop-blur-md rounded-md"
+                                                                >
+                                                                    Copy address
+                                                                </TooltipContent>
+                                                            </Tooltip>
+
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <button 
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.address)}`, '_blank');
+                                                                        }}
+                                                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1 outline-none"
+                                                                        aria-label="Get directions"
+                                                                    >
+                                                                        <CornerUpRight size={14} />
+                                                                    </button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent 
+                                                                    side="top" 
+                                                                    sideOffset={6}
+                                                                    className="border border-slate-200/90 bg-white/95 px-2.5 py-1 text-[11px] font-medium text-slate-800 shadow-[0_4px_16px_rgba(0,35,85,0.12)] backdrop-blur-md rounded-md"
+                                                                >
+                                                                    Get directions
+                                                                </TooltipContent>
+                                                            </Tooltip>
+
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <button 
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            const shareUrl = `${window.location.origin}/map?store=${encodeURIComponent(String(store.id))}`;
+                                                                            navigator.clipboard.writeText(shareUrl);
+                                                                            toast({ title: "Link Copied", description: "Store link copied to clipboard." });
+                                                                        }}
+                                                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1 outline-none"
+                                                                        aria-label="Share with others"
+                                                                    >
+                                                                        <Share2 size={14} />
+                                                                    </button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent 
+                                                                    side="top" 
+                                                                    sideOffset={6}
+                                                                    className="border border-slate-200/90 bg-white/95 px-2.5 py-1 text-[11px] font-medium text-slate-800 shadow-[0_4px_16px_rgba(0,35,85,0.12)] backdrop-blur-md rounded-md"
+                                                                >
+                                                                    Share with others
+                                                                </TooltipContent>
+                                                            </Tooltip>
+
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <button 
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            handleSelectStoreFromList(store);
+                                                                        }}
+                                                                        className="text-slate-400 hover:text-[#0057B7] transition-colors p-1 outline-none"
+                                                                        aria-label="Zoom on map"
+                                                                    >
+                                                                        <MapPin size={14} />
+                                                                    </button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent 
+                                                                    side="top" 
+                                                                    sideOffset={6}
+                                                                    className="border border-slate-200/90 bg-white/95 px-2.5 py-1 text-[11px] font-medium text-slate-800 shadow-[0_4px_16px_rgba(0,35,85,0.12)] backdrop-blur-md rounded-md"
+                                                                >
+                                                                    Zoom on map
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </TooltipProvider>
                                                     </div>
                                                 </div>
                                             ))}

@@ -6,6 +6,7 @@ import { Store } from '@/lib/data';
 import { Plus, Minus, Maximize2, Navigation, Info, RefreshCw, MapPin } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoreCard } from '@/components/store-card';
+import { AnchoredStoreCard } from '@/components/anchored-store-card';
 import { getBrandedMapPinSize, getBrandedMapPinSvg, type BrandedMapPinVariant } from '@/lib/branded-map-pin';
 import { cn } from '@/lib/utils';
 
@@ -606,7 +607,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
         onCameraChanged={handleCameraChange}
         onClick={() => {
            if ((window as any).__isMarkerClick) return;
-           if (variant !== 'hero' || variant === 'hero-b') {
+           if (variant !== 'hero') {
              setHoveredLabel(null);
              onCloseStore();
            }
@@ -647,7 +648,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
 
 
-      {(variant !== "hero" || variant === "hero-b") && (
+      {variant !== "hero" && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
             <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[14px] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
@@ -713,19 +714,25 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
               </TooltipProvider>
             </div>
 
-            {variant === "hero-b" && selectedStore && (
-              <div className="absolute top-28 left-4 z-[800] w-[340px] max-w-[calc(100%-2rem)] pointer-events-auto">
-                <StoreCard
-                  store={selectedStore}
-                  onClose={onCloseStore}
-                  variant="map"
-                />
-              </div>
-            )}
-
-
           </div>
         </div>
+      )}
+
+      {/* Anchored Store Card next to selected pin on desktop */}
+      {!isMobile && selectedStore && (
+        <AnchoredStoreCard
+          store={selectedStore}
+          map={mapRef}
+          onClose={onCloseStore}
+          userLocation={userLocation}
+          onZoom={(store) => {
+            if (mapRef && store.coordinates) {
+              const currentZoom = typeof mapRef.getZoom === 'function' ? mapRef.getZoom() || 14 : 14;
+              mapRef.setZoom(Math.min(currentZoom + 2, 17));
+              mapRef.panTo({ lat: store.coordinates[0], lng: store.coordinates[1] });
+            }
+          }}
+        />
       )}
 
       {/* Premium Frosted Tooltip */}
