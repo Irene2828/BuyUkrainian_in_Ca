@@ -1,4 +1,4 @@
-import { Search, Info, ChevronDown, Plus, List, Map as MapIcon, Copy, CornerUpRight, Share2, MapPin, ArrowRight } from "lucide-react";
+import { Search, Info, ChevronDown, Plus, List, Map as MapIcon, Copy, CornerUpRight, Share2, MapPin, ArrowRight, X } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
@@ -857,25 +857,30 @@ function HeroVariantB({
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
 
-                                    {/* Clear Filters Link */}
-                                    {isFilterActive && (
-                                        <div className="flex justify-center mt-4 w-full">
+                                        {/* Clear Filters Link next to fields on the right */}
+                                        {isFilterActive && (
                                             <button 
+                                                type="button"
                                                 onClick={handleClearFilters}
-                                                className="text-[13px] font-medium text-white/80 hover:text-[#FFD700] transition-colors underline decoration-white/40 hover:decoration-[#FFD700] underline-offset-4 cursor-pointer"
+                                                className="h-[42px] px-1 bg-transparent border-0 shadow-none text-white/85 hover:text-[#FFD700] flex items-center justify-center gap-1.5 text-[12.5px] min-[1600px]:text-[13px] font-medium tracking-normal whitespace-nowrap transition-colors shrink-0 cursor-pointer outline-none group/clear-filters"
+                                                title="Clear all filters"
+                                                aria-label="Clear all filters"
                                             >
-                                                Clear all filters
+                                                <X className="w-3.5 h-3.5 opacity-75 group-hover/clear-filters:opacity-100 transition-opacity" />
+                                                <span className="underline decoration-white/40 group-hover/clear-filters:decoration-[#FFD700] underline-offset-4">
+                                                    <span className="hidden min-[1380px]:inline">Clear filters</span>
+                                                    <span className="min-[1380px]:hidden">Clear</span>
+                                                </span>
                                             </button>
-                                        </div>
-                                    )}
+                                        )}
+                                    </div>
                                 </div>
 
 
 
-                                {/* Action Buttons */}
-                                <div className={cn("w-full flex flex-col gap-1", isFilterActive ? "mt-3" : "mt-6")}>
+                                {/* Action Buttons - Stable margin so buttons never jump */}
+                                <div className="w-full flex flex-col gap-1 mt-6">
                                     <button
                                         onClick={() => {
                                             if (isFilterActive) {
@@ -1001,7 +1006,7 @@ function HeroVariantB({
                                             {filteredStores.map((store) => (
                                                 <div
                                                     key={store.id}
-                                                    className="p-4 bg-white rounded-none hover:bg-slate-50 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                                                    className="p-4 bg-white rounded-none transition-all duration-300 cursor-pointer flex flex-col justify-between"
                                                     onClick={() => setLocation(`/map?store=${encodeURIComponent(String(store.id))}`)}
                                                 >
                                                     <div className="flex flex-col justify-center">
