@@ -216,15 +216,15 @@ export function Hero() {
                             className="relative z-10 max-w-full text-[clamp(34px,11vw,3.33rem)] font-normal not-italic leading-[1.08] tracking-[-0.05em] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                              style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                         >
-                            <span className="block text-white font-normal not-italic tracking-[-0.05em] whitespace-nowrap">
+                            <span className="block text-white font-normal not-italic tracking-[-0.05em] whitespace-nowrap opacity-100" style={{ color: '#ffffff', opacity: 1 }}>
                                 {t("hero.headline.discover") || "Discover"}
                             </span>
-                            <span className="block text-[#FFD700] font-normal not-italic tracking-[-0.05em] pr-1 whitespace-nowrap">
+                            <span className="block text-[#FFD700] font-normal not-italic tracking-[-0.05em] pr-1 whitespace-nowrap opacity-100" style={{ color: '#FFD700', opacity: 1 }}>
                                 {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                             </span>
                         </h1>
 
-                        <div className="mt-2 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.77vw,2.47rem)] font-light not-italic leading-tight tracking-[-0.03em] text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.84rem]" style={{ color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                        <div className="mt-2 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.77vw,2.47rem)] font-normal not-italic leading-tight tracking-[-0.03em] text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.84rem]" style={{ color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
                             <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                         </div>
                         </div>
@@ -295,16 +295,16 @@ export function Hero() {
                                     className="relative z-10 w-fit max-w-[calc(100vw-2.5rem)] md:max-w-none antialiased mb-0 text-white font-normal text-left flex flex-col gap-1 md:gap-1.5"
                                     style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}
                                 >
-                                    <span className="hero-headline-line block w-full text-left font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.553rem] tracking-[-0.05em] leading-none whitespace-nowrap">
+                                    <span className="hero-headline-line block w-full text-left font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.553rem] tracking-[-0.05em] leading-none whitespace-nowrap opacity-100" style={{ color: '#ffffff', opacity: 1 }}>
                                         <span className="text-white font-normal not-italic tracking-[-0.05em]">{t('hero.headline.discover') || "Discover"}</span>
                                     </span>
                                     <div className="md:ml-0 flex w-full justify-start overflow-visible">
-                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.394rem] tracking-[-0.05em] leading-none whitespace-nowrap text-[#FFD700] pr-2">
+                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.394rem] tracking-[-0.05em] leading-none whitespace-nowrap text-[#FFD700] pr-2 opacity-100" style={{ color: '#FFD700', opacity: 1 }}>
                                             {t('hero.headline.ukrainian') || "Ukrainian"} {t('hero.headline.products') || "Products"}
                                         </span>
                                     </div>
                                      <div className="w-full flex items-center justify-start gap-4 mt-0.5 md:mt-0 lg:mt-0.5">
-                                        <span className="hero-subline-text relative z-10 flex items-center justify-start font-sans text-[clamp(1.68rem,5.6vw,2.10rem)] md:text-[1.85rem] lg:text-[2.40rem] font-thin not-italic tracking-[-0.03em] leading-none normal-case text-white text-left whitespace-nowrap">
+                                        <span className="hero-subline-text relative z-10 flex items-center justify-start font-sans text-[clamp(1.68rem,5.6vw,2.10rem)] md:text-[1.85rem] lg:text-[2.40rem] font-normal not-italic tracking-[-0.03em] leading-none normal-case text-white text-[#ffffff] text-left whitespace-nowrap opacity-100" style={{ color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
                                             <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal pl-2 pr-2">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                         </span>
                                     </div>
@@ -662,14 +662,14 @@ function HeroVariantB({
                                         className="relative z-10 max-w-full text-[clamp(34px,11vw,3.33rem)] min-[1600px]:text-[3.5rem] font-medium not-italic leading-[0.97] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.04em' }}
                                     >
-                                        <span className="block text-white font-medium not-italic whitespace-nowrap" style={{ fontWeight: 480, letterSpacing: '-0.04em' }}>
+                                        <span className="block text-white font-medium not-italic whitespace-nowrap opacity-100" style={{ fontWeight: 480, letterSpacing: '-0.04em', color: '#ffffff', opacity: 1 }}>
                                             {t("hero.headline.discover") || "Discover"}
                                         </span>
-                                        <span className="block text-[#FFD700] font-medium not-italic pr-1 whitespace-nowrap text-[0.93em]" style={{ fontWeight: 480, letterSpacing: '-0.04em' }}>
+                                        <span className="block text-[#FFD700] font-medium not-italic pr-1 whitespace-nowrap text-[0.93em] opacity-100" style={{ fontWeight: 480, letterSpacing: '-0.04em', color: '#FFD700', opacity: 1 }}>
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-0.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.88vw,2.52rem)] font-light not-italic leading-tight text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.89rem]" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                                    <div className="mt-0.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.88vw,2.52rem)] font-normal not-italic leading-tight text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.89rem]" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
                                         <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </div>
@@ -719,20 +719,20 @@ function HeroVariantB({
                             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
 
                             {/* Main Content */}
-                            <div className="hero-split-copy-content relative z-10 flex flex-col flex-1 px-8 lg:px-10 pb-8 justify-center top-[5%] min-[1440px]:top-[7%] min-[1670px]:top-[9%]">
+                            <div className="hero-split-copy-content relative z-10 flex flex-col flex-1 px-8 lg:px-10 pb-[72px] justify-center top-[5%] min-[1440px]:top-[7%] min-[1670px]:top-[9%]">
                                 {/* Headline */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
+                                    className="pt-[18px]"
                                 >
                                     <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.045em' }}>
-                                        <span className="block text-white" style={{ letterSpacing: '-0.045em' }}>{t('hero.headline.discover') || 'Discover'}</span>
-                                        <span className="block text-[#FFD700] text-[0.93em]" style={{ letterSpacing: '-0.045em' }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
+                                        <span className="block text-white opacity-100" style={{ letterSpacing: '-0.045em', color: '#ffffff', opacity: 1 }}>{t('hero.headline.discover') || 'Discover'}</span>
+                                        <span className="block text-[#FFD700] text-[0.93em] opacity-100" style={{ letterSpacing: '-0.045em', color: '#FFD700', opacity: 1 }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="hero-subline-text mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-light leading-[1.15] text-white" style={{ letterSpacing: '-0.01em' }}>
-                                        <span>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
-
+                                    <div className="hero-subline-text mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-normal leading-[1.15] text-white text-[#ffffff] opacity-100" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                                        <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </motion.div>
 
@@ -765,7 +765,7 @@ function HeroVariantB({
 
 
                                 {/* Search & Filters */}
-                                <div className="mt-9 flex flex-col gap-3 w-full">
+                                <div className="mt-[18px] flex flex-col gap-3 w-full">
                                     {/* Search Input */}
                                     <div className="flex items-center bg-white/10 border border-white/25 px-4 h-[44px] focus-within:bg-white/20 focus-within:border-white/40 transition-colors">
                                         <Search className="w-4 h-4 text-white/60 mr-3 shrink-0" />

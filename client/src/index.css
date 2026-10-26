@@ -1665,6 +1665,31 @@ html.dark .city-labels-layer {
   }
 }
 
+/* How-it-works video frame: align horizontally with the hero blue panel content.
+   Hero panel = min(38vw, 540px) wide starting at x=0, so its center is min(19vw, 270px). */
+@media (min-width: 768px) {
+  .how-it-works-image-panel {
+    --hiw-rail-offset: 0px;
+    justify-content: flex-start !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .how-it-works-frame {
+    width: min(384px, 34vw) !important;
+    max-width: none !important;
+    flex: none;
+    transform: none !important;
+    margin-left: calc(min(19vw, 270px) - var(--hiw-rail-offset) - min(192px, 17vw)) !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .how-it-works-image-panel {
+    --hiw-rail-offset: calc(max(0px, (100vw - var(--boutique-max-width, 1640px)) / 2) + 2.5rem);
+  }
+}
+
 @media (min-width: 1440px) {
   :root {
     --hero-content-gutter: max(0px, calc((100vw - var(--boutique-max-width, 1540px)) / 2));

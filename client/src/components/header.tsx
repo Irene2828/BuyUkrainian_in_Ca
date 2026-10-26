@@ -170,7 +170,7 @@ export function Header() {
             <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
               <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
                 <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
-                <span>{t('nav.map') || 'Stores map'}</span>
+                <span>{t('nav.mapShort') || 'Map'}</span>
               </Link>
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
               <LanguageSwitcher />

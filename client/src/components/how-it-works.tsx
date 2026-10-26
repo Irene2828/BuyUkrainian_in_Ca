@@ -29,8 +29,8 @@ export function HowItWorks() {
         
         {/* Left Column: Yellow Block (Image) - 38% width */}
         <div className="how-it-works-image-panel w-full md:w-[38%] shrink-0 bg-[#FFD700] px-4 py-10 md:px-6 md:py-12 flex items-center justify-center min-h-[450px] md:min-h-[550px]">
-          {/* White Photo Frame - Centered on mobile, shifted 50% left on desktop */}
-          <div className="bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative translate-x-0 md:-translate-x-12 min-[1670px]:translate-x-0 overflow-hidden">
+          {/* White Photo Frame - Centered on mobile; on desktop centered on the hero's blue copy panel (see .how-it-works-frame) */}
+          <div className="how-it-works-frame bg-white w-full max-w-xs sm:max-w-sm aspect-square p-6 md:p-8 shadow-sm border border-slate-100/50 flex items-center justify-center relative overflow-hidden">
             <div className="relative w-full h-full flex items-center justify-center">
                 <video 
                   src="/promo_white_bottom_right.mp4" 
