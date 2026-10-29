@@ -212,8 +212,19 @@ export async function registerRoutes(
       // I will redirect to the main handler or copy the essential parts.
 
       // Duplicate Check
-      const existingStores = await storage.getAllStores();
-      if (checkDuplicateSubmission(storeData, existingStores)) {
+      let existingStores: Array<{ name: string; address: string; latitude: string; longitude: string }> = [];
+      try {
+        existingStores = await storage.getAllStores();
+      } catch (err) {
+        console.warn("⚠️ [API] Failed to fetch all stores for duplicate check, falling back to approved stores:", err);
+        try {
+          existingStores = await storage.getApprovedStoresLean();
+        } catch (fallbackErr) {
+          console.warn("⚠️ [API] Fallback getApprovedStoresLean also failed for duplicate check:", fallbackErr);
+        }
+      }
+
+      if (existingStores.length > 0 && checkDuplicateSubmission(storeData, existingStores)) {
         return res.status(409).json({ error: "This store has already been submitted and is awaiting review." });
       }
 
