@@ -3,8 +3,10 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { MapPin, Heart, Users, Globe, Flag, ShoppingBag } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export default function AboutPage() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-background flex flex-col pt-[100px]">
       <Header />
@@ -22,10 +24,14 @@ export default function AboutPage() {
                 <span className="text-blue-accent">Ukrainian</span>{" "}
                 <span className="text-yellow-accent">Products</span>
               </h1>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-center">
-                BuyUkrainian.ca is an independent, grassroots initiative aimed to<br className="hidden sm:inline" />{" "}
-                support Ukraine’s economy by making it easier to find products<br className="hidden sm:inline" />{" "}
-                from Ukraine in Canadian stores.
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-center [text-wrap:balance]">
+                {t("aboutPage.intro") || (
+                  <>
+                    BuyUkrainian.ca is an independent, grassroots initiative aimed to<br className="hidden sm:inline" />{" "}
+                    support Ukraine’s economy by making it easier to find products<br className="hidden sm:inline" />{" "}
+                    from Ukraine in Canadian stores.
+                  </>
+                )}
               </p>
             </div>
 

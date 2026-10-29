@@ -3,6 +3,8 @@ const frCA = {
     buyUkrainian: "Acheter Ukrainien",
     inCanada: "au Canada",
     volunteerInitiative: "Initiative bénévole pour soutenir l'économie ukrainienne",
+    initiativeLine1: "initiative pour soutenir",
+    initiativeLine2: "l'économie ukrainienne",
   },
   common: {
     siteName: "BuyUkrainian.ca",
@@ -154,8 +156,8 @@ const frCA = {
       add: "ajouter",
       and: " et ",
       share: "partager",
-      products: "des produits",
-      madeInUkraineAndSoldLocally: "fabriqués en Ukraine et vendus localement.",
+      products: "des produits fabriqués en Ukraine et vendus localement.",
+      madeInUkraineAndSoldLocally: "",
     },
     filters: {
       searchPlaceholder: "Rechercher un produit ou une ville",

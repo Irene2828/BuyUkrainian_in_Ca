@@ -100,8 +100,8 @@ export function Header() {
 
           {/* Caption Next to Logo */}
           <div className="hidden md:flex flex-col text-[12px] lg:text-[13px] header-initiative-text leading-tight font-medium text-slate-500 whitespace-nowrap pl-0.5">
-            <span>initiative to support</span>
-            <span>Ukraine's economy</span>
+            <span>{t('siteHeader.initiativeLine1') || 'initiative to support'}</span>
+            <span>{t('siteHeader.initiativeLine2') || "Ukraine's economy"}</span>
           </div>
         </div>
 
@@ -134,7 +134,7 @@ export function Header() {
               <div className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
                 <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
                   <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                    <span>Project's mission</span>
+                    <span>{t('nav.mission') || "Project's mission"}</span>
                   </Link>
                   <Link
                     href="/#faq"
@@ -146,7 +146,7 @@ export function Header() {
                     }}
                     className={HEADER_NAV_LINK_CLASSNAME}
                   >
-                    FAQ
+                    {t('nav.faq') || 'FAQ'}
                   </Link>
                 </nav>
                 <button
@@ -154,7 +154,7 @@ export function Header() {
                   className="group inline-flex items-center gap-1.5 text-[0.9rem] md:text-[0.9rem] lg:text-[15px] xl:text-[15px] min-[1600px]:text-[19px] font-medium text-slate-500 hover:text-[#0057B7] hover:underline hover:decoration-[#0057B7] hover:decoration-1 hover:underline-offset-4 transition-all duration-200 cursor-pointer outline-none whitespace-nowrap bg-transparent p-0"
                 >
                   <Plus className="h-4 w-4 stroke-[2.5] text-slate-500 group-hover:text-[#0057B7] transition-colors duration-200" />
-                  <span>Add a store</span>
+                  <span>{t('nav.addStore') || 'Add a store'}</span>
                 </button>
               </div>
             ) : (
@@ -167,11 +167,7 @@ export function Header() {
               </button>
             )}
 
-            <div className="flex items-center gap-3 -ml-2 lg:-ml-3">
-              <Link href="/map" className={cn("flex items-center gap-1.5", HEADER_NAV_LINK_CLASSNAME, location === '/map' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
-                <MapPin className="w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] stroke-[2.5]" />
-                <span>{t('nav.mapShort') || 'Map'}</span>
-              </Link>
+            <div className="flex items-center gap-3">
               <div className="hidden md:block w-[1.5px] h-[22px] bg-slate-300 origin-center" />
               <LanguageSwitcher />
             </div>

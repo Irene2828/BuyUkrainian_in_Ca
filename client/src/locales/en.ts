@@ -3,6 +3,8 @@ const en = {
     buyUkrainian: "Buy Ukrainian",
     inCanada: "in Canada",
     volunteerInitiative: "Volunteer initiative to support Ukraine's economy",
+    initiativeLine1: "initiative to support",
+    initiativeLine2: "Ukraine's economy",
   },
   common: {
     siteName: "BuyUkrainian.ca",

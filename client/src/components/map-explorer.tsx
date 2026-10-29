@@ -473,7 +473,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         viewMode === "map" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
                                     )}
                                 >
-                                    <MapIcon className="w-4 h-4" /> Map
+                                    <MapIcon className="w-4 h-4" /> {t('mapExplorer.mapView') || "Map"}
                                 </button>
                                 <button
                                     onClick={() => setViewMode("list")}
@@ -482,7 +482,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         viewMode === "list" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
                                     )}
                                 >
-                                    <List className="w-4 h-4" /> List
+                                    <List className="w-4 h-4" /> {t('mapExplorer.listView') || "List"}
                                 </button>
                             </div>
                         </div>

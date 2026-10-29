@@ -32,9 +32,9 @@ export function HowItWorks() {
 
   const renderKeyword = (keyword: string, key: React.Key) => {
     let onClick: ((e: React.MouseEvent) => void) | undefined;
-    if (keyword === "Explore") onClick = handleExplore;
-    else if (keyword === "Add") onClick = handleAdd;
-    else if (keyword === "Share") onClick = handleShare;
+    if (keyword === "Explore" || keyword === "Перегляньте" || keyword === "Parcourez") onClick = handleExplore;
+    else if (keyword === "Add" || keyword === "Додайте" || keyword === "Ajoutez") onClick = handleAdd;
+    else if (keyword === "Share" || keyword === "Поширте" || keyword === "Partagez") onClick = handleShare;
 
     return (
       <button
@@ -108,8 +108,8 @@ export function HowItWorks() {
                 </h3>
                 <p className="how-it-works-p text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">
                   {typeof step.text === 'string' 
-                    ? step.text.split(/\b(Explore|Add|Share)\b/g).map((part, i) => 
-                        /^(Explore|Add|Share)$/.test(part) ? renderKeyword(part, i) : part
+                    ? step.text.split(/(Explore|Add|Share|Перегляньте|Додайте|Поширте|Parcourez|Ajoutez|Partagez)/g).map((part, i) => 
+                        /^(Explore|Add|Share|Перегляньте|Додайте|Поширте|Parcourez|Ajoutez|Partagez)$/.test(part) ? renderKeyword(part, i) : part
                       )
                     : step.text}
                 </p>

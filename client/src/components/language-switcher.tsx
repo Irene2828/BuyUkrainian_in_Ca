@@ -10,7 +10,7 @@ import {
 
 const LANGUAGE_OPTIONS = [
   { code: "en", label: "English", short: "EN", flag: "🇨🇦" },
-  { code: "uk", label: "Українська", short: "UA", flag: "🇺🇦" },
+  { code: "uk", label: "Українська", short: "UKR", flag: "🇺🇦" },
   { code: "fr-CA", label: "Français", short: "FR", flag: "🇨🇦" },
 ] as const;
 

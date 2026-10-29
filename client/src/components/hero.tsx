@@ -246,8 +246,13 @@ export function Hero() {
                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
                             {t('hero.descriptionParts.and') || ", and "}
                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                            {t('hero.descriptionParts.products') || "products"} <br className="hidden md:block" />
-                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
+                            {t('hero.descriptionParts.products') || "products"}
+                            {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                <>
+                                    {" "}<br className="hidden md:block" />
+                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                </>
+                            ) : null}
                         </p>
 
 
@@ -340,7 +345,7 @@ export function Hero() {
                                             initial={{ opacity: 0, y: 16 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/92"
+                                            className="hero-description-copy relative z-10 mt-0 md:mt-0 w-full translate-y-0 text-left font-sans text-[clamp(17px,1.2vw,20.5px)] min-[1670px]:text-[21px] font-normal leading-[1.65] tracking-[0.015em] text-white/92 [text-wrap:pretty]"
                                         >
                                             {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
                                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
@@ -348,8 +353,13 @@ export function Hero() {
                                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
                                             {t('hero.descriptionParts.and') || ", and "}
                                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                                            {t('hero.descriptionParts.products') || "products"}<br />{" "}
-                                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
+                                            {t('hero.descriptionParts.products') || "products"}
+                                            {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                                <>
+                                                    <br />{" "}
+                                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                                </>
+                                            ) : null}
                                         </motion.p>
                                     </div>
                                 </div>
@@ -716,8 +726,13 @@ function HeroVariantB({
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
                                     {t('hero.descriptionParts.and') || ", and "}
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                                    {t('hero.descriptionParts.products') || "products"} <br className="hidden md:block" />
-                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
+                                    {t('hero.descriptionParts.products') || "products"}
+                                    {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                        <>
+                                            {" "}<br className="hidden md:block" />
+                                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                        </>
+                                    ) : null}
                                 </p>
 
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
@@ -752,13 +767,13 @@ function HeroVariantB({
                             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
 
                             {/* Main Content */}
-                            <div className="hero-split-copy-content relative z-10 flex flex-col flex-1 px-8 lg:px-10 pb-[72px] justify-center top-[5%] min-[1440px]:top-[7%] min-[1670px]:top-[9%]">
+                            <div className="hero-split-copy-content relative z-10 flex flex-col flex-1 px-8 lg:px-10 py-6 min-[1440px]:py-8 pb-7 min-[1440px]:pb-8 justify-center">
                                 {/* Headline */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="pt-[18px]"
+                                    className="pt-1"
                                 >
                                     <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.045em' }}>
                                         <span className="block text-white opacity-100" style={{ letterSpacing: '-0.045em', color: '#ffffff', opacity: 1 }}>{t('hero.headline.discover') || 'Discover'}</span>
@@ -789,7 +804,7 @@ function HeroVariantB({
                                     initial={{ opacity: 0, y: 16 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.65, delay: 0.25, ease: [0.215, 0.61, 0.355, 1.0] }}
-                                    className="hero-description-copy mt-3 text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/92"
+                                    className="hero-description-copy mt-3 text-[clamp(16px,1.05vw,18.5px)] min-[1670px]:text-[16px] font-normal leading-[1.65] tracking-[0.015em] text-white/92 [text-wrap:pretty]"
                                 >
                                     {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
@@ -797,8 +812,13 @@ function HeroVariantB({
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
                                     {t('hero.descriptionParts.and') || ", and "}
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                                    {t('hero.descriptionParts.products') || "products"}<br />{" "}
-                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally') || "made in Ukraine and sold locally."}</span>
+                                    {t('hero.descriptionParts.products') || "products"}
+                                    {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                        <>
+                                            <br />{" "}
+                                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                        </>
+                                    ) : null}
                                 </motion.p>
 
 
@@ -920,7 +940,7 @@ function HeroVariantB({
 
 
                                 {/* Action Buttons - Stable margin so buttons never jump */}
-                                <div className="w-full flex flex-col gap-1 mt-6">
+                                <div className="w-full flex flex-col gap-1 mt-5">
                                     <button
                                         onClick={() => {
                                             if (isFilterActive) {
@@ -979,7 +999,7 @@ function HeroVariantB({
                                             viewMode === "map" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
                                         )}
                                     >
-                                        <MapIcon className="w-4 h-4" /> Map
+                                        <MapIcon className="w-4 h-4" /> {t('mapExplorer.mapView') || "Map"}
                                     </button>
                                     <button
                                         onClick={() => setViewMode("list")}
@@ -988,7 +1008,7 @@ function HeroVariantB({
                                             viewMode === "list" ? "text-[#0057B7] font-semibold ring-1 ring-inset ring-[#0057B7]" : "text-slate-600 hover:text-[#0057B7] hover:bg-slate-50"
                                         )}
                                     >
-                                        <List className="w-4 h-4" /> List
+                                        <List className="w-4 h-4" /> {t('mapExplorer.listView') || "List"}
                                     </button>
                                 </div>
                             </div>
