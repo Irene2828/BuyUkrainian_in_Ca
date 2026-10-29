@@ -157,7 +157,7 @@ const uk = {
       and: " та ",
       share: "поширювати",
       products: "локації магазинів з\u00A0товарами #madeinUkraine з\u00A0іншими.",
-      madeInUkraineAndSoldLocally: "",
+      secondRow: "",
     },
     filters: {
       searchPlaceholder: "Пошук товару чи міста",

@@ -155,9 +155,11 @@ const en = {
       sep1: ", ",
       add: "add",
       and: ", and ",
+      andWord: "and",
+      breakBeforeAndShareOnMobile: "true",
       share: "share",
-      products: "products",
-      madeInUkraineAndSoldLocally: "made in Ukraine and sold locally.",
+      products: "local stores",
+      secondRow: "selling Ukrainian-made products.",
     },
     filters: {
       searchPlaceholder: "Search product or town",

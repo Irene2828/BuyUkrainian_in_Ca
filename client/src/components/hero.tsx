@@ -244,15 +244,19 @@ export function Hero() {
                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
                             {t('hero.descriptionParts.sep1') || ", "}
                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
-                            {t('hero.descriptionParts.and') || ", and "}
-                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                            {t('hero.descriptionParts.products') || "products"}
-                            {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                            {t('hero.descriptionParts.breakBeforeAndShareOnMobile') ? (
                                 <>
-                                    {" "}<br className="hidden md:block" />
-                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                    ,<br />
+                                    {t('hero.descriptionParts.andWord') || "and"}{" "}
                                 </>
-                            ) : null}
+                            ) : (
+                                <>
+                                    {t('hero.descriptionParts.and') || ", and "}
+                                </>
+                            )}
+                            <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                            {t('hero.descriptionParts.products') || "local stores"}{" "}
+                            {t('hero.descriptionParts.secondRow') || ""}
                         </p>
 
 
@@ -353,11 +357,11 @@ export function Hero() {
                                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
                                             {t('hero.descriptionParts.and') || ", and "}
                                             <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                                            {t('hero.descriptionParts.products') || "products"}
-                                            {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                            {t('hero.descriptionParts.products') || "local stores"}
+                                            {t('hero.descriptionParts.secondRow') ? (
                                                 <>
-                                                    <br />{" "}
-                                                    <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                                    <br />
+                                                    {t('hero.descriptionParts.secondRow')}
                                                 </>
                                             ) : null}
                                         </motion.p>
@@ -724,15 +728,19 @@ function HeroVariantB({
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
                                     {t('hero.descriptionParts.sep1') || ", "}
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
-                                    {t('hero.descriptionParts.and') || ", and "}
-                                    <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                                    {t('hero.descriptionParts.products') || "products"}
-                                    {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                    {t('hero.descriptionParts.breakBeforeAndShareOnMobile') ? (
                                         <>
-                                            {" "}<br className="hidden md:block" />
-                                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                            ,<br />
+                                            {t('hero.descriptionParts.andWord') || "and"}{" "}
                                         </>
-                                    ) : null}
+                                    ) : (
+                                        <>
+                                            {t('hero.descriptionParts.and') || ", and "}
+                                        </>
+                                    )}
+                                    <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                                    {t('hero.descriptionParts.products') || "local stores"}{" "}
+                                    {t('hero.descriptionParts.secondRow') || ""}
                                 </p>
 
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
@@ -812,11 +820,11 @@ function HeroVariantB({
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
                                     {t('hero.descriptionParts.and') || ", and "}
                                     <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
-                                    {t('hero.descriptionParts.products') || "products"}
-                                    {t('hero.descriptionParts.madeInUkraineAndSoldLocally') ? (
+                                    {t('hero.descriptionParts.products') || "local stores"}
+                                    {t('hero.descriptionParts.secondRow') ? (
                                         <>
-                                            <br />{" "}
-                                            <span className="italic">{t('hero.descriptionParts.madeInUkraineAndSoldLocally')}</span>
+                                            <br />
+                                            {t('hero.descriptionParts.secondRow')}
                                         </>
                                     ) : null}
                                 </motion.p>
@@ -889,7 +897,7 @@ function HeroVariantB({
                                                 }}
                                                 className="w-full h-[42px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13.1px] min-[1600px]:text-[14px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
-                                                <span className="truncate pr-2">{category ? (t(`home.categories.${category}`) || allCategories.find(c => c.id === category)?.label) : (t('hero.filters.category') || "Category")}</span>
+                                                <span className="truncate pr-2">{category ? allCategories.find(c => c.id === category)?.label : (t('hero.filters.category') || "Category")}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isCategoryDropdownOpen && (
@@ -899,7 +907,7 @@ function HeroVariantB({
                                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
                                                         >
-                                                            {t('hero.filters.allCategories') || t('home.categories.all') || "All Categories"}
+                                                            All Categories
                                                         </button>
                                                         {allCategories.map((cat) => (
                                                             <button
@@ -910,7 +918,7 @@ function HeroVariantB({
                                                                     category === cat.id ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-50"
                                                                 )}
                                                             >
-                                                                {t(`home.categories.${cat.id}`) || cat.label}
+                                                                {cat.label}
                                                             </button>
                                                         ))}
                                                     </div>

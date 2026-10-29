@@ -157,7 +157,7 @@ const frCA = {
       and: " et ",
       share: "partager",
       products: "des produits fabriqués en Ukraine et vendus localement.",
-      madeInUkraineAndSoldLocally: "",
+      secondRow: "",
     },
     filters: {
       searchPlaceholder: "Rechercher un produit ou une ville",
