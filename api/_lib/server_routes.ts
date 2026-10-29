@@ -186,7 +186,9 @@ export async function registerRoutes(
     try {
       const validation = insertStoreSchema.safeParse(req.body);
       if (!validation.success) {
-        return res.status(400).json({ error: fromZodError(validation.error).message });
+        const valErr = fromZodError(validation.error).message;
+        console.warn("⚠️ [API] POST /api/locations validation failed:", valErr);
+        return res.status(400).json({ error: valErr });
       }
 
       // Detect spam
@@ -195,10 +197,11 @@ export async function registerRoutes(
         console.warn("🚫 Spam detected from", req.ip);
         return res.status(400).json({ error: "Your submission was flagged as spam." });
       }
+
       const storeData = {
         ...validation.data,
         name: sanitizeString(validation.data.name),
-        description: validation.data.description ? sanitizeString(validation.data.description) : undefined,
+        description: validation.data.description ? sanitizeString(validation.data.description) : "",
         address: sanitizeString(validation.data.address),
         city: sanitizeString(validation.data.city),
         province: sanitizeString(validation.data.province),
@@ -208,25 +211,36 @@ export async function registerRoutes(
         products: sanitizeArray(validation.data.products),
         status: "pending" as const,
       };
-      // ... (Spam check logic omitted for brevity in this specific block, relying on existing logic below if I reuse handler, but I'll duplicate essential logic or call internal function)
-      // I will redirect to the main handler or copy the essential parts.
 
       // Duplicate Check
-      const existingStores = await storage.getAllStores();
-      if (checkDuplicateSubmission(storeData, existingStores)) {
+      let existingStores: Array<{ name: string; address: string; latitude: string; longitude: string }> = [];
+      try {
+        existingStores = await storage.getAllStores();
+      } catch (err) {
+        console.warn("⚠️ [API] Failed to fetch all stores for duplicate check, falling back to approved stores:", err);
+        try {
+          existingStores = await storage.getApprovedStoresLean();
+        } catch (fallbackErr) {
+          console.warn("⚠️ [API] Fallback getApprovedStoresLean also failed for duplicate check:", fallbackErr);
+        }
+      }
+
+      if (existingStores.length > 0 && checkDuplicateSubmission(storeData, existingStores)) {
         return res.status(409).json({ error: "This store has already been submitted and is awaiting review." });
       }
 
+      console.log("📝 [API] Attempting to create location:", storeData.name);
       const newStore = await storage.createStore(storeData);
+      console.log("✅ [API] Location created successfully with ID:", newStore.id);
       broadcast("store_submitted");
       res.status(201).json(newStore);
     } catch (e: any) {
-      console.error("❌ [API] POST /api/locations Error:", e);
+      console.error("❌ [API] POST /api/locations Error:", e?.message || String(e), e?.stack);
       res.status(500).json({
         error: "Failed to create location",
         ...(!isProductionEnv() && {
-          message: e.message || String(e),
-          stack: e.stack
+          message: e?.message || String(e),
+          stack: e?.stack
         })
       });
     }
