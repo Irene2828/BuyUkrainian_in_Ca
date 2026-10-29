@@ -97,7 +97,7 @@ export function Hero() {
     const [, setLocation] = useLocation();
     const [shouldRenderHeroMap, setShouldRenderHeroMap] = useState(true);
     const [heroVariant, setHeroVariant] = useState<HeroVariant>(() => getHeroVariantFromUrl());
-    const { t } = useI18n();
+    const { t, language } = useI18n();
 
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
@@ -240,25 +240,30 @@ export function Hero() {
                         </div>
 
                         <p className="mt-6 w-full max-w-full text-left text-[clamp(14.4px,3.24vw,17.1px)] md:text-[clamp(16px,3.6vw,19px)] font-normal leading-relaxed tracking-[0.01em] text-white/92 [text-wrap:pretty]">
-                            <span className="whitespace-nowrap">
-                                {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
-                                <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
-                                {t('hero.descriptionParts.sep1') || ", "}
-                                <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
-                                {t('hero.descriptionParts.breakBeforeAndShareOnMobile') ? (
-                                    <>
-                                        ,<br />
-                                        {t('hero.descriptionParts.andWord') || "and"}{" "}
-                                    </>
-                                ) : (
-                                    <>
+                            {language === "en" ? (
+                                <>
+                                    <span className="whitespace-nowrap">
+                                        {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                        <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
+                                        {t('hero.descriptionParts.sep1') || ", "}
+                                        <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
                                         {t('hero.descriptionParts.and') || ", and "}
-                                    </>
-                                )}
-                                <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>
-                            </span>{" "}
-                            {t('hero.descriptionParts.products') || "local stores"}{" "}
-                            {t('hero.descriptionParts.secondRow') || ""}
+                                        <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>
+                                    </span>
+                                    <br />
+                                </>
+                            ) : (
+                                <>
+                                    {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                    <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.find') || "find"}</strong>
+                                    {t('hero.descriptionParts.sep1') || ", "}
+                                    <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.add') || "add"}</strong>
+                                    {t('hero.descriptionParts.and') || ", and "}
+                                    <strong className="font-bold text-white transition-colors duration-200 cursor-pointer hover:underline hover:decoration-[#FFD700]/70 hover:decoration-1 hover:underline-offset-4">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                                </>
+                            )}
+                            {t('hero.descriptionParts.products') || "local stores"}
+                            {t('hero.descriptionParts.secondRow') ? ` ${t('hero.descriptionParts.secondRow')}` : ""}
                         </p>
 
 
@@ -549,7 +554,7 @@ function HeroVariantB({
     shouldRenderHeroMap,
     trustPillars,
 }: HeroVariantBProps) {
-    const { t } = useI18n();
+    const { t, language } = useI18n();
     const { toast } = useToast();
     const [, setLocation] = useLocation();
     const [searchQuery, setSearchQuery] = useState("");
@@ -726,25 +731,30 @@ function HeroVariantB({
                                 </div>
 
                                 <p className="mt-6 w-full max-w-full text-left text-[clamp(16.2px,3.24vw,18.9px)] md:text-[clamp(18px,3.6vw,21px)] min-[1600px]:text-[22px] font-normal leading-relaxed tracking-[0.01em] text-white/92 [text-wrap:pretty]">
-                                    <span className="whitespace-nowrap">
-                                        {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
-                                        <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
-                                        {t('hero.descriptionParts.sep1') || ", "}
-                                        <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
-                                        {t('hero.descriptionParts.breakBeforeAndShareOnMobile') ? (
-                                            <>
-                                                ,<br />
-                                                {t('hero.descriptionParts.andWord') || "and"}{" "}
-                                            </>
-                                        ) : (
-                                            <>
+                                    {language === "en" ? (
+                                        <>
+                                            <span className="whitespace-nowrap">
+                                                {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                                <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
+                                                {t('hero.descriptionParts.sep1') || ", "}
+                                                <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
                                                 {t('hero.descriptionParts.and') || ", and "}
-                                            </>
-                                        )}
-                                        <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>
-                                    </span>{" "}
-                                    {t('hero.descriptionParts.products') || "local stores"}{" "}
-                                    {t('hero.descriptionParts.secondRow') || ""}
+                                                <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>
+                                            </span>
+                                            <br />
+                                        </>
+                                    ) : (
+                                        <>
+                                            {t('hero.descriptionParts.interactiveMapTo') || "Interactive map to"}{" "}
+                                            <strong className="font-bold text-white">{t('hero.descriptionParts.find') || "find"}</strong>
+                                            {t('hero.descriptionParts.sep1') || ", "}
+                                            <strong className="font-bold text-white">{t('hero.descriptionParts.add') || "add"}</strong>
+                                            {t('hero.descriptionParts.and') || ", and "}
+                                            <strong className="font-bold text-white">{t('hero.descriptionParts.share') || "share"}</strong>{" "}
+                                        </>
+                                    )}
+                                    {t('hero.descriptionParts.products') || "local stores"}
+                                    {t('hero.descriptionParts.secondRow') ? ` ${t('hero.descriptionParts.secondRow')}` : ""}
                                 </p>
 
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">

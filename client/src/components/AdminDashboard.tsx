@@ -330,6 +330,8 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                 province?: string;
                 latitude?: number | string;
                 longitude?: number | string;
+                deletionRequestedAt?: string | null;
+                deletionRequestEmail?: string | null;
             }
         }) =>
             updateStore(id, updates),

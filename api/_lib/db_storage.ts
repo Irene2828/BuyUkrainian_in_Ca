@@ -123,6 +123,27 @@ export interface IStorage {
   recordLoginAttempt(ip: string, username: string, success: boolean): Promise<void>;
 }
 
+// Rewrite IPv6-only direct Supabase hostname (db.<ref>.supabase.co) to the IPv4 Supavisor pooler
+// so direct node-postgres connections succeed on IPv4-only runtimes like Vercel Serverless Functions.
+function resolveDatabaseUrl(rawUrl: string): string {
+  try {
+    const parsed = new URL(rawUrl);
+    const directMatch = parsed.hostname.match(/^db\.([a-z0-9]+)\.supabase\.co$/i);
+    if (directMatch) {
+      const projectRef = directMatch[1];
+      parsed.hostname = process.env.SUPABASE_POOLER_HOST || "aws-1-us-east-2.pooler.supabase.com";
+      parsed.port = process.env.SUPABASE_POOLER_PORT || "6543";
+      if (parsed.username === "postgres") {
+        parsed.username = `postgres.${projectRef}`;
+      }
+      return parsed.toString();
+    }
+    return rawUrl;
+  } catch {
+    return rawUrl;
+  }
+}
+
 // Changes made here for standard Postgres storage (Supabase/Neon/etc).
 // Map pins are served directly from this DB (getApprovedStores) to minimize external API calls.
 export class DatabaseStorage implements IStorage {
@@ -142,7 +163,7 @@ export class DatabaseStorage implements IStorage {
 
     // Use standard node-postgres pool for compatibility with Supabase (Transaction Pooler) and Neon
     this.pool = new Pool({
-      connectionString: config.databaseUrl,
+      connectionString: resolveDatabaseUrl(config.databaseUrl),
       ssl: { rejectUnauthorized: false }, // Required for valid Supabase/Vercel connections
     });
 
@@ -157,10 +178,14 @@ export class DatabaseStorage implements IStorage {
 
   private async getApprovedStoresLeanFromSupabase(): Promise<StoreLean[]> {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !serviceKey) {
-      throw new Error("Supabase REST fallback unavailable: missing URL or API key");
+      const missing = [
+        !supabaseUrl && "NEXT_PUBLIC_SUPABASE_URL",
+        !serviceKey && "SUPABASE_SERVICE_ROLE_KEY (anon key cannot read public.stores due to RLS)",
+      ].filter(Boolean).join(", ");
+      throw new Error(`Supabase REST fallback unavailable: missing ${missing}`);
     }
 
     const query = new URLSearchParams({
@@ -169,7 +194,7 @@ export class DatabaseStorage implements IStorage {
       order: "created_at.desc",
     });
 
-    const response = await fetch(`${supabaseUrl}/rest/v1/locations?${query.toString()}`, {
+    const response = await fetch(`${supabaseUrl}/rest/v1/stores?${query.toString()}`, {
       headers: {
         apikey: serviceKey,
         Authorization: `Bearer ${serviceKey}`,
@@ -296,10 +321,14 @@ export class DatabaseStorage implements IStorage {
 
   private async createStoreInSupabase(newStore: any): Promise<Store> {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !serviceKey) {
-      throw new Error("Supabase REST fallback unavailable for createStore: missing URL or API key");
+      const missing = [
+        !supabaseUrl && "NEXT_PUBLIC_SUPABASE_URL",
+        !serviceKey && "SUPABASE_SERVICE_ROLE_KEY (anon key cannot insert into public.stores due to RLS)",
+      ].filter(Boolean).join(", ");
+      throw new Error(`Supabase REST fallback unavailable for createStore: missing ${missing}`);
     }
 
     const payload = {
@@ -320,7 +349,7 @@ export class DatabaseStorage implements IStorage {
       status: newStore.status || "pending",
     };
 
-    const response = await fetch(`${supabaseUrl}/rest/v1/locations`, {
+    const response = await fetch(`${supabaseUrl}/rest/v1/stores`, {
       method: "POST",
       headers: {
         apikey: serviceKey,
@@ -359,7 +388,7 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
-  async createStore(insertStore: InsertStore): Promise<Store> {
+  async createStore(insertStore: InsertStore & { image?: string | null; images?: string[] | null }): Promise<Store> {
     const storeId = crypto.randomUUID();
 
     let uploadedImage: string | null = null;
@@ -386,8 +415,13 @@ export class DatabaseStorage implements IStorage {
     const newStore = {
       ...insertStore,
       id: storeId,
-      image: uploadedImage || insertStore.image, // Fallback to raw if upload failed
-      images: uploadedImages.length > 0 ? uploadedImages : insertStore.images,
+      description: insertStore.description ?? "",
+      products: Array.isArray(insertStore.products) ? insertStore.products : [],
+      city: insertStore.city ?? "",
+      province: insertStore.province ?? "",
+      status: insertStore.status || "pending",
+      image: uploadedImage || insertStore.image || null, // Fallback to raw if upload failed
+      images: uploadedImages.length > 0 ? uploadedImages : (Array.isArray(insertStore.images) ? insertStore.images : []),
     };
 
     let resultStore: Store;

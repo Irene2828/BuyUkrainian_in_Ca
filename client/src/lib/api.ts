@@ -216,6 +216,8 @@ export async function updateStore(id: string, updates: {
   province?: string;
   latitude?: number | string;
   longitude?: number | string;
+  deletionRequestedAt?: string | null;
+  deletionRequestEmail?: string | null;
 }): Promise<Store> {
   const response = await fetch(`/api/admin/stores/${id}`, {
     method: "PATCH",
