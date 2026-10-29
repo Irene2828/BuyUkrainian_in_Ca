@@ -156,7 +156,7 @@ const en = {
       add: "add",
       and: ", and ",
       andWord: "and",
-      breakBeforeAndShareOnMobile: "true",
+      breakBeforeAndShareOnMobile: false,
       share: "share",
       products: "local stores",
       secondRow: "selling Ukrainian-made products.",

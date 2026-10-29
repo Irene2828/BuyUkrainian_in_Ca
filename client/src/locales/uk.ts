@@ -155,6 +155,8 @@ const uk = {
       sep1: ", ",
       add: "додавати",
       and: " та ",
+      andWord: "та",
+      breakBeforeAndShareOnMobile: false,
       share: "поширювати",
       products: "локації магазинів з\u00A0товарами #madeinUkraine з\u00A0іншими.",
       secondRow: "",
