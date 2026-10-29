@@ -169,7 +169,7 @@ export class DatabaseStorage implements IStorage {
       order: "created_at.desc",
     });
 
-    const response = await fetch(`${supabaseUrl}/rest/v1/stores?${query.toString()}`, {
+    const response = await fetch(`${supabaseUrl}/rest/v1/locations?${query.toString()}`, {
       headers: {
         apikey: serviceKey,
         Authorization: `Bearer ${serviceKey}`,
@@ -294,6 +294,71 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0 ? result[0] : undefined;
   }
 
+  private async createStoreInSupabase(newStore: any): Promise<Store> {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !serviceKey) {
+      throw new Error("Supabase REST fallback unavailable for createStore: missing URL or API key");
+    }
+
+    const payload = {
+      id: newStore.id,
+      name: newStore.name,
+      description: newStore.description || "",
+      products: newStore.products || [],
+      address: newStore.address,
+      city: newStore.city || "",
+      province: newStore.province || "",
+      latitude: newStore.latitude,
+      longitude: newStore.longitude,
+      category: newStore.category,
+      website: newStore.website || null,
+      image: newStore.image || null,
+      images: newStore.images || [],
+      email: newStore.email || null,
+      status: newStore.status || "pending",
+    };
+
+    const response = await fetch(`${supabaseUrl}/rest/v1/locations`, {
+      method: "POST",
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Supabase REST createStore failed: ${response.status} ${errorText}`);
+    }
+
+    const createdStores = await response.json();
+    const created = Array.isArray(createdStores) ? createdStores[0] : createdStores;
+
+    return {
+      id: created.id,
+      name: created.name,
+      description: created.description || "",
+      products: Array.isArray(created.products) ? created.products : [],
+      address: created.address,
+      city: created.city || "",
+      province: created.province || "",
+      latitude: created.latitude,
+      longitude: created.longitude,
+      category: created.category as "food" | "clothes" | "other" | "retail",
+      website: created.website,
+      image: created.image,
+      images: created.images,
+      email: created.email,
+      status: created.status as "approved" | "pending" | "rejected",
+      createdAt: created.created_at ? new Date(created.created_at) : new Date(),
+    };
+  }
+
   async createStore(insertStore: InsertStore): Promise<Store> {
     const storeId = crypto.randomUUID();
 
@@ -321,13 +386,21 @@ export class DatabaseStorage implements IStorage {
     const newStore = {
       ...insertStore,
       id: storeId,
-      image: uploadedImage || insertStore.image, // Fallback to raw if upload failed (though ideally we just drop it)
+      image: uploadedImage || insertStore.image, // Fallback to raw if upload failed
       images: uploadedImages.length > 0 ? uploadedImages : insertStore.images,
     };
 
-    const result = await this.db.insert(stores).values(newStore).returning();
+    let resultStore: Store;
+    try {
+      const result = await this.db.insert(stores).values(newStore).returning();
+      resultStore = this.mapToStore(result[0]);
+    } catch (dbError) {
+      console.warn("⚠️ [DB] Direct Postgres insert failed; using Supabase REST fallback for createStore.", dbError);
+      resultStore = await this.createStoreInSupabase(newStore);
+    }
+
     this.invalidateCache(); // EGRESS OPT: Bust cache on mutation
-    return this.mapToStore(result[0]);
+    return resultStore;
   }
 
   async updateStoreStatus(id: string, status: "approved" | "rejected" | "pending"): Promise<Store | undefined> {
