@@ -747,7 +747,10 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         try {
             await updateStoreMutation.mutateAsync({
                 id,
-                updates: {}
+                updates: {
+                    deletionRequestedAt: null,
+                    deletionRequestEmail: null
+                }
             });
             toast({ title: "Request Dismissed", description: "The deletion request has been dismissed." });
         } catch (error) {
