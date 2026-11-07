@@ -648,7 +648,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
 
 
-      {variant !== "hero" && (
+      {/* Hero map mist: white fade over the top-right of the hero map only (right half, top 30%). Left edge feathered with a mask; pointer-events-none so the map stays interactive. z-500 sits above the map tiles, below the zoom controls (z-1000). */}{variant === "hero-b" && (<div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-[500] h-[30%] w-1/2 bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_100%)] [mask-image:linear-gradient(to_right,transparent_0%,black_25%,black_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_25%,black_100%)]" />)}{variant !== "hero" && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
             <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[14px] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
