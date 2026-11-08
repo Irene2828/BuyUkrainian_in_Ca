@@ -3,7 +3,7 @@
     "project": "BuyUkrainian.ca — verified stores research",
     "generated": "2026-10-06",
     "source": "4 parallel research subagents, strict verification standard (high/medium confidence only)",
-    "total_stores": 36
+    "total_stores": 39
   },
   "regions": {
     "ontario": [
@@ -470,6 +470,85 @@
         "description": "Century-old Ukrainian deli (est. 1922) run by the third generation of the Zytynsky family; house-made charcuterie and baking.",
         "confidence": "medium",
         "evidence": "tastet.ca article + reviews: historic Ukrainian deli; goods are house-made, not imports"
+      }
+    ],
+    "novaScotia": [
+      {
+        "name": "Soika",
+        "address": "114 Woodlawn Road Unit 127B, Dartmouth, NS B2W 2S7",
+        "street": "114 Woodlawn Road Unit 127B",
+        "city": "Dartmouth",
+        "province": "NS",
+        "postal_code": "B2W 2S7",
+        "latitude": 44.67314,
+        "longitude": -63.53137,
+        "category": "food",
+        "website": "https://soika.ca",
+        "products": [
+          "Pripravka",
+          "Kyiv cake",
+          "Ukrainian sweets",
+          "Canned vegetables",
+          "Pickled vegetables",
+          "Teas",
+          "Herbs",
+          "Grains"
+        ],
+        "description": "Soika location carrying Ukraine-made packaged groceries, sweets, teas, herbs and grains. No prepared meals or Canadian-cooked foods are listed.",
+        "confidence": "owner-provided",
+        "evidence": "Store details and product scope provided by the site owner"
+      },
+      {
+        "name": "Soika",
+        "address": "1 Kingswood Drive Unit 105, Hammonds Plains, NS B4B 1B4",
+        "street": "1 Kingswood Drive Unit 105",
+        "city": "Hammonds Plains",
+        "province": "NS",
+        "postal_code": "B4B 1B4",
+        "latitude": 44.72405,
+        "longitude": -63.73735,
+        "category": "food",
+        "website": "https://soika.ca",
+        "products": [
+          "Pripravka",
+          "Kyiv cake",
+          "Ukrainian sweets",
+          "Canned vegetables",
+          "Pickled vegetables",
+          "Teas",
+          "Herbs",
+          "Grains"
+        ],
+        "description": "Soika location carrying Ukraine-made packaged groceries, sweets, teas, herbs and grains. No prepared meals or Canadian-cooked foods are listed.",
+        "confidence": "owner-provided",
+        "evidence": "Store details and product scope provided by the site owner"
+      }
+    ],
+    "princeEdwardIsland": [
+      {
+        "name": "Soika",
+        "address": "393 University Avenue Unit 7, Charlottetown, PE C1A 4N4",
+        "street": "393 University Avenue Unit 7",
+        "city": "Charlottetown",
+        "province": "PE",
+        "postal_code": "C1A 4N4",
+        "latitude": 46.24478,
+        "longitude": -63.13444,
+        "category": "food",
+        "website": "https://soika.ca",
+        "products": [
+          "Pripravka",
+          "Kyiv cake",
+          "Ukrainian sweets",
+          "Canned vegetables",
+          "Pickled vegetables",
+          "Teas",
+          "Herbs",
+          "Grains"
+        ],
+        "description": "Soika location carrying Ukraine-made packaged groceries, sweets, teas, herbs and grains. No prepared meals or Canadian-cooked foods are listed.",
+        "confidence": "owner-provided",
+        "evidence": "Store details and product scope provided by the site owner"
       }
     ],
     "western": [

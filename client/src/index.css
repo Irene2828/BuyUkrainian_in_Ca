@@ -1385,7 +1385,7 @@ html.dark .city-labels-layer {
   }
 
   .header-initiative-text {
-    font-size: 13px !important; /* was 14px → -1px */
+    font-size: 15px !important;
   }
 
   p.hero-description-copy {
