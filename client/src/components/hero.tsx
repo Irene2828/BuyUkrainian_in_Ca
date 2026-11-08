@@ -17,7 +17,7 @@ import canadaRoundFlag from "@/assets/canada-round-flag.png";
 import { StoreCard } from "@/components/store-card";
 import { LocationPermissionModal } from "@/components/location-permission-modal";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { matchesProductSearch } from "@/lib/product-search";
+import { matchesProductSearch, normalizeSearchText } from "@/lib/product-search";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -641,14 +641,22 @@ function HeroVariantB({
         Nunavut: "NU", Ontario: "ON", "Prince Edward Island": "PE", Quebec: "QC",
         Saskatchewan: "SK", Yukon: "YT",
     };
+    const PROVINCE_NAMES_BY_CODE = Object.fromEntries(
+        Object.entries(PROVINCE_CODES).map(([name, code]) => [code, name])
+    ) as Record<string, string>;
 
     const allCategories = STORE_CATEGORIES;
 
     const filteredStores = stores.filter((store) => {
+        const normalizedSearchQuery = normalizeSearchText(searchQuery);
+        const provinceName = PROVINCE_NAMES_BY_CODE[store.province] || store.province;
+        const provinceCode = PROVINCE_CODES[store.province] || store.province;
+        const locationFields = [store.city, store.province, provinceName, provinceCode]
+            .map(normalizeSearchText);
         const matchesSearch =
-            !searchQuery ||
-            store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            store.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            !normalizedSearchQuery ||
+            normalizeSearchText(store.name).includes(normalizedSearchQuery) ||
+            locationFields.some((field) => field.includes(normalizedSearchQuery)) ||
             matchesProductSearch(searchQuery, store.products || []);
         const matchesProvince = !selectedProvince ||
             store.province === selectedProvince ||
