@@ -13,6 +13,7 @@ import { AccessibilityProvider } from "@/contexts/accessibility-context";
 import Home from "@/pages/home";
 import { initPremiumInteractions } from "./lib/premium-interactions";
 import { GlobalAddStoreModal } from "@/components/global-add-store-modal";
+import currentLogo from "@/assets/logoo.png";
 
 const MapPage = lazy(() => import("@/pages/map"));
 const AdminLogin = lazy(() => import("@/pages/admin/login"));
@@ -57,6 +58,14 @@ import { getApprovedStores } from "./lib/api";
 
 function App() {
   useEffect(() => {
+    const favicon = document.createElement("link");
+    favicon.id = "site-favicon";
+    favicon.rel = "icon";
+    favicon.type = "image/png";
+    favicon.href = currentLogo;
+    document.head.querySelector("#site-favicon")?.remove();
+    document.head.appendChild(favicon);
+
     const cleanupWebSocket = setupWebSocketListener();
     initPremiumInteractions();
 
