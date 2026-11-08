@@ -610,24 +610,9 @@ function HeroVariantB({
                             const data = await response.json();
                             const provinceName = data.address?.state;
                             if (provinceName) {
-                                const PROVINCE_MAP: Record<string, string> = {
-                                    "Alberta": "AB",
-                                    "British Columbia": "BC",
-                                    "Manitoba": "MB",
-                                    "New Brunswick": "NB",
-                                    "Newfoundland and Labrador": "NL",
-                                    "Nova Scotia": "NS",
-                                    "Northwest Territories": "NT",
-                                    "Nunavut": "NU",
-                                    "Ontario": "ON",
-                                    "Prince Edward Island": "PE",
-                                    "Quebec": "QC",
-                                    "Saskatchewan": "SK",
-                                    "Yukon": "YT"
-                                };
-                                const matched = Object.keys(PROVINCE_MAP).find(p => p.toLowerCase() === provinceName.toLowerCase());
+                                const matched = CANADIAN_PROVINCES.find(p => p.toLowerCase() === provinceName.toLowerCase());
                                 if (matched) {
-                                    setSelectedProvince(PROVINCE_MAP[matched]);
+                                    setSelectedProvince(matched);
                                 }
                             }
                         }
@@ -646,8 +631,16 @@ function HeroVariantB({
     };
 
     const CANADIAN_PROVINCES = [
-        "AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"
+        "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador",
+        "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island",
+        "Quebec", "Saskatchewan", "Yukon"
     ];
+    const PROVINCE_CODES: Record<string, string> = {
+        Alberta: "AB", "British Columbia": "BC", Manitoba: "MB", "New Brunswick": "NB",
+        "Newfoundland and Labrador": "NL", "Northwest Territories": "NT", "Nova Scotia": "NS",
+        Nunavut: "NU", Ontario: "ON", "Prince Edward Island": "PE", Quebec: "QC",
+        Saskatchewan: "SK", Yukon: "YT",
+    };
 
     const allCategories = STORE_CATEGORIES;
 
@@ -657,7 +650,10 @@ function HeroVariantB({
             store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             store.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
             matchesProductSearch(searchQuery, store.products || []);
-        const matchesProvince = !selectedProvince || store.province === selectedProvince;
+        const matchesProvince = !selectedProvince ||
+            store.province === selectedProvince ||
+            store.province === PROVINCE_CODES[selectedProvince] ||
+            PROVINCE_CODES[store.province] === PROVINCE_CODES[selectedProvince];
         const matchesCategory = !category ||
             store.category === category ||
             (store.products || []).some(p => p.toLowerCase().includes(category) || p.toLowerCase().replace(/\s+/g, "-") === category);
@@ -878,7 +874,7 @@ function HeroVariantB({
                                             </button>
                                             {isProvinceDropdownOpen && (
                                                 <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
-                                                    <div className="max-h-[min(360px,calc(100vh-160px))] overflow-y-auto custom-scrollbar p-1">
+                                                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
