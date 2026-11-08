@@ -468,34 +468,29 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   useEffect(() => {
     if (variant !== 'hero' && variant !== 'hero-b') return;
 
-    const centerMap = () => {
-      if (mapRef) {
-        (window as any).google.maps.event.trigger(mapRef, 'resize');
-        mapRef.setZoom(initialZoom);
-        mapRef.panTo(initialCenter);
-      }
-    };
+    if (!mapRef) return;
 
-    setZoom(initialZoom);
-    setCenter(initialCenter);
-    centerMap();
+    // The Map already receives the intended camera through defaultCenter and
+    // defaultZoom. Only sync if Google Maps did not accept those defaults;
+    // repeatedly resizing and panning after the first tiles render causes a
+    // visible second load in Safari and Chrome.
+    (window as any).google.maps.event.trigger(mapRef, 'resize');
+    const currentCenter = mapRef.getCenter();
+    const currentZoom = mapRef.getZoom();
+    const currentLat = currentCenter?.lat();
+    const currentLng = currentCenter?.lng();
+    const cameraNeedsSync =
+      typeof currentZoom !== 'number' ||
+      currentCenter === null ||
+      typeof currentLat !== 'number' ||
+      typeof currentLng !== 'number' ||
+      Math.abs(currentZoom - initialZoom) > 0.01 ||
+      Math.abs(currentLat - initialCenter.lat) > 0.01 ||
+      Math.abs(currentLng - initialCenter.lng) > 0.01;
 
-    if (mapRef) {
-      const mapDiv = mapRef.getDiv();
-      if (mapDiv) {
-        const resizeObserver = new ResizeObserver(() => {
-          centerMap();
-        });
-        resizeObserver.observe(mapDiv);
-
-        const handleAnimationComplete = () => centerMap();
-        window.addEventListener('heroMapAnimationComplete', handleAnimationComplete);
-
-        return () => {
-          resizeObserver.disconnect();
-          window.removeEventListener('heroMapAnimationComplete', handleAnimationComplete);
-        };
-      }
+    if (cameraNeedsSync) {
+      mapRef.setZoom(initialZoom);
+      mapRef.panTo(initialCenter);
     }
   }, [mapRef, variant, initialZoom, initialCenter]);
 

@@ -13,6 +13,13 @@ describe("product search", () => {
     },
   );
 
+  it.each(["buckwheat", "grechka", "гречка"])(
+    "matches %s with a store listing Buckwheat",
+    (query) => {
+      expect(matchesProductSearch(query, ["Buckwheat"])).toBe(true);
+    },
+  );
+
   it("does not match an unrelated product", () => {
     expect(matchesProductSearch("perogies", ["Honey", "Ceramics"])).toBe(false);
   });

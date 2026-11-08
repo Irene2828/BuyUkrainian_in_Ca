@@ -35,6 +35,14 @@ const PRODUCT_SEARCH_FAMILIES: ProductSearchFamily[] = [
       "vareniky",
     ],
   },
+  {
+    id: "buckwheat",
+    aliases: [
+      "buckwheat",
+      "grechka",
+      "гречка",
+    ],
+  },
 ];
 
 const getSearchTokens = (value: string): string[] => normalizeSearchText(value).split(" ").filter(Boolean);
