@@ -7,7 +7,7 @@ export function CommunityImpact() {
     const { t } = useI18n();
     const [copied, setCopied] = useState(false);
 
-    const shareMessage = t("communityImpact.shareMessage") || "A great way to support Ukraine locally - explore the interactive map of Ukrainian-made products sold across Canada.";
+    const shareMessage = t("communityImpact.shareMessage") || "I just found a great way to support Ukraine by buying Ukrainian products at stores in Canada. Check out this interactive map/list:";
     const shareUrl = "www.buyukrainian.ca";
 
     const handleCopy = () => {

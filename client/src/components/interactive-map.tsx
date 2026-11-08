@@ -23,18 +23,17 @@ export interface InteractiveMapRef {
 
 const FULL_MAP_INITIAL_CENTER: [number, number] = [54.5, -102.5];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
-// The hero preview should emphasize the Ontario–Quebec corridor rather than
-// showing the entire country at once.
-// Raise the geographic focal point so wide hero layouts show less of the USA
-// while keeping the populated Ontario–Quebec corridor in view.
-const HERO_MAP_FOCAL_POINT = { lat: 45.5, lng: -76.0 };
+// The hero preview shows the populated Canadian corridor from BC through the
+// Atlantic provinces while keeping most of the U.S. and the far Arctic out of
+// the visual focus.
+const HERO_MAP_FOCAL_POINT = { lat: 56.0, lng: -98.0 };
 const HERO_INITIAL_MAP_STATE = {
   center: HERO_MAP_FOCAL_POINT,
-  zoom: 7.0,
+  zoom: 4.7,
 };
 const HERO_B_INITIAL_MAP_STATE = {
   center: HERO_MAP_FOCAL_POINT,
-  zoom: 7.0,
+  zoom: 4.7,
 };
 const MAX_CLUSTER_FOCUS_ZOOM = 18;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
@@ -319,29 +318,62 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 }, ref) => {
   const apiLoadingStatus = useApiLoadingStatus();
   const mapRef = useMap("main-map");
+  const isHeroVariant = variant === 'hero' || variant === 'hero-b';
+  const [initialViewportWidth] = useState(
+    () => typeof window !== 'undefined' ? window.innerWidth : 1280
+  );
+  const [initialIsSafari] = useState(
+    () => typeof navigator !== 'undefined' &&
+      /Safari/i.test(navigator.userAgent) &&
+      !/Chrome|Chromium|CriOS|Android|Edg/i.test(navigator.userAgent)
+  );
+
+  // Preserve the same geographic span across responsive hero widths. The
+  // narrower preview gets a wider geographic view, while large desktops can
+  // use a little more detail without bringing back the U.S. or Arctic focus.
+  const responsiveHeroZoom = useMemo(() => {
+    if (!isHeroVariant) return null;
+    const normalizedWidth = Math.max(0, Math.min(1, (initialViewportWidth - 1280) / 768));
+    return Number((4.0 + normalizedWidth * 0.7).toFixed(2));
+  }, [initialViewportWidth, isHeroVariant]);
 
   const initialZoom = useMemo(() => {
-    if (variant === 'hero') return HERO_INITIAL_MAP_STATE.zoom;
-    if (variant === 'hero-b') return HERO_B_INITIAL_MAP_STATE.zoom;
+    if (isHeroVariant) return responsiveHeroZoom ?? HERO_INITIAL_MAP_STATE.zoom;
     return INITIAL_MAP_STATE.zoom;
-  }, [variant]);
+  }, [isHeroVariant, responsiveHeroZoom]);
 
   const initialCenter = useMemo(() => {
-    if (variant === 'hero') return HERO_INITIAL_MAP_STATE.center;
-    if (variant === 'hero-b') {
-        return HERO_B_INITIAL_MAP_STATE.center;
+    if (isHeroVariant) {
+      const baseCenter = variant === 'hero'
+        ? HERO_INITIAL_MAP_STATE.center
+        : HERO_B_INITIAL_MAP_STATE.center;
+
+      // On wide desktops, shift the geographic content left and upward by
+      // roughly 10–15% without changing the hero panel layout. Moving the
+      // camera east and south moves the map content left and up in the viewport.
+      if (initialViewportWidth >= 1670) {
+        // On large desktop screens, ease the vertical lift back slightly so
+        // the map content sits about 5% lower while keeping the same focus.
+        // Safari gets one additional 5% downward adjustment because its
+        // large-screen map viewport leaves the populated corridor slightly low.
+        const latitudeOffset = initialIsSafari ? -1 : -2.5;
+        return { lat: baseCenter.lat + latitudeOffset, lng: baseCenter.lng + 6 };
+      }
+
+      return baseCenter;
     }
     return { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] };
-  }, [variant]);
+  }, [initialIsSafari, initialViewportWidth, isHeroVariant, variant]);
 
   const [zoom, setZoom] = useState(initialZoom);
   const [center, setCenter] = useState(initialCenter);
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
-  const isHeroVariant = variant === 'hero' || variant === 'hero-b';
-  const isHeroInitialView = isHeroVariant &&
-    Math.abs(zoom - initialZoom) < 0.05 &&
-    Math.abs(center.lat - initialCenter.lat) < 0.15 &&
-    Math.abs(center.lng - initialCenter.lng) < 0.15;
+  const [heroHasInteracted, setHeroHasInteracted] = useState(false);
+  const isHeroInitialView = isHeroVariant && !heroHasInteracted;
+  // Province initials are intentionally reserved for very-wide hero layouts.
+  // At laptop/1440-class widths, the geographic projection is too compressed
+  // and the initials can look detached from the province shapes.
+  const showHeroProvinceLabels = isHeroInitialView && initialViewportWidth >= 1920;
   const [tilesReady, setTilesReady] = useState(false);
 
   // Listen for tilesloaded so the hero map fades in only after tiles render
@@ -470,6 +502,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   useImperativeHandle(ref, () => ({
     focusOnStore: (store: Store) => {
       if (!store.coordinates || !canRenderStoreMarker(store)) return;
+      if (isHeroVariant) setHeroHasInteracted(true);
       const [lat, lng] = store.coordinates;
       if (!isValidCoord(lat, lng)) {
         console.warn('Store has invalid coordinates:', store.name);
@@ -491,6 +524,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     },
     flyToProvince: (lat: number, lng: number, z: number) => {
       if (!isValidCoord(lat, lng)) return;
+      if (isHeroVariant) setHeroHasInteracted(true);
       setZoom(z);
       setCenter({ lat, lng });
       if (mapRef) {
@@ -500,6 +534,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     },
     flyToLocation: (lat: number, lng: number, z: number = 16) => {
       if (!isValidCoord(lat, lng)) return;
+      if (isHeroVariant) setHeroHasInteracted(true);
       setZoom(z);
       setCenter({ lat, lng });
       if (mapRef) {
@@ -508,6 +543,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       }
     },
     resetView: () => {
+      if (isHeroVariant) setHeroHasInteracted(false);
       setZoom(initialZoom);
       setCenter(initialCenter);
       if (mapRef) {
@@ -517,6 +553,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     },
     zenView: () => {},
     zoomIn: () => {
+      if (isHeroVariant) setHeroHasInteracted(true);
       setZoom(prev => {
         const next = typeof prev === 'number' ? prev + 1 : prev;
         if (mapRef && typeof next === 'number') mapRef.setZoom(next);
@@ -524,6 +561,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       });
     },
     zoomOut: () => {
+      if (isHeroVariant) setHeroHasInteracted(true);
       setZoom(prev => {
         const next = typeof prev === 'number' ? prev - 1 : prev;
         if (mapRef && typeof next === 'number') mapRef.setZoom(next);
@@ -617,6 +655,12 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           styles: variant === 'hero' || variant === 'hero-b' ? HERO_MAP_STYLE : FULL_MAP_NO_LABELS,
         }}
         onCameraChanged={handleCameraChange}
+        onDragstart={() => {
+          if (isHeroVariant) setHeroHasInteracted(true);
+        }}
+        onDblclick={() => {
+          if (isHeroVariant) setHeroHasInteracted(true);
+        }}
         onClick={() => {
            if ((window as any).__isMarkerClick) return;
            if (variant !== 'hero') {
@@ -658,7 +702,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           isNationalZoom={isNationalZoom}
           variant={variant}
           zoom={zoom}
-          isHeroInitialView={isHeroInitialView}
+          isHeroInitialView={showHeroProvinceLabels}
         />
         <CanadaLabelOverlay variant={variant} showAtInitialView={isHeroInitialView} />
       </Map>
@@ -675,6 +719,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     label="Zoom in"
                     ariaLabel="Zoom in map"
                     onClick={() => {
+                      if (isHeroVariant) setHeroHasInteracted(true);
                       setZoom(prev => {
                         const next = typeof prev === 'number' ? prev + 1 : prev;
                         if (mapRef && typeof next === 'number') mapRef.setZoom(next);
@@ -691,6 +736,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     label="Zoom out"
                     ariaLabel="Zoom out map"
                     onClick={() => {
+                      if (isHeroVariant) setHeroHasInteracted(true);
                       setZoom(prev => {
                         const next = typeof prev === 'number' ? prev - 1 : prev;
                         if (mapRef && typeof next === 'number') mapRef.setZoom(next);
@@ -707,6 +753,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
                     label="Zoom to all Canada"
                     ariaLabel="Reset to national view"
                     onClick={() => {
+                      if (isHeroVariant) setHeroHasInteracted(false);
                       setZoom(initialZoom);
                       setCenter(initialCenter);
                       if (mapRef) {
@@ -1044,7 +1091,7 @@ function ProvinceLabelsOverlay({
   return (
     <div
       className={cn(
-        "absolute inset-0 pointer-events-none z-[6] hidden md:block transition-opacity duration-700 ease-in-out",
+        "absolute inset-0 pointer-events-none z-[6] block transition-opacity duration-700 ease-in-out",
         shouldShowLabels ? "opacity-100" : "opacity-0"
       )}
     >
@@ -1055,7 +1102,7 @@ function ProvinceLabelsOverlay({
             key={label.name}
             className={cn(
               "absolute font-bold tracking-[0.35em] uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150",
-              isHeroVariant ? "text-[13px] md:text-[16px] text-[#0057B7]/35" : "text-[12px] md:text-[14px] text-[#0057B7]/30",
+              isHeroVariant ? "text-[10px] md:text-[16px] text-[#0057B7]/35" : "text-[10px] md:text-[14px] text-[#0057B7]/30",
             )}
             style={{ top: pos.top, left: pos.left }}
           >
@@ -1158,7 +1205,7 @@ function CanadaLabelOverlay({ variant, showAtInitialView }: { variant?: string; 
   return (
     <div className="absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out opacity-100">
       <span
-        className="absolute left-[30%] top-[15%] -translate-x-1/2 -translate-y-1/2 text-[clamp(1.15rem,2vw,2.1rem)] font-semibold tracking-[0.48em] text-[#0057B7]/20 uppercase whitespace-nowrap font-sans antialiased"
+        className="absolute left-[30%] top-[35%] -translate-x-1/2 -translate-y-1/2 text-[clamp(1.15rem,2vw,2.1rem)] font-semibold tracking-[0.48em] text-[#0057B7]/20 uppercase whitespace-nowrap font-sans antialiased"
       >
         CANADA
       </span>

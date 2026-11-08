@@ -288,7 +288,7 @@ const en = {
     cta: "Add a store to the map",
   },
   communityImpact: {
-    shareMessage: "I just found a great way to support Ukraine in Canada. Check out this interactive map of products made in Ukraine:",
+    shareMessage: "I just found a great way to support Ukraine by buying Ukrainian products at stores in Canada. Check out this interactive map/list:",
     copySuccess: "Text copied to clipboard",
     eyebrow: "Help the project grow",
     titleLine1: "Share the map",
@@ -306,7 +306,7 @@ const en = {
   mapPage: {
     latestCommunityAdditions: "Latest community additions",
     seeOnMap: "See on map",
-    knowStore: "Know a store we missed? Add it to the map.",
+    knowStore: "Know a store that is not yet on the map/list? Add it here.",
     addNewStore: "Add a new store",
   },
   mapExplorer: {
