@@ -1368,6 +1368,14 @@ html.dark .city-labels-layer {
   }
 }
 
+/* Header type is also enlarged at 1600px+ so Retina "More Space" views
+   that land just below 1670px still receive the accessible sizing. */
+@media (min-width: 1600px) {
+  .header-initiative-text {
+    font-size: 14px !important;
+  }
+}
+
 /* Hero CTA + stats labels on large screens (1670px+).
    Must live here (unlayered, after the bump rules above) — Tailwind
    responsive text-[..] classes are layered and lose to those bumps. */
@@ -1385,7 +1393,7 @@ html.dark .city-labels-layer {
   }
 
   .header-initiative-text {
-    font-size: 15px !important;
+    font-size: 14px !important;
   }
 
   p.hero-description-copy {

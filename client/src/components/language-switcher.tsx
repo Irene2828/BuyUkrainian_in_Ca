@@ -15,9 +15,9 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center", className)}>
       <div className="relative flex items-center gap-1 md:gap-1.5 pl-2 pr-0 py-0.5 rounded-full hover:opacity-70 transition-opacity duration-200 group">
-        <Globe className="pointer-events-none w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1670px]:w-[1.0rem] min-[1670px]:h-[1.0rem] text-slate-500" strokeWidth={1.5} />
+        <Globe className="pointer-events-none w-[0.9rem] h-[0.9rem] lg:w-[0.95rem] lg:h-[0.95rem] min-[1600px]:w-[1.0rem] min-[1600px]:h-[1.0rem] text-slate-500" strokeWidth={1.5} />
         <span className="pointer-events-none flex items-center gap-0.5 md:gap-1.5 leading-none">
-          <span className="text-[0.85rem] md:text-[0.85rem] lg:text-[14px] xl:text-[14px] font-medium text-slate-500 tracking-normal">{currentOption.short}</span>
+          <span className="text-[0.85rem] md:text-[0.85rem] lg:text-[14px] xl:text-[14px] min-[1600px]:text-[16px] font-medium text-slate-500 tracking-normal">{currentOption.short}</span>
         </span>
         <select
           value={language}
