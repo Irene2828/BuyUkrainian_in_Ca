@@ -34,6 +34,25 @@ const PROVINCE_KEY_MAP: Record<string, keyof typeof en.common.geography.province
   Yukon: "yukon",
 };
 
+const CATEGORY_KEY_MAP: Record<string, keyof typeof en.common.categories> = {
+  all: "all",
+  food: "food",
+  "food & grocery": "food",
+  "food and grocery": "food",
+  clothes: "clothes",
+  clothing: "clothes",
+  "clothing & apparel": "clothes",
+  gifts: "gifts",
+  toys: "toys",
+  grocery: "grocery",
+  books: "books",
+  souvenirs: "souvenirs",
+  beauty: "beauty",
+  retail: "retail",
+  "retail & gifts": "retail",
+  other: "other",
+};
+
 const normalizeLanguage = (value: string | null | undefined): Language => {
   const normalized = (value ?? "").trim().toLowerCase();
 
@@ -128,8 +147,11 @@ export const getTranslatedProvinceName = (province: string, t: TFunction) => {
 };
 
 export const getCategoryLabel = (category: string, t: TFunction) => {
-  const validCategory = category as keyof typeof en.common.categories;
-  return t(`common.categories.${validCategory}`);
+  const normalizedCategory = category.trim().toLowerCase().replace(/\s+/g, " ");
+  const validCategory = CATEGORY_KEY_MAP[normalizedCategory] ?? (category as keyof typeof en.common.categories);
+  const translationKey = `common.categories.${validCategory}`;
+  const translated = t(translationKey);
+  return translated === translationKey ? category : translated;
 };
 
 export function useI18n() {
@@ -138,8 +160,9 @@ export function useI18n() {
 
   const setLanguage = (nextLanguage: LanguageInput) => {
     const canonicalLanguage = normalizeLanguage(nextLanguage);
-    void instance.changeLanguage(canonicalLanguage);
-    syncDomLanguage(canonicalLanguage);
+    void instance.changeLanguage(canonicalLanguage).then(() => {
+      syncDomLanguage(canonicalLanguage);
+    });
   };
 
   return { t, language, setLanguage };

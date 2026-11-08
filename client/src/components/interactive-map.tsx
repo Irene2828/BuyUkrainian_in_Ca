@@ -23,9 +23,18 @@ export interface InteractiveMapRef {
 
 const FULL_MAP_INITIAL_CENTER: [number, number] = [54.5, -102.5];
 const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
+// The hero preview should emphasize the Ontario–Quebec corridor rather than
+// showing the entire country at once.
+// Raise the geographic focal point so wide hero layouts show less of the USA
+// while keeping the populated Ontario–Quebec corridor in view.
+const HERO_MAP_FOCAL_POINT = { lat: 45.5, lng: -76.0 };
 const HERO_INITIAL_MAP_STATE = {
-  center: { lat: 51.5, lng: -123.0 },
-  zoom: 4.4,
+  center: HERO_MAP_FOCAL_POINT,
+  zoom: 7.0,
+};
+const HERO_B_INITIAL_MAP_STATE = {
+  center: HERO_MAP_FOCAL_POINT,
+  zoom: 7.0,
 };
 const MAX_CLUSTER_FOCUS_ZOOM = 18;
 const CLUSTER_CLICK_ZOOM_STEP = 5;
@@ -40,8 +49,10 @@ const PROVINCE_LABELS = [
   { name: "AB", lat: 52.3, lng: -114.5, top: "62%", left: "20%" },
   { name: "SK", lat: 51.8, lng: -105.8, top: "64%", left: "30%" },
   { name: "MB", lat: 53.5, lng: -97.0,  top: "61%", left: "40%" },
-  { name: "ON", lat: 50.5, lng: -85.0,  top: "69%", left: "55%" },
-  { name: "QC", lat: 51.5, lng: -71.5,  top: "64%", left: "70%" },
+  // Use southern-population anchors so the initials remain over the visible
+  // parts of Ontario and Quebec in the tighter hero crop.
+  { name: "ON", lat: 44.7, lng: -77.6,  top: "69%", left: "55%" },
+  { name: "QC", lat: 45.75, lng: -73.1, top: "64%", left: "70%" },
   { name: "NB", lat: 46.5, lng: -66.3,  top: "80%", left: "77%" },
   { name: "NS", lat: 45.0, lng: -63.0,  top: "84%", left: "81%" },
   { name: "NL", lat: 53.5, lng: -60.0,  top: "58%", left: "84%" },
@@ -277,12 +288,24 @@ const HERO_MAP_STYLE = [
   { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
   { featureType: 'poi', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
   { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.land_parcel', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.neighborhood', elementType: 'labels', stylers: [{ visibility: 'off' }] },
   { featureType: 'administrative.locality', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
   { featureType: 'transit', stylers: [{ visibility: 'off' }] },
   { featureType: 'water', stylers: [{ color: '#c8dff0' }] },
   { featureType: 'landscape.natural', stylers: [{ color: '#ffffff' }] },
   { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ color: '#b0c4d8' }, { weight: 1 }] },
   { featureType: 'administrative.province', elementType: 'geometry.stroke', stylers: [{ color: '#c8d8e8' }, { weight: 0.5 }] },
+];
+
+// Keep the hero clean at its normal zoom. Once a user deliberately zooms in,
+// reveal only locality names instead of Google's broad administrative layer,
+// which also includes U.S. reservations and other labels outside the hero focus.
+const HERO_CITY_LABELS = [
+  ...HERO_MAP_STYLE,
+  { featureType: 'administrative.locality', elementType: 'labels', stylers: [{ visibility: 'on' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#475569' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 2 }] },
 ];
 
 export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(({
@@ -296,44 +319,29 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 }, ref) => {
   const apiLoadingStatus = useApiLoadingStatus();
   const mapRef = useMap("main-map");
-  const [isLargeDesktop, setIsLargeDesktop] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1670px)').matches
-  );
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 1670px)');
-    const onChange = (e: MediaQueryListEvent) => setIsLargeDesktop(e.matches);
-    setIsLargeDesktop(mediaQuery.matches);
-    mediaQuery.addEventListener('change', onChange);
-    return () => mediaQuery.removeEventListener('change', onChange);
-  }, []);
 
   const initialZoom = useMemo(() => {
     if (variant === 'hero') return HERO_INITIAL_MAP_STATE.zoom;
-    if (variant === 'hero-b') {
-        // Normal zoom (reverting the 10% zoom in)
-        return INITIAL_MAP_STATE.zoom;
-    }
+    if (variant === 'hero-b') return HERO_B_INITIAL_MAP_STATE.zoom;
     return INITIAL_MAP_STATE.zoom;
-  }, [variant, isLargeDesktop]);
+  }, [variant]);
 
   const initialCenter = useMemo(() => {
     if (variant === 'hero') return HERO_INITIAL_MAP_STATE.center;
     if (variant === 'hero-b') {
-        if (isLargeDesktop) {
-            // We want to zoom in, see less USA, keep Canada centered, but slightly right of the CTA text.
-            // Move North to push USA out of view (lat: 53.5)
-            // Move West to push the map to the right, but nudge East to push Alaska off left edge (lng: -101.0)
-            return { lat: 53.5, lng: -101.0 };
-        }
-        return { lat: 49.5, lng: -97.5 };
+        return HERO_B_INITIAL_MAP_STATE.center;
     }
     return { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] };
-  }, [variant, isLargeDesktop]);
+  }, [variant]);
 
   const [zoom, setZoom] = useState(initialZoom);
   const [center, setCenter] = useState(initialCenter);
   const [hoveredLabel, setHoveredLabel] = useState<{ text: string, x: number, y: number } | null>(null);
   const isHeroVariant = variant === 'hero' || variant === 'hero-b';
+  const isHeroInitialView = isHeroVariant &&
+    Math.abs(zoom - initialZoom) < 0.05 &&
+    Math.abs(center.lat - initialCenter.lat) < 0.15 &&
+    Math.abs(center.lng - initialCenter.lng) < 0.15;
   const [tilesReady, setTilesReady] = useState(false);
 
   // Listen for tilesloaded so the hero map fades in only after tiles render
@@ -402,11 +410,15 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
     const applyZoomStyle = () => {
       const currentZoom = mapRef.getZoom() ?? 4;
       let targetStyle = FULL_MAP_NO_LABELS;
-      if (currentZoom >= 12) {
+
+      if (variant === 'hero-b') {
+        targetStyle = currentZoom > 7 ? HERO_CITY_LABELS : HERO_MAP_STYLE;
+      } else if (currentZoom >= 12) {
         targetStyle = FULL_MAP_STREET_LABELS;
       } else if (currentZoom > 5) {
         targetStyle = FULL_MAP_CITY_LABELS;
       }
+
       mapRef.setOptions({
         styles: targetStyle
       });
@@ -602,7 +614,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           fullscreenControl: false,
           disableDoubleClickZoom: variant === 'hero',
           clickableIcons: false,
-          styles: variant === 'hero' ? HERO_MAP_STYLE : FULL_MAP_NO_LABELS,
+          styles: variant === 'hero' || variant === 'hero-b' ? HERO_MAP_STYLE : FULL_MAP_NO_LABELS,
         }}
         onCameraChanged={handleCameraChange}
         onClick={() => {
@@ -642,8 +654,13 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
           />
         )}
 
-        <ProvinceLabelsOverlay isNationalZoom={isNationalZoom} variant={variant} />
-        <CanadaLabelOverlay variant={variant} />
+        <ProvinceLabelsOverlay
+          isNationalZoom={isNationalZoom}
+          variant={variant}
+          zoom={zoom}
+          isHeroInitialView={isHeroInitialView}
+        />
+        <CanadaLabelOverlay variant={variant} showAtInitialView={isHeroInitialView} />
       </Map>
 
 
@@ -806,7 +823,8 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   useEffect(() => {
     if (!map) return;
     if (!clusterer.current && (window as any).markerClusterer) {
-      clusterer.current = new (window as any).markerClusterer.MarkerClusterer({
+      const markerClusterer = (window as any).markerClusterer;
+      const clusterOptions: Record<string, unknown> = {
         map,
         renderer,
         onClusterClick: (...args: any[]) => {
@@ -830,7 +848,18 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
           focusClusterOnMarkers(clusterMap, cluster, event, setZoomState, setCenterState);
           return false; // Crucial for MarkerClusterer v2 to prevent its default fitBounds
         }
-      });
+      };
+
+      // The hero is already tightly framed on Ontario and Quebec, so reveal
+      // individual pins there instead of keeping them grouped at the preview zoom.
+      if (
+        (variant === 'hero' || variant === 'hero-b') &&
+        markerClusterer.SuperClusterAlgorithm
+      ) {
+        clusterOptions.algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 6 });
+      }
+
+      clusterer.current = new markerClusterer.MarkerClusterer(clusterOptions);
     } else if (clusterer.current) {
       if (typeof clusterer.current.setRenderer === 'function') {
         clusterer.current.setRenderer(renderer);
@@ -953,12 +982,23 @@ function MarkersClusterer({ stores, map, onSelectStore, selectedStore, setHovere
   return null;
 }
 
-function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: boolean; variant?: string }) {
+function ProvinceLabelsOverlay({
+  isNationalZoom,
+  variant,
+  zoom,
+  isHeroInitialView,
+}: {
+  isNationalZoom: boolean;
+  variant?: string;
+  zoom: number;
+  isHeroInitialView: boolean;
+}) {
   const map = useMap();
   const [positions, setPositions] = useState<{ [key: string]: { top: string; left: string } }>({});
+  const isHeroVariant = variant === 'hero' || variant === 'hero-b';
 
   useEffect(() => {
-    if (!map || variant === 'hero') return;
+    if (!map) return;
 
     const updatePositions = () => {
       const projection = map.getProjection();
@@ -999,13 +1039,13 @@ function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: bo
     };
   }, [map, variant]);
 
-  if (variant === 'hero' || variant === 'hero-b') return null;
+  const shouldShowLabels = isHeroVariant ? isHeroInitialView : isNationalZoom;
 
   return (
     <div
       className={cn(
-        "absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out",
-        isNationalZoom ? "opacity-100" : "opacity-0"
+        "absolute inset-0 pointer-events-none z-[6] hidden md:block transition-opacity duration-700 ease-in-out",
+        shouldShowLabels ? "opacity-100" : "opacity-0"
       )}
     >
       {PROVINCE_LABELS.map((label) => {
@@ -1013,7 +1053,10 @@ function ProvinceLabelsOverlay({ isNationalZoom, variant }: { isNationalZoom: bo
         return (
           <span
             key={label.name}
-            className="absolute text-[12px] md:text-[14px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150"
+            className={cn(
+              "absolute font-bold tracking-[0.35em] uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-all duration-150",
+              isHeroVariant ? "text-[13px] md:text-[16px] text-[#0057B7]/35" : "text-[12px] md:text-[14px] text-[#0057B7]/30",
+            )}
             style={{ top: pos.top, left: pos.left }}
           >
             {label.name}
@@ -1109,60 +1152,15 @@ function MapSurfaceState({
 
 InteractiveMap.displayName = "InteractiveMap";
 
-function CanadaLabelOverlay({ variant }: { variant?: string }) {
-  const map = useMap();
-  const [pos, setPos] = useState<{ top: string; left: string } | null>(null);
-
-  useEffect(() => {
-    if (!map || variant !== 'hero-b') return;
-
-    const updatePosition = () => {
-      const projection = map.getProjection();
-      const bounds = map.getBounds();
-      const mapDiv = map.getDiv();
-      const currentZoom = map.getZoom();
-
-      if (!projection || !bounds || !mapDiv || typeof currentZoom !== "number") return;
-
-      const rect = mapDiv.getBoundingClientRect();
-      const point = projection.fromLatLngToPoint(
-        new (window as any).google.maps.LatLng(62.0, -106.0) // North Canada – shifted 10% left
-      );
-      const center = map.getCenter();
-      if (!point || !center) return;
-      const centerPoint = projection.fromLatLngToPoint(center);
-      if (!centerPoint) return;
-
-      const scale = Math.pow(2, currentZoom);
-      const x = (point.x - centerPoint.x) * scale + rect.width / 2;
-      const y = (point.y - centerPoint.y) * scale + rect.height / 2;
-
-      setPos({ left: `${x}px`, top: `${y}px` });
-    };
-
-    updatePosition();
-    const l1 = map.addListener("bounds_changed", updatePosition);
-    const l2 = map.addListener("idle", updatePosition);
-    const l3 = map.addListener("projection_changed", updatePosition);
-    const animId = requestAnimationFrame(updatePosition);
-
-    return () => {
-      l1.remove();
-      l2.remove();
-      l3.remove();
-      cancelAnimationFrame(animId);
-    };
-  }, [map, variant]);
-
-  if (variant !== 'hero-b' || !pos) return null;
+function CanadaLabelOverlay({ variant, showAtInitialView }: { variant?: string; showAtInitialView: boolean }) {
+  if ((variant !== 'hero' && variant !== 'hero-b') || !showAtInitialView) return null;
 
   return (
     <div className="absolute inset-0 pointer-events-none z-[5] hidden md:block transition-opacity duration-700 ease-in-out opacity-100">
       <span
-        className="absolute text-[14.4px] md:text-[16.8px] font-bold tracking-[0.4em] text-[#0057B7]/30 uppercase whitespace-nowrap transform -translate-x-1/2 -translate-y-1/2 font-sans antialiased transition-opacity duration-300"
-        style={{ top: pos.top, left: pos.left }}
+        className="absolute left-[30%] top-[15%] -translate-x-1/2 -translate-y-1/2 text-[clamp(1.15rem,2vw,2.1rem)] font-semibold tracking-[0.48em] text-[#0057B7]/20 uppercase whitespace-nowrap font-sans antialiased"
       >
-        Canada
+        CANADA
       </span>
     </div>
   );

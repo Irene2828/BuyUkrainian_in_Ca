@@ -19,6 +19,7 @@ import { EmptyState } from "@/components/empty-state";
 import { StoreCard } from "@/components/store-card";
 import { UkrainianPinIcon } from "@/components/ui/ukrainian-pin-icon";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
+import { matchesProductSearch, normalizeSearchText } from "@/lib/product-search";
 
 interface MapSectionProps {
   mode?: "section" | "full";
@@ -210,13 +211,6 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
     return map[p] || p;
   };
 
-  const normalizeSearchText = (value: string) =>
-    value
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .trim();
-
   const filteredStores = useMemo(() => {
     const normalizedQuery = normalizeSearchText(searchQuery);
 
@@ -234,7 +228,9 @@ export const MapSection = forwardRef<InteractiveMapRef, MapSectionProps>((
         .map(normalizeSearchText)
         .join(" ");
 
-      const matchesSearch = !normalizedQuery || searchableText.includes(normalizedQuery);
+      const matchesSearch = !normalizedQuery ||
+        searchableText.includes(normalizedQuery) ||
+        matchesProductSearch(searchQuery, store.products || []);
       const matchesCategory = !category || store.category === category || (store.products || []).some(p => p.toLowerCase().includes(category) || p.toLowerCase().replace(/\s+/g, "-") === category);
       const matchesProvince = !selectedProvince || storeProvinceFull.toLowerCase().trim() === selectedProvince.toLowerCase().trim();
       const matchesCity = !selectedCity || store.city === selectedCity;

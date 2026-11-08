@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Store } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
-import { useI18n } from "@/lib/i18n";
+import { getCategoryLabel as getLocalizedCategoryLabel, useI18n } from "@/lib/i18n";
 import { cn } from '@/lib/utils';
 import {
     DropdownMenu,
@@ -115,13 +115,7 @@ export function StoreCard({ store, onClose, onSeeOnMap, searchQuery, className, 
 
 
     const getCategoryLabel = (category: string) => {
-        const labels: Record<string, string> = {
-            food: 'Food & Grocery',
-            clothes: 'Clothing',
-            retail: 'Retail & Gifts',
-            other: 'Gifts'
-        };
-        return labels[category] || category;
+        return getLocalizedCategoryLabel(category, t);
     };
 
     const allProducts = store.products?.flatMap(p => p.split(',')).map(p => p.trim()).filter(Boolean) || [];

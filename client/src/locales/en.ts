@@ -237,7 +237,7 @@ const en = {
       },
       item2: {
         question: "How can I add a store?",
-        answer: "Select the \"Add a store\" button, fill in the details including name, products, and address. Your store will be reviewed by the community before appearing on the map.",
+        answer: "Select the \"Add a store\" button, fill in the details including name, products, and address. The store will be reviewed by the community before appearing on the map.",
       },
       item3: {
         question: "Why do additions need review?",

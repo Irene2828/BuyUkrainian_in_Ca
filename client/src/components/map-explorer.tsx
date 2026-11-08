@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { useI18n } from "@/lib/i18n";
+import { getCategoryLabel, useI18n } from "@/lib/i18n";
 import { LocationPermissionModal } from "./location-permission-modal";
 
 const PROVINCE_MAP: Record<string, string> = {
@@ -357,7 +357,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                             </button>
                                             {isProvinceDropdownOpen && (
                                                 <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700] rounded-none">
-                                                    <div className="max-h-[200px] overflow-y-auto custom-scrollbar p-1">
+                                                    <div className="max-h-[min(360px,calc(100vh-160px))] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-2 text-[12px] font-medium text-slate-500 hover:bg-slate-100 rounded-none"
@@ -391,12 +391,12 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                 }}
                                                 className="w-full h-[44px] bg-white/10 border border-white/25 px-3.5 flex items-center justify-between text-[13px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors rounded-none"
                                             >
-                                                <span className="truncate pr-2">{category ? allCategories.find(c => c.id === category)?.label : "Category"}</span>
+                                                <span className="truncate pr-2">{category ? getCategoryLabel(category, t) : t("hero.filters.category") || "Category"}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isCategoryDropdownOpen && (
                                                 <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700] rounded-none">
-                                                    <div className="max-h-[200px] overflow-y-auto custom-scrollbar p-1">
+                                                    <div className="max-h-[min(360px,calc(100vh-160px))] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-2 text-[12px] font-medium text-slate-500 hover:bg-slate-100 rounded-none"
@@ -412,7 +412,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                                                     category === cat.id ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-100"
                                                                 )}
                                                             >
-                                                                {cat.label}
+                                                                {getCategoryLabel(cat.id, t)}
                                                             </button>
                                                         ))}
                                                     </div>

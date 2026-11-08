@@ -10,13 +10,14 @@ import wheatFieldBg from "@/assets/golden_wheat_sunset.png";
 import mapleLeafIcon from "@/assets/maple_leaf.png";
 import { GoogleMapsProvider } from "@/components/google-maps-provider";
 import { type Store, STORE_CATEGORIES } from "@/lib/data";
-import { useI18n, getTranslatedProvinceName } from "@/lib/i18n";
+import { getCategoryLabel, useI18n, getTranslatedProvinceName } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import mapsDecoration from "@/assets/maps-clean.png";
 import canadaRoundFlag from "@/assets/canada-round-flag.png";
 import { StoreCard } from "@/components/store-card";
 import { LocationPermissionModal } from "@/components/location-permission-modal";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { matchesProductSearch } from "@/lib/product-search";
 
 // Lazy load the map to ensure fast initial page load
 const InteractiveMap = lazy(() => import("@/components/interactive-map").then(module => ({ default: module.InteractiveMap })));
@@ -655,7 +656,7 @@ function HeroVariantB({
             !searchQuery ||
             store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             store.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (store.products || []).some((p) => p.toLowerCase().includes(searchQuery.toLowerCase()));
+            matchesProductSearch(searchQuery, store.products || []);
         const matchesProvince = !selectedProvince || store.province === selectedProvince;
         const matchesCategory = !category ||
             store.category === category ||
@@ -877,7 +878,7 @@ function HeroVariantB({
                                             </button>
                                             {isProvinceDropdownOpen && (
                                                 <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
-                                                    <div className="max-h-[180px] overflow-y-auto custom-scrollbar p-1">
+                                                    <div className="max-h-[min(360px,calc(100vh-160px))] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
@@ -911,12 +912,12 @@ function HeroVariantB({
                                                 }}
                                                 className="w-full h-[42px] bg-white/10 border border-white/25 px-3 flex items-center justify-between text-[13.1px] min-[1600px]:text-[14px] tracking-normal font-medium text-white hover:bg-white/20 transition-colors"
                                             >
-                                                <span className="truncate pr-2">{category ? allCategories.find(c => c.id === category)?.label : (t('hero.filters.category') || "Category")}</span>
+                                                <span className="truncate pr-2">{category ? getCategoryLabel(category, t) : (t('hero.filters.category') || "Category")}</span>
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isCategoryDropdownOpen && (
                                                 <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
-                                                    <div className="max-h-[180px] overflow-y-auto custom-scrollbar p-1">
+                                                    <div className="max-h-[min(360px,calc(100vh-160px))] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
@@ -932,7 +933,7 @@ function HeroVariantB({
                                                                     category === cat.id ? "bg-[#0057B7]/10 text-[#0057B7]" : "text-slate-700 hover:bg-slate-50"
                                                                 )}
                                                             >
-                                                                {cat.label}
+                                                                {getCategoryLabel(cat.id, t)}
                                                             </button>
                                                         ))}
                                                     </div>

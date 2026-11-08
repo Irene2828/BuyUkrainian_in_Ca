@@ -7,6 +7,7 @@ import {
 import { Store } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { getCategoryLabel as getLocalizedCategoryLabel, useI18n } from '@/lib/i18n';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -55,6 +56,7 @@ export function AnchoredStoreCard({
     userLocation,
     onZoom
 }: AnchoredStoreCardProps) {
+    const { t } = useI18n();
     const { toast } = useToast();
     const cardRef = useRef<HTMLDivElement>(null);
     const lastPannedStoreIdRef = useRef<string | number | null>(null);
@@ -155,13 +157,7 @@ export function AnchoredStoreCard({
 
     // Category label
     const getCategoryLabel = (category: string) => {
-        const labels: Record<string, string> = {
-            food: 'Food & Grocery',
-            clothes: 'Clothing',
-            retail: 'Retail & Gifts',
-            other: 'Gifts'
-        };
-        return labels[category] || category;
+        return getLocalizedCategoryLabel(category, t);
     };
 
     const handleCopyAddress = (e: React.MouseEvent) => {

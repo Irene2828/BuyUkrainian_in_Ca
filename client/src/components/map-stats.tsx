@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { AddStoreCTA } from "@/components/add-store-cta";
 
+const CANADIAN_PROVINCE_COUNT = 10;
+
 export function MapStats() {
     const { data: stores = [] } = useQuery({
         queryKey: ["stores"],
@@ -19,7 +21,9 @@ export function MapStats() {
 
     const stats = {
         stores: stores.length,
-        provinces: new Set(stores.map(s => s.province)).size,
+        // This stat represents Canada's 10 provinces, not the number of
+        // distinct province strings currently stored on individual listings.
+        provinces: CANADIAN_PROVINCE_COUNT,
         products: stores.reduce((acc, s) => acc + (s.products?.length || 0), 0)
     };
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApprovedStores } from "@/lib/api";
 import { Store } from "@/lib/data";
-import { useI18n } from "@/lib/i18n";
+import { getCategoryLabel, useI18n } from "@/lib/i18n";
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
@@ -87,7 +87,7 @@ export function AccessibleStoreDirectory({ onClose }: { onClose?: () => void }) 
                     <div className="mt-auto space-y-2">
                       <p className="text-sm">
                         <span className="font-medium text-slate-900">{isFr ? "Catégorie :" : "Category:"}</span>{" "}
-                        <span className="text-slate-600">{store.category}</span>
+                        <span className="text-slate-600">{getCategoryLabel(store.category, t)}</span>
                       </p>
                       <p className="text-sm">
                         <span className="font-medium text-slate-900">{isFr ? "Produits :" : "Products:"}</span>{" "}

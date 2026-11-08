@@ -8,16 +8,6 @@ interface EditorialStoreCardProps {
     className?: string;
 }
 
-const getCategoryLabel = (category: string) => {
-    const labels: Record<string, string> = {
-        food: 'Food & Grocery',
-        clothes: 'Clothing',
-        retail: 'Retail & Gifts',
-        other: 'Gifts'
-    };
-    return labels[category] || category;
-};
-
 const isStoreNew = (dateString?: string) => {
     if (!dateString) return false; // Default to false if no date
     const oneDay = 24 * 60 * 60 * 1000;

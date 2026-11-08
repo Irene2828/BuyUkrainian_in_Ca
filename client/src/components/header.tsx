@@ -109,7 +109,16 @@ export function Header() {
         {!isVersionB && (
           <div className="hidden md:flex flex-none items-center justify-center font-sans antialiased">
               <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
-                <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                <Link
+                  href="/#about"
+                  onClick={(e) => {
+                    if (location === '/') {
+                      e.preventDefault();
+                      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }}
+                  className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}
+                >
                   <span>{t('nav.mission') || 'Mission'}</span>
                 </Link>
                 <Link
@@ -133,7 +142,16 @@ export function Header() {
             {isVersionB ? (
               <div className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
                 <nav className="flex items-center gap-6 lg:gap-8 min-[1670px]:gap-10">
-                  <Link href="/about" className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/about' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}>
+                  <Link
+                    href="/#about"
+                    onClick={(e) => {
+                      if (location === '/') {
+                        e.preventDefault();
+                        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    className={cn(HEADER_NAV_LINK_CLASSNAME, location === '/' && HEADER_NAV_LINK_ACTIVE_CLASSNAME)}
+                  >
                     <span>{t('nav.mission') || "Project's mission"}</span>
                   </Link>
                   <Link
@@ -202,10 +220,16 @@ export function Header() {
         mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg z-40">
             <nav className="flex flex-col p-4 gap-4 antialiased">
-              <Link 
-                href="/about" 
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn("text-[16px] transition-colors py-2 tracking-normal flex items-center gap-2", location === '/about' ? "text-slate-800 font-semibold" : "text-slate-500 hover:text-slate-800 font-medium")}
+              <Link
+                href="/#about"
+                onClick={(e) => {
+                  if (location === '/') {
+                    e.preventDefault();
+                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                  setMobileMenuOpen(false);
+                }}
+                className={cn("text-[16px] transition-colors py-2 tracking-normal flex items-center gap-2", location === '/' ? "text-slate-800 font-semibold" : "text-slate-500 hover:text-slate-800 font-medium")}
               >
                 <span>{t('nav.mission') || 'Mission'}</span>
               </Link>
