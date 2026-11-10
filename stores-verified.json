@@ -3,7 +3,7 @@
     "project": "BuyUkrainian.ca — verified stores research",
     "generated": "2026-10-06",
     "source": "4 parallel research subagents, strict verification standard (high/medium confidence only)",
-    "total_stores": 39
+    "total_stores": 40
   },
   "regions": {
     "ontario": [
@@ -470,6 +470,37 @@
         "description": "Century-old Ukrainian deli (est. 1922) run by the third generation of the Zytynsky family; house-made charcuterie and baking.",
         "confidence": "medium",
         "evidence": "tastet.ca article + reviews: historic Ukrainian deli; goods are house-made, not imports"
+      },
+      {
+        "name": "Marché Décarie",
+        "address": "3824 Boulevard Décarie, Montréal, QC H4A 3J7, Canada",
+        "street": "3824 Boulevard Décarie",
+        "city": "Montréal",
+        "province": "QC",
+        "postal_code": "H4A 3J7",
+        "latitude": 45.47666,
+        "longitude": -73.61452,
+        "category": "food",
+        "website": "https://marchedecarie.ca",
+        "products": [
+          "Chumak",
+          "Roshen",
+          "Veladis",
+          "Veres",
+          "Konti",
+          "Kvas Taras",
+          "Pripravka",
+          "AVK Bam Buk",
+          "BKK Kyiv cake",
+          "Ukrainian sweets and candy",
+          "Canned and pickled vegetables",
+          "Teas",
+          "Buckwheat",
+          "Dairy products"
+        ],
+        "description": "Ukrainian and Eastern European grocery in Montreal. Online ordering with free delivery within 10 km for a limited time (min $100).",
+        "confidence": "owner-provided",
+        "evidence": "Store details and product scope provided by the site owner"
       }
     ],
     "novaScotia": [
