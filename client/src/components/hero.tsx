@@ -53,8 +53,8 @@ function MobileHomeMapPreview({
                 <GoogleMapsProvider>
                     <Suspense fallback={<div className="h-full w-full bg-[linear-gradient(180deg,#edf4fb_0%,#dbe9f5_100%)]" />}>
                         <div
-                            className="pointer-events-none absolute inset-0 scale-[1.28] -translate-x-[6%]"
-                            style={{ transform: `scale(1.28) translate(-6%, ${translateY})` }}
+                            className="pointer-events-none absolute inset-0 scale-[1.28] translate-x-[6%]"
+                            style={{ transform: `scale(1.28) translate(6%, ${translateY})` }}
                         >
                             <InteractiveMap
                                 stores={stores}
@@ -324,7 +324,7 @@ export function Hero() {
                                         <span className="text-white font-normal not-italic tracking-[-0.05em]">{t('hero.headline.discover') || "Discover"}</span>
                                     </span>
                                     <div className="md:ml-0 flex w-full justify-start overflow-visible">
-                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.394rem] tracking-[-0.05em] leading-none whitespace-nowrap text-[#FFD700] pr-2 opacity-100" style={{ color: '#FFD700', opacity: 1 }}>
+                                        <span className="hero-headline-line relative block w-fit font-sans font-normal not-italic text-[clamp(2.337rem,8.227vw,3.272rem)] md:text-[2.842rem] lg:text-[3.553rem] tracking-[-0.05em] leading-none whitespace-nowrap text-[#FFD700] pr-2 opacity-100" style={{ color: '#FFD700', opacity: 1 }}>
                                             {t('hero.headline.ukrainian') || "Ukrainian"} {t('hero.headline.products') || "Products"}
                                         </span>
                                     </div>
@@ -804,7 +804,7 @@ function HeroVariantB({
                                 >
                                     <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.045em' }}>
                                         <span className="block text-white opacity-100" style={{ letterSpacing: '-0.045em', color: '#ffffff', opacity: 1 }}>{t('hero.headline.discover') || 'Discover'}</span>
-                                        <span className="block text-[#FFD700] text-[0.93em] opacity-100" style={{ letterSpacing: '-0.045em', color: '#FFD700', opacity: 1 }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
+                                        <span className="block text-[#FFD700] opacity-100" style={{ letterSpacing: '-0.045em', color: '#FFD700', opacity: 1 }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
                                     <div className="hero-subline-text mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-normal leading-[1.15] text-white text-[#ffffff] opacity-100" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
                                         <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
@@ -852,7 +852,7 @@ function HeroVariantB({
 
 
                                 {/* Search & Filters */}
-                                <div className="mt-[18px] flex flex-col gap-3 w-full">
+                                <div className="mt-[23px] flex flex-col gap-3 w-full">
                                     {/* Search Input */}
                                     <div className="flex items-center bg-white/10 border border-white/25 px-4 h-[44px] focus-within:bg-white/20 focus-within:border-white/40 transition-colors">
                                         <Search className="w-4 h-4 text-white/60 mr-3 shrink-0" />
@@ -868,7 +868,7 @@ function HeroVariantB({
                                     {/* Province & Category Dropdowns */}
                                     <div className="flex items-center gap-2.5 w-full">
                                         {/* Province Dropdown */}
-                                        <div className="relative flex-1">
+                                        <div className="relative flex-1" onMouseLeave={() => setIsProvinceDropdownOpen(false)}>
                                             <button
                                                 onClick={() => {
                                                     const open = !isProvinceDropdownOpen;
@@ -907,7 +907,7 @@ function HeroVariantB({
                                         </div>
 
                                         {/* Category Dropdown */}
-                                        <div className="relative flex-1">
+                                        <div className="relative flex-1" onMouseLeave={() => setIsCategoryDropdownOpen(false)}>
                                             <button
                                                 onClick={() => {
                                                     const open = !isCategoryDropdownOpen;

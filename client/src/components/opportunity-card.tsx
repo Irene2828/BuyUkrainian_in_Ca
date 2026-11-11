@@ -26,7 +26,7 @@ export function OpportunityCard({ isVisible, onClear, onAddStore }: OpportunityC
                     </h3>
 
                     <p className="text-slate-500 text-[13px] leading-relaxed mb-6 font-ui px-2">
-                        Know a place in this area selling Ukrainian products? Help us grow the map.
+                        Know a place in this area selling Ukrainian products? Help us grow the map/list.
                     </p>
 
                     <div className="flex flex-col gap-3 items-center">

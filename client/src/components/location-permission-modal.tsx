@@ -50,8 +50,8 @@ export function LocationPermissionModal({ open, onOpenChange, onContinue, onCanc
         >
           <p className="text-[15px] leading-relaxed text-slate-700 font-sans text-center">
             {isFr 
-              ? "Utilisez votre position pour centrer la carte et trouver des boutiques à proximité. BuyUkrainian.ca ne conserve pas la position de votre appareil."
-              : "Use your location to centre the map and find nearby stores. BuyUkrainian.ca does not store your device location."
+              ? "Utilisez votre position pour centrer la carte et trouver des boutiques à proximité dans la carte/liste. BuyUkrainian.ca ne conserve pas la position de votre appareil."
+              : "Use your location to centre the map/list and find nearby stores. BuyUkrainian.ca does not store your device location."
             }
           </p>
         </div>

@@ -343,7 +343,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                     {/* Filters Row */}
                                     <div className="flex items-center gap-3">
                                         {/* Province */}
-                                        <div className="relative flex-1">
+                                        <div className="relative flex-1" onMouseLeave={() => setIsProvinceDropdownOpen(false)}>
                                             <button
                                                 onClick={() => {
                                                     const open = !isProvinceDropdownOpen;
@@ -382,7 +382,7 @@ export function MapExplorer({ isZenMode = false, onZenModeToggle }: MapExplorerP
                                         </div>
 
                                         {/* Category */}
-                                        <div className="relative flex-1">
+                                        <div className="relative flex-1" onMouseLeave={() => setIsCategoryDropdownOpen(false)}>
                                             <button
                                                 onClick={() => {
                                                     const open = !isCategoryDropdownOpen;

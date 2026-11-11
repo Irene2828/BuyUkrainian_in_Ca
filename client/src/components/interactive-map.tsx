@@ -27,6 +27,10 @@ const INITIAL_MAP_STATE = { center: FULL_MAP_INITIAL_CENTER, zoom: 4.15 };
 // Atlantic provinces while keeping most of the U.S. and the far Arctic out of
 // the visual focus.
 const HERO_MAP_FOCAL_POINT = { lat: 56.0, lng: -98.0 };
+// Phones use a separate western-Canada preview so Vancouver and the Pacific
+// remain visible in the narrow hero crop. Tablet and desktop keep the national
+// hero focal point above.
+const HERO_MOBILE_FOCAL_POINT = { lat: 53.5, lng: -113.5 };
 const HERO_INITIAL_MAP_STATE = {
   center: HERO_MAP_FOCAL_POINT,
   zoom: 4.7,
@@ -333,9 +337,10 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
   // use a little more detail without bringing back the U.S. or Arctic focus.
   const responsiveHeroZoom = useMemo(() => {
     if (!isHeroVariant) return null;
+    if (isMobile) return 3.8;
     const normalizedWidth = Math.max(0, Math.min(1, (initialViewportWidth - 1280) / 768));
     return Number((4.0 + normalizedWidth * 0.7).toFixed(2));
-  }, [initialViewportWidth, isHeroVariant]);
+  }, [initialViewportWidth, isHeroVariant, isMobile]);
 
   const initialZoom = useMemo(() => {
     if (isHeroVariant) return responsiveHeroZoom ?? HERO_INITIAL_MAP_STATE.zoom;
@@ -344,14 +349,16 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
   const initialCenter = useMemo(() => {
     if (isHeroVariant) {
-      const baseCenter = variant === 'hero'
+      const baseCenter = isMobile
+        ? HERO_MOBILE_FOCAL_POINT
+        : variant === 'hero'
         ? HERO_INITIAL_MAP_STATE.center
         : HERO_B_INITIAL_MAP_STATE.center;
 
       // On wide desktops, shift the geographic content left and upward by
       // roughly 10–15% without changing the hero panel layout. Moving the
       // camera east and south moves the map content left and up in the viewport.
-      if (initialViewportWidth >= 1670) {
+      if (!isMobile && initialViewportWidth >= 1670) {
         // On large desktop screens, ease the vertical lift back slightly so
         // the map content sits about 5% lower while keeping the same focus.
         // Safari gets one additional 5% downward adjustment because its
@@ -363,7 +370,7 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       return baseCenter;
     }
     return { lat: FULL_MAP_INITIAL_CENTER[0], lng: FULL_MAP_INITIAL_CENTER[1] };
-  }, [initialIsSafari, initialViewportWidth, isHeroVariant, variant]);
+  }, [initialIsSafari, initialViewportWidth, isHeroVariant, isMobile, variant]);
 
   const [zoom, setZoom] = useState(initialZoom);
   const [center, setCenter] = useState(initialCenter);

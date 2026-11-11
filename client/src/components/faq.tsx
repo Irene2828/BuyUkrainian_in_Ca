@@ -20,6 +20,10 @@ export function FAQ() {
       question: t("faq.items.item4.question"),
       answer: t("faq.items.item4.answer"),
     },
+    {
+      question: t("faq.items.item5.question"),
+      answer: t("faq.items.item5.answer"),
+    },
   ];
 
   const toggleItem = (index: number) => {

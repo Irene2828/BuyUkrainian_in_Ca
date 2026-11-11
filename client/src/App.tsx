@@ -18,7 +18,6 @@ import currentLogo from "@/assets/logoo.png";
 const MapPage = lazy(() => import("@/pages/map"));
 const AdminLogin = lazy(() => import("@/pages/admin/login"));
 const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
-const AboutPage = lazy(() => import("@/pages/about"));
 const PrivacyPage = lazy(() => import("@/pages/privacy"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 const TestLab = lazy(() => import("@/pages/test-lab"));
@@ -36,7 +35,6 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/map" component={MapPage} />
-        <Route path="/about" component={AboutPage} />
         <Route path="/privacy" component={PrivacyPage} />
         
         {isLocalhost && (

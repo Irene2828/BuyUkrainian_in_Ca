@@ -114,10 +114,10 @@ const en = {
   seo: {
     home: {
       title: "BuyUkrainian.ca | Ukrainian Products in Canada",
-      description: "Find and share Ukrainian-made products sold across Canada. Explore a community map of local businesses supporting Ukraine.",
+      description: "Find and share Ukrainian-made products sold across Canada. Explore a community map/list of local businesses supporting Ukraine.",
     },
     map: {
-      title: "Map | BuyUkrainian.ca",
+      title: "Map/list | BuyUkrainian.ca",
       description: "Browse stores, products, and locations across Canada that carry goods made in Ukraine.",
     },
     about: {
@@ -187,9 +187,9 @@ const en = {
     ctaSecondary: "How it works",
     learnHow: "how it works",
     addedRecently: "ADDED RECENTLY",
-    tapToExplore: "Tap to explore the map",
+    tapToExplore: "Tap to explore the map/list",
     tapToSeeAllLocations: "Tap to see all locations",
-    mapPreviewAria: "Interactive map of Ukrainian stores in Canada",
+    mapPreviewAria: "Interactive map/list of Ukrainian stores in Canada",
     trustPillars: {
       economy: {
         title: "Local support for Ukraine's economy",
@@ -197,7 +197,7 @@ const en = {
       },
       verified: {
         title: "Volunteer-verified listings",
-        detail: "every listing is reviewed before it appears on the map",
+        detail: "every listing is reviewed before it appears on the map/list",
       },
       updated: {
         title: "Updated Regularly",
@@ -218,13 +218,13 @@ const en = {
         titleLine1: "Found a new product",
         titleLine2: "on the shelf?",
         alt: "Found a new product on the shelf?",
-        text: "Add it to the map. With less than two minutes of your time, you can help the map grow, and help Ukrainian companies sell products in Canada.",
+        text: "Add it to the map/list. With less than two minutes of your time, you can help the map/list grow, and help Ukrainian companies sell products in Canada.",
       },
       share: {
         titleLine1: "Want to help the Ukrainian",
         titleLine2: "economy?",
         alt: "Want to help the Ukrainian economy?",
-        text: "Share the map with your network via social media, word of mouth, email, or any other way possible. The more people that use the map, the more you help Ukrainian companies sell products in Canada.",
+        text: "Share the map/list with your network via social media, word of mouth, email, or any other way possible. The more people that use the map/list, the more you help Ukrainian companies sell products in Canada.",
       },
     },
   },
@@ -237,15 +237,19 @@ const en = {
       },
       item2: {
         question: "How can I add a store?",
-        answer: "Select the \"Add a store\" button, fill in the details including name, products, and address. The store will be reviewed by the community before appearing on the map.",
+        answer: "Select the \"Add a store\" button, fill in the details including name, products, and address. The store will be reviewed by the community before appearing on the map/list.",
       },
       item3: {
         question: "Why do additions need review?",
-        answer: "Additions are reviewed by the website's admins to keep the map accurate and useful.",
+        answer: "Additions are reviewed by the website's admins to keep the map/list accurate and useful.",
       },
       item4: {
-        question: "Can I update store details?",
-        answer: "Currently, you can contact us to update information. We're working on a feature to allow community edits in the future.",
+        question: "I'm a store owner. Can I update or remove my store's information?",
+        answer: "Yes. Open the store card, select the edit icon, and submit your suggested changes. Please leave a comment indicating that you are the store owner. If you need us to remove the store from the map or list for any reason, email us.",
+      },
+      item5: {
+        question: "If a store is already on the map/list, how do I add products to the store's list?",
+        answer: "If a store is already on the map or in List View, tap its pin or open its listing. Select the edit icon on the store card, add the missing products to the product list, and submit the update. An admin will review the changes before they appear publicly.",
       },
     },
   },
@@ -261,37 +265,37 @@ const en = {
     },
     community: {
       title: "Community-powered",
-      text: "Every listing on the map comes from people who want to help others discover trusted places to shop. The project grows because the community keeps contributing.",
+      text: "Every listing on the map/list comes from people who want to help others discover trusted places to shop. The project grows because the community keeps contributing.",
     },
     why: {
       title: "Why BuyUkrainian.ca?",
       easyDiscoveryTitle: "Easy discovery",
-      easyDiscoveryText: "Find stores and products near you with one map built for quick browsing.",
+      easyDiscoveryText: "Find stores and products near you with one map/list built for quick browsing.",
       authenticProductsTitle: "Authentic products",
       authenticProductsText: "From pantry staples to cultural goods, discover items made in Ukraine.",
       coastToCoastTitle: "Coast to coast",
-      coastToCoastText: "The map keeps growing across Canadian provinces and communities.",
+      coastToCoastText: "The map/list keeps growing across Canadian provinces and communities.",
     },
     ready: {
       title: "Ready to explore?",
-      text: "Browse the map or add a location the community should know about.",
-      exploreCta: "Explore the map",
+      text: "Browse the map/list or add a location the community should know about.",
+      exploreCta: "Explore the map/list",
       addCta: "Add a location",
     },
   },
   stats: {
-    eyebrow: "Keep the map growing",
+    eyebrow: "Keep the map/list growing",
     storesFound: "Stores added",
     provincesCovered: "Provinces covered",
     productsListed: "Products listed",
-    note: "Every store on this map was added by someone like you.",
-    cta: "Add a store to the map",
+    note: "Every store on this map/list was added by someone like you.",
+    cta: "Add a store to the map/list",
   },
   communityImpact: {
     shareMessage: "I just found a great way to support Ukraine by buying Ukrainian products at stores in Canada. Check out this interactive map/list:",
     copySuccess: "Text copied to clipboard",
     eyebrow: "Help the project grow",
-    titleLine1: "Share the map",
+    titleLine1: "Share the map/list",
     titleLine2: "with your network",
     description: "Let's make it easier to support Ukraine's economy from anywhere in Canada.",
     draftLabel: "One way to share it — or use your own words",
@@ -305,7 +309,7 @@ const en = {
   },
   mapPage: {
     latestCommunityAdditions: "Latest community additions",
-    seeOnMap: "See on map",
+    seeOnMap: "See on map/list",
     knowStore: "Know a store that is not yet on the map/list? Add it here.",
     addNewStore: "Add a new store",
   },
@@ -412,16 +416,16 @@ const en = {
     },
     toast: {
       successTitle: "Store submitted successfully",
-      successDescription: "Thank you for contributing to the community map!",
+      successDescription: "Thank you for contributing to the community map/list!",
       errorTitle: "Error",
     },
     success: {
-      title: "Thanks for helping the map grow",
-      description: "Your store will appear on the map once verified.",
-      action: "Back to the map",
+      title: "Thanks for helping the map/list grow",
+      description: "Your store will appear on the map/list once verified.",
+      action: "Back to the map/list",
     },
     title: "Add a store",
-    subtitle: "Help the map grow by adding stores selling products made in Ukraine.",
+    subtitle: "Help the map/list grow by adding stores selling products made in Ukraine.",
     closeAria: "Close add-store form",
     fields: {
       location: {

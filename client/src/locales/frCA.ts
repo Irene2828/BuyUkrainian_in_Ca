@@ -105,7 +105,7 @@ const frCA = {
   nav: {
     home: "Accueil",
     about: "À propos",
-    map: "Carte",
+    map: "Carte des boutiques",
     mapShort: "Carte",
     addStore: "Ajouter une boutique",
     mission: "Mission",
@@ -114,10 +114,10 @@ const frCA = {
   seo: {
     home: {
       title: "BuyUkrainian.ca | Produits ukrainiens au Canada",
-      description: "Trouvez et ajoutez des produits fabriqués en Ukraine partout au Canada. Explorez une carte communautaire des entreprises qui soutiennent l'Ukraine.",
+      description: "Trouvez et ajoutez des produits fabriqués en Ukraine partout au Canada. Explorez une carte/liste communautaire des entreprises qui soutiennent l'Ukraine.",
     },
     map: {
-      title: "Carte | BuyUkrainian.ca",
+      title: "Carte/liste | BuyUkrainian.ca",
       description: "Parcourez les boutiques, les produits et les lieux au Canada qui proposent des produits fabriqués en Ukraine.",
     },
     about: {
@@ -184,9 +184,9 @@ const frCA = {
     ctaPrimary: "Trouver des boutiques près de moi",
     ctaSecondary: "Comment ça fonctionne",
     addedRecently: "AJOUTÉ RÉCEMMENT",
-    tapToExplore: "Appuyez pour explorer la carte",
+    tapToExplore: "Appuyez pour explorer la carte/liste",
     tapToSeeAllLocations: "Touchez pour voir tous les emplacements",
-    mapPreviewAria: "Carte interactive des boutiques ukrainiennes au Canada",
+    mapPreviewAria: "Carte/liste interactive des boutiques ukrainiennes au Canada",
     trustPillars: {
       economy: {
         title: "Soutenir l'économie ukrainienne",
@@ -194,7 +194,7 @@ const frCA = {
       },
       verified: {
         title: "Fiches vérifiées par des bénévoles",
-        detail: "chaque lieu est révisé avant d'apparaître sur la carte",
+        detail: "chaque lieu est révisé avant d'apparaître sur la carte/liste",
       },
       updated: {
         title: "Mise à jour régulièrement",
@@ -215,13 +215,13 @@ const frCA = {
         titleLine1: "Vous avez trouvé un produit ukrainien",
         titleLine2: "dans une boutique locale?",
         alt: "Vous avez trouvé un produit ukrainien dans une boutique locale?",
-        text: "Ajoutez-le à la carte. Deux minutes de votre temps peuvent aider des entreprises ukrainiennes à rejoindre davantage de gens au Canada.",
+        text: "Ajoutez-le à la carte/liste. Deux minutes de votre temps peuvent aider des entreprises ukrainiennes à rejoindre davantage de gens au Canada.",
       },
       share: {
         titleLine1: "Vous voulez soutenir encore plus",
         titleLine2: "l'économie ukrainienne?",
         alt: "Vous voulez soutenir encore plus l'économie ukrainienne?",
-        text: "Partagez la carte avec votre réseau pour aider plus de gens à acheter ukrainien avec intention.",
+        text: "Partagez la carte/liste avec votre réseau pour aider plus de gens à acheter ukrainien avec intention.",
       },
     },
   },
@@ -238,11 +238,15 @@ const frCA = {
       },
       item3: {
         question: "Pourquoi les nouvelles fiches sont-elles révisées?",
-        answer: "La révision permet de garder la carte juste, utile et exempte de pourriel ou de renseignements trompeurs.",
+        answer: "La révision permet de garder la carte/liste exacte, utile et exempte de pourriel ou de renseignements trompeurs.",
       },
       item4: {
-        question: "Puis-je mettre à jour les détails d'une boutique?",
-        answer: "Oui. Si quelque chose a changé, envoyez la mise à jour par le site et l'équipe bénévole pourra la réviser.",
+        question: "Je suis propriétaire d’une boutique. Puis-je mettre à jour ou retirer les renseignements sur ma boutique?",
+        answer: "Oui. Ouvrez la fiche de la boutique, sélectionnez l’icône de modification et envoyez vos changements proposés. Veuillez laisser un commentaire précisant que vous êtes propriétaire de la boutique. Si vous devez retirer la boutique de la carte ou de la liste pour quelque raison que ce soit, écrivez-nous par courriel.",
+      },
+      item5: {
+        question: "Comment ajouter des produits à la liste d'une boutique déjà présente sur la carte ou dans la liste?",
+        answer: "Si une boutique figure déjà sur la carte ou dans le mode Liste, appuyez sur son repère ou ouvrez sa fiche. Dans la fiche de la boutique, sélectionnez l'icône de modification, ajoutez les produits manquants à la liste, puis envoyez la mise à jour. Un administrateur vérifiera les changements avant leur publication.",
       },
     },
   },
@@ -258,37 +262,37 @@ const frCA = {
     },
     community: {
       title: "Porté par la communauté",
-      text: "Chaque fiche sur la carte vient de personnes qui souhaitent aider les autres à trouver des endroits fiables où magasiner. Le projet grandit grâce aux contributions de la communauté.",
+      text: "Chaque fiche sur la carte/liste vient de personnes qui souhaitent aider les autres à trouver des endroits fiables où magasiner. Le projet grandit grâce aux contributions de la communauté.",
     },
     why: {
       title: "Pourquoi BuyUkrainian.ca?",
       easyDiscoveryTitle: "Repérage facile",
-      easyDiscoveryText: "Une seule carte pour trouver rapidement des boutiques et des produits près de chez vous.",
+      easyDiscoveryText: "Une seule carte/liste pour trouver rapidement des boutiques et des produits près de chez vous.",
       authenticProductsTitle: "Produits authentiques",
       authenticProductsText: "Des essentiels du garde-manger aux produits culturels, découvrez ce qui est vraiment fabriqué en Ukraine.",
       coastToCoastTitle: "D'un océan à l'autre",
-      coastToCoastText: "La carte continue de grandir dans les provinces et les communautés partout au Canada.",
+      coastToCoastText: "La carte/liste continue de grandir dans les provinces et les communautés partout au Canada.",
     },
     ready: {
       title: "Prêt à explorer?",
-      text: "Parcourez la carte ou ajoutez un endroit que la communauté devrait connaître.",
-      exploreCta: "Explorer la carte",
+      text: "Parcourez la carte/liste ou ajoutez un endroit que la communauté devrait connaître.",
+      exploreCta: "Explorer la carte/liste",
       addCta: "Ajouter un lieu",
     },
   },
   stats: {
-    eyebrow: "La carte continue de grandir",
+    eyebrow: "La carte/liste continue de grandir",
     storesFound: "Boutiques trouvées",
     provincesCovered: "Provinces couvertes",
     productsListed: "Produits répertoriés",
-    note: "Chaque boutique sur cette carte a été ajoutée par une personne comme vous.",
-    cta: "Ajouter une boutique à la carte",
+    note: "Chaque boutique sur cette carte/liste a été ajoutée par une personne comme vous.",
+    cta: "Ajouter une boutique à la carte/liste",
   },
   communityImpact: {
     shareMessage: "Je viens de trouver une belle façon de soutenir l'Ukraine au Canada. Découvrez cette carte interactive de produits fabriqués en Ukraine :",
     copySuccess: "Texte copié dans le presse-papiers",
     eyebrow: "Aidez le projet à grandir",
-    titleLine1: "Partagez la carte",
+    titleLine1: "Partagez la carte/liste",
     titleLine2: "avec votre réseau",
     description: "Rendons le soutien à l'économie ukrainienne plus facile partout au Canada.",
     draftLabel: "Une façon de la partager — ou servez-vous-en comme point de départ",
@@ -302,8 +306,8 @@ const frCA = {
   },
   mapPage: {
     latestCommunityAdditions: "Derniers ajouts de la communauté",
-    seeOnMap: "Voir sur la carte",
-    knowStore: "Vous connaissez une boutique qu'on a manquée? Ajoutez-la à la carte.",
+    seeOnMap: "Voir sur la carte/liste",
+    knowStore: "Vous connaissez une boutique qu'on a manquée? Ajoutez-la à la carte/liste.",
     addNewStore: "Ajouter une nouvelle boutique",
   },
   mapExplorer: {
@@ -409,16 +413,16 @@ const frCA = {
     },
     toast: {
       successTitle: "Boutique envoyée avec succès",
-      successDescription: "Merci de contribuer à la carte communautaire.",
+      successDescription: "Merci de contribuer à la carte/liste communautaire.",
       errorTitle: "Erreur",
     },
     success: {
-      title: "Merci d'aider la carte à grandir",
-      description: "Votre boutique apparaîtra sur la carte après vérification.",
-      action: "Retour à la carte",
+      title: "Merci d'aider la carte/liste à grandir",
+      description: "Votre boutique apparaîtra sur la carte/liste après vérification.",
+      action: "Retour à la carte/liste",
     },
     title: "Ajouter une boutique",
-    subtitle: "Aidez la carte à grandir en ajoutant des commerces qui vendent des produits fabriqués en Ukraine.",
+    subtitle: "Aidez la carte/liste à grandir en ajoutant des commerces qui vendent des produits fabriqués en Ukraine.",
     closeAria: "Fermer le formulaire d'ajout",
     fields: {
       location: {
