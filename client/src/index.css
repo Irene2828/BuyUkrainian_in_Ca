@@ -1839,3 +1839,11 @@ img[src*="google4_tracking"] {
 .hero-desktop-frame h1 * {
   font-family: 'Space Grotesk', sans-serif;
 }
+
+
+/* Hero subline: break before "made in Ukraine." on mobile only */
+@media (max-width: 768px) {
+  .hero-subline-end {
+    display: block;
+  }
+}
