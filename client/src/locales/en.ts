@@ -159,7 +159,7 @@ const en = {
       breakBeforeAndShareOnMobile: false,
       share: "share",
       products: "local stores",
-      secondRow: "selling Ukrainian-made products.",
+      secondRow: "selling products made in Ukraine.",
     },
     filters: {
       searchPlaceholder: "Search product or town",
