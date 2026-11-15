@@ -1834,3 +1834,8 @@ img[src*="google4_tracking"] {
     scroll-behavior: auto !important;
   }
 }
+/* Preview: hero headline in Space Grotesk */
+.hero-desktop-frame h1,
+.hero-desktop-frame h1 * {
+  font-family: 'Space Grotesk', sans-serif;
+}
