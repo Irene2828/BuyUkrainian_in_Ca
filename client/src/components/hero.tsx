@@ -264,7 +264,7 @@ export function Hero() {
                                 </>
                             )}
                             {t('hero.descriptionParts.products') || "local stores"}
-                            {t('hero.descriptionParts.secondRow') ? ` ${t('hero.descriptionParts.secondRow')}` : ""}
+                            {t('hero.descriptionParts.secondRow') ? ` ${t('hero.descriptionParts.secondRow').replace(" made in Ukraine.", "")}` : ""}<span className="hero-subline-end">{t('hero.descriptionParts.secondRow').includes("made in Ukraine.") ? " made in Ukraine." : ""}</span>
                         </p>
 
 
@@ -369,7 +369,7 @@ export function Hero() {
                                             {t('hero.descriptionParts.secondRow') ? (
                                                 <>
                                                     <br />
-                                                    {t('hero.descriptionParts.secondRow')}
+                                                    {t('hero.descriptionParts.secondRow').replace(" made in Ukraine.", "")}<span className="hero-subline-end">{t('hero.descriptionParts.secondRow').includes("made in Ukraine.") ? " made in Ukraine." : ""}</span>
                                                 </>
                                             ) : null}
                                         </motion.p>
@@ -759,7 +759,7 @@ function HeroVariantB({
                                         </>
                                     )}
                                     {t('hero.descriptionParts.products') || "local stores"}
-                                    {t('hero.descriptionParts.secondRow') ? ` ${t('hero.descriptionParts.secondRow')}` : ""}
+                                    {t('hero.descriptionParts.secondRow') ? ` ${t('hero.descriptionParts.secondRow').replace(" made in Ukraine.", "")}` : ""}<span className="hero-subline-end">{t('hero.descriptionParts.secondRow').includes("made in Ukraine.") ? " made in Ukraine." : ""}</span>
                                 </p>
 
                                 <div className="mt-6 mb-4 grid gap-2.5 [@media(max-height:700px)]:mt-5">
@@ -843,7 +843,7 @@ function HeroVariantB({
                                     {t('hero.descriptionParts.secondRow') ? (
                                         <>
                                             <br />
-                                            {t('hero.descriptionParts.secondRow')}
+                                            {t('hero.descriptionParts.secondRow').replace(" made in Ukraine.", "")}<span className="hero-subline-end">{t('hero.descriptionParts.secondRow').includes("made in Ukraine.") ? " made in Ukraine." : ""}</span>
                                         </>
                                     ) : null}
                                 </motion.p>
