@@ -1,5 +1,5 @@
-import { Switch, Route } from "wouter";
-import { Suspense, lazy, useEffect } from "react";
+import { Switch, Route, useLocation } from "wouter";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { queryClient, setupWebSocketListener } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import "./App.css"; // Reinforced design styles
@@ -26,12 +26,36 @@ function RouteFallback() {
   return <div className="min-h-screen bg-white" />;
 }
 
+function MobileOnlyMapPage() {
+  const [, setLocation] = useLocation();
+  const [isMobile, setIsMobile] = useState<boolean | null>(() =>
+    typeof window === "undefined" ? null : window.innerWidth < 768,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => setIsMobile(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile === false) {
+      setLocation("/");
+    }
+  }, [isMobile, setLocation]);
+
+  if (isMobile === null) return <RouteFallback />;
+  return isMobile ? <MapPage /> : <Home />;
+}
+
 function Router() {
   return (
     <Suspense fallback={<RouteFallback />}>
       <Switch>
         <Route path="/" component={Home} />
-        <Route path="/map" component={MapPage} />
+        <Route path="/map" component={MobileOnlyMapPage} />
         <Route path="/privacy" component={PrivacyPage} />
         
         <Route path="/admin" component={AdminLogin} />
