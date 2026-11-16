@@ -583,12 +583,22 @@ function HeroVariantB({
             setLocation(`/map?store=${encodeURIComponent(String(store.id))}`);
         } else {
             setViewMode("map");
-            setSelectedHeroStore(store);
-            setTimeout(() => {
-                if (mapRef.current) {
-                    mapRef.current.focusOnStore(store);
-                }
-            }, 120);
+            const focusAndSelect = () => {
+                if (!mapRef.current) return false;
+                // Move the camera before mounting the anchored card. Otherwise
+                // the card can briefly see the old viewport, decide the store
+                // is off-screen, and close itself while the map is flying.
+                mapRef.current.focusOnStore(store);
+                setSelectedHeroStore(store);
+                return true;
+            };
+
+            if (viewMode !== "map" || !focusAndSelect()) {
+                // The list view unmounts the map. Let the map mount first, then
+                // focus and select the store in the same order as the map view.
+                setSelectedHeroStore(null);
+                window.setTimeout(focusAndSelect, 120);
+            }
         }
     };
 
@@ -711,7 +721,7 @@ function HeroVariantB({
                                 <div className="mb-6 h-[16px] pointer-events-none" aria-hidden="true" />
                                 <div className="w-fit flex flex-col">
                                     <h1
-                                        className="relative z-10 max-w-full text-[clamp(34px,11vw,3.33rem)] min-[1600px]:text-[3.5rem] font-medium not-italic leading-[0.97] antialiased [@media(max-height:700px)]:text-[2.57rem]"
+                                        className="relative z-10 max-w-full text-[clamp(34px,11vw,3.33rem)] min-[1600px]:text-[3.5rem] font-medium not-italic leading-[0.698] antialiased [@media(max-height:700px)]:text-[2.57rem]"
                                         style={{ WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility', fontWeight: 480, letterSpacing: '-0.04em' }}
                                     >
                                         <span className="block text-white font-medium not-italic whitespace-nowrap opacity-100" style={{ fontWeight: 480, letterSpacing: '-0.04em', color: '#ffffff', opacity: 1 }}>
@@ -721,7 +731,7 @@ function HeroVariantB({
                                             {t("hero.headline.ukrainian") || "Ukrainian"} {t("hero.headline.products") || "Products"}
                                         </span>
                                     </h1>
-                                    <div className="mt-0.5 flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.88vw,2.52rem)] font-normal not-italic leading-tight text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.89rem]" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                                    <div className="mt-[5px] flex items-center justify-start gap-2.5 w-full text-[clamp(1.84rem,7.88vw,2.52rem)] font-normal not-italic leading-[1.125] text-white text-[#ffffff] opacity-100 [@media(max-height:700px)]:text-[1.89rem]" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
                                         <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-1 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </div>
@@ -794,7 +804,7 @@ function HeroVariantB({
                             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14)_0%,rgba(0,87,183,0)_46%)]" />
 
                             {/* Main Content */}
-                            <div className="hero-split-copy-content relative z-10 flex flex-col flex-1 px-8 lg:px-10 py-6 min-[1440px]:py-8 pb-7 min-[1440px]:pb-8 justify-center">
+                            <div className="hero-split-copy-content relative z-10 flex flex-col flex-1 translate-y-[clamp(16px,3vh,24px)] px-8 lg:px-10 py-6 min-[1440px]:py-8 pb-7 min-[1440px]:pb-8 justify-center">
                                 {/* Headline */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
@@ -802,11 +812,11 @@ function HeroVariantB({
                                     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1.0] }}
                                     className="pt-1"
                                 >
-                                    <h1 className="font-medium not-italic leading-[0.92] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.045em' }}>
+                                    <h1 className="font-medium not-italic leading-[0.662] antialiased text-[clamp(2.2rem,3.8vw,3.2rem)]" style={{ fontWeight: 480, letterSpacing: '-0.045em' }}>
                                         <span className="block text-white opacity-100" style={{ letterSpacing: '-0.045em', color: '#ffffff', opacity: 1 }}>{t('hero.headline.discover') || 'Discover'}</span>
                                         <span className="block text-[#FFD700] opacity-100" style={{ letterSpacing: '-0.045em', color: '#FFD700', opacity: 1 }}>{t('hero.headline.ukrainian') || 'Ukrainian'} {t('hero.headline.products') || 'Products'}</span>
                                     </h1>
-                                    <div className="hero-subline-text mt-0.5 flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-normal leading-[1.15] text-white text-[#ffffff] opacity-100" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
+                                    <div className="hero-subline-text mt-[5px] flex items-center gap-4 text-[clamp(1.43rem,2.42vw,1.98rem)] font-normal leading-[1.035] text-white text-[#ffffff] opacity-100" style={{ letterSpacing: '-0.01em', color: '#ffffff', opacity: 1, WebkitFontSmoothing: 'antialiased', textRendering: 'optimizeLegibility' }}>
                                         <span className="whitespace-nowrap text-white text-[#ffffff] opacity-100" style={{ color: '#ffffff', opacity: 1 }}>{t('hero.headline.sold') || 'sold'} <span className="font-normal px-0.5 text-white text-[#ffffff]">{t('hero.headline.across') || 'across'}</span> {t('hero.headline.canada') || 'Canada'}</span>
                                     </div>
                                 </motion.div>
@@ -1059,7 +1069,7 @@ function HeroVariantB({
                                                     ref={mapRef}
                                                     stores={filteredStores}
                                                     selectedStore={selectedHeroStore}
-                                                    onSelectStore={setSelectedHeroStore}
+                                                    onSelectStore={handleSelectStoreFromList}
                                                     onCloseStore={() => setSelectedHeroStore(null)}
                                                     userLocation={userLocation}
                                                     variant="hero-b"

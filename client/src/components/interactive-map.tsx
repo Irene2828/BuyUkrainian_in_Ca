@@ -311,6 +311,20 @@ const HERO_CITY_LABELS = [
   { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 2 }] },
 ];
 
+// The hero stays intentionally quiet until someone interacts with it. After a
+// zoom, pan, or store selection, bring back the road network and give labels a
+// stronger fill/stroke so the map becomes useful without changing its initial
+// visual treatment.
+const HERO_INTERACTIVE_STREET_LABELS = [
+  ...FULL_MAP_BASE_STYLE,
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#d7e4f1' }, { weight: 1.2 }] },
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#64748b' }] },
+  { featureType: 'road', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 3 }] },
+  { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#334155' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }, { weight: 3 }] },
+];
+
 export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>(({
   stores,
   selectedStore,
@@ -451,7 +465,11 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
       let targetStyle = FULL_MAP_NO_LABELS;
 
       if (variant === 'hero-b') {
-        targetStyle = currentZoom > 7 ? HERO_CITY_LABELS : HERO_MAP_STYLE;
+        targetStyle = currentZoom > 7
+          ? HERO_INTERACTIVE_STREET_LABELS
+          : currentZoom > 5
+          ? HERO_CITY_LABELS
+          : HERO_MAP_STYLE;
       } else if (currentZoom >= 12) {
         targetStyle = FULL_MAP_STREET_LABELS;
       } else if (currentZoom > 5) {
@@ -711,7 +729,8 @@ export const InteractiveMap = forwardRef<InteractiveMapRef, InteractiveMapProps>
 
 
 
-      {/* Hero map mist: white fade over the top-right of the hero map only (right half, top 30%). Left edge feathered with a mask; pointer-events-none so the map stays interactive. z-500 sits above the map tiles, below the zoom controls (z-1000). */}{variant === "hero-b" && (<div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-[500] hidden h-[30%] w-1/2 min-[1920px]:block bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_100%)] [mask-image:linear-gradient(to_right,transparent_0%,black_25%,black_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_25%,black_100%)]" />)}{variant !== "hero" && (
+      {/* Hero map mist: keep the polished fade at rest, then remove it after
+          interaction so zoomed-in street labels stay readable. */}{variant === "hero-b" && isHeroInitialView && (<div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-[500] hidden h-[30%] w-1/2 min-[1920px]:block bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_100%)] [mask-image:linear-gradient(to_right,transparent_0%,black_25%,black_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_25%,black_100%)]" />)}{variant !== "hero" && (
         <div className="absolute inset-0 z-[1000] pointer-events-none">
           <div className={cn("h-full relative", variant === "hero-b" ? "w-full" : "boutique-width mx-auto")}>
             <div className={cn("absolute flex flex-col items-end pointer-events-none", variant === "hero-b" ? "top-[14px] right-4 lg:right-6" : "top-4 pt-2 right-[clamp(1.5rem,5vw,4rem)] min-[1440px]:right-[2.5rem]")}>
