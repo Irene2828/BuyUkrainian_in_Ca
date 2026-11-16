@@ -310,11 +310,22 @@ html.dark header.bg-white\/90 {
   }
 
   html,
-  body {
+  body,
+  #root {
     cursor: auto !important;
     scroll-behavior: smooth;
     font-size: 16px;
     /* Static base, scaling handled by zoom */
+  }
+
+  /* Keep mobile page scrolling vertical even when decorative/map layers
+     extend beyond the viewport. Nested chip rows remain horizontally scrollable. */
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
   }
 
   body {

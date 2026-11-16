@@ -103,7 +103,7 @@ export function HowItWorks() {
               
               {/* Content */}
               <div className="text-reveal flex-1 flex flex-col pt-0.5 min-w-0" style={{ transitionDelay: `${index * 80}ms` }}>
-                <h3 className="how-it-works-h3 text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-[0.035em] md:tracking-[0.015em]">
+                <h3 className="how-it-works-h3 text-white font-sans font-bold text-[19px] mb-1 leading-normal md:leading-tight w-full whitespace-normal tracking-normal">
                   {step.title}
                 </h3>
                 <p className="how-it-works-p text-white/85 font-medium text-[16px] leading-relaxed mt-1 md:mt-1.5">
