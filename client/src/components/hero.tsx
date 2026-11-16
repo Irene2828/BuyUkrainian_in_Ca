@@ -506,7 +506,7 @@ interface HeroVariantBProps {
     shouldRenderHeroMap: boolean;
     trustPillars: TrustPillar[];
 }
-const HeroMapMarquee = ({ stores }: { stores: Store[] }) => {
+const HeroMapMarquee = ({ stores, onStoreClick }: { stores: Store[]; onStoreClick: (store: Store) => void }) => {
     if (!stores.length) return null;
     const repeatedStores = Array(10).fill(stores).flat();
     
@@ -538,7 +538,7 @@ const HeroMapMarquee = ({ stores }: { stores: Store[] }) => {
                     style={{ animation: `map-marquee-scroll ${duration}s linear infinite` }}
                 >
                     {repeatedStores.map((store, i) => (
-                        <div key={`${store.id}-${i}`} className="flex items-center group cursor-pointer pr-12 transition-opacity duration-300 hover:opacity-70" onClick={() => window.location.assign(`/map?store=${store.id}`)}>
+                        <div key={`${store.id}-${i}`} className="flex items-center group cursor-pointer pr-12 transition-opacity duration-300 hover:opacity-70" onClick={() => onStoreClick(store)}>
                             <span className="text-[11px] min-[1670px]:scale-[0.85] min-[1670px]:origin-left inline-block uppercase font-bold text-slate-500 tracking-[0.1em]">{store.name}</span>
                             <div className="ml-12 w-[1px] h-3 bg-slate-300/80 shrink-0"></div>
                         </div>
@@ -1014,7 +1014,7 @@ function HeroVariantB({
 
                         {/* RIGHT 62% COLUMN — Interactive Map with Map/List Toggle */}
                         <div className="flex-1 relative h-full min-h-[450px] bg-white overflow-hidden z-10">
-                            <HeroMapMarquee stores={stores} />
+                            <HeroMapMarquee stores={stores} onStoreClick={handleSelectStoreFromList} />
                             
                             {/* Map/List Toggle */}
                             <div className="absolute top-[14px] left-6 z-[1000] pointer-events-auto">

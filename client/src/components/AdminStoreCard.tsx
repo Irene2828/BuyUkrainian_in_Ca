@@ -49,7 +49,7 @@ function StatusBadge({ status }: { status: string }) {
             : "border-[#f1c6c6] bg-[#fff4f4] text-[#ae3c3c]";
 
     return (
-        <span className={`inline-flex min-h-6 items-center gap-1.5 rounded-none border px-2.5 text-[10px] font-extrabold uppercase tracking-[0.08em] ${styles}`}>
+        <span className={`inline-flex min-h-6 items-center gap-1.5 rounded-full border px-3 text-[10px] font-extrabold uppercase tracking-[0.08em] ${styles}`}>
             <span className="h-1.5 w-1.5 rounded-full bg-current" />
             {status}
         </span>
@@ -82,7 +82,7 @@ function ActionButton({
                 event.stopPropagation();
                 onClick();
             }}
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-none border transition-colors ${toneClasses}`}
+            className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors ${toneClasses}`}
         >
             {children}
         </button>
@@ -117,7 +117,7 @@ function ListViewRow({
         >
             <div className="relative">
                 {store.images?.[0] ? (
-                    <img src={store.images[0]} alt="" className="h-11 w-11 rounded-none object-cover ring-1 ring-[#dbe7f3]" />
+                        <img src={store.images[0]} alt="" className="h-11 w-11 rounded-[12px] object-cover ring-1 ring-[#dbe7f3]" />
                 ) : (
                     <BrandCircle />
                 )}
@@ -169,10 +169,10 @@ function GridViewCard({
 }: Omit<AdminStoreCardProps, "viewMode">) {
     return (
         <article
-            className="group overflow-hidden rounded-[18px] border border-[#dbe7f3] bg-white shadow-[0_12px_26px_rgba(21,75,128,0.05)] transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(21,75,128,0.1)]"
+            className="group overflow-hidden rounded-[20px] border border-slate-200/80 bg-white shadow-[0_16px_40px_-12px_rgba(0,35,85,0.15),0_4px_16px_-4px_rgba(0,0,0,0.08)] transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_44px_-12px_rgba(0,35,85,0.2),0_6px_18px_-4px_rgba(0,0,0,0.1)]"
             onClick={() => onView?.(store)}
         >
-            <div className="relative h-36 overflow-hidden bg-[#f3f8fd]">
+            <div className="relative h-36 overflow-hidden bg-slate-50">
                 {store.images?.[0] ? (
                     <img src={store.images[0]} alt={store.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                 ) : (
@@ -196,10 +196,10 @@ function GridViewCard({
                 </div>
                 {showActions && (
                     <div className="grid grid-cols-2 gap-2 pt-1">
-                        <button type="button" onClick={(event) => { event.stopPropagation(); onApprove(store.id); }} className="inline-flex h-10 items-center justify-center gap-2 rounded-none bg-[#0057B7] text-[12px] font-bold text-white transition-colors hover:bg-[#004798]">
+                        <button type="button" onClick={(event) => { event.stopPropagation(); onApprove(store.id); }} className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#FFD700] text-[12px] font-bold text-[#0057B7] shadow-[0_8px_20px_-8px_rgba(255,215,0,0.5)] transition-colors hover:bg-[#F2CC00]">
                             <Check className="h-4 w-4" /> Approve
                         </button>
-                        <button type="button" onClick={(event) => { event.stopPropagation(); onReject(store.id); }} className="inline-flex h-10 items-center justify-center gap-2 rounded-none border border-[#f1c6c6] bg-white text-[12px] font-bold text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
+                        <button type="button" onClick={(event) => { event.stopPropagation(); onReject(store.id); }} className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white text-[12px] font-bold text-[#ae3c3c] transition-colors hover:border-red-200 hover:bg-red-50">
                             <X className="h-4 w-4" /> Reject
                         </button>
                     </div>

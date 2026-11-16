@@ -37,6 +37,7 @@ import {
     User,
     Key,
     Edit3,
+    ChevronDown,
 } from "lucide-react";
 import {
     Dialog,
@@ -69,6 +70,13 @@ const adminSectionLabelClassName =
 
 const adminFieldLabelClassName =
     "mb-2 block text-[10px] font-bold uppercase tracking-[0.15em] text-[#567089]";
+
+const EDIT_PRODUCT_TAXONOMY = {
+    "Sweets & snacks": ["Roshen chocolates", "Zefir", "Cookies & Wafers"],
+    "Food & Drinks": ["Kvas / Beverages", "Imported Groceries"],
+    "Apparel": ["Vyshyvanka (Embroidered shirt)", "Modern Ukrainian brands"],
+    "Gifts & Other": ["Pysanky / Souvenirs", "Cosmetics & Skincare", "Books / Art"],
+};
 
 interface SortableStoreRowProps {
     store: any;
@@ -120,11 +128,11 @@ function SortableStoreRow({
             ref={setNodeRef}
             style={style}
             className={cn(
-                "flex items-center justify-between gap-4 border-b border-[#e6eef6] p-4 transition-colors last:border-b-0 max-md:items-start max-md:gap-3 max-md:p-3",
+                "m-3 flex items-center justify-between gap-4 rounded-[20px] border border-slate-200/80 bg-white p-4 shadow-[0_16px_40px_-12px_rgba(0,35,85,0.12),0_4px_16px_-4px_rgba(0,0,0,0.06)] transition-all max-md:items-start max-md:gap-3 max-md:p-3",
                 isDragging
-                    ? "z-50 scale-[1.02] rounded-none bg-white shadow-xl ring-1 ring-[#9cc1e5]"
-                    : "bg-white hover:bg-[#f8fbff]",
-                selectedIds.has(store.id) && "bg-[#eaf3fc]"
+                    ? "z-50 scale-[1.02] shadow-xl ring-1 ring-[#9cc1e5]"
+                    : "hover:-translate-y-0.5 hover:shadow-[0_20px_44px_-12px_rgba(0,35,85,0.18),0_6px_18px_-4px_rgba(0,0,0,0.08)]",
+                selectedIds.has(store.id) && "border-[#9cc1e5] bg-[#f8fbff]"
             )}
             onClick={() => openEditModal(store)}
         >
@@ -144,7 +152,7 @@ function SortableStoreRow({
                         className="w-4 h-4 rounded border-slate-300 pointer-events-none accent-[#0057B7]"
                     />
                 </div>
-                <div className="h-11 w-11 rounded-none bg-[#f3f8fd] flex items-center justify-center shrink-0 overflow-hidden text-[#8da7bf] ring-1 ring-[#dbe7f3]">
+                <div className="h-11 w-11 rounded-[12px] bg-slate-50 flex items-center justify-center shrink-0 overflow-hidden text-[#8da7bf] ring-1 ring-[#dbe7f3]">
                     {store.images?.[0] ? (
                         <img src={store.images[0]} className="w-full h-full object-cover" alt="" />
                     ) : (
@@ -169,13 +177,13 @@ function SortableStoreRow({
             <div className="flex items-center gap-2">
                 {activeTab === "pending" && (
                     <>
-                        <button title="Edit store" aria-label="Edit store" onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="rounded-none p-2 text-[#71869B] transition-colors hover:bg-[#eaf3fc] hover:text-[#0057B7]">
+                        <button title="Edit store" aria-label="Edit store" onClick={(e) => { e.stopPropagation(); openEditModal(store); }} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#dbe7f3] bg-white text-[#71869B] transition-colors hover:border-[#9cc1e5] hover:text-[#0057B7]">
                             <Edit3 className="w-4.5 h-4.5" />
                         </button>
-                        <button title="Approve store" aria-label="Approve store" onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="rounded-none p-2 text-[#197044] transition-colors hover:bg-[#f0fbf5]">
+                        <button title="Approve store" aria-label="Approve store" onClick={(e) => { e.stopPropagation(); handleApprove(store.id); }} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#bde5d1] bg-[#f0fbf5] text-[#197044] transition-colors hover:bg-[#e2f7eb]">
                             <Check className="w-4.5 h-4.5" />
                         </button>
-                        <button title="Reject store" aria-label="Reject store" onClick={(e) => { e.stopPropagation(); handleReject(store.id); }} className="rounded-none p-2 text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
+                        <button title="Reject store" aria-label="Reject store" onClick={(e) => { e.stopPropagation(); handleReject(store.id); }} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#f1c6c6] bg-white text-[#ae3c3c] transition-colors hover:bg-[#fff4f4]">
                             <X className="w-4.5 h-4.5" />
                         </button>
                     </>
@@ -237,6 +245,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
     const [editAddress, setEditAddress] = useState("");
     const [editWebsite, setEditWebsite] = useState("");
     const [editCategory, setEditCategory] = useState<"food" | "clothes" | "retail" | "other">("food");
+    const [isEditCategoryOpen, setIsEditCategoryOpen] = useState(false);
     const [editProducts, setEditProducts] = useState("");
     const [editDescription, setEditDescription] = useState("");
     const [editImages, setEditImages] = useState<string[]>([]);
@@ -882,6 +891,14 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         setIsEditModalOpen(true);
     };
 
+    const toggleEditProduct = (product: string) => {
+        const current = editProducts.split(",").map((item) => item.trim()).filter(Boolean);
+        const next = current.includes(product)
+            ? current.filter((item) => item !== product)
+            : [...current, product];
+        setEditProducts(next.join(", "));
+    };
+
     const handleResetChanges = () => {
         if (!selectedStore) return;
         setEditName(selectedStore.name);
@@ -1490,41 +1507,104 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                         <DialogTitle className="admin-store-dialog-title border-b border-white/15 px-8 py-7 text-[22px] font-bold tracking-tight">Edit store</DialogTitle>
                     </DialogHeader>
                     <div className="admin-store-dialog-body space-y-6 px-8 py-7">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#FFD700]">Required details</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0057B7]">Required details</p>
                         <div className="space-y-2">
-                            <Label htmlFor="editName" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Store Name</Label>
-                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Enter store name" className="admin-store-input" />
+                            <Label htmlFor="editAddress" className="admin-store-label">Location</Label>
+                            <div className="relative">
+                                <MapPin className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" strokeWidth={2} />
+                                <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Search street address" className="admin-store-input pl-11" />
+                            </div>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="editAddress" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Address</Label>
-                            <Input id="editAddress" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Enter store address" className="admin-store-input" />
+                        <div className="w-full space-y-2 sm:w-1/2">
+                            <Label htmlFor="editName" className="admin-store-label">Business name</Label>
+                            <Input id="editName" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="European Deli" className="admin-store-input" />
                         </div>
                         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                           <div className="space-y-2">
                             <Label htmlFor="editCategory" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Category</Label>
-                            <select
-                                id="editCategory"
-                                value={editCategory}
-                                onChange={(e) => setEditCategory(e.target.value as any)}
-                                className="admin-store-select"
-                            >
-                                <option value="food">Food & Grocery</option>
-                                <option value="clothes">Clothing & Apparel</option>
-                                <option value="retail">Retail & Gifts</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <div className="relative">
+                                <button
+                                    id="editCategory"
+                                    type="button"
+                                    aria-haspopup="listbox"
+                                    aria-expanded={isEditCategoryOpen}
+                                    onClick={() => setIsEditCategoryOpen((open) => !open)}
+                                    className="admin-store-select flex items-center justify-between text-left"
+                                >
+                                    <span>
+                                        {editCategory === "food" ? "Food & Grocery" :
+                                            editCategory === "clothes" ? "Clothing & Apparel" :
+                                                editCategory === "retail" ? "Retail & Gifts" : "Other"}
+                                    </span>
+                                    <ChevronDown className={cn("h-4 w-4 shrink-0 text-[#0057B7] transition-transform", isEditCategoryOpen && "rotate-180")} />
+                                </button>
+                                {isEditCategoryOpen && (
+                                    <div role="listbox" aria-label="Category" className="absolute left-0 right-0 top-[calc(100%+8px)] z-30 overflow-hidden rounded-[12px] border border-slate-200 bg-white p-1 shadow-[0_16px_40px_-12px_rgba(0,35,85,0.2),0_4px_16px_-4px_rgba(0,0,0,0.08)]">
+                                        {([
+                                            ["food", "Food & Grocery"],
+                                            ["clothes", "Clothing & Apparel"],
+                                            ["retail", "Retail & Gifts"],
+                                            ["other", "Other"],
+                                        ] as const).map(([value, label]) => (
+                                            <button
+                                                key={value}
+                                                type="button"
+                                                role="option"
+                                                aria-selected={editCategory === value}
+                                                onClick={() => {
+                                                    setEditCategory(value);
+                                                    setIsEditCategoryOpen(false);
+                                                }}
+                                                className={cn(
+                                                    "flex w-full items-center rounded-[8px] px-3 py-2.5 text-left text-[14px] font-medium transition-colors",
+                                                    editCategory === value ? "bg-[#0057B7] text-white" : "text-slate-600 hover:bg-slate-50 hover:text-[#0057B7]"
+                                                )}
+                                            >
+                                                {label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="editWebsite" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Website</Label>
                             <Input id="editWebsite" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="https://example.com" className="admin-store-input" />
                           </div>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="editProducts" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Products Sold</Label>
-                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="Pierogies, Bread, Sausages..." className="admin-store-input" />
+                        <div className="space-y-4">
+                            <Label htmlFor="editProducts" className="admin-store-label">Products Sold</Label>
+                            <div className="space-y-6">
+                                {Object.entries(EDIT_PRODUCT_TAXONOMY).map(([group, items]) => (
+                                    <div key={group} className="space-y-2">
+                                        <div className="text-[12px] font-semibold uppercase tracking-wider text-slate-500">{group}</div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {items.map((item) => {
+                                                const selected = editProducts.split(",").map((value) => value.trim()).includes(item);
+                                                return (
+                                                    <button
+                                                        key={item}
+                                                        type="button"
+                                                        onClick={() => toggleEditProduct(item)}
+                                                        className={cn(
+                                                            "rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors",
+                                                            selected
+                                                                ? "border-[#0057B7] bg-[#0057B7] text-white"
+                                                                : "border-slate-200 bg-white text-slate-600 hover:border-[#0057B7]/50 hover:bg-slate-50"
+                                                        )}
+                                                    >
+                                                        {item}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <Input id="editProducts" value={editProducts} onChange={(e) => setEditProducts(e.target.value)} placeholder="List other products, separated by commas" className="admin-store-input" />
                         </div>
                         <div className="admin-store-divider border-t pt-6">
-                          <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/60">Optional details</p>
+                          <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Optional details</p>
                         <div className="space-y-2">
                             <Label htmlFor="editDescription" className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Description</Label>
                             <textarea
@@ -1539,23 +1619,23 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             <Label className="admin-store-label mb-2 block text-[10px] font-bold uppercase tracking-[0.15em]">Images (max 3)</Label>
                             <div className="grid grid-cols-3 gap-3">
                                 {editImages.map((url, index) => (
-                                    <div key={`url-${index}`} className="group relative aspect-square overflow-hidden rounded-none border border-white/20 bg-white/10">
+                                    <div key={`url-${index}`} className="group relative aspect-square overflow-hidden rounded-[12px] border border-slate-200 bg-slate-50">
                                         <img src={url} alt="" className="w-full h-full object-cover" />
                                         <button
                                             onClick={() => removeImage(index, false)}
-                                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-none bg-[#0057B7] text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white/20"
+                                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#0057B7] text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-[#004798]"
                                         >
                                             <X className="w-3 h-3" />
                                         </button>
                                     </div>
                                 ))}
                                 {localImagePreviews.map((url, index) => (
-                                    <div key={`local-${index}`} className="group relative aspect-square overflow-hidden rounded-none border border-white/20 bg-white/10">
+                                    <div key={`local-${index}`} className="group relative aspect-square overflow-hidden rounded-[12px] border border-slate-200 bg-slate-50">
                                         <img src={url} alt="" className="w-full h-full object-cover" />
-                                        <div className="absolute left-1 top-1 rounded-none bg-[#FFD700] px-1.5 py-0.5 text-[10px] font-bold text-[#0057B7]">NEW</div>
+                                        <div className="absolute left-1 top-1 rounded-full bg-[#FFD700] px-1.5 py-0.5 text-[10px] font-bold text-[#0057B7]">NEW</div>
                                         <button
                                             onClick={() => removeImage(index, true)}
-                                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-none bg-[#0057B7] text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white/20"
+                                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#0057B7] text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-[#004798]"
                                         >
                                             <X className="w-3 h-3" />
                                         </button>
@@ -1564,7 +1644,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                                 {editImages.length + localImagePreviews.length < 3 && (
                                     <button
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="flex aspect-square flex-col items-center justify-center rounded-none border border-dashed border-white/25 bg-white/[0.055] text-white/55 transition-colors hover:border-white/50 hover:bg-white/10 hover:text-white"
+                                        className="flex aspect-square flex-col items-center justify-center rounded-[12px] border border-dashed border-slate-300 bg-slate-50 text-slate-400 transition-colors hover:border-[#9cc1e5] hover:bg-[#f8fbff] hover:text-[#0057B7]"
                                     >
                                         <Upload className="w-6 h-6 mb-1" />
                                         <span className="text-[11px] font-medium">Upload</span>
