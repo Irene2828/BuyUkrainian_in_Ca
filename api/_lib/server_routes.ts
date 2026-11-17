@@ -177,7 +177,7 @@ export async function registerRoutes(
 
   app.post("/api/locations", securityMiddleware.submissionRateLimit, async (req, res) => {
     // Check honeypot
-    if (req.body.company_fax_hp) {
+    if (req.body.x_k9m2) {
       console.warn("🍯 Honeypot triggered by", req.ip);
       // Return same success response as a real submission but save nothing
       return res.status(201).json({ id: "honeypot-" + Date.now(), ...req.body, status: "pending" });
@@ -188,7 +188,7 @@ export async function registerRoutes(
       if (!validation.success) {
         const valErr = fromZodError(validation.error).message;
         console.warn("⚠️ [API] POST /api/locations validation failed:", valErr);
-        return res.status(400).json({ error: valErr });
+        return res.status(400).json({ error: valErr, fields: validation.error.flatten().fieldErrors });
       }
 
       // Detect spam
@@ -200,6 +200,8 @@ export async function registerRoutes(
 
       const storeData = {
         ...validation.data,
+        geocodingStatus: (Number(validation.data.latitude) === 56.1304 && Number(validation.data.longitude) === -106.3468)
+          ? "unresolved" as const : validation.data.geocodingStatus,
         name: sanitizeString(validation.data.name),
         description: validation.data.description ? sanitizeString(validation.data.description) : "",
         address: sanitizeString(validation.data.address),

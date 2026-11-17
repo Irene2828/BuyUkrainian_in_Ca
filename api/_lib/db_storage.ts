@@ -72,6 +72,7 @@ export interface Store {
   latitude: string;
   longitude: string;
   category: "food" | "clothes" | "other" | "retail";
+  geocodingStatus?: string | null;
   website?: string | null;
   image?: string | null;
   images?: string[] | null;
@@ -339,6 +340,7 @@ export class DatabaseStorage implements IStorage {
       address: newStore.address,
       city: newStore.city || "",
       province: newStore.province || "",
+      geocoding_status: newStore.geocodingStatus || null,
       latitude: newStore.latitude,
       longitude: newStore.longitude,
       category: newStore.category,
@@ -376,6 +378,7 @@ export class DatabaseStorage implements IStorage {
       address: created.address,
       city: created.city || "",
       province: created.province || "",
+      geocodingStatus: created.geocoding_status,
       latitude: created.latitude,
       longitude: created.longitude,
       category: created.category as "food" | "clothes" | "other" | "retail",

@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createStore as apiCreateStore } from "@/lib/api";
-import { useToast } from "@/hooks/use-toast";
+import { createStore as apiCreateStore, StoreSubmissionError } from "@/lib/api";
+import { fetchWithDeadline } from "@/lib/request-deadline";
 import { CheckCircle, ArrowUpRight, Loader2, X, Image, MapPin, ChevronDown, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -76,35 +76,50 @@ const optionalTextField = z.preprocess(
   z.string().optional().default("")
 );
 
-const optionalUrlField = z.preprocess(
-  (value) => typeof value === "string" ? value.trim() : value,
-  z.union([
-    z.literal(""),
-    z.string().url("Please enter a valid URL (https://...)"),
-  ]).default("")
-);
+const optionalPlaceField = z.string().trim().refine(
+  value => !value || value.length >= 2,
+  "City or province must be at least 2 characters"
+).default("");
+
+function parseProducts(data: { selectedProducts: string[]; otherProducts: string }) {
+  return [...data.selectedProducts, ...data.otherProducts.split(",")].map(p => p.trim()).filter(Boolean);
+}
 
 const formSchema = z.object({
-  city: optionalTextField,
-  province: optionalTextField,
-  address: z.string().trim().min(5, "Address is required"),
-  name: z.string().trim().min(2, "Store name is required"),
-  website: optionalTextField,
+  city: optionalPlaceField,
+  province: optionalPlaceField,
+  address: z.string().trim().min(5, "Address is required").max(200, "Address must be at most 200 characters"),
+  name: z.string().trim().min(2, "Store name is required").max(100, "Store name must be at most 100 characters"),
+  website: z.string().trim().transform(value =>
+    value && !/^[a-z][a-z\d+.-]*:/i.test(value) ? `https://${value}` : value
+  ).pipe(z.union([z.literal(""), z.string().max(200, "Website must be at most 200 characters").url("Please enter a valid website address").regex(/^\S+$/, "Please enter a valid website address").regex(/^https?:\/\//i, "Please use an http:// or https:// website")])).default(""),
   selectedProducts: z.array(z.string()).default([]),
   otherProducts: optionalTextField,
-  description: optionalTextField,
+  description: z.string().trim().max(1000, "Description must be at most 1000 characters").default(""),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
-  company_fax_hp: z.string().optional(),
-}).refine(data => data.selectedProducts.length > 0 || data.otherProducts.trim().length > 0, {
-  message: "Please select or enter at least one product",
-  path: ["otherProducts"]
+  x_k9m2: z.string().optional(),
+}).superRefine((data, ctx) => {
+  const products = parseProducts(data);
+  const message = products.length === 0 ? "Please select or enter at least one product"
+    : products.length > 20 ? "Please enter no more than 20 products"
+    : products.some(p => p.length > 50) ? "Each product must be at most 50 characters" : null;
+  if (message) ctx.addIssue({ code: z.ZodIssueCode.custom, message, path: ["otherProducts"] });
 });
 
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 
 export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, initialData?: any }) {
-  const { toast } = useToast();
+  const [submitError, setSubmitError] = useState<{ message: string } | null>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+  const submittingRef = useRef(false);
+
+  useEffect(() => {
+    if (submitError) {
+      errorRef.current?.focus({ preventScroll: true });
+      errorRef.current?.scrollIntoView({ block: "center" });
+    }
+  }, [submitError]);
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -115,6 +130,8 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
+    shouldFocusError: false,
     defaultValues: {
       city: initialData?.city || "",
       province: initialData?.province || "",
@@ -172,15 +189,15 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
 
   async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; city?: string; province?: string } | null> {
     try {
-      const response = await fetch(
+      const data = await fetchWithDeadline(
         `https://photon.komoot.io/api/?q=${encodeURIComponent(address + ", Canada")}&limit=1`,
-        { headers: { Accept: "application/json" } }
+        { headers: { Accept: "application/json" } },
+        5000,
+        async response => {
+          if (!response.ok) throw new Error(`Geocoding HTTP ${response.status}`);
+          return response.json();
+        }
       );
-      if (!response.ok) {
-        throw new Error(`Geocoding HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
       if (data.features && data.features.length > 0) {
         const feature = data.features[0];
         const properties = feature.properties;
@@ -207,25 +224,23 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       setIsSubmitted(true);
     },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    retry: false,
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    setSubmitError(null);
     setIsSubmitting(true);
     try {
       let lat = values.latitude;
       let lng = values.longitude;
       let city = values.city;
       let province = values.province;
+      let geocodingStatus: "resolved" | "unresolved" = "resolved";
 
       // If coordinates are missing (user typed address manually), try to geocode
-      if (!lat || !lng) {
+      if (lat === undefined || lng === undefined) {
         const geo = await geocodeAddress(values.address);
         if (geo) {
           lat = geo.lat;
@@ -234,6 +249,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
           province = province || geo.province || '';
         } else {
           // Use approximate center of Canada as fallback — admin will verify
+          geocodingStatus = "unresolved";
           lat = 56.1304;
           lng = -106.3468;
           city = city || 'Unknown';
@@ -245,11 +261,8 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
       city = city || 'Unknown';
       province = province || 'Unknown';
 
-      const finalProducts = [
-        ...values.selectedProducts,
-        ...values.otherProducts.split(",").map(p => p.trim()).filter(Boolean)
-      ];
-      
+      const finalProducts = parseProducts(values);
+
       const derivedCat = deriveCategory(finalProducts);
 
       await createStoreMutation.mutateAsync({
@@ -261,13 +274,12 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
         latitude: String(lat),
         longitude: String(lng),
         category: derivedCat,
+        geocodingStatus,
       });
-    } catch (error: any) {
-      console.error("Submission failed:", error);
-      if (error instanceof Error) {
-        console.error("Error Message:", error.message);
-      }
+    } catch (error) {
+      setSubmitError({ message: error instanceof StoreSubmissionError ? error.message : "We couldn't prepare your submission. Please review your details and try again. Your entries are still here." });
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   }
@@ -324,11 +336,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
           <form
             onSubmit={form.handleSubmit(onSubmit, (errors) => {
               const firstError = Object.values(errors)[0];
-              toast({
-                title: "Please check your inputs",
-                description: firstError?.message as string || "Some fields require your attention.",
-                variant: "destructive",
-              });
+              setSubmitError({ message: firstError?.message as string || "Please check the highlighted fields." });
             })}
             onKeyDown={(e) => {
               const target = e.target as HTMLElement | null;
@@ -347,15 +355,20 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
             }}
             className="space-y-6"
           >
+            {submitError && (
+              <div ref={errorRef} role="alert" tabIndex={-1} style={{ scrollMarginTop: 80 }} className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800 focus:outline-none">
+                {submitError.message}
+              </div>
+            )}
             <div className="space-y-7">
-              {/* HONEYPOT */}
+              {/* HONEYPOT: hidden type cannot receive browser contact autofill. */}
               <FormField
                 control={form.control}
-                name="company_fax_hp"
+                name="x_k9m2"
                 render={({ field }) => (
                   <FormItem className="opacity-0 absolute -z-50 -top-[9999px] -left-[9999px]" aria-hidden="true">
                     <FormControl>
-                      <Input tabIndex={-1} autoComplete="off" {...field} />
+                      <Input {...field} value={field.value || ""} type="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
                     </FormControl>
                   </FormItem>
                 )}
@@ -379,6 +392,13 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
                         <Input
                           placeholder="Search street address"
                           {...field}
+                          onChange={(event) => {
+                            field.onChange(event);
+                            form.setValue("latitude", undefined);
+                            form.setValue("longitude", undefined);
+                            form.setValue("city", "");
+                            form.setValue("province", "");
+                          }}
                           ref={(el) => {
                             field.ref(el);
                             (addressInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
@@ -389,6 +409,11 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
                       </div>
                     </FormControl>
 
+                    {(["city", "province"] as const).map(name => (
+                      <FormField key={name} control={form.control} name={name} render={() => (
+                        <FormItem><FormMessage className={formMessageClassName} /></FormItem>
+                      )} />
+                    ))}
                     {/* Location Summary - Shows City/Province automatically */}
                     {(form.watch("city") || form.watch("province")) && (
                       <div className="flex flex-col gap-1 mt-2 px-1 animate-in fade-in slide-in-from-top-1 duration-300">
