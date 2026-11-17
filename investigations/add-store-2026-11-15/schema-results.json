@@ -1,0 +1,171 @@
+[
+  {
+    "name": "french",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  },
+  {
+    "name": "websiteBare",
+    "success": false,
+    "issues": [
+      {
+        "validation": "url",
+        "code": "invalid_string",
+        "message": "Invalid website URL",
+        "path": [
+          "website"
+        ]
+      },
+      {
+        "code": "custom",
+        "message": "URL must start with http:// or https://",
+        "path": [
+          "website"
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "longDescription",
+    "success": false,
+    "issues": [
+      {
+        "code": "too_big",
+        "maximum": 1000,
+        "type": "string",
+        "inclusive": true,
+        "exact": false,
+        "message": "Description must be at most 1000 characters",
+        "path": [
+          "description"
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "commaProducts",
+    "success": false,
+    "issues": [
+      {
+        "code": "too_small",
+        "minimum": 1,
+        "type": "array",
+        "inclusive": true,
+        "exact": false,
+        "message": "At least one product is required",
+        "path": [
+          "products"
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "postalCompact",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  },
+  {
+    "name": "postalLower",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  },
+  {
+    "name": "outsideCanada",
+    "success": false,
+    "issues": [
+      {
+        "code": "custom",
+        "message": "Location must be within Canada (longitude -140 to -50)",
+        "path": [
+          "longitude"
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "oneLetterCity",
+    "success": false,
+    "issues": [
+      {
+        "code": "too_small",
+        "minimum": 2,
+        "type": "string",
+        "inclusive": true,
+        "exact": false,
+        "message": "City is required",
+        "path": [
+          "city"
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "longName",
+    "success": false,
+    "issues": [
+      {
+        "code": "too_big",
+        "maximum": 100,
+        "type": "string",
+        "inclusive": true,
+        "exact": false,
+        "message": "Store name must be at most 100 characters",
+        "path": [
+          "name"
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "longProduct",
+    "success": false,
+    "issues": [
+      {
+        "code": "too_big",
+        "maximum": 50,
+        "type": "string",
+        "inclusive": true,
+        "exact": false,
+        "message": "Product name must be at most 50 characters",
+        "path": [
+          "products",
+          0
+        ]
+      }
+    ],
+    "phoneRetained": false
+  },
+  {
+    "name": "phoneInternational",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  },
+  {
+    "name": "phoneLocal",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  },
+  {
+    "name": "phoneDigits",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  },
+  {
+    "name": "phoneSpaces",
+    "success": true,
+    "issues": [],
+    "phoneRetained": false
+  }
+]

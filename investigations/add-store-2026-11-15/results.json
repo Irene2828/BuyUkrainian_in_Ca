@@ -1,0 +1,587 @@
+[
+  {
+    "scenario": "success-french",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  },
+  {
+    "scenario": "postal-compact",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  },
+  {
+    "scenario": "postal-lower",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC g1r 4p5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  },
+  {
+    "scenario": "unresolved",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Unknown",
+      "province": "Unknown",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "56.1304",
+      "longitude": "-106.3468",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  },
+  {
+    "scenario": "geocode-blocked",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Unknown",
+      "province": "Unknown",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "56.1304",
+      "longitude": "-106.3468",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  },
+  {
+    "scenario": "geocode-http",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Unknown",
+      "province": "Unknown",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "56.1304",
+      "longitude": "-106.3468",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  },
+  {
+    "scenario": "geocode-hang",
+    "geocodes": 1,
+    "posts": 0,
+    "success": 0,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": true,
+    "disabled": true,
+    "submitText": "",
+    "errors": []
+  },
+  {
+    "scenario": "insert-blocked",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorFailed to fetch",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 97.515625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "insert-500",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorTEST server rejection 500",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 97.515625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "insert-409",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorTEST server rejection 409",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 97.515625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "insert-429",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorTEST server rejection 429",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 97.515625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "insert-html",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorUnexpected token '<', \"<h1>Bad Gateway</h1>\" is not valid JSON",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 118.640625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "insert-hang",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": true,
+    "disabled": true,
+    "submitText": "",
+    "errors": []
+  },
+  {
+    "scenario": "website-bare",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "example.com",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorValidation error: Invalid website URL at \"website\"; URL must start with http:// or https:// at \"website\"",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 139.765625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "long-description",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 0,
+    "toastText": "ErrorValidation error: Description must be at most 1000 characters at \"description\"",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 118.640625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "no-products",
+    "geocodes": 0,
+    "posts": 0,
+    "success": 0,
+    "toastText": "Please check your inputsPlease select or enter at least one product",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 97.515625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "comma-products",
+    "geocodes": 1,
+    "posts": 1,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [],
+      "otherProducts": ",,,",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [],
+      "category": "other"
+    },
+    "success": 0,
+    "toastText": "ErrorValidation error: At least one product is required at \"products\"",
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": {
+      "x": 16,
+      "y": 16,
+      "width": 358,
+      "height": 118.640625
+    },
+    "hit": "<div class=\"relative z-10 flex items-start justify-between gap-4\"><h2 id=\"radix-_r_1_\" class=\"text-[17px] xl:text-[18px] min-[1670px]:text-[20px] font-semibold tracking-normal leading-tight antialiase",
+    "toastOnTop": false,
+    "spinner": false,
+    "disabled": false,
+    "submitText": "Submit store",
+    "errors": []
+  },
+  {
+    "scenario": "rapid-double",
+    "geocodes": 2,
+    "posts": 2,
+    "payload": {
+      "city": "Québec",
+      "province": "Québec",
+      "address": "123 rue d'Orléans, Québec, QC G1R 4P5",
+      "name": "TEST Épicerie d'Orléans",
+      "website": "",
+      "selectedProducts": [
+        "Roshen chocolates"
+      ],
+      "otherProducts": "",
+      "description": "",
+      "latitude": "46.813",
+      "longitude": "-71.208",
+      "products": [
+        "Roshen chocolates"
+      ],
+      "category": "food"
+    },
+    "success": 1,
+    "toastZ": "2200",
+    "toastPointerEvents": "none",
+    "toastRect": null,
+    "toastOnTop": false,
+    "spinner": false,
+    "errors": []
+  }
+]
