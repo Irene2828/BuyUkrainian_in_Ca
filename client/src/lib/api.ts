@@ -1,3 +1,4 @@
+import { fetchWithDeadline, RequestTimeoutError } from "./request-deadline";
 import { Store } from "@/lib/data";
 import { getAuthHeaders, clearAdminSession } from "@/lib/auth";
 
@@ -103,7 +104,11 @@ export async function getAllStores(): Promise<Store[]> {
   return data.map(apiStoreToStore);
 }
 
+export class StoreSubmissionError extends Error {}
+
 export async function createStore(store: {
+  geocodingStatus?: "resolved" | "unresolved";
+  x_k9m2?: string;
   name: string;
   description: string;
   products: string[];
@@ -118,24 +123,45 @@ export async function createStore(store: {
   images?: string[];
   email?: string;
 }): Promise<Store> {
-  // Updated endpoint to /api/locations as requested
-  const response = await fetch("/api/locations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...store,
-      latitude: store.latitude.toString(),
-      longitude: store.longitude.toString(),
-    }),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to create store");
+  try {
+    return await fetchWithDeadline("/api/locations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...store, latitude: String(store.latitude), longitude: String(store.longitude) }),
+    }, 15000, async response => {
+      // Empty, HTML and malformed JSON error bodies still get a useful status message.
+      const text = await response.text();
+      let data: any;
+      try { data = JSON.parse(text); } catch { /* handled below */ }
+      if (!response.ok) {
+        let message = `We couldn't submit your store (HTTP ${response.status}). Your details are still here. Please try again later.`;
+        if (response.status === 400) {
+          const fields = data?.fields && typeof data.fields === "object"
+            ? Object.values(data.fields).flat().filter(value => typeof value === "string").join(". ") : "";
+          message = fields ? `Please check your details: ${fields}`
+            : /spam/i.test(data?.error || "") ? "Your submission was flagged as spam. Please review the store details and remove promotional text."
+            : "We couldn't accept these details. Please check the store information and products before submitting again.";
+        } else if (response.status === 409) {
+          message = "This store has already been submitted. It may be awaiting review; you don't need to submit it again.";
+        } else if (response.status === 429) {
+          message = "Too many submissions. Please wait a few minutes before trying again. Your details are still here.";
+        } else if (response.status >= 500) {
+          message = "The server couldn't complete your submission. Please try again later. Your details are still here.";
+        }
+        throw new StoreSubmissionError(message);
+      }
+      if (!data || typeof data.id !== "string" || !data.id) {
+        throw new StoreSubmissionError("The server returned an unexpected response. We couldn't confirm whether your store was saved. Please check before submitting again.");
+      }
+      return apiStoreToStore(data);
+    });
+  } catch (error) {
+    if (error instanceof StoreSubmissionError) throw error;
+    if (error instanceof RequestTimeoutError) {
+      throw new StoreSubmissionError("Your submission timed out. We couldn't confirm whether your store was saved. Please check before submitting again; your details are still here.");
+    }
+    throw new StoreSubmissionError("We couldn't reach the server or read its response. Check your connection or content blocker. We couldn't confirm whether your store was saved; please check before submitting again. Your details are still here.");
   }
-
-  const data: ApiStore = await response.json();
-  return apiStoreToStore(data);
 }
 
 export async function deleteStore(id: string): Promise<boolean> {

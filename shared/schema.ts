@@ -30,6 +30,7 @@ export const stores = pgTable("stores", {
   latitude: decimal("latitude", { precision: 10, scale: 7 }).notNull(),
   longitude: decimal("longitude", { precision: 10, scale: 7 }).notNull(),
   category: text("category").notNull(),
+  geocodingStatus: text("geocoding_status"), // null for legacy records; unresolved requires admin verification
   website: text("website"),
   image: text("image"),
   images: text("images").array().notNull().default(sql`ARRAY[]::text[]`),
@@ -87,6 +88,7 @@ export const insertStoreSchema = createInsertSchema(stores, {
       return lng >= -140 && lng <= -50;
     }, "Location must be within Canada (longitude -140 to -50)"),
   category: z.enum(["food", "clothes", "retail", "other"]),
+  geocodingStatus: z.enum(["resolved", "unresolved"]).optional(),
   website: z.string().max(MAX_WEBSITE_LENGTH, "Website URL too long").url("Invalid website URL").refine((url) => /^https?:\/\//i.test(url), "URL must start with http:// or https://").optional().or(z.literal("")),
   email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
   status: z.enum(["pending", "approved", "rejected"]).optional(),

@@ -180,8 +180,8 @@ export function detectSpam(text: string): boolean {
 }
 
 export function checkDuplicateSubmission(
-  newStore: { name: string; address: string; latitude: string; longitude: string },
-  existingStores: Array<{ name: string; address: string; latitude: string; longitude: string }>
+  newStore: { name: string; address: string; latitude: string; longitude: string; geocodingStatus?: string | null },
+  existingStores: Array<{ name: string; address: string; latitude: string; longitude: string; geocodingStatus?: string | null }>
 ): boolean {
   // Use Unicode property escapes (\p{L} for letters, \p{N} for numbers)
   // so Cyrillic and other non-ASCII characters aren't stripped out.
@@ -196,6 +196,12 @@ export function checkDuplicateSubmission(
     if (nameNorm === newNameNorm && addressNorm === newAddressNorm) {
       return true;
     }
+
+    // Old records may predate the explicit status column. Never treat the
+    // shared Canada-center fallback as evidence that two stores are nearby.
+    const unverified = (s: typeof newStore) => s.geocodingStatus === "unresolved" ||
+      (Number(s.latitude) === 56.1304 && Number(s.longitude) === -106.3468);
+    if (unverified(newStore) || unverified(store)) return false;
 
     const latDiff = Math.abs(parseFloat(newStore.latitude) - parseFloat(store.latitude));
     const lngDiff = Math.abs(parseFloat(newStore.longitude) - parseFloat(store.longitude));
