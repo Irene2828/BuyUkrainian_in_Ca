@@ -153,6 +153,102 @@ async function notifyNewStore(store: {
   }
 }
 
+// Generic owner notification via Resend. Same rules as notifyNewStore:
+// optional (skips without RESEND_API_KEY) and never throws.
+async function sendOwnerEmail(subject: string, text: string, html: string): Promise<void> {
+  try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.warn("[API] RESEND_API_KEY is not set - skipping notification email.");
+      return;
+    }
+    const to = process.env.NOTIFY_EMAIL || "iryna.herts@gmail.com";
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "BuyUkrainian <notify@buyukrainian.ca>",
+        to: [to],
+        subject,
+        text,
+        html,
+      }),
+    });
+    if (!response.ok) {
+      console.error(`[API] Notification email failed (${subject}) - Resend responded ${response.status}`);
+      return;
+    }
+    console.log(`[API] Notification email sent: ${subject}`);
+  } catch (err) {
+    console.error("[API] Notification email error:", err);
+  }
+}
+
+// Owner notification: a store card was edited in the admin panel.
+async function notifyStoreEdited(store: {
+  name: string;
+  address: string;
+  city: string;
+  province: string;
+  category: string;
+  products: string[];
+}): Promise<void> {
+  const subject = `Store card edited: ${store.name} — ${store.city}, ${store.province}`;
+  const text = [
+    "A store card was edited in the BuyUkrainian admin panel.",
+    "",
+    `Name: ${store.name}`,
+    `Address: ${store.address}`,
+    `City: ${store.city}, ${store.province}`,
+    `Category: ${store.category}`,
+    `Products: ${store.products.join(", ")}`,
+    "",
+    "Open admin: https://buyukrainian.ca/admin",
+  ].join("\n");
+  const html = [
+    "<p>A store card was edited in the BuyUkrainian admin panel.</p>",
+    `<p>Name: ${escapeHtml(store.name)}<br>`,
+    `Address: ${escapeHtml(store.address)}<br>`,
+    `City: ${escapeHtml(store.city)}, ${escapeHtml(store.province)}<br>`,
+    `Category: ${escapeHtml(store.category)}<br>`,
+    `Products: ${escapeHtml(store.products.join(", "))}</p>`,
+    '<p>Open admin: <a href="https://buyukrainian.ca/admin">buyukrainian.ca/admin</a></p>',
+  ].join("\n");
+  await sendOwnerEmail(subject, text, html);
+}
+
+// Owner notification: a visitor requested deletion of a store card.
+async function notifyDeletionRequested(
+  store: { name: string; address: string; city: string; province: string },
+  requesterEmail?: string | null
+): Promise<void> {
+  const subject = `Store deletion requested: ${store.name} — ${store.city}, ${store.province}`;
+  const text = [
+    "A visitor requested deletion of a store card on BuyUkrainian.",
+    "The card is NOT deleted - it is flagged in the admin panel for your review.",
+    "",
+    `Name: ${store.name}`,
+    `Address: ${store.address}`,
+    `City: ${store.city}, ${store.province}`,
+    `Requested by: ${requesterEmail || "-"}`,
+    "",
+    "Review it here: https://buyukrainian.ca/admin",
+  ].join("\n");
+  const html = [
+    "<p>A visitor requested deletion of a store card on BuyUkrainian.</p>",
+    "<p>The card is NOT deleted - it is flagged in the admin panel for your review.</p>",
+    `<p>Name: ${escapeHtml(store.name)}<br>`,
+    `Address: ${escapeHtml(store.address)}<br>`,
+    `City: ${escapeHtml(store.city)}, ${escapeHtml(store.province)}<br>`,
+    `Requested by: ${escapeHtml(requesterEmail || "-")}</p>`,
+    '<p>Review it here: <a href="https://buyukrainian.ca/admin">buyukrainian.ca/admin</a></p>',
+  ].join("\n");
+  await sendOwnerEmail(subject, text, html);
+}
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -474,6 +570,7 @@ export async function registerRoutes(
           deletionRequestedAt: new Date(),
           deletionRequestEmail: email || null
         });
+        await notifyDeletionRequested(store, email || null);
       }
 
       res.json({ message: "Store deletion requested successfully" });
@@ -499,6 +596,7 @@ export async function registerRoutes(
     if (!validation.success) return res.status(400).json({ error: "Invalid data" });
     const updated = await storage.updateStore(id, validation.data);
     if (!updated) return res.status(404).json({ error: "Not found" });
+    await notifyStoreEdited(updated);
     res.json(updated);
     broadcast("store_updated");
   });
