@@ -557,8 +557,9 @@ export class DatabaseStorage implements IStorage {
         return false; 
       }
       console.error("Error checking login lockout:", e);
-      // Fail closed
-      return true;
+      // Fail open: a broken lockout check must never lock the owner out.
+      // The per-IP rate limiter on the login route still applies.
+      return false;
     }
   }
 
