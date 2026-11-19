@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, serial, timestamp, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, decimal, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 export const adminUsers = pgTable("admin_users", {
@@ -81,3 +81,15 @@ export const insertStoreSchema = createInsertSchema(stores, {
     email: z.string().max(MAX_EMAIL_LENGTH, "Email too long").email("Invalid email").optional().or(z.literal("")),
     status: z.enum(["pending", "approved", "rejected"]).optional(),
 }).omit({ id: true, createdAt: true });
+// Visitor-suggested edits to an existing store card. A suggestion is stored
+// separately and only applied to the live card after an admin approves it.
+export const storeEditSuggestions = pgTable("store_edit_suggestions", {
+    id: text("id").primaryKey(),
+    storeId: text("store_id").notNull(),
+    storeName: text("store_name").notNull().default(""),
+    changes: jsonb("changes").notNull(),
+    submitterEmail: text("submitter_email"),
+    status: text("status").notNull().default("pending"), // pending | approved | rejected
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    reviewedAt: timestamp("reviewed_at"),
+});
