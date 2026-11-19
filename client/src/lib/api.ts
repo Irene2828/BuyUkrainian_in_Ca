@@ -164,6 +164,129 @@ export async function createStore(store: {
   }
 }
 
+export interface EditSuggestionChanges {
+  name: string;
+  description: string;
+  products: string[];
+  address: string;
+  city: string;
+  province: string;
+  latitude: string;
+  longitude: string;
+  category: string;
+  website?: string | null;
+  email?: string | null;
+}
+
+export interface EditSuggestion {
+  id: string;
+  storeId: string;
+  storeName: string;
+  changes: EditSuggestionChanges;
+  submitterEmail?: string | null;
+  status: string;
+  createdAt: string;
+}
+
+export async function suggestStoreEdit(storeId: string, store: {
+  geocodingStatus?: "resolved" | "unresolved";
+  x_k9m2?: string;
+  name: string;
+  description: string;
+  products: string[];
+  address: string;
+  city: string;
+  province: string;
+  latitude: number | string;
+  longitude: number | string;
+  category: "food" | "clothes" | "retail" | "other";
+  website?: string;
+  email?: string;
+}): Promise<void> {
+  try {
+    await fetchWithDeadline(`/api/stores/${storeId}/suggest-edit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...store, latitude: String(store.latitude), longitude: String(store.longitude) }),
+    }, 15000, async response => {
+      const text = await response.text();
+      let data: any;
+      try { data = JSON.parse(text); } catch { /* handled below */ }
+      if (!response.ok) {
+        let message = `We couldn't submit your changes (HTTP ${response.status}). Your details are still here. Please try again later.`;
+        if (response.status === 400) {
+          const fields = data?.fields && typeof data.fields === "object"
+            ? Object.values(data.fields).flat().filter(value => typeof value === "string").join(". ") : "";
+          message = fields ? `Please check your details: ${fields}`
+            : /spam/i.test(data?.error || "") ? "Your submission was flagged as spam. Please review the details and remove promotional text."
+            : "We couldn't accept these details. Please check the information and products before submitting again.";
+        } else if (response.status === 404) {
+          message = "This store is no longer listed, so changes can't be suggested for it.";
+        } else if (response.status === 429) {
+          message = "Too many submissions. Please wait a few minutes before trying again. Your details are still here.";
+        } else if (response.status >= 500) {
+          message = "The server couldn't complete your submission. Please try again later. Your details are still here.";
+        }
+        throw new StoreSubmissionError(message);
+      }
+      if (!data || data.ok !== true) {
+        throw new StoreSubmissionError("The server returned an unexpected response. We couldn't confirm whether your changes were saved. Please check before submitting again.");
+      }
+      return undefined;
+    });
+  } catch (error) {
+    if (error instanceof StoreSubmissionError) throw error;
+    if (error instanceof RequestTimeoutError) {
+      throw new StoreSubmissionError("Your submission timed out. We couldn't confirm whether your changes were saved. Please check before submitting again; your details are still here.");
+    }
+    throw new StoreSubmissionError("We couldn't reach the server or read its response. Check your connection or content blocker. We couldn't confirm whether your changes were saved; please check before submitting again. Your details are still here.");
+  }
+}
+
+export async function getEditSuggestions(): Promise<EditSuggestion[]> {
+  const response = await fetch(`/api/admin/edit-suggestions`, {
+    headers: getAuthHeaders(),
+  });
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  if (!response.ok) throw new Error("Failed to fetch edit suggestions");
+  return response.json();
+}
+
+export async function approveEditSuggestion(id: string): Promise<Store> {
+  const response = await fetch(`/api/admin/edit-suggestions/${id}/approve`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+  });
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || "Failed to approve edit suggestion");
+  }
+  const data: ApiStore = await response.json();
+  return apiStoreToStore(data);
+}
+
+export async function rejectEditSuggestion(id: string): Promise<void> {
+  const response = await fetch(`/api/admin/edit-suggestions/${id}/reject`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+  });
+  if (response.status === 401) {
+    clearAdminSession();
+    throw new Error("Session expired. Please log in again.");
+  }
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || "Failed to reject edit suggestion");
+  }
+}
+
 export async function deleteStore(id: string): Promise<boolean> {
   const response = await fetch(`/api/admin/stores/${id}`, {
     method: "DELETE",
