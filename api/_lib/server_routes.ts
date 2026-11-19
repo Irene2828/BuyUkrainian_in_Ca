@@ -75,6 +75,83 @@ const updateStoreSchema = z.object({
     .optional(),
 });
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// Sends the site owner an email about a new pending store submission via Resend.
+// Optional by design: without RESEND_API_KEY it logs a warning and skips.
+// Never throws — a failed email must not affect the submission response.
+async function notifyNewStore(store: {
+  name: string;
+  address: string;
+  city: string;
+  province: string;
+  category: string;
+  products: string[];
+  website?: string | null;
+  email?: string | null;
+}): Promise<void> {
+  try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.warn("\u26a0\ufe0f [API] RESEND_API_KEY is not set \u2014 skipping new-store notification email.");
+      return;
+    }
+    const to = process.env.NOTIFY_EMAIL || "iryna.herts@gmail.com";
+    const subject = `New store pending review: ${store.name} \u2014 ${store.city}, ${store.province}`;
+    const text = [
+      "A new store was submitted to BuyUkrainian and is waiting for review.",
+      "",
+      `Name: ${store.name}`,
+      `Address: ${store.address}`,
+      `City: ${store.city}, ${store.province}`,
+      `Category: ${store.category}`,
+      `Products: ${store.products.join(", ")}`,
+      `Website: ${store.website || "\u2014"}`,
+      `Submitted by: ${store.email || "\u2014"}`,
+      "",
+      "Review it here: https://buyukrainian.ca/admin",
+    ].join("\n");
+    const html = [
+      "<p>A new store was submitted to BuyUkrainian and is waiting for review.</p>",
+      `<p>Name: ${escapeHtml(store.name)}<br>`,
+      `Address: ${escapeHtml(store.address)}<br>`,
+      `City: ${escapeHtml(store.city)}, ${escapeHtml(store.province)}<br>`,
+      `Category: ${escapeHtml(store.category)}<br>`,
+      `Products: ${escapeHtml(store.products.join(", "))}<br>`,
+      `Website: ${escapeHtml(store.website || "\u2014")}<br>`,
+      `Submitted by: ${escapeHtml(store.email || "\u2014")}</p>`,
+      '<p>Review it here: <a href="https://buyukrainian.ca/admin">buyukrainian.ca/admin</a></p>',
+    ].join("\n");
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "BuyUkrainian <notify@buyukrainian.ca>",
+        to: [to],
+        subject,
+        text,
+        html,
+      }),
+    });
+    if (!response.ok) {
+      console.error(`\u274c [API] Notification email failed for store: ${store.name} \u2014 Resend responded ${response.status}`);
+      return;
+    }
+    console.log(`\ud83d\udce7 [API] Notification email sent for store: ${store.name}`);
+  } catch (err) {
+    console.error("\u274c [API] Notification email error:", err);
+  }
+}
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -235,6 +312,7 @@ export async function registerRoutes(
       const newStore = await storage.createStore(storeData);
       console.log("✅ [API] Location created successfully with ID:", newStore.id);
       broadcast("store_submitted");
+      await notifyNewStore(newStore);
       res.status(201).json(newStore);
     } catch (e: any) {
       console.error("❌ [API] POST /api/locations Error:", e?.message || String(e), e?.stack);
