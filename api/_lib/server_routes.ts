@@ -667,9 +667,13 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Your submission was flagged as spam." });
       }
 
+      // Optional fields the submitter left empty mean "unchanged", never
+      // "clear this": fall back to the live card's current values so an
+      // approved suggestion can never wipe a website, email or description
+      // the submitter simply did not touch.
       const changes: StoreEditChanges = {
         name: sanitizeString(validation.data.name),
-        description: validation.data.description ? sanitizeString(validation.data.description) : "",
+        description: validation.data.description ? sanitizeString(validation.data.description) : (store.description || ""),
         products: sanitizeArray(validation.data.products),
         address: sanitizeString(validation.data.address),
         city: sanitizeString(validation.data.city),
@@ -677,8 +681,8 @@ export async function registerRoutes(
         latitude: validation.data.latitude,
         longitude: validation.data.longitude,
         category: validation.data.category,
-        website: validation.data.website ? sanitizeString(validation.data.website) : null,
-        email: validation.data.email ? sanitizeString(validation.data.email) : null,
+        website: validation.data.website ? sanitizeString(validation.data.website) : (store.website ?? null),
+        email: validation.data.email ? sanitizeString(validation.data.email) : (store.email ?? null),
         geocodingStatus: (Number(validation.data.latitude) === 56.1304 && Number(validation.data.longitude) === -106.3468)
           ? "unresolved" : (validation.data.geocodingStatus ?? null),
       };
