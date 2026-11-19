@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Store } from "@/lib/data";
-import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, updateAdminPassword, createAdminUser, deleteAdminUser, AdminUser, createStore } from "@/lib/api";
+import { getAllStores, updateStoreStatus, updateStoreImages, updateStore, deleteStore, getAdminUsers, updateAdminPassword, createAdminUser, deleteAdminUser, AdminUser, createStore, getEditSuggestions, approveEditSuggestion, rejectEditSuggestion, EditSuggestion } from "@/lib/api";
 
 
 import { logout, isAuthenticated, verifySession } from "@/lib/auth";
@@ -232,7 +232,7 @@ interface AdminDashboardProps {
     submissions?: Store[];
 }
 
-type TabType = "pending" | "live" | "trash" | "drafts" | "settings";
+type TabType = "pending" | "live" | "trash" | "drafts" | "settings" | "edits";
 
 export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardProps) {
     const { toast } = useToast();
@@ -309,6 +309,36 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
         queryKey: ["admin-users"],
         queryFn: getAdminUsers,
         retry: false,
+    });
+
+    const { data: editSuggestions = [] } = useQuery({
+        queryKey: ["admin-edit-suggestions"],
+        queryFn: getEditSuggestions,
+        retry: false,
+    });
+
+    const approveSuggestionMutation = useMutation({
+        mutationFn: (id: string) => approveEditSuggestion(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["admin-edit-suggestions"] });
+            queryClient.invalidateQueries({ queryKey: ["admin-stores"] });
+            refreshPublicStores();
+            toast({ title: "Changes applied", description: "The store card now shows the approved changes." });
+        },
+        onError: (error: Error) => {
+            toast({ title: "Couldn't apply changes", description: error.message, variant: "destructive" });
+        },
+    });
+
+    const rejectSuggestionMutation = useMutation({
+        mutationFn: (id: string) => rejectEditSuggestion(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["admin-edit-suggestions"] });
+            toast({ title: "Suggestion rejected", description: "The store card was left unchanged." });
+        },
+        onError: (error: Error) => {
+            toast({ title: "Couldn't reject suggestion", description: error.message, variant: "destructive" });
+        },
     });
 
     const refreshPublicStores = () =>
@@ -1149,6 +1179,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
 
     const tabs: { id: TabType; label: string; icon: any; count: number; color: string }[] = [
         { id: "pending", label: "Pending", icon: FileText, count: pendingStores.length, color: "orange" },
+        { id: "edits", label: "Edits", icon: Edit3, count: editSuggestions.length, color: "purple" },
         { id: "live", label: "Approved", icon: MapPin, count: liveStores.length, color: "green" },
         { id: "trash", label: "Deleted", icon: Trash2, count: trashedStores.length, color: "red" },
         { id: "drafts", label: "Drafts", icon: FileSpreadsheet, count: drafts.length, color: "blue" },
@@ -1357,7 +1388,7 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                     )}
 
                     {/* Store Grid/List */}
-                    {activeTab !== "settings" && (
+                    {activeTab !== "settings" && activeTab !== "edits" && (
                         <>
                             {isLoading ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1443,6 +1474,86 @@ export function AdminDashboard({ submissions: propSubmissions }: AdminDashboardP
                             )}
 
                         </>
+                    )}
+                    {/* Edit Suggestions View */}
+                    {activeTab === "edits" && (
+                        <div className="admin-list-panel">
+                            <div className="admin-list-header">
+                                <span className="admin-list-header-label">Suggested edits to review</span>
+                                <span className="text-[12px] font-semibold text-[#91A4B8]">{editSuggestions.length} pending</span>
+                            </div>
+                            {editSuggestions.length === 0 ? (
+                                <div className="p-10 text-center">
+                                    <p className="text-[17px] font-bold tracking-[-0.02em] text-[#102A43]">No suggested edits</p>
+                                    <p className="mt-2 text-[13px] text-[#71869B]">When a visitor suggests changes to a store card, they show up here for your review.</p>
+                                </div>
+                            ) : (
+                                <div>
+                                    {editSuggestions.map((suggestion) => {
+                                        const current = stores.find((s) => s.id === suggestion.storeId);
+                                        const c = suggestion.changes;
+                                        const rows: Array<{ label: string; from: string; to: string }> = [];
+                                        if (current) {
+                                            const push = (label: string, from: string, to: string) => { if (from !== to) rows.push({ label, from, to }); };
+                                            push("Name", current.name || "", c.name || "");
+                                            push("Address", current.address || "", c.address || "");
+                                            push("City", current.city || "", c.city || "");
+                                            push("Province", current.province || "", c.province || "");
+                                            push("Category", current.category || "", c.category || "");
+                                            push("Website", current.website || "", c.website || "");
+                                            push("Description", current.description || "", c.description || "");
+                                            push("Products", (current.products || []).join(", "), (c.products || []).join(", "));
+                                        }
+                                        return (
+                                            <div key={suggestion.id} className="border-b border-[#e6eef6] px-5 py-4 last:border-b-0">
+                                                <div className="flex flex-wrap items-start justify-between gap-3">
+                                                    <div>
+                                                        <p className="text-[15px] font-bold text-[#102A43]">{suggestion.storeName}</p>
+                                                        <p className="text-[12px] font-medium text-[#71869B]">
+                                                            Suggested {new Date(suggestion.createdAt).toLocaleString()}
+                                                            {suggestion.submitterEmail ? ` · by ${suggestion.submitterEmail}` : ""}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex gap-2">
+                                                        <Button
+                                                            size="sm"
+                                                            disabled={approveSuggestionMutation.isPending}
+                                                            onClick={() => approveSuggestionMutation.mutate(suggestion.id)}
+                                                            className="h-9 rounded-none bg-[#FFD700] px-4 text-[12px] font-extrabold text-[#102A43] shadow-none transition-colors hover:bg-[#ffe66b]"
+                                                        >
+                                                            Approve & apply
+                                                        </Button>
+                                                        <Button
+                                                            size="sm"
+                                                            disabled={rejectSuggestionMutation.isPending}
+                                                            onClick={() => rejectSuggestionMutation.mutate(suggestion.id)}
+                                                            className="h-9 rounded-none border border-[#dbe7f3] bg-white px-4 text-[12px] font-bold text-[#71869B] shadow-none transition-colors hover:bg-[#F4F8FC]"
+                                                        >
+                                                            Reject
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                                {!current ? (
+                                                    <p className="mt-3 text-[13px] font-medium text-red-600">This store no longer exists — you can reject the suggestion.</p>
+                                                ) : rows.length === 0 ? (
+                                                    <p className="mt-3 text-[13px] text-[#71869B]">No visible differences from the current card.</p>
+                                                ) : (
+                                                    <ul className="mt-3 space-y-1.5">
+                                                        {rows.map((row) => (
+                                                            <li key={row.label} className="text-[13px] text-[#42586E]">
+                                                                <span className="font-bold text-[#102A43]">{row.label}:</span>{" "}
+                                                                <span className="line-through decoration-red-300">{row.from || "—"}</span>{" → "}
+                                                                <span className="font-semibold text-[#0057B7]">{row.to || "—"}</span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
                     )}
                     {/* Settings View */}
                     {activeTab === "settings" && (
