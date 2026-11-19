@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createStore as apiCreateStore, StoreSubmissionError } from "@/lib/api";
+import { createStore as apiCreateStore, suggestStoreEdit as apiSuggestStoreEdit, StoreSubmissionError } from "@/lib/api";
 import { fetchWithDeadline } from "@/lib/request-deadline";
 import { CheckCircle, ArrowUpRight, Loader2, X, Image, MapPin, ChevronDown, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -265,7 +265,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
 
       const derivedCat = deriveCategory(finalProducts);
 
-      await createStoreMutation.mutateAsync({
+      const payload = {
         ...values,
         city,
         province,
@@ -275,7 +275,17 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
         longitude: String(lng),
         category: derivedCat,
         geocodingStatus,
-      });
+      };
+
+      if (initialData?.id) {
+        // Edit mode: the changes go to the store's suggestion queue and are
+        // only applied to the live card after an admin approves them.
+        await apiSuggestStoreEdit(initialData.id, payload);
+        queryClient.invalidateQueries({ queryKey: ["stores"] });
+        setIsSubmitted(true);
+      } else {
+        await createStoreMutation.mutateAsync(payload);
+      }
     } catch (error) {
       setSubmitError({ message: error instanceof StoreSubmissionError ? error.message : "We couldn't prepare your submission. Please review your details and try again. Your entries are still here." });
     } finally {
@@ -291,7 +301,7 @@ export function HomeAddForm({ onClose, initialData }: { onClose?: () => void, in
         <CheckCircle className="w-16 h-16 text-[#0057B7] mb-6 animate-in zoom-in duration-500" strokeWidth={1.5} />
         <h3 className="text-[24px] font-bold mb-4 font-header text-slate-900">Thanks for helping the map grow</h3>
         <p className="text-slate-600 text-[14px] mb-8 max-w-[280px] font-ui leading-relaxed">
-          Your store will appear on the map once verified.
+          {initialData ? "Your suggested changes will appear once verified." : "Your store will appear on the map once verified."}
         </p>
         <Button
           onClick={onClose}
