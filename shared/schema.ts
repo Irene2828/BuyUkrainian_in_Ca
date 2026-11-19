@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, serial, timestamp, decimal, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, serial, timestamp, decimal, boolean, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -96,3 +96,33 @@ export const insertStoreSchema = createInsertSchema(stores, {
 
 export type InsertStore = z.infer<typeof insertStoreSchema>;
 export type Store = typeof stores.$inferSelect;
+
+// Visitor-suggested edits to an existing store card. A suggestion is stored
+// separately and only applied to the live card after an admin approves it.
+export interface StoreEditChanges {
+  name: string;
+  description: string;
+  products: string[];
+  address: string;
+  city: string;
+  province: string;
+  latitude: string;
+  longitude: string;
+  category: "food" | "clothes" | "retail" | "other";
+  website?: string | null;
+  email?: string | null;
+  geocodingStatus?: "resolved" | "unresolved" | null;
+}
+
+export const storeEditSuggestions = pgTable("store_edit_suggestions", {
+  id: text("id").primaryKey(),
+  storeId: text("store_id").notNull(),
+  storeName: text("store_name").notNull().default(""),
+  changes: jsonb("changes").$type<StoreEditChanges>().notNull(),
+  submitterEmail: text("submitter_email"),
+  status: text("status").notNull().default("pending"), // pending | approved | rejected
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  reviewedAt: timestamp("reviewed_at"),
+});
+
+export type StoreEditSuggestion = typeof storeEditSuggestions.$inferSelect;
