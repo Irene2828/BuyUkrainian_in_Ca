@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./db_storage.js";
-import { insertStoreSchema } from "../../shared/schema.js";
+import { insertStoreSchema, type StoreEditChanges, type InsertStore } from "../../shared/schema.js";
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
 import {
@@ -244,6 +244,65 @@ async function notifyDeletionRequested(
     `Address: ${escapeHtml(store.address)}<br>`,
     `City: ${escapeHtml(store.city)}, ${escapeHtml(store.province)}<br>`,
     `Requested by: ${escapeHtml(requesterEmail || "-")}</p>`,
+    '<p>Review it here: <a href="https://buyukrainian.ca/admin">buyukrainian.ca/admin</a></p>',
+  ].join("\n");
+  await sendOwnerEmail(subject, text, html);
+}
+
+interface StoreLike {
+  name: string;
+  address: string;
+  city: string;
+  province: string;
+  category: string;
+  website?: string | null;
+  description: string;
+  products: string[];
+}
+
+function diffStoreChanges(store: StoreLike, changes: StoreEditChanges): Array<{ label: string; from: string; to: string }> {
+  const rows: Array<{ label: string; from: string; to: string }> = [];
+  const push = (label: string, from: string, to: string) => {
+    if (from !== to) rows.push({ label, from, to });
+  };
+  push("Name", store.name || "", changes.name || "");
+  push("Address", store.address || "", changes.address || "");
+  push("City", store.city || "", changes.city || "");
+  push("Province", store.province || "", changes.province || "");
+  push("Category", store.category || "", changes.category || "");
+  push("Website", store.website || "", changes.website || "");
+  push("Description", store.description || "", changes.description || "");
+  push("Products", (store.products || []).join(", "), (changes.products || []).join(", "));
+  return rows;
+}
+
+async function notifyEditSuggested(store: StoreLike, changes: StoreEditChanges, submitterEmail?: string | null): Promise<void> {
+  const subject = `Edit suggested: ${store.name} \u2014 ${store.city}, ${store.province}`;
+  const diffs = diffStoreChanges(store, changes);
+  const diffText = diffs.length > 0
+    ? diffs.map(d => `- ${d.label}: "${d.from}" -> "${d.to}"`).join("\n")
+    : "(No field differences detected.)";
+  const diffHtml = diffs.length > 0
+    ? diffs.map(d => `<li><strong>${escapeHtml(d.label)}:</strong> ${escapeHtml(d.from)} &rarr; ${escapeHtml(d.to)}</li>`).join("")
+    : "<li>(No field differences detected.)</li>";
+  const text = [
+    "A visitor suggested changes to a store card on BuyUkrainian.",
+    "",
+    `Store: ${store.name} \u2014 ${store.city}, ${store.province}`,
+    "",
+    "Proposed changes:",
+    diffText,
+    "",
+    "The live card has NOT been changed. Review and apply the suggestion in the admin panel, under Edits.",
+    ...(submitterEmail ? [`Submitted by: ${submitterEmail}`] : []),
+  ].join("\n");
+  const html = [
+    "<p>A visitor suggested changes to a store card on BuyUkrainian.</p>",
+    `<p><strong>${escapeHtml(store.name)}</strong> \u2014 ${escapeHtml(store.city)}, ${escapeHtml(store.province)}</p>`,
+    `<p>Proposed changes:</p>`,
+    `<ul>${diffHtml}</ul>`,
+    "<p>The live card has NOT been changed. Review and apply the suggestion in the admin panel, under <strong>Edits</strong>.</p>",
+    ...(submitterEmail ? [`<p>Submitted by: ${escapeHtml(submitterEmail)}</p>`] : []),
     '<p>Review it here: <a href="https://buyukrainian.ca/admin">buyukrainian.ca/admin</a></p>',
   ].join("\n");
   await sendOwnerEmail(subject, text, html);
@@ -580,6 +639,64 @@ export async function registerRoutes(
     }
   });
 
+  // Public: suggest an edit to an existing (approved) store card. The suggestion
+  // is stored separately and only applied after an admin approves it.
+  app.post("/api/stores/:id/suggest-edit", securityMiddleware.submissionRateLimit, async (req, res) => {
+    // Check honeypot (same field as the add-store form)
+    if (req.body.x_k9m2) {
+      console.warn("🍯 Honeypot triggered on suggest-edit by", req.ip);
+      return res.status(201).json({ ok: true });
+    }
+
+    try {
+      const store = await storage.getStore(req.params.id);
+      if (!store || store.status !== "approved") {
+        return res.status(404).json({ error: "Store not found" });
+      }
+
+      const validation = insertStoreSchema.safeParse(req.body);
+      if (!validation.success) {
+        const valErr = fromZodError(validation.error).message;
+        console.warn("⚠️ [API] POST suggest-edit validation failed:", valErr);
+        return res.status(400).json({ error: valErr, fields: validation.error.flatten().fieldErrors });
+      }
+
+      const combinedText = `${validation.data.name} ${validation.data.description || ""} ${validation.data.address} ${validation.data.products.join(" ")}`;
+      if (detectSpam(combinedText)) {
+        console.warn("🚫 Spam detected in suggest-edit from", req.ip);
+        return res.status(400).json({ error: "Your submission was flagged as spam." });
+      }
+
+      const changes: StoreEditChanges = {
+        name: sanitizeString(validation.data.name),
+        description: validation.data.description ? sanitizeString(validation.data.description) : "",
+        products: sanitizeArray(validation.data.products),
+        address: sanitizeString(validation.data.address),
+        city: sanitizeString(validation.data.city),
+        province: sanitizeString(validation.data.province),
+        latitude: validation.data.latitude,
+        longitude: validation.data.longitude,
+        category: validation.data.category,
+        website: validation.data.website ? sanitizeString(validation.data.website) : null,
+        email: validation.data.email ? sanitizeString(validation.data.email) : null,
+        geocodingStatus: (Number(validation.data.latitude) === 56.1304 && Number(validation.data.longitude) === -106.3468)
+          ? "unresolved" : (validation.data.geocodingStatus ?? null),
+      };
+
+      const suggestion = await storage.createEditSuggestion({
+        storeId: store.id,
+        storeName: store.name,
+        changes,
+        submitterEmail: changes.email,
+      });
+      await notifyEditSuggested(store, changes, changes.email);
+      res.status(201).json({ ok: true, id: suggestion.id });
+    } catch (error) {
+      console.error("Error creating edit suggestion:", error);
+      res.status(500).json({ error: "Failed to submit the suggested edit" });
+    }
+  });
+
   app.patch("/api/admin/stores/:id/images", requireAdmin, async (req, res) => {
     const id = req.params.id;
     const validation = imageSchema.safeParse(req.body);
@@ -599,6 +716,66 @@ export async function registerRoutes(
     await notifyStoreEdited(updated);
     res.json(updated);
     broadcast("store_updated");
+  });
+
+  // --- ADMIN EDIT SUGGESTION ROUTES ---
+
+  app.get("/api/admin/edit-suggestions", requireAdmin, async (req, res) => {
+    try {
+      const suggestions = await storage.getPendingEditSuggestions();
+      res.json(suggestions);
+    } catch (error) {
+      console.error("Error fetching edit suggestions:", error);
+      res.status(500).json({ error: "Failed to fetch edit suggestions" });
+    }
+  });
+
+  app.post("/api/admin/edit-suggestions/:id/approve", requireAdmin, async (req, res) => {
+    try {
+      const suggestion = await storage.getEditSuggestion(req.params.id);
+      if (!suggestion || suggestion.status !== "pending") {
+        return res.status(404).json({ error: "Suggestion not found" });
+      }
+      const c = suggestion.changes;
+      const updates: Partial<InsertStore> = {
+        name: c.name,
+        description: c.description,
+        products: c.products,
+        address: c.address,
+        city: c.city,
+        province: c.province,
+        latitude: c.latitude,
+        longitude: c.longitude,
+        category: c.category,
+        website: c.website || undefined,
+        email: c.email || undefined,
+        geocodingStatus: c.geocodingStatus ?? undefined,
+      };
+      const updated = await storage.updateStore(suggestion.storeId, updates);
+      if (!updated) {
+        return res.status(404).json({ error: "Store not found" });
+      }
+      await storage.setEditSuggestionStatus(suggestion.id, "approved");
+      res.json(updated);
+      broadcast("store_updated");
+    } catch (error) {
+      console.error("Error approving edit suggestion:", error);
+      res.status(500).json({ error: "Failed to approve edit suggestion" });
+    }
+  });
+
+  app.post("/api/admin/edit-suggestions/:id/reject", requireAdmin, async (req, res) => {
+    try {
+      const suggestion = await storage.getEditSuggestion(req.params.id);
+      if (!suggestion || suggestion.status !== "pending") {
+        return res.status(404).json({ error: "Suggestion not found" });
+      }
+      const updated = await storage.setEditSuggestionStatus(suggestion.id, "rejected");
+      res.json(updated);
+    } catch (error) {
+      console.error("Error rejecting edit suggestion:", error);
+      res.status(500).json({ error: "Failed to reject edit suggestion" });
+    }
   });
 
   // Admin user management routes
