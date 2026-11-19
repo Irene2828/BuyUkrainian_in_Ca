@@ -891,8 +891,8 @@ function HeroVariantB({
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isProvinceDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isProvinceDropdownOpen && (
-                                                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
-                                                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar p-1">
+                                                <div className="absolute bottom-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
+                                                    <div className="max-h-[300px] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setSelectedProvince(null); setIsProvinceDropdownOpen(false); }}
                                                             className="w-full text-left px-3 py-1.5 text-[12px] font-medium text-slate-500 hover:bg-slate-50 transition-colors"
@@ -930,7 +930,7 @@ function HeroVariantB({
                                                 <ChevronDown className={cn("w-4 h-4 text-[#FFD700] transition-transform", isCategoryDropdownOpen && "rotate-180")} />
                                             </button>
                                             {isCategoryDropdownOpen && (
-                                                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
+                                                <div className="absolute bottom-[calc(100%+4px)] left-0 w-full bg-white border border-slate-200 shadow-xl z-[700]">
                                                     <div className="max-h-[min(360px,calc(100vh-160px))] overflow-y-auto custom-scrollbar p-1">
                                                         <button
                                                             onClick={() => { setCategory(null); setIsCategoryDropdownOpen(false); }}
