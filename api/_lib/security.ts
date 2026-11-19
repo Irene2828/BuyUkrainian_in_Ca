@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import helmet from "helmet";
 import type { Express, Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
@@ -77,6 +77,17 @@ function getAdminPasswordHash(): string | null {
   return hash;
 }
 
+// Real client IP for rate limiting and lockout accounting.
+// On Vercel the Express app sees every request as 127.0.0.1, so req.ip is the
+// same for all visitors and every IP-keyed limit collapses into one global
+// bucket that locks everyone out. The platform sets x-forwarded-for with the
+// original client IP first — use it.
+export function getClientIp(req: Request): string {
+  const forwarded = req.headers["x-forwarded-for"];
+  const first = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(",")[0];
+  return (first || req.ip || "unknown").trim().substring(0, 100);
+}
+
 export const securityMiddleware = {
   helmet: helmet({
     contentSecurityPolicy: {
@@ -117,6 +128,7 @@ export const securityMiddleware = {
   generalRateLimit: rateLimit({
     windowMs: 60 * 1000,
     max: 100,
+    keyGenerator: (req) => ipKeyGenerator(getClientIp(req)),
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many requests, please try again later." },
@@ -126,6 +138,7 @@ export const securityMiddleware = {
   submissionRateLimit: rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
+    keyGenerator: (req) => ipKeyGenerator(getClientIp(req)),
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many submissions. Please wait 15 minutes before trying again." },
@@ -134,6 +147,7 @@ export const securityMiddleware = {
   adminRateLimit: rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
+    keyGenerator: (req) => ipKeyGenerator(getClientIp(req)),
     skipSuccessfulRequests: true,
     standardHeaders: true,
     legacyHeaders: false,
@@ -143,6 +157,7 @@ export const securityMiddleware = {
   deletionRequestRateLimit: rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
     max: 5,
+    keyGenerator: (req) => ipKeyGenerator(getClientIp(req)),
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many deletion requests. Please try again later." },
