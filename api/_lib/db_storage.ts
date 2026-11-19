@@ -1,4 +1,4 @@
-import { type AdminUser, type InsertAdminUser, stores, adminUsers, type Store as DbStore, type InsertStore } from "../../shared/schema.js";
+import { type AdminUser, type InsertAdminUser, stores, adminUsers, storeEditSuggestions, type Store as DbStore, type InsertStore, type StoreEditSuggestion, type StoreEditChanges } from "../../shared/schema.js";
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pkg from 'pg';
 const { Pool } = pkg;
@@ -110,6 +110,12 @@ export interface IStorage {
   updateStoreImages(id: string, images: string[]): Promise<Store | undefined>;
   updateStore(id: string, updates: Partial<InsertStore>): Promise<Store | undefined>;
   deleteStore(id: string): Promise<boolean>;
+
+  // Store edit suggestions (visitor-proposed changes, applied only after admin approval)
+  createEditSuggestion(input: { storeId: string; storeName: string; changes: StoreEditChanges; submitterEmail?: string | null }): Promise<StoreEditSuggestion>;
+  getPendingEditSuggestions(): Promise<StoreEditSuggestion[]>;
+  getEditSuggestion(id: string): Promise<StoreEditSuggestion | undefined>;
+  setEditSuggestionStatus(id: string, status: "approved" | "rejected"): Promise<StoreEditSuggestion | undefined>;
 
   // Admin User methods
   getAdminUser(id: number): Promise<AdminUser | undefined>;
@@ -474,6 +480,110 @@ export class DatabaseStorage implements IStorage {
     const result = await this.db.delete(stores).where(eq(stores.id, id)).returning();
     this.invalidateCache(); // EGRESS OPT: Bust cache on delete
     return result.length > 0;
+  }
+
+  // --- Store Edit Suggestions ---
+
+  private mapToSuggestion(row: any): StoreEditSuggestion {
+    return {
+      id: row.id,
+      storeId: row.storeId ?? row.store_id,
+      storeName: row.storeName ?? row.store_name ?? "",
+      changes: row.changes as StoreEditChanges,
+      submitterEmail: row.submitterEmail ?? row.submitter_email ?? null,
+      status: row.status,
+      createdAt: row.createdAt ? new Date(row.createdAt) : (row.created_at ? new Date(row.created_at) : new Date()),
+      reviewedAt: row.reviewedAt ? new Date(row.reviewedAt) : (row.reviewed_at ? new Date(row.reviewed_at) : null),
+    };
+  }
+
+  private async suggestionRest(method: string, path: string, body?: unknown): Promise<any> {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!supabaseUrl || !serviceKey) {
+      throw new Error("Supabase REST fallback unavailable for edit suggestions: missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+    }
+    const response = await fetch(`${supabaseUrl}/rest/v1/store_edit_suggestions${path}`, {
+      method,
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Supabase REST edit suggestion ${method} failed: ${response.status} ${errorText}`);
+    }
+    return response.json();
+  }
+
+  async createEditSuggestion(input: { storeId: string; storeName: string; changes: StoreEditChanges; submitterEmail?: string | null }): Promise<StoreEditSuggestion> {
+    const row = {
+      id: crypto.randomUUID(),
+      storeId: input.storeId,
+      storeName: input.storeName,
+      changes: input.changes,
+      submitterEmail: input.submitterEmail || null,
+      status: "pending",
+    };
+    try {
+      const result = await this.db.insert(storeEditSuggestions).values(row).returning();
+      return this.mapToSuggestion(result[0]);
+    } catch (dbError) {
+      console.warn("⚠️ [DB] Direct Postgres insert failed; using Supabase REST fallback for createEditSuggestion.", dbError);
+      const created = await this.suggestionRest("POST", "", {
+        id: row.id,
+        store_id: row.storeId,
+        store_name: row.storeName,
+        changes: row.changes,
+        submitter_email: row.submitterEmail,
+        status: "pending",
+      });
+      return this.mapToSuggestion(Array.isArray(created) ? created[0] : created);
+    }
+  }
+
+  async getPendingEditSuggestions(): Promise<StoreEditSuggestion[]> {
+    try {
+      const result = await this.db.select().from(storeEditSuggestions)
+        .where(eq(storeEditSuggestions.status, "pending"))
+        .orderBy(desc(storeEditSuggestions.createdAt));
+      return result.map((r: any) => this.mapToSuggestion(r));
+    } catch (dbError) {
+      console.warn("⚠️ [DB] Direct Postgres select failed; using Supabase REST fallback for getPendingEditSuggestions.", dbError);
+      const rows = await this.suggestionRest("GET", "?status=eq.pending&order=created_at.desc");
+      return (Array.isArray(rows) ? rows : []).map((r: any) => this.mapToSuggestion(r));
+    }
+  }
+
+  async getEditSuggestion(id: string): Promise<StoreEditSuggestion | undefined> {
+    try {
+      const result = await this.db.select().from(storeEditSuggestions).where(eq(storeEditSuggestions.id, id));
+      return result.length > 0 ? this.mapToSuggestion(result[0]) : undefined;
+    } catch (dbError) {
+      console.warn("⚠️ [DB] Direct Postgres select failed; using Supabase REST fallback for getEditSuggestion.", dbError);
+      const rows = await this.suggestionRest("GET", `?id=eq.${encodeURIComponent(id)}`);
+      return Array.isArray(rows) && rows.length > 0 ? this.mapToSuggestion(rows[0]) : undefined;
+    }
+  }
+
+  async setEditSuggestionStatus(id: string, status: "approved" | "rejected"): Promise<StoreEditSuggestion | undefined> {
+    try {
+      const result = await this.db.update(storeEditSuggestions)
+        .set({ status, reviewedAt: new Date() })
+        .where(eq(storeEditSuggestions.id, id)).returning();
+      return result.length > 0 ? this.mapToSuggestion(result[0]) : undefined;
+    } catch (dbError) {
+      console.warn("⚠️ [DB] Direct Postgres update failed; using Supabase REST fallback for setEditSuggestionStatus.", dbError);
+      const rows = await this.suggestionRest("PATCH", `?id=eq.${encodeURIComponent(id)}`, {
+        status,
+        reviewed_at: new Date().toISOString(),
+      });
+      return Array.isArray(rows) && rows.length > 0 ? this.mapToSuggestion(rows[0]) : undefined;
+    }
   }
 
   // Helper to map DB result to application Store interface
