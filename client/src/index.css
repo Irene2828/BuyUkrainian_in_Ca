@@ -1845,10 +1845,11 @@ img[src*="google4_tracking"] {
     scroll-behavior: auto !important;
   }
 }
-/* Preview: hero headline in Space Grotesk */
+/* Hero headline: Manrope (chosen 2026-11-19) */
 .hero-desktop-frame h1,
 .hero-desktop-frame h1 * {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
 }
 
 
