@@ -16,7 +16,8 @@ import {
   validateNewAdminPassword,
   isProductionEnv,
   sanitizeString,
-  sanitizeArray
+  sanitizeArray,
+  getClientIp
 } from "./security.js";
 import { broadcast } from "./websocket.js";
 
@@ -376,7 +377,7 @@ export async function registerRoutes(
       }
 
       const { password, username } = validation.data;
-      const ip = req.ip || "unknown";
+      const ip = getClientIp(req);
       const actualUsername = username || "admin";
 
       // Supabase-backed lockout check
